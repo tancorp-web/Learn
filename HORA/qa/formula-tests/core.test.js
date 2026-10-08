@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { normalize360, signOf, houseFromAsc } from '../../js/core/geometry.js';
+import { validateChartInput } from '../../js/core/validation.js';
+import { navamsaFromLongitude } from '../../js/astrology/navamsa.js';
+test('normalize longitude',()=>{assert.equal(normalize360(-10),350);assert.equal(normalize360(370),10);});
+test('zodiac segmentation',()=>{assert.equal(signOf(0).name,'เมษ');assert.equal(signOf(29.999).index,0);assert.equal(signOf(30).name,'พฤษภ');});
+test('house from ascendant',()=>{assert.equal(houseFromAsc(0,0),1);assert.equal(houseFromAsc(29.9,0),1);assert.equal(houseFromAsc(30,0),2);assert.equal(houseFromAsc(359,0),12);});
+test('navamsa has nine divisions',()=>{assert.equal(navamsaFromLongitude(0),0);assert.equal(navamsaFromLongitude(29.999),8);});
+test('input validation',()=>{validateChartInput({date:'1990-01-01',time:'12:30',latitude:13,longitude:100});assert.throws(()=>validateChartInput({date:'bad',time:'12:30',latitude:13,longitude:100}));});
