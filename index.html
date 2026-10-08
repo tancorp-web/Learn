@@ -18,11 +18,11 @@
     }
 
     :root {
-      --bg: #09070f;
-      --panel: #151021;
-      --panel2: #1c152b;
+      --bg: #f4f1ea;
+      --panel: #fffdf8;
+      --panel2: #f7f3eb;
       --border: #38274f;
-      --text: #f4efff;
+      --text: #2c2925;
       --muted: #aaa0bd;
       --purple: #9b5cff;
       --purple2: #6d35c9;
@@ -102,7 +102,7 @@
       top: 0;
       z-index: 100;
       backdrop-filter: blur(16px);
-      background: rgba(9, 7, 15, .86);
+      background: rgba(255,253,248,.94);
       border-bottom: 1px solid var(--border);
     }
 
@@ -117,7 +117,7 @@
 
     .menu-btn {
       border: 1px solid var(--border);
-      background: #120d1d;
+      background: #fffdf8;
       color: var(--text);
       padding: 10px 8px;
       border-radius: 12px;
@@ -138,11 +138,11 @@
        ========================= */
 
     .panel {
-      background: linear-gradient(145deg, var(--panel), #100c18);
+      background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 14px;
       margin: 18px 0;
-      padding: 18px;
+      padding: 14px;
       box-shadow: 0 14px 45px rgba(0,0,0,.22);
     }
 
@@ -165,8 +165,8 @@
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 8px;
     }
 
     .field {
@@ -185,9 +185,9 @@
       width: 100%;
       border: 1px solid var(--border);
       border-radius: 10px;
-      background: #0e0a16;
+      background: #fffefa;
       color: var(--text);
-      padding: 10px 11px;
+      padding: 7px 9px;
       outline: none;
     }
 
@@ -276,14 +276,14 @@
     th,
     td {
       padding: 10px 9px;
-      border-bottom: 1px solid #2a2039;
+      border-bottom: 1px solid #ddd6ca;
       text-align: left;
     }
 
     th {
       color: #cfc2df;
       font-size: 13px;
-      background: #171021;
+      background: #f1ede5;
     }
 
     td {
@@ -328,7 +328,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 12px;
-      background: #100c18;
+      background: #faf7f0;
     }
 
     .info-box .label {
@@ -483,7 +483,7 @@
     <div class="container">
       <h1>HORA v5.3 - Thai Suriyayat Master</h1>
       <p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p>
-      <span class="badge">✓ v5.3 MASTER</span>
+      <span class="badge">✓ v5.3 MASTER · โทนขาวนวล</span>
     </div>
   </header>
 
@@ -537,7 +537,7 @@
 
           <div class="field">
             <label>วัน</label>
-            <input id="bDay" type="number" min="1" max="31" value="14">
+            <select id="bDay"><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
           </div>
 
           <div class="field">
@@ -565,12 +565,12 @@
 
           <div class="field">
             <label>เวลา ชั่วโมง</label>
-            <input id="bHour" type="number" min="0" max="23" value="01">
+            <select id="bHour"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
           </div>
 
           <div class="field">
             <label>เวลา นาที</label>
-            <input id="bMinute" type="number" min="0" max="59" value="05">
+            <select id="bMinute"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>
           </div>
 
           <div class="field span-2">
@@ -612,7 +612,7 @@
 
           <div class="field">
             <label>วัน</label>
-            <input id="fDay" type="number">
+            <select id="fDay"><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
           </div>
 
           <div class="field">
@@ -627,12 +627,12 @@
 
           <div class="field">
             <label>ชั่วโมง</label>
-            <input id="fHour" type="number">
+            <select id="fHour"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
           </div>
 
           <div class="field">
             <label>นาที</label>
-            <input id="fMinute" type="number">
+            <select id="fMinute"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>
           </div>
 
           <div class="field span-2">
