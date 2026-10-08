@@ -945,9 +945,7 @@ Golden Case ขอนแก่น
 
   <script>
     (() => {
-
       const buttons = document.querySelectorAll(".menu-btn");
-
       const panels = {
         calculate: document.getElementById("calculatePanel"),
         formula: document.getElementById("formulaPanel"),
@@ -956,29 +954,48 @@ Golden Case ขอนแก่น
       };
 
       function showMenu(name) {
-
         Object.entries(panels).forEach(([key, panel]) => {
-          if (!panel) return;
-
-          panel.classList.toggle(
-            "show",
-            key === name
-          );
+          if (panel) panel.classList.toggle("show", key === name);
         });
-
-        buttons.forEach(btn => {
-          btn.classList.toggle(
-            "active",
-            btn.dataset.menu === name
-          );
-        });
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
+        buttons.forEach(btn => btn.classList.toggle("active", btn.dataset.menu === name));
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          showMenu(bt
+        btn.addEventListener("click", () => showMenu(btn.dataset.menu));
+      });
+
+      showMenu("calculate");
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const log = document.getElementById("errorLog");
+      const text = document.getElementById("errorLogText");
+      const copy = document.getElementById("copyErrorLog");
+      const errors = [];
+
+      function addError(type, message, source, line) {
+        errors.push(new Date().toLocaleString("th-TH") + " | " + type + " | " + message + (source ? " | " + source + ":" + line : ""));
+        if (text) text.textContent = errors.join("\n");
+        if (log) log.classList.add("show");
+      }
+
+      window.addEventListener("error", e => addError("ERROR", e.message || "Unknown error", e.filename, e.lineno));
+      window.addEventListener("unhandledrejection", e => addError("PROMISE", String(e.reason || "Unhandled rejection")));
+
+      if (copy) {
+        copy.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(text ? text.textContent : "");
+          } catch (_) {}
+        });
+      }
+    })();
+  </script>
+
+  <script type="module" src="./main.js?v=20261008-v5.3-fixed"></script>
+
+</body>
+</html>
