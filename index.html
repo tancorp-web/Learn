@@ -21,44 +21,70 @@
 :where(code, pre, kbd, samp) {
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
-</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HORA - ทวนเข็มนาฬิกา</title>
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HORA v5.1 - เมษอยู่บน - ใช้ main.js</title>
 <style>
-:root{--bg:#f5f1e8;--card:#fff;--ink:#1f2937;--gold:#d8b36a;--line:#e5ddd0}
-*{box-sizing:border-box}body{margin:0;font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink)}
-.hero{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#1f2937;color:#fff}
-.app{display:flex;gap:16px;padding:16px;max-width:1400px;margin:auto}
-aside{width:340px;flex-shrink:0}.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid var(--line)}
-.section-title{font-weight:700;margin-bottom:8px}
-select,input{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);margin-bottom:8px}
-.date-grid,.time-grid,.place-grid{display:grid;gap:6px}.date-grid{grid-template-columns:1fr 1fr 1fr}.time-grid{grid-template-columns:1fr auto 1fr}.place-grid{grid-template-columns:1fr 1fr}
-button.primary{width:100%;padding:12px;background:#1f2937;color:#fff;border-radius:10px;border:none;font-weight:700;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+:root{--bg:#f5f1e8;--card:#fff;--ink:#1f2937;--line:#e5ddd0}
+*{box-sizing:border-box}body{margin:0;font-family:'Sarabun',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.hero{background:#1f2937;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.app{max-width:1280px;margin:auto;padding:12px}
+.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.section-title{font-weight:700;margin-bottom:10px}
+select,input{width:100%;padding:9px;border-radius:10px;border:1px solid var(--line);margin-bottom:8px;font-size:14px;background:#fff}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+button.primary{width:100%;padding:14px;background:#1f2937;color:#fff;border-radius:12px;border:none;font-weight:700;cursor:pointer;font-size:16px}
 .hint{font-size:11px;color:#6b7280}
+.square{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);width:100%;max-width:520px;aspect-ratio:1;margin:auto;border:2px solid #1e293b;background:#fff}
+.cell{border:1px solid #1e293b;position:relative;padding:4px;font-size:11px;min-height:75px}
+.center{grid-column:2/4;grid-row:2/4;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fefce8;border:1px solid #1e293b;text-align:center}
+.zodiac{position:absolute;top:2px;right:4px;font-size:10px;color:#854d0e;font-weight:700}
+.pill{display:inline-block;padding:5px 9px;border-radius:999px;margin:2px;font-size:12px}
+.pill-natal{background:#111827;color:#fff}
+.pill-transit{background:#dcfce7;color:#065f46;border:1px solid #86efac}
+.ok{background:#d1fae5;color:#065f46;padding:8px;border-radius:8px;font-size:13px}
+@media(max-width:900px){.app>div>div{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body>
-<header class="hero"><div><h1 style="margin:0;font-size:18px">HORA - ทวนเข็มนาฬิกา + ทักษาถูก เหมือน MyHora รูป2</h1><div class="hint" style="color:#d1d5db">ราศีทวนเข็มนาฬิกา · สี่เหลี่ยมไทย · ทักษาตามวันเกิด</div></div><div style="background:#d8b36a;padding:6px 10px;border-radius:8px;color:#000">v3.1 CCW</div></header>
-<div class="app"><aside>
-<div class="card"><div class="section-title">ข้อมูลผู้เกิด</div>
-<label>ชื่อ-สกุล</label><input id="fullName" placeholder="ไม่ระบุชื่อ">
-<label>วันเดือนปีเกิด</label><div class="date-grid"><select id="day"></select><select id="month"></select><select id="year"></select></div>
-<label>เวลาเกิด</label><div class="time-grid"><select id="hour"></select><span>:</span><select id="minute"></select></div>
-<label>สถานที่เกิด</label><select id="province"><option value="">เลือกจังหวัด</option></select>
-<div class="place-grid"><select id="district"><option value="">เขต</option></select><input id="latInput" value="13.752555" readonly><input id="lonInput" value="100.494066" readonly><select id="tzInput"><option value="7">+07:00</option></select></div>
-<div id="selectedProvince">กรุงเทพมหานคร · เขตพระนคร</div>
-<label style="margin-top:12px">วันจร</label><input id="forecastDateInput" type="date"><input id="forecastTimeInput" type="time">
-<select id="forecastProvince"><option value="">จังหวัดจร</option></select>
-<div class="place-grid"><select id="forecastDistrict"><option value="">เขตจร</option></select><input id="forecastLat" value="13.752555" readonly><input id="forecastLon" value="100.494066" readonly><select id="forecastTz"><option value="7">+07:00</option></select></div>
-<div id="selectedForecastPlace"></div>
-<button id="calc" class="primary" style="margin-top:12px">คำนวณดวง (ทวนเข็มนาฬิกา)</button><div id="msg" class="hint"></div>
-</div></aside>
-<main style="flex:1">
-<section class="grid"><div class="card"><span>ลัคนา</span><strong id="asc">—</strong><small id="sunrise">—</small></div><div class="card"><span>ทักษาแก้แล้ว</span><div id="thaksa">—</div></div><div class="card"><span>ระบบ</span><div id="meta">—</div></div><div class="card"><span>เวลา</span><strong id="forecastTime">—</strong><small id="forecastDate">—</small></div></section>
-<section class="card"><div class="section-title">ราศีจักร - สี่เหลี่ยม เหมือน MyHora รูป2 (ทวนเข็มนาฬิกา)</div><div id="squareChart"></div></section>
-<section class="card"><div class="section-title">จักรราศี - วงกลมทวนเข็มนาฬิกา</div><div id="wheel"></div></section>
-<section class="card"><div class="section-title">รายละเอียด</div><div id="birthDetails"></div></section>
-<section class="card"><div class="section-title">ดวงกำเนิด</div><div id="planets"></div></section>
-<section class="card"><div class="section-title">ทักษาแก้ตามวันเกิด</div><div id="thaksaDetail"></div></section>
-<section class="card"><div class="section-title">นวางค์/ตรียางค์</div><div id="navamsa"></div><div id="drekkana" style="margin-top:8px"></div></section>
-</main></div>
-<script type="module" src="./main.js?v=20261008-1500"></script><script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
+<header class="hero"><div><b>HORA v5.1 - เมษอยู่บน 12 นาฬิกา - ใช้ main.js</b><br><span style="font-size:11px;color:#d1d5db">ราศีเมษบนสุด · ทวนเข็ม · องศาในราศีหักลบ · กลางโชว์อาทิตย์ · ทักษาถอยวัน 06:00</span></div><div style="background:#d8b36a;color:#000;padding:6px 12px;border-radius:10px;font-weight:700">v5.1 main.js</div></header>
+<div class="app">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="card">
+<div class="section-title">วันเดือนปีเกิด - เลือกจังหวัดอำเภอได้จริง</div>
+<div class="grid3"><select id="bDay"></select><select id="bMonth"></select><select id="bYear"></select></div>
+<div class="grid3"><select id="bHour"></select><div style="text-align:center;padding-top:9px">:</div><select id="bMinute"></select></div>
+<div class="grid2"><select id="bProvince"></select><select id="bDistrict"></select></div>
+<div class="grid2"><input id="bLat" readonly><input id="bLon" readonly></div>
+<div id="bPlace" class="hint"></div>
+</div>
+<div class="card">
+<div class="section-title">วันจร (ดาวจร) - ทำครบเหมือนเกิด</div>
+<div class="grid3"><select id="fDay"></select><select id="fMonth"></select><select id="fYear"></select></div>
+<div class="grid3"><select id="fHour"></select><div style="text-align:center;padding-top:9px">:</div><select id="fMinute"></select></div>
+<div class="grid2"><select id="fProvince"></select><select id="fDistrict"></select></div>
+<div class="grid2"><input id="fLat" readonly><input id="fLon" readonly></div>
+<div id="fPlace" class="hint"></div>
+<button id="calc" class="primary">🔮 คำนวณ - เมษอยู่บน + ดาวจรสีเขียว</button>
+<div id="msg" style="margin-top:8px"></div>
+</div>
+</div>
+
+<div class="card">
+<div class="section-title">ราศีจักร - เมษอยู่บน 12 นาฬิกา เหมือน MyHora - ดาวเกิดดำ / ดาวจรเขียว</div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center">
+<div style="flex:1;min-width:340px;max-width:580px"><div id="wheel"></div><div style="text-align:center;margin-top:8px"><span class="pill pill-natal">● ดาวเกิดดำ พื้นดวง</span><span class="pill pill-transit">● ดาวจรเขียว วันทำนาย</span><br><span class="hint">เมษอยู่บน 12 นาฬิกา ทวนเข็มนาฬิกาเหมือน MyHora</span></div></div>
+<div style="flex:1;min-width:320px;max-width:520px"><div style="text-align:center;font-weight:700;margin-bottom:6px">ราศีจักรสี่เหลี่ยม - ทวนเข็ม</div><div id="squareChart"></div><div class="hint" style="text-align:center">กลางโชว์องศาอาทิตย์ในราศี (หักลบแล้ว)</div></div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="card"><div class="section-title">ลัคนา / ทักษา</div><div id="asc"></div><div id="thaksa" style="margin:8px 0"></div><div id="meta" class="hint"></div></div>
+<div class="card"><div class="section-title">รายละเอียด</div><div id="birthDetails"></div></div>
+</div>
+<div class="card"><div class="section-title">เทียบองศาในราศี (หักลบ 0-30°)</div><div id="compare"></div></div>
+</div>
+
+<script src="./main.js?v=5.1"></script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</html>
