@@ -1,5 +1,5 @@
 
-// HORA v5.2 main.js - Thai Suriyayat Master Menu
+// HORA v5.2 main.js - Thai Suriyayat Master Menu\n// Dropdown/date validation: day count follows selected BE year/month; leap years handled by Gregorian conversion.
 // เมษอยู่บน 12 นาฬิกา
 // หมายเหตุ: เมนูสูตรเป็น Master Specification; ห้ามถือข้อความใน UI แทนสูตรที่ยังไม่พิสูจน์
 const $=id=>document.getElementById(id);
@@ -106,33 +106,82 @@ function renderSquare(natal,transit){
   }}html+='</div>';el.innerHTML=html;
 }
 
+function daysInMonthBE(beYear,month){
+  const adYear=Number(beYear)-543;
+  return new Date(adYear,Number(month),0).getDate();
+}
+function fillDayOptions(prefix,keepDay){
+  const dayEl=$(prefix+'Day');
+  const monthEl=$(prefix+'Month');
+  const yearEl=$(prefix+'Year');
+  if(!dayEl||!monthEl||!yearEl)return;
+  const max=daysInMonthBE(yearEl.value,monthEl.value);
+  const wanted=Math.min(Number(keepDay||dayEl.value||1),max);
+  dayEl.innerHTML='';
+  for(let d=1;d<=max;d++)dayEl.innerHTML+='<option value="'+d+'">'+d+'</option>';
+  dayEl.value=String(wanted);
+}
 function initDropdowns(){
-  for(let d=1;d<=31;d++){$('bDay').innerHTML+='<option value="'+d+'">'+d+'</option>';$('fDay').innerHTML+='<option value="'+d+'">'+d+'</option>';}
-  thaiMonths.forEach((m,i)=>{$('bMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';$('fMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';});
-  for(let y=2600;y>=2300;y--){$('bYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';$('fYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';}
-  for(let h=0;h<24;h++){$('bHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';$('fHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';}
-  for(let m=0;m<60;m++){$('bMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';$('fMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';}
-  PROVINCES.forEach(p=>{$('bProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';$('fProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';});
-  $('bDay').value='14';$('bMonth').value='10';$('bYear').value='2518';$('bHour').value='1';$('bMinute').value='5';
-  const now=new Date();$('fDay').value=String(now.getDate());$('fMonth').value=String(now.getMonth()+1);$('fYear').value=String(now.getFullYear()+543);$('fHour').value=String(now.getHours());$('fMinute').value=String(now.getMinutes());
+  thaiMonths.forEach((m,i)=>{
+    $('bMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';
+    $('fMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';
+  });
+  // พ.ศ. 2300-2600 ครอบคลุมวันเกิดย้อนหลังและวันจรปัจจุบัน โดยค่าที่เลือกตรงกับ พ.ศ.
+  for(let y=2600;y>=2300;y--){
+    $('bYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';
+    $('fYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';
+  }
+  for(let h=0;h<24;h++){
+    $('bHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';
+    $('fHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';
+  }
+  for(let m=0;m<60;m++){
+    $('bMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';
+    $('fMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';
+  }
+  PROVINCES.forEach(p=>{
+    $('bProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';
+    $('fProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';
+  });
+
+  $('bDay').innerHTML='';$('fDay').innerHTML='';
+  $('bMonth').value='10';$('bYear').value='2518';$('bHour').value='1';$('bMinute').value='5';
+  fillDayOptions('b',14);
+
+  const now=new Date();
+  $('fMonth').value=String(now.getMonth()+1);
+  $('fYear').value=String(now.getFullYear()+543);
+  $('fHour').value=String(now.getHours());
+  $('fMinute').value=String(now.getMinutes());
+  fillDayOptions('f',now.getDate());
+
   $('bProvince').value='1';$('fProvince').value='1';
-  populate('b');populate('f');
-  $('bDistrict').value='พระนคร';$('fDistrict').value='พระนคร';
+  populate('b','พระนคร');populate('f','พระนคร');
   update('b');update('f');
 }
-function populate(prefix){
+function populate(prefix,preferredDistrict){
   const prov=PROVINCES.find(p=>String(p.id)===String($(prefix+'Province').value));
-  const el=$(prefix+'District');el.innerHTML='';prov.districts.forEach(d=>el.innerHTML+='<option value="'+d+'">'+d+'</option>');
+  const el=$(prefix+'District');
+  el.innerHTML='';
+  if(!prov)return;
+  prov.districts.forEach(d=>el.innerHTML+='<option value="'+d+'">'+d+'</option>');
+  if(preferredDistrict && prov.districts.includes(preferredDistrict)) el.value=preferredDistrict;
 }
 function update(prefix){
   const prov=PROVINCES.find(p=>String(p.id)===String($(prefix+'Province').value));
-  $(prefix+'Lat').value=prov.lat.toFixed(6);$(prefix+'Lon').value=prov.lon.toFixed(6);
-  $(prefix+'Place').textContent=prov.name+' · '+$(prefix+'District').value+' · '+prov.lat.toFixed(6)+', '+prov.lon.toFixed(6)+' UTC+7';
+  if(!prov)return;
+  $(prefix+'Lat').value=prov.lat.toFixed(6);
+  $(prefix+'Lon').value=prov.lon.toFixed(6);
+  $(prefix+'Place').textContent=prov.name+' · '+($(prefix+'District').value||'')+' · '+prov.lat.toFixed(6)+', '+prov.lon.toFixed(6)+' UTC+7';
 }
 $('bProvince').addEventListener('change',function(){populate('b');update('b');});
 $('fProvince').addEventListener('change',function(){populate('f');update('f');});
 $('bDistrict').addEventListener('change',function(){update('b');});
 $('fDistrict').addEventListener('change',function(){update('f');});
+$('bMonth').addEventListener('change',function(){fillDayOptions('b');});
+$('bYear').addEventListener('change',function(){fillDayOptions('b');});
+$('fMonth').addEventListener('change',function(){fillDayOptions('f');});
+$('fYear').addEventListener('change',function(){fillDayOptions('f');});
 
 function getInput(p){const d=$(p+'Day').value,m=$(p+'Month').value,y=$(p+'Year').value,h=$(p+'Hour').value,mi=$(p+'Minute').value;const ad=Number(y)-543;return {date:ad+'-'+pad(m)+'-'+pad(d),time:pad(h)+':'+pad(mi),beYear:Number(y)};}
 
