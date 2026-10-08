@@ -114,43 +114,49 @@ function renderSquare(natal,transit){
 }
 
 function renderQA(natal){
-  // เทียบกับ GOLDEN_1991
+  const el=$('compare');
+  if(!el) return;
+
   const isGolden = natal.date===GOLDEN_1991.date && natal.time===GOLDEN_1991.time;
   if(!isGolden){
-    $('qaTable').innerHTML='<div class="hint">เลือกวัน 14 ต.ค. 2534 เวลา 01:05 ขอนแก่น เพื่อเทียบ Golden Case</div>';
+    el.innerHTML='<div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div><div class="hint">เลือก Golden Case: 14 ต.ค. 2534 เวลา 01:05 ขอนแก่น เพื่อเทียบค่าอ้างอิง</div>';
     return;
   }
-  let html='<table><tr><th>ดาว / จุด</th><th>HORA ปัจจุบัน (v5.3 FIXED)</th><th>Golden Case</th><th>ต่างกัน</th><th>สถานะ</th></tr>';
-  const ascDiff = Math.abs(((natal.asc - GOLDEN_1991.asc + 540)%360)-180);
-  const ascDeg = ascDiff;
-  const ascStatus = ascDeg<0.02?'🟡':ascDeg<0.1?'❌':'❌';
-  html+='<tr><td>ลัคนา</td><td>'+formatInSign(natal.asc)+' '+signOf(natal.asc).name+'</td><td>'+formatInSign(GOLDEN_1991.asc)+' '+signOf(GOLDEN_1991.asc).name+'</td><td>'+(ascDeg*60).toFixed(0)+"'</td><td>'+(ascDeg<0.02?'<span class="warn">🟡 +'+(ascDeg*60).toFixed(0)+"'</span>":'<span class="fail">❌</span>')+'</td></tr>';
+
+  const diffText = (a,b) => {
+    const d=((a-b+540)%360)-180;
+    const min=Math.round(d*60);
+    if(min===0) return '0°00′';
+    const sign=min>0?'+':'−';
+    const abs=Math.abs(min);
+    return sign+Math.floor(abs/60)+'°'+String(abs%60).padStart(2,'0')+'′';
+  };
+  const status = (a,b) => {
+    const min=Math.abs((((a-b+540)%360)-180)*60);
+    return min<0.5 ? '<span class="pass">✅ PASS</span>' : '<span class="fail">❌ FAIL</span>';
+  };
+
+  let html='<div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Golden Case #1</span></div>';
+  html+='<div class="table-wrap"><table><tr><th>ดาว / จุด</th><th>สูตรเรา</th><th>ค่าที่ก็อปมา (Reference)</th><th>ต่างกัน</th><th>สถานะ</th></tr>';
+
+  const rows=[['ลัคนา',natal.asc,GOLDEN_1991.asc]];
   for(const name of ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู']){
     const p=natal.planets.find(x=>x.name===name);
-    const g=GOLDEN_1991.planets[name];
-    if(!p||g===undefined) continue;
-    const diff = Math.abs(((p.longitude - g + 540)%360)-180);
-    const diffMin = diff*60;
-    let status='';
-    if(diffMin<0.5) status='<span class="pass">✅ PASS</span>';
-    else if(diffMin<2) status='<span class="warn">🟡 '+(diff>0?'+':'')+diffMin.toFixed(0)+"'</span>";
-    else status='<span class="fail">❌ FAIL '+(diffMin>0?'+':'')+diffMin.toFixed(0)+"'</span>";
-    // สำหรับเคสที่เรา lock golden จะตรง 100%
-    if(dateStr===GOLDEN_1991.date) status='<span class="pass">✅ PASS</span>';
-    html+='<tr><td>'+planetNo(name)+' '+name+'</td><td>'+formatInSign(p.longitude)+' '+p.sign.name+'</td><td>'+formatInSign(g)+' '+signOf(g).name+'</td><td>'+(diffMin>0.5? (diffMin>0?'+':'')+diffMin.toFixed(0)+"'":'0°00′')+'</td><td>'+status+'</td></tr>';
+    if(p) rows.push([name,p.longitude,GOLDEN_1991.planets[name]]);
   }
-  html+='</table>';
-  html+='<div style="margin-top:8px" class="ok">✅ v5.3 FIXED - แก้สูตร พุธ (เฉดะ 120 + มนทครั้งที่2) / ศุกร์ (เฉดะ 260) / อังคาร (เฉดะ 360) - Golden Case 14 ต.ค. 2534 01:05 ขอนแก่น PASS ทั้ง 11 จุดแล้ว</div>';
-  html+='<div class="hint">สูตรที่แก้: ศุกร์ 5°44′ → ใช้เฉดะ 260 แทน 120, พุธ 1°12′ → เพิ่มมนทผลครั้งที่2, อังคาร 7′ → ใช้เฉดะ 360 แทน 180</div>';
-  $('qaTable').innerHTML=html;
-}
 
+  for(const [name,actual,expected] of rows){
+    html+='<tr><td>'+name+'</td><td>'+formatInSign(actual)+' '+signOf(actual).name+'</td><td>'+formatInSign(expected)+' '+signOf(expected).name+'</td><td>'+diffText(actual,expected)+'</td><td>'+status(actual,expected)+'</td></tr>';
+  }
+  html+='</table></div>';
+  html+='<div class="hint" style="margin-top:10px">การแสดงสถานะมาจากผลคำนวณจริงเท่านั้น ไม่มีการบังคับให้ PASS และไม่มีการฉีดค่า Golden เข้าไปในผลคำนวณ</div>';
+  el.innerHTML=html;
+}
 function initDropdowns(){
-  for(let d=1;d<=31;d++){$('bDay').innerHTML+='<option value="'+d+'">'+d+'</option>';$('fDay').innerHTML+='<option value="'+d+'">'+d+'</option>';}
+  $('bMonth').innerHTML=''; $('fMonth').innerHTML='';
+  $('bProvince').innerHTML=''; $('fProvince').innerHTML='';
+  for(let d=1;d<=31;d++){}
   ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'].forEach((m,i)=>{$('bMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';$('fMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';});
-  for(let y=2600;y>=2300;y--){$('bYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';$('fYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';}
-  for(let h=0;h<24;h++){$('bHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';$('fHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';}
-  for(let m=0;m<60;m++){$('bMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';$('fMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';}
   PROVINCES.forEach(p=>{$('bProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';$('fProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';});
   // Default = Golden Case ขอนแก่น 14 ต.ค. 2534 01:05
   $('bDay').value='14';$('bMonth').value='10';$('bYear').value='2534';$('bHour').value='1';$('bMinute').value='5';
@@ -167,7 +173,7 @@ function populate(prefix){
 function update(prefix){
   const prov=PROVINCES.find(p=>String(p.id)===String($(prefix+'Province').value));
   $(prefix+'Lat').value=prov.lat.toFixed(6);$(prefix+'Lon').value=prov.lon.toFixed(6);
-  $(prefix+'Place').textContent=prov.name+' · '+$(prefix+'District').value+' · '+prov.lat.toFixed(6)+', '+prov.lon.toFixed(6)+' UTC+7';
+  if(prefix==='f') $(prefix+'Place').value=prov.name+' · '+$(prefix+'District').value+' · '+prov.lat.toFixed(6)+', '+prov.lon.toFixed(6)+' UTC+7';
 }
 $('bProvince').addEventListener('change',()=>{populate('b');update('b');});
 $('fProvince').addEventListener('change',()=>{populate('f');update('f');});
@@ -179,7 +185,7 @@ function getInput(p){const d=$(p+'Day').value,m=$(p+'Month').value,y=$(p+'Year')
 let dateStr='1991-10-14';
 function render(natal,transit){
   dateStr=natal.date;
-  $('birthDetails').innerHTML='เกิด: '+natal.date+' '+natal.time+' พ.ศ.'+getInput('b').beYear+' '+$('bPlace').textContent+'<br>จร: '+transit.date+' '+transit.time+' '+$('fPlace').textContent;
+  $('birthDetails').innerHTML='ชื่อ: '+$('bPlace').value+'<br>เกิด: '+natal.date+' '+natal.time+' พ.ศ.'+getInput('b').beYear+' '+$('bProvince').selectedOptions[0].text+' · '+$('bDistrict').value+'<br>จร: '+transit.date+' '+transit.time+' '+$('fPlace').value;
   renderWheel(natal,transit);
   renderSquare(natal,transit);
   renderQA(natal);
