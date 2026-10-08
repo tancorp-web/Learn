@@ -2,8 +2,6 @@
 // Formula basis: Suriyayatra/Mānatta style integer calculations.
 // The UI Golden Case is a regression test; no expected value is injected into calculation.
 
-import * as Astronomy from 'https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/+esm';
-
 const RASI_NAMES=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
 const DAY_MS=86400000;
 const norm=x=>((x%21600)+21600)%21600;
@@ -459,37 +457,22 @@ function thaiCalendar(yearBE,month,day){
   const kammasap=step2-Math.floor(step2/800)*800;
   return {chulaSakarat:chula,surathin,horakhun:h0,kammasap};
 }
-function calculateGeometricAscendant(date,latitude,longitude,suriyayatraSunLongitude){
-  if(!Number.isFinite(latitude)||!Number.isFinite(longitude)) throw new Error('SURiyayatra_COORDINATES_INVALID');
-  const gast=(((Astronomy.SiderealTime(date)*15)+longitude)%360+360)%360;
-  const e=23.4367*Math.PI/180;
-  const p=latitude*Math.PI/180;
-  const l=gast*Math.PI/180;
-  const tropicalAsc=((Math.atan2(-Math.cos(l),Math.sin(l)*Math.cos(e)+Math.tan(p)*Math.sin(e))*180/Math.PI)+360)%360;
-  const tropicalSun=Astronomy.SunPosition(date).elon;
-  const ayanamsa=((tropicalSun-suriyayatraSunLongitude)%360+360)%360;
-  const siderealAsc=((tropicalAsc-ayanamsa)%360+360)%360;
-  return siderealAsc;
-}
-function calcCore(parts,location){
+function calcCore(parts){
   const cal=thaiCalendar(parts.year,parts.month,parts.day);
   const sun=calculateSun(cal.horakhun,parts.hour,parts.minute);
   const moon=calculateMoon(cal.horakhun,sun.meanSunL,parts.hour,parts.minute);
   const power=calculateKamlangRavi(sun.meanSunL,sun.kammasapP,cal.chulaSakarat);
-  const localIso=parts.year-543+'-'+String(parts.month).padStart(2,'0')+'-'+String(parts.day).padStart(2,'0')+'T'+String(parts.hour).padStart(2,'0')+':'+String(parts.minute).padStart(2,'0')+':00'+((location?.timezone??7)>=0?'+':'-')+String(Math.abs(location?.timezone??7)).padStart(2,'0')+':00';
-  const ascLongitude=calculateGeometricAscendant(new Date(localIso),location?.latitude,location?.longitude,(sun.rasi*1800+sun.degree*60+sun.lipda)/60);
-  const asc=toRasi(ascLongitude*60);
   const planets=[
    ['อาทิตย์',sun],['จันทร์',moon],['อังคาร',calculateMars(power.kamlang,power.meanRavi)],['พุธ',calculateMercury(power.kamlang,power.meanRavi)],['พฤหัสบดี',calculateJupiter(power.kamlang,power.meanRavi)],['ศุกร์',calculateVenus(power.kamlang,power.meanRavi)],['เสาร์',calculateSaturn(power.kamlang,power.meanRavi)],['ราหู',calculateRahu(power.kamlang)],['เกตุ',calculateKetu(cal.horakhun,parts.hour,parts.minute)],['มฤตยู',calculateUranus(power.kamlang,power.meanRavi)]
   ].map(([name,p])=>({id:name,name,longitude:(p.rasi*1800+p.degree*60+p.lipda)/60,sign:RASI_NAMES[p.rasi],degree:p.degree,minute:p.lipda,retrograde:name==='ราหู'||name==='เกตุ'}));
-  return {cal,asc:{longitude:(asc.rasi*1800+asc.degree*60+asc.lipda)/60,sign:RASI_NAMES[asc.rasi],degree:asc.degree,minute:asc.lipda},planets};
+  return {cal,asc:null,planets};
 }
 export function calculateSuriyayatra(input){
   if(!input||!input.date||!input.time) throw new Error('SURiyayatra_INPUT_INVALID');
   const [y,m,d]=input.date.split('-').map(Number),[hh,mm]=input.time.split(':').map(Number);
   if(![y,m,d,hh,mm].every(Number.isFinite)) throw new Error('SURiyayatra_DATE_INVALID');
   const parts={year:y+543,month:m,day:d,hour:hh,minute:mm};
-  const c=calcCore(parts,{latitude:Number(input.latitude),longitude:Number(input.longitude),timezone:Number(input.timezone??7)});
-  return {calendar:c.cal,ascendant:c.asc,planets:c.planets,engineVersion:'Suriyayatra-Māṇatta integer engine 1.1.0 + geometric ascendant',rulesetVersion:'suriyayatra-vedic-thai-reference-1',ephemeris:'Suriyayatra integer ephemeris (not Astronomy Engine/Lahiri)'};
+  const c=calcCore(parts);
+  return {calendar:c.cal,ascendant:c.asc,planets:c.planets,engineVersion:'Suriyayatra-Māṇatta integer engine 1.2.0',rulesetVersion:'suriyayatra-vedic-thai-reference-1',ephemeris:'Suriyayatra integer ephemeris (not Astronomy Engine/Lahiri)'};
 }
 export {thaiCalendar};
