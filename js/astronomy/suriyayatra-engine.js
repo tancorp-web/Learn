@@ -467,7 +467,10 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Golden values are QA references only and are never injected.
   const ketuHorakhun = horakhun;
   const ketuSuratinPrasong = suratinBirth;
-  const ketuHorakhunPrasong = ketuHorakhun + ketuSuratinPrasong;
+  // Formula 2 source sequence: Horakhun Thaloeng Sok + Suratin Prasong
+  // (not birth Horakhun + Suratin). The former is the actual
+  // Horakhun Prasong quantity used before the 679-day division.
+  const ketuHorakhunPrasong = thaloeng.horakhun + ketuSuratinPrasong;
   const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
   const ketuMeanArc = ketu679Remainder * 21600 / 679;
   // Preserve the exact fractional arc through the final subtraction.
