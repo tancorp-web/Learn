@@ -534,8 +534,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // The adhikamas / 8/88 rule has already been applied when constructing
   // the birth-day calendar quantities; it must not replace the formula's
   // numerator with Thaloeng-Sok Horakhun + Suratin Prasong.
-  const ketuHorakhun = horakhun;
-  const ketu679Remainder = MOD(ketuHorakhun - 344, 679);
+
   const ketuMeanArc = ketu679Remainder * 21600 / 679;
   // Preserve the exact fractional arc through the final subtraction.
   // Premature Math.floor here introduces an artificial +1′ quantization
