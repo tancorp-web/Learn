@@ -197,17 +197,17 @@ function renderWheel(natal,transit){
   svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
   svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
 
-  // แกนราศี/ภพใช้ชุดเส้นแบ่งเดียวกัน: แต่ละช่องกว้าง 30° และขอบอยู่ที่ -15° จากจุดกลางราศี
+  // Geometry ล็อก: 0° อยู่ด้านขวา และองศาเดินจากขวาไปซ้าย (counter-clockwise); เส้นแบ่งอยู่ที่ 0°,30°,...
   const zodiacBoundaries=[];
   for(let i=0;i<12;i++){
-    const boundaryDeg=i*30-15;
+    const boundaryDeg=i*30;
     zodiacBoundaries.push(boundaryDeg);
-    const a=(-90-boundaryDeg)*Math.PI/180;
+    const a=(-boundaryDeg)*Math.PI/180;
     const x1=c+inner*Math.cos(a),y1=c+inner*Math.sin(a);
     const x2=c+rad*Math.cos(a),y2=c+rad*Math.sin(a);
     svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
-    const mid=i*30;
-    const am=(-90-mid)*Math.PI/180;
+    const mid=i*30+15;
+    const am=(-mid)*Math.PI/180;
     const labelR=rad+30;
     const lx=c+labelR*Math.cos(am),ly=c+labelR*Math.sin(am);
     svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★':'')+'</text>';
@@ -220,12 +220,12 @@ function renderWheel(natal,transit){
     for(let h=1;h<=12;h++){
       // ใช้พิกัด "เส้นแบ่งราศี" เดียวกันโดยตรง ห้ามสร้างพิกัดเส้นภพอีกชุด
       const boundaryDeg=zodiacBoundaries[(ascIdx+(h-1))%12];
-      const boundaryA=(-90-boundaryDeg)*Math.PI/180;
+      const boundaryA=(-boundaryDeg)*Math.PI/180;
       const bx=c+rad*Math.cos(boundaryA),by=c+rad*Math.sin(boundaryA);
       // เส้นภพต้องต่อเนื่องกับเส้นแบ่งราศีจริงถึงขอบวงนอก ใช้มุมเดียวกันและจุดปลายเดียวกัน
       svg+='<line x1="'+c+'" y1="'+c+'" x2="'+bx+'" y2="'+by+'" stroke="#d6d3d1" stroke-width=".9"/>';
       const midDeg=(ascIdx+(h-1))*30+15;
-      const a=(-90-midDeg)*Math.PI/180;
+      const a=(-midDeg)*Math.PI/180;
       const x=c+houseR*Math.cos(a),y=c+houseR*Math.sin(a);
       svg+='<text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" font-size="7" fill="'+natalBg+'" font-weight="900">'+houseNames[h-1]+'</text>';
     }
@@ -234,7 +234,7 @@ function renderWheel(natal,transit){
 
   function drawAsc(ascObj,isTransit){
     if(!ascObj||typeof ascObj.asc!=='number')return;
-    const ascAngle=(-90-ascObj.asc+planetOffset)*Math.PI/180;
+    const ascAngle=(-ascObj.asc)*Math.PI/180;
     const rr=isTransit?238:192;
     const ax=c+rr*Math.cos(ascAngle),ay=c+rr*Math.sin(ascAngle);
     const color=isTransit?'#b45309':'#dc2626';
@@ -256,7 +256,7 @@ function renderWheel(natal,transit){
     const ps=list.planets.slice().sort((a,b)=>a.longitude-b.longitude);
     const lanes=isTransit?[207,222,237]:[112,130,148,166,184];
     ps.forEach((p,j)=>{
-      const angle=(-90-p.longitude+planetOffset)*Math.PI/180;
+      const angle=(-p.longitude)*Math.PI/180;
       const rr=lanes[j%lanes.length];
       const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
       const color=isTransit?transitBg:natalBg;
