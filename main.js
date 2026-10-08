@@ -16,7 +16,8 @@ function initBirthSelectors(){
  for(let y=2600;y>=2300;y--)$('year').insertAdjacentHTML('beforeend',`<option value="${y}">${y} พ.ศ.</option>`);
  for(let h=0;h<24;h++)$('hour').insertAdjacentHTML('beforeend',`<option value="${h}">${pad(h)}</option>`);
  for(let m=0;m<60;m++)$('minute').insertAdjacentHTML('beforeend',`<option value="${m}">${pad(m)}</option>`);
- $('day').value='1';$('month').value='1';$('year').value='2533';$('hour').value='12';$('minute').value='00';
+ $('day').value='1';$('month').value='1';$('year').value='2518';$('month').value='10';$('day').value='14';$('hour').value='1';$('minute').value='05';
+ const now=new Date(); $('forecastDateInput').value=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()); $('forecastTimeInput').value=pad(now.getHours())+':'+pad(now.getMinutes());
 }
 async function loadProvinces(){
  const r=await fetch('./data/provinces.json'); if(!r.ok)throw new Error('โหลดรายชื่อจังหวัดไม่ได้');
@@ -169,8 +170,8 @@ function renderDetailed(r){
 }
 function render(r,preview){
  $('asc').innerHTML=`<b>${r.ascendant.sign.name}</b> ${formatDeg(r.ascendant.longitude)} <span class="muted">(${r.ascendant.navamsa.signName})</span>`;
- $('sunrise').textContent=preview?'Browser Engine — อาทิตย์อุทัยยังไม่ได้ใช้เป็นตัวกำหนดลัคนา':`อาทิตย์อุทัยจริง: ${r.sunrise??'ไม่พบ'} · เส้นแบ่งวันทักษา: 06:00 น. ท้องถิ่น`;
- $('meta').innerHTML=`Engine ${r.metadata.engineVersion}<br>Ephemeris ${r.metadata.ephemeris}<br>Ayanamsa ${r.metadata.ayanamsa}<br>Ruleset ${r.metadata.rulesetVersion}`;
+ $('sunrise').textContent='อาทิตย์อุทัยอ้างอิง 06:00 น. · สุริยยาตร์ · อันโตนาทีสามัญ · ปรับเวลาท้องถิ่น';
+ $('meta').innerHTML='ปฏิทิน: '+(r.metadata.calendar||'Thai Suriyayatra')+'<br>ลัคนา: อันโตนาทีสามัญ อาทิตย์อุทัย 06:00 น. ปรับเวลาท้องถิ่น<br>Engine: '+r.metadata.engineVersion+'<br>สถานะ: ต้องตรวจ Golden Case เต็มชุด';
  $('thaksa').innerHTML=Object.entries(r.thaksa.roles).map(([a,b])=>`<span class="pill">${a}: ${b}</span>`).join('');
  $('planets').innerHTML=r.planets.map(p=>`<div class="planet"><span>${p.name}</span><span>${p.sign.name} ${formatDeg(p.longitude)} · เรือน ${p.house}${p.retrograde?' · ม':''}</span></div>`).join('');
  $('houses').innerHTML=r.houses.map(h=>`<div class="planet"><span>${h.number}. ${h.name}</span><span>${h.sign.name} ${formatDeg(h.cusp)}</span></div>`).join('');
