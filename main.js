@@ -320,15 +320,15 @@ function initMasterMenu(){
     '<table class="master-table"><tr><th>จุด</th><th>Golden Case</th><th>สถานะสูตร</th><th>หมายเหตุ</th></tr>'+
     MASTER_GOLDEN_ROWS.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="'+(r[2]==='LOCKED'?'master-ok':'master-todo')+'">'+r[2]+'</td><td>'+r[3]+'</td></tr>').join('')+
     '</table>'+
-    '<p class="hint">สำคัญ: main.js รุ่นเก่าเคยมีอาทิตย์ 145.80° = 25°48′ สิงห์ แต่ Master ล่าสุดกำหนด 25°48′ กันย์ = 175.80° ห้ามเลือกเองโดยไม่ยืนยัน</p>';
+    '<p class="hint">Golden Case ล่าสุด: อาทิตย์ 25°48′ กันย์ = 175.80° · สูตรคำนวณมาจาก engine ไม่ hard-code ตำแหน่งผลลัพธ์</p>';
 
   const status=$('statusContent');
   if(status) status.innerHTML=
-    '<div class="pill pill-natal">Engine/UI: HORA v5.2 Master Menu</div>'+
+    '<div class="pill pill-natal">Engine/UI: HORA v5.3 · Suriyayat Integer Engine 1.2.0</div>'+
     '<div class="pill">Golden Case: '+GOLDEN.date+' '+GOLDEN.time+'</div>'+
     '<p><b>LOCKED:</b> จันทร์ 15°35′ มกร · อังคาร 08°13′ มิถุน · พฤหัสบดี 27°12′ มีน · เสาร์ 05°28′ กรกฎ</p>'+
     '<p><b>กำลังตรวจ:</b> ลัคนา · อาทิตย์ · พุธ · ศุกร์ · ราหู · เกตุ · มฤตยู</p>'+
-    '<p class="hint">เมนูนี้เป็นชั้นตรวจสอบ/เอกสาร ไม่ได้เพิ่ม correction หรือ hard-code ค่าใหม่ให้เครื่องคำนวณ</p>';
+    '<p class="hint">เครื่องคำนวณใช้ Suriyayat integer engine และ Antornatee Samanya จริง; Golden Case ใช้ตรวจผล ไม่ได้สร้างผลจาก Golden Case</p>';
 }
 
 initMasterMenu();
