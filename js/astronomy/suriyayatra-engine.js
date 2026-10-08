@@ -268,19 +268,24 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     )
   };
 
+  const calendar = adhikamasInfo(chulaSakarat);
+  const planets = Object.entries(arcs).map(([name, arc], index) => {
+    const motion = includeMotion ? motionFor(name, date, time, longitude) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
+    return {
+      id:name, name, longitude:arc/60, arcMinutes:arc,
+      retrograde:motion.retrograde, motionState:motion.state,
+      speedArcminPerDay:motion.speedArcminPerDay ?? null,
+      meanSpeedArcminPerDay:motion.meanSpeedArcminPerDay ?? null,
+      idNumber:['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'][index]
+    };
+  });
+
   return {
     date,
     time,
     jd: julianDayNumber,
     harakun: horakhun,
-    planets: Object.entries(arcs).map(([name, arc], index) => ({
-      id: name,
-      name,
-      longitude: arc / 60,
-      arcMinutes: arc,
-      retrograde: ['ราหู','เกตุ'].includes(name),
-      idNumber: ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'][index]
-    })),
+    planets,
     metadata: {
       engineVersion: 'v7.3-CLASSICAL-SURIYAYATRA-ADHIKAMAS-MOTION',
       calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
