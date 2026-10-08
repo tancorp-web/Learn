@@ -145,22 +145,24 @@ function shiftCivilDate(date, days) {
 }
 
 function calendarArithmetic(horakhun) {
-  const lunarNumerator = horakhun * 703 + 650;
-  const tithiTotal = Math.floor(lunarNumerator / 692);
-  const avaman = MOD(lunarNumerator, 692);
-  const masa = Math.floor(tithiTotal / 30) + horakhun;
+  const totalAvaman = horakhun * 703 + 650;
+  const tithiTotal = Math.floor(totalAvaman / 692);
+  const avaman = MOD(totalAvaman, 692);
+  const masa = Math.floor(tithiTotal / 30);
   const tithi = MOD(tithiTotal, 30);
-  const adhikamasRemainder = MOD(masa * 7, 235);
-  const monthCriterion = MOD(masa - Math.floor(masa * 7 / 235), 12);
+
+  // Classical Suriyayatra base quantities:
+  // 1 masa = 30 tithi, 1 tithi = 692 avaman, 1 day = 703 avaman.
+  // These are the auditable calendar inputs; Adhikamasa classification is
+  // deliberately left to the separate month-boundary rule, not a 19-year guess.
   return {
     masa,
     tithi,
     avaman,
-    monthCriterion,
-    adhikamasRemainder,
-    // Do not infer a final Adhikamasa flag from the 19-year mnemonic alone.
-    // The exact Thai calendar decision also depends on the traditional
-    // month/year boundary rules; these raw values are the auditable inputs.
+    dayAvaman: 703,
+    tithiAvaman: 692,
+    monthTithiCount: 30,
+    monthBoundaryAvaman: MOD(totalAvaman, 30 * 692),
     isAdhikamas: null,
     lunarMonth: null
   };
@@ -301,7 +303,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v7.4-CLASSICAL-SURIYAYATRA-CALENDAR-MOTION',
+      engineVersion: 'v7.5-CLASSICAL-SURIYAYATRA-CALENDAR-MOTION',
       calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
