@@ -1,4 +1,5 @@
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js';
+import { calculateSuriyayatraAscendant } from './js/astronomy/ascendant-geometry.js';
 import { createSnapshot, saveSnapshot } from './js/debug/calculation-snapshot.js';
 import { formatDeg, signOf, houseFromAsc } from './js/core/geometry.js';
 
@@ -115,6 +116,17 @@ function calculate(i){
  }
 }
 function parseLocalDate(i){return new Date(`${i.date}T${i.time}:00${i.timezone>=0?'+':'-'}${String(Math.abs(i.timezone)).padStart(2,'0')}:00`);}
+function calcAt(i,date){
+ if(!date || Number.isNaN(date.getTime())) throw new Error('วันที่/เวลาไม่ถูกต้อง');
+ if(!Number.isFinite(i.latitude)||!Number.isFinite(i.longitude)) throw new Error('พิกัดละติจูด/ลองจิจูดไม่ถูกต้อง');
+ const engine=calculateSuriyayatra({date:i.date,time:i.time});
+ const suriyaSun=engine.planets.find(p=>p.name==='อาทิตย์');
+ if(!suriyaSun)throw new Error('SURiyayatra_SUN_MISSING');
+ const asc=calculateSuriyayatraAscendant({date,latitude:i.latitude,longitude:i.longitude,suriyayatraSunLongitude:suriyaSun.longitude,timezone:i.timezone});
+ const planets=engine.planets.map(p=>({id:p.id,name:p.name,longitude:p.longitude,sign:signObj(p.longitude),house:houseFromAsc(p.longitude,asc),retrograde:Boolean(p.retrograde)}));
+ const houses=Array.from({length:12},(_,k)=>{const lon=(asc+k*30)%360;return{number:k+1,name:houseNames[k],cusp:lon,sign:signObj(lon)};});
+ return {metadata:{engineVersion:engine.engineVersion,rulesetVersion:engine.rulesetVersion,ephemeris:engine.ephemeris,calendar:'Thai Suriyayatra',ascMethod:'สุริยยาตร์ อันโตนาทีสามัญ',coordinateSystem:'Thai sidereal / Suriyayatra',houseModel:'whole-sign',status:'REGRESSION_TEST_REQUIRED'},input:i,utc:date.toISOString(),sunrise:null,ascendant:{longitude:asc,sign:signObj(asc),navamsa:{signName:signs[Math.floor(asc/30)]}},planets,houses,thaksa:{roles:{'บริวาร':'อาทิตย์','อายุ':'จันทร์','เดช':'อังคาร','ศรี':'พุธ','มูลละ':'พฤหัสบดี','อุตสาหะ':'ศุกร์','มนตรี':'เสาร์','กาลี':'ราหู'}}};
+}
 function previewChart(i){return calcAt(i,parseLocalDate(i));}
 function renderWheel(natal,transit){
  const c=250,rad=215; const planetNo={'อาทิตย์':'1','จันทร์':'2','อังคาร':'3','พุธ':'4','พฤหัสบดี':'5','ศุกร์':'6','เสาร์':'7','ราหู':'8','เกตุ':'9','มฤตยู':'0'};
