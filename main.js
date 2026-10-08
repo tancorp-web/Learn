@@ -149,12 +149,23 @@ function renderWheel(r){
  $('wheel').innerHTML=s;
 }
 function renderTransits(i){
- const now=new Date();
- const ti={...i,date:`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`,time:`${pad(now.getHours())}:${pad(now.getMinutes())}`};
- const r=calcAt(ti,now);
- const vals=r.planets;
- const el=document.getElementById('transits');
- if(el)el.innerHTML='<div class="hint">วันที่ '+now.getDate()+' '+thaiMonths[now.getMonth()]+' '+(now.getFullYear()+543)+' พ.ศ. · '+pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds())+' น. · '+i.province+' · UTC'+(i.timezone>=0?'+':'')+i.timezone+'</div>'+vals.map(p=>'<div class="planet"><span>'+p.name+'</span><span>'+p.sign.name+' '+formatDeg(p.longitude)+(p.retrograde?' · ม':'')+'</span></div>').join('');
+ const fi=forecastInput(i),d=parseLocalDate(fi),r=calcAt(fi,d),vals=r.planets,el=$('transits');
+ if(el)el.innerHTML='<div class="hint">วัน'+d.toLocaleDateString('th-TH',{weekday:'long'})+'ที่ '+d.getDate()+' '+thaiMonths[d.getMonth()]+' '+(d.getFullYear()+543)+' พ.ศ. / ค.ศ.'+d.getFullYear()+' เวลา '+pad(d.getHours())+':'+pad(d.getMinutes())+' น. · '+fi.province+' · '+fi.district+' · UTC'+(fi.timezone>=0?'+':'')+fi.timezone+'</div>'+vals.map(p=>'<div class="planet"><span>'+p.name+'</span><span>'+p.sign.name+' '+formatDeg(p.longitude)+(p.retrograde?' · ม':'')+'</span></div>').join('');
+}
+function renderDetailed(r){
+ const i=r.input, d=parseLocalDate(i), name=i.name||'ไม่ระบุชื่อ';
+ const wd=d.toLocaleDateString('th-TH',{weekday:'long'});
+ const fmt=n=>Number(n).toFixed(6);
+ const coord=(i.district?i.district+' ':'')+i.province+' (UTC'+(i.timezone>=0?'+':'')+i.timezone+') ละติจูด '+fmt(i.latitude)+'° ลองจิจูด '+fmt(i.longitude)+'°';
+ const birth='ชื่อ-สกุล: '+name+'<br>วัน'+wd+'ที่ '+d.getDate()+' '+thaiMonths[d.getMonth()]+' พ.ศ.'+(d.getFullYear()+543)+'/ค.ศ.'+d.getFullYear()+' เวลา '+pad(d.getHours())+':'+pad(d.getMinutes())+' น.<br>'+coord+'<br><b>ลัคนา '+r.ascendant.sign.name+' '+formatDeg(r.ascendant.longitude)+'</b><br><span class="hint">ระบบปฏิทินโหราศาสตร์ไทย สุริยยาตร์ · ลัคนาอันโตนาทีสามัญ · อาทิตย์อุทัย 06:00 น. · ปรับเวลาท้องถิ่น</span>';
+ $('birthDetails').innerHTML=birth;
+ const fi=forecastInput(i), fd=parseLocalDate(fi);
+ $('forecastDetails').innerHTML='วัน'+fd.toLocaleDateString('th-TH',{weekday:'long'})+'ที่ '+fd.getDate()+' '+thaiMonths[fd.getMonth()]+' พ.ศ.'+(fd.getFullYear()+543)+'/ค.ศ.'+fd.getFullYear()+' เวลา '+pad(fd.getHours())+':'+pad(fd.getMinutes())+' น.<br>'+ (fi.district?fi.district+' ':'')+fi.province+' (UTC'+(fi.timezone>=0?'+':'')+fi.timezone+') ละติจูด '+fmt(fi.latitude)+'° ลองจิจูด '+fmt(fi.longitude)+'°';
+ const rows=r.planets.filter(p=>['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'].includes(p.name));
+ $('navamsa').innerHTML=rows.map(p=>'<div class="planet"><span>นวางค์ '+p.name+'</span><span>'+signs[Math.floor(((p.longitude%30)*9)%360/30)]+'</span></div>').join('');
+ $('drekkana').innerHTML=rows.map(p=>'<div class="planet"><span>ตรียางค์ '+p.name+'</span><span>'+signs[Math.floor(((p.longitude%30)*3)%360/30)]+'</span></div>').join('');
+ $('thaksaDetail').innerHTML=Object.entries(r.thaksa.roles).map(([a,b])=>'<div class="planet"><span>'+a+'</span><span>'+b+'</span></div>').join('');
+ $('ageStages').innerHTML='<div class="section-title small-title">ตรีวัย</div>'+['ตนุ 0–8.4 ปี','กดุมภะ 8.4–16.8 ปี','กัมมะ 16.8–25 ปี','สหัสชะ 25–33.4 ปี','สุภะ 33.4–41.8 ปี','ลาภะ 41.8–50 ปี','พันธุ 50–58.4 ปี','ปุตตะ 58.4–66.8 ปี','ปัตนิ 66.8–75 ปี','อริ 75–83.4 ปี','มรณะ 83.4–91.8 ปี','วินาศ 91.8–100 ปี'].map(x=>'<span class="pill">'+x+'</span>').join('');
 }
 function render(r,preview){
  $('asc').innerHTML=`<b>${r.ascendant.sign.name}</b> ${formatDeg(r.ascendant.longitude)} <span class="muted">(${r.ascendant.navamsa.signName})</span>`;
@@ -163,10 +174,10 @@ function render(r,preview){
  $('thaksa').innerHTML=Object.entries(r.thaksa.roles).map(([a,b])=>`<span class="pill">${a}: ${b}</span>`).join('');
  $('planets').innerHTML=r.planets.map(p=>`<div class="planet"><span>${p.name}</span><span>${p.sign.name} ${formatDeg(p.longitude)} · เรือน ${p.house}${p.retrograde?' · ม':''}</span></div>`).join('');
  $('houses').innerHTML=r.houses.map(h=>`<div class="planet"><span>${h.number}. ${h.name}</span><span>${h.sign.name} ${formatDeg(h.cusp)}</span></div>`).join('');
- renderWheel(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);
+ renderWheel(r);renderDetailed(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);
 }
 $('provinceSearch').addEventListener('focus',()=>renderProvinceList($('provinceSearch').value));$('provinceSearch').addEventListener('input',e=>renderProvinceList(e.target.value));$('provinceClear').addEventListener('click',()=>{$('provinceSearch').value='';renderProvinceList('');$('provinceSearch').focus();});document.addEventListener('click',e=>{if(!e.target.closest('.combo'))$('provinceList').hidden=true;});
-$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const {data,preview}=await calculate(input());render(data,preview);renderTransits(input());$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){const msg=errorText(e);writeRuntimeLog('UI_ERROR',msg,{input:input()});$('msg').innerHTML=`<span class="error">FAIL — ${msg}</span>`;}});
+$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const base=input();const {data,preview}=await calculate(base);render(data,preview);renderTransits(base);$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){const msg=errorText(e);writeRuntimeLog('UI_ERROR',msg,{input:input()});$('msg').innerHTML=`<span class="error">FAIL — ${msg}</span>`;}});
 function updateForecastClock(){
  const d=new Date(),hh=pad(d.getHours()),mm=pad(d.getMinutes()),ss=pad(d.getSeconds());
  const el=document.getElementById('forecastTime');if(el)el.textContent=hh+':'+mm+':'+ss+' น.';
@@ -174,8 +185,8 @@ function updateForecastClock(){
 }
 document.getElementById('useNow').addEventListener('click',()=>{
  const d=new Date();
- $('year').value=String(d.getFullYear()+543);$('month').value=String(d.getMonth()+1);$('day').value=String(d.getDate());
- $('hour').value=String(d.getHours());$('minute').value=String(d.getMinutes());
+ $('forecastDateInput').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+ $('forecastTimeInput').value=pad(d.getHours())+':'+pad(d.getMinutes());
  $('calc').click();
 });
 window.addEventListener('error',e=>writeRuntimeLog('WINDOW_ERROR',errorText(e.error||e.message),{file:e.filename,line:e.lineno,column:e.colno}));
