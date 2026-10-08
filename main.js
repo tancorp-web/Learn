@@ -17,7 +17,7 @@ function initBirthSelectors(){
  for(let y=2600;y>=2300;y--)$('year').insertAdjacentHTML('beforeend',`<option value="${y}">${y} พ.ศ.</option>`);
  for(let h=0;h<24;h++)$('hour').insertAdjacentHTML('beforeend',`<option value="${h}">${pad(h)}</option>`);
  for(let m=0;m<60;m++)$('minute').insertAdjacentHTML('beforeend',`<option value="${m}">${pad(m)}</option>`);
- $('day').value='1';$('month').value='1';$('year').value='2518';$('month').value='10';$('day').value='14';$('hour').value='1';$('minute').value='05';
+ $('day').value='14';$('month').value='10';$('year').value='2518';$('hour').value='1';$('minute').value='5';
  const now=new Date(); $('forecastDateInput').value=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()); $('forecastTimeInput').value=pad(now.getHours())+':'+pad(now.getMinutes());
 }
 async function loadPlaces(){
