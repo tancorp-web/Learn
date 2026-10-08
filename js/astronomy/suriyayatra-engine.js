@@ -131,7 +131,7 @@ function parseInput(date, time) {
   return {year,month,day,hour,minute};
 }
 
-export function calculateSuriyayatra({ date, time, longitude }) {
+const MOTION_MEAN_SPEED_ARCMIN_PER_DAY = { 'อังคาร': 31.4, 'พุธ': 245.4, 'พฤหัสบดี': 4.9, 'ศุกร์': 70.9, 'เสาร์': 2.0, 'มฤตยู': 0.7 };\nconst MOTION_STATES = { DIRECT: 'ปกติ', RETROGRADE: 'พักร์', SLOW: 'มณฑ์', FAST: 'เสริด' };\n\nfunction angularDeltaDegrees(a, b) {\n  return ((a - b + 180) % 360 + 360) % 360 - 180;\n}\n\nfunction shiftCivilDate(date, days) {\n  const [y,m,d] = String(date).split('-').map(Number);\n  const dt = new Date(Date.UTC(y, m - 1, d + days));\n  return dt.toISOString().slice(0, 10);\n}\n\nfunction adhikamasInfo(chulaSakarat) {\n  // Traditional 19-year cycle: remainders 3,6,9,11,14,17,0\n  // (i.e. years 3,6,9,11,14,17,19) are Adhikamasa years.\n  const cycleYear = MOD(chulaSakarat - 8, 19);\n  const isAdhikamas = [0,3,6,9,11,14,17].includes(cycleYear);\n  return { cycleYear: cycleYear === 0 ? 19 : cycleYear, isAdhikamas, lunarMonth: isAdhikamas ? '๘/๘๘' : 'ปกติมาส' };\n}\n\nfunction motionFor(name, date, time, longitude) {\n  if (name === 'ราหู' || name === 'เกตุ') return { state: MOTION_STATES.RETROGRADE, retrograde: true, speedArcminPerDay: null, meanSpeedArcminPerDay: null };\n  if (name === 'อาทิตย์' || name === 'จันทร์') return { state: MOTION_STATES.DIRECT, retrograde: false, speedArcminPerDay: null, meanSpeedArcminPerDay: null };\n  const prev = calculateSuriyayatra({date: shiftCivilDate(date, -1), time, longitude, includeMotion:false});\n  const next = calculateSuriyayatra({date: shiftCivilDate(date, 1), time, longitude, includeMotion:false});\n  const p = prev.planets.find(x => x.name === name);\n  const n = next.planets.find(x => x.name === name);\n  if (!p || !n) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };\n  const speed = angularDeltaDegrees(n.longitude, p.longitude) * 60 / 2;\n  const meanSpeed = MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? 0;\n  const epsilon = 0.02;\n  const state = speed < -epsilon ? MOTION_STATES.RETROGRADE : speed < meanSpeed ? MOTION_STATES.SLOW : MOTION_STATES.FAST;\n  return { state, retrograde: state === MOTION_STATES.RETROGRADE, speedArcminPerDay: speed, meanSpeedArcminPerDay: meanSpeed };\n}\n\nexport function calculateSuriyayatra({ date, time, longitude, includeMotion = true }) {
   const input = parseInput(date, time);
   const {year,month,day,hour,minute} = input;
   const timeMinutes = hour * 60 + minute;
@@ -246,7 +246,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
       idNumber: ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'][index]
     })),
     metadata: {
-      engineVersion: 'v7.2-CLASSICAL-SURIYAYATRA-FORMULA-FIX',
+      engineVersion: 'v7.3-CLASSICAL-SURIYAYATRA-ADHIKAMAS-MOTION',
       calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
@@ -257,7 +257,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
       meanSunArcMinutes: meanSun,
       meanRaviArcMinutes: meanRavi,
       planetaryPowerArcMinutes,
-      planetaryEpochArcMinutes: epoch
+      planetaryEpochArcMinutes: epoch,\n      calendar,\n      motionModel: 'centered 1-day angular speed; retrograde if negative; mand slower than mean daily speed; serit faster than mean daily speed'
     }
   };
 }
