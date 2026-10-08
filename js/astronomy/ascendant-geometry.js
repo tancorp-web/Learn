@@ -1,121 +1,103 @@
-// HORA — astronomical Ascendant geometry.
-// Uses UTC instant + geographic longitude/latitude + Greenwich Apparent Sidereal Time.
-// No fixed "Thailand meridian correction" and no chart-specific constants are used.
-// The tropical Ascendant is computed from local sidereal time, then converted to
-// the same sidereal zodiac used by the planetary engine.
+// HORA — Classical Thai Suriyayatra ascendant.
+// Uses the traditional ordinary rising-time (อันโตนาทีสามัญ) model.
+// The province correction is derived from longitude, not from a chart-specific
+// constant: 4 minutes per degree from the Thai standard meridian 105°E.
+//
+// This deliberately does NOT use LST/geometric tropical ascendant. The
+// planetary engine and ascendant therefore share the same Suriyayatra frame.
 
-import * as Astronomy from 'https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/+esm';
+const MOD = (v,d) => {
+  const r = v % d;
+  return r < 0 ? r + d : r === 0 ? 0 : r;
+};
 
-const norm=x=>((Number(x)%360)+360)%360;
-const DEG=Math.PI/180;
+const SIGN_DURATIONS = [120,96,72,120,144,168,168,144,120,72,96,120];
+const STANDARD_MERIDIAN_LONGITUDE = 105;
 
-function meanObliquityDeg(date){
-  const jd=date.getTime()/86400000+2440587.5;
-  const T=(jd-2451545.0)/36525;
-  return 23.43929111111111
-    -0.013004166666667*T
-    -0.000000163888889*T*T
-    +0.000000503611111*T*T*T;
+export function provinceTimeCorrectionMinutes(longitude) {
+  const lon = Number(longitude);
+  if (!Number.isFinite(lon)) throw new Error('LONGITUDE_INVALID');
+  return 4 * (STANDARD_MERIDIAN_LONGITUDE - lon);
 }
 
-function tropicalAscendant(date,latitude,longitude){
-  const gastHours=Astronomy.SiderealTime(date);
-  const theta=(gastHours*15+longitude)*DEG;
-  const phi=latitude*DEG;
-  const eps=meanObliquityDeg(date)*DEG;
+function ascendantArcMinutes(sunLongitudeDegrees, timeMinutes, correctionMinutes) {
+  const sun = MOD(Number(sunLongitudeDegrees) * 60, 21600);
+  const sunSign = Math.floor(sun / 1800);
+  const elapsedSun =
+    SIGN_DURATIONS.slice(0, sunSign).reduce((sum,d) => sum + d, 0)
+    + SIGN_DURATIONS[sunSign] * MOD(sun,1800) / 1800;
 
-  // Ascendant on the eastern horizon.
-  // atan2 preserves the correct quadrant across 0°/360°.
-  const y=-Math.cos(theta);
-  const x=Math.sin(theta)*Math.cos(eps)+Math.tan(phi)*Math.sin(eps);
-  return norm(Math.atan2(y,x)/DEG);
+  // Traditional sequence: sunrise reference = 06:00, then remove the
+  // province's local-meridian time correction.
+  const progression = MOD(
+    elapsedSun + Number(timeMinutes) - 360 - Number(correctionMinutes),
+    1440
+  );
+
+  let cumulative = 0;
+  let longitude = 0;
+  const starts = [];
+
+  for (let sign=0; sign<12; sign++) {
+    const duration = SIGN_DURATIONS[sign];
+    starts.push(MOD(360 - elapsedSun + cumulative - Number(correctionMinutes), 1440));
+    if (progression >= cumulative && progression < cumulative + duration) {
+      longitude = sign * 1800
+        + (progression - cumulative) * 1800 / duration;
+    }
+    cumulative += duration;
+  }
+  return { longitude: MOD(longitude,21600), starts };
 }
 
 export function calculateSuriyayatraAscendant({
-  date,
-  latitude,
+  timeMinutes,
+  sunLongitude,
   longitude,
-  ayanamsa=0
-}){
-  if(!(date instanceof Date)||!Number.isFinite(date.getTime())) throw new Error('ASCENDANT_DATE_INVALID');
-  if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||!Number.isFinite(ayanamsa)){
-    throw new Error('ASCENDANT_INPUT_INVALID');
-  }
-  if(latitude<=-90||latitude>=90) throw new Error('ASCENDANT_LATITUDE_INVALID');
+  localTimeCorrectionMinutes
+}) {
+  if (!Number.isFinite(Number(sunLongitude))) throw new Error('ASCENDANT_SUN_INVALID');
 
-  const tropical=tropicalAscendant(date,latitude,longitude);
-  const sidereal=norm(tropical-ayanamsa);
-  return sidereal;
+  const correction = localTimeCorrectionMinutes === undefined
+    ? provinceTimeCorrectionMinutes(longitude)
+    : Number(localTimeCorrectionMinutes);
+
+  if (!Number.isFinite(correction)) throw new Error('ASCENDANT_CORRECTION_INVALID');
+
+  const minutes = timeMinutes === undefined ? 0 : Number(timeMinutes);
+  if (!Number.isFinite(minutes) || minutes < 0 || minutes >= 1440) {
+    throw new Error('ASCENDANT_TIME_INVALID');
+  }
+
+  return ascendantArcMinutes(sunLongitude, minutes, correction).longitude / 60;
 }
 
-// Return local clock times when the sidereal Ascendant crosses each zodiac sign.
-// This is calculated numerically from the same Ascendant function used for the chart;
-// it is not a lookup table.
+// Kept for UI compatibility. The returned times are the traditional sign
+// starts generated from the exact same ascendant function; no lookup table.
 export function calculateAscendantBoundaryTimes({
-  date,
-  latitude,
+  sunLongitude,
   longitude,
-  ayanamsa=0,
-  timezone=7
-}){
-  if(!(date instanceof Date)||!Number.isFinite(date.getTime())) return [];
-  const base=new Date(date.getTime());
-  const start=new Date(Date.UTC(
-    base.getUTCFullYear(),base.getUTCMonth(),base.getUTCDate(),0,0,0,0
-  ));
-  const values=[];
-  const target=(i)=>i*30;
+  localTimeCorrectionMinutes = undefined
+}) {
+  if (!Number.isFinite(Number(sunLongitude))) return [];
+  const correction = localTimeCorrectionMinutes === undefined
+    ? provinceTimeCorrectionMinutes(longitude)
+    : Number(localTimeCorrectionMinutes);
 
-  function angleDiff(a,b){
-    return ((a-b+540)%360)-180;
-  }
+  const minutes = [];
+  const sun = MOD(Number(sunLongitude) * 60,21600);
+  const sunSign = Math.floor(sun/1800);
+  const elapsedSun =
+    SIGN_DURATIONS.slice(0,sunSign).reduce((s,d)=>s+d,0)
+    + SIGN_DURATIONS[sunSign] * MOD(sun,1800) / 1800;
 
-  function ascAt(ms){
-    return calculateSuriyayatraAscendant({
-      date:new Date(ms),
-      latitude,
-      longitude,
-      ayanamsa
+  let cumulative=0;
+  for(let sign=0;sign<12;sign++){
+    minutes.push({
+      sign,
+      minutes: MOD(360 - elapsedSun + cumulative - correction,1440)
     });
+    cumulative += SIGN_DURATIONS[sign];
   }
-
-  // Scan in 2-minute steps, then bisect each sign crossing.
-  let prevMs=start.getTime();
-  let prev=ascAt(prevMs);
-  for(let i=1;i<=720;i++){
-    const ms=start.getTime()+i*120000;
-    const cur=ascAt(ms);
-    for(let s=0;s<12;s++){
-      const a=target(s);
-      const d0=angleDiff(prev,a);
-      const d1=angleDiff(cur,a);
-      if((d0<=0&&d1>=0)||(d0>=0&&d1<=0)){
-        let lo=prevMs,hi=ms;
-        for(let k=0;k<20;k++){
-          const mid=(lo+hi)/2;
-          const dm=angleDiff(ascAt(mid),a);
-          const dl=angleDiff(ascAt(lo),a);
-          if((dl<=0&&dm>=0)||(dl>=0&&dm<=0))hi=mid;
-          else lo=mid;
-        }
-        const utc=new Date((lo+hi)/2);
-        const localMs=utc.getTime()+timezone*3600000;
-        const local=new Date(localMs);
-        values.push({
-          sign:s,
-          minutes:local.getUTCHours()*60+local.getUTCMinutes()+local.getUTCSeconds()/60,
-          label:local.toISOString().slice(11,16)
-        });
-      }
-    }
-    prevMs=ms;
-    prev=cur;
-  }
-
-  const seen=new Set();
-  return values.filter(v=>{
-    if(seen.has(v.sign))return false;
-    seen.add(v.sign);
-    return true;
-  });
+  return minutes;
 }
