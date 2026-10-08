@@ -175,12 +175,13 @@ function update(prefix){
   $(prefix+'Lat').value=prov.lat.toFixed(6);$(prefix+'Lon').value=prov.lon.toFixed(6);
   if(prefix==='f') $(prefix+'Place').value=prov.name+' · '+$(prefix+'District').value+' · '+prov.lat.toFixed(6)+', '+prov.lon.toFixed(6)+' UTC+7';
 }
-$('bProvince').addEventListener('change',()=>{populate('b');update('b');});
-$('fProvince').addEventListener('change',()=>{populate('f');update('f');});
-$('bDistrict').addEventListener('change',()=>update('b'));
-$('fDistrict').addEventListener('change',()=>update('f'));
-
-function getInput(p){const d=$(p+'Day').value,m=$(p+'Month').value,y=$(p+'Year').value,h=$(p+'Hour').value,mi=$(p+'Minute').value;const ad=Number(y)-543;return {date:ad+'-'+pad(m)+'-'+pad(d),time:pad(h)+':'+pad(mi),beYear:Number(y)};}
+function getInput(p){
+  const d=$(p+'Day').value,m=$(p+'Month').value,y=$(p+'Year').value,h=$(p+'Hour').value,mi=$(p+'Minute').value;
+  if(!d||!m||!y||h===''||mi==='') throw new Error('INPUT_INCOMPLETE_'+p);
+  const ad=Number(y)-543;
+  if(!Number.isInteger(ad)||ad<1) throw new Error('YEAR_INVALID_'+p);
+  return {date:ad+'-'+pad(m)+'-'+pad(d),time:pad(h)+':'+pad(mi),beYear:Number(y)};
+}
 
 let dateStr='1991-10-14';
 function render(natal,transit){
@@ -191,13 +192,36 @@ function render(natal,transit){
   renderQA(natal);
 }
 
-$('calc').addEventListener('click',()=>{
-  const b=getInput('b'),f=getInput('f');
-  const natal=calcAt(b.date,b.time,true,{lat:$('bLat').value,lon:$('bLon').value});
-  const transit=calcAt(f.date,f.time,false,{lat:$('fLat').value,lon:$('fLon').value});
-  render(natal,transit);
-  $('msg').innerHTML='<div class="ok">✅ v5.3 FIXED - สูตร พุธ/ศุกร์/อังคาร แก้แล้ว - PASS ทั้ง 11 จุด Golden Case ขอนแก่น</div>';
-});
+function showRuntimeError(err){
+  const msg=$('msg');
+  if(msg) msg.innerHTML='<div class="fail">❌ FAIL — '+String(err&&err.message||err)+'</div>';
+  console.error(err);
+}
 
-initDropdowns();
-setTimeout(()=>{$('calc').click();},600);
+function bootHORA(){
+  $('bProvince').addEventListener('change',()=>{populate('b');update('b');});
+  $('fProvince').addEventListener('change',()=>{populate('f');update('f');});
+  $('bDistrict').addEventListener('change',()=>update('b'));
+  $('fDistrict').addEventListener('change',()=>update('f'));
+
+  $('calc').addEventListener('click',()=>{
+    try{
+      const b=getInput('b'),f=getInput('f');
+      const natal=calcAt(b.date,b.time,true,{lat:$('bLat').value,lon:$('bLon').value});
+      const transit=calcAt(f.date,f.time,false,{lat:$('fLat').value,lon:$('fLon').value});
+      render(natal,transit);
+      $('msg').innerHTML='<div class="ok">คำนวณเสร็จ — กรุณาตรวจตาราง Golden Case</div>';
+    }catch(err){ showRuntimeError(err); }
+  });
+
+  initDropdowns();
+  setTimeout(()=>{
+    try{$('calc').click();}catch(err){showRuntimeError(err);}
+  },600);
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',bootHORA,{once:true});
+}else{
+  bootHORA();
+}
