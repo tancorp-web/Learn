@@ -362,7 +362,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Suratin and uses the 808 divisor; the lunar equation is 296*sin(anomaly)/60.
   const meanUccabala = MOD(
     Math.floor(
-      ((thaloeng.horakhun + 2611 + suratinBirth) * 3 * 1800) / 808
+      ((horakhun + 2611) * 3 * 1800) / 808
     ) + 2,
     21600
   );
