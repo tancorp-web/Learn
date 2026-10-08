@@ -23,16 +23,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
 
-      # HORA เป็นเว็บ static ไม่ต้อง build ถ้ามี npm build ค่อยเพิ่มทีหลัง
-      - name: Upload HORA folder
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './HORA'
-      
+          path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
