@@ -28,14 +28,15 @@ function renderQA(natal){
   const cases=[
     {label:'Golden Case #1 — 14 ต.ค. 2534 · 01:05 · ขอนแก่น',g:GOLDEN_1991},
     {label:'Golden Case #2 — 14 ต.ค. 2518 · 01:05 · กรุงเทพมหานคร',g:GOLDEN_1975},
-    {label:'Golden Case #3 — 14 ธ.ค. 2534 · 01:05 · ขอนแก่น',g:{...GOLDEN_1991_DEC,asc:0,planets:{...GOLDEN_1991_DEC.planets}}}
+    {label:'Golden Case #3 — 14 ธ.ค. 2534 · 01:05 · ขอนแก่น',g:GOLDEN_1991_DEC}
   ];
   let html='<div class="section-title"><h2>เปรียบเทียบผลคำนวณจริง</h2><span class="badge">ไม่มี Golden shortcut</span></div><div class="hint">Golden เป็น Reference เท่านั้น ทุกค่าด้านซ้ายคำนวณจาก engine เดียวกันจริง ห้ามคืนค่าจาก Golden</div>';
   for(const c of cases){
     let calc;
     try{calc=calcAt(c.g.date,c.g.time,true,{lat:c.g.lat,lon:c.g.lon,timezone:7});}
     catch(err){html+='<div class="hint">'+c.label+'<br><span class="fail">❌ ENGINE ERROR — '+String(err?.message||err)+'</span></div>';continue}
-    const rows=[['ลัคนา',calc.asc,c.g.asc]];
+    const rows=[];
+    if(c.g.asc!==undefined)rows.push(['ลัคนา',calc.asc,c.g.asc]);
     for(const name of GOLDEN_PLANET_ORDER){const p=calc.planets.find(x=>x.name===name);if(p&&c.g.planets[name]!==undefined)rows.push([name,p.longitude,c.g.planets[name]])}
     const pass=rows.every(([,a,b])=>Math.abs(angularDiffMinutes(a,b))===0);
     html+='<div class="section-title" style="margin-top:18px"><h3>'+c.label+'</h3><span class="'+(pass?'pass':'fail')+'">'+(pass?'✅ PASS':'❌ FAIL')+'</span></div><div class="table-wrap"><table><tr><th>ดาว / จุด</th><th>คำนวณจริง</th><th>Reference</th><th>ต่างกัน</th><th>สถานะ</th></tr>';
