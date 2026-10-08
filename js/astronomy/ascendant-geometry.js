@@ -57,3 +57,28 @@ export function calculateSuriyayatraAscendant({date,latitude,longitude,suriyayat
   const asc=norm(sign*30+degree);
   return asc;
 }
+
+
+// Return clock times (HH:MM) when the transit Ascendant crosses 0° of each zodiac sign.
+// This is DISPLAY/REFERENCE data only; the ascendant calculation itself remains unchanged.
+export function calculateAscendantBoundaryTimes({date,longitude,suriyayatraSunLongitude}){
+  if(!date||!Number.isFinite(longitude)||!Number.isFinite(suriyayatraSunLongitude)) return [];
+  const sunLon=norm(suriyayatraSunLongitude);
+  const sunSign=Math.floor(sunLon/30);
+  const sunDeg=sunLon-sunSign*30;
+  const localCorrectionMinutes=(105-longitude)*4;
+  const baseLocal=6*60;
+  const firstBoundaryLocal=baseLocal-sunDeg*(ASCENSION_TABLE[sunSign]/30);
+  const out=[];
+  for(let i=0;i<12;i++){
+    const sign=(sunSign+i+12)%12;
+    let localMinutes=firstBoundaryLocal;
+    for(let j=0;j<i;j++) localMinutes+=ASCENSION_TABLE[(sunSign+j+12)%12];
+    let clock=((localMinutes+localCorrectionMinutes)%1440+1440)%1440;
+    const hh=Math.floor(clock/60).toString().padStart(2,'0');
+    const mm=Math.round(clock%60).toString().padStart(2,'0');
+    if(mm==='60') { clock=(clock+1)%1440; }
+    out.push({sign,minutes:clock,label:hh+':'+mm});
+  }
+  return out;
+}
