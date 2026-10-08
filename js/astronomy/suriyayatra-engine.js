@@ -460,17 +460,18 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Classical Thai Ketu (Suriyayatra / Manat):
   // 1) หรคุณกำเนิด + สุรทินประสงค์ = หรคุณประสงค์
   // 2) (หรคุณประสงค์ - 344) mod 679 = พลพระเกตุ
-  // 3) พลพระเกตุ -> มัธยมพระเกตุ by the 12/30/60 divisions over 679
-  // 4) สัมผุสพระเกตุ = 360° - มัธยมพระเกตุ
+  // 3) Interpolate the 679-day cycle by the birth-clock fraction.
+  // 4) พลพระเกตุ -> มัธยมพระเกตุ -> สัมผุสพระเกตุ (360° - mean Ketu)
   //
-  // IMPORTANT: Ketu is NOT Rahu + 180°. Do not add a Golden-case offset.
-  // The clock time is not part of the classical daily Ketu sequence.
+  // Ketu is NOT Rahu + 180°. No Golden-case value is injected.
   const ketuHorakhun = horakhun;
   const ketuSuratinPrasong = suratinBirth;
   const ketuHorakhunPrasong = ketuHorakhun + ketuSuratinPrasong;
   const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
-  const ketuMeanArc = ketu679Remainder * 21600 / 679;
-  const ketuTrueArc = MOD(21600 - Math.floor(ketuMeanArc), 21600);
+  const ketuDayFraction = timeMinutes / 1440;
+  const ketuCyclePosition = ketu679Remainder + ketuDayFraction;
+  const ketuMeanArc = ketuCyclePosition * 21600 / 679;
+  const ketuTrueArc = MOD(21600 - ketuMeanArc, 21600);
 
   const arcs = {
     'อาทิตย์': sun,
@@ -504,13 +505,13 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.4-CLASSICAL-KETU-TRUE-POSITION',
+      engineVersion: 'v8.5-KETU-679-TIME-INTERPOLATED',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
       moonDebug: { meanMoonArcMinutes: meanMoon, uccabalaThaloeng, uccabalaFromThaloeng, uccabalaBirth, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccavisesRasi, uccavisesDegree: uccavisesDegree, uccavisesMinute: uccavisesMinute, plakenArcMinutes: plaken, plakenRasi, plakenDegree, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
-      ketuDebug: { ketuHorakhun, ketuSuratin, ketuHorakhunPrasong, ketu679Remainder, ketuMeanArc, ketuTrueArc },
+      ketuDebug: { ketuHorakhun, ketuSuratinPrasong, ketuHorakhunPrasong, ketu679Remainder, ketuDayFraction, ketuCyclePosition, ketuMeanArc, ketuTrueArc },
       calculationTimeMinutes,
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
