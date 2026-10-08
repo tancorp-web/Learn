@@ -87,35 +87,92 @@ function luminary(mean, anomaly, table) {
   return MOD(mean + Math.floor(interpolate(q.arc, 900, table)) * q.direction, 21600);
 }
 
-function correctedPlanet(model, meanRavi) {
+function planetaryMandaSighra(model, meanRavi) {
+  // Shared arithmetic primitive only: the six named planet functions below
+  // supply their own classical Manda/Sighra constants and geometry.
   const primary = quadrant(model.primaryBase - model.anomalyOffset);
   const primaryNumerator = interpolateTableFloor(primary.arc, 1800, SHADOW_TABLE, 60);
-  const coCorrection = Math.floor(interpolate(primary.coArc, 1800, SHADOW_TABLE) + 0.5);
-  const denominator = model.denominator + Math.floor(coCorrection / 2) * primary.coDirection;
-  const first = model.primaryBase
-    + Math.floor(primaryNumerator * 60 / denominator) * primary.direction;
+  const primaryCo = Math.floor(interpolate(primary.coArc, 1800, SHADOW_TABLE) + 0.5);
+  const mandaChed = model.ched + Math.floor(primaryCo / 2) * primary.coDirection;
+  const mandaNumerator = primaryNumerator * 60;
+  const mandaResult = Math.floor(mandaNumerator / mandaChed) * primary.direction;
+  const mandaSampus = MOD(model.primaryBase + mandaResult, 21600);
 
-  const secondary = quadrant(
-    MOD(first, 21600) - (model.fixed === undefined ? model.mean : meanRavi)
-  );
+  const secondaryBase = model.secondaryBase === "ravi" ? meanRavi : model.secondaryBase;
+  const secondary = quadrant(mandaSampus - secondaryBase);
   const secondaryNumerator = interpolateTableFloor(secondary.arc, 1800, SHADOW_TABLE, 60);
-  const sineCorrection = Math.floor(Math.floor(secondaryNumerator / 60 + 0.5) / 3);
-  const scaledDenominator = model.fixed === undefined
-    ? Math.floor(denominator * model.scale)
-    : model.fixed;
-  const secondaryCoCorrection =
-    Math.floor(interpolate(secondary.coArc, 1800, SHADOW_TABLE) + 0.5);
-  const divisor = sineCorrection
-    + scaledDenominator
-    + secondaryCoCorrection * secondary.coDirection;
+  const secondaryCo = Math.floor(interpolate(secondary.coArc, 1800, SHADOW_TABLE) + 0.5);
+  const singhaPhon = Math.floor(Math.floor(secondaryNumerator / 60 + 0.5) / 3);
+  const singhaChedBase = model.singhaChed !== undefined
+    ? model.singhaChed
+    : Math.floor(mandaChed * model.singhaScale);
+  const singhaChed = singhaChedBase + secondaryCo * secondary.coDirection;
+  const mahaResult = Math.floor((secondaryNumerator * 60) / (singhaPhon + singhaChed)) * secondary.direction;
 
-  if (denominator <= 0 || divisor <= 0) {
-    throw new Error('PLANETARY_CORRECTION_DENOMINATOR_INVALID');
+  if (mandaChed <= 0 || singhaPhon + singhaChed <= 0) {
+    throw new Error("PLANETARY_MANAT_DENOMINATOR_INVALID");
   }
-  return MOD(
-    first + Math.floor(secondaryNumerator * 60 / divisor) * secondary.direction,
-    21600
-  );
+  return MOD(mandaSampus + mahaResult, 21600);
+}
+
+function calculateMarsManat(meanMars, meanRavi) {
+  return planetaryMandaSighra({
+    primaryBase: meanMars,
+    anomalyOffset: 7620,
+    ched: 2700,
+    singhaScale: 4 / 15,
+    secondaryBase: "ravi"
+  }, meanRavi);
+}
+
+function calculateMercuryManat(meanMercury, meanRavi) {
+  return planetaryMandaSighra({
+    primaryBase: meanRavi,
+    anomalyOffset: 13200,
+    ched: 6000,
+    singhaChed: 1260,
+    secondaryBase: meanMercury
+  }, meanRavi);
+}
+
+function calculateJupiterManat(meanJupiter, meanRavi) {
+  return planetaryMandaSighra({
+    primaryBase: meanJupiter,
+    anomalyOffset: 10320,
+    ched: 5520,
+    singhaScale: 3 / 7,
+    secondaryBase: "ravi"
+  }, meanRavi);
+}
+
+function calculateVenusManat(meanVenus, meanRavi) {
+  return planetaryMandaSighra({
+    primaryBase: meanRavi,
+    anomalyOffset: 4800,
+    ched: 19200,
+    singhaChed: 660,
+    secondaryBase: meanVenus
+  }, meanRavi);
+}
+
+function calculateSaturnManat(meanSaturn, meanRavi) {
+  return planetaryMandaSighra({
+    primaryBase: meanSaturn,
+    anomalyOffset: 14820,
+    ched: 3780,
+    singhaScale: 7 / 6,
+    secondaryBase: "ravi"
+  }, meanRavi);
+}
+
+function calculateUranusManat(meanUranus, meanRavi) {
+  return planetaryMandaSighra({
+    primaryBase: meanUranus,
+    anomalyOffset: 7440,
+    ched: 38640,
+    singhaScale: 3 / 7,
+    secondaryBase: "ravi"
+  }, meanRavi);
 }
 
 function parseInput(date, time) {
@@ -347,8 +404,8 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v7.8-CLASSICAL-MOON-MEAN-ARITHMETIC',
-      calculation: 'Horakhun -> exact classical mean Sun/Moon -> Madhyam -> Manat corrections -> Thai Suriyayatra sidereal positions',
+      engineVersion: 'v7.9-CLASSICAL-PLANET-MANAT-6',
+      calculation: 'Horakhun -> exact classical mean Sun/Moon -> Madhyam -> named planet-specific Manda/Singha Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
