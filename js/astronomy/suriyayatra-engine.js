@@ -457,13 +457,17 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const saturnMean = MOD(Math.trunc(epoch / 30) + Math.floor(epoch * 6 / 10000) + 11944, 21600);
   const uranusMean = MOD(Math.trunc(epoch / 84) + Math.floor(epoch / 7224) + 16277, 21600);
 
-  // Classical Ketu sequence: หรคุณกำเนิด -> สุรทินประสงค์ -> หรคุณประสงค์
-  // -> 679 remainder -> พลพระเกตุ -> มัธยมเกตุ -> สัมผุสเกตุ.
-  // The source sequence uses the whole-day horakhun; birth clock time is NOT
-  // added to this node calculation.
+  // Classical Thai Ketu (Suriyayatra / Manat):
+  // 1) หรคุณกำเนิด + สุรทินประสงค์ = หรคุณประสงค์
+  // 2) (หรคุณประสงค์ - 344) mod 679 = พลพระเกตุ
+  // 3) พลพระเกตุ -> มัธยมพระเกตุ by the 12/30/60 divisions over 679
+  // 4) สัมผุสพระเกตุ = 360° - มัธยมพระเกตุ
+  //
+  // IMPORTANT: Ketu is NOT Rahu + 180°. Do not add a Golden-case offset.
+  // The clock time is not part of the classical daily Ketu sequence.
   const ketuHorakhun = horakhun;
-  const ketuSuratin = suratinBirth;
-  const ketuHorakhunPrasong = thaloeng.horakhun + ketuSuratin;
+  const ketuSuratinPrasong = suratinBirth;
+  const ketuHorakhunPrasong = ketuHorakhun + ketuSuratinPrasong;
   const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
   const ketuMeanArc = ketu679Remainder * 21600 / 679;
   const ketuTrueArc = MOD(21600 - Math.floor(ketuMeanArc), 21600);
@@ -478,7 +482,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     'เสาร์': calculateSaturnManat(saturnMean, meanRavi),
     'มฤตยู': calculateUranusManat(uranusMean, meanRavi),
     'ราหู': MOD(15150 - MOD(Math.trunc(epoch / 20) + Math.floor(epoch / 265), 21600), 21600),
-    'เกตุ': MOD(21600 - Math.floor(ketuMeanArc), 21600)
+    'เกตุ': ketuTrueArc
   };
 
   const calendar = calendarArithmetic(horakhun, chulaSakarat);
@@ -500,7 +504,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.3-CLASSICAL-KETU',
+      engineVersion: 'v8.4-CLASSICAL-KETU-TRUE-POSITION',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
