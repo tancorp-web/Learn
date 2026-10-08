@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1020"><title>HORA Astrology</title><link rel="stylesheet" href="/static/main.css"></head>
+<body>
+<header class="hero"><div><div class="eyebrow">HORA ASTROLOGY</div><h1>ดวงชะตาไทย — Core Engine</h1><div class="sub">คำนวณครั้งเดียว · ข้อมูลกลางเดียว · ตรวจสอบย้อนหลังได้</div></div><div class="badge">ENGINE READY</div></header>
+<div class="app"><aside><div class="card form-card"><div class="section-title">ข้อมูลกำเนิด</div>
+<label>วันเกิด</label><div class="date-grid"><select id="day"></select><select id="month"></select><select id="year"></select></div>
+<div class="hint">เลือกวัน / เดือน / ปี พ.ศ. ได้โดยตรง</div>
+<label>เวลาเกิด</label><div class="time-grid"><select id="hour"></select><span>:</span><select id="minute"></select></div>
+<div class="hint">เวลาท้องถิ่นประเทศไทย UTC+7</div>
+<label>จังหวัดเกิด</label><div class="combo"><input id="provinceSearch" autocomplete="off" placeholder="พิมพ์ชื่อจังหวัดเพื่อค้นหา…"><button id="provinceClear" type="button" class="clear">×</button><div id="provinceList" class="suggestions" hidden></div></div>
+<input id="province" type="hidden"><input id="lat" type="hidden"><input id="lon" type="hidden"><div id="selectedProvince" class="selected-place">กรุงเทพมหานคร</div>
+<div class="sun-card"><div class="sun-title">☀ เวลาอ้างอิงอาทิตย์อุทัย</div><div><b>06:00 น.</b> <span>เวลาท้องถิ่น</span></div><small>ใช้เป็นเส้นแบ่งวันไทยสำหรับทักษา และเก็บอาทิตย์อุทัยจริงแยกต่างหากสำหรับลัคนา</small></div>
+<label>อายนางศะ</label><select id="ayan"><option value="lahiri">Lahiri</option><option value="fagan_bradley">Fagan/Bradley</option><option value="raman">Raman</option><option value="krishnamurti">Krishnamurti</option></select>
+<button id="calc" class="primary">คำนวณดวง</button><div id="msg" class="sub"></div></div></aside>
+<main><section class="grid"><div class="card stat"><span>ลัคนา</span><strong id="asc">—</strong><small id="sunrise">—</small></div><div class="card stat"><span>ทักษา</span><div id="thaksa">—</div></div><div class="card stat"><span>ระบบ</span><div id="meta">—</div></div></section>
+<section class="card wheel-card"><div class="section-title">จักรราศี</div><div id="wheel"></div></section><section class="card"><div class="section-title">ดาวกำเนิด</div><div id="planets"></div></section><section class="card"><div class="section-title">เรือนชะตา</div><div id="houses"></div></section><section class="card"><div class="section-title">Audit / Calculation Snapshot</div><div id="debug" class="debug">ยังไม่มีข้อมูล</div></section></main></div>
+<script type="module" src="/static/main.js"></script></body></html>
