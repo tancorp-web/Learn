@@ -117,7 +117,10 @@ function renderWheel(natal,transit){
   const planetOffset=15;
   let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff">';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/>';
-  svg+='<circle cx="'+c+'" cy="'+inner+'" r="0" fill="none"/>';
+  svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fafaf9" stroke="#334155" stroke-width="1"/>';
+  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
+  svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
+  svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="10" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
 
   // 12 ราศี: แต่ละช่อง 30° และ "กลางช่องเมษ" อยู่ที่ 12 นาฬิกา
   for(let i=0;i<12;i++){
@@ -147,7 +150,7 @@ function renderWheel(natal,transit){
   function draw(list,isTransit){
     if(!list||!list.planets)return;
     const ps=list.planets.slice().sort((a,b)=>a.longitude-b.longitude);
-    const lanes=isTransit?[188,207,226,238]:[142,158,174,190,206];
+    const lanes=isTransit?[216,228,240]:[112,130,148,166,184];
     ps.forEach((p,j)=>{
       const angle=(-90-p.longitude+planetOffset)*Math.PI/180;
       const rr=lanes[j%lanes.length];
@@ -157,7 +160,7 @@ function renderWheel(natal,transit){
       svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
       svg+='<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
       svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
-      const labelY=y+(j%2===0?-17:29);
+      const labelY=y+(j%2===0?-18:30);
       svg+='<text x="'+x+'" y="'+labelY+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
       svg+='</g>';
     });
