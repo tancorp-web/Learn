@@ -280,6 +280,7 @@ function bootHORA(){
 
   initDropdowns();
   renderNatalGoldenTable();
+  requestAnimationFrame(()=>renderNatalGoldenTable());
   setTimeout(()=>{
     try{$('calc').click();}catch(err){showRuntimeError(err);}
   },600);
