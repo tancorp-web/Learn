@@ -3,6 +3,8 @@ import { createSnapshot, saveSnapshot } from './js/debug/calculation-snapshot.js
 import { formatDeg, signOf, houseFromAsc } from './js/core/geometry.js';
 
 const $=id=>document.getElementById(id);
+function fieldValue(id,fallback=''){const el=$(id);if(!el)throw new Error('HORA_FIELD_MISSING: #'+id);return el.value==null?fallback:el.value;}
+function requireField(id){const el=$(id);if(!el)throw new Error('HORA_FIELD_MISSING: #'+id);return el;}
 let provinces=[];
 let districts=[];
 const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
@@ -73,16 +75,16 @@ function input(){
  const provinceId=readSelectValue('province','จังหวัดเกิด'),districtId=readSelectValue('district','เขต / อำเภอเกิด');
  const pv=provinceById(provinceId),dv=districtById(districtId);
  if(!pv||!dv||String(dv.provinceId)!==String(pv.id))throw new Error('กรุณาเลือกเขต / อำเภอเกิดให้ตรงกับจังหวัด');
- return {name:fullName.value.trim()||'ไม่ระบุชื่อ',date:ad+'-'+pad(month)+'-'+pad(day),time:pad(hour)+':'+pad(minute),province:pv.name,district:dv.name,latitude:Number($('latInput').value),longitude:Number($('lonInput').value),timezone:Number($('tzInput').value||7),calendar:$('calendar').value||'suriyayatra',ascMethod:$('ascMethod').value||'anto06adjusted',nodeMethod:$('nodeMethod').value||'thai',thaiDayBoundary:'06:00'};
+ return {name:fieldValue('fullName').trim()||'ไม่ระบุชื่อ',date:ad+'-'+pad(month)+'-'+pad(day),time:pad(hour)+':'+pad(minute),province:pv.name,district:dv.name,latitude:Number(fieldValue('latInput')),longitude:Number(fieldValue('lonInput')),timezone:Number(fieldValue('tzInput',7)||7),calendar:fieldValue('calendar','suriyayatra')||'suriyayatra',ascMethod:fieldValue('ascMethod','anto06adjusted')||'anto06adjusted',nodeMethod:fieldValue('nodeMethod','thai')||'thai',thaiDayBoundary:'06:00'};
 }
 function forecastInput(base){
  const now=new Date();
- const date=$('forecastDateInput').value||(now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()));
- const time=$('forecastTimeInput').value||(pad(now.getHours())+':'+pad(now.getMinutes()));
+ const date=fieldValue('forecastDateInput')||(now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()));
+ const time=fieldValue('forecastTimeInput')||(pad(now.getHours())+':'+pad(now.getMinutes()));
  const provinceId=readSelectValue('forecastProvince','จังหวัดสถานที่จร'),districtId=readSelectValue('forecastDistrict','เขต / อำเภอสถานที่จร');
  const pv=provinceById(provinceId),dv=districtById(districtId);
  if(!pv||!dv||String(dv.provinceId)!==String(pv.id))throw new Error('กรุณาเลือกเขต / อำเภอสถานที่จรให้ตรงกับจังหวัด');
- return {...base,date:date,time:time,province:pv.name,district:dv.name,latitude:Number($('forecastLat').value),longitude:Number($('forecastLon').value),timezone:Number($('forecastTz').value||base.timezone)};
+ return {...base,date:date,time:time,province:pv.name,district:dv.name,latitude:Number(fieldValue('forecastLat')),longitude:Number(fieldValue('forecastLon')),timezone:Number(fieldValue('forecastTz',base.timezone)||base.timezone)};
 }
 function errorText(e){
  if(e instanceof Error)return e.stack||e.message||String(e);
