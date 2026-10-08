@@ -116,17 +116,28 @@ function calcAt(i,date){
 }
 function previewChart(i){return calcAt(i,parseLocalDate(i));}
 function renderWheel(r){
- const c=250,rad=215;let s='<svg viewBox="0 0 500 500" class="wheel" role="img" aria-label="HORA Zodiac Wheel"><circle cx="250" cy="250" r="215" fill="none" stroke="#55627c"/><circle cx="250" cy="250" r="150" fill="none" stroke="#33405a"/>';
+ const c=250,rad=215;
+ const planetNo={'อาทิตย์':'1','จันทร์':'2','อังคาร':'3','พุธ':'4','พฤหัสบดี':'5','ศุกร์':'6','เสาร์':'7','ราหู':'8','เกตุ':'9'};
+ let s='<svg viewBox="0 0 500 500" class="wheel" role="img" aria-label="HORA Zodiac Wheel">';
+ s+='<circle cx="250" cy="250" r="215" fill="none" stroke="#55627c"/><circle cx="250" cy="250" r="150" fill="none" stroke="#33405a"/>';
  for(let i=0;i<12;i++){
   const boundary=(i*30-15-90)*Math.PI/180,x=c+rad*Math.cos(boundary),y=c+rad*Math.sin(boundary);
   const label=(i*30-90)*Math.PI/180,lx=c+(rad-25)*Math.cos(label),ly=c+(rad-25)*Math.sin(label);
   s+=`<line x1="250" y1="250" x2="${x}" y2="${y}" stroke="#33405a"/><text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#d8b36a">${signs[i]}</text>`;
  }
+ const seen={};
  for(const p of r.planets){
-  const a=(p.longitude-90)*Math.PI/180,x=c+125*Math.cos(a),y=c+125*Math.sin(a);
-  s+=`<circle cx="${x}" cy="${y}" r="10" fill="#131a2c" stroke="#d8b36a"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="9">${p.name[0]}</text>`;
+  const a=(p.longitude-90)*Math.PI/180;
+  const key=Math.round(p.longitude/2);
+  seen[key]=(seen[key]||0)+1;
+  const rr=118+((seen[key]-1)%3)*18;
+  const x=c+rr*Math.cos(a),y=c+rr*Math.sin(a);
+  const label=planetNo[p.name]||p.name[0];
+  const title=planetNo[p.name]?p.name+' = ดาวหมายเลข '+planetNo[p.name]:p.name;
+  s+=`<g><title>${title}</title><circle cx="${x}" cy="${y}" r="11" fill="#131a2c" stroke="#d8b36a" stroke-width="1.5"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">${label}</text></g>`;
  }
- s+='</svg>';$('wheel').innerHTML=s;
+ s+='</svg>';
+ $('wheel').innerHTML=s;
 }
 function renderTransits(i){
  const now=new Date();
