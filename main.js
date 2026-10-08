@@ -21,7 +21,7 @@ function initBirthSelectors(){
  const now=new Date(); $('forecastDateInput').value=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()); $('forecastTimeInput').value=pad(now.getHours())+':'+pad(now.getMinutes());
 }
 async function loadPlaces(){
- const r=await fetch('./data/provinces.json'); const d=await fetch('./data/districts.json'); if(!r.ok||!d.ok) throw new Error('โหลดข้อมูลจังหวัด/อำเภอไม่ได้'); provinces=await r.json(); districts=await d.json(); populateProvinceSelects(); setProvince('birth','กรุงเทพมหานคร','พระนคร'); setProvince('forecast','กรุงเทพมหานคร','พระนคร');
+ const r=await fetch('./data/provinces.json'); const d=await fetch('./data/districts.json'); if(!r.ok||!d.ok) throw new Error('โหลดข้อมูลจังหวัด/อำเภอไม่ได้'); provinces=await r.json(); districts=await d.json(); populateProvinceSelects(); const bangkok=provinceByName('กรุงเทพมหานคร'); if(!bangkok)throw new Error('ไม่พบจังหวัดกรุงเทพมหานครในข้อมูล'); setProvince('birth',bangkok.id,'พระนคร'); setProvince('forecast',bangkok.id,'พระนคร');
 }
 function provinceById(id){return provinces.find(function(p){return String(p.id)===String(id);});}
 function provinceByName(n){return provinces.find(function(p){return p.name===n;});}
