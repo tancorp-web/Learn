@@ -24,9 +24,16 @@ async function loadProvinces(){
 }
 function selectProvince(p){if(!p)return;$('province').value=p.name;$('lat').value=p.lat;$('lon').value=p.lon;$('provinceSearch').value=p.name;$('selectedProvince').textContent=`${p.name} · ${p.lat.toFixed(4)}, ${p.lon.toFixed(4)}`;$('provinceList').hidden=true;}
 function renderProvinceList(q=''){const s=q.trim().toLowerCase();const arr=provinces.filter(p=>!s||p.name.toLowerCase().includes(s)||p.en.toLowerCase().includes(s)).slice(0,12);$('provinceList').innerHTML=arr.map(p=>`<button type="button" class="suggestion" data-name="${p.name}"><b>${p.name}</b><small>${p.en}</small></button>`).join('')||'<div class="no-result">ไม่พบจังหวัด</div>';$('provinceList').hidden=false;$('provinceList').querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>selectProvince(provinces.find(p=>p.name===b.dataset.name))));}
-function input(){const be=Number($('year').value),ad=be-543;return{date:`${ad}-${pad($('month').value)}-${pad($('day').value)}`,time:`${pad($('hour').value)}:${pad($('minute').value)}`,province:$('province').value,latitude:Number($('lat').value),longitude:Number($('lon').value),timezone:7,ayanamsa:$('ayan').value,thaiDayBoundary:'06:00'};}
-
-
+function input(){
+ const be=Number($('year').value),ad=be-543;
+ return {name:$('fullName')?.value.trim()||'ไม่ระบุชื่อ',date:`${ad-${{pad($('month').value)}-${{pad($('day').value)}`,time:`${{pad($('hour').value)}:${{pad($('minute').value)}`,province:$('province').value||'กรุงเทพมหานคร',district:$('district')?.value||'',latitude:Number($('latInput')?.value||$('lat').value),longitude:Number($('lonInput')?.value||$('lon').value),timezone:Number($('tzInput')?.value||7),calendar:$('calendar')?.value||'suriyayatra',ascMethod:$('ascMethod')?.value||'anto06adjusted',nodeMethod:$('nodeMethod')?.value||'thai',thaiDayBoundary:'06:00'};
+}
+function forecastInput(base){
+ const now=new Date();
+ const date=$('forecastDateInput')?.value||`${{now.getFullYear()}-${{pad(now.getMonth()+1)}-${{pad(now.getDate())}`;
+ const time=$('forecastTimeInput')?.value||`${{pad(now.getHours())}:${{pad(now.getMinutes())}`;
+ return {...base,date,time,province:$('forecastProvince')?.value||base.province,district:$('forecastDistrict')?.value||base.district,latitude:Number($('forecastLat')?.value||base.latitude),longitude:Number($('forecastLon')?.value||base.longitude),timezone:Number($('forecastTz')?.value||base.timezone)};
+}
 function errorText(e){
  if(e instanceof Error)return e.stack||e.message||String(e);
  if(e&&typeof e==='object'){
@@ -60,10 +67,8 @@ function lahiriAyanamsa(date){
  const T=(jd-2451545.0)/36525;
  return 23+51/60+25.5/3600+(5028.796*T+1.105*T*T)/3600;
 }
-function siderealLon(tropical,date,ayan){
- if(ayan!=='lahiri') throw new Error('HORA Browser Engine รองรับ Lahiri เท่านั้นในโหมดตรวจสอบ');
- return (tropical-lahiriAyanamsa(date)+360)%360;
-}
+function siderealLon(tropical,date){ return tropical; }
+function thaiSuriyayatraLon(tropical,date){ return (tropical-lahiriAyanamsa(date)+360)%360; }
 function astroLon(body,date){
  // Direct geocentric ecliptic longitude of date.
  // The explicit false disables aberration in GeoVector; this is a real
@@ -96,22 +101,22 @@ function calcAt(i,date){
  if(!date || Number.isNaN(date.getTime())) throw new Error('วันที่/เวลาไม่ถูกต้อง');
  if(!Number.isFinite(i.latitude)||!Number.isFinite(i.longitude)) throw new Error('พิกัดละติจูด/ลองจิจูดไม่ถูกต้อง');
 
- const asc=siderealLon(ascTropical(date,i.latitude,i.longitude),date,i.ayanamsa);
+ const asc=thaiSuriyayatraLon(ascTropical(date,i.latitude,i.longitude),date);
  const bodies=[
   ['อาทิตย์',Astronomy.Body.Sun],['จันทร์',Astronomy.Body.Moon],['พุธ',Astronomy.Body.Mercury],
   ['ศุกร์',Astronomy.Body.Venus],['อังคาร',Astronomy.Body.Mars],['พฤหัสบดี',Astronomy.Body.Jupiter],
   ['เสาร์',Astronomy.Body.Saturn],['มฤตยู',Astronomy.Body.Uranus],['เนปจูน',Astronomy.Body.Neptune],['พลูโต',Astronomy.Body.Pluto]
  ];
  const planets=bodies.map(([name,body])=>{
-  const lon=siderealLon(astroLon(body,date),date,i.ayanamsa);
+  const lon=thaiSuriyayatraLon(astroLon(body,date),date);
   return {id:name,name,longitude:lon,sign:signObj(lon),house:houseFromAsc(lon,asc),retrograde:retrograde(body,date)};
  });
- const rahu=siderealLon(meanNode(date),date,i.ayanamsa);
+ const rahu=thaiSuriyayatraLon(meanNode(date),date);
  planets.push({id:'ราหู',name:'ราหู',longitude:rahu,sign:signObj(rahu),house:houseFromAsc(rahu,asc),retrograde:true});
  planets.push({id:'เกตุ',name:'เกตุ',longitude:(rahu+180)%360,sign:signObj(rahu+180),house:houseFromAsc(rahu+180,asc),retrograde:true});
  const houses=Array.from({length:12},(_,k)=>{const lon=(asc+k*30)%360;return{number:k+1,name:houseNames[k],cusp:lon,sign:signObj(lon)};});
  return {
-  metadata:{engineVersion:'2.0.0-browser',rulesetVersion:'2.0.0',ephemeris:'Astronomy Engine 2.1.19',ayanamsa:i.ayanamsa,coordinateSystem:'sidereal',houseModel:'whole-sign',status:'SURiyayat_ascendant_fix_PENDING_FULL_PLANET_GOLDEN_CASE'},
+  metadata:{engineVersion:'2.0.0-browser',rulesetVersion:'2.0.0',ephemeris:'Astronomy Engine 2.1.19',ayanamsa:i.ayanamsa,coordinateSystem:'sidereal',houseModel:'whole-sign',status:'CALCULATION_REQUIRES_FULL_SURiyayatra_GOLDEN_CASE_VALIDATION'},
   input:i,utc:date.toISOString(),sunrise:null,
   ascendant:{longitude:asc,sign:signObj(asc),navamsa:{signName:signs[Math.floor(asc/30)]}},
   planets,houses,
