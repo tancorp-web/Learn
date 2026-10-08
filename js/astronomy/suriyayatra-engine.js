@@ -52,6 +52,10 @@ function solarIntradayUnits(timeMinutes) {
   return Math.floor(timeMinutes * 5 / 9);
 }
 
+function meanLunarApogeeArcMinutes(dayIndex, timeMinutes) {
+  return Math.floor((dayIndex * 1440 + timeMinutes) * 15 / 3232) + 2;
+}
+
 function thaloengSokReference(chulaSakarat) {
   const horakhun = Math.floor((292207 * chulaSakarat + 373) / 800) + 1;
   const equationUnits = chulaSakarat * 207 + 800 * (
@@ -84,6 +88,8 @@ function luminary(mean, anomaly, table) {
 }
 
 function planetaryMandaSighra(model, meanRavi) {
+  // Shared arithmetic primitive only: the six named planet functions below
+  // supply their own classical Manda/Sighra constants and geometry.
   const primary = quadrant(model.primaryBase - model.anomalyOffset);
   const primaryNumerator = interpolateTableFloor(primary.arc, 1800, SHADOW_TABLE, 60);
   const primaryCo = Math.floor(interpolate(primary.coArc, 1800, SHADOW_TABLE) + 0.5);
@@ -111,43 +117,61 @@ function planetaryMandaSighra(model, meanRavi) {
 
 function calculateMarsManat(meanMars, meanRavi) {
   return planetaryMandaSighra({
-    primaryBase: meanMars, anomalyOffset: 7620, ched: 2700,
-    singhaScale: 4 / 15, secondaryBase: "ravi"
+    primaryBase: meanMars,
+    anomalyOffset: 7620,
+    ched: 2700,
+    singhaScale: 4 / 15,
+    secondaryBase: "ravi"
   }, meanRavi);
 }
 
 function calculateMercuryManat(meanMercury, meanRavi) {
   return planetaryMandaSighra({
-    primaryBase: meanRavi, anomalyOffset: 13200, ched: 6000,
-    singhaChed: 1260, secondaryBase: meanMercury
+    primaryBase: meanRavi,
+    anomalyOffset: 13200,
+    ched: 6000,
+    singhaChed: 1260,
+    secondaryBase: meanMercury
   }, meanRavi);
 }
 
 function calculateJupiterManat(meanJupiter, meanRavi) {
   return planetaryMandaSighra({
-    primaryBase: meanJupiter, anomalyOffset: 10320, ched: 5520,
-    singhaScale: 3 / 7, secondaryBase: "ravi"
+    primaryBase: meanJupiter,
+    anomalyOffset: 10320,
+    ched: 5520,
+    singhaScale: 3 / 7,
+    secondaryBase: "ravi"
   }, meanRavi);
 }
 
 function calculateVenusManat(meanVenus, meanRavi) {
   return planetaryMandaSighra({
-    primaryBase: meanRavi, anomalyOffset: 4800, ched: 19200,
-    singhaChed: 660, secondaryBase: meanVenus
+    primaryBase: meanRavi,
+    anomalyOffset: 4800,
+    ched: 19200,
+    singhaChed: 660,
+    secondaryBase: meanVenus
   }, meanRavi);
 }
 
 function calculateSaturnManat(meanSaturn, meanRavi) {
   return planetaryMandaSighra({
-    primaryBase: meanSaturn, anomalyOffset: 14820, ched: 3780,
-    singhaScale: 7 / 6, secondaryBase: "ravi"
+    primaryBase: meanSaturn,
+    anomalyOffset: 14820,
+    ched: 3780,
+    singhaScale: 7 / 6,
+    secondaryBase: "ravi"
   }, meanRavi);
 }
 
 function calculateUranusManat(meanUranus, meanRavi) {
   return planetaryMandaSighra({
-    primaryBase: meanUranus, anomalyOffset: 7440, ched: 38640,
-    singhaScale: 3 / 7, secondaryBase: "ravi"
+    primaryBase: meanUranus,
+    anomalyOffset: 7440,
+    ched: 38640,
+    singhaScale: 3 / 7,
+    secondaryBase: "ravi"
   }, meanRavi);
 }
 
@@ -178,31 +202,58 @@ function shiftCivilDate(date, days) {
 }
 
 function calendarArithmetic(horakhun, chulaSakarat) {
+  // Classical Suriyayatra "Atta Thaloeng Sok" arithmetic.
+  // References give the year-opening quantities:
+  // Kammachaphon, Avaman, Tithi, Masagen and the month criterion.
   const total = horakhun * 11 + 650;
   const avaman = MOD(total, 692);
   const tithiQuotient = Math.floor(total / 692);
   const tithi = MOD(tithiQuotient + horakhun, 30);
   const masa = Math.floor(tithiQuotient / 30);
-  const monthCriterion = MOD(masa - Math.floor(masa * 7 / 235), 12);
+  const monthCriterion = MOD(
+    masa - Math.floor(masa * 7 / 235),
+    12
+  );
 
   const cs = chulaSakarat;
   const csNumerator = cs * 292207 + 373;
   const csRemainder = MOD(csNumerator, 800);
   const kammachaphon = csRemainder === 0 ? 0 : 800 - csRemainder;
 
+  // Suriyayatra calendar rule:
+  // Kammachaphon < 207 => adhika-suratina year.
+  // Normal solar year: Avaman < 137 => Adhikavara.
+  // Adhika-suratina year: Avaman < 126 => Adhikavara.
   const isAdhikaSuratin = kammachaphon < 207;
   const isAdhikavara = avaman < (isAdhikaSuratin ? 126 : 137);
+
+  // Calendar criterion number:
+  // normal solar + adhikavara = 10
+  // adhika solar + adhikavara = 11
+  // normal solar + normal vara = 11
+  // adhika solar + normal vara = 12
   const adhikamasCriterion =
     isAdhikaSuratin
       ? (isAdhikavara ? 11 : 12)
       : (isAdhikavara ? 10 : 11);
+
   const isAdhikamas = tithi + adhikamasCriterion >= 30;
 
   return {
-    masa, tithi, avaman, dayAvaman: 703, tithiAvaman: 692,
-    monthTithiCount: 30, monthBoundaryAvaman: MOD(total, 30 * 692),
-    chulaSakarat: cs, kammachaphon, isAdhikaSuratin, isAdhikavara,
-    adhikamasCriterion, isAdhikamas, lunarMonth: monthCriterion,
+    masa,
+    tithi,
+    avaman,
+    dayAvaman: 703,
+    tithiAvaman: 692,
+    monthTithiCount: 30,
+    monthBoundaryAvaman: MOD(total, 30 * 692),
+    chulaSakarat: cs,
+    kammachaphon,
+    isAdhikaSuratin,
+    isAdhikavara,
+    adhikamasCriterion,
+    isAdhikamas,
+    lunarMonth: monthCriterion,
     calendarRule: 'อัตตาเถลิงศก: กัมมัชพล/อวมาน/ดิถี + เกณฑ์ 10/11/12'
   };
 }
@@ -222,66 +273,18 @@ function motionFor(name, date, time, longitude) {
   return { state, retrograde: state === MOTION_STATES.RETROGRADE, speedArcminPerDay: speed, meanSpeedArcminPerDay: meanSpeed };
 }
 
-function classicalMeanMoon({
-  meanSun,
-  horakhun,
-  thaloengHorakhun,
-  timeMinutes
-}) {
-  // Classical Suriyayatra birth-day count is counted from the day BEFORE
-  // Thaloeng Sok. Published worked examples use this count directly:
-  // 27 Oct 2526 => Suratin Prasong = 196.
-  const suratinPrasong = horakhun - thaloengHorakhun + 1;
-
-  // Avaman Thaloeng Sok and the quotient that becomes part of Tithi.
-  const thaloengTotal = thaloengHorakhun * 11 + 650;
-  const avamanThaloengSok = MOD(thaloengTotal, 692);
-  const tithiThaloengSok = MOD(Math.floor(thaloengTotal / 692) + thaloengHorakhun, 30);
-
-  // The published mean-Moon construction is:
-  //   Avaman Prasong = (Suratin Prasong*11 + Avaman Thaloeng Sok) mod 692
-  //   Tithi Prasong = quotient + Suratin Prasong + Tithi Thaloeng Sok
-  //   Avaman/25 -> phila; (Avaman+phila)/60 -> degrees+minutes
-  //   Tithi*12 -> zodiac degrees; subtract 40' and add Madhyam Sun.
-  const avamanTotal = suratinPrasong * 11 + avamanThaloengSok;
-  const avamanPrasong = MOD(avamanTotal, 692);
-  const avamanQuotient = Math.floor(avamanTotal / 692);
-  const tithiPrasong = MOD(
-    avamanQuotient + suratinPrasong + tithiThaloengSok,
-    30
-  );
-
-  const phila = Math.floor(avamanPrasong / 25);
-  const avamanArcMinutes = avamanPrasong + phila;
-  const tithiArcMinutes = tithiPrasong * 12 * 60;
-
-  return {
-    suratinPrasong,
-    avamanThaloengSok,
-    avamanPrasong,
-    avamanQuotient,
-    tithiThaloengSok,
-    tithiPrasong,
-    phila,
-    avamanArcMinutes,
-    tithiArcMinutes,
-    meanMoon: MOD(meanSun + avamanArcMinutes + tithiArcMinutes - 40, 21600),
-    // Time is intentionally not folded into Madhyam Chandra here.
-    // The published Madhyam-Chandra worked construction is day-based;
-    // the birth-time-dependent Avaman is a separate "Avaman Kamnoed"
-    // stage and must not be mixed into this Madhyam-Chandra sequence.
-    timeMinutes: timeMinutes
-  };
-}
-
 export function calculateSuriyayatra({ date, time, longitude, includeMotion = true }) {
   const input = parseInput(date, time);
   const {year,month,day,hour,minute} = input;
   const timeMinutes = hour * 60 + minute;
-
+  // Planetary Suriyayatra arithmetic uses the civil birth clock for the
+  // day-based Madhyam/Horakhun sequence. Province-meridian correction is
+  // applied ONLY by the separate Anto-natee ascendant calculation.
+  // Golden values are QA references only and are never used as inputs.
   const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
   const calculationTimeMinutes = timeMinutes;
 
+  // Horakhun is tied to the civil Gregorian date, not the browser timezone.
   const julianDayNumber = civilJulianDay(year, month, day);
   const horakhun = julianDayNumber - 1954167;
   const yearBe = year + 543;
@@ -297,6 +300,10 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const solarUnits = solarIntradayUnits(calculationTimeMinutes);
   const solarCycleUnits = MOD((horakhun - 1) * 800 + solarUnits - 373, 292207);
 
+  // Classical birth-day arithmetic:
+  // Suratin birth = number of civil days counted after the Atta Thaloeng Sok day.
+  // Kammachaphon birth = Suratin birth × 800 + Kammachaphon Atta + intraday units.
+  // This is the quantity that is divided by 24350 for Madhyam Sun.
   const attaKammachaphon = MOD(800 - MOD(cs * 292207 + 373, 800), 800);
   const suratinBirth = horakhun - thaloeng.horakhun - 1;
   const kammachaphonBirth = suratinBirth * 800 + attaKammachaphon + solarUnits;
@@ -310,25 +317,53 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     21600
   );
   const meanRavi = MOD(meanSun - 23, 21600);
+  // Classical "กำลังพระเคราะห์":
+  // (จ.ศ. - 610) × 12 ราศี + ราศี/องศา/ลิปดาของมัธยมรวิ.
+  // When represented in arcminutes, one full zodiac = 12 × 30 × 60 = 21600.
   const planetaryPowerArcMinutes =
     (chulaSakarat - 610) * 21600 + meanRavi;
   const epoch = planetaryPowerArcMinutes;
 
   const sun = luminary(meanSun, meanSun - 4800, SUN_TABLE);
 
-  const moonMath = classicalMeanMoon({
-    meanSun,
-    horakhun,
-    thaloengHorakhun: thaloeng.horakhun,
-    timeMinutes
-  });
-  const meanMoon = moonMath.meanMoon;
+  // Classical Manat/Suriya-yatra mean Moon.
+  // The published method uses Suratin Prasong + Avaman Thaloeng Sok
+  // to obtain Avaman Prasong and Tithi Prasong, then converts those
+  // directly to zodiac arc before subtracting 40' and adding Madhyam Sun.
+  // Source worked example: Avaman 224 -> 8° + 3°52'24".
+  const avamanThaloengSok = MOD(thaloeng.horakhun * 11 + 650, 692);
+  const avamanPrasong = MOD(suratinBirth * 11 + avamanThaloengSok, 692);
+  const tithiThaloengSok = MOD(
+    Math.floor((thaloeng.horakhun * 11 + 650) / 692)
+      + thaloeng.horakhun,
+    30
+  );
+  const tithiPrasong = MOD(
+    Math.floor((suratinBirth * 11 + avamanThaloengSok) / 692)
+      + suratinBirth
+      + tithiThaloengSok,
+    30
+  );
 
-  // Classical true Moon correction: mean Uccabala -> 296*sin(anomaly)/60.
-  // Keep the existing v8.0 Uccabala/true-Moon stage isolated until its
-  // independent source calculation is completed; no Golden calibration.
+  const avamanWhole = Math.floor(avamanPrasong / 25);
+  const avamanRemainder = MOD(avamanPrasong, 25);
+  const avamanArcMinutes =
+    avamanWhole + avamanPrasong + avamanRemainder / 60;
+
+  // Classical notation: one Tithi = 12 degrees; Avaman contribution is
+  // (Avaman + floor(Avaman/25)) / 60 degrees; subtract 40'.
+  const tithiArcMinutes = tithiPrasong * 12 * 60;
+  const meanMoon = MOD(
+    meanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
+    21600
+  );
+  // Classical true Moon correction uses mean Uccabala, not the generic
+  // interpolation table. Uccabala advances from the Thaloeng Sok base by
+  // Suratin and uses the 808 divisor; the lunar equation is 296*sin(anomaly)/60.
   const meanUccabala = MOD(
-    Math.floor(((horakhun + 2611) * 3 * 1800) / 808) + 2,
+    Math.floor(
+      ((horakhun + 2611) * 3 * 1800) / 808
+    ) + 2,
     21600
   );
   const moonAnomaly = MOD(meanMoon - meanUccabala, 21600);
@@ -375,9 +410,13 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   });
 
   return {
-    date, time, jd: julianDayNumber, harakun: horakhun, planets,
+    date,
+    time,
+    jd: julianDayNumber,
+    harakun: horakhun,
+    planets,
     metadata: {
-      engineVersion: 'v8.1-CLASSICAL-MOON-CHAIN',
+      engineVersion: 'v8.0-CLASSICAL-MOON-MANAT',
       calculation: 'Horakhun -> exact classical mean Sun/Moon -> Madhyam -> named planet-specific Manda/Singha Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
@@ -389,7 +428,6 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
       meanRaviArcMinutes: meanRavi,
       planetaryPowerArcMinutes,
       planetaryEpochArcMinutes: epoch,
-      lunarMean: moonMath,
       calendar,
       motionModel: 'centered 1-day angular speed; retrograde if negative; mand slower than mean daily speed; serit faster than mean daily speed'
     }
