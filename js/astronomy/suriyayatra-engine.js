@@ -333,8 +333,11 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Source worked example: Avaman 224 -> 8° + 3°52'24".
   const avamanThaloengSok = MOD(thaloeng.horakhun * 11 + 650, 692);
   const avamanPrasong = MOD(suratinBirth * 11 + avamanThaloengSok, 692);
-  const tithiThaloengSok =
-    MOD(Math.floor((thaloeng.horakhun * 11 + 650) / 692), 30);
+  const tithiThaloengSok = MOD(
+    Math.floor((thaloeng.horakhun * 11 + 650) / 692)
+      + thaloeng.horakhun,
+    30
+  );
   const tithiPrasong = MOD(
     Math.floor((suratinBirth * 11 + avamanThaloengSok) / 692)
       + suratinBirth
@@ -347,14 +350,11 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const avamanArcMinutes =
     avamanWhole + avamanPrasong + avamanRemainder / 60;
 
-  const tithiUnits = tithiPrasong * 12;
-  const tithiWholeDegrees = Math.floor(tithiUnits / 30);
-  const tithiRemainderDegrees = MOD(tithiUnits, 30);
-  const tithiArcMinutes =
-    tithiWholeDegrees * 60 + tithiRemainderDegrees;
-
+  // Classical notation: one Tithi = 12 degrees; Avaman contribution is
+  // (Avaman + floor(Avaman/25)) / 60 degrees; subtract 40'.
+  const tithiArcMinutes = tithiPrasong * 12 * 60;
   const meanMoon = MOD(
-    meanSun + avamanArcMinutes + tithiArcMinutes - 40,
+    meanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
     21600
   );
   const apogeeDayIndex = MOD(horakhun - 1 - 621, 3232);
