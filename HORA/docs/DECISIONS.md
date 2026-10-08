@@ -1,0 +1,12 @@
+# HORA Decisions v1.0.0
+- Aries = 0°, counterclockwise wheel.
+- Display precision = degree + minute; internal precision retained.
+- Thai day boundary = actual sunrise for day-based rules where applicable; the UI also exposes the 06:00 local reference requested for the Thai workflow.
+- Thailand default timezone = UTC+7, no DST.
+- Province selection resolves coordinates.
+- Canonical planet position = absolute longitude.
+- HORA Standard default = sidereal Lahiri.
+- Rahu = mean node; Ketu = Rahu + 180° in the first engine version.
+- House engine default = Ascendant-starting 30° houses.
+- Unverified rules remain RESEARCH/PROVISIONAL.
+- Interpretation never mutates calculation facts.
