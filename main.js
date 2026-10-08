@@ -4,9 +4,27 @@ import { calculateSuriyayatraAscendant } from './js/astronomy/ascendant-geometry
 
 // HORA v5.3 main.js - Thai Suriyayat calculation engine integrated
 // ใช้สูตรสุริยยาตร์ integer engine + อันโตนาทีสามัญจริงจากโมดูล
-\n// Dropdown/date validation: day count follows selected BE year/month; leap years handled by Gregorian conversion.
+
+// Dropdown/date validation: day count follows selected BE year/month; leap years handled by Gregorian conversion.
 // เมษอยู่บน 12 นาฬิกา
 // หมายเหตุ: เมนูสูตรเป็น Master Specification; ห้ามถือข้อความใน UI แทนสูตรที่ยังไม่พิสูจน์
+// ===== HORA DEBUG / COPY ERROR =====
+window.__HORA_LOGS__ = window.__HORA_LOGS__ || [];
+function horaLog(type, detail, extra){
+  const row={time:new Date().toISOString(),type,detail:String(detail||''),extra:extra||null};
+  window.__HORA_LOGS__.push(row);
+  try{console.log('[HORA]',row.type,row.detail,row.extra||'');}catch(_){}
+  const box=document.getElementById('errorLog');
+  if(box){
+    const pre=box.querySelector('pre');
+    if(pre) pre.textContent=window.__HORA_LOGS__.map(x=>JSON.stringify(x)).join('\n');
+    box.style.display='block';
+  }
+}
+window.addEventListener('error',e=>horaLog('WINDOW_ERROR',e.message||'Unknown error',{file:e.filename||'',line:e.lineno||0,column:e.colno||0,stack:e.error&&e.error.stack||''}));
+window.addEventListener('unhandledrejection',e=>horaLog('UNHANDLED_REJECTION',e.reason&&e.reason.message||String(e.reason||'Unknown rejection'),{stack:e.reason&&e.reason.stack||''}));
+window.__HORA_DEBUG_INSTALLED__=true;
+
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
 const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
@@ -250,9 +268,18 @@ function render(natal,transit){
 }
 
 document.getElementById('calc').addEventListener('click',function(){
+  horaLog('CALCULATE_START','เริ่มคำนวณ',{birth:getInput('b'),forecast:getInput('f')});
   const b=getInput('b'),f=getInput('f');
-  const natal=calcAt(b.date,b.time,true,{lat:Number($('bLat').value),lon:Number($('bLon').value),timezone:7});natal.beYear=b.beYear;
-  const transit=calcAt(f.date,f.time,false,{lat:Number($('fLat').value),lon:Number($('fLon').value),timezone:7});
+  let natal,transit;
+  try{
+    natal=calcAt(b.date,b.time,true,{lat:Number($('bLat').value),lon:Number($('bLon').value),timezone:7});natal.beYear=b.beYear;
+      transit=calcAt(f.date,f.time,false,{lat:Number($('fLat').value),lon:Number($('fLon').value),timezone:7});
+  }catch(err){
+    horaLog('CALCULATE_ERROR',err&&err.message||String(err),{stack:err&&err.stack||''});
+    $('msg').innerHTML='<div style="background:#fee2e2;color:#991b1b;padding:10px;border-radius:8px">❌ คำนวณไม่สำเร็จ — ดูกล่อง LOG ด้านล่าง แล้วกดคัดลอกข้อผิดพลาด</div>';
+    return;
+  }
+  horaLog('CALCULATE_OK','คำนวณสำเร็จ',{asc:natal.asc,planets:natal.planets.map(p=>({name:p.name,longitude:p.longitude}))});
   const qa=goldenQA(natal,b);
   render(natal,transit);
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
