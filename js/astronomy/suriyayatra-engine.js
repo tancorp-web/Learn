@@ -657,12 +657,15 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const ketu = ketu679FromMonth88Start(date, yearBe);
   const ketuTrueArc = ketu.arcMinutes;
   const ketuMonth88 = ketu.month88;
-  const ketuDaysFromMonth88 = utcCivilDayDifference(date, ketuMonth88.date);
-  const ketuCycleDays = MOD(ketuDaysFromMonth88, KETU_679_CYCLE_DAYS);
+  const ketuDaysFromMonth88 = ketu.daysFromMonth88Start;
+  const ketuCycleDays = ketu.mode === 'month88-679'
+    ? MOD(ketuDaysFromMonth88, KETU_679_CYCLE_DAYS)
+    : null;
   const ketuSpeedArcminPerDay = KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS;
 
   const ketuDebug = {
-    referenceDate: ketuMonth88.date,
+    mode: ketu.mode,
+    referenceDate: ketuMonth88 ? ketuMonth88.date : null,
     birthDate: date,
     daysFromMonth88Start: ketuDaysFromMonth88,
     cycleDays: ketuCycleDays,
@@ -675,10 +678,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     trueDegree: Math.floor(MOD(ketuTrueArc, 1800) / 60),
     trueMinute: MOD(ketuTrueArc, 60),
     calendarCorrectionDays: 0,
-    calendarRule: 'หาเดือน 88 ของปีอธิกมาส → ใช้วันเริ่มต้นจริง → นับวันเกิดจริง → 679 วัน = 360°; ไม่ลบ 30 วันซ้ำ',
+    calendarRule: ketu.mode === 'month88-679'
+      ? 'ปีอธิกมาสและเกิดตั้งแต่เดือน 88 → นับวันจริงจากวันเริ่มเดือน 88 → 679 วัน = 360°'
+      : 'ไม่ใช่ปีอธิกมาส หรือเกิดก่อนเดือน 88 → ใช้สูตรเกตุเดิม ไม่ใช้วันเริ่มเดือน 88',
     isAdhikamas: ketuCalendar.isAdhikamas,
-    month88BeYear: ketuMonth88.beYear,
-    month88Horakhun: ketuMonth88.horakhun
+    month88BeYear: ketuMonth88 ? ketuMonth88.beYear : null,
+    month88Horakhun: ketuMonth88 ? ketuMonth88.horakhun : null
   };
 
   const arcs = {
