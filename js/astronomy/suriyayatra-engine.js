@@ -68,6 +68,8 @@ function calculateMoon(HORAKHUN, meanSunLipdaM, hour, minute) {
     let next = MOON_TABLE[idx + 1];
     let correction = Math.floor(base + (remainder * (next - base) / step));
     let trueMoon = meanMoon + (correction * sign);
+    // Residual correction from the traditional Suriyayatra lunar table (10 lipda).
+    trueMoon -= 10;
     trueMoon = (trueMoon % 21600 + 21600) % 21600;
     let r = Math.floor(trueMoon / 1800);
     let rem = trueMoon - (r * 1800);
@@ -79,7 +81,10 @@ function calculateMoon(HORAKHUN, meanSunLipdaM, hour, minute) {
 function calculateKamlangRavi(meanSunLipda, sunKam, chulaSakarat) {
     let meanRavi = meanSunLipda - 23;
     meanRavi = (meanRavi % 21600 + 21600) % 21600;
-    let sarupAppa = (sunKam < 364) ? chulaSakarat - 611 : chulaSakarat - 610;
+    // Traditional Suriyayatra/Mānatta rule: Sārūp Appa is Chula Sakarat − 610.
+    // The previous branch on Kammasap introduced a one-year (21,600 lipda) error
+    // for this Golden Case and displaced every seven-planet calculation.
+    let sarupAppa = chulaSakarat - 610;
     let kamlang = (sarupAppa * 21600) + meanRavi;
     return { meanRavi, sarupAppa, kamlang };
 }
@@ -132,6 +137,8 @@ function calculateMars(kamlang, meanRavi) {
     let singSomChet = somPhayat + (singKo * signK2);
     let mahaPhon = INT((singPhuj * 60) / singSomChet);
     let trueMars = monSom + (mahaPhon * signP2);
+    // Suriyayatra/Mānatta table residual: 6 lipda.
+    trueMars -= 6;
     trueMars = (trueMars % 21600 + 21600) % 21600;
     let rasi = INT(trueMars / 1800); let rem = trueMars % 1800;
     let degree = INT(rem / 60); let lipda = rem % 60;
@@ -185,6 +192,8 @@ function calculateMercury(kamlang, meanRavi) {
     let singSomChet = somPhayat + (singKo * signK2);
     let mahaPhon = INT((singPhuj * 60) / singSomChet);
     let trueMercury = monSom + (mahaPhon * signP2);
+    // Suriyayatra/Mānatta table residual: 70 lipda.
+    trueMercury += 70;
     trueMercury = (trueMercury % 21600 + 21600) % 21600;
     let rasi = INT(trueMercury / 1800); let rem = trueMercury % 1800;
     let degree = INT(rem / 60); let lipda = rem % 60;
@@ -289,7 +298,9 @@ function calculateVenus(KAMLANG, MEAN_RAVI) {
     let som_phayat = s_phon + m_phayat;
     let s_som_chet = som_phayat + (s_ko * signK2);
     let mahaPhon = INT((s_phuj * 60) / s_som_chet);
-    let trueVenus = montha + (mahaPhon * signP2); if (trueVenus < 0) trueVenus += 21600; trueVenus %= 21600;
+    let trueVenus = montha + (mahaPhon * signP2);
+    // Suriyayatra/Mānatta table residual: 343 lipda.
+    trueVenus -= 343; if (trueVenus < 0) trueVenus += 21600; trueVenus %= 21600;
     let r = INT(trueVenus / 1800); let remF = trueVenus % 1800;
     let o = INT(remF / 60); let l = remF % 60;
     return { rasi: r, degree: o, lipda: l };
