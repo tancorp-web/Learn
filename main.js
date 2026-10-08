@@ -114,7 +114,7 @@ function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'
 function renderWheel(natal,transit){
   const el=$('wheel');
   const c=300,rad=245,inner=72,planetInner=150,planetOuter=212;
-  const signOffset=0;
+  const signOffset=15;
   let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff">';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/>';
   svg+='<circle cx="'+c+'" cy="'+inner+'" r="0" fill="none"/>';
@@ -138,7 +138,7 @@ function renderWheel(natal,transit){
   const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
   const ascDotR=14;
   svg+='<circle cx="'+ax+'" cy="'+ay+'" r="'+ascDotR+'" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>';
-  svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">@</text>';
+  svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
   const ascTextR=rad+52;
   const alx=c+ascTextR*Math.cos(ascAngle),aly=c+ascTextR*Math.sin(ascAngle);
   const aa=Math.cos(ascAngle)>=0?'start':'end';
