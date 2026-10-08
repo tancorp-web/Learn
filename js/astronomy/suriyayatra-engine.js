@@ -242,11 +242,18 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
 
   const solarUnits = solarIntradayUnits(calculationTimeMinutes);
   const solarCycleUnits = MOD((horakhun - 1) * 800 + solarUnits - 373, 292207);
-  const solarLongitudeUnits = MOD((horakhun - 1) * 800 - 373, 292207) + solarUnits;
-  const remainder = MOD(solarLongitudeUnits, 24350);
+
+  // Classical birth-day arithmetic:
+  // Suratin birth = number of civil days counted after the Atta Thaloeng Sok day.
+  // Kammachaphon birth = Suratin birth × 800 + Kammachaphon Atta + intraday units.
+  // This is the quantity that is divided by 24350 for Madhyam Sun.
+  const attaKammachaphon = MOD(800 - MOD(cs * 292207 + 373, 800), 800);
+  const suratinBirth = horakhun - thaloeng.horakhun - 1;
+  const kammachaphonBirth = suratinBirth * 800 + attaKammachaphon + solarUnits;
+  const remainder = MOD(kammachaphonBirth, 24350);
 
   const meanSun = MOD(
-    Math.trunc(solarLongitudeUnits / 24350) * 1800
+    Math.trunc(kammachaphonBirth / 24350) * 1800
       + Math.trunc(remainder / 811) * 60
       + Math.trunc(MOD(remainder, 811) / 14)
       - 3,
@@ -265,9 +272,11 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Classical Manat/Suriya-yatra mean Moon:
   // Avaman birth and Tithi birth are derived from Horakhun itself.
   // The birth-time 703-cycle must NOT be substituted for this step.
-  const birthDayBase = horakhun * 11 + 650;
+  const avamanAtta = MOD(thaloeng.horakhun * 11 + 650, 692);
+  const tithiAtta = MOD(Math.trunc((thaloeng.horakhun * 11 + 650) / 692) + thaloeng.horakhun, 30);
+  const birthDayBase = suratinBirth * 11 + avamanAtta;
   const avamanBirth = MOD(birthDayBase, 692);
-  const tithiBirth = MOD(Math.trunc(birthDayBase / 692) + horakhun, 30);
+  const tithiBirth = MOD(Math.trunc(birthDayBase / 692) + suratinBirth + tithiAtta, 30);
   const moonBaseArc = Math.floor(avamanBirth / 25) * 60 + MOD(avamanBirth, 25);
   const tithiMoonArc = Math.floor(tithiBirth * 12 / 30) * 1800
     + MOD(tithiBirth * 12, 30) * 60;
