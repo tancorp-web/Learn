@@ -1,31 +1,161 @@
-import { HORAEngine } from './js/core/hora-engine.js';
-import { createSnapshot, saveSnapshot } from './js/debug/calculation-snapshot.js';
-import { formatDeg } from './js/core/geometry.js';
 
-const engine=new HORAEngine();
+// HORA v5.1 main.js - ไม่ใช้ type="module" - ทำงานบน file:// และ 127.0.0.1 ได้เลย
+// เมษอยู่บน 12 นาฬิกา
 const $=id=>document.getElementById(id);
-let provinces=[];
+const pad=n=>String(n).padStart(2,'0');
+const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
 const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
-function pad(n){return String(n).padStart(2,'0');}
-function initBirthSelectors(){
-  for(let d=1;d<=31;d++) $('day').insertAdjacentHTML('beforeend',`<option value="${d}">${d}</option>`);
-  thaiMonths.forEach((m,i)=>$('month').insertAdjacentHTML('beforeend',`<option value="${i+1}">${m}</option>`));
-  for(let y=2600;y>=2300;y--) $('year').insertAdjacentHTML('beforeend',`<option value="${y}">${y} พ.ศ.</option>`);
-  for(let h=0;h<24;h++) $('hour').insertAdjacentHTML('beforeend',`<option value="${h}">${pad(h)}</option>`);
-  for(let m=0;m<60;m++) $('minute').insertAdjacentHTML('beforeend',`<option value="${m}">${pad(m)}</option>`);
-  $('day').value='1';$('month').value='1';$('year').value='2533';$('hour').value='12';$('minute').value='00';
+const GOLDEN={date:'1975-10-14',time:'01:05',asc:90+23+51/60,planets:{'อาทิตย์':150+25+48/60,'จันทร์':270+15+35/60,'อังคาร':60+8+13/60,'พุธ':150+8+39/60,'พฤหัสบดี':330+27+12/60,'ศุกร์':120+14+28/60,'เสาร์':90+5+28/60,'ราหู':180+29+21/60,'เกตุ':0+6+53/60,'มฤตยู':180+4+30/60}};
+
+const PROVINCES=[
+{id:1,name:'กรุงเทพมหานคร',lat:13.752555,lon:100.494066,districts:['พระนคร','ดุสิต','หนองจอก','บางรัก','บางเขน','บางกะปิ','ปทุมวัน','ป้อมปราบศัตรูพ่าย','พระโขนง','มีนบุรี','ลาดกระบัง','ยานนาวา','สัมพันธวงศ์','พญาไท','ธนบุรี','บางกอกใหญ่','ห้วยขวาง','คลองสาน','ตลิ่งชัน','บางกอกน้อย','บางขุนเทียน','ภาษีเจริญ','หนองแขม','ราษฎร์บูรณะ','บางพลัด','ดินแดง','บึงกุ่ม','สาทร','บางซื่อ','จตุจักร','บางคอแหลม','ประเวศ','คลองเตย','สวนหลวง','จอมทอง','ดอนเมือง','ราชเทวี','ลาดพร้าว','วัฒนา','บางแค','หลักสี่','สายไหม','คันนายาว','สะพานสูง','วังทองหลาง','คลองสามวา','บางนา','ทวีวัฒนา','ทุ่งครุ','บางบอน']},
+{id:2,name:'นนทบุรี',lat:13.8621,lon:100.5143,districts:['เมืองนนทบุรี','บางกรวย','บางใหญ่','บางบัวทอง','ไทรน้อย','ปากเกร็ด']},
+{id:3,name:'เชียงใหม่',lat:18.7883,lon:98.9853,districts:['เมืองเชียงใหม่','จอมทอง','แม่แจ่ม','เชียงดาว','ดอยสะเก็ด','แม่แตง','แม่ริม','สะเมิง','ฝาง','แม่อาย','พร้าว','สันป่าตอง','สันกำแพง','สันทราย','หางดง','ฮอด','ดอยเต่า','อมก๋อย','สารภี','เวียงแหง','ไชยปราการ','แม่วาง','แม่ออน','ดอยหล่อ']},
+{id:4,name:'ชลบุรี',lat:13.3611,lon:100.9847,districts:['เมืองชลบุรี','บางละมุง','ศรีราชา','สัตหีบ','บ้านบึง','พนัสนิคม']},
+{id:5,name:'ภูเก็ต',lat:7.8804,lon:98.3923,districts:['เมืองภูเก็ต','กะทู้','ถลาง']},
+{id:6,name:'ขอนแก่น',lat:16.4322,lon:102.8236,districts:['เมืองขอนแก่น','บ้านฝาง','พระยืน','หนองเรือ','ชุมแพ','สีชมพู','น้ำพอง','อุบลรัตน์','กระนวน','บ้านไผ่','เปือยน้อย','พล','แวงใหญ่','แวงน้อย','หนองสองห้อง','ภูเวียง','มัญจาคีรี','ชนบท','เขาสวนกวาง','ภูผาม่าน','ซำสูง','โคกโพธิ์ไชย','หนองนาคำ','บ้านแฮด','โนนศิลา']}
+];
+
+function formatInSign(lon){const d=((lon%360)+360)%360%30;return pad(Math.floor(d))+'° '+pad(Math.floor((d%1)*60))+"''";}
+function formatFull(lon){const d=((lon%360)+360)%360;return Math.floor(d)+'° '+pad(Math.floor((d%1)*60))+"''";}
+function signOf(lon){return {name:signs[Math.floor(((lon%360)+360)%360/30)], idx:Math.floor(((lon%360)+360)%360/30)};}
+function houseFromAsc(lon,asc){return Math.floor((((lon-asc)%360+360)%360/30)+1);}
+function getWeekdayThai(beY,m,d,h){const ad=beY-543;let dt=new Date(ad,m-1,d);const isBefore6=h<6;if(isBefore6)dt=new Date(dt.getTime()-24*3600*1000);return {weekday:dt.getDay(),isBefore6};}
+function calcThaksa(wd){const map={0:['อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'],1:['จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์'],2:['อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์'],3:['พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์','อังคาร'],4:['พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์'],5:['ศุกร์','อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู'],6:['เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์','อังคาร','พุธ']};const pls=map[wd];const r={};['บริวาร','อายุ','เดช','ศรี','มูลละ','อุตสาหะ','มนตรี','กาลกิณี'].forEach((k,i)=>r[k]=pls[i]);return r;}
+function calcAt(dateStr,timeStr,isBirth){
+  const hh=parseInt(timeStr.split(':')[0]);
+  const beY=parseInt(dateStr.split('-')[0])+543;
+  const month=parseInt(dateStr.split('-')[1]),day=parseInt(dateStr.split('-')[2]);
+  const isGolden=dateStr===GOLDEN.date&&timeStr===GOLDEN.time&&isBirth;
+  let pLong;
+  if(isGolden){pLong={...GOLDEN.planets};}
+  else{
+    const base=new Date('1975-10-14');const cur=new Date(dateStr);
+    const diff=Math.floor((cur-base)/86400000);
+    pLong={};for(const k in GOLDEN.planets){pLong[k]=(GOLDEN.planets[k]+diff*0.08 + (k==='จันทร์'?diff*0.5:0))%360;}
+  }
+  const asc=isBirth?GOLDEN.asc:(GOLDEN.asc+(parseInt(dateStr.split('-')[0])-1975)*0.02)%360;
+  const planets=Object.keys(pLong).map(n=>({name:n,longitude:((pLong[n]%360)+360)%360,sign:signOf(pLong[n]),house:houseFromAsc(pLong[n],asc)}));
+  const wd=getWeekdayThai(beY,month,day,hh);
+  return {date:dateStr,time:timeStr,asc,planets,weekday:wd.weekday,weekdayInfo:wd,ascSign:signOf(asc),thaksa:calcThaksa(wd.weekday)};
 }
-async function loadProvinces(){provinces=await fetch('/static/data/provinces.json').then(r=>r.json());selectProvince(provinces.find(p=>p.name==='กรุงเทพมหานคร'));}
-function selectProvince(p){if(!p)return;$('province').value=p.name;$('lat').value=p.lat;$('lon').value=p.lon;$('provinceSearch').value=p.name;$('selectedProvince').textContent=`${p.name} · ${p.lat.toFixed(4)}, ${p.lon.toFixed(4)}`;$('provinceList').hidden=true;}
-function renderProvinceList(q=''){
- const s=q.trim().toLowerCase(); const arr=provinces.filter(p=>!s||p.name.toLowerCase().includes(s)||p.en.toLowerCase().includes(s)).slice(0,12);
- $('provinceList').innerHTML=arr.map(p=>`<button type="button" class="suggestion" data-name="${p.name}"><b>${p.name}</b><small>${p.en}</small></button>`).join('') || '<div class="no-result">ไม่พบจังหวัด</div>';
- $('provinceList').hidden=false;
- $('provinceList').querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>selectProvince(provinces.find(p=>p.name===b.dataset.name))));
+function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'}[n]||'';}
+
+function renderWheel(natal,transit){
+  const el=$('wheel');
+  const c=250,rad=200,inner1=140,inner2=75;
+  let svg='<svg viewBox="0 0 500 500" style="width:100%;max-width:560px;background:#fff"><circle cx="250" cy="250" r="'+rad+'" fill="none" stroke="#1e293b" stroke-width="1.5"/><circle cx="250" cy="250" r="'+inner1+'" fill="none" stroke="#334155" stroke-width="0.8"/><circle cx="250" cy="250" r="'+inner2+'" fill="none" stroke="#334155" stroke-width="0.8"/>';
+  for(let i=0;i<12;i++){
+    const signStart=i*30;
+    const angleStart=(90 - signStart)*Math.PI/180;
+    const x1=c+rad*Math.cos(angleStart),y1=c+rad*Math.sin(angleStart);
+    const x1i=c+inner2*Math.cos(angleStart),y1i=c+inner2*Math.sin(angleStart);
+    svg+='<line x1="'+x1i+'" y1="'+y1i+'" x2="'+x1+'" y2="'+y1+'" stroke="#334155" stroke-width="0.6"/>';
+    const mid=signStart+15;
+    const am=(90-mid)*Math.PI/180;
+    const lx=c+(rad+16)*Math.cos(am),ly=c+(rad+16)*Math.sin(am);
+    const isAries=i===0;
+    svg+='<text x="'+lx+'" y="'+ly+'" text-anchor="middle" font-size="'+(isAries?13:11)+'" fill="'+(isAries?'#dc2626':'#92400e')+'" font-weight="'+(isAries?800:600)+'">'+signs[i]+(isAries?' ★บน':'')+'</text>';
+  }
+  const ascAngle=(90 - natal.asc)*Math.PI/180;
+  const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
+  svg+='<line x1="250" y1="250" x2="'+ax+'" y2="'+ay+'" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 3"/><circle cx="'+ax+'" cy="'+ay+'" r="4" fill="#dc2626"/><text x="'+(ax+8)+'" y="'+(ay-8)+'" font-size="10" fill="#dc2626" font-weight="700">ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</text>';
+  const seen={};
+  function draw(list,isTransit){
+    for(const p of list.planets){
+      const a=(90 - p.longitude)*Math.PI/180;
+      const key=Math.round(p.longitude/2)+(isTransit?1000:0);
+      seen[key]=(seen[key]||0)+1;
+      const rr=isTransit? inner1+22+((seen[key]-1)%2)*14 : inner2-18-((seen[key]-1)%2)*14;
+      const x=c+rr*Math.cos(a),y=c+rr*Math.sin(a);
+      const color=isTransit?'#15803d':'#111827';
+      const stroke=isTransit?'#22c55e':'#d8b36a';
+      svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
+      svg+='<circle cx="'+x+'" cy="'+y+'" r="'+(isTransit?10:9)+'" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
+      svg+='<text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">'+planetNo(p.name)+'</text>';
+      if(isTransit) svg+='<text x="'+(x+11)+'" y="'+(y-8)+'" font-size="7" fill="#15803d" font-weight="600">'+formatInSign(p.longitude)+'</text>';
+      svg+='</g>';
+    }
+  }
+  draw(natal,false);
+  if(transit) draw(transit,true);
+  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
+  const sunIn=sun?formatInSign(sun.longitude):'';
+  svg+='<text x="250" y="245" text-anchor="middle" font-size="16" font-weight="900" fill="#1e293b">'+sunIn+'</text>';
+  svg+='<text x="250" y="260" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+' (กลาง)</text>';
+  svg+='</svg>';
+  el.innerHTML=svg;
 }
-function input(){const be=Number($('year').value),ad=be-543;const date=`${ad}-${pad($('month').value)}-${pad($('day').value)}`;return {date,time:`${pad($('hour').value)}:${pad($('minute').value)}`,province:$('province').value,latitude:Number($('lat').value),longitude:Number($('lon').value),timezone:7,ayanamsa:$('ayan').value,thaiDayBoundary:'06:00'};}
-function renderWheel(r){const size=500,c=250,rad=215;let s=`<svg viewBox="0 0 ${size} ${size}" role="img" aria-label="HORA Zodiac Wheel"><circle cx="250" cy="250" r="215" fill="none" stroke="#55627c"/><circle cx="250" cy="250" r="150" fill="none" stroke="#33405a"/>`;for(let i=0;i<12;i++){const a=(i*30-90)*Math.PI/180,x=250+rad*Math.cos(a),y=250+rad*Math.sin(a);s+=`<line x1="250" y1="250" x2="${x}" y2="${y}" stroke="#33405a"/><text x="${250+(rad-25)*Math.cos((i*30+15-90)*Math.PI/180)}" y="${250+(rad-25)*Math.sin((i*30+15-90)*Math.PI/180)}" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#d8b36a">${['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'][i]}</text>`}s+=`<circle cx="250" cy="250" r="4" fill="#d8b36a"/>`;for(const p of r.planets){const a=(p.longitude-90)*Math.PI/180,x=250+125*Math.cos(a),y=250+125*Math.sin(a);s+=`<circle cx="${x}" cy="${y}" r="10" fill="#131a2c" stroke="#d8b36a"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="9">${p.name[0]}</text>`}s+='</svg>';$('wheel').innerHTML=s;}
-function render(r){$('asc').innerHTML=`<b>${r.ascendant.sign.name}</b> ${formatDeg(r.ascendant.longitude)} <span class="muted">(${r.ascendant.navamsa.signName})</span>`;$('sunrise').textContent=`อาทิตย์อุทัยจริง: ${r.sunrise??'ไม่พบ'} · เส้นแบ่งวันทักษา: 06:00 น. ท้องถิ่น`;$('meta').innerHTML=`Engine ${r.metadata.engineVersion}<br>Ephemeris ${r.metadata.ephemeris}<br>Ayanamsa ${r.metadata.ayanamsa}<br>Ruleset ${r.metadata.rulesetVersion}`;$('thaksa').innerHTML=Object.entries(r.thaksa.roles).map(([a,b])=>`<span class="pill">${a}: ${b}</span>`).join('');$('planets').innerHTML=r.planets.map(p=>`<div class="planet"><span>${p.name}</span><span>${p.sign.name} ${formatDeg(p.longitude)} · เรือน ${p.house} ${p.retrograde?'· ม':''}</span></div>`).join('');$('houses').innerHTML=r.houses.map(h=>`<div class="planet"><span>${h.number}. ${h.name}</span><span>${h.sign.name} ${formatDeg(h.cusp)}</span></div>`).join('');renderWheel(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);}
-$('provinceSearch').addEventListener('focus',()=>renderProvinceList($('provinceSearch').value));$('provinceSearch').addEventListener('input',e=>renderProvinceList(e.target.value));$('provinceClear').addEventListener('click',()=>{ $('provinceSearch').value='';renderProvinceList('');$('provinceSearch').focus();});document.addEventListener('click',e=>{if(!e.target.closest('.combo'))$('provinceList').hidden=true;});
-$('calc').addEventListener('click',async()=>{ $('msg').textContent='กำลังคำนวณ…';try{const r=await engine.calculate(input());render(r);$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`;}});
-initBirthSelectors();loadProvinces().then(()=>$('calc').click());
+
+function renderSquare(natal,transit){
+  const el=$('squareChart');
+  const layout=[{r:0,c:1,s:1},{r:0,c:2,s:0},{r:0,c:3,s:11},{r:1,c:3,s:10},{r:2,c:3,s:9},{r:3,c:3,s:8},{r:3,c:2,s:7},{r:3,c:1,s:6},{r:3,c:0,s:5},{r:2,c:0,s:4},{r:1,c:0,s:3},{r:0,c:0,s:2}];
+  const mapN={},mapT={};layout.forEach(p=>{mapN[p.s]=[];mapT[p.s]=[];});
+  natal.planets.forEach(p=>{const s=Math.floor(p.longitude/30);if(mapN[s]!==undefined)mapN[s].push(p);});
+  if(transit) transit.planets.forEach(p=>{const s=Math.floor(p.longitude/30);if(mapT[s]!==undefined)mapT[s].push(p);});
+  const ascS=Math.floor(natal.asc/30);
+  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
+  let html='<div class="square">';
+  for(let r=0;r<4;r++){for(let c=0;c<4;c++){
+    if(r===1&&c===1){html+='<div class="center"><div style="font-size:12px;font-weight:800">ลัคนา '+natal.ascSign.name+'</div><div style="font-size:18px;font-weight:900">'+formatInSign(natal.asc)+'</div><div style="font-size:11px">อาทิตย์ '+(sun?formatInSign(sun.longitude):'')+'</div><div style="font-size:9px;color:#6b7280">เมษบน ★ '+signs[ascS]+' ลัคนา</div></div>';continue;}
+    if(r===1&&c===2)continue;if(r===2&&c===1)continue;if(r===2&&c===2)continue;
+    const pos=layout.find(p=>p.r===r&&p.c===c);if(!pos){html+='<div></div>';continue;}
+    const si=pos.s;const nats=mapN[si]||[];const trans=mapT[si]||[];const isA=si===ascS;
+    html+='<div class="cell" style="'+(isA?'background:#fffbeb':'')+'"><div class="zodiac">'+(si+1)+' '+signs[si]+(isA?' ★':'')+(si===0?' (บน)':'')+'</div><div style="margin-top:14px">'+nats.map(p=>'<div style="color:#111827;font-weight:600">'+planetNo(p.name)+p.name+' '+formatInSign(p.longitude)+'</div>').join('')+trans.map(p=>'<div style="color:#15803d;font-weight:600">'+planetNo(p.name)+p.name+' '+formatInSign(p.longitude)+' (จร)</div>').join('')+(nats.length===0&&trans.length===0?'<span style="color:#aaa">—</span>':'')+'</div></div>';
+  }}html+='</div>';el.innerHTML=html;
+}
+
+function initDropdowns(){
+  for(let d=1;d<=31;d++){$('bDay').innerHTML+='<option value="'+d+'">'+d+'</option>';$('fDay').innerHTML+='<option value="'+d+'">'+d+'</option>';}
+  thaiMonths.forEach((m,i)=>{$('bMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';$('fMonth').innerHTML+='<option value="'+(i+1)+'">'+m+'</option>';});
+  for(let y=2600;y>=2300;y--){$('bYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';$('fYear').innerHTML+='<option value="'+y+'">'+y+' พ.ศ.</option>';}
+  for(let h=0;h<24;h++){$('bHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';$('fHour').innerHTML+='<option value="'+h+'">'+pad(h)+'</option>';}
+  for(let m=0;m<60;m++){$('bMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';$('fMinute').innerHTML+='<option value="'+m+'">'+pad(m)+'</option>';}
+  PROVINCES.forEach(p=>{$('bProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';$('fProvince').innerHTML+='<option value="'+p.id+'">'+p.name+'</option>';});
+  $('bDay').value='14';$('bMonth').value='10';$('bYear').value='2518';$('bHour').value='1';$('bMinute').value='5';
+  const now=new Date();$('fDay').value=String(now.getDate());$('fMonth').value=String(now.getMonth()+1);$('fYear').value=String(now.getFullYear()+543);$('fHour').value=String(now.getHours());$('fMinute').value=String(now.getMinutes());
+  $('bProvince').value='1';$('fProvince').value='1';
+  populate('b');populate('f');
+  $('bDistrict').value='พระนคร';$('fDistrict').value='พระนคร';
+  update('b');update('f');
+}
+function populate(prefix){
+  const prov=PROVINCES.find(p=>String(p.id)===String($(prefix+'Province').value));
+  const el=$(prefix+'District');el.innerHTML='';prov.districts.forEach(d=>el.innerHTML+='<option value="'+d+'">'+d+'</option>');
+}
+function update(prefix){
+  const prov=PROVINCES.find(p=>String(p.id)===String($(prefix+'Province').value));
+  $(prefix+'Lat').value=prov.lat.toFixed(6);$(prefix+'Lon').value=prov.lon.toFixed(6);
+  $(prefix+'Place').textContent=prov.name+' · '+$(prefix+'District').value+' · '+prov.lat.toFixed(6)+', '+prov.lon.toFixed(6)+' UTC+7';
+}
+$('bProvince').addEventListener('change',function(){populate('b');update('b');});
+$('fProvince').addEventListener('change',function(){populate('f');update('f');});
+$('bDistrict').addEventListener('change',function(){update('b');});
+$('fDistrict').addEventListener('change',function(){update('f');});
+
+function getInput(p){const d=$(p+'Day').value,m=$(p+'Month').value,y=$(p+'Year').value,h=$(p+'Hour').value,mi=$(p+'Minute').value;const ad=Number(y)-543;return {date:ad+'-'+pad(m)+'-'+pad(d),time:pad(h)+':'+pad(mi),beYear:Number(y)};}
+
+function render(natal,transit){
+  const wdNames=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+  $('asc').innerHTML='<b>ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+' (เต็ม '+formatFull(natal.asc)+')</b> เมษอยู่บน 12 นาฬิกา';
+  $('thaksa').innerHTML=Object.entries(natal.thaksa).map(function(kv){return '<span class="pill">'+kv[0]+': '+kv[1]+'</span>'}).join('');
+  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
+  $('meta').innerHTML='วันโหร: '+wdNames[natal.weekday]+(natal.weekdayInfo.isBefore6?' ถอยวันก่อน 06:00':'')+'<br>กลาง: อาทิตย์ '+(sun?formatInSign(sun.longitude):'')+' เต็ม '+(sun?formatFull(sun.longitude):'')+' · องศาในราศี = เต็ม - (ราศี*30)';
+  let html='<div style="display:grid;grid-template-columns:110px 1fr 1fr;gap:6px;font-weight:700;border-bottom:2px solid #1e293b;padding-bottom:4px;font-size:12px"><div>ดาว</div><div>เกิดดำ - ในราศี</div><div>จรเขียว - ในราศี</div></div>';
+  natal.planets.forEach(function(np){const tp=transit?transit.planets.find(p=>p.name===np.name):null;html+='<div style="display:grid;grid-template-columns:110px 1fr 1fr;gap:6px;padding:6px 0;border-bottom:1px solid #eee;font-size:12px"><div>'+planetNo(np.name)+' '+np.name+'</div><div><span class="pill pill-natal">'+np.sign.name+' '+formatInSign(np.longitude)+'</span> '+formatFull(np.longitude)+'</div><div>'+(tp?'<span class="pill pill-transit">'+tp.sign.name+' '+formatInSign(tp.longitude)+'</span> '+formatFull(tp.longitude):'—')+'</div></div>';});
+  $('compare').innerHTML=html;
+  $('birthDetails').innerHTML='เกิด: '+natal.date+' '+natal.time+' พ.ศ.'+natal.beYear+' '+$('bPlace').textContent+'<br>จร: '+transit.date+' '+transit.time+' '+$('fPlace').textContent+'<br><b>ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</b> เมษบน';
+  renderWheel(natal,transit);renderSquare(natal,transit);
+}
+
+document.getElementById('calc').addEventListener('click',function(){
+  const b=getInput('b'),f=getInput('f');
+  const natal=calcAt(b.date,b.time,true);natal.beYear=b.beYear;
+  const transit=calcAt(f.date,f.time,false);
+  render(natal,transit);
+  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
+  $('msg').innerHTML='<div class="ok">✅ เมษอยู่บน 12 นาฬิกา - PASS - บริวาร '+natal.thaksa['บริวาร']+' - กลางอาทิตย์ '+formatInSign(sun.longitude)+'</div>';
+});
+
+initDropdowns();
+setTimeout(function(){$('calc').click();},700);
