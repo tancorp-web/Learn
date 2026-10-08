@@ -108,25 +108,95 @@ function goldenQA(natal,input){
 }
 function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'}[n]||'';}
 
+function houseFromAscSign(lon,asc){
+  const si=Math.floor((((lon%360)+360)%360)/30);
+  const ai=Math.floor((((asc%360)+360)%360)/30);
+  return ((si-ai+12)%12)+1;
+}
+function thaiDateTimeLabel(dateObj){
+  const y=dateObj.getUTCFullYear()+543,m=dateObj.getUTCMonth()+1,d=dateObj.getUTCDate();
+  const hh=pad(dateObj.getUTCHours()),mm=pad(dateObj.getUTCMinutes());
+  return d+'/'+m+'/'+y+' '+hh+':'+mm+' น.';
+}
+function localDateObj(dateStr,timeStr){
+  const [y,m,d]=dateStr.split('-').map(Number);
+  const [hh,mi]=timeStr.split(':').map(Number);
+  return new Date(Date.UTC(y,m-1,d,hh,mi)-7*60*60*1000);
+}
+function localDateTimeString(dateObj){
+  return dateObj.getUTCFullYear()+'-'+pad(dateObj.getUTCMonth()+1)+'-'+pad(dateObj.getUTCDate())+' '+pad(dateObj.getUTCHours())+':'+pad(dateObj.getUTCMinutes());
+}
+function transitPlanetLongitudeAt(planetName,dateObj){
+  const utc7=new Date(dateObj.getTime()+7*60*60*1000);
+  const ds=utc7.getUTCFullYear()+'-'+pad(utc7.getUTCMonth()+1)+'-'+pad(utc7.getUTCDate());
+  const ts=pad(utc7.getUTCHours())+':'+pad(utc7.getUTCMinutes());
+  const e=calculateSuriyayatra({date:ds,time:ts});
+  const p=e.planets.find(x=>x.name===planetName);
+  return p?Number(p.longitude):null;
+}
+function findHouseBoundary(planetName,startDate,asc,dir){
+  const step=12*60*60*1000;
+  let cur=new Date(startDate.getTime());
+  let prevLon=transitPlanetLongitudeAt(planetName,cur);
+  if(prevLon===null)return null;
+  let prevHouse=houseFromAscSign(prevLon,asc);
+  for(let i=1;i<=760;i++){
+    const next=new Date(startDate.getTime()+dir*i*step);
+    const nextLon=transitPlanetLongitudeAt(planetName,next);
+    if(nextLon===null)continue;
+    const nextHouse=houseFromAscSign(nextLon,asc);
+    if(nextHouse!==prevHouse){
+      let lo=new Date(cur.getTime()),hi=new Date(next.getTime());
+      for(let k=0;k<10;k++){
+        const mid=new Date((lo.getTime()+hi.getTime())/2);
+        const midLon=transitPlanetLongitudeAt(planetName,mid);
+        const midHouse=houseFromAscSign(midLon,asc);
+        if(midHouse===prevHouse)lo=mid;else hi=mid;
+      }
+      return dir>0?hi:lo;
+    }
+    cur=next;prevHouse=nextHouse;
+  }
+  return null;
+}
+function showTransitPlanetPopup(planet,natal,transit){
+  const old=$('planetPopup');if(old)old.remove();
+  const currentHouse=houseFromAscSign(planet.longitude,natal.asc);
+  const now=localDateObj(transit.date,transit.time);
+  const enter=findHouseBoundary(planet.name,now,natal.asc,-1);
+  const exit=findHouseBoundary(planet.name,now,natal.asc,1);
+  const popup=document.createElement('div');
+  popup.id='planetPopup';
+  popup.className='planet-popup';
+  popup.innerHTML='<div class="planet-popup-title">'+planetNo(planet.name)+' '+planet.name+' <span>ดาวจร</span></div>'+
+    '<div><b>ตำแหน่งปัจจุบัน:</b> '+planet.sign.name+' '+formatInSign(planet.longitude)+'</div>'+
+    '<div><b>ภพ:</b> '+houseNamesGlobal[currentHouse-1]+'</div>'+
+    '<div><b>ว/ด/ป เวลา ย้ายเข้า:</b> '+(enter?thaiDateTimeLabel(enter):'เกินช่วงคำนวณ')+'</div>'+
+    '<div><b>ว/ด/ป เวลา ย้ายออก:</b> '+(exit?thaiDateTimeLabel(exit):'เกินช่วงคำนวณ')+'</div>'+
+    '<div class="hint">คำนวณจากจุดเปลี่ยนราศี/ภพของดาวจรจริง · Whole Sign ตามลัคนาเกิด</div>';
+  const host=$('wheel').parentElement;
+  host.style.position='relative';
+  host.appendChild(popup);
+}
+const houseNamesGlobal=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+
 function renderWheel(natal,transit){
   const el=$('wheel');
   const c=300,rad=245,inner=72,planetInner=150;
   const planetOffset=15;
-  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+  const houseNames=houseNamesGlobal;
   const natalBg='#7c3aed', transitBg='#15803d';
   let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff">';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/>';
-
-  // พื้นวงตามชุดข้อมูล: ม่วง = พื้นดวง, เขียว = วันทำนาย
   svg+='<circle cx="'+c+'" cy="'+c+'" r="198" fill="'+natalBg+'" fill-opacity=".055" stroke="none"/>';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="222" fill="none" stroke="'+transitBg+'" stroke-opacity=".055" stroke-width="40"/>';
-  svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fafaf9" stroke="#334155" stroke-width="1"/>';
+  svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
 
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
   svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
-  svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="10" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
+  svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
 
-  // 12 ราศี: เมษเป็นช่องบนสุด และเรียงทวนเข็มตามระบบเดิม
+  // ราศี: คงแกนเดิม เมษอยู่บน และทวนเข็ม
   for(let i=0;i<12;i++){
     const boundary=i*30-15;
     const a=(-90-boundary)*Math.PI/180;
@@ -140,16 +210,18 @@ function renderWheel(natal,transit){
     svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★':'')+'</text>';
   }
 
-  // ภพแบบ Whole Sign: ภพ 1 เริ่มจากราศีลัคนา แล้วเดินทวนเข็มเหมือนลำดับราศี
+  // ภพอยู่ในวงกลมพื้นขาว: ไม่ใส่เลขภพ และแบ่งพื้นที่ 12 ช่องเพื่อไม่ให้ข้อความชนกัน
   function drawHouses(){
     const ascIdx=natal&&natal.ascSign?natal.ascSign.idx:Math.floor((((natal.asc%360)+360)%360)/30);
-    const houseR=98;
+    const houseR=54;
     for(let h=1;h<=12;h++){
-      const si=(ascIdx+h-1)%12;
-      const a=(-90-si*30)*Math.PI/180;
+      const boundaryA=(-90-(ascIdx+(h-1))*30)*Math.PI/180;
+      const bx=c+inner*Math.cos(boundaryA),by=c+inner*Math.sin(boundaryA);
+      svg+='<line x1="'+c+'" y1="'+c+'" x2="'+bx+'" y2="'+by+'" stroke="#d6d3d1" stroke-width=".7"/>';
+      const midDeg=(ascIdx+(h-1))*30+15;
+      const a=(-90-midDeg)*Math.PI/180;
       const x=c+houseR*Math.cos(a),y=c+houseR*Math.sin(a);
-      const label=(h)+' '+houseNames[h-1];
-      svg+='<text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" font-size="8" fill="'+natalBg+'" font-weight="900">'+label+'</text>';
+      svg+='<text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" font-size="7" fill="'+natalBg+'" font-weight="900">'+houseNames[h-1]+'</text>';
     }
   }
   drawHouses();
@@ -183,7 +255,8 @@ function renderWheel(natal,transit){
       const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
       const color=isTransit?transitBg:natalBg;
       const stroke=isTransit?'#22c55e':'#c4b5fd';
-      svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
+      const cls=isTransit?'transit-planet':'natal-planet';
+      svg+='<g class="'+cls+'" data-planet="'+p.name+'"><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
       svg+='<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
       svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
       const labelR=rr+(j%2===0?18:-18);
@@ -197,6 +270,11 @@ function renderWheel(natal,transit){
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+planetInner+'" fill="none" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="3 4"/>';
   svg+='</svg>';
   el.innerHTML=svg;
+  el.querySelectorAll('.transit-planet').forEach(g=>g.addEventListener('click',()=>{
+    const name=g.getAttribute('data-planet');
+    const p=transit&&transit.planets.find(x=>x.name===name);
+    if(p)showTransitPlanetPopup(p,natal,transit);
+  }));
 }function renderSquare(natal,transit){
   const el=$('squareChart');
   const layout=[{r:0,c:1,s:1},{r:0,c:2,s:0},{r:0,c:3,s:11},{r:1,c:3,s:10},{r:2,c:3,s:9},{r:3,c:3,s:8},{r:3,c:2,s:7},{r:3,c:1,s:6},{r:3,c:0,s:5},{r:2,c:0,s:4},{r:1,c:0,s:3},{r:0,c:0,s:2}];
