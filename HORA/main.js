@@ -27,13 +27,12 @@ function renderProvinceList(q=''){const s=q.trim().toLowerCase();const arr=provi
 function input(){const be=Number($('year').value),ad=be-543;return{date:`${ad}-${pad($('month').value)}-${pad($('day').value)}`,time:`${pad($('hour').value)}:${pad($('minute').value)}`,province:$('province').value,latitude:Number($('lat').value),longitude:Number($('lon').value),timezone:7,ayanamsa:$('ayan').value,thaiDayBoundary:'06:00'};}
 
 
-async function calculate(i){
+function calculate(i){
  try{
-  const r=await fetch('./api/chart',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(i)});
-  if(!r.ok)throw new Error('API '+r.status);
-  return {data:await r.json(),preview:false};
+  return Promise.resolve({data:previewChart(i),preview:true});
  }catch(e){
-  return {data:previewChart(i),preview:true};
+  console.error('HORA calculation error:',e);
+  return Promise.reject(e);
  }
 }
 function parseLocalDate(i){return new Date(`${i.date}T${i.time}:00${i.timezone>=0?'+':'-'}${String(Math.abs(i.timezone)).padStart(2,'0')}:00`);}
