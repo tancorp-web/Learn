@@ -34,6 +34,70 @@ const GOLDEN_1991 = {
   }
 };
 
+const GOLDEN_1975 = {
+  date:'1975-10-14', time:'01:05',
+  lat:13.752555, lon:100.494066,
+  asc:90+23+51/60,
+  planets:{
+    'อาทิตย์':150+25+48/60,
+    'จันทร์':270+15+35/60,
+    'อังคาร':60+8+13/60,
+    'พุธ':150+8+39/60,
+    'พฤหัสบดี':330+27+12/60,
+    'ศุกร์':120+14+28/60,
+    'เสาร์':90+5+28/60,
+    'ราหู':180+29+21/60,
+    'เกตุ':0+6+53/60,
+    'มฤตยู':180+4+30/60,
+  }
+};
+
+const GOLDEN_PLANET_ORDER=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
+
+function angularDiffMinutes(a,b){
+  const deg=((a-b+540)%360)-180;
+  return Math.round(deg*60);
+}
+function formatDiffMinutes(min){
+  if(min===0) return '0°00′';
+  const sign=min>0?'+':'−';
+  const abs=Math.abs(min);
+  return sign+Math.floor(abs/60)+'°'+String(abs%60).padStart(2,'0')+'′';
+}
+function goldenStatus(a,b){
+  return Math.abs(angularDiffMinutes(a,b))===0
+    ? '<span class="pass">✅ PASS</span>'
+    : '<span class="fail">❌ FAIL</span>';
+}
+function renderNatalGoldenTable(){
+  const el=$('natalGoldenBody');
+  if(!el) return;
+  try{
+    const c1=calcAt(GOLDEN_1991.date,GOLDEN_1991.time,true,{lat:GOLDEN_1991.lat,lon:GOLDEN_1991.lon,timezone:7});
+    const c2=calcAt(GOLDEN_1975.date,GOLDEN_1975.time,true,{lat:GOLDEN_1975.lat,lon:GOLDEN_1975.lon,timezone:7});
+    const rows=[['ลัคนา',c1.asc,GOLDEN_1991.asc,c2.asc,GOLDEN_1975.asc]];
+    GOLDEN_PLANET_ORDER.forEach(name=>{
+      const p1=c1.planets.find(p=>p.name===name);
+      const p2=c2.planets.find(p=>p.name===name);
+      rows.push([name,p1?.longitude,GOLDEN_1991.planets[name],p2?.longitude,GOLDEN_1975.planets[name]]);
+    });
+    el.innerHTML=rows.map(([name,a1,g1,a2,g2])=>{
+      const ok1=Number.isFinite(a1),ok2=Number.isFinite(a2);
+      return '<tr><td>'+name+'</td>'+
+        '<td>'+(ok1?formatInSign(a1)+' '+signOf(a1).name:'—')+'</td>'+
+        '<td>'+formatInSign(g1)+' '+signOf(g1).name+'</td>'+
+        '<td>'+(ok1?formatDiffMinutes(angularDiffMinutes(a1,g1)):'—')+'</td>'+
+        '<td>'+(ok1?goldenStatus(a1,g1):'<span class="fail">❌ FAIL</span>')+'</td>'+
+        '<td>'+(ok2?formatInSign(a2)+' '+signOf(a2).name:'—')+'</td>'+
+        '<td>'+formatInSign(g2)+' '+signOf(g2).name+'</td>'+
+        '<td>'+(ok2?formatDiffMinutes(angularDiffMinutes(a2,g2)):'—')+'</td>'+
+        '<td>'+(ok2?goldenStatus(a2,g2):'<span class="fail">❌ FAIL</span>')+'</td></tr>';
+    }).join('');
+  }catch(err){
+    el.innerHTML='<tr><td colspan="9"><span class="fail">❌ FAIL — '+String(err&&err.message||err)+'</span></td></tr>';
+  }
+}
+
 function formatInSign(lon){const d=((lon%360)+360)%360%30;return pad(Math.floor(d))+'° '+pad(Math.floor((d%1)*60))+"'";}
 function formatFull(lon){const d=((lon%360)+360)%360;return Math.floor(d)+'° '+pad(Math.floor((d%1)*60))+"'";}
 function signOf(lon){const idx=Math.floor(((lon%360)+360)%360/30);return {name:signs[idx], idx};}
@@ -215,6 +279,7 @@ function bootHORA(){
   });
 
   initDropdowns();
+  renderNatalGoldenTable();
   setTimeout(()=>{
     try{$('calc').click();}catch(err){showRuntimeError(err);}
   },600);
