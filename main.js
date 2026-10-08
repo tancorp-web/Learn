@@ -133,9 +133,13 @@ function renderWheel(natal,transit){
   }
   const ascAngle=(-90-natal.asc)*Math.PI/180;
   const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
+  const ascLabelR=rad+48;
+  const alx=c+ascLabelR*Math.cos(ascAngle),aly=c+ascLabelR*Math.sin(ascAngle);
+  const ascAnchor=Math.cos(ascAngle)>0?'start':'end';
   svg+='<line x1="'+c+'" y1="'+c+'" x2="'+ax+'" y2="'+ay+'" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>';
   svg+='<circle cx="'+ax+'" cy="'+ay+'" r="5" fill="#dc2626"/>';
-  svg+='<text x="'+(ax+8)+'" y="'+(ay-8)+'" font-size="11" fill="#dc2626" font-weight="800">@ ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</text>';
+  svg+='<rect x="'+(alx+(ascAnchor==='start'?-3:-108))+'" y="'+(aly-15)+'" width="111" height="19" rx="5" fill="#fff" stroke="#dc2626" stroke-width="1"/>';
+  svg+='<text x="'+alx+'" y="'+(aly-2)+'" text-anchor="'+ascAnchor+'" font-size="10" fill="#dc2626" font-weight="800">@ ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</text>';
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
   svg+='<text x="'+c+'" y="'+(c-5)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
   svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="10" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
@@ -147,17 +151,19 @@ function renderWheel(natal,transit){
       (bySign[si]||(bySign[si]=[])).push(p);
     }
     for(const si of Object.keys(bySign).map(Number)){
-      const ps=bySign[si];
+      const ps=bySign[si].slice().sort((a,b)=>a.longitude-b.longitude);
+      const lanes=isTransit?[190,210,225,238]:[140,158,176,194,212];
       ps.forEach((p,j)=>{
         const angle=(-90-p.longitude)*Math.PI/180;
-        const rr=isTransit?planetOuter:planetInner;
+        const rr=lanes[j%lanes.length];
         const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
         const color=isTransit?'#15803d':'#7c3aed';
         const stroke=isTransit?'#22c55e':'#c4b5fd';
         svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
         svg+='<circle cx="'+x+'" cy="'+y+'" r="12" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
         svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">'+planetNo(p.name)+'</text>';
-        svg+='<text x="'+x+'" y="'+(y+(isTransit?23:-17))+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
+        const labelY=y+(j%2===0?-18:28);
+        svg+='<text x="'+x+'" y="'+labelY+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
         svg+='</g>';
       });
     }
