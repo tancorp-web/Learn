@@ -19,40 +19,6 @@ const EPOCH0 = {
   SANI: 309.5391, RAHU: 157.3336,
 };
 
-const GOLDEN_1975 = {
-  date:'1975-10-14', time:'01:05',
-  planets:{
-    'อาทิตย์': 150+25+48/60,
-    'จันทร์': 270+15+35/60,
-    'อังคาร': 60+8+13/60,
-    'พุธ': 150+8+39/60,
-    'พฤหัสบดี': 330+27+12/60,
-    'ศุกร์': 120+14+28/60,
-    'เสาร์': 90+5+28/60,
-    'ราหู': 180+29+21/60,
-    'เกตุ': 0+6+53/60,
-    'มฤตยู': 180+4+30/60,
-  }
-};
-
-const GOLDEN_1991_KK = {
-  date:'1991-10-14', time:'01:05',
-  lat:16.4322, lon:102.8236,
-  asc: 90+25+58/60,
-  planets:{
-    'อาทิตย์': 150+25+38/60,
-    'จันทร์': 240+6+27/60,
-    'อังคาร': 180+4+45/60,
-    'พุธ': 180+10+25/60,
-    'พฤหัสบดี': 120+14+5/60,
-    'ศุกร์': 120+11+37/60,
-    'เสาร์': 270+1+32/60,
-    'ราหู': 240+19+37/60,
-    'เกตุ': 60+28+27/60,
-    'มฤตยู': 240+12+31/60,
-  }
-};
-
 function harakunThaloengsok(cs){
   const total = cs * KAMMAT_PER_YEAR + KAMMAT_OFFSET;
   const harakun = Math.floor(total / KAMMAT_PER_DAY) + 1;
@@ -63,14 +29,7 @@ function harakunThaloengsok(cs){
 function harakunBirth(beYear, month, day, hour, minute){
   const cs = beYear - 1181;
   const th = harakunThaloengsok(cs);
-  let daysAfter;
-  if(beYear===2518 && month===10 && day===14) daysAfter = 184;
-  else if(beYear===2534 && month===10 && day===14) daysAfter = 0;
-  else {
-    const md=[31,28,31,30,31,30,31,31,30,31,30,31];
-    if(month>=4) daysAfter = (30-13) + md.slice(4,month-1).reduce((a,b)=>a+b,0) + (day-1);
-    else daysAfter = 0;
-  }
+  // จำนวนวันจากจุดเริ่มต้นรอบสุริยยาตร์เดียวกันสำหรับทุกปี/ทุกวัน\n  // ห้ามมี Golden Case shortcut หรือเงื่อนไขเฉพาะวันเกิด\n  const md=[31,28,31,30,31,30,31,31,30,31,30,31];\n  const leap=(beYear%4===0 && (beYear%100!==0 || beYear%400===0));\n  if(leap) md[1]=29;\n  const startMonth=4, startDay=14;\n  const start=new Date(Date.UTC(beYear-543,startMonth-1,startDay));\n  const current=new Date(Date.UTC(beYear-543,month-1,day));\n  daysAfter=Math.floor((current-start)/86400000);\n  if(daysAfter<0) daysAfter=0;
   const birthKammat = Math.floor((hour*3600+minute*60)/SEC_PER_KAMMAT);
   const harakun = th.harakun + daysAfter + birthKammat/KAMMAT_PER_DAY;
   const jd = harakun + JD_EPOCH;
@@ -157,15 +116,6 @@ export function calculateSuriyayatra({date, time}){
   const [y,m,d] = date.split('-').map(Number);
   const [hh,mi] = time.split(':').map(Number);
   const beYear = y + 543;
-
-  if(date===GOLDEN_1975.date && time===GOLDEN_1975.time){
-    const planets = Object.keys(GOLDEN_1975.planets).map(name=>({id:name,name,longitude:GOLDEN_1975.planets[name],retrograde:false}));
-    return {date,time,harakun:0,jd:0,planets,metadata:{engineVersion:'v5.3-FIXED-GOLDEN-1975'}};
-  }
-  if(date===GOLDEN_1991_KK.date && time===GOLDEN_1991_KK.time){
-    const planets = Object.keys(GOLDEN_1991_KK.planets).map(name=>({id:name,name,longitude:GOLDEN_1991_KK.planets[name],retrograde:name==='ราหู'}));
-    return {date,time,harakun:0,jd:0,planets,metadata:{engineVersion:'v5.3-FIXED-GOLDEN-1991-KK'}};
-  }
 
   const birth = harakunBirth(beYear,m,d,hh,mi);
   const raviMadhyam = (birth.harakun * MEAN_MOTION.RAVI + EPOCH0.RAVI) % 360;
