@@ -114,7 +114,7 @@ function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'
 function renderWheel(natal,transit){
   const el=$('wheel');
   const c=300,rad=245,inner=72,planetInner=150,planetOuter=212;
-  const signOffset=15;
+  const planetOffset=15;
   let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff">';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/>';
   svg+='<circle cx="'+c+'" cy="'+inner+'" r="0" fill="none"/>';
@@ -122,19 +122,19 @@ function renderWheel(natal,transit){
   // 12 ราศี: แต่ละช่อง 30° และ "กลางช่องเมษ" อยู่ที่ 12 นาฬิกา
   for(let i=0;i<12;i++){
     const boundary=i*30-15;
-    const a=(-90-boundary+signOffset)*Math.PI/180;
+    const a=(-90-boundary)*Math.PI/180;
     const x1=c+inner*Math.cos(a),y1=c+inner*Math.sin(a);
     const x2=c+rad*Math.cos(a),y2=c+rad*Math.sin(a);
     svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
     const mid=i*30;
-    const am=(-90-mid+signOffset)*Math.PI/180;
+    const am=(-90-mid)*Math.PI/180;
     const labelR=rad+30;
     const lx=c+labelR*Math.cos(am),ly=c+labelR*Math.sin(am);
     svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★':'')+'</text>';
   }
 
   // ลัคนา: จุดอยู่ตรงองศาจริง และใช้วงกลม @ แยกจากข้อความ
-  const ascAngle=(-90-natal.asc+signOffset)*Math.PI/180;
+  const ascAngle=(-90-natal.asc+planetOffset)*Math.PI/180;
   const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
   const ascDotR=14;
   svg+='<circle cx="'+ax+'" cy="'+ay+'" r="'+ascDotR+'" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>';
@@ -149,7 +149,7 @@ function renderWheel(natal,transit){
     const ps=list.planets.slice().sort((a,b)=>a.longitude-b.longitude);
     const lanes=isTransit?[188,207,226,238]:[142,158,174,190,206];
     ps.forEach((p,j)=>{
-      const angle=(-90-p.longitude+signOffset)*Math.PI/180;
+      const angle=(-90-p.longitude+planetOffset)*Math.PI/180;
       const rr=lanes[j%lanes.length];
       const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
       const color=isTransit?'#15803d':'#7c3aed';
