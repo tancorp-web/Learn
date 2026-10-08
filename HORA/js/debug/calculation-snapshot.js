@@ -1,0 +1,3 @@
+export function createSnapshot(input,result){return{createdAt:new Date().toISOString(),input,result,engineVersion:result?.metadata?.engineVersion??'unknown',rulesetVersion:result?.metadata?.rulesetVersion??'unknown'};}
+export function saveSnapshot(snapshot){localStorage.setItem('hora:lastSnapshot',JSON.stringify(snapshot));}
+export function loadSnapshot(){const x=localStorage.getItem('hora:lastSnapshot');return x?JSON.parse(x):null;}
