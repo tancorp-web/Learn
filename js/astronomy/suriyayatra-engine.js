@@ -135,15 +135,16 @@ export function calculateSuriyayatra({ date, time, longitude }) {
   const input = parseInput(date, time);
   const {year,month,day,hour,minute} = input;
   const timeMinutes = hour * 60 + minute;
-  // Suriyayatra planetary time is referenced to the standard meridian (105°E).
-  // Apply the longitude correction before the intraday solar/lunar arithmetic;
-  // Golden values are QA references only and are never used as inputs.
+  // Planetary Suriyayatra time is derived from the civil date/time through
+  // Kammachon/Madhyam arithmetic. Province longitude correction belongs to the
+  // separate ascendant/local-meridian stage; it must NOT be subtracted from the
+  // planetary time input. Golden values are QA references only.
   const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
-  const calculationTimeMinutes = timeMinutes - correction;
+  const calculationTimeMinutes = timeMinutes;
 
   // Horakhun is tied to the civil Gregorian date, not the browser timezone.
   const julianDayNumber = civilJulianDay(year, month, day);
-  const horakhun = julianDayNumber - 1954167;
+  const horakhun = julianDayNumber - 1954165;
   const yearBe = year + 543;
   const cs = yearBe - 1181;
 
@@ -247,6 +248,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
       calculationTimeMinutes,
+      planetaryTimeBasis: 'Thai civil clock -> Kammachon/Madhyam; no province-meridian correction',
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
       meanSunArcMinutes: meanSun,
