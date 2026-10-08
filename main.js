@@ -117,23 +117,23 @@ function renderWheel(natal,transit){
   let svg='<svg viewBox="0 0 500 500" style="width:100%;max-width:560px;background:#fff"><circle cx="250" cy="250" r="'+rad+'" fill="none" stroke="#1e293b" stroke-width="1.5"/><circle cx="250" cy="250" r="'+inner1+'" fill="none" stroke="#334155" stroke-width="0.8"/><circle cx="250" cy="250" r="'+inner2+'" fill="none" stroke="#334155" stroke-width="0.8"/>';
   for(let i=0;i<12;i++){
     const signStart=i*30;
-    const angleStart=(90 - signStart)*Math.PI/180;
+    const angleStart=(-signStart)*Math.PI/180;
     const x1=c+rad*Math.cos(angleStart),y1=c+rad*Math.sin(angleStart);
     const x1i=c+inner2*Math.cos(angleStart),y1i=c+inner2*Math.sin(angleStart);
     svg+='<line x1="'+x1i+'" y1="'+y1i+'" x2="'+x1+'" y2="'+y1+'" stroke="#334155" stroke-width="0.6"/>';
     const mid=signStart+15;
-    const am=(90-mid)*Math.PI/180;
+    const am=(-mid)*Math.PI/180;
     const lx=c+(rad+16)*Math.cos(am),ly=c+(rad+16)*Math.sin(am);
     const isAries=i===0;
     svg+='<text x="'+lx+'" y="'+ly+'" text-anchor="middle" font-size="'+(isAries?13:11)+'" fill="'+(isAries?'#dc2626':'#92400e')+'" font-weight="'+(isAries?800:600)+'">'+signs[i]+(isAries?' ★บน':'')+'</text>';
   }
-  const ascAngle=(90 - natal.asc)*Math.PI/180;
+  const ascAngle=(-natal.asc)*Math.PI/180;
   const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
   svg+='<line x1="250" y1="250" x2="'+ax+'" y2="'+ay+'" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 3"/><circle cx="'+ax+'" cy="'+ay+'" r="4" fill="#dc2626"/><text x="'+(ax+8)+'" y="'+(ay-8)+'" font-size="10" fill="#dc2626" font-weight="700">ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</text>';
   const seen={};
   function draw(list,isTransit){
     for(const p of list.planets){
-      const a=(90 - p.longitude)*Math.PI/180;
+      const a=(-p.longitude)*Math.PI/180;
       const key=Math.round(p.longitude/2)+(isTransit?1000:0);
       seen[key]=(seen[key]||0)+1;
       const rr=isTransit? inner1+22+((seen[key]-1)%2)*14 : inner2-18-((seen[key]-1)%2)*14;
