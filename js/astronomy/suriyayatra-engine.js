@@ -27,7 +27,6 @@ const BODY = {
   'มฤตยู': Astronomy.Body.Uranus,
 };
 
-const YEAR0 = 1900;
 const LAHIRI0_DEG = 22 + 27 / 60 + 55 / 3600;
 const LAHIRI_RATE_DEG_PER_YEAR = 0.0139289;
 
@@ -91,7 +90,17 @@ function parseLocalDate(date, time) {
   return new Date(Date.UTC(y, m - 1, d, hh, mi) - 7 * 3600000);
 }
 
-function isRetrograde(body, date) {\n  if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) return false;\n  const dt = new Date(date.getTime() - 0.5 * 86400000);\n  const dt2 = new Date(date.getTime() + 0.5 * 86400000);\n  const a = tropicalLongitude(body, dt);\n  const b = tropicalLongitude(body, dt2);\n  const delta = ((b - a + 540) % 360) - 180;\n  return delta < 0;\n}\n\nfunction calcBody(name, date, ayanamsa) {
+function isRetrograde(body, date) {
+  if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) return false;
+  const dt = new Date(date.getTime() - 0.5 * 86400000);
+  const dt2 = new Date(date.getTime() + 0.5 * 86400000);
+  const a = tropicalLongitude(body, dt);
+  const b = tropicalLongitude(body, dt2);
+  const delta = ((b - a + 540) % 360) - 180;
+  return delta < 0;
+}
+
+function calcBody(name, date, ayanamsa) {
   const tropical = tropicalLongitude(BODY[name], date);
   return {
     tropical,
