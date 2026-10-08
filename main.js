@@ -1,5 +1,5 @@
 
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.6.6';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.6.9';
 import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.0';
 
 const $=id=>document.getElementById(id);
