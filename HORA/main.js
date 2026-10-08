@@ -66,7 +66,7 @@ function siderealLon(tropical,date,ayan){
 }
 function astroLon(body,date){
  if(body===Astronomy.Body.Sun)return Astronomy.SunPosition(date).elon;
- const v=Astronomy.GeoVector(body,date);
+ const v=Astronomy.GeoVector(body,date,false);
  return Astronomy.Ecliptic(v).elon;
 }
 function meanNode(date){
