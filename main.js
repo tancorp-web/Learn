@@ -1,5 +1,10 @@
 
-// HORA v5.2 main.js - Thai Suriyayat Master Menu\n// Dropdown/date validation: day count follows selected BE year/month; leap years handled by Gregorian conversion.
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js';
+import { calculateSuriyayatraAscendant } from './js/astronomy/ascendant-geometry.js';
+
+// HORA v5.3 main.js - Thai Suriyayat calculation engine integrated
+// ใช้สูตรสุริยยาตร์ integer engine + อันโตนาทีสามัญจริงจากโมดูล
+\n// Dropdown/date validation: day count follows selected BE year/month; leap years handled by Gregorian conversion.
 // เมษอยู่บน 12 นาฬิกา
 // หมายเหตุ: เมนูสูตรเป็น Master Specification; ห้ามถือข้อความใน UI แทนสูตรที่ยังไม่พิสูจน์
 const $=id=>document.getElementById(id);
@@ -23,22 +28,68 @@ function signOf(lon){return {name:signs[Math.floor(((lon%360)+360)%360/30)], idx
 function houseFromAsc(lon,asc){return Math.floor((((lon-asc)%360+360)%360/30)+1);}
 function getWeekdayThai(beY,m,d,h){const ad=beY-543;let dt=new Date(ad,m-1,d);const isBefore6=h<6;if(isBefore6)dt=new Date(dt.getTime()-24*3600*1000);return {weekday:dt.getDay(),isBefore6};}
 function calcThaksa(wd){const map={0:['อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'],1:['จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์'],2:['อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์'],3:['พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์','อังคาร'],4:['พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์'],5:['ศุกร์','อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู'],6:['เสาร์','พฤหัสบดี','ราหู','ศุกร์','อาทิตย์','จันทร์','อังคาร','พุธ']};const pls=map[wd];const r={};['บริวาร','อายุ','เดช','ศรี','มูลละ','อุตสาหะ','มนตรี','กาลกิณี'].forEach((k,i)=>r[k]=pls[i]);return r;}
-function calcAt(dateStr,timeStr,isBirth){
-  const hh=parseInt(timeStr.split(':')[0]);
-  const beY=parseInt(dateStr.split('-')[0])+543;
-  const month=parseInt(dateStr.split('-')[1]),day=parseInt(dateStr.split('-')[2]);
-  const isGolden=dateStr===GOLDEN.date&&timeStr===GOLDEN.time&&isBirth;
-  let pLong;
-  if(isGolden){pLong={...GOLDEN.planets};}
-  else{
-    const base=new Date('1975-10-14');const cur=new Date(dateStr);
-    const diff=Math.floor((cur-base)/86400000);
-    pLong={};for(const k in GOLDEN.planets){pLong[k]=(GOLDEN.planets[k]+diff*0.08 + (k==='จันทร์'?diff*0.5:0))%360;}
+function parseLocalDate(dateStr,timeStr){
+  const [y,m,d]=dateStr.split('-').map(Number);
+  const [hh,mm]=timeStr.split(':').map(Number);
+  return new Date(Date.UTC(y,m-1,d,hh,mm)-7*60*60*1000);
+}
+function signObj(lon){
+  const n=((lon%360)+360)%360;
+  const idx=Math.floor(n/30);
+  return {name:signs[idx],idx};
+}
+function calcAt(dateStr,timeStr,isBirth,location){
+  const hh=parseInt(timeStr.split(':')[0],10);
+  const mm=parseInt(timeStr.split(':')[1],10);
+  const beY=parseInt(dateStr.split('-')[0],10)+543;
+  const month=parseInt(dateStr.split('-')[1],10),day=parseInt(dateStr.split('-')[2],10);
+  const loc=location||{lat:13.752555,lon:100.494066,timezone:7};
+
+  const engine=calculateSuriyayatra({date:dateStr,time:timeStr});
+  const ascDate=parseLocalDate(dateStr,timeStr);
+  const sun=engine.planets.find(p=>p.name==='อาทิตย์');
+  if(!sun)throw new Error('SURIYAYATRA_SUN_MISSING');
+
+  let asc=0;
+  if(isBirth){
+    asc=calculateSuriyayatraAscendant({
+      date:ascDate,
+      latitude:Number(loc.lat),
+      longitude:Number(loc.lon),
+      suriyayatraSunLongitude:Number(sun.longitude),
+      timezone:Number(loc.timezone??7)
+    });
   }
-  const asc=isBirth?GOLDEN.asc:(GOLDEN.asc+(parseInt(dateStr.split('-')[0])-1975)*0.02)%360;
-  const planets=Object.keys(pLong).map(n=>({name:n,longitude:((pLong[n]%360)+360)%360,sign:signOf(pLong[n]),house:houseFromAsc(pLong[n],asc)}));
+
+  const planets=engine.planets.map(p=>({
+    id:p.id,name:p.name,
+    longitude:((Number(p.longitude)%360)+360)%360,
+    sign:signObj(p.longitude),
+    house:isBirth?houseFromAsc(p.longitude,asc):0,
+    retrograde:Boolean(p.retrograde)
+  }));
   const wd=getWeekdayThai(beY,month,day,hh);
-  return {date:dateStr,time:timeStr,asc,planets,weekday:wd.weekday,weekdayInfo:wd,ascSign:signOf(asc),thaksa:calcThaksa(wd.weekday)};
+  return {
+    date:dateStr,time:timeStr,asc,
+    planets,weekday:wd.weekday,weekdayInfo:wd,
+    ascSign:signObj(asc),thaksa:calcThaksa(wd.weekday),
+    metadata:engine
+  };
+}
+function goldenQA(natal,input){
+  if(input.date!==GOLDEN.date||input.time!==GOLDEN.time)return {applicable:false,pass:true,deltas:{}};
+  const deltas={};
+  let pass=true;
+  const ascDelta=Math.abs(((natal.asc-GOLDEN.asc+540)%360)-180);
+  deltas['ลัคนา']=ascDelta;
+  if(ascDelta>0.02)pass=false;
+  for(const p of natal.planets){
+    if(GOLDEN.planets[p.name]===undefined)continue;
+    const d=Math.abs(((p.longitude-GOLDEN.planets[p.name]+540)%360)-180);
+    deltas[p.name]=d;
+    if(d>0.02)pass=false;
+  }
+  return {applicable:true,pass,deltas};
 }
 function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'}[n]||'';}
 
@@ -195,16 +246,23 @@ function render(natal,transit){
   natal.planets.forEach(function(np){const tp=transit?transit.planets.find(p=>p.name===np.name):null;html+='<div style="display:grid;grid-template-columns:110px 1fr 1fr;gap:6px;padding:6px 0;border-bottom:1px solid #eee;font-size:12px"><div>'+planetNo(np.name)+' '+np.name+'</div><div><span class="pill pill-natal">'+np.sign.name+' '+formatInSign(np.longitude)+'</span> '+formatFull(np.longitude)+'</div><div>'+(tp?'<span class="pill pill-transit">'+tp.sign.name+' '+formatInSign(tp.longitude)+'</span> '+formatFull(tp.longitude):'—')+'</div></div>';});
   $('compare').innerHTML=html;
   $('birthDetails').innerHTML='เกิด: '+natal.date+' '+natal.time+' พ.ศ.'+natal.beYear+' '+$('bPlace').textContent+'<br>จร: '+transit.date+' '+transit.time+' '+$('fPlace').textContent+'<br><b>ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</b> เมษบน';
-  renderWheel(natal,transit);renderSquare(natal,transit);
+  renderWheel(natal,transit);
 }
 
 document.getElementById('calc').addEventListener('click',function(){
   const b=getInput('b'),f=getInput('f');
-  const natal=calcAt(b.date,b.time,true);natal.beYear=b.beYear;
-  const transit=calcAt(f.date,f.time,false);
+  const natal=calcAt(b.date,b.time,true,{lat:Number($('bLat').value),lon:Number($('bLon').value),timezone:7});natal.beYear=b.beYear;
+  const transit=calcAt(f.date,f.time,false,{lat:Number($('fLat').value),lon:Number($('fLon').value),timezone:7});
+  const qa=goldenQA(natal,b);
   render(natal,transit);
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
-  $('msg').innerHTML='<div class="ok">✅ เมษอยู่บน 12 นาฬิกา - PASS - บริวาร '+natal.thaksa['บริวาร']+' - กลางอาทิตย์ '+formatInSign(sun.longitude)+'</div>';
+  if(qa.applicable&&!qa.pass){
+    const detail=Object.entries(qa.deltas).map(([n,d])=>n+': '+(d*60).toFixed(1)+'′').join(' · ');
+    $('msg').innerHTML='<div style="background:#fee2e2;color:#991b1b;padding:8px;border-radius:8px">❌ GOLDEN CASE FAIL — '+detail+'</div>';
+    console.error('GOLDEN_CASE_FAIL',qa);
+    return;
+  }
+  $('msg').innerHTML='<div class="ok">✅ สูตรสุริยยาตร์ใหม่ทำงาน · เมษอยู่บน 12 นาฬิกา · '+(qa.applicable?'Golden Case PASS':'คำนวณสำเร็จ')+' · บริวาร '+natal.thaksa['บริวาร']+' · อาทิตย์ '+formatInSign(sun.longitude)+'</div>';
 });
 
 initDropdowns();
