@@ -113,11 +113,11 @@ function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'
 
 function renderWheel(natal,transit){
   const el=$('wheel');
-  const c=300,rad=245,inner=72,planetInner=122,planetOuter=198;
+  const c=300,rad=245,inner=72,planetInner=122,planetOuter=205;
   let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff">';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/>';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fafaf9" stroke="#334155" stroke-width="1"/>';
-  svg+='<circle cx="'+c+'" cy="'+planetInner+'" r="0" fill="none"/>';
+
   for(let i=0;i<12;i++){
     const signStart=i*30;
     const angleStart=(-90-signStart)*Math.PI/180;
@@ -134,7 +134,13 @@ function renderWheel(natal,transit){
   const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
   svg+='<line x1="'+c+'" y1="'+c+'" x2="'+ax+'" y2="'+ay+'" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>';
   svg+='<circle cx="'+ax+'" cy="'+ay+'" r="5" fill="#dc2626"/>';
-  svg+='<text x="'+(ax+8)+'" y="'+(ay-8)+'" font-size="11" fill="#dc2626" font-weight="800">ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</text>';
+  svg+='<text x="'+(ax+8)+'" y="'+(ay-8)+'" font-size="11" fill="#dc2626" font-weight="800">@ ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</text>';
+  if(natal.weekday!==undefined){
+    const dayAngle=(-90-natal.weekday*30)*Math.PI/180;
+    const dx=c+rad*Math.cos(dayAngle),dy=c+rad*Math.sin(dayAngle);
+    svg+='<circle cx="'+dx+'" cy="'+dy+'" r="5" fill="#7c3aed"/>';
+    svg+='<text x="'+(dx+8)+'" y="'+(dy+14)+'" font-size="11" fill="#7c3aed" font-weight="800">@ ลัคนาวัน '+signs[natal.weekday]+'</text>';
+  }
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
   svg+='<text x="'+c+'" y="'+(c-5)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
   svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="10" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
@@ -148,13 +154,11 @@ function renderWheel(natal,transit){
     for(const si of Object.keys(bySign).map(Number)){
       const ps=bySign[si];
       ps.forEach((p,j)=>{
-        const spread=(j-(ps.length-1)/2)*8;
-        const lon=si*30+15+spread;
-        const angle=(-90-lon)*Math.PI/180;
-        const rr=isTransit?planetOuter-(j%2)*18:planetInner+(j%2)*18;
+        const angle=(-90-p.longitude)*Math.PI/180;
+        const rr=isTransit?planetOuter:planetInner;
         const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
-        const color=isTransit?'#15803d':'#111827';
-        const stroke=isTransit?'#22c55e':'#d8b36a';
+        const color=isTransit?'#15803d':'#7c3aed';
+        const stroke=isTransit?'#22c55e':'#c4b5fd';
         svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
         svg+='<circle cx="'+x+'" cy="'+y+'" r="12" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
         svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">'+planetNo(p.name)+'</text>';
