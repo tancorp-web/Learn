@@ -533,8 +533,21 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // IMPORTANT: ใช้ "หรคุณกำเนิด" โดยตรงตามต้นฉบับ ไม่ใช้ราหู+180
   // และไม่ใช้ Golden value เป็น input. การตรวจอธิกมาสใช้กับการหา
   // สุรทิน/หรคุณกำเนิดเท่านั้น ไม่ควรนำ -30 วันมาซ้ำในขั้น 679 นี้.
-  const ketuHorakhun = horakhun;
   const ketuCalendar = calendarArithmetic(horakhun, chulaSakarat);
+  const ketuBirthCalendar = ketuSuratinPrasongForBirth({
+    horakhun,
+    thaloengHorakhun: thaloeng.horakhun,
+    tithiThaloengSok,
+    isAdhikamasYear: ketuCalendar.isAdhikamas
+  });
+
+  // In an adhikamas year, the extra month is 8/88.  The 30-day
+  // correction begins ONLY from the actual birth-day boundary of 8/88
+  // through month 12.  Births before 8/88 are untouched.  This correction
+  // belongs to the birth-day/Harakhun chain and is applied once, before
+  // entering the 344/679 Ketu calculation.
+  const ketuCorrectionDays = ketuBirthCalendar.correctionDays;
+  const ketuHorakhun = horakhun - ketuCorrectionDays;
 
   const ketu344Value = ketuHorakhun - 344;
   const ketu679Remainder = MOD(ketu344Value, 679);
@@ -567,7 +580,9 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     trueRasi: Math.floor(ketuTrueArc / 1800),
     trueDegree: Math.floor(MOD(ketuTrueArc, 1800) / 60),
     trueMinute: MOD(ketuTrueArc, 60),
-    calendarCorrectionDays: 0,
+    calendarCorrectionDays: ketuCorrectionDays,
+    secondMonth8Horakhun: ketuBirthCalendar.secondMonth8Horakhun,
+    birthPhase: ketuBirthCalendar.birthPhase,
     calendarRule: ketuCalendar.calendarRule,
     isAdhikamas: ketuCalendar.isAdhikamas
   };
@@ -604,7 +619,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.6.4-KETU-344-679-EXACT',
+      engineVersion: 'v8.6.5-KETU-ADHIKAMAS-8-88',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
