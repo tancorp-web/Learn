@@ -24,10 +24,10 @@ async function loadPlaces(){
  const r=await fetch('./data/provinces.json'); const d=await fetch('./data/districts.json'); if(!r.ok||!d.ok) throw new Error('โหลดข้อมูลจังหวัด/อำเภอไม่ได้'); provinces=await r.json(); districts=await d.json(); populateProvinceSelects(); setProvince('birth','กรุงเทพมหานคร','พระนคร'); setProvince('forecast','กรุงเทพมหานคร','พระนคร');
 }
 function provinceByName(n){return provinces.find(function(p){return p.name===n;});}
-function districtsForProvince(n){const p=provinceByName(n);if(!p)return [];const id=provinces.indexOf(p)+1;return districts.filter(function(d){return d.provinceId===id;});}
+function districtsForProvince(n){const p=provinceByName(n);if(!p)return [];return districts.filter(function(d){return d.provinceId===p.id;});}
 function populateProvinceSelects(){['province','forecastProvince'].forEach(function(id){$(id).innerHTML='<option value="">เลือกจังหวัด</option>'+provinces.map(function(p){return '<option value="'+p.name+'">'+p.name+'</option>';}).join('');}); $('province').onchange=function(){setProvince('birth',$('province').value);}; $('forecastProvince').onchange=function(){setProvince('forecast',$('forecastProvince').value);}; $('district').onchange=function(){syncPlace('birth');}; $('forecastDistrict').onchange=function(){syncPlace('forecast');};}
 function setProvince(kind,name,districtName){const prefix=kind==='birth'?'':'forecast';const p=provinceByName(name);if(!p)return;const ps=$(prefix?'forecastProvince':'province');const ds=$(prefix?'forecastDistrict':'district');ps.value=p.name;const list=districtsForProvince(p.name);ds.innerHTML='<option value="">เลือกเขต / อำเภอ</option>'+list.map(function(d){return '<option value="'+d.name+'">'+d.prefix+d.name+'</option>';}).join('');const d=list.find(function(x){return x.name===districtName;})||list[0];if(d)ds.value=d.name;syncPlace(kind);}
-function syncPlace(kind){const prefix=kind==='birth'?'':'forecast';const p=$(prefix?'forecastProvince':'province').value;const d=$(prefix?'forecastDistrict':'district').value;const pv=provinceByName(p);if(!pv)return;let lat=pv.lat,lon=pv.lon;if(p==='กรุงเทพมหานคร'&&d==='พระนคร'){lat=13.752555;lon=100.494066;}$(prefix?'forecastLat':'latInput').value=Number(lat).toFixed(6);$(prefix?'forecastLon':'lonInput').value=Number(lon).toFixed(6);const found=districts.find(function(x){return x.provinceId===provinces.indexOf(pv)+1&&x.name===d;});$(kind==='birth'?'selectedProvince':'selectedForecastPlace').textContent=p+(d?' · '+(found?found.prefix:'')+d:'');}
+function syncPlace(kind){const prefix=kind==='birth'?'':'forecast';const p=$(prefix?'forecastProvince':'province').value;const d=$(prefix?'forecastDistrict':'district').value;const pv=provinceByName(p);if(!pv)return;let lat=pv.lat,lon=pv.lon;if(p==='กรุงเทพมหานคร'&&d==='พระนคร'){lat=13.752555;lon=100.494066;}$(prefix?'forecastLat':'latInput').value=Number(lat).toFixed(6);$(prefix?'forecastLon':'lonInput').value=Number(lon).toFixed(6);const found=districts.find(function(x){return x.provinceId===pv.id&&x.name===d;});$(kind==='birth'?'selectedProvince':'selectedForecastPlace').textContent=p+(d?' · '+(found?found.prefix:'')+d:'');}
 function readSelectValue(id,label){const el=$(id);if(!el)throw new Error('HORA_FIELD_MISSING: #'+id);if(!el.value)throw new Error('กรุณาเลือก'+label);return el.value;}
 function input(){const be=Number(readSelectValue('year','ปีเกิด')),ad=be-543;return {name:$('fullName').value.trim()||'ไม่ระบุชื่อ',date:ad+'-'+pad($('month').value)+'-'+pad($('day').value),time:pad($('hour').value)+':'+pad($('minute').value),province:readSelectValue('province','จังหวัดเกิด'),district:readSelectValue('district','เขต / อำเภอเกิด'),latitude:Number($('latInput').value),longitude:Number($('lonInput').value),timezone:Number($('tzInput').value||7),calendar:$('calendar').value||'suriyayatra',ascMethod:$('ascMethod').value||'anto06adjusted',nodeMethod:$('nodeMethod').value||'thai',thaiDayBoundary:'06:00'};}
 function forecastInput(base){const now=new Date();const date=$('forecastDateInput').value||(now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()));const time=$('forecastTimeInput').value||(pad(now.getHours())+':'+pad(now.getMinutes()));const province=readSelectValue('forecastProvince','จังหวัดสถานที่จร');const district=readSelectValue('forecastDistrict','เขต / อำเภอสถานที่จร');return {...base,date:date,time:time,province:province,district:district,latitude:Number($('forecastLat').value),longitude:Number($('forecastLon').value),timezone:Number($('forecastTz').value||base.timezone)};}
@@ -121,29 +121,17 @@ function calcAt(i,date){
  };
 }
 function previewChart(i){return calcAt(i,parseLocalDate(i));}
-function renderWheel(r){
- const c=250,rad=215;
- const planetNo={'อาทิตย์':'1','จันทร์':'2','อังคาร':'3','พุธ':'4','พฤหัสบดี':'5','ศุกร์':'6','เสาร์':'7','ราหู':'8','เกตุ':'9'};
+function renderWheel(natal,transit){
+ const c=250,rad=215; const planetNo={'อาทิตย์':'1','จันทร์':'2','อังคาร':'3','พุธ':'4','พฤหัสบดี':'5','ศุกร์':'6','เสาร์':'7','ราหู':'8','เกตุ':'9','มฤตยู':'0'};
  let s='<svg viewBox="0 0 500 500" class="wheel" role="img" aria-label="HORA Zodiac Wheel">';
- s+='<circle cx="250" cy="250" r="215" fill="none" stroke="#55627c"/><circle cx="250" cy="250" r="150" fill="none" stroke="#33405a"/>';
- for(let i=0;i<12;i++){
-  const boundary=(i*30-15-90)*Math.PI/180,x=c+rad*Math.cos(boundary),y=c+rad*Math.sin(boundary);
-  const label=(i*30-90)*Math.PI/180,lx=c+(rad-25)*Math.cos(label),ly=c+(rad-25)*Math.sin(label);
-  s+=`<line x1="250" y1="250" x2="${x}" y2="${y}" stroke="#33405a"/><text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#d8b36a">${signs[i]}</text>`;
- }
- const seen={};
- for(const p of r.planets){
-  const a=(p.longitude-90)*Math.PI/180;
-  const key=Math.round(p.longitude/2);
-  seen[key]=(seen[key]||0)+1;
-  const rr=118+((seen[key]-1)%3)*18;
-  const x=c+rr*Math.cos(a),y=c+rr*Math.sin(a);
-  const label=planetNo[p.name]||p.name[0];
-  const title=planetNo[p.name]?p.name+' = ดาวหมายเลข '+planetNo[p.name]:p.name;
-  s+=`<g><title>${title}</title><circle cx="${x}" cy="${y}" r="11" fill="#131a2c" stroke="#d8b36a" stroke-width="1.5"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">${label}</text></g>`;
- }
- s+='</svg>';
- $('wheel').innerHTML=s;
+ s+='<circle cx="250" cy="250" r="215" fill="none" stroke="#55627c"/><circle cx="250" cy="250" r="150" fill="none" stroke="#33405a"/><circle cx="250" cy="250" r="185" fill="none" stroke="#8bd3ff" stroke-dasharray="4 5" opacity=".7"/>';
+ for(let i=0;i<12;i++){const boundary=(i*30-15-90)*Math.PI/180,x=c+rad*Math.cos(boundary),y=c+rad*Math.sin(boundary);const label=(i*30-90)*Math.PI/180,lx=c+(rad-25)*Math.cos(label),ly=c+(rad-25)*Math.sin(label);s+='<line x1="250" y1="250" x2="'+x+'" y2="'+y+'" stroke="#33405a"/><text x="'+lx+'" y="'+ly+'" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#d8b36a">'+signs[i]+'</text>';}
+ function draw(list,ring,stroke,label){const seen={};for(const p of list.planets){const a=(p.longitude-90)*Math.PI/180;const key=Math.round(p.longitude/2);seen[key]=(seen[key]||0)+1;const rr=ring+((seen[key]-1)%3)*15;const x=c+rr*Math.cos(a),y=c+rr*Math.sin(a);const n=planetNo[p.name]||p.name[0];s+='<g><title>'+label+' '+p.name+' '+formatDeg(p.longitude)+'</title><circle cx="'+x+'" cy="'+y+'" r="11" fill="#111827" stroke="'+stroke+'" stroke-width="2.5"/><text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">'+n+'</text></g>';}}
+ draw(natal,118,'#d8b36a','พื้นดวง');
+ if(transit)draw(transit,183,'#8bd3ff','ดาวจร');
+ s+='<text x="250" y="247" text-anchor="middle" font-size="13" fill="#d8b36a">พื้นดวง</text><text x="250" y="267" text-anchor="middle" font-size="12" fill="#8bd3ff">ดาวจร</text>';
+ s+='</svg>'; $('wheel').innerHTML=s;
+ const legend=$('wheelLegend');if(legend)legend.innerHTML='<span class="legend-item"><i style="background:#d8b36a"></i>พื้นดวงกำเนิด</span><span class="legend-item"><i style="background:#8bd3ff"></i>ดาวจร ณ วันเวลาที่เลือก</span>';
 }
 function renderTransits(i){
  const fi=forecastInput(i),d=parseLocalDate(fi),r=calcAt(fi,d),vals=r.planets,el=$('transits');
@@ -165,15 +153,16 @@ function renderDetailed(r){
  $('ageStages').innerHTML='<div class="section-title small-title">ตรีวัย</div>'+['ตนุ 0–8.4 ปี','กดุมภะ 8.4–16.8 ปี','กัมมะ 16.8–25 ปี','สหัสชะ 25–33.4 ปี','สุภะ 33.4–41.8 ปี','ลาภะ 41.8–50 ปี','พันธุ 50–58.4 ปี','ปุตตะ 58.4–66.8 ปี','ปัตนิ 66.8–75 ปี','อริ 75–83.4 ปี','มรณะ 83.4–91.8 ปี','วินาศ 91.8–100 ปี'].map(x=>'<span class="pill">'+x+'</span>').join('');
 }
 function render(r,preview){
+ const transit=calcAt(forecastInput(r.input),parseLocalDate(forecastInput(r.input)));
  $('asc').innerHTML=`<b>${r.ascendant.sign.name}</b> ${formatDeg(r.ascendant.longitude)} <span class="muted">(${r.ascendant.navamsa.signName})</span>`;
  $('sunrise').textContent='อาทิตย์อุทัยอ้างอิง 06:00 น. · สุริยยาตร์ · อันโตนาทีสามัญ · ปรับเวลาท้องถิ่น';
  $('meta').innerHTML='ปฏิทิน: '+(r.metadata.calendar||'Thai Suriyayatra')+'<br>ลัคนา: อันโตนาทีสามัญ อาทิตย์อุทัย 06:00 น. ปรับเวลาท้องถิ่น<br>Engine: '+r.metadata.engineVersion+'<br>สถานะ: ต้องตรวจ Golden Case เต็มชุด';
  $('thaksa').innerHTML=Object.entries(r.thaksa.roles).map(([a,b])=>`<span class="pill">${a}: ${b}</span>`).join('');
  $('planets').innerHTML=r.planets.map(p=>`<div class="planet"><span>${p.name}</span><span>${p.sign.name} ${formatDeg(p.longitude)} · เรือน ${p.house}${p.retrograde?' · ม':''}</span></div>`).join('');
  $('houses').innerHTML=r.houses.map(h=>`<div class="planet"><span>${h.number}. ${h.name}</span><span>${h.sign.name} ${formatDeg(h.cusp)}</span></div>`).join('');
- renderWheel(r);renderDetailed(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);
+ renderWheel(r,transit);renderDetailed(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);
 }
-$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const base=input();const {data,preview}=await calculate(base);render(data,preview);renderTransits(base);$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){const msg=errorText(e);writeRuntimeLog('UI_ERROR',msg,{input:input()});$('msg').innerHTML=`<span class="error">FAIL — ${msg}</span>`;}});
+$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const base=input();const {data,preview}=await calculate(base);render(data,preview);renderTransits(base);$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){const msg=errorText(e);writeRuntimeLog('UI_ERROR',msg);$('msg').innerHTML=`<span class="error">FAIL — ${msg}</span>`;}});
 function updateForecastClock(){
  const d=new Date(),hh=pad(d.getHours()),mm=pad(d.getMinutes()),ss=pad(d.getSeconds());
  const el=document.getElementById('forecastTime');if(el)el.textContent=hh+':'+mm+':'+ss+' น.';
