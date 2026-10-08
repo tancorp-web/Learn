@@ -27,11 +27,30 @@ function renderProvinceList(q=''){const s=q.trim().toLowerCase();const arr=provi
 function input(){const be=Number($('year').value),ad=be-543;return{date:`${ad}-${pad($('month').value)}-${pad($('day').value)}`,time:`${pad($('hour').value)}:${pad($('minute').value)}`,province:$('province').value,latitude:Number($('lat').value),longitude:Number($('lon').value),timezone:7,ayanamsa:$('ayan').value,thaiDayBoundary:'06:00'};}
 
 
+function errorText(e){
+ if(e instanceof Error)return e.stack||e.message||String(e);
+ if(e&&typeof e==='object'){
+  try{return JSON.stringify(e,null,2);}catch(_){return String(e);}
+ }
+ return String(e??'Unknown error');
+}
+function writeRuntimeLog(type,detail,extra){
+ const el=$('runtimeLog');if(!el)return;
+ const now=new Date();
+ const line={time:now.toISOString(),localTime:now.toLocaleString('th-TH'),type,detail,extra:extra??null};
+ const current=el.textContent==='ยังไม่มี Log'?[]:(()=>{try{return JSON.parse(el.textContent);}catch(_){return[];}})();
+ current.push(line);
+ el.textContent=JSON.stringify(current,null,2);
+ console.error('[HORA]',line);
+}
 function calculate(i){
  try{
-  return Promise.resolve({data:previewChart(i),preview:true});
+  writeRuntimeLog('CALCULATE_START','เริ่มคำนวณ',i);
+  const data=previewChart(i);
+  writeRuntimeLog('CALCULATE_OK','คำนวณสำเร็จ',{engine:data?.metadata?.engineVersion,ephemeris:data?.metadata?.ephemeris});
+  return Promise.resolve({data,preview:true});
  }catch(e){
-  console.error('HORA calculation error:',e);
+  writeRuntimeLog('CALCULATE_ERROR',errorText(e),{input:i});
   return Promise.reject(e);
  }
 }
@@ -120,7 +139,7 @@ function render(r,preview){
  renderWheel(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);
 }
 $('provinceSearch').addEventListener('focus',()=>renderProvinceList($('provinceSearch').value));$('provinceSearch').addEventListener('input',e=>renderProvinceList(e.target.value));$('provinceClear').addEventListener('click',()=>{$('provinceSearch').value='';renderProvinceList('');$('provinceSearch').focus();});document.addEventListener('click',e=>{if(!e.target.closest('.combo'))$('provinceList').hidden=true;});
-$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const {data,preview}=await calculate(input());render(data,preview);renderTransits(input());$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`}});
+$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const {data,preview}=await calculate(input());render(data,preview);renderTransits(input());$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){const msg=errorText(e);writeRuntimeLog('UI_ERROR',msg,{input:input()});$('msg').innerHTML=`<span class="error">FAIL — ${msg}</span>`;}});
 function updateForecastClock(){
  const d=new Date(),hh=pad(d.getHours()),mm=pad(d.getMinutes()),ss=pad(d.getSeconds());
  const el=document.getElementById('forecastTime');if(el)el.textContent=hh+':'+mm+':'+ss+' น.';
@@ -132,5 +151,19 @@ document.getElementById('useNow').addEventListener('click',()=>{
  $('hour').value=String(d.getHours());$('minute').value=String(d.getMinutes());
  $('calc').click();
 });
-setInterval(()=>{updateForecastClock();if(document.getElementById('transits'))renderTransits(input());},1000);updateForecastClock();
+window.addEventListener('error',e=>writeRuntimeLog('WINDOW_ERROR',errorText(e.error||e.message),{file:e.filename,line:e.lineno,column:e.colno}));
+window.addEventListener('unhandledrejection',e=>writeRuntimeLog('UNHANDLED_REJECTION',errorText(e.reason)));
+$('copyLog')?.addEventListener('click',async()=>{
+ const el=$('runtimeLog');const value=el?.textContent||'ยังไม่มี Log';
+ try{await navigator.clipboard.writeText(value);$('copyLog').textContent='คัดลอกแล้ว ✓';setTimeout(()=>$('copyLog').textContent='คัดลอก Log',1500);}
+ catch(e){writeRuntimeLog('COPY_ERROR',errorText(e));}
+});
+setInterval(()=>{
+ updateForecastClock();
+ if(document.getElementById('transits')){
+  try{renderTransits(input());}
+  catch(e){writeRuntimeLog('TRANSIT_ERROR',errorText(e),{input:input()});}
+ }
+},1000);
+updateForecastClock();
 initBirthSelectors();loadProvinces().then(()=>$('calc').click()).catch(e=>$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`);
