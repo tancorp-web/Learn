@@ -357,20 +357,53 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     meanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
     21600
   );
-  // Classical true Moon correction uses mean Uccabala, not the generic
-  // interpolation table. Uccabala advances from the Thaloeng Sok base by
-  // Suratin and uses the 808 divisor; the lunar equation is 296*sin(anomaly)/60.
+  // Classical Suriyayatra Moon:
+  // 1) Uccabala Atta = (Harakun - 621) mod 3232.
+  // 2) Uccabala birth = Uccabala Atta + Suratin birth.
+  // 3) Convert by 3/808, retaining the traditional integer stages and +2'.
+  // 4) Uccavises = Madhyam Ucca - Madhyam Moon.
+  // 5) Convert Uccavises to Khan/Bhuj and interpolate the Chandra shadow
+  //    sequence 77, 148, 209, 256, 286, 296.
+  // Golden values are QA only; no Golden value is used here.
+  const uccabalaAtta = MOD(horakhun - 621, 3232);
+  const uccabalaBirth = uccabalaAtta + suratinBirth;
+  const uccabalaProduct = uccabalaBirth * 3;
+  const uccabalaRasi = Math.floor(uccabalaProduct / 808);
+  const uccabalaRem1 = MOD(uccabalaProduct, 808);
+  const uccabalaDegree = Math.floor(uccabalaRem1 * 30 / 808);
+  const uccabalaRem2 = MOD(uccabalaRem1 * 30, 808);
+  const uccabalaMinute = Math.floor(uccabalaRem2 * 60 / 808) + 2;
   const meanUccabala = MOD(
-    Math.floor(
-      ((horakhun + 2611) * 3 * 1800) / 808
-    ) + 2,
+    uccabalaRasi * 1800 + uccabalaDegree * 60 + uccabalaMinute,
     21600
   );
-  const moonAnomaly = MOD(meanMoon - meanUccabala, 21600);
-  const moonEquation = Math.floor(
-    296 * Math.sin((moonAnomaly * Math.PI / 10800))
-  );
-  const moon = MOD(meanMoon - moonEquation, 21600);
+
+  const uccavises = MOD(meanUccabala - meanMoon, 21600);
+  const uccaSign = Math.floor(uccavises / 1800);
+  const uccaRemainder = MOD(uccavises, 1800);
+  const uccaDegree = Math.floor(uccaRemainder / 60);
+  const uccaMinute = MOD(uccavises, 60);
+  let khan;
+  if (uccaSign <= 2) khan = uccaSign * 2;
+  else if (uccaSign <= 5) khan = (6 - uccaSign) * 2;
+  else if (uccaSign <= 8) khan = (uccaSign - 6) * 2;
+  else khan = (12 - uccaSign) * 2;
+
+  const bhujLipda = uccaDegree * 60 + uccaMinute;
+  const CHANDRA_SHADOW = [77, 148, 209, 256, 286, 296];
+  let moonCorrectionMagnitude;
+  if (khan === 0) {
+    moonCorrectionMagnitude = Math.floor(CHANDRA_SHADOW[0] * bhujLipda / 900);
+  } else {
+    const shadowIndex = khan - 1;
+    const upper = CHANDRA_SHADOW[shadowIndex];
+    const lower = CHANDRA_SHADOW[shadowIndex + 1];
+    moonCorrectionMagnitude =
+      upper + Math.floor((lower - upper) * bhujLipda / 900);
+  }
+  const moonCorrectionSign = uccaSign <= 5 ? 1 : -1;
+  const moonCorrection = moonCorrectionMagnitude * moonCorrectionSign;
+  const moon = MOD(meanMoon + moonCorrection, 21600);
 
   const marsMean = MOD(Math.trunc(epoch / 2) + Math.floor(epoch * 16 / 505) + 5420, 21600);
   const mercuryMean = MOD(Math.trunc(epoch * 7 / 46) + Math.floor(epoch * 4) + 10642, 21600);
@@ -416,11 +449,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.0-CLASSICAL-MOON-MANAT',
+      engineVersion: 'v8.1-CLASSICAL-MOON-SHADOW',
       calculation: 'Horakhun -> exact classical mean Sun/Moon -> Madhyam -> named planet-specific Manda/Singha Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
+      moonDebug: { meanMoonArcMinutes: meanMoon, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccaSign, uccavisesDegree: uccaDegree, uccavisesMinute: uccaMinute, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
       calculationTimeMinutes,
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
