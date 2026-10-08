@@ -1,6 +1,6 @@
 
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js';
-import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v7.1.1';
+import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.1.1';
 
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
