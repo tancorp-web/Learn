@@ -75,9 +75,10 @@ export function calculateAscendantBoundaryTimes({date,longitude,suriyayatraSunLo
     let localMinutes=firstBoundaryLocal;
     for(let j=0;j<i;j++) localMinutes+=ASCENSION_TABLE[(sunSign+j+12)%12];
     let clock=((localMinutes+localCorrectionMinutes)%1440+1440)%1440;
+    clock=Math.round(clock);
+    if(clock>=1440) clock-=1440;
     const hh=Math.floor(clock/60).toString().padStart(2,'0');
-    const mm=Math.round(clock%60).toString().padStart(2,'0');
-    if(mm==='60') { clock=(clock+1)%1440; }
+    const mm=(clock%60).toString().padStart(2,'0');
     out.push({sign,minutes:clock,label:hh+':'+mm});
   }
   return out;
