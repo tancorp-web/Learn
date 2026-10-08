@@ -138,7 +138,7 @@ function renderWheel(natal,transit){
   const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
   const ascDotR=14;
   svg+='<circle cx="'+ax+'" cy="'+ay+'" r="'+ascDotR+'" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>';
-  svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
+  svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">@</text>';
   const ascTextR=rad+52;
   const alx=c+ascTextR*Math.cos(ascAngle),aly=c+ascTextR*Math.sin(ascAngle);
   const aa=Math.cos(ascAngle)>=0?'start':'end';
@@ -156,7 +156,7 @@ function renderWheel(natal,transit){
       const stroke=isTransit?'#22c55e':'#c4b5fd';
       svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
       svg+='<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
-      svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">@</text>';
+      svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
       const labelY=y+(j%2===0?-17:29);
       svg+='<text x="'+x+'" y="'+labelY+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
       svg+='</g>';
