@@ -144,12 +144,26 @@ function shiftCivilDate(date, days) {
   return dt.toISOString().slice(0, 10);
 }
 
-function adhikamasInfo(chulaSakarat) {
-  // Traditional 19-year cycle: remainders 3,6,9,11,14,17,0
-  // (i.e. years 3,6,9,11,14,17,19) are Adhikamasa years.
-  const cycleYear = MOD(chulaSakarat - 8, 19);
-  const isAdhikamas = [0,3,6,9,11,14,17].includes(cycleYear);
-  return { cycleYear: cycleYear === 0 ? 19 : cycleYear, isAdhikamas, lunarMonth: isAdhikamas ? '๘/๘๘' : 'ปกติมาส' };
+function calendarArithmetic(horakhun) {
+  const lunarNumerator = horakhun * 703 + 650;
+  const tithiTotal = Math.floor(lunarNumerator / 692);
+  const avaman = MOD(lunarNumerator, 692);
+  const masa = Math.floor(tithiTotal / 30) + horakhun;
+  const tithi = MOD(tithiTotal, 30);
+  const adhikamasRemainder = MOD(masa * 7, 235);
+  const monthCriterion = MOD(masa - Math.floor(masa * 7 / 235), 12);
+  return {
+    masa,
+    tithi,
+    avaman,
+    monthCriterion,
+    adhikamasRemainder,
+    // Do not infer a final Adhikamasa flag from the 19-year mnemonic alone.
+    // The exact Thai calendar decision also depends on the traditional
+    // month/year boundary rules; these raw values are the auditable inputs.
+    isAdhikamas: null,
+    lunarMonth: null
+  };
 }
 
 function motionFor(name, date, time, longitude) {
@@ -268,7 +282,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     )
   };
 
-  const calendar = adhikamasInfo(chulaSakarat);
+  const calendar = calendarArithmetic(horakhun);
   const planets = Object.entries(arcs).map(([name, arc], index) => {
     const motion = includeMotion ? motionFor(name, date, time, longitude) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
     return {
@@ -287,7 +301,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v7.3-CLASSICAL-SURIYAYATRA-ADHIKAMAS-MOTION',
+      engineVersion: 'v7.4-CLASSICAL-SURIYAYATRA-CALENDAR-MOTION',
       calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
