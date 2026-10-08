@@ -45,7 +45,7 @@ function lahiriAyanamsa(date) {
 }
 
 function equatorialToEclipticLongitude(raDeg, decDeg, obliquityDeg) {
-  const ra = raDeg * DEG;
+  const ra = raDeg * 15 * DEG;
   const dec = decDeg * DEG;
   const eps = obliquityDeg * DEG;
 
@@ -91,7 +91,7 @@ function parseLocalDate(date, time) {
   return new Date(Date.UTC(y, m - 1, d, hh, mi) - 7 * 3600000);
 }
 
-function calcBody(name, date, ayanamsa) {
+function isRetrograde(body, date) {\n  if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) return false;\n  const dt = new Date(date.getTime() - 0.5 * 86400000);\n  const dt2 = new Date(date.getTime() + 0.5 * 86400000);\n  const a = tropicalLongitude(body, dt);\n  const b = tropicalLongitude(body, dt2);\n  const delta = ((b - a + 540) % 360) - 180;\n  return delta < 0;\n}\n\nfunction calcBody(name, date, ayanamsa) {
   const tropical = tropicalLongitude(BODY[name], date);
   return {
     tropical,
@@ -123,7 +123,7 @@ export function calculateSuriyayatra({ date, time }) {
       name,
       longitude: sidereal,
       tropicalLongitude: tropical,
-      retrograde: false,
+      retrograde: isRetrograde(BODY[name], instant),
     });
   }
 
