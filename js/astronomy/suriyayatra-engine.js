@@ -280,14 +280,37 @@ function ketuSuratinPrasongForBirth({ horakhun, thaloengHorakhun, tithiThaloengS
     }
   }
 
-  const afterSecondMonth8 =
+  // IMPORTANT: the correction is decided from the BIRTH DAY'S phase
+  // inside this specific adhikamas year.  Do not carry the flag into the
+  // next year and do not subtract merely because the year is adhikamas.
+  //
+  // Before 8/88: no -30.
+  // From 8/88 through month 12: -30.
+  // At the next Thaloeng Sok the previous year's correction is finished.
+  const birthIsBeforeSecondMonth8 =
+    secondMonth8Horakhun !== null &&
+    horakhun < secondMonth8Horakhun;
+
+  const birthIsAfterSecondMonth8 =
     secondMonth8Horakhun !== null &&
     horakhun >= secondMonth8Horakhun;
 
+  const birthPhase = birthIsBeforeSecondMonth8
+    ? 'before-second-month-8'
+    : birthIsAfterSecondMonth8
+      ? 'after-second-month-8-through-month-12'
+      : 'second-month-8-boundary-undetermined';
+
+  const correctionDays = birthIsAfterSecondMonth8 ? 30 : 0;
+
   return {
-    suratin: baseSuratin - (afterSecondMonth8 ? 30 : 0),
-    correctionDays: afterSecondMonth8 ? 30 : 0,
+    suratin: baseSuratin - correctionDays,
+    correctionDays,
     secondMonth8Horakhun,
+    birthPhase,
+    birthHorakhun: horakhun,
+    // Explicitly scoped to this Thaloeng-Sok year; next year starts at 0.
+    yearPhaseScopedToThaloengSok: true,
   };
 }
 
