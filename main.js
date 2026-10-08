@@ -68,16 +68,13 @@ function calcAt(dateStr,timeStr,isBirth,location){
   const sun=engine.planets.find(p=>p.name==='อาทิตย์');
   if(!sun)throw new Error('SURIYAYATRA_SUN_MISSING');
 
-  let asc=0;
-  if(isBirth){
-    asc=calculateSuriyayatraAscendant({
+  let asc=calculateSuriyayatraAscendant({
       date:ascDate,
       latitude:Number(loc.lat),
       longitude:Number(loc.lon),
       suriyayatraSunLongitude:Number(sun.longitude),
       timezone:Number(loc.timezone??7)
     });
-  }
 
   const planets=engine.planets.map(p=>({
     id:p.id,name:p.name,
@@ -136,16 +133,23 @@ function renderWheel(natal,transit){
     svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★':'')+'</text>';
   }
 
-  // ลัคนา: จุดอยู่ตรงองศาจริง และใช้วงกลม @ แยกจากข้อความ
-  const ascAngle=(-90-natal.asc+planetOffset)*Math.PI/180;
-  const ax=c+rad*Math.cos(ascAngle),ay=c+rad*Math.sin(ascAngle);
-  const ascDotR=14;
-  svg+='<circle cx="'+ax+'" cy="'+ay+'" r="'+ascDotR+'" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>';
-  svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">@</text>';
-  const ascTextR=rad+52;
-  const alx=c+ascTextR*Math.cos(ascAngle),aly=c+ascTextR*Math.sin(ascAngle);
-  const aa=Math.cos(ascAngle)>=0?'start':'end';
-  svg+='<text x="'+alx+'" y="'+(aly+4)+'" text-anchor="'+aa+'" font-size="10" fill="#dc2626" font-weight="800">@ ลัคนา '+natal.ascSign.name+' '+formatInSign(natal.asc)+'</text>';
+  // ลัคนาเกิดและลัคนาจร: ใช้องศาจริงเดียวกับแกนวงล้อ และวางข้อความให้อยู่ใน viewBox
+  function drawAsc(ascObj,isTransit){
+    if(!ascObj||typeof ascObj.asc!=='number')return;
+    const ascAngle=(-90-ascObj.asc+planetOffset)*Math.PI/180;
+    const rr=isTransit?238:224;
+    const ax=c+rr*Math.cos(ascAngle),ay=c+rr*Math.sin(ascAngle);
+    const color=isTransit?'#b45309':'#dc2626';
+    const stroke=isTransit?'#92400e':'#991b1b';
+    svg+='<circle cx="'+ax+'" cy="'+ay+'" r="14" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
+    svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">@</text>';
+    const labelR=198;
+    const lx=c+labelR*Math.cos(ascAngle),ly=c+labelR*Math.sin(ascAngle);
+    const label='@ '+(isTransit?'ลัคนาจร ':'ลัคนา ')+ascObj.ascSign.name+' '+formatInSign(ascObj.asc);
+    svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="10" fill="'+color+'" font-weight="900" style="paint-order:stroke;stroke:#fff;stroke-width:3px">'+label+'</text>';
+  }
+  drawAsc(natal,false);
+  if(transit)drawAsc(transit,true);
 
   function draw(list,isTransit){
     if(!list||!list.planets)return;
