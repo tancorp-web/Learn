@@ -221,8 +221,9 @@ function renderWheel(natal,transit){
       // ใช้พิกัด "เส้นแบ่งราศี" เดียวกันโดยตรง ห้ามสร้างพิกัดเส้นภพอีกชุด
       const boundaryDeg=zodiacBoundaries[(ascIdx+(h-1))%12];
       const boundaryA=(-90-boundaryDeg)*Math.PI/180;
-      const bx=c+inner*Math.cos(boundaryA),by=c+inner*Math.sin(boundaryA);
-      svg+='<line x1="'+c+'" y1="'+c+'" x2="'+bx+'" y2="'+by+'" stroke="#d6d3d1" stroke-width=".7"/>';
+      const bx=c+rad*Math.cos(boundaryA),by=c+rad*Math.sin(boundaryA);
+      // เส้นภพต้องต่อเนื่องกับเส้นแบ่งราศีจริงถึงขอบวงนอก ใช้มุมเดียวกันและจุดปลายเดียวกัน
+      svg+='<line x1="'+c+'" y1="'+c+'" x2="'+bx+'" y2="'+by+'" stroke="#d6d3d1" stroke-width=".9"/>';
       const midDeg=(ascIdx+(h-1))*30+15;
       const a=(-90-midDeg)*Math.PI/180;
       const x=c+houseR*Math.cos(a),y=c+houseR*Math.sin(a);
