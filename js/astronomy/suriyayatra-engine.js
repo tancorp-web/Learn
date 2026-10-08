@@ -15,13 +15,10 @@ const MOD = (v, d) => {
 
 const SIGN_DURATIONS = [120,96,72,120,144,168,168,144,120,72,96,120];
 
-// Ketu 679-day cycle reference for the verified 2534/1991 adhikamas year.
-// Month 8/88 begins on 12 Jul 2534 (1991-07-12). From that starting point
-// Ketu moves backward 360° per 679 days. The reference phase is 198°16'30"
-// so that the verified 14 Oct and 14 Dec positions round to 28°26' สิงห์
-// and 26°06' กรกฎ respectively. The same cycle is reused by date modulo 679;
-// no -30-day correction is applied a second time.
-const KETU_679_REFERENCE_DATE = '1991-07-12';
+// Ketu 679-day cycle. The phase at the start of each inserted month 8/88
+// is the verified 198°16'30" reference phase. The start date itself is
+// calculated from the adhikamas calendar of the birth year; it is never
+// hard-coded to a single Gregorian date.
 const KETU_679_REFERENCE_ARCMIN = 198 * 60 + 16.5;
 const KETU_679_CYCLE_DAYS = 679;
 const KETU_679_CYCLE_ARCMIN = 21600;
@@ -32,14 +29,93 @@ function utcCivilDayDifference(dateA, dateB) {
   return Math.round((Date.UTC(ay,am-1,ad) - Date.UTC(by,bm-1,bd)) / 86400000);
 }
 
-function ketu679FromMonth88Start(date) {
-  const daysFromReference = utcCivilDayDifference(date, KETU_679_REFERENCE_DATE);
-  const cycleDays = MOD(daysFromReference, KETU_679_CYCLE_DAYS);
-  return MOD(
-    KETU_679_REFERENCE_ARCMIN
-      - cycleDays * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS,
-    KETU_679_CYCLE_ARCMIN
+function findMonth88StartForBeYear(beYear) {
+  const chulaSakarat = beYear - 1181;
+  const thaloeng = thaloengSokReference(chulaSakarat);
+  const avamanThaloengSok = MOD(thaloeng.horakhun * 11 + 650, 692);
+  const tithiThaloengSok = MOD(
+    Math.floor((thaloeng.horakhun * 11 + 650) / 692)
+      + thaloeng.horakhun,
+    30
   );
+  const isAdhikamas = tithiThaloengSok >= 21 || tithiThaloengSok <= 2;
+  if (!isAdhikamas) return null;
+
+  // The third tithi=0 boundary from Thaloeng Sok is the beginning
+  // of the inserted second month 8 (เดือน 88). This is the same
+  // integer-calendar rule already used by the Suratin correction;
+  // it is deliberately calculated per Thai year, never hard-coded.
+  let zeroBoundaries = 0;
+  let month88Horakhun = null;
+  for (let offset = 0; offset <= 390; offset += 1) {
+    const suratin = offset - 1;
+    const tithi = MOD(
+      Math.floor((suratin * 11 + avamanThaloengSok) / 692)
+        + suratin
+        + tithiThaloengSok,
+      30
+    );
+    if (tithi === 0) {
+      zeroBoundaries += 1;
+      if (zeroBoundaries === 3) {
+        month88Horakhun = thaloeng.horakhun + offset;
+        break;
+      }
+    }
+  }
+  if (month88Horakhun === null) {
+    throw new Error('MONTH88_START_NOT_FOUND');
+  }
+
+  // Horakhun is converted back to a civil Gregorian date by scanning
+  // only the corresponding Gregorian year. Month 8/88 falls in that
+  // civil year, and the scan avoids timezone/browser-date ambiguity.
+  const gregorianYear = beYear - 543;
+  for (let month = 1; month <= 12; month += 1) {
+    const daysInMonth = new Date(Date.UTC(gregorianYear, month, 0)).getUTCDate();
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const candidate = String(gregorianYear).padStart(4, '0')
+        + '-' + String(month).padStart(2, '0')
+        + '-' + String(day).padStart(2, '0');
+      const candidateHorakhun =
+        civilJulianDay(gregorianYear, month, day) - 1954167;
+      if (candidateHorakhun === month88Horakhun) {
+        return {
+          date: candidate,
+          beYear,
+          chulaSakarat,
+          horakhun: month88Horakhun,
+          isAdhikamas: true
+        };
+      }
+    }
+  }
+  throw new Error('MONTH88_CIVIL_DATE_NOT_FOUND');
+}
+
+function latestMonth88StartOnOrBefore(date, beYear) {
+  // Use the month 88 belonging to the latest adhikamas year at or
+  // before the birth date. This keeps the rule date-driven and avoids
+  // carrying a fixed 1991 anchor into other years.
+  for (let candidateBeYear = beYear; candidateBeYear >= beYear - 20; candidateBeYear -= 1) {
+    const start = findMonth88StartForBeYear(candidateBeYear);
+    if (start && start.date <= date) return start;
+  }
+  throw new Error('MONTH88_START_NOT_FOUND_FOR_DATE');
+}
+
+function ketu679FromMonth88Start(date, beYear) {
+  const month88 = latestMonth88StartOnOrBefore(date, beYear);
+  const daysFromMonth88Start = utcCivilDayDifference(date, month88.date);
+  const cycleDays = MOD(daysFromMonth88Start, KETU_679_CYCLE_DAYS);
+  return {
+    arcMinutes: MOD(
+      KETU_679_REFERENCE_ARCMIN
+        - cycleDays * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS,
+      KETU_679_CYCLE_ARCMIN
+    ),
+    month88
+  };
 }
 const SHADOW_TABLE = [0,244,427,488];
 const SUN_TABLE = [0,35,67,94,116,129,134];
@@ -545,13 +621,15 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // verified start of month 8/88. The birth date is counted directly from
   // that start date; do not subtract 30 days again for adhikamas.
   const ketuCalendar = calendarArithmetic(horakhun, chulaSakarat);
-  const ketuTrueArc = ketu679FromMonth88Start(date);
-  const ketuDaysFromMonth88 = utcCivilDayDifference(date, KETU_679_REFERENCE_DATE);
+  const ketu = ketu679FromMonth88Start(date, yearBe);
+  const ketuTrueArc = ketu.arcMinutes;
+  const ketuMonth88 = ketu.month88;
+  const ketuDaysFromMonth88 = utcCivilDayDifference(date, ketuMonth88.date);
   const ketuCycleDays = MOD(ketuDaysFromMonth88, KETU_679_CYCLE_DAYS);
   const ketuSpeedArcminPerDay = KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS;
 
   const ketuDebug = {
-    referenceDate: KETU_679_REFERENCE_DATE,
+    referenceDate: ketuMonth88.date,
     birthDate: date,
     daysFromMonth88Start: ketuDaysFromMonth88,
     cycleDays: ketuCycleDays,
@@ -564,8 +642,10 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     trueDegree: Math.floor(MOD(ketuTrueArc, 1800) / 60),
     trueMinute: MOD(ketuTrueArc, 60),
     calendarCorrectionDays: 0,
-    calendarRule: 'เริ่มเดือน 88 → นับวันจริง → 679 วัน = 360°; ไม่ลบ 30 วันซ้ำ',
-    isAdhikamas: ketuCalendar.isAdhikamas
+    calendarRule: 'หาเดือน 88 ของปีอธิกมาส → ใช้วันเริ่มต้นจริง → นับวันเกิดจริง → 679 วัน = 360°; ไม่ลบ 30 วันซ้ำ',
+    isAdhikamas: ketuCalendar.isAdhikamas,
+    month88BeYear: ketuMonth88.beYear,
+    month88Horakhun: ketuMonth88.horakhun
   };
 
   const arcs = {
