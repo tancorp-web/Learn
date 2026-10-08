@@ -20,3 +20,5 @@ for(const [name,lon] of Object.entries(expected.planets)){
   assert.ok(delta(p.longitude,lon)<=0.02,name+' '+p.longitude+' expected '+lon);
 }
 console.log(JSON.stringify({engine:r.engineVersion,calendar:r.calendar,planetRegression:r.planets},null,2));
+
+// CI regression covers confirmed planetary Golden Case; ascendant is browser adapter validation.
