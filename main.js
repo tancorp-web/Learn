@@ -23,14 +23,67 @@ function initBirthSelectors(){
 async function loadPlaces(){
  const r=await fetch('./data/provinces.json'); const d=await fetch('./data/districts.json'); if(!r.ok||!d.ok) throw new Error('โหลดข้อมูลจังหวัด/อำเภอไม่ได้'); provinces=await r.json(); districts=await d.json(); populateProvinceSelects(); setProvince('birth','กรุงเทพมหานคร','พระนคร'); setProvince('forecast','กรุงเทพมหานคร','พระนคร');
 }
+function provinceById(id){return provinces.find(function(p){return String(p.id)===String(id);});}
 function provinceByName(n){return provinces.find(function(p){return p.name===n;});}
-function districtsForProvince(n){const p=provinceByName(n);if(!p)return [];return districts.filter(function(d){return d.provinceId===p.id;});}
-function populateProvinceSelects(){['province','forecastProvince'].forEach(function(id){$(id).innerHTML='<option value="">เลือกจังหวัด</option>'+provinces.map(function(p){return '<option value="'+p.name+'">'+p.name+'</option>';}).join('');}); $('province').onchange=function(){setProvince('birth',$('province').value);}; $('forecastProvince').onchange=function(){setProvince('forecast',$('forecastProvince').value);}; $('district').onchange=function(){syncPlace('birth');}; $('forecastDistrict').onchange=function(){syncPlace('forecast');};}
-function setProvince(kind,name,districtName){const prefix=kind==='birth'?'':'forecast';const p=provinceByName(name);if(!p)return;const ps=$(prefix?'forecastProvince':'province');const ds=$(prefix?'forecastDistrict':'district');ps.value=p.name;const list=districtsForProvince(p.name);ds.innerHTML='<option value="">เลือกเขต / อำเภอ</option>'+list.map(function(d){return '<option value="'+d.name+'">'+d.prefix+d.name+'</option>';}).join('');const d=list.find(function(x){return x.name===districtName;})||list[0];if(d)ds.value=d.name;syncPlace(kind);}
-function syncPlace(kind){const prefix=kind==='birth'?'':'forecast';const p=$(prefix?'forecastProvince':'province').value;const d=$(prefix?'forecastDistrict':'district').value;const pv=provinceByName(p);if(!pv)return;let lat=pv.lat,lon=pv.lon;if(p==='กรุงเทพมหานคร'&&d==='พระนคร'){lat=13.752555;lon=100.494066;}$(prefix?'forecastLat':'latInput').value=Number(lat).toFixed(6);$(prefix?'forecastLon':'lonInput').value=Number(lon).toFixed(6);const found=districts.find(function(x){return x.provinceId===pv.id&&x.name===d;});$(kind==='birth'?'selectedProvince':'selectedForecastPlace').textContent=p+(d?' · '+(found?found.prefix:'')+d:'');}
-function readSelectValue(id,label){const el=$(id);if(!el)throw new Error('HORA_FIELD_MISSING: #'+id);if(!el.value)throw new Error('กรุณาเลือก'+label);return el.value;}
-function input(){const be=Number(readSelectValue('year','ปีเกิด')),ad=be-543;return {name:$('fullName').value.trim()||'ไม่ระบุชื่อ',date:ad+'-'+pad($('month').value)+'-'+pad($('day').value),time:pad($('hour').value)+':'+pad($('minute').value),province:readSelectValue('province','จังหวัดเกิด'),district:readSelectValue('district','เขต / อำเภอเกิด'),latitude:Number($('latInput').value),longitude:Number($('lonInput').value),timezone:Number($('tzInput').value||7),calendar:$('calendar').value||'suriyayatra',ascMethod:$('ascMethod').value||'anto06adjusted',nodeMethod:$('nodeMethod').value||'thai',thaiDayBoundary:'06:00'};}
-function forecastInput(base){const now=new Date();const date=$('forecastDateInput').value||(now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()));const time=$('forecastTimeInput').value||(pad(now.getHours())+':'+pad(now.getMinutes()));const province=readSelectValue('forecastProvince','จังหวัดสถานที่จร');const district=readSelectValue('forecastDistrict','เขต / อำเภอสถานที่จร');return {...base,date:date,time:time,province:province,district:district,latitude:Number($('forecastLat').value),longitude:Number($('forecastLon').value),timezone:Number($('forecastTz').value||base.timezone)};}
+function districtsForProvince(id){const p=provinceById(id);if(!p)return [];return districts.filter(function(d){return String(d.provinceId)===String(p.id);});}
+function districtById(id){return districts.find(function(d){return String(d.id)===String(id);});}
+function populateProvinceSelects(){
+ ['province','forecastProvince'].forEach(function(id){
+  const el=$(id);if(!el)throw new Error('HORA_FIELD_MISSING: #'+id);
+  el.innerHTML='<option value="">เลือกจังหวัด</option>'+provinces.map(function(p){return '<option value="'+p.id+'">'+p.name+'</option>';}).join('');
+ });
+ $('province').onchange=function(){setProvince('birth',$('province').value);};
+ $('forecastProvince').onchange=function(){setProvince('forecast',$('forecastProvince').value);};
+ $('district').onchange=function(){syncPlace('birth');};
+ $('forecastDistrict').onchange=function(){syncPlace('forecast');};
+}
+function setProvince(kind,provinceId,districtName){
+ const prefix=kind==='birth'?'':'forecast';
+ const p=provinceById(provinceId);if(!p)return;
+ const ps=$(prefix?'forecastProvince':'province'),ds=$(prefix?'forecastDistrict':'district');
+ ps.value=String(p.id);
+ const list=districtsForProvince(p.id);
+ ds.innerHTML='<option value="">เลือกเขต / อำเภอ</option>'+list.map(function(d){return '<option value="'+d.id+'">'+d.prefix+d.name+'</option>';}).join('');
+ const d=list.find(function(x){return x.name===districtName;})||list[0];
+ if(d)ds.value=String(d.id);
+ syncPlace(kind);
+}
+function syncPlace(kind){
+ const prefix=kind==='birth'?'':'forecast';
+ const ps=$(prefix?'forecastProvince':'province'),ds=$(prefix?'forecastDistrict':'district');
+ if(!ps||!ds)throw new Error('HORA_FIELD_MISSING: สถานที่');
+ const pv=provinceById(ps.value),found=districtById(ds.value);
+ if(!pv)return;
+ let lat=pv.lat,lon=pv.lon;
+ if(pv.name==='กรุงเทพมหานคร'&&found&&found.name==='พระนคร'){lat=13.752555;lon=100.494066;}
+ $(prefix?'forecastLat':'latInput').value=Number(lat).toFixed(6);
+ $(prefix?'forecastLon':'lonInput').value=Number(lon).toFixed(6);
+ $(kind==='birth'?'selectedProvince':'selectedForecastPlace').textContent=pv.name+(found?' · '+found.prefix+found.name:'');
+}
+function readSelectValue(id,label){
+ const el=$(id);if(!el)throw new Error('HORA_FIELD_MISSING: #'+id);
+ if(!el.value)throw new Error('กรุณาเลือก'+label);
+ return el.value;
+}
+function input(){
+ const fullName=$('fullName');if(!fullName)throw new Error('HORA_FIELD_MISSING: #fullName');
+ const be=Number(readSelectValue('year','ปีเกิด')),ad=be-543;
+ const month=readSelectValue('month','เดือนเกิด'),day=readSelectValue('day','วันเกิด');
+ const hour=readSelectValue('hour','ชั่วโมงเกิด'),minute=readSelectValue('minute','นาทีเกิด');
+ const provinceId=readSelectValue('province','จังหวัดเกิด'),districtId=readSelectValue('district','เขต / อำเภอเกิด');
+ const pv=provinceById(provinceId),dv=districtById(districtId);
+ if(!pv||!dv||String(dv.provinceId)!==String(pv.id))throw new Error('กรุณาเลือกเขต / อำเภอเกิดให้ตรงกับจังหวัด');
+ return {name:fullName.value.trim()||'ไม่ระบุชื่อ',date:ad+'-'+pad(month)+'-'+pad(day),time:pad(hour)+':'+pad(minute),province:pv.name,district:dv.name,latitude:Number($('latInput').value),longitude:Number($('lonInput').value),timezone:Number($('tzInput').value||7),calendar:$('calendar').value||'suriyayatra',ascMethod:$('ascMethod').value||'anto06adjusted',nodeMethod:$('nodeMethod').value||'thai',thaiDayBoundary:'06:00'};
+}
+function forecastInput(base){
+ const now=new Date();
+ const date=$('forecastDateInput').value||(now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()));
+ const time=$('forecastTimeInput').value||(pad(now.getHours())+':'+pad(now.getMinutes()));
+ const provinceId=readSelectValue('forecastProvince','จังหวัดสถานที่จร'),districtId=readSelectValue('forecastDistrict','เขต / อำเภอสถานที่จร');
+ const pv=provinceById(provinceId),dv=districtById(districtId);
+ if(!pv||!dv||String(dv.provinceId)!==String(pv.id))throw new Error('กรุณาเลือกเขต / อำเภอสถานที่จรให้ตรงกับจังหวัด');
+ return {...base,date:date,time:time,province:pv.name,district:dv.name,latitude:Number($('forecastLat').value),longitude:Number($('forecastLon').value),timezone:Number($('forecastTz').value||base.timezone)};
+}
 function errorText(e){
  if(e instanceof Error)return e.stack||e.message||String(e);
  if(e&&typeof e==='object'){
