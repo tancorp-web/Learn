@@ -197,10 +197,12 @@ function renderWheel(natal,transit){
   svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
   svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
 
-  // ราศี: คงแกนเดิม เมษอยู่บน และทวนเข็ม
+  // แกนราศี/ภพใช้ชุดเส้นแบ่งเดียวกัน: แต่ละช่องกว้าง 30° และขอบอยู่ที่ -15° จากจุดกลางราศี
+  const zodiacBoundaries=[];
   for(let i=0;i<12;i++){
-    const boundary=i*30-15;
-    const a=(-90-boundary)*Math.PI/180;
+    const boundaryDeg=i*30-15;
+    zodiacBoundaries.push(boundaryDeg);
+    const a=(-90-boundaryDeg)*Math.PI/180;
     const x1=c+inner*Math.cos(a),y1=c+inner*Math.sin(a);
     const x2=c+rad*Math.cos(a),y2=c+rad*Math.sin(a);
     svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
@@ -216,8 +218,8 @@ function renderWheel(natal,transit){
     const ascIdx=natal&&natal.ascSign?natal.ascSign.idx:Math.floor((((natal.asc%360)+360)%360)/30);
     const houseR=54;
     for(let h=1;h<=12;h++){
-      // เส้นกั้นภพต้องตรงกับเส้นกั้นราศี: ราศีละ 30° โดยขอบอยู่ที่ -15°/+15° รอบจุดกลางราศี
-      const boundaryDeg=(ascIdx+(h-1))*30-15;
+      // ใช้พิกัด "เส้นแบ่งราศี" เดียวกันโดยตรง ห้ามสร้างพิกัดเส้นภพอีกชุด
+      const boundaryDeg=zodiacBoundaries[(ascIdx+(h-1))%12];
       const boundaryA=(-90-boundaryDeg)*Math.PI/180;
       const bx=c+inner*Math.cos(boundaryA),by=c+inner*Math.sin(boundaryA);
       svg+='<line x1="'+c+'" y1="'+c+'" x2="'+bx+'" y2="'+by+'" stroke="#d6d3d1" stroke-width=".7"/>';
