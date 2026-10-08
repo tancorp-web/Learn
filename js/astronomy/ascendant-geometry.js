@@ -1,85 +1,121 @@
-// HORA — traditional Thai Suriyayatra Antornatee Samanya ascendant.
-// This adapter intentionally does not use a tropical/SiderealTime conversion.
-// The traditional method anchors the wheel to the Suriyayatra Sun position at
-// the requested birth time, applies local-time correction, then walks the
-// fixed Antornatee table from the 06:00 reference.
+// HORA — astronomical Ascendant geometry.
+// Uses UTC instant + geographic longitude/latitude + Greenwich Apparent Sidereal Time.
+// No fixed "Thailand meridian correction" and no chart-specific constants are used.
+// The tropical Ascendant is computed from local sidereal time, then converted to
+// the same sidereal zodiac used by the planetary engine.
 
-const ASCENSION_TABLE = [120,96,72,120,144,168,168,144,120,72,96,120];
-const norm=x=>((x%360)+360)%360;
+import * as Astronomy from 'https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/+esm';
 
-export function calculateSuriyayatraAscendant({date,latitude,longitude,suriyayatraSunLongitude,timezone=7}){
-  if(!date||!Number.isFinite(latitude)||!Number.isFinite(longitude)||!Number.isFinite(suriyayatraSunLongitude)) throw new Error('ASCENDANT_INPUT_INVALID');
+const norm=x=>((Number(x)%360)+360)%360;
+const DEG=Math.PI/180;
 
-  // Thailand's historical reference meridian is 105°E.  The Bangkok
-  // correction is therefore about 18 minutes, matching the traditional
-  // Suriyayatra local-time adjustment used by the reference calculators.
-  const localCorrectionMinutes=(105-longitude)*4;
-  const localMinutes=date.getHours()*60+date.getMinutes()+date.getSeconds()/60-localCorrectionMinutes;
-  const sunLon=norm(suriyayatraSunLongitude);
-  const sunSign=Math.floor(sunLon/30);
-  const sunDeg=sunLon-sunSign*30;
-  const rate=ASCENSION_TABLE[sunSign]/30;
-  const sunrise=6*60;
-  let delta=localMinutes-sunrise;
-  let sign=sunSign;
-  let degree=sunDeg;
-
-  if(delta>=0){
-    let remaining=delta;
-    const toEnd=(30-degree)*rate;
-    if(remaining<=toEnd){
-      degree+=remaining/rate;
-    }else{
-      remaining-=toEnd;
-      sign=(sign+1)%12;
-      while(remaining>=ASCENSION_TABLE[sign]){
-        remaining-=ASCENSION_TABLE[sign];
-        sign=(sign+1)%12;
-      }
-      degree=remaining/(ASCENSION_TABLE[sign]/30);
-    }
-  }else{
-    let remaining=-delta;
-    const toStart=degree*rate;
-    if(remaining<=toStart){
-      degree-=remaining/rate;
-    }else{
-      remaining-=toStart;
-      sign=(sign+11)%12;
-      while(remaining>=ASCENSION_TABLE[sign]){
-        remaining-=ASCENSION_TABLE[sign];
-        sign=(sign+11)%12;
-      }
-      degree=30-remaining/(ASCENSION_TABLE[sign]/30);
-    }
-  }
-
-  const asc=norm(sign*30+degree);
-  return asc;
+function meanObliquityDeg(date){
+  const jd=date.getTime()/86400000+2440587.5;
+  const T=(jd-2451545.0)/36525;
+  return 23.43929111111111
+    -0.013004166666667*T
+    -0.000000163888889*T*T
+    +0.000000503611111*T*T*T;
 }
 
+function tropicalAscendant(date,latitude,longitude){
+  const gastHours=Astronomy.SiderealTime(date);
+  const theta=(gastHours*15+longitude)*DEG;
+  const phi=latitude*DEG;
+  const eps=meanObliquityDeg(date)*DEG;
 
-// Return clock times (HH:MM) when the transit Ascendant crosses 0° of each zodiac sign.
-// This is DISPLAY/REFERENCE data only; the ascendant calculation itself remains unchanged.
-export function calculateAscendantBoundaryTimes({date,longitude,suriyayatraSunLongitude}){
-  if(!date||!Number.isFinite(longitude)||!Number.isFinite(suriyayatraSunLongitude)) return [];
-  const sunLon=norm(suriyayatraSunLongitude);
-  const sunSign=Math.floor(sunLon/30);
-  const sunDeg=sunLon-sunSign*30;
-  const localCorrectionMinutes=(105-longitude)*4;
-  const baseLocal=6*60;
-  const firstBoundaryLocal=baseLocal-sunDeg*(ASCENSION_TABLE[sunSign]/30);
-  const out=[];
-  for(let i=0;i<12;i++){
-    const sign=(sunSign+i+12)%12;
-    let localMinutes=firstBoundaryLocal;
-    for(let j=0;j<i;j++) localMinutes+=ASCENSION_TABLE[(sunSign+j+12)%12];
-    let clock=((localMinutes+localCorrectionMinutes)%1440+1440)%1440;
-    clock=Math.round(clock);
-    if(clock>=1440) clock-=1440;
-    const hh=Math.floor(clock/60).toString().padStart(2,'0');
-    const mm=(clock%60).toString().padStart(2,'0');
-    out.push({sign,minutes:clock,label:hh+':'+mm});
+  // Ascendant on the eastern horizon.
+  // atan2 preserves the correct quadrant across 0°/360°.
+  const y=-Math.cos(theta);
+  const x=Math.sin(theta)*Math.cos(eps)+Math.tan(phi)*Math.sin(eps);
+  return norm(Math.atan2(y,x)/DEG);
+}
+
+export function calculateSuriyayatraAscendant({
+  date,
+  latitude,
+  longitude,
+  ayanamsa=0
+}){
+  if(!(date instanceof Date)||!Number.isFinite(date.getTime())) throw new Error('ASCENDANT_DATE_INVALID');
+  if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||!Number.isFinite(ayanamsa)){
+    throw new Error('ASCENDANT_INPUT_INVALID');
   }
-  return out;
+  if(latitude<=-90||latitude>=90) throw new Error('ASCENDANT_LATITUDE_INVALID');
+
+  const tropical=tropicalAscendant(date,latitude,longitude);
+  const sidereal=norm(tropical-ayanamsa);
+  return sidereal;
+}
+
+// Return local clock times when the sidereal Ascendant crosses each zodiac sign.
+// This is calculated numerically from the same Ascendant function used for the chart;
+// it is not a lookup table.
+export function calculateAscendantBoundaryTimes({
+  date,
+  latitude,
+  longitude,
+  ayanamsa=0,
+  timezone=7
+}){
+  if(!(date instanceof Date)||!Number.isFinite(date.getTime())) return [];
+  const base=new Date(date.getTime());
+  const start=new Date(Date.UTC(
+    base.getUTCFullYear(),base.getUTCMonth(),base.getUTCDate(),0,0,0,0
+  ));
+  const values=[];
+  const target=(i)=>i*30;
+
+  function angleDiff(a,b){
+    return ((a-b+540)%360)-180;
+  }
+
+  function ascAt(ms){
+    return calculateSuriyayatraAscendant({
+      date:new Date(ms),
+      latitude,
+      longitude,
+      ayanamsa
+    });
+  }
+
+  // Scan in 2-minute steps, then bisect each sign crossing.
+  let prevMs=start.getTime();
+  let prev=ascAt(prevMs);
+  for(let i=1;i<=720;i++){
+    const ms=start.getTime()+i*120000;
+    const cur=ascAt(ms);
+    for(let s=0;s<12;s++){
+      const a=target(s);
+      const d0=angleDiff(prev,a);
+      const d1=angleDiff(cur,a);
+      if((d0<=0&&d1>=0)||(d0>=0&&d1<=0)){
+        let lo=prevMs,hi=ms;
+        for(let k=0;k<20;k++){
+          const mid=(lo+hi)/2;
+          const dm=angleDiff(ascAt(mid),a);
+          const dl=angleDiff(ascAt(lo),a);
+          if((dl<=0&&dm>=0)||(dl>=0&&dm<=0))hi=mid;
+          else lo=mid;
+        }
+        const utc=new Date((lo+hi)/2);
+        const localMs=utc.getTime()+timezone*3600000;
+        const local=new Date(localMs);
+        values.push({
+          sign:s,
+          minutes:local.getUTCHours()*60+local.getUTCMinutes()+local.getUTCSeconds()/60,
+          label:local.toISOString().slice(11,16)
+        });
+      }
+    }
+    prevMs=ms;
+    prev=cur;
+  }
+
+  const seen=new Set();
+  return values.filter(v=>{
+    if(seen.has(v.sign))return false;
+    seen.add(v.sign);
+    return true;
+  });
 }
