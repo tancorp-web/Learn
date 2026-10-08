@@ -126,7 +126,8 @@ function renderWheel(natal,transit){
     svg+='<line x1="'+xi+'" y1="'+yi+'" x2="'+x1+'" y2="'+y1+'" stroke="#334155" stroke-width="1"/>';
     const mid=i*30;
     const am=(-90-mid)*Math.PI/180;
-    const lx=c+(rad-18)*Math.cos(am),ly=c+(rad-18)*Math.sin(am);
+    const labelRadius=(i===0||i===1)?rad+22:rad-18;
+    const lx=c+labelRadius*Math.cos(am),ly=c+labelRadius*Math.sin(am);
     const isAries=i===0;
     svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(isAries?16:13)+'" fill="'+(isAries?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(isAries?' ★':'')+'</text>';
   }
