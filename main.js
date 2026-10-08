@@ -4,6 +4,7 @@ import { formatDeg, signOf, houseFromAsc } from './js/core/geometry.js';
 
 const $=id=>document.getElementById(id);
 let provinces=[];
+let districts=[];
 const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 const pad=n=>String(n).padStart(2,'0');
 const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
