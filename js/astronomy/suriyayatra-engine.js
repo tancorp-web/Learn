@@ -247,7 +247,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
       idNumber: ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'][index]
     })),
     metadata: {
-      engineVersion: 'v7.0-CLASSICAL-SURIYAYATRA',
+      engineVersion: 'v7.1-CLASSICAL-SURIYAYATRA-POWER-FIX',
       calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
