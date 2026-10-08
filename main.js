@@ -137,16 +137,20 @@ function renderWheel(natal,transit){
   function drawAsc(ascObj,isTransit){
     if(!ascObj||typeof ascObj.asc!=='number')return;
     const ascAngle=(-90-ascObj.asc+planetOffset)*Math.PI/180;
-    const rr=isTransit?238:224;
+    // ลัคนาอยู่ในวงเดียวกับดาวของตัวเอง และใช้ lane เฉพาะ ไม่ปนกับดาว
+    const rr=isTransit?243:200;
     const ax=c+rr*Math.cos(ascAngle),ay=c+rr*Math.sin(ascAngle);
     const color=isTransit?'#b45309':'#dc2626';
     const stroke=isTransit?'#92400e':'#991b1b';
     svg+='<circle cx="'+ax+'" cy="'+ay+'" r="14" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
     svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">@</text>';
-    const labelR=198;
+    // วางป้ายด้านในของจุดลัคนาใน lane เฉพาะ เพื่อลดการชนกับป้ายองศาดาว
+    const labelR=isTransit?214:174;
     const lx=c+labelR*Math.cos(ascAngle),ly=c+labelR*Math.sin(ascAngle);
     const label='@ '+(isTransit?'ลัคนาจร ':'ลัคนา ')+ascObj.ascSign.name+' '+formatInSign(ascObj.asc);
-    svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="10" fill="'+color+'" font-weight="900" style="paint-order:stroke;stroke:#fff;stroke-width:3px">'+label+'</text>';
+    const w=isTransit?112:102;
+    svg+='<rect x="'+(lx-w/2)+'" y="'+(ly-9)+'" width="'+w+'" height="16" rx="4" fill="#fff" fill-opacity=".94" stroke="'+color+'" stroke-width="1"/>';
+    svg+='<text x="'+lx+'" y="'+(ly+3)+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="900">'+label+'</text>';
   }
   drawAsc(natal,false);
   if(transit)drawAsc(transit,true);
@@ -154,7 +158,7 @@ function renderWheel(natal,transit){
   function draw(list,isTransit){
     if(!list||!list.planets)return;
     const ps=list.planets.slice().sort((a,b)=>a.longitude-b.longitude);
-    const lanes=isTransit?[216,228,240]:[112,130,148,166,184];
+    const lanes=isTransit?[210,225,238]:[112,130,148,166,184];
     ps.forEach((p,j)=>{
       const angle=(-90-p.longitude+planetOffset)*Math.PI/180;
       const rr=lanes[j%lanes.length];
