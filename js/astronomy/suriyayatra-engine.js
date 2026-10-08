@@ -262,14 +262,16 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
 
   const sun = luminary(meanSun, meanSun - 4800, SUN_TABLE);
 
-  const lunarUnits = Math.trunc(calculationTimeMinutes * 703 / 24);
-  const lunarCycle = MOD((horakhun - 1) * 703 + 650 + lunarUnits, 20760);
-  const meanMoon = MOD(
-    Math.floor(lunarCycle / 692) * 720
-      + Math.trunc(1.04 * MOD(lunarCycle, 692))
-      - 40 + meanSun,
-    21600
-  );
+  // Classical Manat/Suriya-yatra mean Moon:
+  // Avaman birth and Tithi birth are derived from Horakhun itself.
+  // The birth-time 703-cycle must NOT be substituted for this step.
+  const birthDayBase = horakhun * 11 + 650;
+  const avamanBirth = MOD(birthDayBase, 692);
+  const tithiBirth = MOD(Math.trunc(birthDayBase / 692) + horakhun, 30);
+  const moonBaseArc = Math.floor(avamanBirth / 25) * 60 + MOD(avamanBirth, 25);
+  const tithiMoonArc = Math.floor(tithiBirth * 12 / 30) * 1800
+    + MOD(tithiBirth * 12, 30) * 60;
+  const meanMoon = MOD(meanSun + moonBaseArc + tithiMoonArc - 40, 21600);
   const apogeeDayIndex = MOD(horakhun - 1 - 621, 3232);
   const lunarAnomaly = meanLunarApogeeArcMinutes(apogeeDayIndex, calculationTimeMinutes);
   const moon = luminary(meanMoon, meanMoon - lunarAnomaly, MOON_TABLE);
@@ -336,8 +338,8 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v7.5-CLASSICAL-SURIYAYATRA-CALENDAR-MOTION',
-      calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
+      engineVersion: 'v7.8-CLASSICAL-MOON-MEAN-ARITHMETIC',
+      calculation: 'Horakhun -> exact classical mean Sun/Moon -> Madhyam -> Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
