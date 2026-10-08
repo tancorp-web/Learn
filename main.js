@@ -281,10 +281,8 @@ function renderWheel(natal,transit){
       svg+='<g class="'+cls+'" data-planet="'+p.name+'"><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
       svg+='<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
       svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
-      // Degree labels sit in dedicated lanes between planet and outer time ring.
-      const labelR=rr+(j%2===0?10:-10);
-      const tx=c+labelR*Math.cos(angle),ty=c+labelR*Math.sin(angle);
-      svg+='<text x="'+tx+'" y="'+(ty+3)+'" text-anchor="middle" font-size="8" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
+      // ไม่แสดงองศารอบวงดาว เพื่อลดข้อความชนกัน
+      // องศาของดาวยังคงอยู่ใน data/title และจะแสดงเมื่อคลิกดาวผ่าน popup
       svg+='</g>';
     });
   }
