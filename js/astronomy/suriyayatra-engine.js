@@ -457,6 +457,17 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const saturnMean = MOD(Math.trunc(epoch / 30) + Math.floor(epoch * 6 / 10000) + 11944, 21600);
   const uranusMean = MOD(Math.trunc(epoch / 84) + Math.floor(epoch / 7224) + 16277, 21600);
 
+  // Classical Ketu sequence: หรคุณกำเนิด -> สุรทินประสงค์ -> หรคุณประสงค์
+  // -> 679 remainder -> พลพระเกตุ -> มัธยมเกตุ -> สัมผุสเกตุ.
+  // The source sequence uses the whole-day horakhun; birth clock time is NOT
+  // added to this node calculation.
+  const ketuHorakhun = horakhun;
+  const ketuSuratin = suratinBirth;
+  const ketuHorakhunPrasong = thaloeng.horakhun + ketuSuratin;
+  const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
+  const ketuMeanArc = ketu679Remainder * 21600 / 679;
+  const ketuTrueArc = MOD(21600 - Math.floor(ketuMeanArc), 21600);
+
   const arcs = {
     'อาทิตย์': sun,
     'จันทร์': moon,
@@ -467,12 +478,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     'เสาร์': calculateSaturnManat(saturnMean, meanRavi),
     'มฤตยู': calculateUranusManat(uranusMean, meanRavi),
     'ราหู': MOD(15150 - MOD(Math.trunc(epoch / 20) + Math.floor(epoch / 265), 21600), 21600),
-    'เกตุ': MOD(
-      21600 - Math.trunc(
-        (MOD(horakhun - 1 - 344, 679) + (hour + minute / 60) / 24) * 21600 / 679
-      ),
-      21600
-    )
+    'เกตุ': MOD(21600 - Math.floor(ketuMeanArc), 21600)
   };
 
   const calendar = calendarArithmetic(horakhun, chulaSakarat);
@@ -494,12 +500,13 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.2-CLASSICAL-MOON-UCCABALA',
+      engineVersion: 'v8.3-CLASSICAL-KETU',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
       moonDebug: { meanMoonArcMinutes: meanMoon, uccabalaThaloeng, uccabalaFromThaloeng, uccabalaBirth, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccavisesRasi, uccavisesDegree: uccavisesDegree, uccavisesMinute: uccavisesMinute, plakenArcMinutes: plaken, plakenRasi, plakenDegree, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
+      ketuDebug: { ketuHorakhun, ketuSuratin, ketuHorakhunPrasong, ketu679Remainder, ketuMeanArc, ketuTrueArc },
       calculationTimeMinutes,
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
