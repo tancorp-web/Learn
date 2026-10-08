@@ -530,11 +530,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     isAdhikamasYear: ketuCalendar.isAdhikamas
   });
   const ketuSuratinPrasong = ketuSuratinAdjustment.suratin;
-  // Formula 2 source sequence: Horakhun Thaloeng Sok + Suratin Prasong
-  // (not birth Horakhun + Suratin). The latter is adjusted by the
-  // 8/88 phase rule only after the second 8th month has begun.
-  const ketuHorakhunPrasong = thaloeng.horakhun + ketuSuratinPrasong;
-  const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
+  // Formula 2 source sequence: use the BIRTH HORAKHUN directly.
+  // The adhikamas / 8/88 rule has already been applied when constructing
+  // the birth-day calendar quantities; it must not replace the formula's
+  // numerator with Thaloeng-Sok Horakhun + Suratin Prasong.
+  const ketuHorakhun = horakhun;
+  const ketu679Remainder = MOD(ketuHorakhun - 344, 679);
   const ketuMeanArc = ketu679Remainder * 21600 / 679;
   // Preserve the exact fractional arc through the final subtraction.
   // Premature Math.floor here introduces an artificial +1′ quantization
