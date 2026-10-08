@@ -172,7 +172,6 @@ function render(r,preview){
  $('houses').innerHTML=r.houses.map(h=>`<div class="planet"><span>${h.number}. ${h.name}</span><span>${h.sign.name} ${formatDeg(h.cusp)}</span></div>`).join('');
  renderWheel(r);renderDetailed(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);
 }
-$('provinceSearch').addEventListener('focus',()=>renderProvinceList($('provinceSearch').value));$('provinceSearch').addEventListener('input',e=>renderProvinceList(e.target.value));$('provinceClear').addEventListener('click',()=>{$('provinceSearch').value='';renderProvinceList('');$('provinceSearch').focus();});document.addEventListener('click',e=>{if(!e.target.closest('.combo'))$('provinceList').hidden=true;});
 $('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const base=input();const {data,preview}=await calculate(base);render(data,preview);renderTransits(base);$('msg').innerHTML='<span class="ok">PASS — Calculation Complete</span>';}catch(e){const msg=errorText(e);writeRuntimeLog('UI_ERROR',msg,{input:input()});$('msg').innerHTML=`<span class="error">FAIL — ${msg}</span>`;}});
 function updateForecastClock(){
  const d=new Date(),hh=pad(d.getHours()),mm=pad(d.getMinutes()),ss=pad(d.getSeconds());
@@ -192,12 +191,7 @@ $('copyLog')?.addEventListener('click',async()=>{
  try{await navigator.clipboard.writeText(value);$('copyLog').textContent='คัดลอกแล้ว ✓';setTimeout(()=>$('copyLog').textContent='คัดลอก Log',1500);}
  catch(e){writeRuntimeLog('COPY_ERROR',errorText(e));}
 });
-setInterval(()=>{
- updateForecastClock();
- if(document.getElementById('transits')){
-  try{renderTransits(input());}
-  catch(e){writeRuntimeLog('TRANSIT_ERROR',errorText(e),{input:input()});}
- }
-},1000);
+setInterval(updateForecastClock,1000);
 updateForecastClock();
-initBirthSelectors();loadProvinces().then(()=>$('calc').click()).catch(e=>$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`);
+initBirthSelectors();
+loadPlaces().then(function(){$('calc').click();}).catch(function(e){$('msg').innerHTML='<span class="error">FAIL — '+e.message+'</span>';writeRuntimeLog('INIT_ERROR',errorText(e));});
