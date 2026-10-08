@@ -423,7 +423,7 @@ function calculateAsc(HorakhunZero, hour, minute) {
     const sun_up_h = 6; const sun_up_min = 0;
     const ASCENSION_TABLE = [120,96,72,120,144,168,168,144,120,72,96,120];
 
-    let sunDeg = calculateSun(HorakhunZero, 6, 00);
+    let sunDeg = calculateSun(HorakhunZero, 6, 0);
     let antornatee = ((hour - sun_up_h)*60 + minute - sun_up_min)*60;
     let i = sunDeg.rasi;
     let at_start = ASCENSION_TABLE[i];
