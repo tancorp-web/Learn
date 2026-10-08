@@ -115,50 +115,6 @@ function calculate(i){
  }
 }
 function parseLocalDate(i){return new Date(`${i.date}T${i.time}:00${i.timezone>=0?'+':'-'}${String(Math.abs(i.timezone)).padStart(2,'0')}:00`);}
-function lahiriAyanamsa(date){
- const jd=date.getTime()/86400000+2440587.5;
- const T=(jd-2451545.0)/36525;
- return 23+51/60+25.5/3600+(5028.796*T+1.105*T*T)/3600;
-}
-function siderealLon(tropical,date){ return tropical; }
-function thaiSuriyayatraLon(tropical,date){ return (tropical-lahiriAyanamsa(date)+360)%360; }
-function astroLon(body,date){
- // Direct geocentric ecliptic longitude of date.
- // The explicit false disables aberration in GeoVector; this is a real
- // boolean and avoids the previous undefined-argument failure.
- if(body===Astronomy.Body.Sun)return Astronomy.SunPosition(date).elon;
- const eqj=Astronomy.GeoVector(body,date,false);
- return Astronomy.Ecliptic(eqj).elon;
-}
-function meanNode(date){
- const jd=date.getTime()/86400000+2440587.5,T=(jd-2451545.0)/36525;
- return (125.04452-1934.136261*T+0.0020708*T*T+T*T*T/450000+360)%360;
-}
-function ascTropical(date,lat,lon){
- // Thai/Suriya-yatra-compatible rising intersection.
- // Do NOT apply an extra 180-degree flip: that makes the ascendant
- // jump to the opposite sign. Golden case: 14 Oct 2518 01:05 Bangkok
- // must remain Cancer, not Capricorn.
- const L=((Astronomy.SiderealTime(date)*15+lon+360)%360);
- const e=23.4367*Math.PI/180,p=lat*Math.PI/180,l=L*Math.PI/180;
- return (Math.atan2(-Math.cos(l),Math.sin(l)*Math.cos(e)+Math.tan(p)*Math.sin(e))*180/Math.PI+360)%360;
-}
-function retrograde(body,date){
- const before=new Date(date.getTime()-3600000),after=new Date(date.getTime()+3600000);
- const a=astroLon(body,before),b=astroLon(body,after);
- const delta=((b-a+540)%360)-180;
- return Number.isFinite(delta)?delta<0:false;
-}
-function signObj(lon){return signOf(lon);}
-function calcAt(i,date){
- if(!date || Number.isNaN(date.getTime())) throw new Error('วันที่/เวลาไม่ถูกต้อง');
- if(!Number.isFinite(i.latitude)||!Number.isFinite(i.longitude)) throw new Error('พิกัดละติจูด/ลองจิจูดไม่ถูกต้อง');
- const engine=calculateSuriyayatra({date:i.date,time:i.time});
- const asc=engine.ascendant.longitude;
- const planets=engine.planets.map(p=>({id:p.id,name:p.name,longitude:p.longitude,sign:signObj(p.longitude),house:houseFromAsc(p.longitude,asc),retrograde:Boolean(p.retrograde)}));
- const houses=Array.from({length:12},(_,k)=>{const lon=(asc+k*30)%360;return{number:k+1,name:houseNames[k],cusp:lon,sign:signObj(lon)};});
- return {metadata:{engineVersion:engine.engineVersion,rulesetVersion:engine.rulesetVersion,ephemeris:engine.ephemeris,calendar:'Thai Suriyayatra',ascMethod:'สุริยยาตร์ อันโตนาที',coordinateSystem:'Thai sidereal / Suriyayatra',houseModel:'whole-sign',status:'REGRESSION_TEST_REQUIRED'},input:i,utc:date.toISOString(),sunrise:null,ascendant:{longitude:asc,sign:signObj(asc),navamsa:{signName:signs[Math.floor(asc/30)]}},planets,houses,thaksa:{roles:{'บริวาร':'อาทิตย์','อายุ':'จันทร์','เดช':'อังคาร','ศรี':'พุธ','มูลละ':'พฤหัสบดี','อุตสาหะ':'ศุกร์','มนตรี':'เสาร์','กาลี':'ราหู'}}};
-}
 function previewChart(i){return calcAt(i,parseLocalDate(i));}
 function renderWheel(natal,transit){
  const c=250,rad=215; const planetNo={'อาทิตย์':'1','จันทร์':'2','อังคาร':'3','พุธ':'4','พฤหัสบดี':'5','ศุกร์':'6','เสาร์':'7','ราหู':'8','เกตุ':'9','มฤตยู':'0'};
