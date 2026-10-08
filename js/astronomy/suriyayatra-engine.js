@@ -168,12 +168,11 @@ export function calculateSuriyayatra({ date, time, longitude }) {
     21600
   );
   const meanRavi = MOD(meanSun - 23, 21600);
-  // Classical "กำลังพระเคราะห์" is expressed in arcminutes:
-  // (จ.ศ. - 610) × 12 ราศี + มัธยมรวิ.
-  // Do NOT multiply the year term by 21600 here; that would make the
-  // planetary power twelve times too large and corrupt every mean planet.
+  // Classical "กำลังพระเคราะห์":
+  // (จ.ศ. - 610) × 12 ราศี + ราศี/องศา/ลิปดาของมัธยมรวิ.
+  // When represented in arcminutes, one full zodiac = 12 × 30 × 60 = 21600.
   const planetaryPowerArcMinutes =
-    (chulaSakarat - 610) * 1800 + meanRavi;
+    (chulaSakarat - 610) * 21600 + meanRavi;
   const epoch = planetaryPowerArcMinutes;
 
   const sun = luminary(meanSun, meanSun - 4800, SUN_TABLE);
@@ -190,7 +189,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
   const lunarAnomaly = meanLunarApogeeArcMinutes(apogeeDayIndex, calculationTimeMinutes);
   const moon = luminary(meanMoon, meanMoon - lunarAnomaly, MOON_TABLE);
 
-  const marsMean = MOD(Math.trunc(epoch / 2) + Math.floor(epoch * 16 / 505) + 200, 21600);
+  const marsMean = MOD(Math.trunc(epoch / 2) + Math.floor(epoch * 16 / 505) + 5420, 21600);
   const mercuryMean = MOD(Math.trunc(epoch * 7 / 46) + Math.floor(epoch * 4) + 10642, 21600);
   const jupiterMean = MOD(Math.trunc(epoch / 12) + Math.floor(epoch / 1032) + 14297, 21600);
   const venusMean = MOD(Math.trunc(epoch * 5 / 3) - Math.floor(epoch * 10 / 243) + 10944, 21600);
@@ -247,7 +246,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
       idNumber: ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'][index]
     })),
     metadata: {
-      engineVersion: 'v7.1-CLASSICAL-SURIYAYATRA-POWER-FIX',
+      engineVersion: 'v7.2-CLASSICAL-SURIYAYATRA-FORMULA-FIX',
       calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
