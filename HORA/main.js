@@ -72,9 +72,17 @@ async function calculate(i){
  }
 }
 function renderWheel(r){const c=250,rad=215;let s='<svg viewBox="0 0 500 500" class="wheel" role="img" aria-label="HORA Zodiac Wheel"><circle cx="250" cy="250" r="215" fill="none" stroke="#55627c"/><circle cx="250" cy="250" r="150" fill="none" stroke="#33405a"/>';for(let i=0;i<12;i++){const a=(i*30-90)*Math.PI/180,x=c+rad*Math.cos(a),y=c+rad*Math.sin(a);s+=`<line x1="250" y1="250" x2="${x}" y2="${y}" stroke="#33405a"/><text x="${c+(rad-25)*Math.cos((i*30+15-90)*Math.PI/180)}" y="${c+(rad-25)*Math.sin((i*30+15-90)*Math.PI/180)}" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#d8b36a">${signs[i]}</text>`;}for(const p of r.planets){const a=(p.longitude-90)*Math.PI/180,x=c+125*Math.cos(a),y=c+125*Math.sin(a);s+=`<circle cx="${x}" cy="${y}" r="10" fill="#131a2c" stroke="#d8b36a"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="9">${p.name[0]}</text>`;}s+='</svg>';$('wheel').innerHTML=s;}
+function renderTransits(i){
+ const d=new Date(Date.now()+7*3600000); d.setUTCHours(d.getUTCHours(),d.getUTCMinutes(),d.getUTCSeconds(),0);
+ const r=previewChart(i);
+ const names=['อาทิตย์','จันทร์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','มฤตยู','ราหู','เกตุ'];
+ const vals=r.planets.filter(p=>names.includes(p.name));
+ const el=document.getElementById('transits');
+ if(el)el.innerHTML='<div class="hint">วันที่ '+d.getUTCDate()+' '+thaiMonths[d.getUTCMonth()]+' '+(d.getUTCFullYear()+543)+' พ.ศ. · '+String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0')+':'+String(d.getUTCSeconds()).padStart(2,'0')+' น. · '+i.province+'</div>'+vals.map(p=>'<div class="planet"><span>'+p.name+'</span><span>'+p.sign.name+' '+formatDeg(p.longitude)+(p.retrograde?' · ม':'')+'</span></div>').join('');
+}
 function render(r,preview){$('asc').innerHTML=`<b>${r.ascendant.sign.name}</b> ${formatDeg(r.ascendant.longitude)} <span class="muted">(${r.ascendant.navamsa.signName})</span>`;$('sunrise').textContent=preview?'Preview mode — อาทิตย์อุทัยจริงจะคำนวณเมื่อเปิด API Server':`อาทิตย์อุทัยจริง: ${r.sunrise??'ไม่พบ'} · เส้นแบ่งวันทักษา: 06:00 น. ท้องถิ่น`;$('meta').innerHTML=`Engine ${r.metadata.engineVersion}<br>Ephemeris ${r.metadata.ephemeris}<br>Ayanamsa ${r.metadata.ayanamsa}<br>Ruleset ${r.metadata.rulesetVersion}`;$('thaksa').innerHTML=Object.entries(r.thaksa.roles).map(([a,b])=>`<span class="pill">${a}: ${b}</span>`).join('');$('planets').innerHTML=r.planets.map(p=>`<div class="planet"><span>${p.name}</span><span>${p.sign.name} ${formatDeg(p.longitude)} · เรือน ${p.house}${p.retrograde?' · ม':''}</span></div>`).join('');$('houses').innerHTML=r.houses.map(h=>`<div class="planet"><span>${h.number}. ${h.name}</span><span>${h.sign.name} ${formatDeg(h.cusp)}</span></div>`).join('');renderWheel(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);}
 $('provinceSearch').addEventListener('focus',()=>renderProvinceList($('provinceSearch').value));$('provinceSearch').addEventListener('input',e=>renderProvinceList(e.target.value));$('provinceClear').addEventListener('click',()=>{$('provinceSearch').value='';renderProvinceList('');$('provinceSearch').focus();});document.addEventListener('click',e=>{if(!e.target.closest('.combo'))$('provinceList').hidden=true;});
-$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const {data,preview}=await calculate(input());render(data,preview);$('msg').innerHTML=preview?'<span class="ok">PREVIEW — หน้าเว็บทำงานแล้ว (ต่อ API Server เพื่อผลคำนวณจริง)</span>':'<span class="ok">PASS — Calculation Complete</span>';}catch(e){$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`}});
+$('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const {data,preview}=await calculate(input());render(data,preview);renderTransits(input());$('msg').innerHTML=preview?'<span class="ok">PREVIEW — หน้าเว็บทำงานแล้ว (ต่อ API Server เพื่อผลคำนวณจริง)</span>':'<span class="ok">PASS — Calculation Complete</span>';}catch(e){$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`}});
 
 function updateForecastClock(){
  const d=new Date(Date.now()+7*3600000);
@@ -87,5 +95,5 @@ document.getElementById('useNow').addEventListener('click',()=>{
  $('hour').value=String(d.getUTCHours());$('minute').value=String(d.getUTCMinutes());
  $('calc').click();
 });
-setInterval(updateForecastClock,1000);updateForecastClock();
+setInterval(()=>{updateForecastClock();if(document.getElementById('transits'))renderTransits(input());},1000);updateForecastClock();
 initBirthSelectors();loadProvinces().then(()=>$('calc').click()).catch(e=>$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`);
