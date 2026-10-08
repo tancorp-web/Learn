@@ -1,46 +1,64 @@
 <!doctype html>
 <html lang="th">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f1e8"><title>HORA Astrology — สุริยยาตร์</title><link rel="stylesheet" href="./css/main.css?v=20261008-1400"></head>
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HORA - ทวนเข็มนาฬิกา</title>
+<style>
+:root{--bg:#f5f1e8;--card:#fff;--ink:#1f2937;--gold:#d8b36a;--line:#e5ddd0}
+*{box-sizing:border-box}body{margin:0;font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink)}
+.hero{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#1f2937;color:#fff}
+.app{display:flex;gap:16px;padding:16px;max-width:1400px;margin:auto}
+aside{width:340px;flex-shrink:0}.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid var(--line)}
+.section-title{font-weight:700;margin-bottom:8px}
+select,input{width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);margin-bottom:8px}
+.date-grid,.time-grid,.place-grid{display:grid;gap:6px}.date-grid{grid-template-columns:1fr 1fr 1fr}.time-grid{grid-template-columns:1fr auto 1fr}.place-grid{grid-template-columns:1fr 1fr}
+button.primary{width:100%;padding:12px;background:#1f2937;color:#fff;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hint{font-size:11px;color:#6b7280}
+</style>
+</head>
 <body>
-<header class="hero"><div><div class="eyebrow">HORA ASTROLOGY</div><h1>ระบบคำนวณดวงดาว โหรธนนทร</h1><div class="sub">คำนวณดวงดาวไทย · ตรวจสอบย้อนหลังได้ · เวลาทำนายปัจจุบันแบบสด</div><div class="sub">ระบบของ โหรธนนทร 0915544146</div></div><div class="badge">HORA ENGINE</div></header>
+<header class="hero"><div><h1 style="margin:0;font-size:18px">HORA - ทวนเข็มนาฬิกา + ทักษาถูก เหมือน MyHora รูป2</h1><div class="hint" style="color:#d1d5db">ราศีทวนเข็มนาฬิกา · สี่เหลี่ยมไทย · ทักษาตามวันเกิด</div></div><div style="background:#d8b36a;padding:6px 10px;border-radius:8px;color:#000">v3.1 CCW</div></header>
 <div class="app"><aside>
-<div class="card form-card"><div class="section-title">ข้อมูลผู้เกิด</div>
+<div class="card"><div class="section-title">ข้อมูลผู้เกิด</div>
 <label>ชื่อ-สกุล</label><input id="fullName" placeholder="ไม่ระบุชื่อ">
-<label>วันเดือนปีเกิด <sup>1</sup></label><div class="date-grid"><select id="day"></select><select id="month"></select><select id="year"></select></div>
-<div class="hint">พ.ศ. / ค.ศ. แสดงคู่กัน</div>
+<label>วันเดือนปีเกิด</label><div class="date-grid"><select id="day"></select><select id="month"></select><select id="year"></select></div>
 <label>เวลาเกิด</label><div class="time-grid"><select id="hour"></select><span>:</span><select id="minute"></select></div>
-<label>สถานที่เกิด <sup>2</sup></label>
-<div class="combo"><select id="province"><option value="">เลือกจังหวัด</option></select></div>
-<div class="place-grid"><select id="district"><option value="">เลือกเขต / อำเภอ</option></select><input id="latInput" type="text" value="13.752555" readonly><input id="lonInput" type="text" value="100.494066" readonly><select id="tzInput"><option value="7">+07:00</option></select></div>
-<div class="selected-place" id="selectedProvince">กรุงเทพมหานคร · เขตพระนคร</div>
-<div class="sun-card"><div class="sun-title">☀ อาทิตย์อุทัย / ลัคนา</div><div><b>06:00 น.</b> <span>เวลาท้องถิ่น</span></div><small>ระบบปฏิทินโหราศาสตร์ไทย สุริยยาตร์ · ลัคนาอันโตนาทีสามัญ · อาทิตย์อุทัย 06:00 น. · ปรับเวลาท้องถิ่น</small></div>
-
-<div class="section-title">วันจร / วันที่ทำนาย <sup>3</sup></div>
-<label>วันที่ทำนาย</label><input id="forecastDateInput" type="date">
-<label>เวลาทำนาย</label><input id="forecastTimeInput" type="time" step="60">
-<label>สถานที่จร <sup>2</sup></label>
-<select id="forecastProvince"><option value="">เลือกจังหวัด</option></select>
-<div class="place-grid"><select id="forecastDistrict"><option value="">เลือกเขต / อำเภอ</option></select><input id="forecastLat" type="text" value="13.752555" readonly><input id="forecastLon" type="text" value="100.494066" readonly><select id="forecastTz"><option value="7">+07:00</option></select></div>
-<div class="selected-place" id="selectedForecastPlace">กรุงเทพมหานคร · เขตพระนคร</div>
-
-<div class="section-title">ตั้งค่าปฏิทิน / ลัคนา / ดาวฯ</div>
-<label>ปฏิทิน</label><select id="calendar"><option value="suriyayatra">ปฏิทินโหราศาสตร์ไทย สุริยยาตร์</option></select>
-<label>ลัคนา</label><select id="ascMethod"><option value="anto06adjusted">ลัคนาอันโตนาทีสามัญ อาทิตย์อุทัย 06:00น. ปรับเวลาท้องถิ่น</option><option value="anto06">ลัคนาอันโตนาทีสามัญ อาทิตย์อุทัย 06:00น.</option><option value="antoSunrise">ลัคนาอันโตนาทีสามัญ สมผุสอาทิตย์อุทัย</option></select>
-<label>ดาว</label><select id="nodeMethod"><option value="thai">ราหูเฉลี่ย / เกตุไทย (สุริยยาตร์)</option></select>
-<button id="calc" class="primary">คำนวณดวง</button><button id="useNow" type="button" class="secondary">ใช้เวลาปัจจุบันเป็นเวลาทำนาย</button><div id="msg" class="sub"></div>
+<label>สถานที่เกิด</label><select id="province"><option value="">เลือกจังหวัด</option></select>
+<div class="place-grid"><select id="district"><option value="">เขต</option></select><input id="latInput" value="13.752555" readonly><input id="lonInput" value="100.494066" readonly><select id="tzInput"><option value="7">+07:00</option></select></div>
+<div id="selectedProvince">กรุงเทพมหานคร · เขตพระนคร</div>
+<label style="margin-top:12px">วันจร</label><input id="forecastDateInput" type="date"><input id="forecastTimeInput" type="time">
+<select id="forecastProvince"><option value="">จังหวัดจร</option></select>
+<div class="place-grid"><select id="forecastDistrict"><option value="">เขตจร</option></select><input id="forecastLat" value="13.752555" readonly><input id="forecastLon" value="100.494066" readonly><select id="forecastTz"><option value="7">+07:00</option></select></div>
+<div id="selectedForecastPlace"></div>
+<button id="calc" class="primary" style="margin-top:12px">คำนวณดวง (ทวนเข็มนาฬิกา)</button><div id="msg" class="hint"></div>
 </div></aside>
-<main><section class="grid"><div class="card stat"><span>ลัคนา</span><strong id="asc">—</strong><small id="sunrise">—</small></div><div class="card stat"><span>เวลาทำนาย</span><strong id="forecastTime">—</strong><small id="forecastDate">—</small></div><div class="card stat"><span>ทักษา</span><div id="thaksa">—</div></div><div class="card stat"><span>ระบบ</span><div id="meta">—</div></div></section>
-<section class="card wheel-card"><div class="section-title">จักรราศี</div><div id="wheel"></div><div id="wheelLegend" class="wheel-legend"></div></section><section class="card"><div class="section-title">รายละเอียดวันเกิด / สถานที่ / อาทิตย์-จันทร์</div><div id="birthDetails"></div></section>
-<section class="card"><div class="section-title">วันจร</div><div id="forecastDetails"></div></section>
-<section class="card"><div class="section-title">ราศีจักร — ดวงกำเนิด</div><div id="planets"></div></section>
-<section class="card"><div class="section-title">ดวงจร — ตามวันที่และเวลาที่กำหนด</div><div id="transits">—</div></section>
-<section class="card"><div class="section-title">เรือนลัคนา / ตรีวัย</div><div id="houses"></div><div id="ageStages"></div></section>
-<section class="card"><div class="section-title">นวางค์จักร</div><div id="navamsa"></div></section>
-<section class="card"><div class="section-title">ตรียางค์จักร</div><div id="drekkana"></div></section>
-<section class="card"><div class="section-title">ทักษา</div><div id="thaksaDetail"></div></section><section class="card"><div class="section-title">Audit / Calculation Snapshot</div><div id="debug" class="debug">ยังไม่มีข้อมูล</div></section>
-<section class="card"><div class="section-title">Runtime Error Log — สำหรับส่งให้ผู้พัฒนา</div>
-<div class="hint">หากขึ้น FAIL ให้กดคัดลอก Log ด้านล่าง แล้วส่งมาได้เลย</div>
-<div id="runtimeLog" class="debug">ยังไม่มี Log</div>
-<button id="copyLog" type="button" class="secondary">คัดลอก Log</button>
-<div class="hint">ระบบของ โหรธนนทร 0915544146</div></section></main></div>
-<script type="module" src="./main.js?v=20261008-1400"></script></body></html>
+<main style="flex:1">
+<section class="grid"><div class="card"><span>ลัคนา</span><strong id="asc">—</strong><small id="sunrise">—</small></div><div class="card"><span>ทักษาแก้แล้ว</span><div id="thaksa">—</div></div><div class="card"><span>ระบบ</span><div id="meta">—</div></div><div class="card"><span>เวลา</span><strong id="forecastTime">—</strong><small id="forecastDate">—</small></div></section>
+<section class="card"><div class="section-title">ราศีจักร - สี่เหลี่ยม เหมือน MyHora รูป2 (ทวนเข็มนาฬิกา)</div><div id="squareChart"></div></section>
+<section class="card"><div class="section-title">จักรราศี - วงกลมทวนเข็มนาฬิกา</div><div id="wheel"></div></section>
+<section class="card"><div class="section-title">รายละเอียด</div><div id="birthDetails"></div></section>
+<section class="card"><div class="section-title">ดวงกำเนิด</div><div id="planets"></div></section>
+<section class="card"><div class="section-title">ทักษาแก้ตามวันเกิด</div><div id="thaksaDetail"></div></section>
+<section class="card"><div class="section-title">นวางค์/ตรียางค์</div><div id="navamsa"></div><div id="drekkana" style="margin-top:8px"></div></section>
+</main></div>
+<script type="module" src="./main.js?v=20261008-1500"></script><script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
