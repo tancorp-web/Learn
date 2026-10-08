@@ -144,22 +144,43 @@ function shiftCivilDate(date, days) {
   return dt.toISOString().slice(0, 10);
 }
 
-function calendarArithmetic(horakhun, chulaSakarat, thaloengHorakhun) {
-  const totalAvaman = horakhun * 703 + 650;
-  const tithiTotal = Math.floor(totalAvaman / 692);
-  const avaman = MOD(totalAvaman, 692);
-  const masa = Math.floor(tithiTotal / 30);
-  const tithi = MOD(tithiTotal, 30);
+function calendarArithmetic(horakhun, chulaSakarat) {
+  // Classical Suriyayatra "Atta Thaloeng Sok" arithmetic.
+  // References give the year-opening quantities:
+  // Kammachaphon, Avaman, Tithi, Masagen and the month criterion.
+  const total = horakhun * 11 + 650;
+  const avaman = MOD(total, 692);
+  const tithiQuotient = Math.floor(total / 692);
+  const tithi = MOD(tithiQuotient + horakhun, 30);
+  const masa = Math.floor(tithiQuotient / 30);
+  const monthCriterion = MOD(
+    masa - Math.floor(masa * 7 / 235),
+    12
+  );
 
-  // Classical Suriyayatra base quantities:
-  // 1 masa = 30 tithi, 1 tithi = 692 avaman, 1 day = 703 avaman.
-  // The year-level Adhikamasa test is the classical "ดิถีเถลิงศก"
-  // criterion: tithi 0..5 or 25..29 => Adhikamasa.
-  // This is a formula-derived year flag, never a Golden-case lookup.
-  const thaloengTotalAvaman = thaloengHorakhun * 703 + 650;
-  const thaloengTithiTotal = Math.floor(thaloengTotalAvaman / 692);
-  const thaloengTithi = MOD(thaloengTithiTotal, 30);
-  const isAdhikamas = thaloengTithi <= 5 || thaloengTithi >= 25;
+  const cs = chulaSakarat;
+  const csNumerator = cs * 292207 + 373;
+  const csRemainder = MOD(csNumerator, 800);
+  const kammachaphon = csRemainder === 0 ? 0 : 800 - csRemainder;
+
+  // Suriyayatra calendar rule:
+  // Kammachaphon < 207 => adhika-suratina year.
+  // Normal solar year: Avaman < 137 => Adhikavara.
+  // Adhika-suratina year: Avaman < 126 => Adhikavara.
+  const isAdhikaSuratin = kammachaphon < 207;
+  const isAdhikavara = avaman < (isAdhikaSuratin ? 126 : 137);
+
+  // Calendar criterion number:
+  // normal solar + adhikavara = 10
+  // adhika solar + adhikavara = 11
+  // normal solar + normal vara = 11
+  // adhika solar + normal vara = 12
+  const adhikamasCriterion =
+    isAdhikaSuratin
+      ? (isAdhikavara ? 11 : 12)
+      : (isAdhikavara ? 10 : 11);
+
+  const isAdhikamas = tithi + adhikamasCriterion >= 30;
 
   return {
     masa,
@@ -168,13 +189,15 @@ function calendarArithmetic(horakhun, chulaSakarat, thaloengHorakhun) {
     dayAvaman: 703,
     tithiAvaman: 692,
     monthTithiCount: 30,
-    monthBoundaryAvaman: MOD(totalAvaman, 30 * 692),
-    chulaSakarat,
-    thaloengSokTithi: thaloengTithi,
+    monthBoundaryAvaman: MOD(total, 30 * 692),
+    chulaSakarat: cs,
+    kammachaphon,
+    isAdhikaSuratin,
+    isAdhikavara,
+    adhikamasCriterion,
     isAdhikamas,
-    isAdhikavara: null,
-    lunarMonth: null,
-    calendarRule: 'ดิถีเถลิงศก 0–5 หรือ 25–29 => อธิกมาส; อธิกวารรอเกณฑ์เฉพาะ'
+    lunarMonth: monthCriterion,
+    calendarRule: 'อัตตาเถลิงศก: กัมมัชพล/อวมาน/ดิถี + เกณฑ์ 10/11/12'
   };
 }
 
@@ -294,7 +317,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     )
   };
 
-  const calendar = calendarArithmetic(horakhun, chulaSakarat, thaloeng.horakhun);
+  const calendar = calendarArithmetic(horakhun, chulaSakarat);
   const planets = Object.entries(arcs).map(([name, arc], index) => {
     const motion = includeMotion ? motionFor(name, date, time, longitude) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
     return {
