@@ -117,7 +117,7 @@ function calcAt(i,date){
  planets.push({id:'เกตุ',name:'เกตุ',longitude:(rahu+180)%360,sign:signObj(rahu+180),house:houseFromAsc(rahu+180,asc),retrograde:true});
  const houses=Array.from({length:12},(_,k)=>{const lon=(asc+k*30)%360;return{number:k+1,name:houseNames[k],cusp:lon,sign:signObj(lon)};});
  return {
-  metadata:{engineVersion:'2.0.0-browser',rulesetVersion:'2.0.0',ephemeris:'Astronomy Engine 2.1.19',ayanamsa:i.ayanamsa,coordinateSystem:'sidereal',houseModel:'whole-sign',status:'CALCULATION_REQUIRES_FULL_SURiyayatra_GOLDEN_CASE_VALIDATION'},
+  metadata:{engineVersion:'2.0.0-browser',rulesetVersion:'2.1.0-suriyayatra-ui',ephemeris:'Astronomy Engine 2.1.19',calendar:'Thai Suriyayatra',ascMethod:i.ascMethod,coordinateSystem:'Thai sidereal / Suriyayatra target',houseModel:'whole-sign',status:'CALCULATION_REQUIRES_FULL_SURiyayatra_GOLDEN_CASE_VALIDATION'},
   input:i,utc:date.toISOString(),sunrise:null,
   ascendant:{longitude:asc,sign:signObj(asc),navamsa:{signName:signs[Math.floor(asc/30)]}},
   planets,houses,
