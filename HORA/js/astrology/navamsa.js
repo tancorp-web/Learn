@@ -1,0 +1,1 @@
+export function navamsaFromLongitude(lon){const sign=Math.floor(((lon%360)+360)%360/30),within=((lon%30)+30)%30;const n=Math.floor(within/(30/9));const start={0:0,1:8,2:4}[sign%3];return (start+n)%12;}
