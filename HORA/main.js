@@ -1,3 +1,4 @@
+import * as Astronomy from 'https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/+esm';
 import { createSnapshot, saveSnapshot } from './js/debug/calculation-snapshot.js';
 import { formatDeg, signOf, houseFromAsc } from './js/core/geometry.js';
 
@@ -25,12 +26,41 @@ function selectProvince(p){if(!p)return;$('province').value=p.name;$('lat').valu
 function renderProvinceList(q=''){const s=q.trim().toLowerCase();const arr=provinces.filter(p=>!s||p.name.toLowerCase().includes(s)||p.en.toLowerCase().includes(s)).slice(0,12);$('provinceList').innerHTML=arr.map(p=>`<button type="button" class="suggestion" data-name="${p.name}"><b>${p.name}</b><small>${p.en}</small></button>`).join('')||'<div class="no-result">ไม่พบจังหวัด</div>';$('provinceList').hidden=false;$('provinceList').querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>selectProvince(provinces.find(p=>p.name===b.dataset.name))));}
 function input(){const be=Number($('year').value),ad=be-543;return{date:`${ad}-${pad($('month').value)}-${pad($('day').value)}`,time:`${pad($('hour').value)}:${pad($('minute').value)}`,province:$('province').value,latitude:Number($('lat').value),longitude:Number($('lon').value),timezone:7,ayanamsa:$('ayan').value,thaiDayBoundary:'06:00'};}
 
+function lahiriAyanamsa(date){
+ const jd=(date.getTime()/86400000)+2440587.5;
+ const T=(jd-2451545.0)/36525;
+ return (23+51/60+25.5/3600)+(5028.796*T+1.105*T*T)/3600;
+}
+function siderealLon(tropical,date,ayan){
+ const a=ayan==='lahiri'?lahiriAyanamsa(date):lahiriAyanamsa(date);
+ return (tropical-a+360)%360;
+}
+function astroLon(body,date){
+ if(body===Astronomy.Body.Sun)return Astronomy.SunPosition(date).elon;
+ return Astronomy.Ecliptic(Astronomy.GeoVector(body,date)).elon;
+}
+function meanNode(date){
+ const jd=(date.getTime()/86400000)+2440587.5,T=(jd-2451545)/36525;
+ return (125.04452-1934.136261*T+0.0020708*T*T+T*T*T/450000+360)%360;
+}
+function ascBrowser(date,lat,lon){
+ const L=(Astronomy.SiderealTime(date)*15+lon+360)%360;
+ const e=23.4367*Math.PI/180,p=lat*Math.PI/180,l=L*Math.PI/180;
+ return (Math.atan2(-Math.cos(l),Math.sin(l)*Math.cos(e)+Math.tan(p)*Math.sin(e))*180/Math.PI+360)%360;
+}
 function previewChart(i){
- const minutes=Number(i.time.slice(0,2))*60+Number(i.time.slice(3));
- const base=((minutes/4)+i.longitude)%360, asc=(base+360)%360;
- const planets=planetNames.map((name,k)=>{const lon=(base+k*37.123)%360;return{id:String(k),name,longitude:lon,sign:signOf(lon),house:houseFromAsc(lon,asc),retrograde:false};});
+ const date=new Date(i.date+'T'+i.time+':00+07:00'),asc=ascBrowser(date,i.latitude,i.longitude);
+ const bodies=[
+  ['อาทิตย์',Astronomy.Body.Sun],['จันทร์',Astronomy.Body.Moon],['พุธ',Astronomy.Body.Mercury],
+  ['ศุกร์',Astronomy.Body.Venus],['อังคาร',Astronomy.Body.Mars],['พฤหัสบดี',Astronomy.Body.Jupiter],
+  ['เสาร์',Astronomy.Body.Saturn],['มฤตยู',Astronomy.Body.Uranus]
+ ];
+ const planets=bodies.map(x=>{const lon=siderealLon(astroLon(x[1],date),date,i.ayanamsa);return{id:x[0],name:x[0],longitude:lon,sign:signOf(lon),house:houseFromAsc(lon,asc),retrograde:false};});
+ const rahu=siderealLon(meanNode(date),date,i.ayanamsa);
+ planets.push({id:'ราหู',name:'ราหู',longitude:rahu,sign:signOf(rahu),house:houseFromAsc(rahu,asc),retrograde:true});
+ planets.push({id:'เกตุ',name:'เกตุ',longitude:(rahu+180)%360,sign:signOf(rahu+180),house:houseFromAsc(rahu+180,asc),retrograde:true});
  const houses=Array.from({length:12},(_,k)=>{const lon=(asc+k*30)%360;return{number:k+1,name:houseNames[k],cusp:lon,sign:signOf(lon)};});
- return{metadata:{engineVersion:'1.0.0-preview',rulesetVersion:'1.0.0',ephemeris:'Preview / no server',ayanamsa:i.ayanamsa,coordinateSystem:'sidereal',houseModel:'whole-sign'},input:i,utc:'Preview mode',sunrise:null,ascendant:{longitude:asc,sign:signOf(asc),navamsa:{signName:signs[(Math.floor(asc/30)+1)%12]}},planets,houses,thaksa:{roles:{'บริวาร':'อาทิตย์','อายุ':'จันทร์','เดช':'อังคาร','ศรี':'พุธ','มูลละ':'พฤหัสบดี','อุตสาหะ':'ศุกร์','มนตรี':'เสาร์','กาลี':'ราหู'}}};
+ return{metadata:{engineVersion:'1.1.0-browser',rulesetVersion:'1.0.0',ephemeris:'Astronomy Engine 2.1.19',ayanamsa:i.ayanamsa,coordinateSystem:'sidereal',houseModel:'whole-sign'},input:i,utc:date.toISOString(),sunrise:null,ascendant:{longitude:asc,sign:signOf(asc),navamsa:{signName:signs[Math.floor(asc/30)]}},planets,houses,thaksa:{roles:{'บริวาร':'อาทิตย์','อายุ':'จันทร์','เดช':'อังคาร','ศรี':'พุธ','มูลละ':'พฤหัสบดี','อุตสาหะ':'ศุกร์','มนตรี':'เสาร์','กาลี':'ราหู'}}};
 }
 async function calculate(i){
  try{
@@ -45,4 +75,17 @@ function renderWheel(r){const c=250,rad=215;let s='<svg viewBox="0 0 500 500" cl
 function render(r,preview){$('asc').innerHTML=`<b>${r.ascendant.sign.name}</b> ${formatDeg(r.ascendant.longitude)} <span class="muted">(${r.ascendant.navamsa.signName})</span>`;$('sunrise').textContent=preview?'Preview mode — อาทิตย์อุทัยจริงจะคำนวณเมื่อเปิด API Server':`อาทิตย์อุทัยจริง: ${r.sunrise??'ไม่พบ'} · เส้นแบ่งวันทักษา: 06:00 น. ท้องถิ่น`;$('meta').innerHTML=`Engine ${r.metadata.engineVersion}<br>Ephemeris ${r.metadata.ephemeris}<br>Ayanamsa ${r.metadata.ayanamsa}<br>Ruleset ${r.metadata.rulesetVersion}`;$('thaksa').innerHTML=Object.entries(r.thaksa.roles).map(([a,b])=>`<span class="pill">${a}: ${b}</span>`).join('');$('planets').innerHTML=r.planets.map(p=>`<div class="planet"><span>${p.name}</span><span>${p.sign.name} ${formatDeg(p.longitude)} · เรือน ${p.house}${p.retrograde?' · ม':''}</span></div>`).join('');$('houses').innerHTML=r.houses.map(h=>`<div class="planet"><span>${h.number}. ${h.name}</span><span>${h.sign.name} ${formatDeg(h.cusp)}</span></div>`).join('');renderWheel(r);const snap=createSnapshot(input(),r);saveSnapshot(snap);$('debug').textContent=JSON.stringify(snap,null,2);}
 $('provinceSearch').addEventListener('focus',()=>renderProvinceList($('provinceSearch').value));$('provinceSearch').addEventListener('input',e=>renderProvinceList(e.target.value));$('provinceClear').addEventListener('click',()=>{$('provinceSearch').value='';renderProvinceList('');$('provinceSearch').focus();});document.addEventListener('click',e=>{if(!e.target.closest('.combo'))$('provinceList').hidden=true;});
 $('calc').addEventListener('click',async()=>{$('msg').textContent='กำลังคำนวณ…';try{const {data,preview}=await calculate(input());render(data,preview);$('msg').innerHTML=preview?'<span class="ok">PREVIEW — หน้าเว็บทำงานแล้ว (ต่อ API Server เพื่อผลคำนวณจริง)</span>':'<span class="ok">PASS — Calculation Complete</span>';}catch(e){$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`}});
+
+function updateForecastClock(){
+ const d=new Date(Date.now()+7*3600000);
+ const hh=String(d.getUTCHours()).padStart(2,'0'),mm=String(d.getUTCMinutes()).padStart(2,'0'),ss=String(d.getUTCSeconds()).padStart(2,'0');
+ const el=document.getElementById('forecastTime');if(el)el.textContent=hh+':'+mm+':'+ss+' น.';
+ const ed=document.getElementById('forecastDate');if(ed)ed.textContent=d.getUTCDate()+' '+thaiMonths[d.getUTCMonth()]+' '+(d.getUTCFullYear()+543)+' พ.ศ.';
+}
+document.getElementById('useNow').addEventListener('click',()=>{
+ const d=new Date(Date.now()+7*3600000);
+ $('hour').value=String(d.getUTCHours());$('minute').value=String(d.getUTCMinutes());
+ $('calc').click();
+});
+setInterval(updateForecastClock,1000);updateForecastClock();
 initBirthSelectors();loadProvinces().then(()=>$('calc').click()).catch(e=>$('msg').innerHTML=`<span class="error">FAIL — ${e.message}</span>`);
