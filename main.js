@@ -110,16 +110,23 @@ function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'
 
 function renderWheel(natal,transit){
   const el=$('wheel');
-  const c=300,rad=245,inner=72,planetInner=150,planetOuter=212;
+  const c=300,rad=245,inner=72,planetInner=150;
   const planetOffset=15;
+  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+  const natalBg='#7c3aed', transitBg='#15803d';
   let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff">';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/>';
+
+  // พื้นวงตามชุดข้อมูล: ม่วง = พื้นดวง, เขียว = วันทำนาย
+  svg+='<circle cx="'+c+'" cy="'+c+'" r="198" fill="'+natalBg+'" fill-opacity=".055" stroke="none"/>';
+  svg+='<circle cx="'+c+'" cy="'+c+'" r="242" fill="none" stroke="'+transitBg+'" stroke-opacity=".10" stroke-width="82"/>';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fafaf9" stroke="#334155" stroke-width="1"/>';
+
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
   svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
   svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="10" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
 
-  // 12 ราศี: แต่ละช่อง 30° และ "กลางช่องเมษ" อยู่ที่ 12 นาฬิกา
+  // 12 ราศี: เมษเป็นช่องบนสุด และเรียงทวนเข็มตามระบบเดิม
   for(let i=0;i<12;i++){
     const boundary=i*30-15;
     const a=(-90-boundary)*Math.PI/180;
@@ -133,19 +140,30 @@ function renderWheel(natal,transit){
     svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★':'')+'</text>';
   }
 
-  // ลัคนาเกิดและลัคนาจร: ใช้องศาจริงเดียวกับแกนวงล้อ และวางข้อความให้อยู่ใน viewBox
+  // ภพแบบ Whole Sign: ภพ 1 เริ่มจากราศีลัคนา แล้วเดินทวนเข็มเหมือนลำดับราศี
+  function drawHouses(){
+    const ascIdx=natal&&natal.ascSign?natal.ascSign.idx:Math.floor((((natal.asc%360)+360)%360)/30);
+    const houseR=98;
+    for(let h=1;h<=12;h++){
+      const si=(ascIdx+h-1)%12;
+      const a=(-90-si*30)*Math.PI/180;
+      const x=c+houseR*Math.cos(a),y=c+houseR*Math.sin(a);
+      const label=(h)+' '+houseNames[h-1];
+      svg+='<text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" font-size="8" fill="'+natalBg+'" font-weight="900">'+label+'</text>';
+    }
+  }
+  drawHouses();
+
   function drawAsc(ascObj,isTransit){
     if(!ascObj||typeof ascObj.asc!=='number')return;
     const ascAngle=(-90-ascObj.asc+planetOffset)*Math.PI/180;
-    // ลัคนาอยู่ในวงเดียวกับดาวของตัวเอง และใช้ lane เฉพาะ ไม่ปนกับดาว
-    const rr=isTransit?243:200;
+    const rr=isTransit?238:192;
     const ax=c+rr*Math.cos(ascAngle),ay=c+rr*Math.sin(ascAngle);
     const color=isTransit?'#b45309':'#dc2626';
     const stroke=isTransit?'#92400e':'#991b1b';
     svg+='<circle cx="'+ax+'" cy="'+ay+'" r="14" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
     svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">@</text>';
-    // วางป้ายด้านในของจุดลัคนาใน lane เฉพาะ เพื่อลดการชนกับป้ายองศาดาว
-    const labelR=isTransit?214:174;
+    const labelR=isTransit?212:170;
     const lx=c+labelR*Math.cos(ascAngle),ly=c+labelR*Math.sin(ascAngle);
     const label='@ '+(isTransit?'ลัคนาจร ':'ลัคนา ')+ascObj.ascSign.name+' '+formatInSign(ascObj.asc);
     const w=isTransit?112:102;
@@ -158,18 +176,19 @@ function renderWheel(natal,transit){
   function draw(list,isTransit){
     if(!list||!list.planets)return;
     const ps=list.planets.slice().sort((a,b)=>a.longitude-b.longitude);
-    const lanes=isTransit?[210,225,238]:[112,130,148,166,184];
+    const lanes=isTransit?[207,222,237]:[112,130,148,166,184];
     ps.forEach((p,j)=>{
       const angle=(-90-p.longitude+planetOffset)*Math.PI/180;
       const rr=lanes[j%lanes.length];
       const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
-      const color=isTransit?'#15803d':'#7c3aed';
+      const color=isTransit?natalBg==='x'?'#15803d':'#15803d':'#7c3aed';
       const stroke=isTransit?'#22c55e':'#c4b5fd';
       svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
       svg+='<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
       svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
-      const labelY=y+(j%2===0?-18:30);
-      svg+='<text x="'+x+'" y="'+labelY+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
+      const labelR=rr+(j%2===0?18:-18);
+      const tx=c+labelR*Math.cos(angle),ty=c+labelR*Math.sin(angle);
+      svg+='<text x="'+tx+'" y="'+(ty+3)+'" text-anchor="middle" font-size="8" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
       svg+='</g>';
     });
   }
