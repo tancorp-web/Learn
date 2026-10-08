@@ -224,7 +224,9 @@ function renderWheel(natal,transit){
       const bx=c+rad*Math.cos(boundaryA),by=c+rad*Math.sin(boundaryA);
       // เส้นภพต้องต่อเนื่องกับเส้นแบ่งราศีจริงถึงขอบวงนอก ใช้มุมเดียวกันและจุดปลายเดียวกัน
       svg+='<line x1="'+c+'" y1="'+c+'" x2="'+bx+'" y2="'+by+'" stroke="#d6d3d1" stroke-width=".9"/>';
-      const midDeg=(ascIdx+(h-1))*30+15;
+      // ชื่อภพต้องอยู่ "กึ่งกลางช่องภพ" ระหว่างเส้นแบ่งสองเส้นจริง
+      // เส้นภพเริ่มที่ 0° และแต่ละช่องกว้าง 30° จึงใช้ +15° เฉพาะตำแหน่งตัวอักษร
+      const midDeg=((ascIdx+(h-1))*30+15)%360;
       const a=(-midDeg)*Math.PI/180;
       const x=c+houseR*Math.cos(a),y=c+houseR*Math.sin(a);
       svg+='<text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" font-size="7" fill="'+natalBg+'" font-weight="900">'+houseNames[h-1]+'</text>';
