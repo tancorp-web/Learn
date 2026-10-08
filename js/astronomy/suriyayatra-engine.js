@@ -521,25 +521,56 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Important: this is an INTEGER day-cycle calculation. Do not add the
   // birth-clock fraction and do not derive Ketu from Rahu + 180 degrees.
   // Golden values are QA references only and are never injected.
+  // พระมานัตต์: สัมผุสพระเกตุ
+  // 1) ตั้งหรคุณกำเนิด
+  // 2) เอา 344 ลบ
+  // 3) เอา 679 หาร เศษ = พลพระเกตุ
+  // 4) พลพระเกตุ × 12 ÷ 679 = ราศี + เศษ
+  // 5) เศษ × 30 ÷ 679 = องศา + เศษ
+  // 6) เศษ × 60 ÷ 679 = ลิปดา
+  // 7) ตั้ง 11|29|60 แล้วลบมัธยมพระเกตุ = สัมผุสพระเกตุ
+  //
+  // IMPORTANT: ใช้ "หรคุณกำเนิด" โดยตรงตามต้นฉบับ ไม่ใช้ราหู+180
+  // และไม่ใช้ Golden value เป็น input. การตรวจอธิกมาสใช้กับการหา
+  // สุรทิน/หรคุณกำเนิดเท่านั้น ไม่ควรนำ -30 วันมาซ้ำในขั้น 679 นี้.
   const ketuHorakhun = horakhun;
   const ketuCalendar = calendarArithmetic(horakhun, chulaSakarat);
-  const ketuSuratinAdjustment = ketuSuratinPrasongForBirth({
-    horakhun,
-    thaloengHorakhun: thaloeng.horakhun,
-    tithiThaloengSok: ketuCalendar.tithi,
-    isAdhikamasYear: ketuCalendar.isAdhikamas
-  });
-  const ketuSuratinPrasong = ketuSuratinAdjustment.suratin;
-  // Formula 2 source sequence: use the BIRTH HORAKHUN directly.
-  // The adhikamas / 8/88 rule has already been applied when constructing
-  // the birth-day calendar quantities; it must not replace the formula's
-  // numerator with Thaloeng-Sok Horakhun + Suratin Prasong.
 
-  const ketuMeanArc = ketu679Remainder * 21600 / 679;
-  // Preserve the exact fractional arc through the final subtraction.
-  // Premature Math.floor here introduces an artificial +1′ quantization
-  // error in the Golden cases; the classical division is retained at full precision.
+  const ketu344Value = ketuHorakhun - 344;
+  const ketu679Remainder = MOD(ketu344Value, 679);
+
+  const ketuRasiNumerator = ketu679Remainder * 12;
+  const ketuRasi = Math.floor(ketuRasiNumerator / 679);
+  const ketuRasiRemainder = MOD(ketuRasiNumerator, 679);
+
+  const ketuDegreeNumerator = ketuRasiRemainder * 30;
+  const ketuDegree = Math.floor(ketuDegreeNumerator / 679);
+  const ketuDegreeRemainder = MOD(ketuDegreeNumerator, 679);
+
+  const ketuMinuteNumerator = ketuDegreeRemainder * 60;
+  const ketuMinute = Math.floor(ketuMinuteNumerator / 679);
+
+  // Keep the classical 11|29|60 subtraction in arcminutes. The
+  // sexagesimal construction above is deliberately integer/truncated.
+  const ketuMeanArc = ketuRasi * 1800 + ketuDegree * 60 + ketuMinute;
   const ketuTrueArc = MOD(21600 - ketuMeanArc, 21600);
+
+  const ketuDebug = {
+    birthHorakhun: ketuHorakhun,
+    minus344: ketu344Value,
+    ketu679Remainder,
+    madhyamRasi: ketuRasi,
+    madhyamDegree: ketuDegree,
+    madhyamMinute: ketuMinute,
+    madhyamArcMinutes: ketuMeanArc,
+    trueArcMinutes: ketuTrueArc,
+    trueRasi: Math.floor(ketuTrueArc / 1800),
+    trueDegree: Math.floor(MOD(ketuTrueArc, 1800) / 60),
+    trueMinute: MOD(ketuTrueArc, 60),
+    calendarCorrectionDays: 0,
+    calendarRule: ketuCalendar.calendarRule,
+    isAdhikamas: ketuCalendar.isAdhikamas
+  };
 
   const arcs = {
     'อาทิตย์': sun,
@@ -573,13 +604,13 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.6.3-MOON-KETU-FORMULA-CANDIDATE',
+      engineVersion: 'v8.6.4-KETU-344-679-EXACT',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
       moonDebug: { meanMoonArcMinutes: meanMoon, uccabalaThaloeng, uccabalaFromThaloeng, uccabalaBirth, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccavisesRasi, uccavisesDegree: uccavisesDegree, uccavisesMinute: uccavisesMinute, plakenArcMinutes: plaken, plakenRasi, plakenDegree, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
-      ketuDebug: { ketuHorakhun, ketuSuratinPrasong, ketuHorakhunPrasong, ketu679Remainder, ketuMeanArc, ketuTrueArc, correctionDays: ketuSuratinAdjustment.correctionDays, secondMonth8Horakhun: ketuSuratinAdjustment.secondMonth8Horakhun },
+      ketuDebug,
       calculationTimeMinutes,
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
