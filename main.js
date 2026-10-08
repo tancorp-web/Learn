@@ -308,6 +308,7 @@ function bootHORA(){
 
   initDropdowns();
   renderNatalGoldenTable();
+  renderNatalHouseDetails({thaksa:{}});
   requestAnimationFrame(()=>renderNatalGoldenTable());
   setTimeout(()=>{
     try{$('calc').click();}catch(err){showRuntimeError(err);}
