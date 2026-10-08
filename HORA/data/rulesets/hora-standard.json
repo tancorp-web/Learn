@@ -1,0 +1,7 @@
+{
+  "id":"HORA-THAI-STANDARD","version":"1.0.0","status":"PROVISIONAL","zodiac":"sidereal","ayanamsa":"lahiri",
+  "thaiDayBoundary":"06:00","displayPrecision":"degree-minute","canonicalPosition":"absolute-longitude",
+  "houseSystem":"whole-sign","rahu":"mean-node","ketu":"rahu+180","neptunePluto":false,
+  "formulaRegistryStatus":"PROVISIONAL",
+  "notes":["Thai lunar intercalary rules remain RESEARCH until independently verified."]
+}
