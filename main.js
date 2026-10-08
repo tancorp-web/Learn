@@ -1,6 +1,7 @@
 
-// HORA v5.1 main.js - ไม่ใช้ type="module" - ทำงานบน file:// และ 127.0.0.1 ได้เลย
+// HORA v5.2 main.js - Thai Suriyayat Master Menu
 // เมษอยู่บน 12 นาฬิกา
+// หมายเหตุ: เมนูสูตรเป็น Master Specification; ห้ามถือข้อความใน UI แทนสูตรที่ยังไม่พิสูจน์
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
 const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
@@ -159,3 +160,68 @@ document.getElementById('calc').addEventListener('click',function(){
 
 initDropdowns();
 setTimeout(function(){$('calc').click();},700);
+
+
+const MASTER_GOLDEN_ROWS = [
+  ['ลัคนา','23°51′ กรกฎ','TODO','ตรวจอันโตนาทีสามัญ + longitude correction'],
+  ['อาทิตย์','25°48′ กันย์','TODO','ตรวจสูตรสุริยยาตร์และ Golden Case conflict เดิม'],
+  ['จันทร์','15°35′ มกร','LOCKED','ผ่านแล้ว ห้ามเปลี่ยนโดยไม่มีหลักฐาน'],
+  ['อังคาร','08°13′ มิถุน','LOCKED','ผ่านแล้ว ห้ามเปลี่ยนโดยไม่มีหลักฐาน'],
+  ['พุธ','08°39′ กันย์','TODO','ตรวจ มัธยมพระพุธ → มนทโกฏิ → ... → มหาสัมผุส'],
+  ['พฤหัสบดี','27°12′ มีน','LOCKED','ผ่านแล้ว ห้ามเปลี่ยนโดยไม่มีหลักฐาน'],
+  ['ศุกร์','14°28′ สิงห์','TODO','ตรวจ มัธยมศุกร์ → มนทโกฏิ → ... → มหาสัมผุส'],
+  ['เสาร์','05°28′ กรกฎ','LOCKED','ผ่านแล้ว ห้ามเปลี่ยนโดยไม่มีหลักฐาน'],
+  ['ราหู','29°21′ ตุล','TODO','ต้องยืนยัน Mean/True Node ตามสูตรที่ใช้'],
+  ['เกตุ','06°53′ เมษ','TODO','ต้องสัมพันธ์กับราหู + 180°'],
+  ['มฤตยู','04°30′ ตุล','TODO','ต้องยืนยันวิธีแปลงเข้าสุริยยาตร์']
+];
+
+function initMasterMenu(){
+  const buttons=[...document.querySelectorAll('.menu-btn')];
+  const panels={formula:$('formulaPanel'),golden:$('goldenPanel'),status:$('statusPanel')};
+  function hidePanels(){Object.values(panels).forEach(p=>{if(p)p.style.display='none';});buttons.forEach(b=>b.classList.remove('active'));}
+  buttons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const menu=btn.dataset.menu;
+      if(menu==='calculate'){
+        hidePanels();
+        document.querySelector('.app').scrollIntoView({behavior:'smooth',block:'start'});
+        return;
+      }
+      hidePanels();
+      btn.classList.add('active');
+      const panel=panels[menu];
+      if(panel){panel.style.display='block';panel.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+  });
+
+  const formula=$('formulaContent');
+  if(formula) formula.innerHTML=
+    '<p><b>หลักการ:</b> สูตรต้องเป็นผู้สร้างผลลัพธ์ ไม่ใช่ผลลัพธ์เป็นผู้สร้างสูตร</p>'+
+    '<table class="master-table"><tr><th>ขั้น</th><th>หลักที่ต้องตรวจ</th></tr>'+
+    '<tr><td>เวลา</td><td>Local Time → UTC → Local Mean Solar Time → อันโตนาทีสามัญ → Sidereal Time</td></tr>'+
+    '<tr><td>ฐาน</td><td>หรคุณ → มัธยม → ส่วนแก้ → สัมผุส</td></tr>'+
+    '<tr><td>ดาว</td><td>มนทโกฏิ → โกฏิผล → มนทเฉท → ผล → สิงฆโกฏิ → สิงฆผล → สัมผุสพยาสน์ → มหาผล → มหาสัมผุส</td></tr>'+
+    '<tr><td>ลัคนา</td><td>ต้องคำนวณจากเวลา สถานที่ latitude longitude และอันโตนาทีสามัญ ห้าม flip 180°</td></tr>'+
+    '<tr><td>QA</td><td>คำนวณจริง → เทียบ Golden Case ทุกดาว → Regression → LOCK</td></tr>'+
+    '</table>'+
+    '<p class="hint">ห้ามใช้ correction ปลายทางเพื่อให้ผ่าน Golden Case และห้ามเปลี่ยน Golden Case เอง</p>';
+
+  const golden=$('goldenContent');
+  if(golden) golden.innerHTML=
+    '<p><b>Input:</b> 14 ตุลาคม 2518 / 14 Oct 1975 · 01:05 · กรุงเทพมหานคร เขตพระนคร · 13.752555, 100.494066 · UTC+7</p>'+
+    '<table class="master-table"><tr><th>จุด</th><th>Golden Case</th><th>สถานะสูตร</th><th>หมายเหตุ</th></tr>'+
+    MASTER_GOLDEN_ROWS.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="'+(r[2]==='LOCKED'?'master-ok':'master-todo')+'">'+r[2]+'</td><td>'+r[3]+'</td></tr>').join('')+
+    '</table>'+
+    '<p class="hint">สำคัญ: main.js รุ่นเก่าเคยมีอาทิตย์ 145.80° = 25°48′ สิงห์ แต่ Master ล่าสุดกำหนด 25°48′ กันย์ = 175.80° ห้ามเลือกเองโดยไม่ยืนยัน</p>';
+
+  const status=$('statusContent');
+  if(status) status.innerHTML=
+    '<div class="pill pill-natal">Engine/UI: HORA v5.2 Master Menu</div>'+
+    '<div class="pill">Golden Case: '+GOLDEN.date+' '+GOLDEN.time+'</div>'+
+    '<p><b>LOCKED:</b> จันทร์ 15°35′ มกร · อังคาร 08°13′ มิถุน · พฤหัสบดี 27°12′ มีน · เสาร์ 05°28′ กรกฎ</p>'+
+    '<p><b>กำลังตรวจ:</b> ลัคนา · อาทิตย์ · พุธ · ศุกร์ · ราหู · เกตุ · มฤตยู</p>'+
+    '<p class="hint">เมนูนี้เป็นชั้นตรวจสอบ/เอกสาร ไม่ได้เพิ่ม correction หรือ hard-code ค่าใหม่ให้เครื่องคำนวณ</p>';
+}
+
+initMasterMenu();
