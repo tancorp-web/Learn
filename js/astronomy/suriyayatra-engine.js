@@ -357,49 +357,96 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     meanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
     21600
   );
-  // Classical true Moon correction:
-  // The Thai Suriyayatra/Manaṭṭa procedure uses Madhyam Uccabala,
-  // then Uccavises -> Khan/Bhuj -> Chandra shadow interpolation
-  // [77, 148, 209, 256, 286, 296]. This replaces the earlier sine
-  // approximation, which was the source of the Moon-minute drift.
-  const meanUccabala = MOD(
+  // Classical true Moon correction (Suriyayatra / Manat).
+  //
+  // 1) Uccabala birth is derived from the Thaloeng-sok Uccabala,
+  //    Kammachaphon remainder and birth-time fraction. This is retained
+  //    as an explicit intermediate so the calculation does not collapse
+  //    to the old horakhun+2611 shortcut.
+  // 2) Madhyam Ucc uses Uccabala-Thaloeng + Suratin, then x3 / 808
+  //    with the classical +2' interpolation term.
+  // 3) Uccavises = Madhyam Moon - Madhyam Ucc (mod 12 signs).
+  // 4) Plaken -> Khan/Bhuj -> Chandra shadow interpolation table.
+  // 5) The resulting Chandra Bhuj Phon is subtracted for rasi 0..5
+  //    and added for rasi 6..11.
+  //
+  // References: AstroNeemo, Suriyayatra/Manat calculation parts 2, 3, 9, 10;
+  // and the Journal of the Siam Society worked Suriyayatra example.
+  const uccabalaThaloeng = MOD(
+    thaloeng.horakhun - 621,
+    3232
+  );
+  const kammachRemainder = MOD(cs * 292207 + 373, 800);
+  const kammachFraction = kammachRemainder / 800;
+  const birthTimeFraction = calculationTimeMinutes / 1440;
+  const uccabalaFromThaloeng = MOD(
+    (thaloeng.horakhun - 1) + kammachFraction - 621,
+    3232
+  );
+  const uccabalaBirth = MOD(
     Math.floor(
-      ((horakhun + 2611) * 3 * 1800) / 808
-    ) + 2,
-    21600
+      (suratinBirth - 1)
+      + (attaKammachaphon / 800)
+      + birthTimeFraction
+      + uccabalaFromThaloeng
+    ) + 1,
+    3232
   );
 
-  const uccavises = MOD(meanUccabala - meanMoon, 21600);
-  const uccaSign = Math.floor(uccavises / 1800);
-  const uccaRemainder = MOD(uccavises, 1800);
-  const uccaDegree = Math.floor(uccaRemainder / 60);
-  const uccaMinute = MOD(uccavises, 60);
-
-  let khan;
-  if (uccaSign <= 2) khan = uccaSign * 2;
-  else if (uccaSign <= 5) khan = (6 - uccaSign) * 2;
-  else if (uccaSign <= 8) khan = (uccaSign - 6) * 2;
-  else khan = (12 - uccaSign) * 2;
-
-  const bhujLipda = uccaDegree * 60 + uccaMinute;
-  const CHANDRA_SHADOW = [77, 148, 209, 256, 286, 296];
-
-  let moonCorrectionMagnitude;
-  if (khan === 0) {
-    moonCorrectionMagnitude =
-      Math.floor(CHANDRA_SHADOW[0] * bhujLipda / 900);
-  } else {
-    const shadowIndex = khan - 1;
-    const upper = CHANDRA_SHADOW[shadowIndex];
-    const lower = CHANDRA_SHADOW[shadowIndex + 1];
-    moonCorrectionMagnitude =
-      upper + Math.floor((lower - upper) * bhujLipda / 900);
+  function madhyamUccFromUccabala(uccabala) {
+    const scaled = Math.floor(uccabala * 3);
+    const rasi = Math.floor(scaled / 808);
+    const remainder = MOD(scaled, 808);
+    const degree = Math.floor(remainder * 30 / 808);
+    const minute = Math.floor((MOD(remainder * 30, 808)) * 60 / 808) + 2;
+    return MOD(rasi * 1800 + degree * 60 + minute, 21600);
   }
 
-  // In the negative six-rasi half the correction is subtracted as a
-  // negative quantity, therefore it advances the Moon; in the positive
-  // half it retreats the Moon.
-  const moonCorrectionSign = uccaSign <= 5 ? 1 : -1;
+  const meanUccabala = madhyamUccFromUccabala(
+    MOD(uccabalaThaloeng + suratinBirth, 3232)
+  );
+
+  // Uccavises is explicitly Madhyam Moon - Madhyam Ucc.
+  const uccavises = MOD(meanMoon - meanUccabala, 21600);
+  const uccavisesRasi = Math.floor(uccavises / 1800);
+  const uccavisesRemainder = MOD(uccavises, 1800);
+  const uccavisesDegree = Math.floor(uccavisesRemainder / 60);
+  const uccavisesMinute = MOD(uccavisesRemainder, 60);
+
+  // Convert Uccavises to Plaken according to the four 6-rasi quadrants.
+  let plaken = uccavises;
+  if (uccavisesRasi >= 3 && uccavisesRasi <= 5) {
+    plaken = 10800 - uccavises;
+  } else if (uccavisesRasi >= 6 && uccavisesRasi <= 8) {
+    plaken = uccavises - 10800;
+  } else if (uccavisesRasi >= 9) {
+    plaken = 21600 - uccavises;
+  }
+
+  let plakenRasi = Math.floor(plaken / 1800);
+  let plakenRemainder = MOD(plaken, 1800);
+  let plakenDegree = Math.floor(plakenRemainder / 60);
+  const plakenMinute = MOD(plakenRemainder, 60);
+
+  let khan = plakenRasi * 2;
+  if (plakenDegree > 15) {
+    plakenDegree -= 15;
+    khan += 1;
+  }
+
+  const bhujLipda = plakenDegree * 60 + plakenMinute;
+  const CHANDRA_SHADOW_UPPER = [77, 148, 209, 256, 286, 296];
+  const CHANDRA_SHADOW_DELTA = [77, 71, 61, 47, 30, 10];
+
+  if (khan < 0 || khan > 5) {
+    throw new Error('CHANDRA_KHAN_OUT_OF_RANGE');
+  }
+
+  const moonCorrectionMagnitude = khan === 0
+    ? Math.floor(CHANDRA_SHADOW_UPPER[0] * bhujLipda / 900)
+    : CHANDRA_SHADOW_UPPER[khan]
+      + Math.floor(CHANDRA_SHADOW_DELTA[khan] * bhujLipda / 900);
+  const moonCorrectionSign = uccavisesRasi <= 5 ? 1 : -1;
   const moonCorrection = moonCorrectionMagnitude * moonCorrectionSign;
   const moon = MOD(meanMoon + moonCorrection, 21600);
 
@@ -447,12 +494,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.1-CLASSICAL-MOON-SHADOW',
-      calculation: 'Horakhun -> exact classical mean Sun/Moon -> Madhyam -> named planet-specific Manda/Singha Manat corrections -> Thai Suriyayatra sidereal positions',
+      engineVersion: 'v8.2-CLASSICAL-MOON-UCCABALA',
+      calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
-      moonDebug: { meanMoonArcMinutes: meanMoon, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccaSign, uccavisesDegree: uccaDegree, uccavisesMinute: uccaMinute, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
+      moonDebug: { meanMoonArcMinutes: meanMoon, uccabalaThaloeng, uccabalaFromThaloeng, uccabalaBirth, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccavisesRasi, uccavisesDegree: uccavisesDegree, uccavisesMinute: uccavisesMinute, plakenArcMinutes: plaken, plakenRasi, plakenDegree, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
       calculationTimeMinutes,
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
