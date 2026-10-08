@@ -357,24 +357,15 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     meanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
     21600
   );
-  // Classical Suriyayatra Moon:
-  // 1) Uccabala Atta = (Harakun - 621) mod 3232.
-  // 2) Uccabala birth = Uccabala Atta + Suratin birth.
-  // 3) Convert by 3/808, retaining the traditional integer stages and +2'.
-  // 4) Uccavises = Madhyam Ucca - Madhyam Moon.
-  // 5) Convert Uccavises to Khan/Bhuj and interpolate the Chandra shadow
-  //    sequence 77, 148, 209, 256, 286, 296.
-  // Golden values are QA only; no Golden value is used here.
-  const uccabalaAtta = MOD(horakhun - 621, 3232);
-  const uccabalaBirth = uccabalaAtta + suratinBirth;
-  const uccabalaProduct = uccabalaBirth * 3;
-  const uccabalaRasi = Math.floor(uccabalaProduct / 808);
-  const uccabalaRem1 = MOD(uccabalaProduct, 808);
-  const uccabalaDegree = Math.floor(uccabalaRem1 * 30 / 808);
-  const uccabalaRem2 = MOD(uccabalaRem1 * 30, 808);
-  const uccabalaMinute = Math.floor(uccabalaRem2 * 60 / 808) + 2;
+  // Classical true Moon correction:
+  // The Thai Suriyayatra/Manaṭṭa procedure uses Madhyam Uccabala,
+  // then Uccavises -> Khan/Bhuj -> Chandra shadow interpolation
+  // [77, 148, 209, 256, 286, 296]. This replaces the earlier sine
+  // approximation, which was the source of the Moon-minute drift.
   const meanUccabala = MOD(
-    uccabalaRasi * 1800 + uccabalaDegree * 60 + uccabalaMinute,
+    Math.floor(
+      ((horakhun + 2611) * 3 * 1800) / 808
+    ) + 2,
     21600
   );
 
@@ -383,6 +374,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const uccaRemainder = MOD(uccavises, 1800);
   const uccaDegree = Math.floor(uccaRemainder / 60);
   const uccaMinute = MOD(uccavises, 60);
+
   let khan;
   if (uccaSign <= 2) khan = uccaSign * 2;
   else if (uccaSign <= 5) khan = (6 - uccaSign) * 2;
@@ -391,9 +383,11 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
 
   const bhujLipda = uccaDegree * 60 + uccaMinute;
   const CHANDRA_SHADOW = [77, 148, 209, 256, 286, 296];
+
   let moonCorrectionMagnitude;
   if (khan === 0) {
-    moonCorrectionMagnitude = Math.floor(CHANDRA_SHADOW[0] * bhujLipda / 900);
+    moonCorrectionMagnitude =
+      Math.floor(CHANDRA_SHADOW[0] * bhujLipda / 900);
   } else {
     const shadowIndex = khan - 1;
     const upper = CHANDRA_SHADOW[shadowIndex];
@@ -401,6 +395,10 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     moonCorrectionMagnitude =
       upper + Math.floor((lower - upper) * bhujLipda / 900);
   }
+
+  // In the negative six-rasi half the correction is subtracted as a
+  // negative quantity, therefore it advances the Moon; in the positive
+  // half it retreats the Moon.
   const moonCorrectionSign = uccaSign <= 5 ? 1 : -1;
   const moonCorrection = moonCorrectionMagnitude * moonCorrectionSign;
   const moon = MOD(meanMoon + moonCorrection, 21600);
