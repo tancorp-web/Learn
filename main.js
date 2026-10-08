@@ -119,7 +119,7 @@ function renderWheel(natal,transit){
 
   // พื้นวงตามชุดข้อมูล: ม่วง = พื้นดวง, เขียว = วันทำนาย
   svg+='<circle cx="'+c+'" cy="'+c+'" r="198" fill="'+natalBg+'" fill-opacity=".055" stroke="none"/>';
-  svg+='<circle cx="'+c+'" cy="'+c+'" r="242" fill="none" stroke="'+transitBg+'" stroke-opacity=".10" stroke-width="82"/>';
+  svg+='<circle cx="'+c+'" cy="'+c+'" r="222" fill="none" stroke="'+transitBg+'" stroke-opacity=".055" stroke-width="40"/>';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fafaf9" stroke="#334155" stroke-width="1"/>';
 
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
@@ -181,7 +181,7 @@ function renderWheel(natal,transit){
       const angle=(-90-p.longitude+planetOffset)*Math.PI/180;
       const rr=lanes[j%lanes.length];
       const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
-      const color=isTransit?natalBg==='x'?'#15803d':'#15803d':'#7c3aed';
+      const color=isTransit?transitBg:natalBg;
       const stroke=isTransit?'#22c55e':'#c4b5fd';
       svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
       svg+='<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
