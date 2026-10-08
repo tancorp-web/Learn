@@ -469,7 +469,10 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const ketuHorakhunPrasong = thaloeng.horakhun + ketuSuratinPrasong;
   const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
   const ketuMeanArc = ketu679Remainder * 21600 / 679;
-  const ketuTrueArc = MOD(21600 - Math.floor(ketuMeanArc), 21600);
+  // Preserve the exact fractional arc through the final subtraction.
+  // Premature Math.floor here introduces an artificial +1′ quantization
+  // error in the Golden cases; the classical division is retained at full precision.
+  const ketuTrueArc = MOD(21600 - ketuMeanArc, 21600);
 
   const arcs = {
     'อาทิตย์': sun,
@@ -503,7 +506,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.6.1-KETU-FORMULA-2',
+      engineVersion: 'v8.6.2-KETU-FORMULA-2-FULL-PRECISION',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
