@@ -352,30 +352,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const arcs = {
     'อาทิตย์': sun,
     'จันทร์': moon,
-    'อังคาร': correctedPlanet({
-      mean: marsMean, primaryBase: marsMean, anomalyOffset: 7620,
-      denominator: 2700, scale: 4 / 15
-    }, meanRavi),
-    'พุธ': correctedPlanet({
-      mean: mercuryMean, primaryBase: meanRavi, anomalyOffset: 13200,
-      denominator: 6000, fixed: 1260
-    }, meanRavi),
-    'พฤหัสบดี': correctedPlanet({
-      mean: jupiterMean, primaryBase: jupiterMean, anomalyOffset: 10320,
-      denominator: 5520, scale: 3 / 7
-    }, meanRavi),
-    'ศุกร์': correctedPlanet({
-      mean: venusMean, primaryBase: meanRavi, anomalyOffset: 4800,
-      denominator: 19200, fixed: 660
-    }, meanRavi),
-    'เสาร์': correctedPlanet({
-      mean: saturnMean, primaryBase: saturnMean, anomalyOffset: 14820,
-      denominator: 3780, scale: 7 / 6
-    }, meanRavi),
-    'มฤตยู': correctedPlanet({
-      mean: uranusMean, primaryBase: uranusMean, anomalyOffset: 7440,
-      denominator: 38640, scale: 3 / 7
-    }, meanRavi),
+    'อังคาร': calculateMarsManat(marsMean, meanRavi),
+    'พุธ': calculateMercuryManat(mercuryMean, meanRavi),
+    'พฤหัสบดี': calculateJupiterManat(jupiterMean, meanRavi),
+    'ศุกร์': calculateVenusManat(venusMean, meanRavi),
+    'เสาร์': calculateSaturnManat(saturnMean, meanRavi),
+    'มฤตยู': calculateUranusManat(uranusMean, meanRavi),
     'ราหู': MOD(15150 - MOD(Math.trunc(epoch / 20) + Math.floor(epoch / 265), 21600), 21600),
     'เกตุ': MOD(
       21600 - Math.trunc(
