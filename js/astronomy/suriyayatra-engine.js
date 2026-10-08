@@ -464,10 +464,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // 4) พลพระเกตุ -> มัธยมพระเกตุ -> สัมผุสพระเกตุ (360° - mean Ketu)
   //
   // Ketu is NOT Rahu + 180°. No Golden-case value is injected.
-  const ketuHorakhun = horakhun;
-  const ketuSuratinPrasong = suratinBirth;
-  const ketuHorakhunPrasong = ketuHorakhun + ketuSuratinPrasong;
-  const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
+  // Classical Ketu formula: use the birth Horakhun indexing (one day before
+  // the civil Julian-day counter used elsewhere in this engine), then subtract
+  // the canonical 344. The birth-clock fraction is applied only after the
+  // integer 679-day remainder, matching the fractional-day interpretation.
+  const ketuHorakhunBirth = horakhun - 1;
+  const ketu679Remainder = MOD(ketuHorakhunBirth - 344, 679);
   const ketuDayFraction = timeMinutes / 1440;
   const ketuCyclePosition = ketu679Remainder + ketuDayFraction;
   const ketuMeanArc = ketuCyclePosition * 21600 / 679;
