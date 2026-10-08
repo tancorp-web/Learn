@@ -217,7 +217,7 @@ function renderWheel(natal,transit){
     const x2=c+rad*Math.cos(a),y2=c+rad*Math.sin(a);
     svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
     const bt=boundaryTimes.find(t=>t.sign===i);
-    if(bt){ const tr=rad-16; const tx=c+tr*Math.cos(a),ty=c+tr*Math.sin(a); svg+='<text x="'+tx+'" y="'+(ty-2)+'" text-anchor="middle" font-size="7" fill="#0f766e" font-weight="800">'+bt.label+'</text>'; }
+    if(bt){ const tr=rad+20; const tx=c+tr*Math.cos(a),ty=c+tr*Math.sin(a); svg+='<text x="'+tx+'" y="'+(ty+3)+'" text-anchor="middle" font-size="8" fill="#0f766e" font-weight="800">'+bt.label+'</text>'; }
     const mid=i*30+15;
     const am=wheelAngleDeg(mid)*Math.PI/180;
     const labelR=rad+30;
@@ -255,11 +255,13 @@ function renderWheel(natal,transit){
     const stroke=isTransit?'#92400e':'#991b1b';
     svg+='<circle cx="'+ax+'" cy="'+ay+'" r="14" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
     svg+='<text x="'+ax+'" y="'+(ay+5)+'" text-anchor="middle" font-size="11" fill="#fff" font-weight="900">@</text>';
-    const labelR=isTransit?212:170;
+    // Keep ascendant labels outside the planet-degree ring so they never cover degrees/planets.
+    const labelR=isTransit?270:260;
     const lx=c+labelR*Math.cos(ascAngle),ly=c+labelR*Math.sin(ascAngle);
     const label='@ '+(isTransit?'ลัคนาจร ':'ลัคนา ')+ascObj.ascSign.name+' '+formatInSign(ascObj.asc);
-    const w=isTransit?112:102;
-    svg+='<rect x="'+(lx-w/2)+'" y="'+(ly-9)+'" width="'+w+'" height="16" rx="4" fill="#fff" fill-opacity=".94" stroke="'+color+'" stroke-width="1"/>';
+    const w=isTransit?118:108;
+    const h=17;
+    svg+='<rect x="'+(lx-w/2)+'" y="'+(ly-h/2)+'" width="'+w+'" height="'+h+'" rx="4" fill="#fff" fill-opacity=".97" stroke="'+color+'" stroke-width="1"/>';
     svg+='<text x="'+lx+'" y="'+(ly+3)+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="900">'+label+'</text>';
   }
   drawAsc(natal,false);
@@ -279,7 +281,8 @@ function renderWheel(natal,transit){
       svg+='<g class="'+cls+'" data-planet="'+p.name+'"><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
       svg+='<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
       svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text>';
-      const labelR=rr+(j%2===0?18:-18);
+      // Degree labels sit in dedicated lanes between planet and outer time ring.
+      const labelR=rr+(j%2===0?10:-10);
       const tx=c+labelR*Math.cos(angle),ty=c+labelR*Math.sin(angle);
       svg+='<text x="'+tx+'" y="'+(ty+3)+'" text-anchor="middle" font-size="8" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
       svg+='</g>';
