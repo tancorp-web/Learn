@@ -1,10 +1,10 @@
 // HORA — Classical Thai Suriyayatra ascendant.
-// Uses the traditional ordinary rising-time (อันโตนาทีสามัญ) model.
-// The province correction is derived from longitude, not from a chart-specific
-// constant: 4 minutes per degree from the Thai standard meridian 105°E.
+// Reference implementation: the same "anto-birth-sun" arithmetic used by the
+// classical Suriyayatra engine. No Golden-case offsets and no geometric LST.
 //
-// This deliberately does NOT use LST/geometric tropical ascendant. The
-// planetary engine and ascendant therefore share the same Suriyayatra frame.
+// SIGN_DURATIONS are the published ordinary rising-duration units. They sum
+// to 1440 minutes and are used directly; do not substitute equal 120-minute
+// signs or a tropical/geometric ascendant.
 
 const MOD = (v,d) => {
   const r = v % d;
@@ -20,15 +20,23 @@ export function provinceTimeCorrectionMinutes(longitude) {
   return 4 * (STANDARD_MERIDIAN_LONGITUDE - lon);
 }
 
-function ascendantArcMinutes(sunLongitudeDegrees, timeMinutes, correctionMinutes) {
-  const sun = MOD(Number(sunLongitudeDegrees) * 60, 21600);
+/**
+ * Classical "อันโตนาทีสามัญ / anto-birth-sun":
+ * 1) take the Suriyayatra Sun longitude at birth;
+ * 2) convert the Sun's position into elapsed ordinary-rising units;
+ * 3) advance by birth clock time from the 06:00 reference;
+ * 4) remove the province local-meridian correction;
+ * 5) map the result through the sign rising-duration table.
+ *
+ * This is intentionally NOT sunrise geometry and NOT LST.
+ */
+function ascendantLongitude(sunArcMinutes, timeMinutes, correctionMinutes) {
+  const sun = MOD(Number(sunArcMinutes), 21600);
   const sunSign = Math.floor(sun / 1800);
   const elapsedSun =
-    SIGN_DURATIONS.slice(0, sunSign).reduce((sum,d) => sum + d, 0)
-    + SIGN_DURATIONS[sunSign] * MOD(sun,1800) / 1800;
+    SIGN_DURATIONS.slice(0, sunSign).reduce((sum,d) => sum + d, 0) +
+    SIGN_DURATIONS[sunSign] * MOD(sun,1800) / 1800;
 
-  // Traditional sequence: sunrise reference = 06:00, then remove the
-  // province's local-meridian time correction.
   const progression = MOD(
     elapsedSun + Number(timeMinutes) - 360 - Number(correctionMinutes),
     1440
@@ -38,15 +46,19 @@ function ascendantArcMinutes(sunLongitudeDegrees, timeMinutes, correctionMinutes
   let longitude = 0;
   const starts = [];
 
-  for (let sign=0; sign<12; sign++) {
-    const duration = SIGN_DURATIONS[sign];
-    starts.push(MOD(360 + Number(correctionMinutes) - elapsedSun + cumulative, 1440));
+  for (const [sign,duration] of SIGN_DURATIONS.entries()) {
+    starts.push(MOD(
+      360 + Number(correctionMinutes) - elapsedSun + cumulative,
+      1440
+    ));
     if (progression >= cumulative && progression < cumulative + duration) {
-      longitude = sign * 1800
-        + (progression - cumulative) * 1800 / duration;
+      longitude =
+        sign * 1800 +
+        (progression - cumulative) * 1800 / duration;
     }
     cumulative += duration;
   }
+
   return { longitude: MOD(longitude,21600), starts };
 }
 
@@ -56,48 +68,57 @@ export function calculateSuriyayatraAscendant({
   longitude,
   localTimeCorrectionMinutes
 }) {
-  if (!Number.isFinite(Number(sunLongitude))) throw new Error('ASCENDANT_SUN_INVALID');
+  if (!Number.isFinite(Number(sunLongitude))) {
+    throw new Error('ASCENDANT_SUN_INVALID');
+  }
 
   const correction = localTimeCorrectionMinutes === undefined
     ? provinceTimeCorrectionMinutes(longitude)
     : Number(localTimeCorrectionMinutes);
 
-  if (!Number.isFinite(correction)) throw new Error('ASCENDANT_CORRECTION_INVALID');
+  if (!Number.isFinite(correction)) {
+    throw new Error('ASCENDANT_CORRECTION_INVALID');
+  }
 
-  const minutes = timeMinutes === undefined ? 0 : Number(timeMinutes);
+  const minutes = Number(timeMinutes);
   if (!Number.isFinite(minutes) || minutes < 0 || minutes >= 1440) {
     throw new Error('ASCENDANT_TIME_INVALID');
   }
 
-  return ascendantArcMinutes(sunLongitude, minutes, correction).longitude / 60;
+  return ascendantLongitude(Number(sunLongitude) * 60, minutes, correction).longitude / 60;
 }
 
-// Kept for UI compatibility. The returned times are the traditional sign
-// starts generated from the exact same ascendant function; no lookup table.
 export function calculateAscendantBoundaryTimes({
   sunLongitude,
   longitude,
   localTimeCorrectionMinutes = undefined
 }) {
   if (!Number.isFinite(Number(sunLongitude))) return [];
+
   const correction = localTimeCorrectionMinutes === undefined
     ? provinceTimeCorrectionMinutes(longitude)
     : Number(localTimeCorrectionMinutes);
 
-  const minutes = [];
   const sun = MOD(Number(sunLongitude) * 60,21600);
-  const sunSign = Math.floor(sun/1800);
+  const sunSign = Math.floor(sun / 1800);
   const elapsedSun =
-    SIGN_DURATIONS.slice(0,sunSign).reduce((s,d)=>s+d,0)
-    + SIGN_DURATIONS[sunSign] * MOD(sun,1800) / 1800;
+    SIGN_DURATIONS.slice(0,sunSign).reduce((sum,d) => sum + d, 0) +
+    SIGN_DURATIONS[sunSign] * MOD(sun,1800) / 1800;
 
-  let cumulative=0;
-  for(let sign=0;sign<12;sign++){
+  let cumulative = 0;
+  const minutes = [];
+
+  for (const [sign,duration] of SIGN_DURATIONS.entries()) {
     minutes.push({
       sign,
-      minutes: MOD(360 + correction - elapsedSun + cumulative,1440)
+      duration,
+      minutes: MOD(
+        360 + correction - elapsedSun + cumulative,
+        1440
+      )
     });
-    cumulative += SIGN_DURATIONS[sign];
+    cumulative += duration;
   }
+
   return minutes;
 }
