@@ -144,7 +144,7 @@ function shiftCivilDate(date, days) {
   return dt.toISOString().slice(0, 10);
 }
 
-function calendarArithmetic(horakhun) {
+function calendarArithmetic(horakhun, chulaSakarat, thaloengHorakhun) {
   const totalAvaman = horakhun * 703 + 650;
   const tithiTotal = Math.floor(totalAvaman / 692);
   const avaman = MOD(totalAvaman, 692);
@@ -153,8 +153,14 @@ function calendarArithmetic(horakhun) {
 
   // Classical Suriyayatra base quantities:
   // 1 masa = 30 tithi, 1 tithi = 692 avaman, 1 day = 703 avaman.
-  // These are the auditable calendar inputs; Adhikamasa classification is
-  // deliberately left to the separate month-boundary rule, not a 19-year guess.
+  // The year-level Adhikamasa test is the classical "ดิถีเถลิงศก"
+  // criterion: tithi 0..5 or 25..29 => Adhikamasa.
+  // This is a formula-derived year flag, never a Golden-case lookup.
+  const thaloengTotalAvaman = thaloengHorakhun * 703 + 650;
+  const thaloengTithiTotal = Math.floor(thaloengTotalAvaman / 692);
+  const thaloengTithi = MOD(thaloengTithiTotal, 30);
+  const isAdhikamas = thaloengTithi <= 5 || thaloengTithi >= 25;
+
   return {
     masa,
     tithi,
@@ -163,8 +169,12 @@ function calendarArithmetic(horakhun) {
     tithiAvaman: 692,
     monthTithiCount: 30,
     monthBoundaryAvaman: MOD(totalAvaman, 30 * 692),
-    isAdhikamas: null,
-    lunarMonth: null
+    chulaSakarat,
+    thaloengSokTithi: thaloengTithi,
+    isAdhikamas,
+    isAdhikavara: null,
+    lunarMonth: null,
+    calendarRule: 'ดิถีเถลิงศก 0–5 หรือ 25–29 => อธิกมาส; อธิกวารรอเกณฑ์เฉพาะ'
   };
 }
 
@@ -284,7 +294,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     )
   };
 
-  const calendar = calendarArithmetic(horakhun);
+  const calendar = calendarArithmetic(horakhun, chulaSakarat, thaloeng.horakhun);
   const planets = Object.entries(arcs).map(([name, arc], index) => {
     const motion = includeMotion ? motionFor(name, date, time, longitude) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
     return {
