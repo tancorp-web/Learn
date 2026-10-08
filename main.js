@@ -119,12 +119,12 @@ function renderWheel(natal,transit){
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fafaf9" stroke="#334155" stroke-width="1"/>';
 
   for(let i=0;i<12;i++){
-    const signStart=i*30;
+    const signStart=i*30-15;
     const angleStart=(-90-signStart)*Math.PI/180;
     const x1=c+rad*Math.cos(angleStart),y1=c+rad*Math.sin(angleStart);
     const xi=c+inner*Math.cos(angleStart),yi=c+inner*Math.sin(angleStart);
     svg+='<line x1="'+xi+'" y1="'+yi+'" x2="'+x1+'" y2="'+y1+'" stroke="#334155" stroke-width="1"/>';
-    const mid=signStart+15;
+    const mid=i*30;
     const am=(-90-mid)*Math.PI/180;
     const lx=c+(rad-18)*Math.cos(am),ly=c+(rad-18)*Math.sin(am);
     const isAries=i===0;
@@ -146,17 +146,18 @@ function renderWheel(natal,transit){
       (bySign[si]||(bySign[si]=[])).push(p);
     }
     for(const si of Object.keys(bySign).map(Number)){
-      const ps=bySign[si];
+      const ps=bySign[si].slice().sort((a,b)=>a.longitude-b.longitude);
+      const lanes=isTransit?[190,208,226,238]:[104,124,144,164,184];
       ps.forEach((p,j)=>{
         const angle=(-90-p.longitude)*Math.PI/180;
-        const rr=isTransit?planetOuter:planetInner;
+        const rr=lanes[j%lanes.length];
         const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
         const color=isTransit?'#15803d':'#7c3aed';
         const stroke=isTransit?'#22c55e':'#c4b5fd';
         svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
         svg+='<circle cx="'+x+'" cy="'+y+'" r="12" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
         svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">'+planetNo(p.name)+'</text>';
-        svg+='<text x="'+x+'" y="'+(y+(isTransit?23:-17))+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
+        svg+='<text x="'+x+'" y="'+(y+(isTransit?-15:-14))+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
         svg+='</g>';
       });
     }
