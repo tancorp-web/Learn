@@ -113,7 +113,7 @@ function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'
 
 function renderWheel(natal,transit){
   const el=$('wheel');
-  const c=300,rad=245,inner=72,planetInner=122,planetOuter=205;
+  const c=300,rad=245,inner=72,planetInner=155,planetOuter=210;
   let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff">';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/>';
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fafaf9" stroke="#334155" stroke-width="1"/>';
@@ -126,7 +126,7 @@ function renderWheel(natal,transit){
     svg+='<line x1="'+xi+'" y1="'+yi+'" x2="'+x1+'" y2="'+y1+'" stroke="#334155" stroke-width="1"/>';
     const mid=i*30;
     const am=(-90-mid)*Math.PI/180;
-    const labelRadius=(i===0||i===1)?rad+22:rad-18;
+    const labelRadius=rad+30;
     const lx=c+labelRadius*Math.cos(am),ly=c+labelRadius*Math.sin(am);
     const isAries=i===0;
     svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(isAries?16:13)+'" fill="'+(isAries?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(isAries?' ★':'')+'</text>';
@@ -147,18 +147,17 @@ function renderWheel(natal,transit){
       (bySign[si]||(bySign[si]=[])).push(p);
     }
     for(const si of Object.keys(bySign).map(Number)){
-      const ps=bySign[si].slice().sort((a,b)=>a.longitude-b.longitude);
-      const lanes=isTransit?[190,208,226,238]:[104,124,144,164,184];
+      const ps=bySign[si];
       ps.forEach((p,j)=>{
         const angle=(-90-p.longitude)*Math.PI/180;
-        const rr=lanes[j%lanes.length];
+        const rr=isTransit?planetOuter:planetInner;
         const x=c+rr*Math.cos(angle),y=c+rr*Math.sin(angle);
         const color=isTransit?'#15803d':'#7c3aed';
         const stroke=isTransit?'#22c55e':'#c4b5fd';
         svg+='<g><title>'+(isTransit?'ดาวจร':'ดาวเกิด')+' '+p.name+' '+formatInSign(p.longitude)+' '+p.sign.name+'</title>';
         svg+='<circle cx="'+x+'" cy="'+y+'" r="12" fill="'+color+'" stroke="'+stroke+'" stroke-width="2"/>';
         svg+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">'+planetNo(p.name)+'</text>';
-        svg+='<text x="'+x+'" y="'+(y+(isTransit?-15:-14))+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
+        svg+='<text x="'+x+'" y="'+(y+(isTransit?23:-17))+'" text-anchor="middle" font-size="9" fill="'+color+'" font-weight="700">'+formatInSign(p.longitude)+'</text>';
         svg+='</g>';
       });
     }
