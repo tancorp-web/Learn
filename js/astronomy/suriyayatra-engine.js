@@ -132,7 +132,7 @@ export function calculateSuriyayatra({ date, time }) {
       name,
       longitude: sidereal,
       tropicalLongitude: tropical,
-      retrograde: isRetrograde(BODY[name], instant),
+      retrograde: name === 'จันทร์' ? false : isRetrograde(BODY[name], instant),
     });
   }
 
@@ -153,6 +153,7 @@ export function calculateSuriyayatra({ date, time }) {
     date,
     time,
     jd: julianDay(instant),
+    harakun: Math.floor(julianDay(instant) - 1954167.5) + 1,
     planets,
     metadata: {
       engineVersion: 'v6.0-REAL-EPHEMERIS',
