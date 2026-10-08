@@ -10,19 +10,18 @@
 <div class="hint">พ.ศ. / ค.ศ. แสดงคู่กัน</div>
 <label>เวลาเกิด</label><div class="time-grid"><select id="hour"></select><span>:</span><select id="minute"></select></div>
 <label>สถานที่เกิด <sup>2</sup></label>
-<div class="combo"><input id="provinceSearch" autocomplete="off" placeholder="พิมพ์จังหวัด…"><button id="provinceClear" type="button" class="clear">×</button><div id="provinceList" class="suggestions" hidden></div></div>
-<div class="place-grid"><input id="district" placeholder="เขต / อำเภอ" value="เขตพระนคร"><input id="latInput" type="number" step="0.000001" value="13.752555" placeholder="ละติจูด"><input id="lonInput" type="number" step="0.000001" value="100.494066" placeholder="ลองจิจูด"><select id="tzInput"><option value="7">+07:00</option></select></div>
+<div class="combo"><select id="province"><option value="">เลือกจังหวัด</option></select></div>
+<div class="place-grid"><select id="district"><option value="">เลือกเขต / อำเภอ</option></select><input id="latInput" type="text" value="13.752555" readonly><input id="lonInput" type="text" value="100.494066" readonly><select id="tzInput"><option value="7">+07:00</option></select></div>
 <div class="selected-place" id="selectedProvince">กรุงเทพมหานคร · เขตพระนคร</div>
-<input id="province" type="hidden"><input id="lat" type="hidden"><input id="lon" type="hidden">
 <div class="sun-card"><div class="sun-title">☀ อาทิตย์อุทัย / ลัคนา</div><div><b>06:00 น.</b> <span>เวลาท้องถิ่น</span></div><small>ระบบปฏิทินโหราศาสตร์ไทย สุริยยาตร์ · ลัคนาอันโตนาทีสามัญ · อาทิตย์อุทัย 06:00 น. · ปรับเวลาท้องถิ่น</small></div>
 
 <div class="section-title">วันจร / วันที่ทำนาย <sup>3</sup></div>
 <label>วันที่ทำนาย</label><input id="forecastDateInput" type="date">
 <label>เวลาทำนาย</label><input id="forecastTimeInput" type="time" step="60">
 <label>สถานที่จร <sup>2</sup></label>
-<input id="forecastProvince" value="กรุงเทพมหานคร" placeholder="จังหวัด">
-<div class="place-grid"><input id="forecastDistrict" placeholder="เขต / อำเภอ" value="เขตพระนคร"><input id="forecastLat" type="number" step="0.000001" value="13.752555"><input id="forecastLon" type="number" step="0.000001" value="100.494066"><select id="forecastTz"><option value="7">+07:00</option></select></div>
-<div class="selected-place">กรุงเทพมหานคร · เขตพระนคร</div>
+<select id="forecastProvince"><option value="">เลือกจังหวัด</option></select>
+<div class="place-grid"><select id="forecastDistrict"><option value="">เลือกเขต / อำเภอ</option></select><input id="forecastLat" type="text" value="13.752555" readonly><input id="forecastLon" type="text" value="100.494066" readonly><select id="forecastTz"><option value="7">+07:00</option></select></div>
+<div class="selected-place" id="selectedForecastPlace">กรุงเทพมหานคร · เขตพระนคร</div>
 
 <div class="section-title">ตั้งค่าปฏิทิน / ลัคนา / ดาวฯ</div>
 <label>ปฏิทิน</label><select id="calendar"><option value="suriyayatra">ปฏิทินโหราศาสตร์ไทย สุริยยาตร์</option></select>
