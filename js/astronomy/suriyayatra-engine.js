@@ -29,7 +29,16 @@ function harakunThaloengsok(cs){
 function harakunBirth(beYear, month, day, hour, minute){
   const cs = beYear - 1181;
   const th = harakunThaloengsok(cs);
-  // จำนวนวันจากจุดเริ่มต้นรอบสุริยยาตร์เดียวกันสำหรับทุกปี/ทุกวัน\n  // ห้ามมี Golden Case shortcut หรือเงื่อนไขเฉพาะวันเกิด\n  const md=[31,28,31,30,31,30,31,31,30,31,30,31];\n  const leap=(beYear%4===0 && (beYear%100!==0 || beYear%400===0));\n  if(leap) md[1]=29;\n  const startMonth=4, startDay=14;\n  const start=new Date(Date.UTC(beYear-543,startMonth-1,startDay));\n  const current=new Date(Date.UTC(beYear-543,month-1,day));\n  daysAfter=Math.floor((current-start)/86400000);\n  if(daysAfter<0) daysAfter=0;
+  // จำนวนวันจากจุดเริ่มต้นรอบสุริยยาตร์เดียวกันสำหรับทุกปี/ทุกวัน
+  // ห้ามมี Golden Case shortcut หรือเงื่อนไขเฉพาะวันเกิด
+  const md=[31,28,31,30,31,30,31,31,30,31,30,31];
+  const leap=(beYear%4===0 && (beYear%100!==0 || beYear%400===0));
+  if(leap) md[1]=29;
+  const startMonth=4, startDay=14;
+  const start=new Date(Date.UTC(beYear-543,startMonth-1,startDay));
+  const current=new Date(Date.UTC(beYear-543,month-1,day));
+  let daysAfter=Math.floor((current-start)/86400000);
+  if(daysAfter<0) daysAfter=0;
   const birthKammat = Math.floor((hour*3600+minute*60)/SEC_PER_KAMMAT);
   const harakun = th.harakun + daysAfter + birthKammat/KAMMAT_PER_DAY;
   const jd = harakun + JD_EPOCH;
