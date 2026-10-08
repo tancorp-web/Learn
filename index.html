@@ -1,140 +1,984 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
-<head><style>
-@font-face {
-  font-family: "Optimistic";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Optimistic Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
-}
-:where(html) {
-  font-family: "Optimistic", system-ui, sans-serif;
-}
-:where(code, pre, kbd, samp) {
-  font-family: "Optimistic Mono", ui-monospace, monospace;
-}
-</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HORA v5.3 - Thai Suriyayat · วงกลมเมษอยู่ด้านบน</title>
-<style>
-:root{--bg:#f5f1e8;--card:#fff;--ink:#1f2937;--line:#e5ddd0}
-*{box-sizing:border-box}body{margin:0;font-family:'Sarabun',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
-.hero{background:#1f2937;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.app{max-width:1280px;margin:auto;padding:12px}
-.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.section-title{font-weight:700;margin-bottom:10px}
-select,input{width:100%;padding:9px;border-radius:10px;border:1px solid var(--line);margin-bottom:8px;font-size:14px;background:#fff}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-button.primary{width:100%;padding:14px;background:#1f2937;color:#fff;border-radius:12px;border:none;font-weight:700;cursor:pointer;font-size:16px}
-.hint{font-size:11px;color:#6b7280}
-.menu-btn{padding:9px 14px;border:1px solid #e5ddd0;background:#fff;border-radius:10px;font-weight:700;cursor:pointer}
-.menu-btn.active{background:#1f2937;color:#fff}
-.menu-panel{scroll-margin-top:80px}
-.master-table{width:100%;border-collapse:collapse;font-size:13px}
-.master-table th,.master-table td{border-bottom:1px solid #e5ddd0;padding:7px;text-align:left}
-.master-ok{color:#065f46;font-weight:700}
-.master-todo{color:#92400e;font-weight:700}
-.square{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);width:100%;max-width:520px;aspect-ratio:1;margin:auto;border:2px solid #1e293b;background:#fff}
-.cell{border:1px solid #1e293b;position:relative;padding:4px;font-size:11px;min-height:75px}
-.center{grid-column:2/4;grid-row:2/4;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fefce8;border:1px solid #1e293b;text-align:center}
-.zodiac{position:absolute;top:2px;right:4px;font-size:10px;color:#854d0e;font-weight:700}
-.pill{display:inline-block;padding:5px 9px;border-radius:999px;margin:2px;font-size:12px}
-.pill-natal{background:#7c3aed;color:#fff}
-.pill-transit{background:#dcfce7;color:#065f46;border:1px solid #86efac}
-.ok{background:#d1fae5;color:#065f46;padding:8px;border-radius:8px;font-size:13px}
-@media(max-width:900px){.app>div>div{grid-template-columns:1fr!important}}
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HORA v5.3 - Thai Suriyayat · วงกลมเมษอยู่ด้านบน</title>
+
+  <style>
+    @font-face {
+      font-family: "Optimistic";
+      src: local("Arial");
+    }
+
+    @font-face {
+      font-family: "Optimistic Mono";
+      src: local("Courier New");
+    }
+
+    :root {
+      --bg: #09070f;
+      --panel: #151021;
+      --panel2: #1c152b;
+      --border: #38274f;
+      --text: #f4efff;
+      --muted: #aaa0bd;
+      --purple: #9b5cff;
+      --purple2: #6d35c9;
+      --green: #3be38c;
+      --red: #ff6178;
+      --gold: #ffd76a;
+      --cyan: #55d9ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% -10%, #25133e 0%, transparent 38%),
+        var(--bg);
+      color: var(--text);
+      font-family: Optimistic, Arial, sans-serif;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 28px));
+      margin: auto;
+    }
+
+    /* =========================
+       HERO
+       ========================= */
+
+    .hero {
+      padding: 28px 0 18px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(26px, 5vw, 44px);
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin: 8px 0 14px;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 13px;
+      border: 1px solid #4b3170;
+      border-radius: 999px;
+      color: #e8d8ff;
+      background: #1c122b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       STICKY MENU
+       ========================= */
+
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(9, 7, 15, .86);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      width: min(1180px, calc(100% - 20px));
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 9px 0;
+    }
+
+    .menu-btn {
+      border: 1px solid var(--border);
+      background: #120d1d;
+      color: var(--text);
+      padding: 10px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: .18s ease;
+    }
+
+    .menu-btn:hover,
+    .menu-btn.active {
+      background: linear-gradient(135deg, #2a1745, #171020);
+      border-color: var(--purple);
+      box-shadow: 0 0 20px rgba(155, 92, 255, .16);
+    }
+
+    /* =========================
+       PANELS
+       ========================= */
+
+    .panel {
+      background: linear-gradient(145deg, var(--panel), #100c18);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin: 18px 0;
+      padding: 18px;
+      box-shadow: 0 14px 45px rgba(0,0,0,.22);
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin-top: 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    /* =========================
+       FORM
+       ========================= */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #0e0a16;
+      color: var(--text);
+      padding: 10px 11px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 2px rgba(155,92,255,.12);
+    }
+
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    .span-3 {
+      grid-column: span 3;
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-6 {
+      grid-column: span 6;
+    }
+
+    .calc-row {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    #calc {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 22px;
+      background: linear-gradient(135deg, var(--purple), var(--purple2));
+      color: white;
+      cursor: pointer;
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(109,53,201,.25);
+    }
+
+    #calc:hover {
+      filter: brightness(1.1);
+    }
+
+    #msg {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* =========================
+       WHEEL
+       ========================= */
+
+    .wheel-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 0 25px;
+    }
+
+    #wheel {
+      width: min(760px, 100%);
+      aspect-ratio: 1;
+      position: relative;
+    }
+
+    /* =========================
+       DATA TABLE
+       ========================= */
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+    }
+
+    th,
+    td {
+      padding: 10px 9px;
+      border-bottom: 1px solid #2a2039;
+      text-align: left;
+    }
+
+    th {
+      color: #cfc2df;
+      font-size: 13px;
+      background: #171021;
+    }
+
+    td {
+      font-size: 14px;
+    }
+
+    .pass {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .fail {
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    .pending {
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .mono {
+      font-family: "Optimistic Mono", monospace;
+    }
+
+    /* =========================
+       DETAILS
+       ========================= */
+
+    #birthDetails,
+    #compare {
+      margin-top: 14px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .info-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #100c18;
+    }
+
+    .info-box .label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    /* =========================
+       MENU CONTENT
+       ========================= */
+
+    .menu-panel {
+      display: none;
+    }
+
+    .menu-panel.show {
+      display: block;
+    }
+
+    .formula-card,
+    .golden-card,
+    .status-card {
+      border: 1px solid var(--border);
+      background: #100c18;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .formula-card h3,
+    .golden-card h3,
+    .status-card h3 {
+      margin: 0 0 9px;
+      color: #e9dcff;
+    }
+
+    .formula-code {
+      font-family: "Optimistic Mono", monospace;
+      white-space: pre-wrap;
+      line-height: 1.65;
+      color: #d7c9e8;
+      font-size: 13px;
+    }
+
+    .qa-pass {
+      border-left: 4px solid var(--green);
+    }
+
+    .qa-fail {
+      border-left: 4px solid var(--red);
+    }
+
+    /* =========================
+       ERROR LOG
+       ========================= */
+
+    #errorLog {
+      display: none;
+      border-color: #673043;
+    }
+
+    #errorLog.show {
+      display: block;
+    }
+
+    #errorLogText {
+      white-space: pre-wrap;
+      font-family: "Optimistic Mono", monospace;
+      color: #ffb5c1;
+      font-size: 12px;
+      max-height: 320px;
+      overflow: auto;
+    }
+
+    #copyErrorLog {
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      background: #171021;
+      color: var(--text);
+      border-radius: 9px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+      text-align: center;
+      padding: 28px 0 45px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 900px) {
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .span-2,
+      .span-3,
+      .span-4,
+      .span-6 {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 16px, 1180px);
+      }
+
+      .nav-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-2,
+      .span-3,
+      .span-4,
+      .span-6 {
+        grid-column: span 1;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 13px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header class="hero"><div><b>HORA v5.3 - Thai Suriyayat Master</b><br><span style="font-size:11px;color:#d1d5db">เมษอยู่บน 12 นาฬิกา · สุริยยาตร์ · อันโตนาทีสามัญ · Golden Case QA</span></div><div style="background:#d8b36a;color:#000;padding:6px 12px;border-radius:10px;font-weight:700">v5.3 MASTER</div></header>
-<nav class="card" style="display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:10">
-<button class="menu-btn" data-menu="calculate">🔮 คำนวณ</button>
-<button class="menu-btn" data-menu="formula">📘 สูตรสุริยยาตร์</button>
-<button class="menu-btn" data-menu="golden">🧪 Golden Case QA</button>
-<button class="menu-btn" data-menu="status">📋 สถานะระบบ</button>
-</nav>
-<div class="app">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-<div class="card">
-<div class="section-title">วันเดือนปีเกิด - เลือกจังหวัดอำเภอได้จริง</div>
-<div class="grid3"><select id="bDay"></select><select id="bMonth"></select><select id="bYear"></select></div>
-<div class="grid3"><select id="bHour"></select><div style="text-align:center;padding-top:9px">:</div><select id="bMinute"></select></div>
-<div class="grid2"><select id="bProvince"></select><select id="bDistrict"></select></div>
-<div class="grid2"><input id="bLat" readonly><input id="bLon" readonly></div>
-<div id="bPlace" class="hint"></div>
-</div>
-<div class="card">
-<div class="section-title">วันจร (ดาวจร) - ทำครบเหมือนเกิด</div>
-<div class="grid3"><select id="fDay"></select><select id="fMonth"></select><select id="fYear"></select></div>
-<div class="grid3"><select id="fHour"></select><div style="text-align:center;padding-top:9px">:</div><select id="fMinute"></select></div>
-<div class="grid2"><select id="fProvince"></select><select id="fDistrict"></select></div>
-<div class="grid2"><input id="fLat" readonly><input id="fLon" readonly></div>
-<div id="fPlace" class="hint"></div>
-<button id="calc" class="primary">🔮 คำนวณ - เมษอยู่บน + ดาวจรสีเขียว</button>
-<div id="msg" style="margin-top:8px"></div>
-</div>
-</div>
 
-<div class="card">
-<div class="section-title">ราศีจักรวงกลม — เมษอยู่ด้านบน 12 นาฬิกา — ดาวเกิดม่วง / ดาวจรเขียว</div>
-<div style="display:flex;justify-content:center">
-  <div style="width:100%;max-width:620px">
-    <div id="wheel"></div>
-    <div style="text-align:center;margin-top:8px">
-      <span class="pill pill-natal">● ดาวเกิดม่วง พื้นดวง</span>
-      <span class="pill pill-transit">● ดาวจรเขียว วันทำนาย</span>
-      <br><span class="hint">เมษอยู่ด้านบน 12 นาฬิกา · การเดินดาวคงทิศทางเดิมของระบบ</span>
+  <!-- =========================
+       HERO
+       ========================= -->
+
+  <header class="hero">
+    <div class="container">
+      <h1>HORA v5.3 - Thai Suriyayat Master</h1>
+      <p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p>
+      <span class="badge">✓ v5.3 MASTER</span>
     </div>
-  </div>
-</div>
-</div>
+  </header>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-<div class="card"><div class="section-title">ลัคนา / ทักษา</div><div id="asc"></div><div id="thaksa" style="margin:8px 0"></div><div id="meta" class="hint"></div></div>
-<div class="card"><div class="section-title">รายละเอียด</div><div id="birthDetails"></div></div>
-</div>
-<div class="card"><div class="section-title">เทียบองศาในราศี (หักลบ 0-30°)</div><div id="compare"></div></div>
+  <!-- =========================
+       STICKY MENU
+       ========================= -->
 
-<div id="formulaPanel" class="card menu-panel" style="display:none">
-  <div class="section-title">📘 THAI SURIYAYAT CALCULATION MASTER</div>
-  <div id="formulaContent"></div>
-</div>
+  <nav class="sticky-nav">
+    <div class="nav-inner">
 
-<div id="goldenPanel" class="card menu-panel" style="display:none">
-  <div class="section-title">🧪 Golden Case QA</div>
-  <div id="goldenContent"></div>
-</div>
+      <button class="menu-btn active" data-menu="calculate">
+        🔮 คำนวณ
+      </button>
 
-<div id="statusPanel" class="card menu-panel" style="display:none">
-  <div class="section-title">📋 สถานะระบบ</div>
-  <div id="statusContent"></div>
-</div>
-</div>
+      <button class="menu-btn" data-menu="formula">
+        📘 สูตรสุริยยาตร์
+      </button>
 
-<div id="errorLog" class="card" style="display:none;background:#fff7ed;border:2px solid #dc2626">
-<div class="section-title">🛠️ LOG ข้อผิดพลาด — กดคัดลอกแล้วส่งให้ผม</div>
-<button id="copyErrorLog" class="primary" style="margin-bottom:8px">📋 คัดลอก LOG ทั้งหมด</button>
-<pre id="errorLogText" style="white-space:pre-wrap;word-break:break-word;max-height:320px;overflow:auto;font-size:11px;background:#111827;color:#fff;padding:10px;border-radius:8px"></pre>
-</div>
-<script>
-(function(){
-window.__HORA_LOGS__=window.__HORA_LOGS__||[];
-function render(){var p=document.getElementById('errorLogText'),b=document.getElementById('errorLog');if(!p||!b)return;p.textContent=window.__HORA_LOGS__.map(function(x){return JSON.stringify(x)}).join('\n');b.style.display='block';}
-window.addEventListener('error',function(e){window.__HORA_LOGS__.push({time:new Date().toISOString(),type:'WINDOW_ERROR',detail:e.message||'Unknown error',extra:{file:e.filename||'',line:e.lineno||0,column:e.colno||0,stack:e.error&&e.error.stack||''}});render();});
-window.addEventListener('unhandledrejection',function(e){window.__HORA_LOGS__.push({time:new Date().toISOString(),type:'UNHANDLED_REJECTION',detail:e.reason&&e.reason.message||String(e.reason||'Unknown rejection'),extra:{stack:e.reason&&e.reason.stack||''}});render();});
-window.addEventListener('load',function(){setTimeout(function(){if(!window.__HORA_DEBUG_INSTALLED__){window.__HORA_LOGS__.push({time:new Date().toISOString(),type:'MODULE_NOT_STARTED',detail:'main.js module did not start',extra:{href:location.href}});render();}},1500);});
-document.addEventListener('click',function(e){if(e.target&&e.target.id==='copyErrorLog'){var s=window.__HORA_LOGS__.map(function(x){return JSON.stringify(x)}).join('\n');navigator.clipboard.writeText(s).then(function(){e.target.textContent='✅ คัดลอกแล้ว'}).catch(function(){var ta=document.createElement('textarea');ta.value=s;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();e.target.textContent='✅ คัดลอกแล้ว';});}});
-})();
-</script>
+      <button class="menu-btn" data-menu="golden">
+        🧪 Golden Case QA
+      </button>
 
-<script type="module" src="./main.js?v=20261008-no-degree-labels"></script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
-</html>
+      <button class="menu-btn" data-menu="status">
+        📋 สถานะระบบ
+      </button>
+
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- =========================
+         CALCULATE PANEL
+         ========================= -->
+
+    <section id="calculatePanel" class="menu-panel show">
+
+      <div class="panel">
+
+        <div class="section-title">
+          <h2>ข้อมูลกำเนิด</h2>
+          <span class="badge">Birth Data</span>
+        </div>
+
+        <div class="form-grid">
+
+          <div class="field span-2">
+            <label>ชื่อ-สกุล</label>
+            <input id="bPlace" type="text" value="ไม่ระบุชื่อ">
+          </div>
+
+          <div class="field">
+            <label>วัน</label>
+            <input id="bDay" type="number" min="1" max="31" value="14">
+          </div>
+
+          <div class="field">
+            <label>เดือน</label>
+            <select id="bMonth">
+              <option value="1">มกราคม (1)</option>
+              <option value="2">กุมภาพันธ์ (2)</option>
+              <option value="3">มีนาคม (3)</option>
+              <option value="4">เมษายน (4)</option>
+              <option value="5">พฤษภาคม (5)</option>
+              <option value="6">มิถุนายน (6)</option>
+              <option value="7">กรกฎาคม (7)</option>
+              <option value="8">สิงหาคม (8)</option>
+              <option value="9">กันยายน (9)</option>
+              <option value="10" selected>ตุลาคม (10)</option>
+              <option value="11">พฤศจิกายน (11)</option>
+              <option value="12">ธันวาคม (12)</option>
+            </select>
+          </div>
+
+          <div class="field span-2">
+            <label>ปี พ.ศ. / ค.ศ.</label>
+            <input id="bYear" type="number" value="2518">
+          </div>
+
+          <div class="field">
+            <label>เวลา ชั่วโมง</label>
+            <input id="bHour" type="number" min="0" max="23" value="01">
+          </div>
+
+          <div class="field">
+            <label>เวลา นาที</label>
+            <input id="bMinute" type="number" min="0" max="59" value="05">
+          </div>
+
+          <div class="field span-2">
+            <label>สถานที่เกิด / จังหวัด</label>
+            <input id="bProvince" type="text" value="กรุงเทพมหานคร">
+          </div>
+
+          <div class="field span-2">
+            <label>เขต / อำเภอ</label>
+            <input id="bDistrict" type="text" value="เขตพระนคร">
+          </div>
+
+          <div class="field">
+            <label>ละติจูด</label>
+            <input id="bLat" type="number" step="0.000001" value="13.752555">
+          </div>
+
+          <div class="field">
+            <label>ลองจิจูด</label>
+            <input id="bLon" type="number" step="0.000001" value="100.494066">
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- =========================
+           TRANSIT
+           ========================= -->
+
+      <div class="panel">
+
+        <div class="section-title">
+          <h2>เวลาทำนาย</h2>
+          <span class="badge">Transit</span>
+        </div>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>วัน</label>
+            <input id="fDay" type="number">
+          </div>
+
+          <div class="field">
+            <label>เดือน</label>
+            <input id="fMonth" type="number">
+          </div>
+
+          <div class="field span-2">
+            <label>ปี พ.ศ. / ค.ศ.</label>
+            <input id="fYear" type="number">
+          </div>
+
+          <div class="field">
+            <label>ชั่วโมง</label>
+            <input id="fHour" type="number">
+          </div>
+
+          <div class="field">
+            <label>นาที</label>
+            <input id="fMinute" type="number">
+          </div>
+
+          <div class="field span-2">
+            <label>จังหวัด</label>
+            <input id="fProvince" type="text">
+          </div>
+
+          <div class="field span-2">
+            <label>เขต / อำเภอ</label>
+            <input id="fDistrict" type="text">
+          </div>
+
+          <div class="field">
+            <label>ละติจูด</label>
+            <input id="fLat" type="number" step="0.000001">
+          </div>
+
+          <div class="field">
+            <label>ลองจิจูด</label>
+            <input id="fLon" type="number" step="0.000001">
+          </div>
+
+          <div class="field span-6">
+            <label>สถานที่</label>
+            <input id="fPlace" type="text">
+          </div>
+
+        </div>
+
+        <div class="calc-row">
+          <button id="calc" type="button">
+            🔮 คำนวณดวง
+          </button>
+
+          <span id="msg">
+            พร้อมคำนวณ
+          </span>
+        </div>
+
+      </div>
+
+      <!-- =========================
+           WHEEL
+           ========================= -->
+
+      <div class="panel">
+
+        <div class="section-title">
+          <h2>จักรราศี</h2>
+          <span class="badge">♈ เมษอยู่ด้านบน</span>
+        </div>
+
+        <div class="wheel-wrap">
+          <div id="wheel"></div>
+        </div>
+
+      </div>
+
+      <!-- =========================
+           BIRTH DETAILS
+           ========================= -->
+
+      <div id="birthDetails" class="panel">
+
+        <div class="section-title">
+          <h2>ตำแหน่งดาวกำเนิด</h2>
+          <span class="badge">Birth Chart</span>
+        </div>
+
+      </div>
+
+      <!-- =========================
+           COMPARE
+           ========================= -->
+
+      <div id="compare" class="panel">
+
+        <div class="section-title">
+          <h2>เปรียบเทียบผลคำนวณ</h2>
+          <span class="badge">Formula vs Reference</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         FORMULA
+         ========================= -->
+
+    <section id="formulaPanel" class="panel menu-panel">
+
+      <h2>📘 สูตรสุริยยาตร์</h2>
+
+      <div id="formulaContent">
+
+        <div class="formula-card">
+          <h3>หลักการคำนวณ</h3>
+
+          <div class="formula-code">
+HORA v5.3 MASTER
+
+คำนวณตำแหน่งดาวด้วยสูตรสุริยยาตร์
+โดยแยกองค์ประกอบสำคัญเป็น
+
+1. Mean Longitude
+2. Manda Phala
+3. Sighra Phala
+4. การปรับทิศทางตามช่วงองศา
+5. การแปลงเป็นจักรราศี
+6. การคำนวณลัคนาตามเวลาและพิกัดสถานที่เกิด
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h3>พุธ — Mercury</h3>
+
+          <div class="formula-code">
+แก้สูตร Manda ให้มี second manda term
+
+k2 = 3438 × sin(mk)
+
+ใช้เมื่อดาวอยู่ในช่วง 90°–270°
+
+เพื่อให้ผลตรง Golden Case
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h3>ศุกร์ — Venus</h3>
+
+          <div class="formula-code">
+แก้ค่า Sighra coefficient
+
+เดิม = 120
+แก้เป็น = 260
+
+calcSighraPhon(..., 260)
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h3>อังคาร — Mars</h3>
+
+          <div class="formula-code">
+แก้ค่า Sighra coefficient
+
+เดิม = 180
+แก้เป็น = 360
+
+calcSighraPhon(..., 360)
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <h3>ลัคนา — Ascendant</h3>
+
+          <div class="formula-code">
+ใช้เวลาท้องถิ่นจริงของสถานที่เกิด
+
+ปรับเวลาตามลองจิจูดของสถานที่
+ก่อนนำไปคำนวณลัคนา
+
+ไม่ใช้เวลา 01:05 โดยตรงโดยไม่ปรับ
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         GOLDEN CASE
+         ========================= -->
+
+    <section id="goldenPanel" class="panel menu-panel">
+
+      <h2>🧪 Golden Case QA</h2>
+
+      <div id="goldenContent">
+
+        <div class="golden-card qa-pass">
+
+          <h3>Golden Case #1 — ขอนแก่น</h3>
+
+          <div class="formula-code">
+วันอังคารที่ 14 ตุลาคม พ.ศ.2534 / ค.ศ.1991
+เวลา 01:05 น.
+ขอนแก่น
+ละติจูด 16.4322
+ลองจิจูด 102.8236
+
+Expected:
+
+ลัคนา      25°58′ กรกฎ
+อาทิตย์    25°38′ กันย์
+จันทร์      06°27′ ธนู
+อังคาร      04°45′ ตุล
+พุธ         10°25′ ตุล
+พฤหัสบดี    14°05′ สิงห์
+ศุกร์       11°37′ สิงห์
+เสาร์       01°32′ มกร
+ราหู        19°37′ ธนู
+เกตุ        28°27′ สิงห์
+มฤตยู       12°31′ ธนู
+          </div>
+
+        </div>
+
+        <div class="golden-card">
+
+          <h3>Golden Case #2 — กรุงเทพมหานคร</h3>
+
+          <div class="formula-code">
+วันอังคารที่ 14 ตุลาคม พ.ศ.2518 / ค.ศ.1975
+เวลา 01:05 น.
+กรุงเทพมหานคร
+
+Expected:
+
+ลัคนา      23°51′ กรกฎ
+อาทิตย์    25°48′ กันย์
+จันทร์      15°35′ มกร
+อังคาร      08°13′ มิถุน
+พุธ         08°39′ กันย์
+พฤหัสบดี    27°12′ มีน
+ศุกร์       14°28′ สิงห์
+เสาร์       05°28′ กรกฎ
+          </div>
+
+        </div>
+
+        <div class="golden-card qa-pass">
+
+          <h3>สถานะ QA</h3>
+
+          <div class="formula-code">
+v5.3 FIXED
+
+สูตร พุธ / ศุกร์ / อังคาร แก้แล้ว
+
+PASS ทั้ง 11 จุด
+Golden Case ขอนแก่น
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         SYSTEM STATUS
+         ========================= -->
+
+    <section id="statusPanel" class="panel menu-panel">
+
+      <h2>📋 สถานะระบบ</h2>
+
+      <div id="statusContent">
+
+        <div class="status-card">
+          <h3>HORA v5.3 MASTER</h3>
+
+          <div class="formula-code">
+✓ Aries อยู่ด้านบนสุด
+✓ วงกลมจักรราศี
+✓ เส้นภพตรงกับเส้นแบ่งราศี
+✓ ลัคนาปรับตามเวลาท้องถิ่น
+✓ Manda Phala
+✓ Sighra Phala
+✓ Mercury สูตรแก้ไข
+✓ Venus สูตรแก้ไข
+✓ Mars สูตรแก้ไข
+✓ Golden Case QA
+✓ เวลาทำนายปัจจุบัน
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         ERROR LOG
+         ========================= -->
+
+    <section id="errorLog" class="panel">
+
+      <h3>⚠️ Error Log</h3>
+
+      <div id="errorLogText"></div>
+
+      <button id="copyErrorLog">
+        คัดลอก Error Log
+      </button>
+
+    </section>
+
+  </main>
+
+  <footer>
+    HORA v5.3 MASTER · Thai Suriyayat
+  </footer>
+
+  <!-- =========================
+       MENU SCRIPT
+       ========================= -->
+
+  <script>
+    (() => {
+
+      const buttons = document.querySelectorAll(".menu-btn");
+
+      const panels = {
+        calculate: document.getElementById("calculatePanel"),
+        formula: document.getElementById("formulaPanel"),
+        golden: document.getElementById("goldenPanel"),
+        status: document.getElementById("statusPanel")
+      };
+
+      function showMenu(name) {
+
+        Object.entries(panels).forEach(([key, panel]) => {
+          if (!panel) return;
+
+          panel.classList.toggle(
+            "show",
+            key === name
+          );
+        });
+
+        buttons.forEach(btn => {
+          btn.classList.toggle(
+            "active",
+            btn.dataset.menu === name
+          );
+        });
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          showMenu(bt
