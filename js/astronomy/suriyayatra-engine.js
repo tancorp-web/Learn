@@ -357,9 +357,20 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     meanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
     21600
   );
-  const apogeeDayIndex = MOD(horakhun - 1 - 621, 3232);
-  const lunarAnomaly = meanLunarApogeeArcMinutes(apogeeDayIndex, calculationTimeMinutes);
-  const moon = luminary(meanMoon, meanMoon - lunarAnomaly, MOON_TABLE);
+  // Classical true Moon correction uses mean Uccabala, not the generic
+  // interpolation table. Uccabala advances from the Thaloeng Sok base by
+  // Suratin and uses the 808 divisor; the lunar equation is 296*sin(anomaly)/60.
+  const meanUccabala = MOD(
+    Math.floor(
+      ((thaloeng.horakhun + 2611 + suratinBirth) * 3 * 1800) / 808
+    ) + 2,
+    21600
+  );
+  const moonAnomaly = MOD(meanMoon - meanUccabala, 21600);
+  const moonEquation = Math.floor(
+    296 * Math.sin((moonAnomaly * Math.PI / 10800))
+  );
+  const moon = MOD(meanMoon - moonEquation, 21600);
 
   const marsMean = MOD(Math.trunc(epoch / 2) + Math.floor(epoch * 16 / 505) + 5420, 21600);
   const mercuryMean = MOD(Math.trunc(epoch * 7 / 46) + Math.floor(epoch * 4) + 10642, 21600);
