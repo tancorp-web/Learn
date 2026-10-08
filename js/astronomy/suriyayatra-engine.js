@@ -469,14 +469,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const input = parseInput(date, time);
   const {year,month,day,hour,minute} = input;
   const timeMinutes = hour * 60 + minute;
-  // Preserve civil-clock arithmetic for the Sun and other planets.
-  // Apply longitude-based local mean-time correction only to Moon-specific
-  // intraday terms; the ascendant receives the same correction separately.
-  // correction = 4 * (105°E - longitude), so adjusted Moon time is time - correction.
+  // Planetary Suriyayatra arithmetic uses the civil birth clock for the
+  // day-based Madhyam/Horakhun sequence. Province-meridian correction is
+  // applied ONLY by the separate Anto-natee ascendant calculation.
   // Golden values are QA references only and are never used as inputs.
   const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
   const calculationTimeMinutes = timeMinutes;
-  const moonCalculationTimeMinutes = timeMinutes - correction;
 
   // Horakhun is tied to the civil Gregorian date, not the browser timezone.
   const julianDayNumber = civilJulianDay(year, month, day);
@@ -548,21 +546,8 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // (Avaman + floor(Avaman/25)) / 60 degrees; subtract 40'.
   const tithiArcMinutes = tithiPrasong * 12 * 60;
 
-  // Recompute only the Moon's Madhyam Sun term at local mean time.
-  // Keep the original civil-time meanSun untouched for the Sun and planets.
-  const moonSolarUnits = solarIntradayUnits(moonCalculationTimeMinutes);
-  const moonKammachaphonBirth =
-    suratinBirth * 800 + attaKammachaphon + moonSolarUnits;
-  const moonRemainder = MOD(moonKammachaphonBirth, 24350);
-  const moonMeanSun = MOD(
-    Math.trunc(moonKammachaphonBirth / 24350) * 1800
-      + Math.trunc(moonRemainder / 811) * 60
-      + Math.trunc(MOD(moonRemainder, 811) / 14)
-      - 3,
-    21600
-  );
   const meanMoon = MOD(
-    moonMeanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
+    meanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
     21600
   );
   // Classical true Moon correction (Suriyayatra / Manat).
@@ -586,7 +571,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   );
   const kammachRemainder = MOD(cs * 292207 + 373, 800);
   const kammachFraction = kammachRemainder / 800;
-  const birthTimeFraction = moonCalculationTimeMinutes / 1440;
+  const birthTimeFraction = calculationTimeMinutes / 1440;
   const uccabalaFromThaloeng = MOD(
     (thaloeng.horakhun - 1) + kammachFraction - 621,
     3232
@@ -734,13 +719,11 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.6.9-MOON-LOCAL-MEAN-TIME-KETU-679',
+      engineVersion: 'v8.7.0-MOON-RESTORE-CIVIL-TIME-KETU-679',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
-      moonCalculationTimeMinutes,
-      moonMeanSunArcMinutes: moonMeanSun,
       moonDebug: { meanMoonArcMinutes: meanMoon, uccabalaThaloeng, uccabalaFromThaloeng, uccabalaBirth, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccavisesRasi, uccavisesDegree: uccavisesDegree, uccavisesMinute: uccavisesMinute, plakenArcMinutes: plaken, plakenRasi, plakenDegree, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
       ketuDebug,
       calculationTimeMinutes,
