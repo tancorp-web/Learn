@@ -65,9 +65,12 @@ function siderealLon(tropical,date,ayan){
  return (tropical-lahiriAyanamsa(date)+360)%360;
 }
 function astroLon(body,date){
- if(body===Astronomy.Body.Sun)return Astronomy.SunPosition(date).elon;
- const v=Astronomy.GeoVector(body,date,false);
- return Astronomy.Ecliptic(v).elon;
+ // Use Astronomy Engine's direct apparent/geocentric longitude APIs.
+ // This avoids the optional boolean path in GeoVector and keeps the
+ // longitude system consistent with the Sun's apparent ecliptic longitude.
+ const sunLon=Astronomy.SunPosition(date).elon;
+ if(body===Astronomy.Body.Sun)return sunLon;
+ return (sunLon + Astronomy.PairLongitude(body,Astronomy.Body.Sun,date) + 360)%360;
 }
 function meanNode(date){
  const jd=date.getTime()/86400000+2440587.5,T=(jd-2451545.0)/36525;
