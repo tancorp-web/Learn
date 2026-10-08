@@ -66,7 +66,8 @@ function siderealLon(tropical,date,ayan){
 }
 function astroLon(body,date){
  if(body===Astronomy.Body.Sun)return Astronomy.SunPosition(date).elon;
- return Astronomy.Ecliptic(Astronomy.GeoVector(body,date)).elon;
+ const v=Astronomy.GeoVector(body,date);
+ return Astronomy.Ecliptic(v).elon;
 }
 function meanNode(date){
  const jd=date.getTime()/86400000+2440587.5,T=(jd-2451545.0)/36525;
@@ -81,10 +82,13 @@ function retrograde(body,date){
  const before=new Date(date.getTime()-3600000),after=new Date(date.getTime()+3600000);
  const a=astroLon(body,before),b=astroLon(body,after);
  const delta=((b-a+540)%360)-180;
- return delta<0;
+ return Number.isFinite(delta)?delta<0:false;
 }
 function signObj(lon){return signOf(lon);}
 function calcAt(i,date){
+ if(!date || Number.isNaN(date.getTime())) throw new Error('วันที่/เวลาไม่ถูกต้อง');
+ if(!Number.isFinite(i.latitude)||!Number.isFinite(i.longitude)) throw new Error('พิกัดละติจูด/ลองจิจูดไม่ถูกต้อง');
+
  const asc=siderealLon(ascTropical(date,i.latitude,i.longitude),date,i.ayanamsa);
  const bodies=[
   ['อาทิตย์',Astronomy.Body.Sun],['จันทร์',Astronomy.Body.Moon],['พุธ',Astronomy.Body.Mercury],
