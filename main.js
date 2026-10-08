@@ -134,17 +134,27 @@ function calcThaksa(wd){const map={0:['อาทิตย์','จันทร�
 function parseLocalDate(dateStr,timeStr){const [y,m,d]=dateStr.split('-').map(Number);const [hh,mm]=timeStr.split(':').map(Number);return new Date(Date.UTC(y,m-1,d,hh,mm)-7*3600000);}
 function signObj(lon){const n=((lon%360)+360)%360;const idx=Math.floor(n/30);return {name:signs[idx],idx};}
 function calcAt(dateStr,timeStr,isBirth,location){
+  console.groupCollapsed('[HORA][CALC] '+dateStr+' '+timeStr+(isBirth?' [กำเนิด]':' [จร]'));
+  console.log('[HORA][INPUT]',{date:dateStr,time:timeStr,isBirth,location});
   const hh=parseInt(timeStr.split(':')[0],10);
   const beY=parseInt(dateStr.split('-')[0],10)+543;
   const month=parseInt(dateStr.split('-')[1],10),day=parseInt(dateStr.split('-')[2],10);
   const loc=location||{lat:13.752555,lon:100.494066,timezone:7};
   const engine=calculateSuriyayatra({date:dateStr,time:timeStr});
+  console.log('[HORA][ENGINE] harakun=',engine.harakun,'jd=',engine.jd,'version=',engine.metadata?.engineVersion);
+  console.table(engine.planets.map(p=>({ดาว:p.name,longitude:p.longitude,ราศี:signObj(p.longitude).name,retrograde:p.retrograde})));
   const ascDate=parseLocalDate(dateStr,timeStr);
+  console.log('[HORA][ASC INPUT]',{ascDate:ascDate.toISOString(),lat:Number(loc.lat),lon:Number(loc.lon),timezone:Number(loc.timezone??7),sunLongitude:Number(sun?.longitude)});
   const sun=engine.planets.find(p=>p.name==='อาทิตย์');
   let asc=calculateSuriyayatraAscendant({date:ascDate,latitude:Number(loc.lat),longitude:Number(loc.lon),suriyayatraSunLongitude:Number(sun.longitude),timezone:Number(loc.timezone??7)});
   const planets=engine.planets.map(p=>({id:p.id,name:p.name,longitude:((Number(p.longitude)%360)+360)%360,sign:signObj(p.longitude),house:isBirth?houseFromAsc(p.longitude,asc):0,retrograde:Boolean(p.retrograde)}));
+  console.log('[HORA][ASC RESULT]',{asc,sign:signObj(asc).name,localCorrectionMinutes:(105-Number(loc.lon))*4});
+  console.table(planets.map(p=>({ดาว:p.name,longitude:p.longitude,ราศี:p.sign.name,ภพ:p.house})));
   const wd=getWeekdayThai(beY,month,day,hh);
-  return {date:dateStr,time:timeStr,asc,planets,weekday:wd.weekday,weekdayInfo:wd,ascSign:signObj(asc),thaksa:calcThaksa(wd.weekday),metadata:{...engine,location:{lat:Number(loc.lat),lon:Number(loc.lon),sunLongitude:Number(sun.longitude)}}};
+  const result={date:dateStr,time:timeStr,asc,planets,weekday:wd.weekday,weekdayInfo:wd,ascSign:signObj(asc),thaksa:calcThaksa(wd.weekday),metadata:{...engine,location:{lat:Number(loc.lat),lon:Number(loc.lon),sunLongitude:Number(sun.longitude)}}};
+  console.log('[HORA][CALC DONE]',{asc:result.asc,ascSign:result.ascSign.name,weekday:result.weekday});
+  console.groupEnd();
+  return result;
 }
 function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'}[n]||'';}
 
@@ -280,8 +290,11 @@ function render(natal,transit){
   $('birthDetails').innerHTML='ชื่อ: '+$('bPlace').value+'<br>เกิด: '+natal.date+' '+natal.time+' พ.ศ.'+getInput('b').beYear+' '+$('bProvince').selectedOptions[0].text+' · '+$('bDistrict').value+'<br>จร: '+transit.date+' '+transit.time+' '+$('fPlace').value;
   renderWheel(natal,transit);
   renderSquare(natal,transit);
+  console.log('[HORA][RENDER] natal updated',natal);
   renderQA(natal);
+  renderNatalGoldenTable();
   renderNatalHouseDetails(natal);
+  console.log('[HORA][TABLE] Golden + รายเรือน rendered from latest calculation');
 }
 
 function showRuntimeError(err){
@@ -297,19 +310,27 @@ function bootHORA(){
   $('fDistrict').addEventListener('change',()=>update('f'));
 
   $('calc').addEventListener('click',()=>{
+    console.group('[HORA][BUTTON] กดคำนวณใหม่');
     try{
       const b=getInput('b'),f=getInput('f');
+      console.log('[HORA][FORM]',{birth:b,forecast:f,bLat:$('bLat').value,bLon:$('bLon').value,fLat:$('fLat').value,fLon:$('fLon').value});
       const natal=calcAt(b.date,b.time,true,{lat:$('bLat').value,lon:$('bLon').value});
       const transit=calcAt(f.date,f.time,false,{lat:$('fLat').value,lon:$('fLon').value});
       render(natal,transit);
       $('msg').innerHTML='<div class="ok">คำนวณเสร็จ — กรุณาตรวจตาราง Golden Case</div>';
-    }catch(err){ showRuntimeError(err); }
+      console.log('[HORA][BUTTON] ตารางถูก render ใหม่แล้ว');
+    }catch(err){
+      console.error('[HORA][ERROR]',err);
+      showRuntimeError(err);
+    } finally {
+      console.groupEnd();
+    }
   });
 
   initDropdowns();
   renderNatalGoldenTable();
   renderNatalHouseDetails({thaksa:{}});
-  requestAnimationFrame(()=>renderNatalGoldenTable());
+  requestAnimationFrame(()=>{console.log('[HORA][BOOT] initial table render');renderNatalGoldenTable();});
   setTimeout(()=>{
     try{$('calc').click();}catch(err){showRuntimeError(err);}
   },600);
