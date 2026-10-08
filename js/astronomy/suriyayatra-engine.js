@@ -105,8 +105,38 @@ function latestMonth88StartOnOrBefore(date, beYear) {
 }
 
 function ketu679FromMonth88Start(date, beYear) {
-  const month88 = latestMonth88StartOnOrBefore(date, beYear);
-  const daysFromMonth88Start = utcCivilDayDifference(date, month88.date);
+  // RULE:
+  // 1) Normal year -> keep the original Ketu formula. Do NOT count days
+  //    from a month-8/88 anchor.
+  // 2) Adhikamas year, but birth before month 8/88 -> original formula.
+  // 3) Adhikamas year, birth on/after month 8/88 -> count actual civil
+  //    days from that year's month 8/88 start over the 679-day cycle.
+  //
+  // This prevents a normal year from accidentally inheriting the previous
+  // year's month-8/88 anchor.
+  const [year] = String(date).split('-').map(Number);
+  const currentYearMonth88 = findMonth88StartForBeYear(beYear);
+
+  const useMonth88Cycle =
+    currentYearMonth88 !== null &&
+    date >= currentYearMonth88.date;
+
+  if (!useMonth88Cycle) {
+    // Original formula: หรคุณประสงค์ = หรคุณกำเนิด - 1.
+    const horakhun = civilJulianDay(year, Number(String(date).split('-')[1]), Number(String(date).split('-')[2])) - 1954167;
+    const horakhunPrasong = horakhun - 1;
+    const remainder = MOD(horakhunPrasong - 344, KETU_679_CYCLE_DAYS);
+    const meanArc = remainder * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS;
+    return {
+      arcMinutes: MOD(KETU_679_CYCLE_ARCMIN - meanArc, KETU_679_CYCLE_ARCMIN),
+      month88: null,
+      mode: 'original-679',
+      daysFromMonth88Start: null,
+      correctionDays: 0
+    };
+  }
+
+  const daysFromMonth88Start = utcCivilDayDifference(date, currentYearMonth88.date);
   const cycleDays = MOD(daysFromMonth88Start, KETU_679_CYCLE_DAYS);
   return {
     arcMinutes: MOD(
@@ -114,7 +144,10 @@ function ketu679FromMonth88Start(date, beYear) {
         - cycleDays * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS,
       KETU_679_CYCLE_ARCMIN
     ),
-    month88
+    month88: currentYearMonth88,
+    mode: 'month88-679',
+    daysFromMonth88Start,
+    correctionDays: 0
   };
 }
 const SHADOW_TABLE = [0,244,427,488];
