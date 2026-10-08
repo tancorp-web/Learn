@@ -216,7 +216,7 @@ function renderWheel(natal,transit){
   // ภพอยู่ในวงกลมพื้นขาว: ไม่ใส่เลขภพ และแบ่งพื้นที่ 12 ช่องเพื่อไม่ให้ข้อความชนกัน
   function drawHouses(){
     const ascIdx=natal&&natal.ascSign?natal.ascSign.idx:Math.floor((((natal.asc%360)+360)%360)/30);
-    const houseR=54;
+    const houseR=92;
     for(let h=1;h<=12;h++){
       // ใช้พิกัด "เส้นแบ่งราศี" เดียวกันโดยตรง ห้ามสร้างพิกัดเส้นภพอีกชุด
       const boundaryDeg=zodiacBoundaries[(ascIdx+(h-1))%12];
