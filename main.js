@@ -1,6 +1,6 @@
 
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js';
-import { calculateSuriyayatraAscendant } from './js/astronomy/ascendant-geometry.js';
+import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js';
 
 // HORA v5.3 main.js - Thai Suriyayat calculation engine integrated
 // ใช้สูตรสุริยยาตร์ integer engine + อันโตนาทีสามัญจริงจากโมดูล
@@ -88,7 +88,7 @@ function calcAt(dateStr,timeStr,isBirth,location){
     date:dateStr,time:timeStr,asc,
     planets,weekday:wd.weekday,weekdayInfo:wd,
     ascSign:signObj(asc),thaksa:calcThaksa(wd.weekday),
-    metadata:engine
+    metadata:{...engine,location:{lat:Number(loc.lat),lon:Number(loc.lon),sunLongitude:Number(sun.longitude)}}
   };
 }
 function goldenQA(natal,input){
@@ -200,6 +200,10 @@ function renderWheel(natal,transit){
   svg+='<circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
 
   const sun=natal.planets.find(p=>p.name==='อาทิตย์');
+  const transitSun=transit&&transit.planets?transit.planets.find(p=>p.name==='อาทิตย์'):null;
+  const boundaryTimes=transit&&transit.metadata&&transit.metadata.location
+    ? calculateAscendantBoundaryTimes({date:parseLocalDate(transit.date,transit.time),longitude:Number(transit.metadata.location.lon),suriyayatraSunLongitude:Number(transit.metadata.location.sunLongitude)})
+    : (transit&&transit.planets?calculateAscendantBoundaryTimes({date:parseLocalDate(transit.date,transit.time),longitude:100.494066,suriyayatraSunLongitude:Number(transitSun?.longitude)}):[]);
   svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
   svg+='<text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
 
@@ -212,6 +216,8 @@ function renderWheel(natal,transit){
     const x1=c+inner*Math.cos(a),y1=c+inner*Math.sin(a);
     const x2=c+rad*Math.cos(a),y2=c+rad*Math.sin(a);
     svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
+    const bt=boundaryTimes.find(t=>t.sign===i);
+    if(bt){ const tr=rad-16; const tx=c+tr*Math.cos(a),ty=c+tr*Math.sin(a); svg+='<text x="'+tx+'" y="'+(ty-2)+'" text-anchor="middle" font-size="7" fill="#0f766e" font-weight="800">'+bt.label+'</text>'; }
     const mid=i*30+15;
     const am=wheelAngleDeg(mid)*Math.PI/180;
     const labelR=rad+30;
