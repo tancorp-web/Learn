@@ -202,42 +202,30 @@ function shiftCivilDate(date, days) {
 }
 
 function calendarArithmetic(horakhun, chulaSakarat) {
-  // Classical Suriyayatra "Atta Thaloeng Sok" arithmetic.
-  // References give the year-opening quantities:
-  // Kammachaphon, Avaman, Tithi, Masagen and the month criterion.
-  const total = horakhun * 11 + 650;
-  const avaman = MOD(total, 692);
-  const tithiQuotient = Math.floor(total / 692);
-  const tithi = MOD(tithiQuotient + horakhun, 30);
-  const masa = Math.floor(tithiQuotient / 30);
+  // Classical Atta Thaloeng Sok quantities are year-opening values.
+  // Source sequence:
+  // Harakhun -> Avaman quotient -> Tithi -> Masagen -> month criterion.
+  const cs = chulaSakarat;
+  const horakhunAtta = Math.floor((cs * 292207 + 373) / 800) + 1;
+  const totalAtta = horakhunAtta * 11 + 650;
+  const avaman = MOD(totalAtta, 692);
+  const tithiQuotient = Math.floor(totalAtta / 692);
+  const tithi = MOD(tithiQuotient + horakhunAtta, 30);
+  const masa = Math.floor((tithiQuotient + horakhunAtta) / 30);
   const monthCriterion = MOD(
     masa - Math.floor(masa * 7 / 235),
     12
   );
 
-  const cs = chulaSakarat;
   const csNumerator = cs * 292207 + 373;
   const csRemainder = MOD(csNumerator, 800);
   const kammachaphon = csRemainder === 0 ? 0 : 800 - csRemainder;
 
-  // Suriyayatra calendar rule:
-  // Kammachaphon < 207 => adhika-suratina year.
-  // Normal solar year: Avaman < 137 => Adhikavara.
-  // Adhika-suratina year: Avaman < 126 => Adhikavara.
-  const isAdhikaSuratin = kammachaphon < 207;
-  const isAdhikavara = avaman < (isAdhikaSuratin ? 126 : 137);
-
-  // Calendar criterion number:
-  // normal solar + adhikavara = 10
-  // adhika solar + adhikavara = 11
-  // normal solar + normal vara = 11
-  // adhika solar + normal vara = 12
-  const adhikamasCriterion =
-    isAdhikaSuratin
-      ? (isAdhikavara ? 11 : 12)
-      : (isAdhikavara ? 10 : 11);
-
-  const isAdhikamas = tithi + adhikamasCriterion >= 30;
+  // Thai Suriyayatra year placement: the year is an adhikamas year
+  // when the Thaloeng-Sok tithi is in the terminal band 21..29 or 0..2.
+  // This is the calendar test for the extra 8th month; it is NOT a
+  // per-birth boolean that can be used to subtract 30 days everywhere.
+  const isAdhikamas = tithi >= 21 || tithi <= 2;
 
   return {
     masa,
@@ -246,15 +234,60 @@ function calendarArithmetic(horakhun, chulaSakarat) {
     dayAvaman: 703,
     tithiAvaman: 692,
     monthTithiCount: 30,
-    monthBoundaryAvaman: MOD(total, 30 * 692),
+    monthBoundaryAvaman: MOD(totalAtta, 30 * 692),
     chulaSakarat: cs,
+    horakhunAtta,
     kammachaphon,
-    isAdhikaSuratin,
-    isAdhikavara,
-    adhikamasCriterion,
+    isAdhikaSuratin: kammachaphon < 207,
+    isAdhikavara: false,
+    adhikamasCriterion: null,
     isAdhikamas,
     lunarMonth: monthCriterion,
-    calendarRule: 'อัตตาเถลิงศก: กัมมัชพล/อวมาน/ดิถี + เกณฑ์ 10/11/12'
+    calendarRule: 'อัตตาเถลิงศก: หรคุณ→อวมาน→ดิถี→มาสเกณฑ์→เกณฑ์เดือน; อธิกมาสใช้ช่วงดิถี 21..29/0..2'
+  };
+}
+
+function ketuSuratinPrasongForBirth({ horakhun, thaloengHorakhun, tithiThaloengSok, isAdhikamasYear }) {
+  const baseSuratin = horakhun - thaloengHorakhun - 1;
+  if (!isAdhikamasYear) {
+    return { suratin: baseSuratin, correctionDays: 0, secondMonth8Horakhun: null };
+  }
+
+  // The extra month is inserted as 8/88.  In the integer tithi cycle,
+  // starting from Thaloeng Sok, the first three new-moon boundaries are:
+  // month 6 -> 7, 7 -> 8, and 8 -> 88.  The third tithi=0 boundary is
+  // therefore the start of month 8/88.  After that boundary the source
+  // rule requires subtracting exactly 30 days through month 12.
+  const avamanThaloengSok = MOD(thaloengHorakhun * 11 + 650, 692);
+  let zeroBoundaries = 0;
+  let secondMonth8Horakhun = null;
+  const maxScan = Math.min(390, Math.max(0, horakhun - thaloengHorakhun + 1));
+
+  for (let offset = 0; offset <= maxScan; offset += 1) {
+    const suratin = offset - 1;
+    const tithi = MOD(
+      Math.floor((suratin * 11 + avamanThaloengSok) / 692)
+        + suratin
+        + tithiThaloengSok,
+      30
+    );
+    if (tithi === 0) {
+      zeroBoundaries += 1;
+      if (zeroBoundaries === 3) {
+        secondMonth8Horakhun = thaloengHorakhun + offset;
+        break;
+      }
+    }
+  }
+
+  const afterSecondMonth8 =
+    secondMonth8Horakhun !== null &&
+    horakhun >= secondMonth8Horakhun;
+
+  return {
+    suratin: baseSuratin - (afterSecondMonth8 ? 30 : 0),
+    correctionDays: afterSecondMonth8 ? 30 : 0,
+    secondMonth8Horakhun,
   };
 }
 
@@ -466,10 +499,17 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // birth-clock fraction and do not derive Ketu from Rahu + 180 degrees.
   // Golden values are QA references only and are never injected.
   const ketuHorakhun = horakhun;
-  const ketuSuratinPrasong = suratinBirth;
+  const ketuCalendar = calendarArithmetic(horakhun, chulaSakarat);
+  const ketuSuratinAdjustment = ketuSuratinPrasongForBirth({
+    horakhun,
+    thaloengHorakhun: thaloeng.horakhun,
+    tithiThaloengSok: ketuCalendar.tithi,
+    isAdhikamasYear: ketuCalendar.isAdhikamas
+  });
+  const ketuSuratinPrasong = ketuSuratinAdjustment.suratin;
   // Formula 2 source sequence: Horakhun Thaloeng Sok + Suratin Prasong
-  // (not birth Horakhun + Suratin). The former is the actual
-  // Horakhun Prasong quantity used before the 679-day division.
+  // (not birth Horakhun + Suratin). The latter is adjusted by the
+  // 8/88 phase rule only after the second 8th month has begun.
   const ketuHorakhunPrasong = thaloeng.horakhun + ketuSuratinPrasong;
   const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
   const ketuMeanArc = ketu679Remainder * 21600 / 679;
@@ -491,7 +531,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     'เกตุ': ketuTrueArc
   };
 
-  const calendar = calendarArithmetic(horakhun, chulaSakarat);
+  const calendar = ketuCalendar;
   const planets = Object.entries(arcs).map(([name, arc], index) => {
     const motion = includeMotion ? motionFor(name, date, time, longitude) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
     return {
@@ -516,7 +556,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
       moonDebug: { meanMoonArcMinutes: meanMoon, uccabalaThaloeng, uccabalaFromThaloeng, uccabalaBirth, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccavisesRasi, uccavisesDegree: uccavisesDegree, uccavisesMinute: uccavisesMinute, plakenArcMinutes: plaken, plakenRasi, plakenDegree, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
-      ketuDebug: { ketuHorakhun, ketuSuratinPrasong, ketuHorakhunPrasong, ketu679Remainder, ketuMeanArc, ketuTrueArc },
+      ketuDebug: { ketuHorakhun, ketuSuratinPrasong, ketuHorakhunPrasong, ketu679Remainder, ketuMeanArc, ketuTrueArc, correctionDays: ketuSuratinAdjustment.correctionDays, secondMonth8Horakhun: ketuSuratinAdjustment.secondMonth8Horakhun },
       calculationTimeMinutes,
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
