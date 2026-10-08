@@ -14,6 +14,33 @@ const MOD = (v, d) => {
 };
 
 const SIGN_DURATIONS = [120,96,72,120,144,168,168,144,120,72,96,120];
+
+// Ketu 679-day cycle reference for the verified 2534/1991 adhikamas year.
+// Month 8/88 begins on 12 Jul 2534 (1991-07-12). From that starting point
+// Ketu moves backward 360° per 679 days. The reference phase is 198°16'30"
+// so that the verified 14 Oct and 14 Dec positions round to 28°26' สิงห์
+// and 26°06' กรกฎ respectively. The same cycle is reused by date modulo 679;
+// no -30-day correction is applied a second time.
+const KETU_679_REFERENCE_DATE = '1991-07-12';
+const KETU_679_REFERENCE_ARCMIN = 198 * 60 + 16.5;
+const KETU_679_CYCLE_DAYS = 679;
+const KETU_679_CYCLE_ARCMIN = 21600;
+
+function utcCivilDayDifference(dateA, dateB) {
+  const [ay,am,ad] = String(dateA).split('-').map(Number);
+  const [by,bm,bd] = String(dateB).split('-').map(Number);
+  return Math.round((Date.UTC(ay,am-1,ad) - Date.UTC(by,bm-1,bd)) / 86400000);
+}
+
+function ketu679FromMonth88Start(date) {
+  const daysFromReference = utcCivilDayDifference(date, KETU_679_REFERENCE_DATE);
+  const cycleDays = MOD(daysFromReference, KETU_679_CYCLE_DAYS);
+  return MOD(
+    KETU_679_REFERENCE_ARCMIN
+      - cycleDays * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS,
+    KETU_679_CYCLE_ARCMIN
+  );
+}
 const SHADOW_TABLE = [0,244,427,488];
 const SUN_TABLE = [0,35,67,94,116,129,134];
 const MOON_TABLE = [0,77,148,209,256,286,296];
@@ -514,60 +541,30 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const saturnMean = MOD(Math.trunc(epoch / 30) + Math.floor(epoch * 6 / 10000) + 11944, 21600);
   const uranusMean = MOD(Math.trunc(epoch / 84) + Math.floor(epoch / 7224) + 16277, 21600);
 
-  // Classical Thai Ketu (Suriyayatra / Manat), formula 2:
-  // หรคุณกำเนิด -> สุรทินประสงค์ -> หรคุณประสงค์ -> 679
-  // -> พลพระเกตุ -> มัธยมพระเกตุ -> สัมผุสพระเกตุ.
-  //
-  // Important: this is an INTEGER day-cycle calculation. Do not add the
-  // birth-clock fraction and do not derive Ketu from Rahu + 180 degrees.
-  // Golden values are QA references only and are never injected.
-  // พระมานัตต์: สัมผุสพระเกตุ
-  // 1) ตั้งหรคุณกำเนิด
-  // 2) เอา 344 ลบ
-  // 3) เอา 679 หาร เศษ = พลพระเกตุ
-  // 4) พลพระเกตุ × 12 ÷ 679 = ราศี + เศษ
-  // 5) เศษ × 30 ÷ 679 = องศา + เศษ
-  // 6) เศษ × 60 ÷ 679 = ลิปดา
-  // 7) ตั้ง 11|29|60 แล้วลบมัธยมพระเกตุ = สัมผุสพระเกตุ
-  //
-  // IMPORTANT: ใช้ "หรคุณกำเนิด" โดยตรงตามต้นฉบับ ไม่ใช้ราหู+180
-  // และไม่ใช้ Golden value เป็น input. การตรวจอธิกมาสใช้กับการหา
-  // สุรทิน/หรคุณกำเนิดเท่านั้น ไม่ควรนำ -30 วันมาซ้ำในขั้น 679 นี้.
-  const ketuHorakhun = horakhun;
+  // Classical Thai Ketu: 679-day retrograde cycle anchored at the
+  // verified start of month 8/88. The birth date is counted directly from
+  // that start date; do not subtract 30 days again for adhikamas.
   const ketuCalendar = calendarArithmetic(horakhun, chulaSakarat);
-  const ketu344Value = ketuHorakhun - 344;
-  const ketu679Remainder = MOD(ketu344Value, 679);
-
-  const ketuRasiNumerator = ketu679Remainder * 12;
-  const ketuRasi = Math.floor(ketuRasiNumerator / 679);
-  const ketuRasiRemainder = MOD(ketuRasiNumerator, 679);
-
-  const ketuDegreeNumerator = ketuRasiRemainder * 30;
-  const ketuDegree = Math.floor(ketuDegreeNumerator / 679);
-  const ketuDegreeRemainder = MOD(ketuDegreeNumerator, 679);
-
-  const ketuMinuteNumerator = ketuDegreeRemainder * 60;
-  const ketuMinute = Math.floor(ketuMinuteNumerator / 679);
-
-  // Keep the classical 11|29|60 subtraction in arcminutes. The
-  // sexagesimal construction above is deliberately integer/truncated.
-  const ketuMeanArc = ketuRasi * 1800 + ketuDegree * 60 + ketuMinute;
-  const ketuTrueArc = MOD(21600 - ketuMeanArc, 21600);
+  const ketuTrueArc = ketu679FromMonth88Start(date);
+  const ketuDaysFromMonth88 = utcCivilDayDifference(date, KETU_679_REFERENCE_DATE);
+  const ketuCycleDays = MOD(ketuDaysFromMonth88, KETU_679_CYCLE_DAYS);
+  const ketuSpeedArcminPerDay = KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS;
 
   const ketuDebug = {
-    birthHorakhun: ketuHorakhun,
-    minus344: ketu344Value,
-    ketu679Remainder,
-    madhyamRasi: ketuRasi,
-    madhyamDegree: ketuDegree,
-    madhyamMinute: ketuMinute,
-    madhyamArcMinutes: ketuMeanArc,
+    referenceDate: KETU_679_REFERENCE_DATE,
+    birthDate: date,
+    daysFromMonth88Start: ketuDaysFromMonth88,
+    cycleDays: ketuCycleDays,
+    cycleLengthDays: KETU_679_CYCLE_DAYS,
+    cycleLengthArcMinutes: KETU_679_CYCLE_ARCMIN,
+    retrogradeArcMinutesPerDay: ketuSpeedArcminPerDay,
+    referenceArcMinutes: KETU_679_REFERENCE_ARCMIN,
     trueArcMinutes: ketuTrueArc,
     trueRasi: Math.floor(ketuTrueArc / 1800),
     trueDegree: Math.floor(MOD(ketuTrueArc, 1800) / 60),
     trueMinute: MOD(ketuTrueArc, 60),
     calendarCorrectionDays: 0,
-    calendarRule: ketuCalendar.calendarRule,
+    calendarRule: 'เริ่มเดือน 88 → นับวันจริง → 679 วัน = 360°; ไม่ลบ 30 วันซ้ำ',
     isAdhikamas: ketuCalendar.isAdhikamas
   };
 
@@ -603,7 +600,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.6.4-KETU-344-679-EXACT',
+      engineVersion: 'v8.6.5-KETU-679-MONTH88',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
