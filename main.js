@@ -27,13 +27,13 @@ function selectProvince(p){if(!p)return;$('province').value=p.name;$('lat').valu
 function renderProvinceList(q=''){const s=q.trim().toLowerCase();const arr=provinces.filter(p=>!s||p.name.toLowerCase().includes(s)||p.en.toLowerCase().includes(s)).slice(0,12);$('provinceList').innerHTML=arr.map(p=>`<button type="button" class="suggestion" data-name="${p.name}"><b>${p.name}</b><small>${p.en}</small></button>`).join('')||'<div class="no-result">ไม่พบจังหวัด</div>';$('provinceList').hidden=false;$('provinceList').querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>selectProvince(provinces.find(p=>p.name===b.dataset.name))));}
 function input(){
  const be=Number($('year').value),ad=be-543;
- return {name:$('fullName')?.value.trim()||'ไม่ระบุชื่อ',date:`${ad-${{pad($('month').value)}-${{pad($('day').value)}`,time:`${{pad($('hour').value)}:${{pad($('minute').value)}`,province:$('province').value||'กรุงเทพมหานคร',district:$('district')?.value||'',latitude:Number($('latInput')?.value||$('lat').value),longitude:Number($('lonInput')?.value||$('lon').value),timezone:Number($('tzInput')?.value||7),calendar:$('calendar')?.value||'suriyayatra',ascMethod:$('ascMethod')?.value||'anto06adjusted',nodeMethod:$('nodeMethod')?.value||'thai',thaiDayBoundary:'06:00'};
+ return {name:$('fullName')?.value.trim()||'ไม่ระบุชื่อ',date:ad+'-'+pad($('month').value)+'-'+pad($('day').value),time:pad($('hour').value)+':'+pad($('minute').value),province:$('province').value||'กรุงเทพมหานคร',district:$('district')?.value||'',latitude:Number($('latInput')?.value||$('lat').value),longitude:Number($('lonInput')?.value||$('lon').value),timezone:Number($('tzInput')?.value||7),calendar:$('calendar')?.value||'suriyayatra',ascMethod:$('ascMethod')?.value||'anto06adjusted',nodeMethod:$('nodeMethod')?.value||'thai',thaiDayBoundary:'06:00'};
 }
 function forecastInput(base){
  const now=new Date();
- const date=$('forecastDateInput')?.value||`${{now.getFullYear()}-${{pad(now.getMonth()+1)}-${{pad(now.getDate())}`;
- const time=$('forecastTimeInput')?.value||`${{pad(now.getHours())}:${{pad(now.getMinutes())}`;
- return {...base,date,time,province:$('forecastProvince')?.value||base.province,district:$('forecastDistrict')?.value||base.district,latitude:Number($('forecastLat')?.value||base.latitude),longitude:Number($('forecastLon')?.value||base.longitude),timezone:Number($('forecastTz')?.value||base.timezone)};
+ const date=$('forecastDateInput')?.value||(now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()));
+ const time=$('forecastTimeInput')?.value||(pad(now.getHours())+':'+pad(now.getMinutes()));
+ return {...base,date:date,time:time,province:$('forecastProvince')?.value||base.province,district:$('forecastDistrict')?.value||base.district,latitude:Number($('forecastLat')?.value||base.latitude),longitude:Number($('forecastLon')?.value||base.longitude),timezone:Number($('forecastTz')?.value||base.timezone)};
 }
 function errorText(e){
  if(e instanceof Error)return e.stack||e.message||String(e);
