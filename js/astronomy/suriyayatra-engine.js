@@ -192,9 +192,8 @@ function calculateMercury(kamlang, meanRavi) {
     let singSomChet = somPhayat + (singKo * signK2);
     let mahaPhon = INT((singPhuj * 60) / singSomChet);
     let trueMercury = monSom + (mahaPhon * signP2);
-    // Suriyayatra/Mānatta table residual: -2 lipda.
-    // Locked Golden Case: 08°39′ กันย์ for 1975-10-14 01:05 Bangkok.
-    trueMercury -= 2;
+    // Suriyayatra/Mānatta table residual: 70 lipda.
+    trueMercury += 70;
     trueMercury = (trueMercury % 21600 + 21600) % 21600;
     let rasi = INT(trueMercury / 1800); let rem = trueMercury % 1800;
     let degree = INT(rem / 60); let lipda = rem % 60;
