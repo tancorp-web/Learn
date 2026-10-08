@@ -135,6 +135,11 @@ export function calculateSuriyayatra({ date, time, longitude }) {
   const input = parseInput(date, time);
   const {year,month,day,hour,minute} = input;
   const timeMinutes = hour * 60 + minute;
+  // Suriyayatra planetary time is referenced to the standard meridian (105°E).
+  // Apply the longitude correction before the intraday solar/lunar arithmetic;
+  // Golden values are QA references only and are never used as inputs.
+  const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
+  const calculationTimeMinutes = timeMinutes - correction;
 
   // Horakhun is tied to the civil Gregorian date, not the browser timezone.
   const julianDayNumber = civilJulianDay(year, month, day);
@@ -149,7 +154,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
     (horakhun === thaloeng.horakhun && civilSeconds <= thaloeng.fractionalDaySeconds)
       ? cs - 1 : cs;
 
-  const solarUnits = solarIntradayUnits(timeMinutes);
+  const solarUnits = solarIntradayUnits(calculationTimeMinutes);
   const solarCycleUnits = MOD((horakhun - 1) * 800 + solarUnits - 373, 292207);
   const solarLongitudeUnits = MOD((horakhun - 1) * 800 - 373, 292207) + solarUnits;
   const remainder = MOD(solarLongitudeUnits, 24350);
@@ -167,7 +172,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
 
   const sun = luminary(meanSun, meanSun - 4800, SUN_TABLE);
 
-  const lunarUnits = Math.trunc((hour + minute / 60) * 703 / 24);
+  const lunarUnits = Math.trunc(calculationTimeMinutes * 703 / 24);
   const lunarCycle = MOD((horakhun - 1) * 703 + 650 + lunarUnits, 20760);
   const meanMoon = MOD(
     Math.floor(lunarCycle / 692) * 720
@@ -176,7 +181,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
     21600
   );
   const apogeeDayIndex = MOD(horakhun - 1 - 621, 3232);
-  const lunarAnomaly = meanLunarApogeeArcMinutes(apogeeDayIndex, timeMinutes);
+  const lunarAnomaly = meanLunarApogeeArcMinutes(apogeeDayIndex, calculationTimeMinutes);
   const moon = luminary(meanMoon, meanMoon - lunarAnomaly, MOON_TABLE);
 
   const marsMean = MOD(Math.trunc(epoch / 2) + Math.floor(epoch * 16 / 505) + 5420, 21600);
@@ -222,8 +227,6 @@ export function calculateSuriyayatra({ date, time, longitude }) {
     )
   };
 
-  const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
-
   return {
     date,
     time,
@@ -243,6 +246,7 @@ export function calculateSuriyayatra({ date, time, longitude }) {
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
+      calculationTimeMinutes,
       standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
       solarCycleUnits,
       meanSunArcMinutes: meanSun,
