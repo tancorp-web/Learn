@@ -21,7 +21,7 @@ function initBirthSelectors(){
  for(let h=0;h<24;h++)$('hour').insertAdjacentHTML('beforeend',`<option value="${h}">${pad(h)}</option>`);
  for(let m=0;m<60;m++)$('minute').insertAdjacentHTML('beforeend',`<option value="${m}">${pad(m)}</option>`);
  $('day').value='14';$('month').value='10';$('year').value='2518';$('hour').value='1';$('minute').value='5';
- const now=new Date(); $('forecastDateInput').value=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()); $('forecastTimeInput').value=pad(now.getHours())+':'+pad(now.getMinutes());
+ syncForecastNowFields();
 }
 async function loadPlaces(){
  const r=await fetch('./data/provinces.json'); const d=await fetch('./data/districts.json'); if(!r.ok||!d.ok) throw new Error('โหลดข้อมูลจังหวัด/อำเภอไม่ได้'); provinces=await r.json(); districts=await d.json(); populateProvinceSelects(); const bangkok=provinceByName('กรุงเทพมหานคร'); if(!bangkok)throw new Error('ไม่พบจังหวัดกรุงเทพมหานครในข้อมูล'); setProvince('birth',bangkok.id,'พระนคร'); setProvince('forecast',bangkok.id,'พระนคร');
@@ -78,10 +78,21 @@ function input(){
  if(!pv||!dv||String(dv.provinceId)!==String(pv.id))throw new Error('กรุณาเลือกเขต / อำเภอเกิดให้ตรงกับจังหวัด');
  return {name:fieldValue('fullName').trim()||'ไม่ระบุชื่อ',date:ad+'-'+pad(month)+'-'+pad(day),time:pad(hour)+':'+pad(minute),province:pv.name,district:dv.name,latitude:Number(fieldValue('latInput')),longitude:Number(fieldValue('lonInput')),timezone:Number(fieldValue('tzInput',7)||7),calendar:fieldValue('calendar','suriyayatra')||'suriyayatra',ascMethod:fieldValue('ascMethod','anto06adjusted')||'anto06adjusted',nodeMethod:fieldValue('nodeMethod','thai')||'thai',thaiDayBoundary:'06:00'};
 }
+function bangkokNowParts(){
+ const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+ const get=t=>parts.find(p=>p.type===t)?.value||'';
+ return {date:get('year')+'-'+get('month')+'-'+get('day'),time:get('hour')+':'+get('minute')};
+}
+let forecastUseNow=true;
+function syncForecastNowFields(){
+ const n=bangkokNowParts();
+ if($('forecastDateInput'))$('forecastDateInput').value=n.date;
+ if($('forecastTimeInput'))$('forecastTimeInput').value=n.time;
+}
 function forecastInput(base){
- const now=new Date();
- const date=fieldValue('forecastDateInput')||(now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()));
- const time=fieldValue('forecastTimeInput')||(pad(now.getHours())+':'+pad(now.getMinutes()));
+ const now=bangkokNowParts();
+ const date=forecastUseNow?now.date:(fieldValue('forecastDateInput')||now.date);
+ const time=forecastUseNow?now.time:(fieldValue('forecastTimeInput')||now.time);
  const provinceId=readSelectValue('forecastProvince','จังหวัดสถานที่จร'),districtId=readSelectValue('forecastDistrict','เขต / อำเภอสถานที่จร');
  const pv=provinceById(provinceId),dv=districtById(districtId);
  if(!pv||!dv||String(dv.provinceId)!==String(pv.id))throw new Error('กรุณาเลือกเขต / อำเภอสถานที่จรให้ตรงกับจังหวัด');
@@ -176,11 +187,12 @@ function updateForecastClock(){
  const ed=document.getElementById('forecastDate');if(ed)ed.textContent=d.getDate()+' '+thaiMonths[d.getMonth()]+' '+(d.getFullYear()+543)+' พ.ศ.';
 }
 document.getElementById('useNow').addEventListener('click',()=>{
- const d=new Date();
- $('forecastDateInput').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
- $('forecastTimeInput').value=pad(d.getHours())+':'+pad(d.getMinutes());
+ forecastUseNow=true;
+ syncForecastNowFields();
  $('calc').click();
 });
+$('forecastDateInput')?.addEventListener('input',()=>{forecastUseNow=false;});
+$('forecastTimeInput')?.addEventListener('input',()=>{forecastUseNow=false;});
 window.addEventListener('error',e=>writeRuntimeLog('WINDOW_ERROR',errorText(e.error||e.message),{file:e.filename,line:e.lineno,column:e.colno}));
 window.addEventListener('unhandledrejection',e=>writeRuntimeLog('UNHANDLED_REJECTION',errorText(e.reason)));
 $('copyLog')?.addEventListener('click',async()=>{
