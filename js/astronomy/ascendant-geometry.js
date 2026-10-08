@@ -40,7 +40,7 @@ function ascendantArcMinutes(sunLongitudeDegrees, timeMinutes, correctionMinutes
 
   for (let sign=0; sign<12; sign++) {
     const duration = SIGN_DURATIONS[sign];
-    starts.push(MOD(360 - elapsedSun + cumulative - Number(correctionMinutes), 1440));
+    starts.push(MOD(360 + Number(correctionMinutes) - elapsedSun + cumulative, 1440));
     if (progression >= cumulative && progression < cumulative + duration) {
       longitude = sign * 1800
         + (progression - cumulative) * 1800 / duration;
@@ -95,7 +95,7 @@ export function calculateAscendantBoundaryTimes({
   for(let sign=0;sign<12;sign++){
     minutes.push({
       sign,
-      minutes: MOD(360 - elapsedSun + cumulative - correction,1440)
+      minutes: MOD(360 + correction - elapsedSun + cumulative,1440)
     });
     cumulative += SIGN_DURATIONS[sign];
   }
