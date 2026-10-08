@@ -442,11 +442,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     throw new Error('CHANDRA_KHAN_OUT_OF_RANGE');
   }
 
+  const upperIndex = khan - 1;
   const moonCorrectionMagnitude = khan === 0
     ? Math.floor(CHANDRA_SHADOW_UPPER[0] * bhujLipda / 900)
-    : CHANDRA_SHADOW_UPPER[khan]
-      + Math.floor(CHANDRA_SHADOW_DELTA[khan] * bhujLipda / 900);
-  const moonCorrectionSign = uccavisesRasi <= 5 ? 1 : -1;
+    : CHANDRA_SHADOW_UPPER[upperIndex]
+      + Math.floor(CHANDRA_SHADOW_DELTA[upperIndex] * bhujLipda / 900);
+  const moonCorrectionSign = uccavisesRasi <= 5 ? -1 : 1;
   const moonCorrection = moonCorrectionMagnitude * moonCorrectionSign;
   const moon = MOD(meanMoon + moonCorrection, 21600);
 
@@ -466,7 +467,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Golden values are QA references only and are never injected.
   const ketuHorakhun = horakhun;
   const ketuSuratinPrasong = suratinBirth;
-  const ketuHorakhunPrasong = thaloeng.horakhun + ketuSuratinPrasong;
+  const ketuHorakhunPrasong = ketuHorakhun + ketuSuratinPrasong;
   const ketu679Remainder = MOD(ketuHorakhunPrasong - 344, 679);
   const ketuMeanArc = ketu679Remainder * 21600 / 679;
   // Preserve the exact fractional arc through the final subtraction.
@@ -506,7 +507,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.6.2-KETU-FORMULA-2-FULL-PRECISION',
+      engineVersion: 'v8.6.3-MOON-KETU-FORMULA-CANDIDATE',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
