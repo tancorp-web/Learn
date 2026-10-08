@@ -1,0 +1,10 @@
+{
+  "name": "hora-astrology",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test qa/formula-tests/*.test.js",
+    "start": "python3 server.py"
+  }
+}
