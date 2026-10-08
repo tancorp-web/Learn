@@ -121,7 +121,8 @@ function thaiDateTimeLabel(dateObj){
 function localDateObj(dateStr,timeStr){
   const [y,m,d]=dateStr.split('-').map(Number);
   const [hh,mi]=timeStr.split(':').map(Number);
-  return new Date(Date.UTC(y,m-1,d,hh,mi)-7*60*60*1000);
+  // เก็บเวลาท้องถิ่นเป็น wall-clock UTC เพื่อให้ +07:00 ถูกเติมครั้งเดียวตอนส่งเข้า engine
+  return new Date(Date.UTC(y,m-1,d,hh,mi));
 }
 function localDateTimeString(dateObj){
   return dateObj.getUTCFullYear()+'-'+pad(dateObj.getUTCMonth()+1)+'-'+pad(dateObj.getUTCDate())+' '+pad(dateObj.getUTCHours())+':'+pad(dateObj.getUTCMinutes());
@@ -215,7 +216,9 @@ function renderWheel(natal,transit){
     const ascIdx=natal&&natal.ascSign?natal.ascSign.idx:Math.floor((((natal.asc%360)+360)%360)/30);
     const houseR=54;
     for(let h=1;h<=12;h++){
-      const boundaryA=(-90-(ascIdx+(h-1))*30)*Math.PI/180;
+      // เส้นกั้นภพต้องตรงกับเส้นกั้นราศี: ราศีละ 30° โดยขอบอยู่ที่ -15°/+15° รอบจุดกลางราศี
+      const boundaryDeg=(ascIdx+(h-1))*30-15;
+      const boundaryA=(-90-boundaryDeg)*Math.PI/180;
       const bx=c+inner*Math.cos(boundaryA),by=c+inner*Math.sin(boundaryA);
       svg+='<line x1="'+c+'" y1="'+c+'" x2="'+bx+'" y2="'+by+'" stroke="#d6d3d1" stroke-width=".7"/>';
       const midDeg=(ascIdx+(h-1))*30+15;
