@@ -47,12 +47,13 @@ function writeRuntimeLog(type,detail,extra){
  el.textContent=JSON.stringify(current,null,2);
  console.error('[HORA]',line);
 }
+const GOLDEN_CASE={date:'1975-10-14',time:'01:05',province:'กรุงเทพมหานคร',district:'พระนคร',latitude:13.752555,longitude:100.494066,ascendant:{sign:'กรกฎ',longitude:113.85},planets:{'อาทิตย์':145.80,'จันทร์':285.583333,'อังคาร':68.216667,'พุธ':158.65,'พฤหัสบดี':357.20,'ศุกร์':134.466667,'เสาร์':95.466667,'ราหู':209.35,'เกตุ':6.883333,'มฤตยู':184.50}};
+function validateGoldenCase(i,data){if(i.date!==GOLDEN_CASE.date||i.time!==GOLDEN_CASE.time||i.province!==GOLDEN_CASE.province||i.district!==GOLDEN_CASE.district)return {applicable:false,pass:true,deltas:{}};const deltas={};let pass=Math.abs(((data.ascendant.longitude-GOLDEN_CASE.ascendant.longitude+540)%360)-180)<=0.02&&data.ascendant.sign===GOLDEN_CASE.ascendant.sign;for(const p of data.planets){if(GOLDEN_CASE.planets[p.name]===undefined)continue;const d=Math.abs(((p.longitude-GOLDEN_CASE.planets[p.name]+540)%360)-180);deltas[p.name]=d;if(d>0.02)pass=false;}return {applicable:true,pass,deltas};}
 function calculate(i){
  try{
   writeRuntimeLog('CALCULATE_START','เริ่มคำนวณ',i);
   const data=previewChart(i);
-  writeRuntimeLog('CALCULATE_OK','คำนวณสำเร็จ',{engine:data?.metadata?.engineVersion,ephemeris:data?.metadata?.ephemeris});
-  return Promise.resolve({data,preview:true});
+  const qa=validateGoldenCase(i,data);writeRuntimeLog(qa.applicable?(qa.pass?'GOLDEN_CASE_PASS':'GOLDEN_CASE_FAIL'):'CALCULATE_OK',qa.applicable?(qa.pass?'Golden Case ผ่าน':'Golden Case ไม่ผ่าน — ห้ามถือว่าการคำนวณถูกต้อง'):'คำนวณสำเร็จ',{engine:data?.metadata?.engineVersion,ephemeris:data?.metadata?.ephemeris,qa});if(qa.applicable&&!qa.pass)throw new Error('GOLDEN_CASE_FAIL: ผลคำนวณไม่ตรงชุดตรวจสอบ HORA');return Promise.resolve({data,preview:true});
  }catch(e){
   writeRuntimeLog('CALCULATE_ERROR',errorText(e),{input:i});
   return Promise.reject(e);
