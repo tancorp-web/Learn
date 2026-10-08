@@ -1,137 +1,155 @@
-// HORA suriyayatra-engine.js - FIXED v5.3 - แก้ พุธ ศุกร์ อังคาร โดยเฉพาะ
-// ใช้ integer engine + มนท+สิทธ ที่ถูกต้องตามคัมภีร์
+// HORA astronomy engine — real ephemeris, no Golden-result shortcuts.
+// Planetary positions are calculated from Astronomy Engine (client-side),
+// then converted from true-of-date tropical longitude to sidereal longitude
+// using an explicit Lahiri/Chitrapaksha ayanamsha model.
+//
+// IMPORTANT:
+// - Golden cases in main.js are QA reference data only.
+// - No planet result is read from Golden data.
+// - No planet longitude is hardcoded for a birth date.
+// - Moon uses the library's dedicated geocentric ecliptic algorithm.
+// - Planets use geocentric true-equator-of-date coordinates -> true ecliptic of date.
+// References: Astronomy Engine documentation and the standard relation
+// sidereal longitude = tropical longitude - ayanamsha.
 
-const KAMMAT_PER_YEAR = 292207;
-const KAMMAT_OFFSET = 373;
-const KAMMAT_PER_DAY = 800;
-const SEC_PER_KAMMAT = 108;
-const JD_EPOCH = 1954167.5;
+import * as Astronomy from 'https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/+esm';
 
-const MEAN_MOTION = {
-  RAVI: 0.98560265, CHANDRA: 13.176396, KUJA: 0.524071,
-  BUDHA: 4.092334, GURU: 0.083091, SUKRA: 1.60213,
-  SANI: 0.033459, RAHU: -0.05295,
+const norm = x => ((Number(x) % 360) + 360) % 360;
+const DEG = Math.PI / 180;
+
+const BODY = {
+  'อาทิตย์': Astronomy.Body.Sun,
+  'พุธ': Astronomy.Body.Mercury,
+  'ศุกร์': Astronomy.Body.Venus,
+  'อังคาร': Astronomy.Body.Mars,
+  'พฤหัสบดี': Astronomy.Body.Jupiter,
+  'เสาร์': Astronomy.Body.Saturn,
+  'มฤตยู': Astronomy.Body.Uranus,
 };
 
-const EPOCH0 = {
-  RAVI: 353.3793, CHANDRA: 301.1923, KUJA: 0.6430,
-  BUDHA: 345.9823, GURU: 84.2515, SUKRA: 76.2127,
-  SANI: 309.5391, RAHU: 157.3336,
-};
+const YEAR0 = 1900;
+const LAHIRI0_DEG = 22 + 27 / 60 + 55 / 3600;
+const LAHIRI_RATE_DEG_PER_YEAR = 0.0139289;
 
-function harakunThaloengsok(cs){
-  const total = cs * KAMMAT_PER_YEAR + KAMMAT_OFFSET;
-  const harakun = Math.floor(total / KAMMAT_PER_DAY) + 1;
-  const ses = total % KAMMAT_PER_DAY;
-  return { harakun, ses, total };
+function julianDay(date) {
+  return date.getTime() / 86400000 + 2440587.5;
 }
 
-function harakunBirth(beYear, month, day, hour, minute){
-  const cs = beYear - 1181;
-  const th = harakunThaloengsok(cs);
-  // จำนวนวันจากจุดเริ่มต้นรอบสุริยยาตร์เดียวกันสำหรับทุกปี/ทุกวัน
-  // ห้ามมี Golden Case shortcut หรือเงื่อนไขเฉพาะวันเกิด
-  const md=[31,28,31,30,31,30,31,31,30,31,30,31];
-  const leap=(beYear%4===0 && (beYear%100!==0 || beYear%400===0));
-  if(leap) md[1]=29;
-  const startMonth=4, startDay=14;
-  const start=new Date(Date.UTC(beYear-543,startMonth-1,startDay));
-  const current=new Date(Date.UTC(beYear-543,month-1,day));
-  let daysAfter=Math.floor((current-start)/86400000);
-  if(daysAfter<0) daysAfter=0;
-  const birthKammat = Math.floor((hour*3600+minute*60)/SEC_PER_KAMMAT);
-  const harakun = th.harakun + daysAfter + birthKammat/KAMMAT_PER_DAY;
-  const jd = harakun + JD_EPOCH;
-  return { harakun, jd, daysAfter, birthKammat };
+function lahiriAyanamsa(date) {
+  // Published mean-Lahiri style reference model:
+  // 22°27′55″ at 1900-01-01, advancing 0.0139289°/year.
+  // This is deliberately a time-dependent formula, not a chart-specific offset.
+  const jd = julianDay(date);
+  const years = (jd - 2415020.5) / 365.2425;
+  return norm(LAHIRI0_DEG + LAHIRI_RATE_DEG_PER_YEAR * years);
 }
 
-function suriyayatSin(deg){
-  deg = ((deg%360)+360)%360;
-  return 3438 * Math.sin(deg*Math.PI/180);
+function equatorialToEclipticLongitude(raDeg, decDeg, obliquityDeg) {
+  const ra = raDeg * DEG;
+  const dec = decDeg * DEG;
+  const eps = obliquityDeg * DEG;
+
+  const y = Math.sin(ra) * Math.cos(eps) + Math.tan(dec) * Math.sin(eps);
+  const x = Math.cos(ra);
+  return norm(Math.atan2(y, x) / DEG);
 }
 
-function calcMandaPhon(madhyam, ucha, cheda){
-  let kenda = (madhyam - ucha + 360) % 360;
-  const koti = suriyayatSin(kenda);
-  const phon = (koti * 14 / 360 / cheda) * 10;
-  const sampus = kenda < 180 ? madhyam - phon : madhyam + phon;
-  return { kenda, phon, sampus: (sampus+360)%360 };
-}
-
-function calcSighraPhon(mandaSampus, raviLong, cheda){
-  let kenda = (raviLong - mandaSampus + 360) % 360;
-  const koti = suriyayatSin(kenda);
-  const phon = (koti / cheda) * 30;
-  const maha = kenda < 180 ? mandaSampus + phon : mandaSampus - phon;
-  return { kenda, phon, maha: (maha+360)%360 };
-}
-
-function calcPlanets(harakun, raviLong){
-  const planets={};
-  const raviMadhyam = (harakun * MEAN_MOTION.RAVI + EPOCH0.RAVI) % 360;
-  const raviManda = calcMandaPhon(raviMadhyam, 80, 360);
-  planets['อาทิตย์'] = (raviManda.sampus+360)%360;
-
-  const chandraMadhyam = (harakun * MEAN_MOTION.CHANDRA + EPOCH0.CHANDRA) % 360;
-  planets['จันทร์'] = (chandraMadhyam+360)%360;
-
-  let rahu = (harakun * MEAN_MOTION.RAHU + EPOCH0.RAHU) % 360;
-  if(rahu<0) rahu+=360;
-  planets['ราหู'] = rahu;
-  planets['เกตุ'] = (rahu+180)%360;
-
-  {
-    const madhyam = (harakun * MEAN_MOTION.KUJA + EPOCH0.KUJA) % 360;
-    const manda = calcMandaPhon(madhyam, 130, 180);
-    const sighra = calcSighraPhon(manda.sampus, raviLong, 360);
-    planets['อังคาร'] = sighra.maha;
+function tropicalLongitude(body, date) {
+  if (body === Astronomy.Body.Moon) {
+    return norm(Astronomy.EclipticGeoMoon(date).elon);
   }
-  {
-    const madhyam = (harakun * MEAN_MOTION.BUDHA + EPOCH0.BUDHA) % 360;
-    const manda = calcMandaPhon(madhyam, 80, 180);
-    const sighra = calcSighraPhon(manda.sampus, raviLong, 120);
-    let maha = sighra.maha;
-    let mk = (maha - 80 + 360)%360;
-    if(mk>90 && mk<270){
-      const k2 = suriyayatSin(mk);
-      const p2 = (k2*14/360/180)*1.2;
-      maha = mk<180 ? maha-p2 : maha+p2;
-    }
-    planets['พุธ'] = (maha+360)%360;
+
+  if (body === Astronomy.Body.Sun && typeof Astronomy.SunPosition === 'function') {
+    return norm(Astronomy.SunPosition(date).elon);
   }
-  {
-    const madhyam = (harakun * MEAN_MOTION.GURU + EPOCH0.GURU) % 360;
-    const manda = calcMandaPhon(madhyam, 170, 180);
-    const sighra = calcSighraPhon(manda.sampus, raviLong, 360);
-    planets['พฤหัสบดี'] = sighra.maha;
-  }
-  {
-    const madhyam = (harakun * MEAN_MOTION.SUKRA + EPOCH0.SUKRA) % 360;
-    const manda = calcMandaPhon(madhyam, 80, 180);
-    const sighra = calcSighraPhon(manda.sampus, raviLong, 260);
-    planets['ศุกร์'] = sighra.maha;
-  }
-  {
-    const madhyam = (harakun * MEAN_MOTION.SANI + EPOCH0.SANI) % 360;
-    const manda = calcMandaPhon(madhyam, 240, 180);
-    const sighra = calcSighraPhon(manda.sampus, raviLong, 360);
-    planets['เสาร์'] = sighra.maha;
-  }
-  planets['มฤตยู'] = 180+12+31/60;
-  return planets;
+
+  const eq = Astronomy.Equator(
+    body,
+    date,
+    Astronomy.MakeObserver(0, 0, 0),
+    true,
+    false
+  );
+
+  // Astronomy Engine exposes true-equator-of-date coordinates. Convert those
+  // coordinates to the corresponding ecliptic-of-date longitude.
+  const jd = julianDay(date);
+  const T = (jd - 2451545.0) / 36525;
+  const obliquity =
+    23.43929111111111 -
+    0.013004166666667 * T -
+    0.000000163888889 * T * T +
+    0.000000503611111 * T * T * T;
+
+  return equatorialToEclipticLongitude(eq.ra, eq.dec, obliquity);
 }
 
-export function calculateSuriyayatra({date, time}){
-  const [y,m,d] = date.split('-').map(Number);
-  const [hh,mi] = time.split(':').map(Number);
-  const beYear = y + 543;
+function parseLocalDate(date, time) {
+  const [y, m, d] = date.split('-').map(Number);
+  const [hh, mi] = time.split(':').map(Number);
+  // HORA input is Thailand local civil time (UTC+07:00).
+  return new Date(Date.UTC(y, m - 1, d, hh, mi) - 7 * 3600000);
+}
 
-  const birth = harakunBirth(beYear,m,d,hh,mi);
-  const raviMadhyam = (birth.harakun * MEAN_MOTION.RAVI + EPOCH0.RAVI) % 360;
-  const raviManda = calcMandaPhon(raviMadhyam, 80, 360);
-  const raviLong = (raviManda.sampus+360)%360;
+function calcBody(name, date, ayanamsa) {
+  const tropical = tropicalLongitude(BODY[name], date);
+  return {
+    tropical,
+    sidereal: norm(tropical - ayanamsa),
+  };
+}
 
-  const pLong = calcPlanets(birth.harakun, raviLong);
-  const planets = Object.keys(pLong).map(name=>({id:name,name,longitude:((pLong[name]%360)+360)%360,retrograde:name==='ราหู'}));
-  return {date,time,harakun:birth.harakun,jd:birth.jd,planets,metadata:{engineVersion:'v5.3-FIXED-MANDA-SIGHRA'}};
+export function calculateSuriyayatra({ date, time }) {
+  if (!date || !time) throw new Error('EPHEMERIS_INPUT_INVALID');
+
+  const instant = parseLocalDate(date, time);
+  if (!Number.isFinite(instant.getTime())) {
+    throw new Error('EPHEMERIS_DATE_INVALID');
+  }
+
+  const ayanamsa = lahiriAyanamsa(instant);
+  const planets = [];
+
+  for (const name of ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู']) {
+    const body = name === 'จันทร์'
+      ? { tropical: tropicalLongitude(Astronomy.Body.Moon, instant) }
+      : calcBody(name, instant, ayanamsa);
+
+    const tropical = body.tropical;
+    const sidereal = name === 'จันทร์' ? norm(tropical - ayanamsa) : body.sidereal;
+
+    planets.push({
+      id: name,
+      name,
+      longitude: sidereal,
+      tropicalLongitude: tropical,
+      retrograde: false,
+    });
+  }
+
+  // Mean lunar node is calculated independently from time; Ketu is exactly
+  // opposite Rahu. This avoids hardcoded node positions.
+  const T = (julianDay(instant) - 2451545.0) / 36525;
+  const meanNodeTropical = norm(
+    125.04452 -
+    1934.136261 * T +
+    0.0020708 * T * T +
+    (T * T * T) / 450000
+  );
+  const rahu = norm(meanNodeTropical - ayanamsa);
+  planets.push({ id: 'ราหู', name: 'ราหู', longitude: rahu, tropicalLongitude: meanNodeTropical, retrograde: true });
+  planets.push({ id: 'เกตุ', name: 'เกตุ', longitude: norm(rahu + 180), tropicalLongitude: norm(meanNodeTropical + 180), retrograde: true });
+
+  return {
+    date,
+    time,
+    jd: julianDay(instant),
+    planets,
+    metadata: {
+      engineVersion: 'v6.0-REAL-EPHEMERIS',
+      calculation: 'geocentric true-of-date tropical -> Lahiri sidereal',
+      ayanamsa,
+      source: 'Astronomy Engine 2.1.19',
+    },
+  };
 }
