@@ -1,165 +1,253 @@
-// HORA astronomy engine — real ephemeris, no Golden-result shortcuts.
-// Planetary positions are calculated from Astronomy Engine (client-side),
-// then converted from true-of-date tropical longitude to sidereal longitude
-// using an explicit Lahiri/Chitrapaksha ayanamsha model.
+// HORA — Classical Thai Suriyayatra engine.
+// This implementation follows the integer arithmetic / interpolation sequence
+// used by the classical Suriyayatra model: Horakhun -> solar/lunar mean
+// positions -> phila/correction tables -> true planetary positions.
+// Golden cases are QA references only; no Golden value is read here.
 //
-// IMPORTANT:
-// - Golden cases in main.js are QA reference data only.
-// - No planet result is read from Golden data.
-// - No planet longitude is hardcoded for a birth date.
-// - Moon uses the library's dedicated geocentric ecliptic algorithm.
-// - Planets use geocentric true-equator-of-date coordinates -> true ecliptic of date.
-// References: Astronomy Engine documentation and the standard relation
-// sidereal longitude = tropical longitude - ayanamsha.
+// Unit: arcminute. Full circle = 21600 arcminutes.
+// Time input is Thai civil clock time. Province longitude correction is:
+// local correction (minutes) = 4 * (105°E - longitude).
 
-import * as Astronomy from 'https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/+esm';
-
-const norm = x => ((Number(x) % 360) + 360) % 360;
-const DEG = Math.PI / 180;
-
-const BODY = {
-  'อาทิตย์': Astronomy.Body.Sun,
-  'พุธ': Astronomy.Body.Mercury,
-  'ศุกร์': Astronomy.Body.Venus,
-  'อังคาร': Astronomy.Body.Mars,
-  'พฤหัสบดี': Astronomy.Body.Jupiter,
-  'เสาร์': Astronomy.Body.Saturn,
-  'มฤตยู': Astronomy.Body.Uranus,
+const MOD = (v, d) => {
+  const r = v % d;
+  return r < 0 ? r + d : r === 0 ? 0 : r;
 };
 
-const LAHIRI0_DEG = 22 + 27 / 60 + 55 / 3600;
-const LAHIRI_RATE_DEG_PER_YEAR = 0.0139289;
+const SIGN_DURATIONS = [120,96,72,120,144,168,168,144,120,72,96,120];
+const SHADOW_TABLE = [0,244,427,488];
+const SUN_TABLE = [0,35,67,94,116,129,134];
+const MOON_TABLE = [0,77,148,209,256,286,296];
 
-function julianDay(date) {
-  return date.getTime() / 86400000 + 2440587.5;
+export const STANDARD_MERIDIAN_LONGITUDE = 105;
+
+export function localTimeCorrectionMinutes(longitude) {
+  const lon = Number(longitude);
+  if (!Number.isFinite(lon)) throw new Error('LONGITUDE_INVALID');
+  return 4 * (STANDARD_MERIDIAN_LONGITUDE - lon);
 }
 
-function lahiriAyanamsa(date) {
-  // Published mean-Lahiri style reference model:
-  // 22°27′55″ at 1900-01-01, advancing 0.0139289°/year.
-  // This is deliberately a time-dependent formula, not a chart-specific offset.
-  const jd = julianDay(date);
-  const years = (jd - 2415020.5) / 365.2425;
-  return norm(LAHIRI0_DEG + LAHIRI_RATE_DEG_PER_YEAR * years);
+function civilJulianDay(year, month, day) {
+  const y = month > 2 ? year : year - 1;
+  const m = month > 2 ? month + 1 : month + 13;
+  const century = Math.floor(y / 100);
+  return Math.floor(y * 365.25) + Math.floor(m * 30.6) + day + 1720997
+    - century + Math.floor(century / 4);
 }
 
-function equatorialToEclipticLongitude(raDeg, decDeg, obliquityDeg) {
-  const ra = raDeg * 15 * DEG;
-  const dec = decDeg * DEG;
-  const eps = obliquityDeg * DEG;
-
-  const y = Math.sin(ra) * Math.cos(eps) + Math.tan(dec) * Math.sin(eps);
-  const x = Math.cos(ra);
-  return norm(Math.atan2(y, x) / DEG);
+function interpolateTableFloor(arc, step, table, scale) {
+  const index = Math.floor(arc / step);
+  if (index >= table.length - 1) return table[table.length - 1] * scale;
+  const numerator = table[index] * step
+    + (arc - index * step) * (table[index + 1] - table[index]);
+  return Math.floor(numerator * scale / step);
 }
 
-function tropicalLongitude(body, date) {
-  if (body === Astronomy.Body.Moon) {
-    return norm(Astronomy.EclipticGeoMoon(date).elon);
-  }
-
-  if (body === Astronomy.Body.Sun && typeof Astronomy.SunPosition === 'function') {
-    return norm(Astronomy.SunPosition(date).elon);
-  }
-
-  const eq = Astronomy.Equator(
-    body,
-    date,
-    Astronomy.MakeObserver(0, 0, 0),
-    true,
-    false
-  );
-
-  // Astronomy Engine exposes true-equator-of-date coordinates. Convert those
-  // coordinates to the corresponding ecliptic-of-date longitude.
-  const jd = julianDay(date);
-  const T = (jd - 2451545.0) / 36525;
-  const obliquity =
-    23.43929111111111 -
-    0.013004166666667 * T -
-    0.000000163888889 * T * T +
-    0.000000503611111 * T * T * T;
-
-  return equatorialToEclipticLongitude(eq.ra, eq.dec, obliquity);
+function interpolate(arc, step, table) {
+  const index = Math.floor(arc / step);
+  if (index >= table.length - 1) return table[table.length - 1];
+  return table[index] + (arc / step - index) * (table[index + 1] - table[index]);
 }
 
-function parseLocalDate(date, time) {
-  const [y, m, d] = date.split('-').map(Number);
-  const [hh, mi] = time.split(':').map(Number);
-  // HORA input is Thailand local civil time (UTC+07:00).
-  return new Date(Date.UTC(y, m - 1, d, hh, mi) - 7 * 3600000);
+function solarIntradayUnits(timeMinutes) {
+  return Math.floor(timeMinutes * 5 / 9);
 }
 
-function isRetrograde(body, date) {
-  if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) return false;
-  const dt = new Date(date.getTime() - 0.5 * 86400000);
-  const dt2 = new Date(date.getTime() + 0.5 * 86400000);
-  const a = tropicalLongitude(body, dt);
-  const b = tropicalLongitude(body, dt2);
-  const delta = ((b - a + 540) % 360) - 180;
-  return delta < 0;
+function meanLunarApogeeArcMinutes(dayIndex, timeMinutes) {
+  return Math.floor((dayIndex * 1440 + timeMinutes) * 15 / 3232) + 2;
 }
 
-function calcBody(name, date, ayanamsa) {
-  const tropical = tropicalLongitude(BODY[name], date);
+function thaloengSokReference(chulaSakarat) {
+  const horakhun = Math.floor((292207 * chulaSakarat + 373) / 800) + 1;
+  const equationUnits = chulaSakarat * 207 + 800 * (
+    Math.trunc((chulaSakarat + 38) / 100)
+    - Math.trunc((chulaSakarat + 2) / 4)
+    - Math.trunc((chulaSakarat + 238) / 400)
+  ) - 4427;
+  const remainder = equationUnits % 800;
   return {
-    tropical,
-    sidereal: norm(tropical - ayanamsa),
+    horakhun,
+    fractionalDaySeconds: remainder === 0 ? 0 : remainder * 108
   };
 }
 
-export function calculateSuriyayatra({ date, time }) {
-  if (!date || !time) throw new Error('EPHEMERIS_INPUT_INVALID');
+function quadrant(anomaly) {
+  const a = MOD(anomaly, 21600);
+  const q = Math.floor(a / 5400);
+  const arc = [a,10800-a,a-10800,21600-a][q];
+  return {
+    arc,
+    coArc: 5400 - arc,
+    direction: q < 2 ? -1 : 1,
+    coDirection: q === 0 || q === 3 ? 1 : -1
+  };
+}
 
-  const instant = parseLocalDate(date, time);
-  if (!Number.isFinite(instant.getTime())) {
-    throw new Error('EPHEMERIS_DATE_INVALID');
-  }
+function luminary(mean, anomaly, table) {
+  const q = quadrant(anomaly);
+  return MOD(mean + Math.floor(interpolate(q.arc, 900, table)) * q.direction, 21600);
+}
 
-  const ayanamsa = lahiriAyanamsa(instant);
-  const planets = [];
+function correctedPlanet(model, meanRavi) {
+  const primary = quadrant(model.primaryBase - model.anomalyOffset);
+  const primaryNumerator = interpolateTableFloor(primary.arc, 1800, SHADOW_TABLE, 60);
+  const coCorrection = Math.floor(interpolate(primary.coArc, 1800, SHADOW_TABLE) + 0.5);
+  const denominator = model.denominator + Math.floor(coCorrection / 2) * primary.coDirection;
+  const first = model.primaryBase
+    + Math.floor(primaryNumerator * 60 / denominator) * primary.direction;
 
-  for (const name of ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู']) {
-    const body = name === 'จันทร์'
-      ? { tropical: tropicalLongitude(Astronomy.Body.Moon, instant) }
-      : calcBody(name, instant, ayanamsa);
-
-    const tropical = body.tropical;
-    const sidereal = name === 'จันทร์' ? norm(tropical - ayanamsa) : body.sidereal;
-
-    planets.push({
-      id: name,
-      name,
-      longitude: sidereal,
-      tropicalLongitude: tropical,
-      retrograde: name === 'จันทร์' ? false : isRetrograde(BODY[name], instant),
-    });
-  }
-
-  // Mean lunar node is calculated independently from time; Ketu is exactly
-  // opposite Rahu. This avoids hardcoded node positions.
-  const T = (julianDay(instant) - 2451545.0) / 36525;
-  const meanNodeTropical = norm(
-    125.04452 -
-    1934.136261 * T +
-    0.0020708 * T * T +
-    (T * T * T) / 450000
+  const secondary = quadrant(
+    MOD(first, 21600) - (model.fixed === undefined ? model.mean : meanRavi)
   );
-  const rahu = norm(meanNodeTropical - ayanamsa);
-  planets.push({ id: 'ราหู', name: 'ราหู', longitude: rahu, tropicalLongitude: meanNodeTropical, retrograde: true });
-  planets.push({ id: 'เกตุ', name: 'เกตุ', longitude: norm(rahu + 180), tropicalLongitude: norm(meanNodeTropical + 180), retrograde: true });
+  const secondaryNumerator = interpolateTableFloor(secondary.arc, 1800, SHADOW_TABLE, 60);
+  const sineCorrection = Math.floor(Math.floor(secondaryNumerator / 60 + 0.5) / 3);
+  const scaledDenominator = model.fixed === undefined
+    ? Math.floor(denominator * model.scale)
+    : model.fixed;
+  const secondaryCoCorrection =
+    Math.floor(interpolate(secondary.coArc, 1800, SHADOW_TABLE) + 0.5);
+  const divisor = sineCorrection
+    + scaledDenominator
+    + secondaryCoCorrection * secondary.coDirection;
+
+  if (denominator <= 0 || divisor <= 0) {
+    throw new Error('PLANETARY_CORRECTION_DENOMINATOR_INVALID');
+  }
+  return MOD(
+    first + Math.floor(secondaryNumerator * 60 / divisor) * secondary.direction,
+    21600
+  );
+}
+
+function parseInput(date, time) {
+  const [year, month, day] = String(date).split('-').map(Number);
+  const [hour, minute] = String(time).split(':').map(Number);
+  if (![year,month,day,hour,minute].every(Number.isFinite)) {
+    throw new Error('EPHEMERIS_INPUT_INVALID');
+  }
+  if (year < 1 || year > 9999 || month < 1 || month > 12 ||
+      day < 1 || day > 31 || hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+    throw new Error('EPHEMERIS_INPUT_INVALID');
+  }
+  return {year,month,day,hour,minute};
+}
+
+export function calculateSuriyayatra({ date, time, longitude }) {
+  const input = parseInput(date, time);
+  const {year,month,day,hour,minute} = input;
+  const timeMinutes = hour * 60 + minute;
+
+  // Horakhun is tied to the civil Gregorian date, not the browser timezone.
+  const julianDayNumber = civilJulianDay(year, month, day);
+  const horakhun = julianDayNumber - 1954167;
+  const yearBe = year + 543;
+  const cs = yearBe - 1181;
+
+  const thaloeng = thaloengSokReference(cs);
+  const civilSeconds = timeMinutes * 60;
+  const chulaSakarat =
+    horakhun < thaloeng.horakhun ||
+    (horakhun === thaloeng.horakhun && civilSeconds <= thaloeng.fractionalDaySeconds)
+      ? cs - 1 : cs;
+
+  const solarUnits = solarIntradayUnits(timeMinutes);
+  const solarCycleUnits = MOD((horakhun - 1) * 800 + solarUnits - 373, 292207);
+  const solarLongitudeUnits = MOD((horakhun - 1) * 800 - 373, 292207) + solarUnits;
+  const remainder = MOD(solarLongitudeUnits, 24350);
+
+  const meanSun = MOD(
+    Math.trunc(solarLongitudeUnits / 24350) * 1800
+      + Math.trunc(remainder / 811) * 60
+      + Math.trunc(MOD(remainder, 811) / 14)
+      - 3,
+    21600
+  );
+  const meanRavi = MOD(meanSun - 23, 21600);
+  const epoch =
+    (chulaSakarat - (solarCycleUnits >= 364 ? 610 : 611)) * 21600 + meanRavi;
+
+  const sun = luminary(meanSun, meanSun - 4800, SUN_TABLE);
+
+  const lunarUnits = Math.trunc((hour + minute / 60) * 703 / 24);
+  const lunarCycle = MOD((horakhun - 1) * 703 + 650 + lunarUnits, 20760);
+  const meanMoon = MOD(
+    Math.floor(lunarCycle / 692) * 720
+      + Math.trunc(1.04 * MOD(lunarCycle, 692))
+      - 40 + meanSun,
+    21600
+  );
+  const apogeeDayIndex = MOD(horakhun - 1 - 621, 3232);
+  const lunarAnomaly = meanLunarApogeeArcMinutes(apogeeDayIndex, timeMinutes);
+  const moon = luminary(meanMoon, meanMoon - lunarAnomaly, MOON_TABLE);
+
+  const marsMean = MOD(Math.trunc(epoch / 2) + Math.floor(epoch * 16 / 505) + 5420, 21600);
+  const mercuryMean = MOD(Math.trunc(epoch * 7 / 46) + Math.floor(epoch * 4) + 10642, 21600);
+  const jupiterMean = MOD(Math.trunc(epoch / 12) + Math.floor(epoch / 1032) + 14297, 21600);
+  const venusMean = MOD(Math.trunc(epoch * 5 / 3) - Math.floor(epoch * 10 / 243) + 10944, 21600);
+  const saturnMean = MOD(Math.trunc(epoch / 30) + Math.floor(epoch * 6 / 10000) + 11944, 21600);
+  const uranusMean = MOD(Math.trunc(epoch / 84) + Math.floor(epoch / 7224) + 16277, 21600);
+
+  const arcs = {
+    'อาทิตย์': sun,
+    'จันทร์': moon,
+    'อังคาร': correctedPlanet({
+      mean: marsMean, primaryBase: marsMean, anomalyOffset: 7620,
+      denominator: 2700, scale: 4 / 15
+    }, meanRavi),
+    'พุธ': correctedPlanet({
+      mean: mercuryMean, primaryBase: meanRavi, anomalyOffset: 13200,
+      denominator: 6000, fixed: 1260
+    }, meanRavi),
+    'พฤหัสบดี': correctedPlanet({
+      mean: jupiterMean, primaryBase: jupiterMean, anomalyOffset: 10320,
+      denominator: 5520, scale: 3 / 7
+    }, meanRavi),
+    'ศุกร์': correctedPlanet({
+      mean: venusMean, primaryBase: meanRavi, anomalyOffset: 4800,
+      denominator: 19200, fixed: 660
+    }, meanRavi),
+    'เสาร์': correctedPlanet({
+      mean: saturnMean, primaryBase: saturnMean, anomalyOffset: 14820,
+      denominator: 3780, scale: 7 / 6
+    }, meanRavi),
+    'มฤตยู': correctedPlanet({
+      mean: uranusMean, primaryBase: uranusMean, anomalyOffset: 7440,
+      denominator: 38640, scale: 3 / 7
+    }, meanRavi),
+    'ราหู': MOD(15150 - MOD(Math.trunc(epoch / 20) + Math.floor(epoch / 265), 21600), 21600),
+    'เกตุ': MOD(
+      21600 - Math.trunc(
+        (MOD(horakhun - 1 - 344, 679) + (hour + minute / 60) / 24) * 21600 / 679
+      ),
+      21600
+    )
+  };
+
+  const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
 
   return {
     date,
     time,
-    jd: julianDay(instant),
-    harakun: Math.floor(julianDay(instant) - 1954167.5) + 1,
-    planets,
+    jd: julianDayNumber,
+    harakun: horakhun,
+    planets: Object.entries(arcs).map(([name, arc], index) => ({
+      id: name,
+      name,
+      longitude: arc / 60,
+      arcMinutes: arc,
+      retrograde: ['ราหู','เกตุ'].includes(name),
+      idNumber: ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'][index]
+    })),
     metadata: {
-      engineVersion: 'v6.0-REAL-EPHEMERIS',
-      calculation: 'geocentric true-of-date tropical -> Lahiri sidereal',
-      ayanamsa,
-      source: 'Astronomy Engine 2.1.19',
-    },
+      engineVersion: 'v7.0-CLASSICAL-SURIYAYATRA',
+      calculation: 'Horakhun -> Madhyam -> Phili/Plai corrections -> Thai Suriyayatra sidereal positions',
+      ayanamsa: null,
+      source: 'Classical Suriyayatra integer arithmetic / interpolation model',
+      localTimeCorrectionMinutes: correction,
+      standardMeridianLongitude: STANDARD_MERIDIAN_LONGITUDE,
+      solarCycleUnits,
+      meanSunArcMinutes: meanSun,
+      meanRaviArcMinutes: meanRavi,
+      planetaryEpochArcMinutes: epoch
+    }
   };
 }
