@@ -39,11 +39,9 @@ function renderWheel(natal,transit){
   const p=xy(i*30+15,rad+30);
   svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?20:17)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+''+'</text>';
  }
- // House labels follow the natal ascendant; zodiac sign divisions remain unchanged.
+ // Keep all wheel and zodiac lines fixed. Rotate/reposition only house-label text from the natal ascendant.
  for(let h=0;h<12;h++){
-  const p1=xy(natal.asc+h*30,inner+3),p2=xy(natal.asc+h*30,rad-2);
-  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="#64748b" stroke-width="'+(h===0?3.2:1.6)+'" stroke-dasharray="'+(h===0?'':'4 4')+'" opacity=".72"/>';
-  const q=xy(natal.asc+h*30+15,96);
+  const q=xy(natal.asc+h*30,101);
   svg+='<text x="'+q.x+'" y="'+(q.y-3)+'" text-anchor="middle" font-size="13" font-weight="900" fill="#26364f">'+(h+1)+'</text><text x="'+q.x+'" y="'+(q.y+9)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">'+houseNames[h]+'</text>';
  }
  function ascMark(lon,label,color,offset){
