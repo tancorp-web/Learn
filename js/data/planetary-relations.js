@@ -171,6 +171,8 @@ export function getSignRelations(fromSign, toSign) {
   const offset = (to - from + 12) % 12;
   const result = [];
   for (const [name, rule] of Object.entries(SIGN_RELATION_RULES)) {
+    // 'ทับ' needs transit-vs-natal context; a pair of sign names alone cannot classify it.
+    if (name === 'ทับ') continue;
     if (rule.clockwiseOffsets?.includes(offset)) result.push(name);
   }
   return [...new Set(result)];
