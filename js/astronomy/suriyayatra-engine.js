@@ -469,14 +469,13 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const input = parseInput(date, time);
   const {year,month,day,hour,minute} = input;
   const timeMinutes = hour * 60 + minute;
-  // Planetary Suriyayatra arithmetic uses the civil birth clock for the
-  // day-based Madhyam/Horakhun sequence. Province-meridian correction is
-  // applied ONLY by the separate Anto-natee ascendant calculation.
-  // Golden values are QA references only and are never used as inputs.
+  // Horakhun / civil-day selection remains tied to the recorded civil date/time.
+  // Apply the province local-mean-time correction to the intraday Sun arithmetic.
+  // The Moon keeps its own independently corrected time path below; ascendant
+  // geometry remains in ascendant-geometry.js and consumes the resulting Sun.
+  // Golden values are QA references only and are never used as calculation inputs.
   const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
-  const calculationTimeMinutes = timeMinutes;
-  // Apply local-mean-time correction to the Moon only. Keep civil-time arithmetic
-  // unchanged for the Sun and all other planetary formulas.
+  const calculationTimeMinutes = timeMinutes - correction;
   const moonCalculationTimeMinutes = timeMinutes - correction;
 
   // Horakhun is tied to the civil Gregorian date, not the browser timezone.
