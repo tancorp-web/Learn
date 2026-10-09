@@ -547,7 +547,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
 
   // Classical notation: one Tithi = 12 degrees; Avaman contribution is
   // (Avaman + floor(Avaman/25)) / 60 degrees; subtract 40'.
-  const tithiArcMinutes = tithiPrasong * 12 * 60;
+  // The birth-time fraction advances the tithi continuously through the day.
+  // Suratin/Avaman/Tithi integer remainders establish the civil-day phase;
+  // omitting this fraction leaves the Moon about 20–25' behind at 01:05.
+  // One solar day advances 703/692 tithi, each tithi representing 12 degrees.
+  const tithiArcMinutes = tithiPrasong * 12 * 60
+    + (moonCalculationTimeMinutes / 1440) * 720 * 703 / 692;
 
   // Recompute the mean Sun used by the Moon formula using Moon-adjusted time only.
   const moonSolarUnits = solarIntradayUnits(moonCalculationTimeMinutes);
@@ -740,7 +745,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.8.6-MOON-DAYCOUNT-INTERVAL-KETU-679',
+      engineVersion: 'v8.8.7-MOON-INTRADAY-TITHI-KETU-679',
       calculation: 'Horakhun -> classical mean Sun/Moon -> day-count Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
