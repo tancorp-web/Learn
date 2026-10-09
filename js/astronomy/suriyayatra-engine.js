@@ -609,13 +609,11 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     return MOD(rasi * 1800 + degree * 60 + minute, 21600);
   }
 
-  // Suratin birth counts days AFTER the Thaloeng Sok day, so the
-  // Thaloeng-day Uccabala must include that starting day (+1).
-  // Without +1, Madhyam Uccabala is one full day behind and the true Moon
-  // can miss the Golden reference by about 20 arcminutes.
-  const meanUccabala = madhyamUccFromUccabala(
-    MOD(uccabalaThaloeng + suratinBirth + 1, 3232)
-  );
+  // Use the explicit birth-time Uccabala calculated above. It includes
+  // the Thaloeng Sok base, Suratin, Kammachaphon fraction, and the birth-time
+  // fraction. Do not replace it with a day-only sum: that discards the time
+  // of birth and can shift the Moon's correction.
+  const meanUccabala = madhyamUccFromUccabala(uccabalaBirth);
 
   // Uccavises is explicitly Madhyam Moon - Madhyam Ucc.
   const uccavises = MOD(meanMoon - meanUccabala, 21600);
