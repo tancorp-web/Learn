@@ -23,7 +23,45 @@ function formatInSign(lon){const d=((lon%360)+360)%360%30;return pad(Math.floor(
 function calcAt(dateStr,timeStr,isBirth,location){console.groupCollapsed('[HORA][CALC] '+dateStr+' '+timeStr+(isBirth?' [กำเนิด]':' [จร]'));console.log('[HORA][INPUT]',{date:dateStr,time:timeStr,isBirth,location});const hh=parseInt(timeStr.split(':')[0],10),beY=parseInt(dateStr.split('-')[0],10)+543,month=parseInt(dateStr.split('-')[1],10),day=parseInt(dateStr.split('-')[2],10),loc=location||{lat:13.752555,lon:100.494066,timezone:7};const engine=calculateSuriyayatra({date:dateStr,time:timeStr,longitude:Number(loc.lon)});console.log('[HORA][ENGINE] harakun=',engine.harakun,'jd=',engine.jd,'version=',engine.metadata?.engineVersion);console.log('[HORA][KETU DEBUG]',engine.metadata?.ketuDebug);console.table(engine.planets.map(p=>({ดาว:p.name,longitude:p.longitude,ราศี:signObj(p.longitude).name,retrograde:p.retrograde})));const sun=engine.planets.find(p=>p.name==='อาทิตย์');console.log('[HORA][ASC INPUT]',{lat:Number(loc.lat),lon:Number(loc.lon),localTimeCorrectionMinutes:Number(engine.metadata?.localTimeCorrectionMinutes),sunLongitude:Number(sun?.longitude),method:'อันโตนาทีสามัญ'});if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('SUN_LONGITUDE_INVALID');let asc=calculateSuriyayatraAscendant({timeMinutes:hh*60+parseInt(timeStr.split(':')[1],10),sunLongitude:Number(sun.longitude),longitude:Number(loc.lon),localTimeCorrectionMinutes:Number(engine.metadata?.localTimeCorrectionMinutes)});const planets=engine.planets.map(p=>({id:p.id,name:p.name,longitude:((Number(p.longitude)%360)+360)%360,sign:signObj(p.longitude),house:houseFromAsc(p.longitude,asc),retrograde:Boolean(p.retrograde)}));console.log('[HORA][ASC RESULT]',{asc,sign:signObj(asc).name,localTimeCorrectionMinutes:Number(engine.metadata?.localTimeCorrectionMinutes),method:'Suriyayatra อันโตนาทีสามัญ'});console.table(planets.map(p=>({ดาว:p.name,longitude:p.longitude,ราศี:p.sign.name,ภพ:p.house})));const wd=getWeekdayThai(beY,month,day,hh),result={date:dateStr,time:timeStr,asc,planets,weekday:wd.weekday,weekdayInfo:wd,ascSign:signObj(asc),thaksa:calcThaksa(wd.weekday),metadata:{...engine,location:{lat:Number(loc.lat),lon:Number(loc.lon)}}};console.log('[HORA][CALC DONE]',{asc:result.asc,ascSign:result.ascSign.name,weekday:result.weekday});console.groupEnd();return result}
 function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'}[n]||''}
 function wheelAngleDeg(longitude){return -(longitude-15)-90}
-function renderWheel(natal,transit){const el=$('wheel');if(!el)return;const c=300,rad=245,inner=72;let svg='<svg viewBox="0 0 600 600" style="width:100%;max-width:680px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';const sun=natal.planets.find(p=>p.name==='อาทิตย์');svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text><text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';for(let i=0;i<12;i++){const a=wheelAngleDeg(i*30)*Math.PI/180,x1=c+inner*Math.cos(a),y1=c+inner*Math.sin(a),x2=c+rad*Math.cos(a),y2=c+rad*Math.sin(a);svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';const am=wheelAngleDeg(i*30+15)*Math.PI/180,lx=c+(rad+30)*Math.cos(am),ly=c+(rad+30)*Math.sin(am);svg+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★บน':'')+'</text>'}const aa=wheelAngleDeg(natal.asc)*Math.PI/180,ax=c+rad*Math.cos(aa),ay=c+rad*Math.sin(aa);svg+='<line x1="300" y1="300" x2="'+ax+'" y2="'+ay+'" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 3"/><circle cx="'+ax+'" cy="'+ay+'" r="4" fill="#dc2626"/>';function draw(list,isTransit){if(!list?.planets)return;const lanes=isTransit?[207,222,237]:[112,130,148,166,184];list.planets.slice().sort((a,b)=>a.longitude-b.longitude).forEach((p,j)=>{const a=wheelAngleDeg(p.longitude)*Math.PI/180,rr=lanes[j%lanes.length],x=c+rr*Math.cos(a),y=c+rr*Math.sin(a),color=isTransit?'#15803d':'#7c3aed';svg+='<g><circle cx="'+x+'" cy="'+y+'" r="13" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>'})}draw(natal,false);if(transit)draw(transit,true);svg+='</svg>';el.innerHTML=svg}
+function renderWheel(natal,transit){
+ const el=$('wheel');if(!el)return;
+ const c=300,rad=245,inner=72;
+ const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+ const xy=(lon,r)=>{const a=wheelAngleDeg(lon)*Math.PI/180;return{x:c+r*Math.cos(a),y:c+r*Math.sin(a)}};
+ let svg='<svg viewBox="0 0 600 600" role="img" aria-label="วงกลมจักรราศี แสดงลัคนาเกิด ลัคนาจร และภพ 12 ภพ" style="width:100%;max-width:680px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
+ const sun=natal.planets.find(p=>p.name==='อาทิตย์');
+ svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text><text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
+ for(let i=0;i<12;i++){
+  const angle=wheelAngleDeg(i*30)*Math.PI/180,x1=c+inner*Math.cos(angle),y1=c+inner*Math.sin(angle),x2=c+rad*Math.cos(angle),y2=c+rad*Math.sin(angle);
+  svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
+  const p=xy(i*30+15,rad+30);
+  svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★บน':'')+'</text>';
+ }
+ // House labels follow the natal ascendant; zodiac sign divisions remain unchanged.
+ for(let h=0;h<12;h++){
+  const p1=xy(natal.asc+h*30,inner+3),p2=xy(natal.asc+h*30,rad-2);
+  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="#64748b" stroke-width="'+(h===0?2.4:1)+'" stroke-dasharray="'+(h===0?'':'4 4')+'" opacity=".72"/>';
+  const q=xy(natal.asc+h*30+15,96);
+  svg+='<text x="'+q.x+'" y="'+(q.y-3)+'" text-anchor="middle" font-size="10" font-weight="900" fill="#26364f">'+(h+1)+'</text><text x="'+q.x+'" y="'+(q.y+9)+'" text-anchor="middle" font-size="8.5" font-weight="700" fill="#475569">'+houseNames[h]+'</text>';
+ }
+ function ascMark(lon,label,color,offset){
+  const p1=xy(lon,inner+2),p2=xy(lon,rad-1),tag=xy(lon,rad+offset);
+  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+color+'" stroke-width="3"/><circle cx="'+p2.x+'" cy="'+p2.y+'" r="4" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><rect x="'+(tag.x-35)+'" y="'+(tag.y-10)+'" width="70" height="20" rx="8" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><text x="'+tag.x+'" y="'+(tag.y+4)+'" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">'+label+'</text>';
+ }
+ ascMark(natal.asc,'@เกิด','#dc2626',-16);
+ if(transit)ascMark(transit.asc,'@จร','#07834b',18);
+ function draw(list,isTransit){
+  if(!list?.planets)return;
+  const lanes=isTransit?[207,222,237]:[112,130,148,166,184];
+  list.planets.slice().sort((a,b)=>a.longitude-b.longitude).forEach((p,j)=>{
+   const q=xy(p.longitude,lanes[j%lanes.length]),color=isTransit?'#07834b':'#7250bd';
+   svg+='<g><circle cx="'+q.x+'" cy="'+q.y+'" r="13" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="'+q.x+'" y="'+(q.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>';
+  });
+ }
+ draw(natal,false);if(transit)draw(transit,true);
+ svg+='</svg><div style="display:flex;gap:8px 14px;flex-wrap:wrap;justify-content:center;padding:8px 4px 0;font-size:12px;color:#334155"><span style="color:#dc2626;font-weight:800">━ @ ลัคนาเกิด</span><span style="color:#07834b;font-weight:800">━ @ ลัคนาจร</span><span style="color:#7250bd;font-weight:800">● ดาวกำเนิด</span><span style="color:#07834b;font-weight:800">● ดาวจร</span><span>เลขและชื่อภพ 1–12 เริ่มจากลัคนาเกิด</span></div>';
+ el.innerHTML=svg;
+}
 function renderQA(natal){
   const el=$('compare');if(!el)return;
   const diffText=(a,b)=>{const min=Math.round((((a-b+540)%360)-180)*60);if(min===0)return'0°00′';const sign=min>0?'+':'−',abs=Math.abs(min);return sign+Math.floor(abs/60)+'°'+String(abs%60).padStart(2,'0')+'′'};
