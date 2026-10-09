@@ -1,0 +1,101 @@
+/**
+ * HORA Astrology — Thaksa reference data
+ * Version: 1.0.0-reference-only
+ *
+ * PURPOSE
+ * Reference-only data for Thaksa, weekday naming, age-yang, and the central
+ * position ("taklang"). This file is intentionally NOT imported by main.js
+ * and does not change any calculation/runtime behavior.
+ *
+ * IMPORTANT: Traditional schools and printed manuals can differ in details.
+ * Treat the conventions below as explicit reference data, not as an automatic
+ * calculation rule until a source-specific method has been selected and tested.
+ */
+
+/** Eight Thaksa positions, in the traditional sequence. */
+export const THAKSA_POSITIONS = Object.freeze([
+  { key: 'บริวาร', order: 1, meaning: 'ญาติ บริวาร ผู้สนับสนุน' },
+  { key: 'อายุ', order: 2, meaning: 'อายุ สุขภาพ ความเป็นอยู่' },
+  { key: 'เดช', order: 3, meaning: 'อำนาจ บารมี ความกล้าหาญ' },
+  { key: 'ศรี', order: 4, meaning: 'สิริมงคล เสน่ห์ ความสำเร็จ' },
+  { key: 'มูละ', order: 5, meaning: 'ทรัพย์สิน หลักฐาน ความมั่นคง' },
+  { key: 'อุตสาหะ', order: 6, meaning: 'ความเพียร การงาน ความพยายาม' },
+  { key: 'มนตรี', order: 7, meaning: 'ผู้ใหญ่ คำแนะนำ ความช่วยเหลือ' },
+  { key: 'กาลกิณี', order: 8, meaning: 'อุปสรรค สิ่งที่ควรระวังตามตำรา' },
+]);
+
+/**
+ * Traditional 3×3 diagram often used to explain the eight directions and
+ * the central Ketu position. 9 is the central position, not a ninth Thaksa
+ * category; the eight named Thaksa positions remain the eight directions.
+ */
+export const THAKSA_NINE_CELL_DIAGRAM = Object.freeze([
+  Object.freeze([1, 2, 3]),
+  Object.freeze([6, 9, 4]),
+  Object.freeze([8, 5, 7]),
+]);
+
+export const THAKSA_CENTER = Object.freeze({
+  cell: 9,
+  planet: 'เกตุ',
+  label: 'ตากลาง',
+  isOneOfEightThaksaPositions: false,
+});
+
+/**
+ * Birth-time day-boundary convention requested for this project:
+ * before 06:00 local Thailand time, use the previous calendar date to derive
+ * the weekday for Thaksa/naming/age-yang. At exactly 06:00 or later, use the
+ * calendar date as entered. This rule is kept here as data and is not wired
+ * into main.js.
+ */
+export const THAKSA_BIRTH_DAY_CUTOFF = Object.freeze({
+  timezone: 'Asia/Bangkok',
+  cutoffHour: 6,
+  cutoffMinute: 0,
+  beforeCutoff: 'previous-calendar-day',
+  atOrAfterCutoff: 'entered-calendar-day',
+  examples: Object.freeze([
+    { localTime: '05:59', calendarDate: '14 October', effectiveDate: '13 October' },
+    { localTime: '06:00', calendarDate: '14 October', effectiveDate: '14 October' },
+    { localTime: '06:01', calendarDate: '14 October', effectiveDate: '14 October' },
+  ]),
+});
+
+/**
+ * Age-yang / taklang notes:
+ * - Determine the effective weekday first using THAKSA_BIRTH_DAY_CUTOFF.
+ * - The traditional age-yang count is described in some manuals as moving
+ *   clockwise through the Thaksa chart, with the central cell (9/Ketu)
+ *   passed through between 1/Sun and 2/Moon.
+ * - Some manuals specify Jupiter (5) as the moving "บริวาร" when the count
+ *   lands exactly on the central cell. Do not implement this as universal
+ *   until the selected manual/source is recorded and cross-checked.
+ */
+export const AGE_YANG_REFERENCE = Object.freeze({
+  countDirection: 'clockwise',
+  centralCellInterposedBetween: Object.freeze([1, 2]),
+  exactCenterRule: 'source-specific; some manuals assign Jupiter (5) as บริวารจร',
+  implementationStatus: 'reference-only; not connected to runtime',
+});
+
+/**
+ * Naming reference:
+ * Letter-to-Thaksa assignments are weekday-dependent and should be stored as
+ * a separately verified table once the project selects its authoritative
+ * Thai reference. This file deliberately does not invent a universal mapping.
+ */
+export const THAKSA_NAMING_REFERENCE = Object.freeze({
+  basis: 'effective weekday after applying the 06:00 birth-day cutoff',
+  groups: Object.freeze([
+    'บริวาร', 'อายุ', 'เดช', 'ศรี',
+    'มูละ', 'อุตสาหะ', 'มนตรี', 'กาลกิณี',
+  ]),
+  letterMappingsStatus: 'not populated; requires source-specific verification',
+});
+
+export const THAKSA_REFERENCE_METADATA = Object.freeze({
+  version: '1.0.0-reference-only',
+  runtimeIntegrated: false,
+  mainJsImportRequired: false,
+});
