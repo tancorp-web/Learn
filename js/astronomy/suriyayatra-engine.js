@@ -93,6 +93,18 @@ function findMonth88StartForBeYear(beYear) {
   throw new Error('MONTH88_CIVIL_DATE_NOT_FOUND');
 }
 
+/**
+ * QA-only public seam: expose HORA's own month-8/8 date calculation so
+ * regression tests can compare it with the separate backup dataset.
+ * This delegates to the existing formula; it does not read backup data.
+ */
+export function calculateMonth88StartForRecheck(beYear) {
+  if (!Number.isInteger(beYear)) {
+    throw new TypeError('beYear must be an integer Buddhist Era year');
+  }
+  return findMonth88StartForBeYear(beYear)?.date ?? null;
+}
+
 function latestMonth88StartOnOrBefore(date, beYear) {
   // Use the month 88 belonging to the latest adhikamas year at or
   // before the birth date. This keeps the rule date-driven and avoids
