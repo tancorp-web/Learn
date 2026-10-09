@@ -36,9 +36,19 @@ test('backup coverage is exactly the declared 201 consecutive BE years', () => {
   }
 });
 
+function utcDayDifference(calculated, expected) {
+  if (!calculated || !expected) return null;
+  const toUtc = (date) => {
+    const [year, month, day] = date.split('-').map(Number);
+    return Date.UTC(year, month - 1, day);
+  };
+  return Math.round((toUtc(calculated) - toUtc(expected)) / 86400000);
+}
+
 test('compare HORA formula with all 201 backup rows and report unverified discrepancies', () => {
   const mismatches = [];
   const verifiedMismatches = [];
+  const offsetCounts = new Map();
   let matched = 0;
   let independentlyCheckedRows = 0;
 
@@ -50,7 +60,21 @@ test('compare HORA formula with all 201 backup rows and report unverified discre
     if (calculated === expected) {
       matched += 1;
     } else {
-      const mismatch = { beYear, expected, calculated, validationStatus: record.validationStatus };
+      const dayOffset = utcDayDifference(calculated, expected);
+      const mismatch = {
+        beYear,
+        expected,
+        calculated,
+        dayOffset,
+        discrepancyType: expected === null ? 'formula-found-date-backup-says-no-month88'
+          : calculated === null ? 'backup-has-month88-formula-says-none'
+          : Math.abs(dayOffset) <= 1 ? 'within-one-day'
+          : Math.abs(dayOffset) >= 29 && Math.abs(dayOffset) <= 30 ? 'one-lunar-month-like-offset'
+          : 'other-date-offset',
+        validationStatus: record.validationStatus
+      };
+      const offsetKey = dayOffset === null ? 'missing-date-on-one-side' : String(dayOffset);
+      offsetCounts.set(offsetKey, (offsetCounts.get(offsetKey) ?? 0) + 1);
       mismatches.push(mismatch);
       if (record.validationStatus === 'calendar-source-checked') {
         verifiedMismatches.push(mismatch);
@@ -68,6 +92,19 @@ test('compare HORA formula with all 201 backup rows and report unverified discre
     ', differences-in-source-checked-rows=' + verifiedMismatches.length
   );
   if (mismatches.length) {
+    console.warn('[Thai lunar recheck] Difference types: ' + JSON.stringify(
+      mismatches.reduce((counts, row) => {
+        counts[row.discrepancyType] = (counts[row.discrepancyType] ?? 0) + 1;
+        return counts;
+      }, {})
+    ));
+    console.warn('[Thai lunar recheck] Exact day-offset counts: ' + JSON.stringify(
+      Object.fromEntries([...offsetCounts.entries()].sort((a, b) => {
+        if (a[0] === 'missing-date-on-one-side') return 1;
+        if (b[0] === 'missing-date-on-one-side') return -1;
+        return Number(a[0]) - Number(b[0]);
+      }))
+    ));
     console.warn('[Thai lunar recheck] First differences for manual review: ' + JSON.stringify(mismatches.slice(0, 20)));
   }
 
