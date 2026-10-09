@@ -728,14 +728,14 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   };
 
   const calendar = ketuCalendar;
-  const planets = Object.entries(arcs).map(([name, arc], index) => {
+  const planets = Object.entries(arcs).map(([name, arc]) => {
     const motion = includeMotion ? motionFor(name, date, time, longitude) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
     return {
       id:name, name, longitude:arc/60, arcMinutes:arc,
       retrograde:motion.retrograde, motionState:motion.state,
       speedArcminPerDay:motion.speedArcminPerDay ?? null,
       meanSpeedArcminPerDay:motion.meanSpeedArcminPerDay ?? null,
-      idNumber:['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'][index]
+      idNumber:name
     };
   });
 
