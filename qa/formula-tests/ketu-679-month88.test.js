@@ -43,11 +43,11 @@ test('Ketu 679: 14 Dec 1991 uses the same calculated 2534 month 88 start', () =>
   assert.deepEqual(pos, { sign: 3, degree: 26, minute: 6 });
 });
 
-test('Ketu 679: month 88 anchor is not hard-coded to 1991', () => {
+test('Ketu 679: normal BE 2533 does not use an unverified month 8/8 anchor', () => {
   const { debug } = getKetu('1990-10-14');
-  assert.equal(debug.referenceDate, '1990-06-24');
-  assert.equal(debug.month88BeYear, 2533);
-  assert.equal(debug.daysFromMonth88Start, 112);
+  assert.equal(debug.referenceDate, null);
+  assert.equal(debug.mode, 'original-679');
+  assert.equal(debug.daysFromMonth88Start, null);
 });
 
 
