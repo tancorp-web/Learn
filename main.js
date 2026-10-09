@@ -25,28 +25,28 @@ function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'
 function wheelAngleDeg(longitude){return -(longitude-15)-90}
 function renderWheel(natal,transit){
  const el=$('wheel');if(!el)return;
- const c=300,rad=245,inner=72;
+ const c=360,rad=292,inner=88;
  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
  const xy=(lon,r)=>{const a=wheelAngleDeg(lon)*Math.PI/180;return{x:c+r*Math.cos(a),y:c+r*Math.sin(a)}};
- let svg='<svg viewBox="0 0 600 600" role="img" aria-label="วงกลมจักรราศี แสดงลัคนาเกิด ลัคนาจร และภพ 12 ภพ" style="width:100%;max-width:680px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
+ let svg='<svg viewBox="0 0 720 720" role="img" aria-label="วงกลมจักรราศี แสดงลัคนาเกิด ลัคนาจร และภพ 12 ภพ" style="width:100%;max-width:820px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
- svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="18" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text><text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="9" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
+ svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="22" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text><text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="12" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
  for(let i=0;i<12;i++){
   const angle=wheelAngleDeg(i*30)*Math.PI/180,x1=c+inner*Math.cos(angle),y1=c+inner*Math.sin(angle),x2=c+rad*Math.cos(angle),y2=c+rad*Math.sin(angle);
   svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
   const p=xy(i*30+15,rad+30);
-  svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?16:13)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★บน':'')+'</text>';
+  svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?20:17)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★บน':'')+'</text>';
  }
  // House labels follow the natal ascendant; zodiac sign divisions remain unchanged.
  for(let h=0;h<12;h++){
   const p1=xy(natal.asc+h*30,inner+3),p2=xy(natal.asc+h*30,rad-2);
-  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="#64748b" stroke-width="'+(h===0?2.4:1)+'" stroke-dasharray="'+(h===0?'':'4 4')+'" opacity=".72"/>';
+  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="#64748b" stroke-width="'+(h===0?3.2:1.6)+'" stroke-dasharray="'+(h===0?'':'4 4')+'" opacity=".72"/>';
   const q=xy(natal.asc+h*30+15,96);
-  svg+='<text x="'+q.x+'" y="'+(q.y-3)+'" text-anchor="middle" font-size="10" font-weight="900" fill="#26364f">'+(h+1)+'</text><text x="'+q.x+'" y="'+(q.y+9)+'" text-anchor="middle" font-size="8.5" font-weight="700" fill="#475569">'+houseNames[h]+'</text>';
+  svg+='<text x="'+q.x+'" y="'+(q.y-3)+'" text-anchor="middle" font-size="13" font-weight="900" fill="#26364f">'+(h+1)+'</text><text x="'+q.x+'" y="'+(q.y+9)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">'+houseNames[h]+'</text>';
  }
  function ascMark(lon,label,color,offset){
   const p1=xy(lon,inner+2),p2=xy(lon,rad-1),tag=xy(lon,rad+offset);
-  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+color+'" stroke-width="3"/><circle cx="'+p2.x+'" cy="'+p2.y+'" r="4" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><rect x="'+(tag.x-35)+'" y="'+(tag.y-10)+'" width="70" height="20" rx="8" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><text x="'+tag.x+'" y="'+(tag.y+4)+'" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">'+label+'</text>';
+  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+color+'" stroke-width="4.5"/><circle cx="'+p2.x+'" cy="'+p2.y+'" r="4" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><rect x="'+(tag.x-35)+'" y="'+(tag.y-10)+'" width="70" height="20" rx="8" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><text x="'+tag.x+'" y="'+(tag.y+4)+'" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">'+label+'</text>';
  }
  ascMark(natal.asc,'@เกิด','#dc2626',-16);
  if(transit)ascMark(transit.asc,'@จร','#07834b',18);
