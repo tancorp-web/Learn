@@ -1,5 +1,8 @@
 /**
- * Thai lunar leap-month reference data for HORA Ketu calculations.
+ * BACKUP / REGRESSION REFERENCE ONLY — NOT A CALCULATION ENGINE.
+ * Purpose: compare HORA's own internally calculated month-8/8 start against
+ * a saved reference, so the application can be rechecked without relying on
+ * a live external website. Do not replace HORA's formula with this dataset.
  *
  * Coverage: BE 2434–2634 inclusive (201 years), centered on BE 2534.
  * All dates are stored locally; HORA does not need a network connection to read them.
@@ -30,6 +33,7 @@
 
 export const THAI_LUNAR_LEAP_MONTH_REFERENCE = {
   version: '2.0.0-local-201-year-reference',
+  role: 'backup-only-for-rechecking-hora-self-calculation',
   status: 'computed-range-with-partial-source-cross-check',
   calendar: 'Thai lunar calendar (ปฏิทินจันทรคติไทย)',
   timezone: 'Asia/Bangkok',
@@ -2028,6 +2032,27 @@ export function hasVerifiedMonth88Start(buddhistYear) {
 /** True when the local dataset has a calculated month 8/8 date, verified or not. */
 export function hasMonth88Start(buddhistYear) {
   return Boolean(getThaiLunarLeapMonthRecord(buddhistYear)?.month88?.startDate);
+}
+
+/**
+ * Compare a date produced by HORA's own formula with this saved backup.
+ * calculatedStartDate must be the formula result in YYYY-MM-DD format (or null).
+ * This helper only compares; it never calculates or changes the HORA result.
+ * Status UNVERIFIED means the saved row still needs independent source checking.
+ */
+export function compareCalculatedMonth88Start(buddhistYear, calculatedStartDate) {
+  const record = getThaiLunarLeapMonthRecord(buddhistYear);
+  if (!record) return { status: 'OUT_OF_RANGE', expected: null, calculated: calculatedStartDate ?? null };
+  const expected = record.month88?.startDate ?? null;
+  if (record.validationStatus !== 'calendar-source-checked') {
+    return { status: 'UNVERIFIED', expected, calculated: calculatedStartDate ?? null };
+  }
+  const calculated = calculatedStartDate ?? null;
+  return {
+    status: expected === calculated ? 'PASS' : 'FAIL',
+    expected,
+    calculated,
+  };
 }
 
 export default THAI_LUNAR_LEAP_MONTH_REFERENCE;
