@@ -48,3 +48,28 @@ test('Ketu 679: month 88 anchor is not hard-coded to 1991', () => {
   assert.equal(debug.month88BeYear, 2533);
   assert.equal(debug.daysFromMonth88Start, 112);
 });
+
+
+test('Ketu 679: the month 8/8 anchor date starts at 198°16′30″', () => {
+  const { planet, debug } = getKetu('1991-07-12');
+  assert.equal(debug.mode, 'month88-679');
+  assert.equal(debug.daysFromMonth88Start, 0);
+  assert.equal(debug.referenceDate, '1991-07-12');
+  assert.ok(Math.abs(planet.arcMinutes - (198 * 60 + 16.5)) < 1e-9);
+});
+
+test('Ketu 679: a birth one day before month 8/8 keeps the original formula', () => {
+  const { debug } = getKetu('1991-07-11');
+  assert.equal(debug.mode, 'original-679');
+  assert.equal(debug.referenceDate, null);
+  assert.equal(debug.daysFromMonth88Start, null);
+  assert.equal(debug.calendarCorrectionDays, 0);
+});
+
+test('Ketu 679: a normal year does not inherit a previous month 8/8 anchor', () => {
+  const { debug } = getKetu('1992-10-14');
+  assert.equal(debug.isAdhikamas, false);
+  assert.equal(debug.mode, 'original-679');
+  assert.equal(debug.referenceDate, null);
+  assert.equal(debug.daysFromMonth88Start, null);
+});
