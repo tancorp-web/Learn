@@ -652,10 +652,15 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   }
 
   const upperIndex = khan - 1;
+  // Delta index follows the interval endpoint: khan 1 interpolates
+  // from 77' toward 148' (delta 71'), khan 2 from 148' toward 209'
+  // (delta 61'), ... khan 5 from 286' toward 296' (delta 10').
+  // The previous upperIndex used the preceding interval's delta and
+  // over-corrected the Chandra shadow within each segment.
   const moonCorrectionMagnitude = khan === 0
     ? Math.floor(CHANDRA_SHADOW_UPPER[0] * bhujLipda / 900)
     : CHANDRA_SHADOW_UPPER[upperIndex]
-      + Math.floor(CHANDRA_SHADOW_DELTA[upperIndex] * bhujLipda / 900);
+      + Math.floor(CHANDRA_SHADOW_DELTA[upperIndex + 1] * bhujLipda / 900);
   const moonCorrectionSign = uccavisesRasi <= 5 ? -1 : 1;
   const moonCorrection = moonCorrectionMagnitude * moonCorrectionSign;
   const moon = MOD(meanMoon + moonCorrection, 21600);
@@ -735,7 +740,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.8.2-MOON-BIRTH-UCCABALA-KETU-679',
+      engineVersion: 'v8.8.3-MOON-SHADOW-INTERVAL-KETU-679',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
