@@ -26,23 +26,25 @@ function wheelAngleDeg(longitude){return -(longitude-15)-90}
 function renderWheel(natal,transit){
  const el=$('wheel');if(!el)return;
  const c=360,rad=292,inner=88;
- // Keep the zodiac wheel fixed; place house labels and ascendant markers by their true longitudes.
- 
+ // The zodiac wheel remains fixed; house names follow the natal ascendant's whole-sign sector.
  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
  const xy=(lon,r)=>{const a=wheelAngleDeg(lon)*Math.PI/180;return{x:c+r*Math.cos(a),y:c+r*Math.sin(a)}};
- let svg='<svg viewBox="0 0 720 720" role="img" aria-label="วงกลมจักรราศี แสดงลัคนาเกิด ลัคนาจร และภพ 12 ภพ" style="width:100%;max-width:820px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
+ let svg='<svg viewBox="-20 -20 760 760" role="img" aria-label="วงกลมจักรราศี ภพอยู่ด้านใน ดาวกำเนิดอยู่ในวงกลาง และดาวจรอยู่นอกวงกลม" style="width:100%;max-width:820px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
  svg+='<text x="'+c+'" y="'+(c-6)+'" text-anchor="middle" font-size="22" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text><text x="'+c+'" y="'+(c+14)+'" text-anchor="middle" font-size="12" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
  for(let i=0;i<12;i++){
   const angle=wheelAngleDeg(i*30)*Math.PI/180,x1=c+inner*Math.cos(angle),y1=c+inner*Math.sin(angle),x2=c+rad*Math.cos(angle),y2=c+rad*Math.sin(angle);
   svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
-  const p=xy(i*30+15,rad+30);
-  svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?20:17)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+''+'</text>';
+  // Zodiac labels sit just inside the fixed outer ring.
+  const p=xy(i*30+15,rad-23);
+  svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?20:17)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+'</text>';
  }
- // Keep all wheel and zodiac lines fixed. Rotate/reposition only house-label text from the natal ascendant.
+ // House labels have no numeric prefix. House 1 is placed in the fixed sign sector containing the ascendant;
+ // do not add 15 degrees to the exact ascendant longitude.
+ const ascSignIndex=Math.floor((((natal.asc%360)+360)%360)/30);
  for(let h=0;h<12;h++){
-  const q=xy(natal.asc+h*30,101);
-  svg+='<text x="'+q.x+'" y="'+(q.y-3)+'" text-anchor="middle" font-size="13" font-weight="900" fill="#26364f">'+(h+1)+'</text><text x="'+q.x+'" y="'+(q.y+9)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">'+houseNames[h]+'</text>';
+  const sector=((ascSignIndex+h)%12)*30+15,q=xy(sector,104);
+  svg+='<text x="'+q.x+'" y="'+(q.y+4)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#26364f">'+houseNames[h]+'</text>';
  }
  function ascMark(lon,label,color,offset){
   const p1=xy(lon,inner+2),p2=xy(lon,rad-1),tag=xy(lon,rad+offset);
@@ -50,16 +52,40 @@ function renderWheel(natal,transit){
  }
  ascMark(natal.asc,'@เกิด','#dc2626',-16);
  if(transit)ascMark(transit.asc,'@จร','#07834b',18);
+ const placed=[];
  function draw(list,isTransit){
   if(!list?.planets)return;
-  const lanes=isTransit?[207,222,237]:[112,130,148,166,184];
-  list.planets.slice().sort((a,b)=>a.longitude-b.longitude).forEach((p,j)=>{
-   const q=xy(p.longitude,lanes[j%lanes.length]),color=isTransit?'#07834b':'#7250bd';
-   svg+='<g><circle cx="'+q.x+'" cy="'+q.y+'" r="13" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="'+q.x+'" y="'+(q.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>';
+  const lanes=isTransit?[310,331,352]:[119,143,167,191,215];
+  const color=isTransit?'#07834b':'#7250bd';
+  list.planets.slice().sort((a,b)=>a.longitude-b.longitude).forEach(p=>{
+   const baseAngle=wheelAngleDeg(p.longitude);
+   let chosen=null;
+   // Keep the longitude as close as possible to its true position while separating nearby labels.
+   for(const lane of lanes){
+    for(let step=0;step<=18&&!chosen;step++){
+     const offsets=step===0?[0]:[step*2,-step*2];
+     for(const offset of offsets){
+      const q=xy(p.longitude+offset,lane);
+      if(placed.every(v=>Math.hypot(v.x-q.x,v.y-q.y)>=29)){chosen={...q,lane,offset};break}
+     }
+    }
+    if(chosen)break;
+   }
+   if(!chosen){
+    // Dense clusters use a final outer/inner lane with a small angular spread.
+    const lane=lanes[placed.length%lanes.length],offset=((placed.length%7)-3)*5;
+    chosen={...xy(p.longitude+offset,lane),lane,offset};
+   }
+   placed.push(chosen);
+   const truePoint=xy(p.longitude,isTransit?rad+2:chosen.lane);
+   if(Math.abs(chosen.offset)>0){
+    svg+='<line x1="'+truePoint.x+'" y1="'+truePoint.y+'" x2="'+chosen.x+'" y2="'+chosen.y+'" stroke="'+color+'" stroke-opacity=".45" stroke-width="1"/>';
+   }
+   svg+='<g><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>';
   });
  }
  draw(natal,false);if(transit)draw(transit,true);
- svg+='</svg><div style="display:flex;gap:8px 14px;flex-wrap:wrap;justify-content:center;padding:8px 4px 0;font-size:12px;color:#334155"><span style="color:#dc2626;font-weight:800">━ @ ลัคนาเกิด</span><span style="color:#07834b;font-weight:800">━ @ ลัคนาจร</span><span style="color:#7250bd;font-weight:800">● ดาวกำเนิด</span><span style="color:#07834b;font-weight:800">● ดาวจร</span><span>เลขและชื่อภพ 1–12 เริ่มจากลัคนาเกิด</span></div>';
+ svg+='</svg><div style="display:flex;gap:8px 14px;flex-wrap:wrap;justify-content:center;padding:8px 4px 0;font-size:12px;color:#334155"><span style="color:#dc2626;font-weight:800">━ @ ลัคนาเกิด</span><span style="color:#07834b;font-weight:800">━ @ ลัคนาจร</span><span style="color:#7250bd;font-weight:800">● ดาวกำเนิด (วงกลาง)</span><span style="color:#07834b;font-weight:800">● ดาวจร (นอกวงกลม)</span><span>ชื่อภพอยู่ด้านใน เริ่มจากราศีลัคนาเกิด</span></div>';
  el.innerHTML=svg;
 }
 function renderQA(natal){
