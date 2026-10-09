@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  calculateLegacyMonth88StartForRecheck,
   calculateMonth88StartForRecheck
 } from '../../js/astronomy/suriyayatra-engine.js';
 import {
@@ -44,6 +45,22 @@ function utcDayDifference(calculated, expected) {
   };
   return Math.round((toUtc(calculated) - toUtc(expected)) / 86400000);
 }
+
+test('classical calendar engine preserves the verified month 8/8 anchors', () => {
+  assert.equal(calculateMonth88StartForRecheck(2534), '1991-07-12');
+  assert.equal(calculateMonth88StartForRecheck(2533), '1990-06-24');
+});
+
+test('report the old tithi-boundary formula separately for diagnosis', () => {
+  const differences = [];
+  for (const beYear of years) {
+    const current = calculateMonth88StartForRecheck(beYear);
+    const legacy = calculateLegacyMonth88StartForRecheck(beYear);
+    if (current !== legacy) differences.push({ beYear, classical: current, legacy });
+  }
+  console.log('[Thai lunar recheck] classical-vs-legacy-tithi differences=' + differences.length);
+  console.log('[Thai lunar recheck] first classical-vs-legacy differences=' + JSON.stringify(differences.slice(0, 15)));
+});
 
 test('compare HORA formula with all 201 backup rows and report unverified discrepancies', () => {
   const mismatches = [];
