@@ -94,8 +94,60 @@ export const THAKSA_NAMING_REFERENCE = Object.freeze({
   letterMappingsStatus: 'not populated; requires source-specific verification',
 });
 
+/**
+ * Thaksa-char (ทักษาจร): age-based movement through the 9-cell chart.
+ * The cycle order below follows the cited public explanation; verify against
+ * the project's chosen Thai manual before using it to produce predictions.
+ * Count from the birth-day planet as cell 1, pass through center 9 as cell 2,
+ * then continue around the outer cells: 2, 3, 4, 7, 5, 8, 6, and repeat.
+ * The cell reached is used as บริวารจร; set up the eight Thaksa positions
+ * from that moving point according to the selected chart convention.
+ */
+export const THAKSA_CHAR_REFERENCE = Object.freeze({
+  name: 'ทักษาจร / เสวยทักษา',
+  countingPath: Object.freeze([1, 9, 2, 3, 4, 7, 5, 8, 6]),
+  firstCell: 'birth-weekday planet',
+  reachedCellRole: 'บริวารจร',
+  ruleStatus: 'reference-only; confirm exact age counting and boundary convention',
+  sourceUrls: Object.freeze([
+    'https://vibhishana.com/library/thaksa-chorn',
+  ]),
+});
+
+/**
+ * Mahathaksa / planetary age periods (มหาทักษาเสวยอายุ).
+ * This is distinct from the 8-position Thaksa chart and from Thaksa-char.
+ * Each major planet occupies a period equal to its traditionalกำลัง; the
+ * periods sum to 108 years. The inner/intervening planet is calculated as
+ * major-period-years × sub-period-planet-years / 108.
+ */
+export const MAHA_THakSA_PLANETS = Object.freeze([
+  { planet: 'อาทิตย์', number: 1, years: 6, weekday: 'อาทิตย์' },
+  { planet: 'จันทร์', number: 2, years: 15, weekday: 'จันทร์' },
+  { planet: 'อังคาร', number: 3, years: 8, weekday: 'อังคาร' },
+  { planet: 'พุธ', number: 4, years: 17, weekday: 'พุธกลางวัน' },
+  { planet: 'เสาร์', number: 7, years: 10, weekday: 'เสาร์' },
+  { planet: 'พฤหัสบดี', number: 5, years: 19, weekday: 'พฤหัสบดี' },
+  { planet: 'ราหู', number: 8, years: 12, weekday: 'พุธกลางคืน' },
+  { planet: 'ศุกร์', number: 6, years: 21, weekday: 'ศุกร์' },
+]);
+
+export const MAHA_THakSA_REFERENCE = Object.freeze({
+  name: 'มหาทักษา / ดาวเสวยอายุและดาวแทรก',
+  cycleOrder: Object.freeze([1, 2, 3, 4, 7, 5, 8, 6]),
+  totalCycleYears: 108,
+  subPeriodFormula: '(majorPlanetYears * subPlanetYears) / 108',
+  ageBasis: 'completed age including years, months, and days; confirm exact manual',
+  startPlanetBasis: 'planet assigned to effective weekday; Wednesday night uses Rahu',
+  sourceUrls: Object.freeze([
+    'https://horasatthai.com/horasat/maha-taksa',
+    'https://www.astroneemo.net/articles.html',
+  ]),
+  implementationStatus: 'reference-only; not connected to runtime',
+});
+
 export const THAKSA_REFERENCE_METADATA = Object.freeze({
-  version: '1.0.0-reference-only',
+  version: '1.1.0-reference-only',
   runtimeIntegrated: false,
   mainJsImportRequired: false,
 });
