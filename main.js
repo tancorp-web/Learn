@@ -1,7 +1,7 @@
 
 import { THAI_PROVINCE_COORDS } from './js/data/thai-provinces.js?v=20261009-77provinces';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.8.1-moon-uccabala-daycount';
-import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.0';
+import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
