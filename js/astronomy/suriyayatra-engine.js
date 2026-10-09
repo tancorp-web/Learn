@@ -735,7 +735,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.8.1-MOON-UCCABALA-DAYCOUNT-KETU-679',
+      engineVersion: 'v8.8.2-MOON-BIRTH-UCCABALA-KETU-679',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
