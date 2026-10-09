@@ -25,9 +25,9 @@ export const THAKSA_POSITIONS = Object.freeze([
 ]);
 
 /**
- * Traditional 3×3 diagram often used to explain the eight directions and
- * the central Ketu position. 9 is the central position, not a ninth Thaksa
- * category; the eight named Thaksa positions remain the eight directions.
+ * Traditional 3×3 Thaksa diagram. The center is "ตากลาง": it is an empty
+ * central position, not a planet and not a ninth Thaksa category. In
+ * particular, do not place Ketu (เกตุ) in this center.
  */
 export const THAKSA_NINE_CELL_DIAGRAM = Object.freeze([
   Object.freeze([1, 2, 3]),
@@ -37,8 +37,10 @@ export const THAKSA_NINE_CELL_DIAGRAM = Object.freeze([
 
 export const THAKSA_CENTER = Object.freeze({
   cell: 9,
-  planet: 'เกตุ',
+  planet: null,
   label: 'ตากลาง',
+  meaning: 'ตำแหน่งกลางของผัง ไม่มีดาวประจำตำแหน่ง',
+  hasPlanet: false,
   isOneOfEightThaksaPositions: false,
 });
 
@@ -65,17 +67,15 @@ export const THAKSA_BIRTH_DAY_CUTOFF = Object.freeze({
 /**
  * Age-yang / taklang notes:
  * - Determine the effective weekday first using THAKSA_BIRTH_DAY_CUTOFF.
- * - The traditional age-yang count is described in some manuals as moving
- *   clockwise through the Thaksa chart, with the central cell (9/Ketu)
- *   passed through between 1/Sun and 2/Moon.
- * - Some manuals specify Jupiter (5) as the moving "บริวาร" when the count
- *   lands exactly on the central cell. Do not implement this as universal
- *   until the selected manual/source is recorded and cross-checked.
+ * - The center cell is ตากลาง and has no planet assigned. Do not treat it
+ *   as Ketu and do not invent a planet when the count lands there.
+ * - The interpretation/action when the count lands on ตากลาง must follow
+ *   the user's selected Thai manual; no substitute planet is assumed here.
  */
 export const AGE_YANG_REFERENCE = Object.freeze({
   countDirection: 'clockwise',
-  centralCellInterposedBetween: Object.freeze([1, 2]),
-  exactCenterRule: 'source-specific; some manuals assign Jupiter (5) as บริวารจร',
+  centralCell: 9,
+  exactCenterRule: 'ตากลาง has no planet; interpretation follows the selected manual',
   implementationStatus: 'reference-only; not connected to runtime',
 });
 
@@ -98,17 +98,19 @@ export const THAKSA_NAMING_REFERENCE = Object.freeze({
  * Thaksa-char (ทักษาจร): age-based movement through the 9-cell chart.
  * The cycle order below follows the cited public explanation; verify against
  * the project's chosen Thai manual before using it to produce predictions.
- * Count from the birth-day planet as cell 1, pass through center 9 as cell 2,
- * then continue around the outer cells: 2, 3, 4, 7, 5, 8, 6, and repeat.
- * The cell reached is used as บริวารจร; set up the eight Thaksa positions
- * from that moving point according to the selected chart convention.
+ * The center (9) is a position marker only: it has no planet, including no
+ * Ketu. If the count lands on this cell, it is recorded as ตากลาง. Any
+ * further handling of that result must follow the selected Thai manual.
  */
 export const THAKSA_CHAR_REFERENCE = Object.freeze({
   name: 'ทักษาจร / เสวยทักษา',
   countingPath: Object.freeze([1, 9, 2, 3, 4, 7, 5, 8, 6]),
+  centerCell: 9,
+  centerLabel: 'ตากลาง',
+  centerHasPlanet: false,
   firstCell: 'birth-weekday planet',
-  reachedCellRole: 'บริวารจร',
-  ruleStatus: 'reference-only; confirm exact age counting and boundary convention',
+  reachedCellRole: 'record the reached position; center remains ตากลาง',
+  ruleStatus: 'reference-only; confirm exact age counting and center handling from selected manual',
   sourceUrls: Object.freeze([
     'https://vibhishana.com/library/thaksa-chorn',
   ]),
@@ -147,7 +149,7 @@ export const MAHA_THakSA_REFERENCE = Object.freeze({
 });
 
 export const THAKSA_REFERENCE_METADATA = Object.freeze({
-  version: '1.1.0-reference-only',
+  version: '1.2.0-reference-only',
   runtimeIntegrated: false,
   mainJsImportRequired: false,
 });
