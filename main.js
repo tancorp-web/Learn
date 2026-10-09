@@ -1,6 +1,6 @@
 
 import { THAI_PROVINCE_COORDS } from './js/data/thai-provinces.js?v=20261009-77provinces';
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.8.5-moon-shadow-interval';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.8.6-moon-daycount-interval';
 import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 
 const $=id=>document.getElementById(id);
