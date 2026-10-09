@@ -609,8 +609,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     return MOD(rasi * 1800 + degree * 60 + minute, 21600);
   }
 
+  // Suratin birth counts days AFTER the Thaloeng Sok day, so the
+  // Thaloeng-day Uccabala must include that starting day (+1).
+  // Without +1, Madhyam Uccabala is one full day behind and the true Moon
+  // can miss the Golden reference by about 20 arcminutes.
   const meanUccabala = madhyamUccFromUccabala(
-    MOD(uccabalaThaloeng + suratinBirth, 3232)
+    MOD(uccabalaThaloeng + suratinBirth + 1, 3232)
   );
 
   // Uccavises is explicitly Madhyam Moon - Madhyam Ucc.
@@ -733,7 +737,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.8.0-MOON-LOCAL-MEAN-TIME-KETU-679',
+      engineVersion: 'v8.8.1-MOON-UCCABALA-DAYCOUNT-KETU-679',
       calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
