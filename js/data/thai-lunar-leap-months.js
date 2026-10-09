@@ -17,7 +17,9 @@
  * - This file contains the computed results; it does not import or call that project.
  * - Algorithm-calculated rows are NOT claimed to be independently cross-checked
  *   against an official calendar for every year. See validationStatus per year.
- * - BE 2484 was cross-checked as ปกติมาส (no month 8/8).
+ * - BE 2484 and BE 2533 were cross-checked as years without month 8/8.
+ * - BE 2533 (1990) is listed as ปกติมาส / อธิกวาร by ThaiORC and its June 1990
+ *   calendar shows regular month 8, not month 8/8: https://www.thaiorc.com/horoscope/calendar/thaicalendar.php?y=2533
  * - BE 2534 was cross-checked against MyHora; month 8/8 begins on 1991-07-12.
  * - Do not infer leap-month years using a fixed 2–3 year cycle.
  *
@@ -1003,7 +1005,7 @@ export const THAI_LUNAR_LEAP_MONTH_REFERENCE = {
     "buddhistEra": 2533,
     "gregorianYear": 1990,
     "yearType": "ปกติมาส",
-    "validationStatus": "algorithm-calculated-needs-source-cross-check",
+    "validationStatus": "calendar-source-checked",
     "month88": null
   },
   "2534": {
