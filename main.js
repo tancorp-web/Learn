@@ -26,8 +26,8 @@ function wheelAngleDeg(longitude){return -(longitude-15)-90}
 function renderWheel(natal,transit){
  const el=$('wheel');if(!el)return;
  const c=360,rad=292,inner=88;
- // Rotate the entire zodiac wheel so the natal ascendant is the exact start of House 1 (ตนุ).
- const wheelAngleDeg=longitude=>-(longitude-natal.asc)-90;
+ // Keep the zodiac wheel fixed; place house labels and ascendant markers by their true longitudes.
+ 
  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
  const xy=(lon,r)=>{const a=wheelAngleDeg(lon)*Math.PI/180;return{x:c+r*Math.cos(a),y:c+r*Math.sin(a)}};
  let svg='<svg viewBox="0 0 720 720" role="img" aria-label="วงกลมจักรราศี แสดงลัคนาเกิด ลัคนาจร และภพ 12 ภพ" style="width:100%;max-width:820px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
