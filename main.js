@@ -26,6 +26,8 @@ function wheelAngleDeg(longitude){return -(longitude-15)-90}
 function renderWheel(natal,transit){
  const el=$('wheel');if(!el)return;
  const c=360,rad=292,inner=88;
+ // Rotate the entire zodiac wheel so the natal ascendant is the exact start of House 1 (ตนุ).
+ const wheelAngleDeg=longitude=>-(longitude-natal.asc)-90;
  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
  const xy=(lon,r)=>{const a=wheelAngleDeg(lon)*Math.PI/180;return{x:c+r*Math.cos(a),y:c+r*Math.sin(a)}};
  let svg='<svg viewBox="0 0 720 720" role="img" aria-label="วงกลมจักรราศี แสดงลัคนาเกิด ลัคนาจร และภพ 12 ภพ" style="width:100%;max-width:820px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
@@ -35,7 +37,7 @@ function renderWheel(natal,transit){
   const angle=wheelAngleDeg(i*30)*Math.PI/180,x1=c+inner*Math.cos(angle),y1=c+inner*Math.sin(angle),x2=c+rad*Math.cos(angle),y2=c+rad*Math.sin(angle);
   svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
   const p=xy(i*30+15,rad+30);
-  svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?20:17)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+(i===0?' ★บน':'')+'</text>';
+  svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?20:17)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+''+'</text>';
  }
  // House labels follow the natal ascendant; zodiac sign divisions remain unchanged.
  for(let h=0;h<12;h++){
