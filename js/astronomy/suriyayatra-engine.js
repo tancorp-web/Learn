@@ -658,8 +658,8 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Khan 5: 286' -> 296' (10'). The base is the LOWER endpoint.
   const moonCorrectionMagnitude = khan === 0
     ? Math.floor(CHANDRA_SHADOW_UPPER[0] * bhujLipda / 900)
-    : CHANDRA_SHADOW_UPPER[upperIndex - 1]
-      + Math.floor(CHANDRA_SHADOW_DELTA[upperIndex] * bhujLipda / 900);
+    : CHANDRA_SHADOW_UPPER[upperIndex]
+      + Math.floor(CHANDRA_SHADOW_DELTA[upperIndex + 1] * bhujLipda / 900);
   const moonCorrectionSign = uccavisesRasi <= 5 ? -1 : 1;
   const moonCorrection = moonCorrectionMagnitude * moonCorrectionSign;
   const moon = MOD(meanMoon + moonCorrection, 21600);
