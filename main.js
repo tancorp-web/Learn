@@ -39,11 +39,14 @@ function renderWheel(natal,transit){
   const p=xy(i*30+15,rad-23);
   svg+='<text x="'+p.x+'" y="'+(p.y+4)+'" text-anchor="middle" font-size="'+(i===0?20:17)+'" fill="'+(i===0?'#dc2626':'#92400e')+'" font-weight="800">'+signs[i]+'</text>';
  }
- // House labels have no numeric prefix. House 1 is placed in the fixed sign sector containing the ascendant;
- // do not add 15 degrees to the exact ascendant longitude.
+ // House labels have no numeric prefix. Anchor house 1 to the zodiac sign occupied by the natal ascendant.
+ // The wheel stays fixed; use the sign index only, never natal.asc + 15.
  const ascSignIndex=Math.floor((((natal.asc%360)+360)%360)/30);
  for(let h=0;h<12;h++){
-  const sector=((ascSignIndex+h)%12)*30+15,q=xy(sector,104);
+  const signIndex=(ascSignIndex+h)%12;
+  const sectorStart=signIndex*30;
+  const sectorMid=sectorStart+15;
+  const q=xy(sectorMid,104);
   svg+='<text x="'+q.x+'" y="'+(q.y+4)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#26364f">'+houseNames[h]+'</text>';
  }
  function ascMark(lon,label,color,offset){
