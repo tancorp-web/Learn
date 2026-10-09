@@ -46,9 +46,9 @@ function utcDayDifference(calculated, expected) {
   return Math.round((toUtc(calculated) - toUtc(expected)) / 86400000);
 }
 
-test('classical calendar engine preserves the verified month 8/8 anchors', () => {
+test('classical calendar engine preserves source-checked month 8/8 classifications', () => {
   assert.equal(calculateMonth88StartForRecheck(2534), '1991-07-12');
-  assert.equal(calculateMonth88StartForRecheck(2533), '1990-06-24');
+  assert.equal(calculateMonth88StartForRecheck(2533), null);
 });
 
 test('report the old tithi-boundary formula separately for diagnosis', () => {
@@ -144,6 +144,15 @@ test('independently source-checked anchors agree with HORA formula', () => {
     status: 'PASS', expected: null, calculated: null
   });
 
+  const normal2533 = getThaiLunarLeapMonthRecord(2533);
+  assert.equal(normal2533.validationStatus, 'calendar-source-checked');
+  assert.equal(normal2533.yearType, 'ปกติมาส');
+  assert.equal(normal2533.month88, null);
+  assert.equal(calculateMonth88StartForRecheck(2533), null);
+  assert.deepEqual(compareCalculatedMonth88Start(2533, null), {
+    status: 'PASS', expected: null, calculated: null
+  });
+
   assert.equal(hasVerifiedMonth88Start(2534), true);
   assert.equal(calculateMonth88StartForRecheck(2534), '1991-07-12');
   assert.deepEqual(compareCalculatedMonth88Start(2534, '1991-07-12'), {
@@ -152,11 +161,7 @@ test('independently source-checked anchors agree with HORA formula', () => {
 });
 
 test('reference helper does not label unchecked years as verified', () => {
-  assert.deepEqual(compareCalculatedMonth88Start(2533, '1990-06-24'), {
-    status: 'UNVERIFIED',
-    expected: reference.records['2533'].month88?.startDate ?? null,
-    calculated: '1990-06-24'
-  });
+  assert.deepEqual(compareCalculatedMonth88Start(2532, null).status, 'UNVERIFIED');
   assert.equal(compareCalculatedMonth88Start(2200, null).status, 'OUT_OF_RANGE');
   assert.throws(() => calculateMonth88StartForRecheck('2534'), TypeError);
 });
