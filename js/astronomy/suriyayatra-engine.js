@@ -1,3 +1,5 @@
+import { calculateClassicalMonth88Start } from './thai-lunar-calendar-engine.js';
+
 // HORA — Classical Thai Suriyayatra engine.
 // This implementation follows the integer arithmetic / interpolation sequence
 // used by the classical Suriyayatra model: Horakhun -> solar/lunar mean
@@ -29,7 +31,7 @@ function utcCivilDayDifference(dateA, dateB) {
   return Math.round((Date.UTC(ay,am-1,ad) - Date.UTC(by,bm-1,bd)) / 86400000);
 }
 
-function findMonth88StartForBeYear(beYear) {
+function findMonth88StartByLegacyTithiFormula(beYear) {
   const chulaSakarat = beYear - 1181;
   const thaloeng = thaloengSokReference(chulaSakarat);
   const avamanThaloengSok = MOD(thaloeng.horakhun * 11 + 650, 692);
@@ -93,6 +95,20 @@ function findMonth88StartForBeYear(beYear) {
   throw new Error('MONTH88_CIVIL_DATE_NOT_FOUND');
 }
 
+
+function findMonth88StartForBeYear(beYear) {
+  const date = calculateClassicalMonth88Start(beYear);
+  if (!date) return null;
+  const [year, month, day] = date.split('-').map(Number);
+  return {
+    date,
+    beYear,
+    chulaSakarat: beYear - 1181,
+    horakhun: civilJulianDay(year, month, day) - 1954167,
+    isAdhikamas: true
+  };
+}
+
 /**
  * QA-only public seam: expose HORA's own month-8/8 date calculation so
  * regression tests can compare it with the separate backup dataset.
@@ -103,6 +119,14 @@ export function calculateMonth88StartForRecheck(beYear) {
     throw new TypeError('beYear must be an integer Buddhist Era year');
   }
   return findMonth88StartForBeYear(beYear)?.date ?? null;
+}
+
+/** QA-only diagnostic: expose the previous tithi-boundary candidate. */
+export function calculateLegacyMonth88StartForRecheck(beYear) {
+  if (!Number.isInteger(beYear)) {
+    throw new TypeError('beYear must be an integer Buddhist Era year');
+  }
+  return findMonth88StartByLegacyTithiFormula(beYear)?.date ?? null;
 }
 
 function latestMonth88StartOnOrBefore(date, beYear) {
