@@ -1,10 +1,13 @@
-// HORA — Classical Thai Suriyayatra ascendant.
-// Reference implementation: the same "anto-birth-sun" arithmetic used by the
-// classical Suriyayatra engine. No Golden-case offsets and no geometric LST.
+// HORA — Classical Thai Suriyayatra ascendant (Golden-checked formula).
+// Keep the confirmed convention: 06:00 reference (subtract 360 minutes),
+// then SUBTRACT the province local-meridian correction. Do not reverse this
+// sign merely to force a Golden match; two Golden cases support the current
+// direction, with only about 1–2 arcminutes remaining to investigate.
 //
-// SIGN_DURATIONS are the published ordinary rising-duration units. They sum
-// to 1440 minutes and are used directly; do not substitute equal 120-minute
-// signs or a tropical/geometric ascendant.
+// Reference implementation: "anto-birth-sun" arithmetic, not geometric LST.
+// SIGN_DURATIONS are the ordinary rising-duration units and sum to 1440
+// minutes. Preserve full precision through the conversion; round only for
+// display. Do not substitute equal 120-minute signs or tropical geometry.
 
 const MOD = (v,d) => {
   const r = v % d;
