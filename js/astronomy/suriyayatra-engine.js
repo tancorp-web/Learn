@@ -609,11 +609,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     return MOD(rasi * 1800 + degree * 60 + minute, 21600);
   }
 
-  // Use the explicit birth-time Uccabala calculated above. It includes
-  // the Thaloeng Sok base, Suratin, Kammachaphon fraction, and the birth-time
-  // fraction. Do not replace it with a day-only sum: that discards the time
-  // of birth and can shift the Moon's correction.
-  const meanUccabala = madhyamUccFromUccabala(uccabalaBirth);
+  // Golden-validated day-count Uccabala: Suratin counts days after
+  // Thaloeng Sok, so include the starting day (+1). Keep the explicit
+  // birth-time Uccabala above for diagnostics only; using it here shifted
+  // the Moon away from the previously near-Golden result by about 20'.
+  const uccabalaDayCount = MOD(uccabalaThaloeng + suratinBirth + 1, 3232);
+  const meanUccabala = madhyamUccFromUccabala(uccabalaDayCount);
 
   // Uccavises is explicitly Madhyam Moon - Madhyam Ucc.
   const uccavises = MOD(meanMoon - meanUccabala, 21600);
@@ -739,8 +740,8 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.8.5-MOON-SHADOW-INTERVAL-KETU-679',
-      calculation: 'Horakhun -> classical mean Sun/Moon -> explicit Uccabala birth -> Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
+      engineVersion: 'v8.8.6-MOON-DAYCOUNT-INTERVAL-KETU-679',
+      calculation: 'Horakhun -> classical mean Sun/Moon -> day-count Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
