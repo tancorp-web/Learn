@@ -588,7 +588,9 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     3232
   );
   const kammachRemainder = MOD(cs * 292207 + 373, 800);
-  const kammachFraction = kammachRemainder / 800;
+  // The classical birth-Uccabala step uses the complementary Kammach remainder
+  // (the same 800-complement used by Kammachaphon), not the raw year remainder.
+  const kammachFraction = attaKammachaphon / 800;
   const birthTimeFraction = moonCalculationTimeMinutes / 1440;
   const uccabalaFromThaloeng = MOD(
     (thaloeng.horakhun - 1) + kammachFraction - 621,
@@ -613,12 +615,12 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     return MOD(rasi * 1800 + degree * 60 + minute, 21600);
   }
 
-  // Golden-validated day-count Uccabala: Suratin counts days after
-  // Thaloeng Sok, so include the starting day (+1). Keep the explicit
-  // birth-time Uccabala above for diagnostics only; using it here shifted
-  // the Moon away from the previously near-Golden result by about 20'.
+  // Use birth Uccabala as specified by the classical calculation sequence:
+  // (Suratin - 1) + Kammachaphon fraction + birth-time fraction
+  // + Uccabala-from-Thaloeng, then floor and add 1.
+  // Keep day-count Uccabala as a diagnostic only; it is not the active value.
   const uccabalaDayCount = MOD(uccabalaThaloeng + suratinBirth + 1, 3232);
-  const meanUccabala = madhyamUccFromUccabala(uccabalaDayCount);
+  const meanUccabala = madhyamUccFromUccabala(uccabalaBirth);
 
   // Uccavises is explicitly Madhyam Moon - Madhyam Ucc.
   const uccavises = MOD(meanMoon - meanUccabala, 21600);
@@ -744,7 +746,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.8.7-MOON-INTRADAY-TITHI-KETU-679',
+      engineVersion: 'v8.9.2-MOON-BIRTH-UCCABALA',
       calculation: 'Horakhun -> classical mean Sun/Moon -> day-count Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
