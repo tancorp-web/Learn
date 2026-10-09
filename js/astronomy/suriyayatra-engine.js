@@ -565,7 +565,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     21600
   );
   const meanMoon = MOD(
-    moonMeanSun + (avamanPrasong + avamanWhole) + tithiArcMinutes - 40,
+    moonMeanSun + avamanArcMinutes + tithiArcMinutes - 40,
     21600
   );
   // Classical true Moon correction (Suriyayatra / Manat).
