@@ -55,7 +55,7 @@ function renderWheel(natal,transit){
  const placed=[];
  function draw(list,isTransit){
   if(!list?.planets)return;
-  const lanes=isTransit?[310,331,352]:[119,143,167,191,215];
+  const lanes=isTransit?[310,331,352]:[145,166,187,208,229];
   const color=isTransit?'#07834b':'#7250bd';
   list.planets.slice().sort((a,b)=>a.longitude-b.longitude).forEach(p=>{
    const baseAngle=wheelAngleDeg(p.longitude);
