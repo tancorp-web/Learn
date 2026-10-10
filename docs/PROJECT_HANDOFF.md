@@ -173,3 +173,11 @@ Updated: 2026-10-10
 - The JSON rule set is DISCOVERY only. Its mappings require validation and golden tests before production use.
 - House placement must come from each user's computed chart; it must never be inferred from sign or copied from another chart.
 - No UI or planetary calculation formulas changed. Next: confirm the governing standard, add rule IDs and test cases, then implement a separate lookup function.
+
+
+## Queryable astrology knowledge — 2026-10-10
+- Added `js/astrology/knowledge.js` as a standalone lookup layer. `classifyPlanetInSign` queries all matching rule records by planet, sign, and selected `system_id`; it returns rule IDs, category labels, and verification statuses without silently promoting discovery data.
+- Added `getNatalPlanetFacts` to join a planet's computed absolute longitude to its sign, degree/minute, and personal house using the existing `houseFromAsc` engine, then attach the dignity lookup. House remains a chart-specific fact, not a property copied from the rule table.
+- Added `qa/formula-tests/astrology-knowledge.test.js` for Mars-in-Aries lookup, per-chart house join, missing mappings, and exclusion of unverified rules.
+- Canonical registry remains `data/astrology/planetary_dignities.json`; a temporary duplicate registry was removed. Its status remains `DISCOVERY` and it is not an approved default for automatic interpretation.
+- No edits to `index2.html`, `index3.html`, astronomy engines, or planetary formulas. Next: verify the GitHub Actions run; then expand tests and rule coverage before any UI integration.
