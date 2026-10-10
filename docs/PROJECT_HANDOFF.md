@@ -166,3 +166,10 @@ Updated: 2026-10-10
 - Added `docs/THAI_ASTROLOGY_KNOWLEDGE_BASE.md` with a structured, paraphrased knowledge digest covering planets, signs/elements, houses, ascendant and related concepts, planetary dignity standards, relationships between planets, transits, calendar cautions, interpretation practice, and rule-status handling.
 - Removed the previously named-source document and anonymized its section in the standards appendix per user preference. Do not store the website name or source URL in project knowledge.
 - This is documentation/knowledge organization only. No calculation formulas or app UI changed; unverified rules remain non-executable until validated.
+
+## Rule data architecture - 2026-10-10
+- Added docs/ASTROLOGY_RULE_ENGINE_SCHEMA.md and data/astrology/planetary_dignities.json.
+- Expanded docs/THAI_ASTROLOGY_KNOWLEDGE_BASE.md to separate chart facts, rule data, and interpretation.
+- The JSON rule set is DISCOVERY only. Its mappings require validation and golden tests before production use.
+- House placement must come from each user's computed chart; it must never be inferred from sign or copied from another chart.
+- No UI or planetary calculation formulas changed. Next: confirm the governing standard, add rule IDs and test cases, then implement a separate lookup function.
