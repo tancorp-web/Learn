@@ -460,8 +460,10 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 </script>
 
 
-<script>
-/* index3-only: attach each selected time to its actual ascendant ray/ring intersection. No calculation code is changed. */
+<script type="module">
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
+/* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
 (()=>{
  const wheel=document.getElementById('wheel');
  const C=360, RING=292;
@@ -476,6 +478,63 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   const node=document.createElementNS('http://www.w3.org/2000/svg',tag);
   Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));
   svg.appendChild(node);return node;
+ }
+ const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ let boundaryCacheKey='',boundaryCache=[];
+ let boundaryRun=0;
+ async function getBoundaryTimes(){
+  const dateDay=document.getElementById('fDay')?.value;
+  const dateMonth=document.getElementById('fMonth')?.value;
+  const dateYear=document.getElementById('fYear')?.value;
+  const hh=document.getElementById('fHour')?.value,mm=document.getElementById('fMinute')?.value;
+  const lon=Number(document.getElementById('fLon')?.value);
+  if(!dateDay||!dateMonth||!dateYear||hh==null||hh===''||mm==null||mm===''||!Number.isFinite(lon))return [];
+  const date=String(Number(dateYear)-543)+'-'+pad(Number(dateMonth))+'-'+pad(Number(dateDay));
+  const time=pad(Number(hh))+':'+pad(Number(mm));
+  const key=[date,time,lon].join('|');
+  if(key===boundaryCacheKey)return boundaryCache;
+  const engine=await calculateSuriyayatra({date,time,longitude:lon});
+  const sun=engine?.planets?.find(p=>p.name==='อาทิตย์');
+  if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ASC_BOUNDARY_SUN_INVALID');
+  const correction=Number(engine.metadata?.localTimeCorrectionMinutes);
+  const result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude:lon,localTimeCorrectionMinutes:correction});
+  boundaryCacheKey=key;boundaryCache=result;
+  console.log('[HORA][ASC 0 DEGREE TIMES]',{date,time,longitude:lon,sunLongitude:Number(sun.longitude),times:result});
+  return result;
+ }
+ async function renderBoundaryTimes(svg){
+  const runId=++boundaryRun;
+  const layerOld=svg.querySelector('#ascendantBoundaryTimes3');if(layerOld)layerOld.remove();
+  let boundaries;
+  try{boundaries=await getBoundaryTimes();}
+  catch(err){console.error('[HORA][ASC 0 DEGREE TIMES] ERROR',err);return;}
+  if(runId!==boundaryRun||!svg.isConnected)return;
+  const layer=svgEl(svg,'g',{id:'ascendantBoundaryTimes3','font-family':'system-ui, sans-serif','pointer-events':'none'});
+  const ascAngles=[];
+  svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
+   const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
+   const x2=Number(line.getAttribute('x2')),y2=Number(line.getAttribute('y2'));
+   const r1=Math.hypot(x1-C,y1-C),r2=Math.hypot(x2-C,y2-C);
+   if(r1>75&&r1<115&&(r2>250||line.dataset.navaExtended==='1'))ascAngles.push(Math.atan2(y2-C,y2===y1?x2-C:y2-C));
+  });
+  const clock=n=>{const v=((Math.round(Number(n))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60)+' น.';};
+  boundaries.forEach(item=>{
+   const sign=Number(item.sign);
+   if(!Number.isInteger(sign)||sign<0||sign>11||!Number.isFinite(Number(item.minutes)))return;
+   const deg=sign*30;
+   const a=(-(deg-15)-90)*Math.PI/180;
+   const ring={x:C+RING*Math.cos(a),y:C+RING*Math.sin(a)};
+   const nearAsc=ascAngles.some(aa=>Math.abs(Math.atan2(Math.sin(a-aa),Math.cos(a-aa)))<0.16);
+   const labelR=nearAsc?438:365,tagW=106,tagH=25;
+   let labelA=a;
+   if(nearAsc)labelA+=0.12;
+   const x=C+labelR*Math.cos(labelA),y=C+labelR*Math.sin(labelA);
+   svgEl(layer,'line',{x1:ring.x,y1:ring.y,x2:x,y2:y,stroke:'#07834b','stroke-width':1.5,'stroke-dasharray':'4 3','stroke-linecap':'round'});
+   svgEl(layer,'circle',{cx:ring.x,cy:ring.y,r:4.2,fill:'#07834b',stroke:'#fff','stroke-width':1.3});
+   svgEl(layer,'rect',{x:x-tagW/2,y:y-tagH/2,width:tagW,height:tagH,rx:6,fill:'#075e3b',stroke:'#fff','stroke-width':1.4});
+   const textNode=svgEl(layer,'text',{x,y:y+3.7,'text-anchor':'middle','font-size':10.5,'font-weight':850,fill:'#fff'});
+   textNode.textContent='0° '+signNames[sign]+' '+clock(item.minutes);
+  });
  }
  function enhanceAscendant(svg){
   if(!svg)return;
@@ -546,7 +605,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  }
  if(wheel){
   let pending=false;
-  const run=()=>{pending=false;const svg=wheel.querySelector('svg');if(svg)enhanceAscendant(svg);};
+  const run=()=>{pending=false;const svg=wheel.querySelector('svg');if(svg){enhanceAscendant(svg);renderBoundaryTimes(svg);}};
   const schedule=()=>{if(!pending){pending=true;setTimeout(run,0);}};
   const observer=new MutationObserver(schedule);
   observer.observe(wheel,{childList:true});
