@@ -159,7 +159,7 @@
 <div id="starDetails" class="panel">
   <div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">แยกตาราง · เกณฑ์รายดวง</span></div>
   <p class="criteria7-lead">แยกข้อมูลเป็นสองตารางเพื่อดูได้ชัดว่าดาวแต่ละดวงอยู่ราศี/ภพใด มีมาตรฐานหรือเกณฑ์พื้นฐานอะไร และสัมพันธ์กับดาวใดบ้าง</p>
-  <p class="criteria7-muted">คอลัมน์ “มาตรฐานดาว” แสดงเฉพาะเกณฑ์ที่ชุดข้อมูล HORA เปิดใช้: เกษตร/อุจจ์/นิจตามราศีในชุดปัจจุบัน ส่วนองศาอุจจ์/นิจเฉพาะยังไม่ถูกนำมาตัดสิน; ราหู เกตุ และมฤตยูแสดงว่า “ยังไม่กำหนดตามสำนัก” แทนการเดาเกณฑ์ ส่วนมาตรฐานที่ยังไม่มีสูตรยืนยันจะไม่ถูกแสดงเป็นผลผ่าน</p>
+  <p class="criteria7-muted">คอลัมน์ “มาตรฐานดาว” ใช้เกณฑ์ที่ยืนยันแล้วใน HORA แสดงผลตามราศีและองศาจริงของดาว ได้แก่ เกษตร ประ อุจจาวิลาส อุจจ์ นิจ ราชาโชค มหาจักร จุลจักร อุจจาภิมุข เทวีโชค มหาอุจจ์ มหานิจ และมูลตรีโกณตามเงื่อนไขที่บันทึกไว้; เกณฑ์ที่มีเพียงข้อมูลอ้างอิงแต่ยังไม่ยืนยันจะแสดงป้าย “อ้างอิง·รอยืนยัน” แยกจากผลยืนยัน และจะไม่เดาเกณฑ์ให้ราหู เกตุ หรือมฤตยู</p>
   <h3>ตารางที่ 1 · ดาวกำเนิดจริง</h3>
   <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศี</th><th>องศา</th><th>ภพจากลัคนากำเนิด</th><th>ตำแหน่งตามภพ</th><th>มาตรฐานดาว</th><th>นวางค์</th><th>ตรียางค์</th><th>ฤกษ์</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="natalStarDetailsBody"></tbody></table></div>
   <h3 style="margin-top:22px">ตารางที่ 2 · ดาวจรจริง</h3>
@@ -378,7 +378,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main.js?v=20261011-dignity-reference-connected-2c30790"></script>
+<script type="module" src="./main.js?v=20261011-confirmed-standards-visible-1"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
