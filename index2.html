@@ -400,9 +400,6 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
  $('bProvince')?.addEventListener('change',()=>setTimeout(scheduleSolarIngressRefresh,80));
  $('calc')?.addEventListener('click',scheduleSolarIngressRefresh);
  setTimeout(scheduleSolarIngressRefresh,1200);
-  new MutationObserver(scan).observe(wheel,{childList:true,subtree:true});
-  scan();
- }
  const panel=$('wheelPanel2'),wrap=$('wheelWrap2'),fullscreen=$('wheelFullscreen2');
  let zoom=1;
  function applyZoom(){
