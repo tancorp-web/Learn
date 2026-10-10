@@ -703,4 +703,52 @@ window.HORA_PLANET_STANDARDS4 = {
 };
 </script>
 
+
+<script>
+/* index4-only: render Kaset standard inside each zodiac sector, without touching main.js or index3. */
+(()=>{
+ const standards=[
+  {sign:0,name:"เมษ",planet:"อังคาร"},{sign:1,name:"พฤษภ",planet:"ศุกร์"},
+  {sign:2,name:"มิถุน",planet:"พุธ"},{sign:3,name:"กรกฎ",planet:"จันทร์"},
+  {sign:4,name:"สิงห์",planet:"อาทิตย์"},{sign:5,name:"กันย์",planet:"พุธ"},
+  {sign:6,name:"ตุล",planet:"ศุกร์"},{sign:7,name:"พิจิก",planet:"อังคาร"},
+  {sign:8,name:"ธนู",planet:"พฤหัสบดี"},{sign:9,name:"มกร",planet:"เสาร์"},
+  {sign:10,name:"กุมภ์",planet:"ราหู"},{sign:11,name:"มีน",planet:"พฤหัสบดี"}
+ ];
+ const ns="http://www.w3.org/2000/svg";
+ function draw(){
+  const svg=document.querySelector("#wheel svg");
+  if(!svg)return false;
+  svg.querySelector("#kasetLabelsIndex4")?.remove();
+  const g=document.createElementNS(ns,"g");
+  g.setAttribute("id","kasetLabelsIndex4");
+  g.setAttribute("font-family",'system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif');
+  g.setAttribute("pointer-events","none");
+  standards.forEach(item=>{
+   const angle=(-(item.sign*30+15)-90)*Math.PI/180;
+   const r=245,c=360;
+   const x=c+r*Math.cos(angle),y=c+r*Math.sin(angle);
+   const t=document.createElementNS(ns,"text");
+   t.setAttribute("x",x.toFixed(2));t.setAttribute("y",(y+4).toFixed(2));
+   t.setAttribute("text-anchor","middle");t.setAttribute("font-size","11");
+   t.setAttribute("font-weight","800");t.setAttribute("fill","#1d4ed8");
+   t.setAttribute("paint-order","stroke");t.setAttribute("stroke","#fff");
+   t.setAttribute("stroke-width","3");t.setAttribute("stroke-linejoin","round");
+   t.textContent="เกษตร "+item.planet;
+   t.setAttribute("aria-label","มาตรฐานดาวเกษตร "+item.name+" ดาว"+item.planet);
+   g.appendChild(t);
+  });
+  svg.appendChild(g);
+  return true;
+ }
+ let scheduled=false;
+ const schedule=()=>{if(scheduled)return;scheduled=true;setTimeout(()=>{scheduled=false;draw();},80);};
+ const wheel=document.getElementById("wheel");
+ if(wheel){new MutationObserver(schedule).observe(wheel,{childList:true});}
+ document.getElementById("calc")?.addEventListener("click",()=>setTimeout(draw,180));
+ document.addEventListener("DOMContentLoaded",draw);
+ [0,250,800,1600,3000].forEach(ms=>setTimeout(draw,ms));
+})();
+</script>
+
 </body></html>
