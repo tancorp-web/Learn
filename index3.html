@@ -505,12 +505,14 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const d=Math.abs(Math.atan2(Math.sin(wanted[i].angle-wanted[j].angle),Math.cos(wanted[i].angle-wanted[j].angle)))*180/Math.PI;
    if(d<31)collide=true;
   }
+  // Offset labels tangentially so they do not sit on top of the existing @เกิด/@จร markers.
+  // If the two ascendants are close, move both tags to the outer safe lane.
   const labelR=collide?445:326;
   const tagW=collide?104:94,tagH=26;
   wanted.forEach((item,index)=>{
-   let a=item.angle;
-   // In collision mode, separate tags tangentially, while leaders still terminate at their own true ring intersection.
-   if(collide)a+=(index===0?-1:1)*Math.min(0.10,tagW/(2*labelR));
+   let a=item.angle+(item.kind==='natal'?-0.24:0.24);
+   // In collision mode, separate tags further; leaders still terminate at their own true ring intersection.
+   if(collide)a+=(index===0?-1:1)*0.14;
    const x=C+labelR*Math.cos(a),y=C+labelR*Math.sin(a);
    svgEl(layer,'line',{x1:item.ring.x,y1:item.ring.y,x2:x,y2:y,stroke:item.color,'stroke-width':2,'stroke-linecap':'round'});
    svgEl(layer,'circle',{cx:item.ring.x,cy:item.ring.y,r:5,fill:item.color,stroke:'#fff','stroke-width':1.5});
