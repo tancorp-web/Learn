@@ -78,7 +78,7 @@ function renderWheel(natal,transit,tanuSesha){
    if(!chosen)chosen=best;
    placed.push(chosen);
    const truePoint=xy(p.longitude,isTransit?rad+2:chosen.lane);
-   const isNatalSun=!isTransit&&p.name==='อาทิตย์';svg+='<g'+(isNatalSun?' data-natal-sun-marker="true"':'')+'><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
+   const isNatalSun=!isTransit&&p.name==='อาทิตย์';svg+='<g'+(isNatalSun?' data-natal-sun-marker="true"':'')+'><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(!isTransit&&tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
   });
  }
  draw(natal,false);if(transit)draw(transit,true);
