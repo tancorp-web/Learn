@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   THAI_SPECIAL_ASTROLOGY_CRITERIA,
+  THAI_SPECIAL_CRITERIA_DECISIONS,
+  THAI_SPECIAL_NAME_MERGE_DECISIONS,
   CRITERION_STATUS,
   getThaiSpecialCriterionById,
   getThaiSpecialCriteriaByName,
@@ -54,4 +56,29 @@ test('unverified names are preserved without invented planet formulas', () => {
 test('lookup returns all matches and unknown names return an empty list', () => {
   assert.equal(getThaiSpecialCriteriaByName('ดอกพิกุล')[0].id, 'SPECIAL-DOK-PHIKUN');
   assert.deepEqual(getThaiSpecialCriteriaByName('ชื่อที่ไม่มีในคลัง'), []);
+});
+
+
+test('advisor variant decisions are recorded but none are enabled', () => {
+  assert.deepEqual(
+    THAI_SPECIAL_CRITERIA_DECISIONS.map(x => [x.criterionId, x.selectedVariant]),
+    [
+      ['SPECIAL-COFFIN', 'A'],
+      ['SPECIAL-ELEMENT-KENDRA', 'A'],
+      ['SPECIAL-CHATUSADAI', 'A'],
+      ['SPECIAL-KITA-KENDRA', 'B']
+    ]
+  );
+  assert.ok(THAI_SPECIAL_CRITERIA_DECISIONS.every(x => x.state === 'RECORDED_NOT_ENABLED'));
+  assert.equal(THAI_SPECIAL_ASTROLOGY_CRITERIA.some(x => x.execution === 'ENABLED'), false);
+});
+
+test('confirmed name merges resolve to one canonical catalogue entry', () => {
+  assert.equal(THAI_SPECIAL_NAME_MERGE_DECISIONS.length, 6);
+  for (const name of ['ดอกอุตพิด', 'นำพล', 'ขับพล', 'ดวงโลงศพ', 'ดวงหนุมาน', 'มาลัยโยค', 'อัฒจักร']) {
+    assert.equal(getThaiSpecialCriteriaByName(name).length, 1, name);
+  }
+  assert.equal(getThaiSpecialCriteriaByName('ดวงโลงศพ')[0].id, 'SPECIAL-COFFIN');
+  assert.equal(getThaiSpecialCriteriaByName('ดวงหนุมาน')[0].id, 'SPECIAL-CHART-TRIANGLE');
+  assert.equal(getThaiSpecialCriteriaByName('มาลัยโยค')[0].id, 'SPECIAL-CHANDRA-HALF');
 });
