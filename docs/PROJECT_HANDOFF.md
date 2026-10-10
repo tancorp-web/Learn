@@ -79,3 +79,10 @@ Updated: 2026-10-10
 - Latest index3 UI commit `06bd7885c5f1ecf5fd209399ce677ce6adb2c89d` passed the full diagnostic test suite and required core, Ketu, and Thai lunar recheck tests in GitHub Actions run [38047813141](https://github.com/tancorp-web/Learn/actions/runs/38047813141). GitHub Pages deployment step also completed successfully for that commit.
 - Static source checks confirm the live branch version of `index3.html` includes separate dynamic birth/transit time inputs and the ring-intersection label layer. The red/green ray geometry is derived from each ray's endpoint coordinates, and labels update on calculation and time-input changes.
 - Limitation: no real mobile browser session was available in this verification pass, so visual collision behavior on-device and repeated interactive time changes were not manually observed. Do not state those manual checks passed. Formula regression tests passed; calculation source files and `index2.html` were not changed.
+
+
+## Work log — 2026-10-10 natal/transit ascendant and 0-degree knowledge
+- Added a new reference section `#ascendantTimeKnowledge3` in `index3.html` describing natal ascendant vs transit ascendant, what a zodiac sign's 0° boundary means, how a true boundary-crossing time must be found from date/time/location and calculated ascendant positions, and why Sun ingress time is not the same as ascendant ingress time.
+- No formula or astronomy engine was changed. `index2.html` and `main.js` remain untouched.
+- Important pending clarification before adding clock-time labels to every 0° boundary: whether the intended feature is (A) show the currently selected birth/transit times beside the ascendant rays at their actual wheel intersections, or (B) calculate and show the actual clock time when the transit ascendant crosses each sign's 0° boundary. These are different features; option B requires time-stepping against the existing ascendant calculation engine, not copying the currently selected transit time to every zodiac boundary.
+- The knowledge-section commit is `7a308ed55413072dd4a64fbf87496eda7ec0aa28`. Deployment and visual verification pending.
