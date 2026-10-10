@@ -201,7 +201,7 @@ function renderStarDetails(natal,transit){
  }).join('');
  birthEl.innerHTML=natalRows;transitEl.innerHTML=transitRows;
 }
-function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60);return degrees+'°'+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+'"'+(isLatitude?(value<0?'S':'N'):(value<0?'W':'E'));}
+function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60),direction=isLatitude?(value<0?'S':'N'):(value<0?'W':'E');return degrees+'°'+direction+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+"''";}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
 function render(natal,transit){
  const b=getInput('b'),f=getInput('f');
