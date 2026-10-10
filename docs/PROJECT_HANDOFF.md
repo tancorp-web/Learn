@@ -50,3 +50,10 @@ Updated: 2026-10-10
 
 ## Work log
 - 2026-10-10: Fixed the Sun-ingress panel behavior in `index3.html` after the user reported the time was not appearing. The previous code triggered calculations both from `window.load` and a separate timeout and sampled every six hours; the updated code uses one initial trigger, daily bracketing plus minute refinement, duplicate-run protection, visible status, and success logging. Commit: `4c763f6f548412d1d2484798ffa9c42815786e53`. Automated deployment status and live display still need verification.
+
+
+## Work log — 2026-10-10 follow-up
+- User reported Sun transit time still not appearing. Updated the index3-only feature again: it now waits until the main app has initialized its transit date/time controls, yields between date samples so the UI can paint status, detects the first change of zodiac sign and refines to minute resolution, and emits an explicit `[HORA][SUN INGRESS]` success/error log. The feature module cache key was changed to `20261010-ingress-fix2`.
+- Added index3-only wheel enhancement: the `@จร` label now includes the selected transit time (HH:MM); both the red natal ascendant ray and green transit ascendant ray extend outward to radius 408, at the Navamsa outer tick ring. Existing main.js and all planet calculation formulas remain untouched.
+- Commit: `b055007ef62fe9f4a3dbebeee2e4fb2ba830c1e0`.
+- Must still verify the new deployment workflow and ask user to refresh index3.html. Do not claim manual browser verification until confirmed.
