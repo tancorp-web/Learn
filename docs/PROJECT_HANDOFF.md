@@ -116,3 +116,8 @@ Updated: 2026-10-10
 ## Transit ascendant label simplification — 2026-10-10
 - User confirmed the page is visible and requested that the green transit ascendant label show only the transit clock time. Updated `index3.html` so the green ray tag displays `HH:MM น.` without the extra `จร` prefix; the red natal tag remains `เกิด HH:MM น.`. This changes only label text, not geometry, boundary-time labels, or any calculation formula.
 - Only `index3.html` and this handoff document are changed for this request. `index2.html`, `main.js`, and astronomy engine files remain untouched. Verify the newest GitHub Actions / Pages deployment before claiming deployment completion.
+
+
+## Transit zodiac-time label text — 2026-10-10
+- Clarified by user: green labels marking transit zodiac boundaries should show only the transit time. Updated `index3.html` boundary labels from the two-line sign/date/time text to a single `HH:MM น.` time. The supporting table of all 12 boundaries retains sign, date, and time; only the green labels on the wheel were simplified.
+- No calculation or planetary formula changed. `index2.html`, `main.js`, and astronomy engine files were not modified. Deploy workflow should be checked before claiming the live page has updated.
