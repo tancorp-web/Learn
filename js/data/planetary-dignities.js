@@ -18,7 +18,7 @@
  *   ควรยืนยันกับตำราเฉพาะของโครงการก่อนนำไปคำนวณคะแนนหรือคำทำนาย
  */
 
-export const DIGNITY_DATA_VERSION = '1.1.0-reference-connected';
+export const DIGNITY_DATA_VERSION = '1.2.0-confirmed-standards-runtime';
 
 export const ZODIAC_SIGNS = Object.freeze([
   { index: 0, name: 'เมษ', english: 'Aries', element: 'ไฟ' },
@@ -853,15 +853,440 @@ export function getPlanetaryDignityReferences(planetName, signName) {
     .filter((category, index, all) => all.indexOf(category) === index);
 }
 
-/** คืนรายการสถานะที่ runtime ปัจจุบันใช้ โดยรักษาพฤติกรรมเดิมของ main.js */
-export function getPlanetaryDignities(planetName, signName) {
-  const data = PLANETARY_DIGNITY_DATA[planetName];
-  if (!data) return [];
+/** เกณฑ์มาตรฐานดาวที่ผู้ใช้ยืนยันแล้ว — ใช้เป็นกฎ runtime; ไม่คำนวณหรือแก้ตำแหน่งดาว */
+export const CONFIRMED_PLANETARY_STANDARDS = Object.freeze({
+  "schema_version": "1.0.0",
+  "title": "HORA confirmed planetary standards",
+  "language": "th",
+  "status": "CONFIRMED_BY_USER",
+  "runtime_status": "REFERENCE_ONLY_NOT_YET_CONNECTED_TO_RUNTIME",
+  "notes": [
+    "รายการนี้บันทึกเกณฑ์ที่ผู้ใช้ยืนยันแล้ว ห้ามเปลี่ยนสูตรคำนวณตำแหน่งดาว",
+    "เครื่องหมาย - หมายถึงไม่มีเกณฑ์ที่ยืนยันไว้ในชุดนี้",
+    "นิจทั่วไปตรวจจากราศีนิจ ไม่จำเป็นต้องตรงองศามหานิจ",
+    "มหาอุจจ์และมหานิจมีองศาเฉพาะตามตาราง",
+    "อุจจาวิลาสคำนวณจากราศีอุจจ์ถอยหลังหนึ่งราศีเต็ม"
+  ],
+  "signs_order": [
+    "เมษ",
+    "พฤษภ",
+    "มิถุน",
+    "กรกฎ",
+    "สิงห์",
+    "กันย์",
+    "ตุล",
+    "พิจิก",
+    "ธนู",
+    "มกร",
+    "กุมภ์",
+    "มีน"
+  ],
+  "planet_order": [
+    "อาทิตย์",
+    "จันทร์",
+    "อังคาร",
+    "พุธ",
+    "พฤหัสบดี",
+    "ศุกร์",
+    "เสาร์",
+    "ราหู",
+    "เกตุ",
+    "มฤตยู"
+  ],
+  "sign_based_rules": {
+    "ประ": {
+      "อาทิตย์": [
+        "กุมภ์"
+      ],
+      "จันทร์": [
+        "มกร"
+      ],
+      "อังคาร": [
+        "ตุล",
+        "พฤษภ"
+      ],
+      "พุธ": [
+        "ธนู",
+        "มีน"
+      ],
+      "พฤหัสบดี": [
+        "มิถุน",
+        "กันย์"
+      ],
+      "ศุกร์": [
+        "พิจิก",
+        "เมษ"
+      ],
+      "เสาร์": [
+        "กรกฎ"
+      ],
+      "ราหู": [
+        "สิงห์"
+      ],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "ราชาโชค": {
+      "อาทิตย์": [
+        "มิถุน"
+      ],
+      "จันทร์": [
+        "กันย์"
+      ],
+      "อังคาร": [
+        "พฤษภ"
+      ],
+      "พุธ": [
+        "สิงห์"
+      ],
+      "พฤหัสบดี": [
+        "เมษ"
+      ],
+      "ศุกร์": [
+        "กรกฎ"
+      ],
+      "เสาร์": [
+        "พิจิก"
+      ],
+      "ราหู": [
+        "ตุล"
+      ],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "มหาจักร": {
+      "อาทิตย์": [
+        "กรกฎ"
+      ],
+      "จันทร์": [
+        "เมษ"
+      ],
+      "อังคาร": [
+        "กันย์"
+      ],
+      "พุธ": [
+        "สิงห์"
+      ],
+      "พฤหัสบดี": [
+        "พิจิก"
+      ],
+      "ศุกร์": [
+        "ธนู"
+      ],
+      "เสาร์": [
+        "พฤษภ"
+      ],
+      "ราหู": [
+        "มกร"
+      ],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "จุลจักร": {
+      "อาทิตย์": [
+        "มกร"
+      ],
+      "จันทร์": [
+        "ตุล"
+      ],
+      "อังคาร": [
+        "มีน"
+      ],
+      "พุธ": [
+        "กุมภ์"
+      ],
+      "พฤหัสบดี": [
+        "พฤษภ"
+      ],
+      "ศุกร์": [
+        "มิถุน"
+      ],
+      "เสาร์": [
+        "พิจิก"
+      ],
+      "ราหู": [
+        "กรกฎ"
+      ],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "เทวีโชค": {
+      "อาทิตย์": [
+        "ธนู"
+      ],
+      "จันทร์": [
+        "มีน"
+      ],
+      "อังคาร": [
+        "พิจิก"
+      ],
+      "พุธ": [
+        "กุมภ์"
+      ],
+      "พฤหัสบดี": [
+        "ตุล"
+      ],
+      "ศุกร์": [
+        "มกร"
+      ],
+      "เสาร์": [
+        "พฤษภ"
+      ],
+      "ราหู": [
+        "เมษ"
+      ],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "อุจจาภิมุข": {
+      "อาทิตย์": [
+        "พฤษภ"
+      ],
+      "จันทร์": [
+        "มิถุน"
+      ],
+      "อังคาร": [
+        "กุมภ์"
+      ],
+      "พุธ": [
+        "ตุล"
+      ],
+      "พฤหัสบดี": [
+        "สิงห์"
+      ],
+      "ศุกร์": [
+        "เมษ"
+      ],
+      "เสาร์": [
+        "พิจิก"
+      ],
+      "ราหู": [
+        "ธนู"
+      ],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "อุจจาวิลาส": {
+      "อาทิตย์": [
+        "มีน"
+      ],
+      "จันทร์": [
+        "เมษ"
+      ],
+      "อังคาร": [
+        "ธนู"
+      ],
+      "พุธ": [
+        "สิงห์"
+      ],
+      "พฤหัสบดี": [
+        "มิถุน"
+      ],
+      "ศุกร์": [
+        "กุมภ์"
+      ],
+      "เสาร์": [
+        "กันย์"
+      ],
+      "ราหู": [],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "อุจจ์": {
+      "อาทิตย์": [
+        "เมษ"
+      ],
+      "จันทร์": [
+        "พฤษภ"
+      ],
+      "อังคาร": [
+        "มกร"
+      ],
+      "พุธ": [
+        "กันย์"
+      ],
+      "พฤหัสบดี": [
+        "กรกฎ"
+      ],
+      "ศุกร์": [
+        "มีน"
+      ],
+      "เสาร์": [
+        "ตุล"
+      ],
+      "ราหู": [],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "นิจ": {
+      "อาทิตย์": [
+        "ตุล"
+      ],
+      "จันทร์": [
+        "พิจิก"
+      ],
+      "อังคาร": [
+        "กรกฎ"
+      ],
+      "พุธ": [
+        "มีน"
+      ],
+      "พฤหัสบดี": [
+        "มกร"
+      ],
+      "ศุกร์": [
+        "กันย์"
+      ],
+      "เสาร์": [
+        "เมษ"
+      ],
+      "ราหู": [],
+      "เกตุ": [],
+      "มฤตยู": []
+    }
+  },
+  "exact_degree_rules": {
+    "มหาอุจจ์": {
+      "อาทิตย์": {
+        "sign": "เมษ",
+        "degree": 10
+      },
+      "จันทร์": {
+        "sign": "พฤษภ",
+        "degree": 3
+      },
+      "อังคาร": {
+        "sign": "มกร",
+        "degree": 28
+      },
+      "พุธ": {
+        "sign": "กันย์",
+        "degree": 15
+      },
+      "พฤหัสบดี": {
+        "sign": "กรกฎ",
+        "degree": 5
+      },
+      "ศุกร์": {
+        "sign": "มีน",
+        "degree": 27
+      },
+      "เสาร์": {
+        "sign": "ตุล",
+        "degree": 20
+      },
+      "ราหู": null,
+      "เกตุ": null,
+      "มฤตยู": null
+    },
+    "มหานิจ": {
+      "อาทิตย์": {
+        "sign": "ตุล",
+        "degree": 10
+      },
+      "จันทร์": {
+        "sign": "พิจิก",
+        "degree": 3
+      },
+      "อังคาร": {
+        "sign": "กรกฎ",
+        "degree": 28
+      },
+      "พุธ": {
+        "sign": "มีน",
+        "degree": 15
+      },
+      "พฤหัสบดี": {
+        "sign": "มกร",
+        "degree": 5
+      },
+      "ศุกร์": {
+        "sign": "กันย์",
+        "degree": 27
+      },
+      "เสาร์": {
+        "sign": "เมษ",
+        "degree": 20
+      },
+      "ราหู": null,
+      "เกตุ": null,
+      "มฤตยู": null
+    }
+  },
+  "sign_only_policies": {
+    "นิจ": "ถือเป็นนิจเมื่ออยู่ในราศีนิจ ไม่จำเป็นต้องตรงองศามหานิจ",
+    "อุจจ์": "ถือเป็นอุจจ์เมื่ออยู่ในราศีอุจจ์ ไม่จำเป็นต้องตรงองศามหาอุจจ์"
+  },
+  "moolatrikona": {
+    "อาทิตย์": {
+      "sign": "สิงห์",
+      "from_degree_inclusive": 0,
+      "to_degree_exclusive": 20
+    },
+    "จันทร์": {
+      "sign": "พฤษภ",
+      "from_degree_inclusive": 4,
+      "to_degree_exclusive": 30
+    },
+    "อังคาร": {
+      "sign": "เมษ",
+      "from_degree_inclusive": 0,
+      "to_degree_exclusive": 12
+    },
+    "พุธ": {
+      "sign": "กันย์",
+      "from_degree_inclusive": 16,
+      "to_degree_exclusive": 20
+    },
+    "พฤหัสบดี": {
+      "sign": "ธนู",
+      "from_degree_inclusive": 0,
+      "to_degree_exclusive": 10
+    },
+    "ศุกร์": {
+      "sign": "ตุล",
+      "from_degree_inclusive": 0,
+      "to_degree_exclusive": 15
+    },
+    "เสาร์": {
+      "sign": "กุมภ์",
+      "from_degree_inclusive": 0,
+      "to_degree_exclusive": 20
+    },
+    "ราหู": null,
+    "เกตุ": null,
+    "มฤตยู": null
+  }
+});
+
+/**
+ * ตรวจสถานะตามเกณฑ์ที่ยืนยันแล้วจากราศีและองศาภายในราศี (0 <= degree < 30).
+ * คืนทุกสถานะที่เข้าเงื่อนไข และไม่สร้างเกณฑ์ให้ดาว/สถานะที่ระบุเป็น null หรือไม่มีรายการ
+ */
+export function getConfirmedPlanetaryStandards(planetName, signName, degreeInSign = null, minuteInSign = 0, secondInSign = 0) {
   const result = [];
-  if (data.domicileSigns.includes(signName)) result.push('เกษตร');
-  if (data.exaltation?.sign === signName) result.push('อุจจ์');
-  if (data.debilitation?.sign === signName) result.push('นิจ');
-  return result;
+  const rules = CONFIRMED_PLANETARY_STANDARDS.sign_based_rules || {};
+  for (const [category, planets] of Object.entries(rules)) {
+    if ((planets[planetName] || []).includes(signName)) result.push(category);
+  }
+  const exactPosition = degreeInSign === null || degreeInSign === undefined
+    ? null : Number(degreeInSign) + Number(minuteInSign || 0) / 60 + Number(secondInSign || 0) / 3600;
+  for (const [category, planets] of Object.entries(CONFIRMED_PLANETARY_STANDARDS.exact_degree_rules || {})) {
+    const rule = planets[planetName];
+    if (rule && rule.sign === signName && exactPosition !== null && Math.abs(exactPosition - rule.degree) < (0.5 / 3600)) result.push(category);
+  }
+  const mt = CONFIRMED_PLANETARY_STANDARDS.moolatrikona?.[planetName];
+  if (mt && mt.sign === signName && exactPosition !== null && exactPosition >= mt.from_degree_inclusive && exactPosition < mt.to_degree_exclusive) result.push('มูลตรีโกณ');
+  return [...new Set(result)];
+}
+
+/** คืนรายการสถานะที่ runtime ปัจจุบันใช้ โดยรักษาพฤติกรรมเดิมของ main.js */
+export function getPlanetaryDignities(planetName, signName, degreeInSign = null, minuteInSign = 0, secondInSign = 0) {
+  const data = PLANETARY_DIGNITY_DATA[planetName];
+  const result = getConfirmedPlanetaryStandards(planetName, signName, degreeInSign, minuteInSign, secondInSign);
+  // เกษตรคงใช้ข้อมูล runtime เดิม; ไม่อนุมานเกษตรของราหู/เกตุ/มฤตยู
+  if (data && data.domicileSigns.includes(signName)) result.push('เกษตร');
+  return [...new Set(result)];
 }
 
 /** คืนระเบียนอ้างอิงของดาว; ไม่มีระเบียนจะได้ null */
