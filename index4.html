@@ -699,12 +699,24 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
   const svg=document.querySelector("#wheel svg");
   if(!svg)return false;
   svg.querySelector("#planetStandardNumbersIndex4")?.remove();
-  /* Index4-only: make natal planet markers more legible; leave transit markers unchanged. */
+  /* Index4-only: enlarge natal markers and move them outward to separate them from house names and standard badges. */
   svg.querySelectorAll('circle[fill="#7250bd"]').forEach(circle=>{
    circle.setAttribute("r","15");
    circle.setAttribute("stroke-width","2.5");
    const markerGroup=circle.parentElement;
    const markerText=markerGroup?.querySelector("text");
+   if(markerGroup && markerGroup.getAttribute("data-index4-natal-shifted")!=="true"){
+    const cx=Number(circle.getAttribute("cx")),cy=Number(circle.getAttribute("cy"));
+    const dx=cx-360,dy=cy-360,len=Math.hypot(dx,dy)||1,shift=24;
+    const sx=dx/len*shift,sy=dy/len*shift;
+    circle.setAttribute("cx",(cx+sx).toFixed(2));
+    circle.setAttribute("cy",(cy+sy).toFixed(2));
+    if(markerText){
+     if(markerText.hasAttribute("x"))markerText.setAttribute("x",(Number(markerText.getAttribute("x"))+sx).toFixed(2));
+     if(markerText.hasAttribute("y"))markerText.setAttribute("y",(Number(markerText.getAttribute("y"))+sy).toFixed(2));
+    }
+    markerGroup.setAttribute("data-index4-natal-shifted","true");
+   }
    if(markerText){
     markerText.setAttribute("font-size","15");
     markerText.setAttribute("font-weight","950");
@@ -719,9 +731,9 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
   data.signs.forEach((sign,index)=>{
    const item=data.mappings[category]?.[sign];
    if(!item)return;
-   /* Center each standard number in its zodiac sector, slightly inward from natal planet markers. */
+   /* Center each standard number in its zodiac sector, in a separate lane between house labels and the outward-shifted natal planet markers. */
    const angle=(-(index*30)-90)*Math.PI/180;
-   const r=116,c=360;
+   const r=132,c=360;
    const x=c+r*Math.cos(angle),y=c+r*Math.sin(angle);
    const circle=document.createElementNS(ns,"circle");
    circle.setAttribute("cx",x.toFixed(2));circle.setAttribute("cy",y.toFixed(2));circle.setAttribute("r","6");
