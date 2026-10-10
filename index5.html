@@ -21,7 +21,7 @@
 #wheelPanel2 #wheel svg .nava-number2{font-family:system-ui,Tahoma,sans-serif;font-size:11px;font-weight:900;fill:#111827;paint-order:stroke;stroke:#fff;stroke-width:2.4px;stroke-linejoin:round}
 #wheelPanel2 #wheel svg .nava-tick2{stroke:#64748b;stroke-width:.8;opacity:.85}
 #wheelPanel2 #wheel svg .drek-tick2{stroke:#b45309;stroke-width:1.5;opacity:.95}
-#wheelPanel2 #wheel svg .triyang-boundary-line5{stroke:#b7791f;stroke-width:1.25;opacity:.78;pointer-events:none}
+#wheelPanel2 #wheel svg .triyang-boundary-line5{stroke:#b7791f;stroke-width:2;opacity:.9;pointer-events:none}
 #wheelPanel2 #wheel svg .nak-boundary2{stroke:#7c3aed;stroke-width:1.6;opacity:.95}
 #wheelPanel2 #wheel svg .nak-name2{font-family:system-ui,Tahoma,sans-serif;font-size:12px;font-weight:850;fill:#7c2d12;paint-order:stroke;stroke:#fff;stroke-width:2.6px;stroke-linejoin:round}
 #wheelPanel2.hide-nak-name5 #wheel svg .nak-name2{display:none!important}
@@ -393,7 +393,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   }
   /* เส้นแบ่งตรียางค์: ขีดแนวรัศมีทุก 10 องศา ให้เห็นช่วงละ 10 องศาชัดขึ้น */
   for(let d=0;d<36;d++){
-   const p=xy(d*10,214),q=xy(d*10,356);
+   const p=xy(d*10,228),q=xy(d*10,263);
    add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'triyang-boundary-line5'});
   }
   /* สัญลักษณ์เพชรสีทองคั่นขอบเขตตรียางค์ทุก 10 องศา ช่วยแยก 3 ช่วงต่อราศีให้เห็นชัด */
