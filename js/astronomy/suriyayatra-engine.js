@@ -113,7 +113,14 @@ function findMonth88StartForBeYear(beYear) {
 // classical-calendar QA helper remains independent and must not select
 // Ketu's formula branch, because historical classifications can differ.
 function findKetuMonth88StartForBeYear(beYear) {
-  return findMonth88StartByLegacyTithiFormula(beYear);
+  // Use an anchor only when both independent calendar calculations agree
+  // that the year has an inserted month 8/88 and agree on its exact date.
+  // If either calculation says "no anchor" or dates disagree, fall back to
+  // the original Ketu formula rather than risk shifting the 679-day phase.
+  const classical = findMonth88StartForBeYear(beYear);
+  const legacy = findMonth88StartByLegacyTithiFormula(beYear);
+  if (!classical || !legacy || classical.date !== legacy.date) return null;
+  return classical;
 }
 
 /**
