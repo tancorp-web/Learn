@@ -661,94 +661,92 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  }
 })();</script>
 
+
 <section class="planet-standard4" id="planetaryStandardKaset4" aria-labelledby="planetaryStandardTitle4">
   <div class="section-title"><h2 id="planetaryStandardTitle4">ชุดมาตรฐานดาว · เกษตร</h2><span class="standard-status4">DISCOVERY · รอตรวจสอบ</span></div>
-  <p class="standard-lead4">ชุดข้อมูลเริ่มต้นสำหรับนำไปใส่ในช่องราศีภายหลัง แยกข้อมูลดาวประจำราศีออกจากสูตรคำนวณดวง และเตรียมให้ชื่อ “มาตรฐานดาว” เปลี่ยนเป็นชื่อมาตรฐานที่เลือกจาก dropdown ในอนาคต</p>
-  <div class="standard-sign-grid4" id="planetaryStandardSignGrid4">
-    <article class="standard-sign4" data-sign="0"><div class="sign-name4">เมษ</div><div class="planet-name4">อังคาร</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="1"><div class="sign-name4">พฤษภ</div><div class="planet-name4">ศุกร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="2"><div class="sign-name4">มิถุน</div><div class="planet-name4">พุธ</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="3"><div class="sign-name4">กรกฎ</div><div class="planet-name4">จันทร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="4"><div class="sign-name4">สิงห์</div><div class="planet-name4">อาทิตย์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="5"><div class="sign-name4">กันย์</div><div class="planet-name4">พุธ</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="6"><div class="sign-name4">ตุล</div><div class="planet-name4">ศุกร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="7"><div class="sign-name4">พิจิก</div><div class="planet-name4">อังคาร</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="8"><div class="sign-name4">ธนู</div><div class="planet-name4">พฤหัสบดี</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="9"><div class="sign-name4">มกร</div><div class="planet-name4">เสาร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="10"><div class="sign-name4">กุมภ์</div><div class="planet-name4">ราหู</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-    <article class="standard-sign4" data-sign="11"><div class="sign-name4">มีน</div><div class="planet-name4">พฤหัสบดี</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
-  </div>
-  <p class="reference-note">หมายเหตุ: ชุดนี้แสดงข้อมูลจากทะเบียนอ้างอิงปัจจุบันเท่านั้น ยังไม่เปลี่ยนข้อความในช่องราศีของวงจักรราศี และยังไม่เพิ่ม dropdown เพื่อรอการตรวจสอบชุดมาตรฐานก่อน</p>
+  <p class="standard-lead4">เลือกมาตรฐานดาวเพื่อแสดงดาวและเลขดาวประจำราศีในวงกลมวงในสุด พร้อมแสดงชุดข้อมูลครบตามทะเบียนที่มีอยู่ ข้อมูลที่ไม่มีรายการในทะเบียนจะแสดงเป็น “—” โดยไม่เดาข้อมูลเพิ่ม</p>
+  <label for="planetStandardSelect4" style="display:block;font-weight:800;margin:12px 0 6px">เลือกมาตรฐานดาว</label>
+  <select id="planetStandardSelect4" style="max-width:100%;padding:9px 12px;border:1px solid #94a3b8;border-radius:8px;font:inherit">
+    <option value="เกษตร" selected>เกษตร</option>
+    <option value="ประ">ประ</option>
+    <option value="อุจ">อุจ</option>
+    <option value="นิจ">นิจ</option>
+    <option value="ราชาโชค">ราชาโชค</option>
+    <option value="มหาจักร">มหาจักร</option>
+    <option value="จุลจักร">จุลจักร</option>
+    <option value="อุจจาภิมุข">อุจจาภิมุข</option>
+    <option value="เทวีโชค">เทวีโชค</option>
+  </select>
+  <div class="standard-sign-grid4" id="planetaryStandardSignGrid4"></div>
+  <p class="reference-note" id="planetStandardNote4">สถานะข้อมูล: DISCOVERY · รอตรวจสอบแหล่งอ้างอิงก่อนถือเป็นมาตรฐานสากลหรือใช้ทำนายอัตโนมัติ</p>
 </section>
 <script>
-/* Structured dataset for future dropdown-driven sign labels. Keep all standards as separate records. */
-window.HORA_PLANET_STANDARDS4 = {
-  selectedStandard: "เกษตร",
-  selectorLabel: "มาตรฐานดาว",
-  status: "DISCOVERY",
-  signs: [
-    {sign:0,name:"เมษ",planet:"อังคาร",standard:"เกษตร"},
-    {sign:1,name:"พฤษภ",planet:"ศุกร์",standard:"เกษตร"},
-    {sign:2,name:"มิถุน",planet:"พุธ",standard:"เกษตร"},
-    {sign:3,name:"กรกฎ",planet:"จันทร์",standard:"เกษตร"},
-    {sign:4,name:"สิงห์",planet:"อาทิตย์",standard:"เกษตร"},
-    {sign:5,name:"กันย์",planet:"พุธ",standard:"เกษตร"},
-    {sign:6,name:"ตุล",planet:"ศุกร์",standard:"เกษตร"},
-    {sign:7,name:"พิจิก",planet:"อังคาร",standard:"เกษตร"},
-    {sign:8,name:"ธนู",planet:"พฤหัสบดี",standard:"เกษตร"},
-    {sign:9,name:"มกร",planet:"เสาร์",standard:"เกษตร"},
-    {sign:10,name:"กุมภ์",planet:"ราหู",standard:"เกษตร"},
-    {sign:11,name:"มีน",planet:"พฤหัสบดี",standard:"เกษตร"}
-  ]
-};
-</script>
-
-
-<script>
-/* index4-only: render Kaset standard inside each zodiac sector, without touching main.js or index3. */
+/* Index4-only standards selector and innermost-wheel numerals. Display-only; no astronomy formulas changed. */
+window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","อุจ","นิจ","ราชาโชค","มหาจักร","จุลจักร","อุจจาภิมุข","เทวีโชค"],"signs":["เมษ","พฤษภ","มิถุน","กรกฎ","สิงห์","กันย์","ตุล","พิจิก","ธนู","มกร","กุมภ์","มีน"],"mappings":{"เกษตร":{"สิงห์":{"planet":"อาทิตย์","number":"๑"},"กรกฎ":{"planet":"จันทร์","number":"๒"},"เมษ":{"planet":"อังคาร","number":"๓"},"พิจิก":{"planet":"อังคาร","number":"๓"},"มิถุน":{"planet":"พุธ","number":"๔"},"กันย์":{"planet":"พุธ","number":"๔"},"ธนู":{"planet":"พฤหัสบดี","number":"๕"},"มีน":{"planet":"พฤหัสบดี","number":"๕"},"พฤษภ":{"planet":"ศุกร์","number":"๖"},"ตุล":{"planet":"ศุกร์","number":"๖"},"มกร":{"planet":"เสาร์","number":"๗"},"กุมภ์":{"planet":"ราหู","number":"๘"}},"ประ":{"กุมภ์":{"planet":"อาทิตย์","number":"๑"},"มกร":{"planet":"จันทร์","number":"๒"},"ตุล":{"planet":"อังคาร","number":"๓"},"พฤษภ":{"planet":"อังคาร","number":"๓"},"ธนู":{"planet":"พุธ","number":"๔"},"มีน":{"planet":"พุธ","number":"๔"},"มิถุน":{"planet":"พฤหัสบดี","number":"๕"},"กันย์":{"planet":"พฤหัสบดี","number":"๕"},"พิจิก":{"planet":"ศุกร์","number":"๖"},"เมษ":{"planet":"ศุกร์","number":"๖"},"กรกฎ":{"planet":"เสาร์","number":"๗"},"สิงห์":{"planet":"ราหู","number":"๘"}},"อุจ":{"เมษ":{"planet":"อาทิตย์","number":"๑"},"พฤษภ":{"planet":"จันทร์","number":"๒"},"มกร":{"planet":"อังคาร","number":"๓"},"กันย์":{"planet":"พุธ","number":"๔"},"กรกฎ":{"planet":"พฤหัสบดี","number":"๕"},"มีน":{"planet":"ศุกร์","number":"๖"},"ตุล":{"planet":"เสาร์","number":"๗"},"พิจิก":{"planet":"ราหู","number":"๘"}},"นิจ":{"ตุล":{"planet":"อาทิตย์","number":"๑"},"พิจิก":{"planet":"จันทร์","number":"๒"},"กรกฎ":{"planet":"อังคาร","number":"๓"},"มีน":{"planet":"พุธ","number":"๔"},"มกร":{"planet":"พฤหัสบดี","number":"๕"},"กันย์":{"planet":"ศุกร์","number":"๖"},"เมษ":{"planet":"เสาร์","number":"๗"},"พฤษภ":{"planet":"ราหู","number":"๘"}},"ราชาโชค":{"มิถุน":{"planet":"อาทิตย์","number":"๑"},"กันย์":{"planet":"จันทร์","number":"๒"},"พฤษภ":{"planet":"อังคาร","number":"๓"},"สิงห์":{"planet":"พุธ","number":"๔"},"เมษ":{"planet":"พฤหัสบดี","number":"๕"},"กรกฎ":{"planet":"ศุกร์","number":"๖"},"พิจิก":{"planet":"เสาร์","number":"๗"},"ตุล":{"planet":"ราหู","number":"๘"}},"มหาจักร":{"กรกฎ":{"planet":"อาทิตย์","number":"๑"},"เมษ":{"planet":"จันทร์","number":"๒"},"กันย์":{"planet":"อังคาร","number":"๓"},"สิงห์":{"planet":"พุธ","number":"๔"},"พิจิก":{"planet":"พฤหัสบดี","number":"๕"},"ธนู":{"planet":"ศุกร์","number":"๖"},"พฤษภ":{"planet":"เสาร์","number":"๗"},"มกร":{"planet":"ราหู","number":"๘"}},"จุลจักร":{"มกร":{"planet":"อาทิตย์","number":"๑"},"ตุล":{"planet":"จันทร์","number":"๒"},"มีน":{"planet":"อังคาร","number":"๓"},"กุมภ์":{"planet":"พุธ","number":"๔"},"พฤษภ":{"planet":"พฤหัสบดี","number":"๕"},"มิถุน":{"planet":"ศุกร์","number":"๖"},"พิจิก":{"planet":"เสาร์","number":"๗"},"กรกฎ":{"planet":"ราหู","number":"๘"}},"อุจจาภิมุข":{"พฤษภ":{"planet":"อาทิตย์","number":"๑"},"มิถุน":{"planet":"จันทร์","number":"๒"},"กุมภ์":{"planet":"อังคาร","number":"๓"},"ตุล":{"planet":"พุธ","number":"๔"},"สิงห์":{"planet":"พฤหัสบดี","number":"๕"},"เมษ":{"planet":"ศุกร์","number":"๖"},"พิจิก":{"planet":"เสาร์","number":"๗"},"ธนู":{"planet":"ราหู","number":"๘"}},"เทวีโชค":{"ธนู":{"planet":"อาทิตย์","number":"๑"},"มีน":{"planet":"จันทร์","number":"๒"},"พิจิก":{"planet":"อังคาร","number":"๓"},"กุมภ์":{"planet":"พุธ","number":"๔"},"ตุล":{"planet":"พฤหัสบดี","number":"๕"},"มกร":{"planet":"ศุกร์","number":"๖"},"พฤษภ":{"planet":"เสาร์","number":"๗"},"เมษ":{"planet":"ราหู","number":"๘"}}},"planetNumbers":{"อาทิตย์":"๑","จันทร์":"๒","อังคาร":"๓","พุธ":"๔","พฤหัสบดี":"๕","ศุกร์":"๖","เสาร์":"๗","ราหู":"๘"}};
 (()=>{
- const standards=[
-  {sign:0,name:"เมษ",planet:"อังคาร"},{sign:1,name:"พฤษภ",planet:"ศุกร์"},
-  {sign:2,name:"มิถุน",planet:"พุธ"},{sign:3,name:"กรกฎ",planet:"จันทร์"},
-  {sign:4,name:"สิงห์",planet:"อาทิตย์"},{sign:5,name:"กันย์",planet:"พุธ"},
-  {sign:6,name:"ตุล",planet:"ศุกร์"},{sign:7,name:"พิจิก",planet:"อังคาร"},
-  {sign:8,name:"ธนู",planet:"พฤหัสบดี"},{sign:9,name:"มกร",planet:"เสาร์"},
-  {sign:10,name:"กุมภ์",planet:"ราหู"},{sign:11,name:"มีน",planet:"พฤหัสบดี"}
- ];
- const planetNumbers={"อาทิตย์":"๑","จันทร์":"๒","อังคาร":"๓","พุธ":"๔","พฤหัสบดี":"๕","ศุกร์":"๖","เสาร์":"๗","ราหู":"๘"};
+ const data=window.HORA_PLANET_STANDARDS4;
+ const selector=document.getElementById("planetStandardSelect4");
+ const grid=document.getElementById("planetaryStandardSignGrid4");
+ const heading=document.getElementById("planetaryStandardTitle4");
+ const planetNumbers=data.planetNumbers;
  const ns="http://www.w3.org/2000/svg";
- function draw(){
+ function renderPanel(){
+  const category=selector?.value||"เกษตร";
+  if(heading)heading.textContent="ชุดมาตรฐานดาว · "+category;
+  if(!grid)return;
+  grid.innerHTML="";
+  data.signs.forEach((sign,index)=>{
+   const item=data.mappings[category]?.[sign];
+   const article=document.createElement("article");
+   article.className="standard-sign4";
+   article.dataset.sign=String(index);
+   const signEl=document.createElement("div");signEl.className="sign-name4";signEl.textContent=sign;
+   const planetEl=document.createElement("div");planetEl.className="planet-name4";planetEl.textContent=item?item.planet:"—";
+   const labelEl=document.createElement("div");labelEl.className="standard-label4";labelEl.textContent="มาตรฐานดาว: "+category;
+   const numEl=document.createElement("div");numEl.className="standard-label4";numEl.textContent="เลขดาว: "+(item?item.number:"—");
+   article.append(signEl,planetEl,labelEl,numEl);grid.appendChild(article);
+  });
+ }
+ function drawWheel(){
   const svg=document.querySelector("#wheel svg");
   if(!svg)return false;
-  svg.querySelector("#kasetLabelsIndex4")?.remove();
+  svg.querySelector("#planetStandardNumbersIndex4")?.remove();
   const g=document.createElementNS(ns,"g");
-  g.setAttribute("id","kasetLabelsIndex4");
+  g.setAttribute("id","planetStandardNumbersIndex4");
   g.setAttribute("font-family",'system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif');
   g.setAttribute("pointer-events","none");
-  standards.forEach(item=>{
-   const angle=(-(item.sign*30+15)-90)*Math.PI/180;
-   const r=245,c=360;
+  const category=selector?.value||"เกษตร";
+  data.signs.forEach((sign,index)=>{
+   const item=data.mappings[category]?.[sign];
+   if(!item)return;
+   /* Wheel center is (360,360); place numbers just outside the central innermost circle. */
+   const angle=(-(index*30+15)-90)*Math.PI/180;
+   const r=118,c=360;
    const x=c+r*Math.cos(angle),y=c+r*Math.sin(angle);
-   const t=document.createElementNS(ns,"text");
-   t.setAttribute("x",x.toFixed(2));t.setAttribute("y",(y+4).toFixed(2));
-   t.setAttribute("text-anchor","middle");t.setAttribute("font-size","11");
-   t.setAttribute("font-weight","800");t.setAttribute("fill","#1d4ed8");
-   t.setAttribute("paint-order","stroke");t.setAttribute("stroke","#fff");
-   t.setAttribute("stroke-width","3");t.setAttribute("stroke-linejoin","round");
-   t.textContent="เกษตร "+(planetNumbers[item.planet]||"")+" "+item.planet;
-   t.setAttribute("aria-label","มาตรฐานดาวเกษตร "+item.name+" เลขดาว"+(planetNumbers[item.planet]||"ไม่ระบุ")+" ดาว"+item.planet);
-   g.appendChild(t);
+   const circle=document.createElementNS(ns,"circle");
+   circle.setAttribute("cx",x.toFixed(2));circle.setAttribute("cy",y.toFixed(2));circle.setAttribute("r","12");
+   circle.setAttribute("fill","#fff");circle.setAttribute("fill-opacity","0.96");
+   circle.setAttribute("stroke","#1d4ed8");circle.setAttribute("stroke-width","1.5");
+   const text=document.createElementNS(ns,"text");
+   text.setAttribute("x",x.toFixed(2));text.setAttribute("y",(y+4.5).toFixed(2));
+   text.setAttribute("text-anchor","middle");text.setAttribute("font-size","13");
+   text.setAttribute("font-weight","900");text.setAttribute("fill","#1d4ed8");
+   text.textContent=item.number;
+   text.setAttribute("aria-label",category+" "+sign+" ดาว"+item.planet+" เลข"+item.number);
+   g.append(circle,text);
   });
   svg.appendChild(g);
   return true;
  }
- let scheduled=false;
- const schedule=()=>{if(scheduled)return;scheduled=true;setTimeout(()=>{scheduled=false;draw();},80);};
+ function update(){renderPanel();drawWheel();}
+ selector?.addEventListener("change",update);
  const wheel=document.getElementById("wheel");
- if(wheel){new MutationObserver(schedule).observe(wheel,{childList:true});}
- document.getElementById("calc")?.addEventListener("click",()=>setTimeout(draw,180));
- document.addEventListener("DOMContentLoaded",draw);
- [0,250,800,1600,3000].forEach(ms=>setTimeout(draw,ms));
+ let scheduled=false;
+ function schedule(){if(scheduled)return;scheduled=true;setTimeout(()=>{scheduled=false;drawWheel();},100);}
+ if(wheel)new MutationObserver(schedule).observe(wheel,{childList:true});
+ document.getElementById("calc")?.addEventListener("click",()=>setTimeout(drawWheel,200));
+ update();
+ [0,300,900,1800,3000].forEach(ms=>setTimeout(drawWheel,ms));
 })();
 </script>
 
