@@ -179,6 +179,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     name: 'ดวงจันทร์เสี้ยว',
     aliases: ['ดวงจันทร์ครึ่งซีก', 'มาลัยโยค', 'อัฒจักร'],
     nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
+    mergedInto: 'SPECIAL-CHANDRA-HALF',
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: null,
@@ -189,12 +190,13 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-CHANDRA-HALF',
     name: 'ดวงจันทร์ครึ่งซีก',
-    aliases: [],
+    aliases: ['ดวงจันทร์เสี้ยว', 'มาลัยโยค', 'อัฒจักร'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: null,
     planets: 'ยังไม่ยืนยันว่าดาวทุกดวงหรือเฉพาะดาวเคราะห์ใดเป็นตัวนับ',
-    notes: ['ชื่อเหล่านี้ถูกรวมเป็นชื่อพ้องชั่วคราวจากแหล่งที่พบ ต้องให้ผู้รู้ยืนยันก่อนถือเป็นคำเดียวกัน'],
+    notes: ['อาจารย์แทนยืนยันให้รวมชื่อดวงจันทร์เสี้ยว/ดวงจันทร์ครึ่งซีก/มาลัยโยค/อัฒจักรเป็นกลุ่มชื่อเดียวกัน', 'การรวมชื่อไม่ใช่การยืนยันสูตร; รายละเอียดดาวและเงื่อนไขยังไม่ครบ จึงยังปิดใช้งาน'],
     execution: 'DISABLED'
   },
   {
@@ -397,11 +399,15 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     category: 'เกณฑ์องค์เกณฑ์',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: 'planet-house-from-ascendant',
+    variants: [
+      { id: 'A', planetConditions: [{ planet: 'ราหู', houseFromAscendant: 7 }], state: 'NOT_SELECTED' },
+      { id: 'B', planetConditions: [{ planet: 'อังคาร', houseFromAscendant: 7 }, { planet: 'ราหู', houseFromAscendant: 7 }], state: 'SELECTED_REFERENCE_NOT_ENABLED' }
+    ],
     planetConditions: [
       { planet: 'ราหู', houseFromAscendant: 7 }
     ],
-    planets: 'ราหู (๘); บางคำอธิบายกล่าวถึงอังคาร (๓) ร่วมด้วย จึงต้องยืนยันสูตรต้นฉบับ',
-    notes: ['มีความแตกต่างระหว่างแหล่งในชุดดาวที่กำหนดไว้ จึงห้ามตัดสินอัตโนมัติ'],
+    planets: 'แบบ A: ราหู (๘) ภพ 7; แบบ B ที่อาจารย์แทนเลือก: อังคาร (๓) และราหู (๘) ภพ 7',
+    notes: ['ข้อสรุปอาจารย์แทน: เลือกแบบ B โดยเก็บเงื่อนไขอังคารและราหูในภพ 7 แยกจากแบบ A', 'ยังไม่เปิดใช้จนยืนยันว่าต้องอยู่ภพ 7 พร้อมกันหรือไม่ ประเภทลัคนา และแหล่งอ้างอิง'],
     execution: 'REFERENCE_ONLY'
   },
   {
