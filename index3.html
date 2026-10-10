@@ -458,7 +458,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   svg.querySelectorAll('text').forEach(t=>{
    const label=t.textContent.trim();
    if(label==='@จร'||label.startsWith('@จร ')){
-    t.textContent='@จร '+time;
+    const desired='@จร '+time;
+    if(t.textContent!==desired)t.textContent=desired;
     t.setAttribute('font-size','10');
     t.setAttribute('font-weight','900');
     t.setAttribute('text-anchor','middle');
