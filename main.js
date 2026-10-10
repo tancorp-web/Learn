@@ -169,7 +169,7 @@ function renderStarDetails(natal,transit){
  }).join('');
  const transitRows=rows.map(({name,b,t})=>{
    if(!t)return '';
-   const isAsc=name==='ลัคนa',position=isAsc?'ลัคนาจร':positionOf(name,t,t.longitude);
+   const isAsc=name==='ลัคนา',position=isAsc?'ลัคนาจร':positionOf(name,t,t.longitude);
    const v=formatVarga(t.longitude),nak=formatNakFull(t.longitude);
    return '<tr><td>'+esc7(name)+'</td><td>'+esc7(t.sign.name)+'</td><td>'+esc7(formatInSign(t.longitude))+'</td><td>'+esc7(t.house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:t},natal,rows.map(r=>({name:r.name,p:r.t})))+'</td></tr>';
  }).join('');
