@@ -13,11 +13,60 @@ export const CRITERION_STATUS = Object.freeze({
   SOURCE_VARIANT: 'SOURCE_VARIANT'
 });
 
+/**
+ * Advisor-confirmed discovery decisions, recorded separately from executable rules.
+ * Name merges confirm naming/alias handling only; they do not prove that source formulas are identical.
+ */
+export const THAI_SPECIAL_CRITERIA_DECISIONS = Object.freeze([
+  {
+    id: 'DECISION-COFFIN',
+    criterionId: 'SPECIAL-COFFIN',
+    selectedVariant: 'A',
+    selectedRule: 'ตรวจเฉพาะเมถุน สิงห์ ธนู และกุมภ์; ไม่เพิ่มเงื่อนไขกรกฎ/มังกรว่างใน variant A',
+    state: 'RECORDED_NOT_ENABLED',
+    unresolved: ['นับเฉพาะดาวหรือดาวร่วมกับลัคนา', 'เงื่อนไขดาว/การครองตำแหน่งที่ต้องใช้']
+  },
+  {
+    id: 'DECISION-ELEMENT-KENDRA',
+    criterionId: 'SPECIAL-ELEMENT-KENDRA',
+    selectedVariant: 'A',
+    selectedRule: 'จำแนกประเภทลัคนาตามราศีเต็ม ไม่ใช้การแบ่งตามช่วงองศาแบบ B',
+    state: 'RECORDED_NOT_ENABLED',
+    unresolved: ['การจัดราศีแต่ละประเภทตามสำนักที่เลือก', 'ต้องมีดาวครบทุกดวงหรือไม่']
+  },
+  {
+    id: 'DECISION-CHATUSADAI',
+    criterionId: 'SPECIAL-CHATUSADAI',
+    selectedVariant: 'A',
+    selectedRule: 'ความสัมพันธ์ภพ 1, 4, 7, 10; แยกจากสูตรดาว/ราศีเฉพาะแบบ B',
+    state: 'RECORDED_NOT_ENABLED',
+    unresolved: ['จุดตั้งต้น/วิธีนับภพ', 'ต้องใช้ดาวใดและต้องครบทุกภพหรือไม่', 'แหล่งของ variant B']
+  },
+  {
+    id: 'DECISION-KITA-KENDRA',
+    criterionId: 'SPECIAL-KITA-KENDRA',
+    selectedVariant: 'B',
+    selectedRule: 'อังคารและราหูอยู่ภพ 7 ตาม variant B',
+    state: 'RECORDED_NOT_ENABLED',
+    unresolved: ['ประเภทลัคนา/เงื่อนไขการใช้เกณฑ์', 'ต้องอยู่ภพ 7 พร้อมกันหรือไม่', 'แหล่งอ้างอิงของสำนัก']
+  }
+]);
+
+export const THAI_SPECIAL_NAME_MERGE_DECISIONS = Object.freeze([
+  { id: 'NAME-MERGE-01', names: ['ดอกอุตพิต', 'ดอกอุตพิด'], state: 'MERGE_CONFIRMED', canonicalId: 'SPECIAL-DOK-UTTAPHIT', mergeScope: 'NAME_ALIAS_ONLY' },
+  { id: 'NAME-MERGE-02', names: ['นำผล', 'นำพล'], state: 'MERGE_CONFIRMED', canonicalId: 'SPECIAL-NAM-PHON', mergeScope: 'NAME_ALIAS_ONLY' },
+  { id: 'NAME-MERGE-03', names: ['ตามผล', 'ขับพล'], state: 'MERGE_CONFIRMED', canonicalId: 'SPECIAL-TAM-PHON', mergeScope: 'NAME_ALIAS_ONLY' },
+  { id: 'NAME-MERGE-04', names: ['ดวงโลงผี', 'ดวงโลงศพ'], state: 'MERGE_CONFIRMED', canonicalId: 'SPECIAL-COFFIN', mergeScope: 'NAME_ALIAS_ONLY' },
+  { id: 'NAME-MERGE-05', names: ['ดวงสามเหลี่ยม', 'ดวงหนุมาน'], state: 'MERGE_CONFIRMED', canonicalId: 'SPECIAL-CHART-TRIANGLE', mergeScope: 'NAME_ALIAS_ONLY' },
+  { id: 'NAME-MERGE-06', names: ['ดวงจันทร์เสี้ยว', 'ดวงจันทร์ครึ่งซีก', 'มาลัยโยค', 'อัฒจักร'], state: 'MERGE_CONFIRMED', canonicalId: 'SPECIAL-CHANDRA-HALF', mergeScope: 'NAME_ALIAS_ONLY' }
+]);
+
 export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-COFFIN',
     name: 'ดวงโลงผี',
-    aliases: ['โลงผี', 'โลงผี-แคล้วคลาด'],
+    aliases: ['โลงผี', 'โลงผี-แคล้วคลาด', 'ดวงโลงศพ'],
+    advisorDecision: { selectedVariant: 'A', state: 'RECORDED_NOT_ENABLED', unresolved: ['นับเฉพาะดาวหรือดาวร่วมกับลัคนา'] },
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
     ruleType: 'sign-occupancy',
@@ -26,8 +75,8 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     requiredOccupancy: 'มีสิ่งแทนตำแหน่งอย่างน้อยหนึ่งรายการในแต่ละราศีที่กำหนด',
     planets: 'ดาวใดก็ได้; ไม่พบข้อกำหนดว่าต้องเป็นดาวเฉพาะดวง',
     notes: [
-      'แหล่งอธิบายที่พบระบุว่ามีดาวหรือลัคนาอยู่ครบทั้งสี่ราศี และบางคำอธิบายยอมรับเฉพาะดาวก็ได้',
-      'มีแหล่งอีกแนวที่กล่าวถึงราศีกรกฎ/มังกรว่างเป็นเงื่อนไขประกอบ จึงเก็บเป็นข้อแตกต่างที่ต้องให้อาจารย์แทนตัดสิน',
+      'ข้อสรุปอาจารย์แทน: เลือกแบบ A ให้ตรวจเฉพาะเมถุน สิงห์ ธนู และกุมภ์; ไม่เพิ่มเงื่อนไขกรกฎ/มังกรว่างของแบบ B',
+      'ยังต้องยืนยันว่าจะนับเฉพาะดาวหรือรวมลัคนาด้วย; จึงคงสถานะไม่เปิดใช้',
       'คำพยากรณ์เรื่องแคล้วคลาดเป็นความเชื่อตามตำรา ไม่ใช่ข้อเท็จจริงที่ระบบยืนยันได้'
     ],
     execution: 'REFERENCE_ONLY',
@@ -81,6 +130,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     id: 'SPECIAL-DOK-UTTAPHIT',
     name: 'ดอกอุตพิต',
     aliases: ['ดอกอุตพิด', 'อุตพิต'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'รูปแบบดวงชื่อเฉพาะ',
     status: CRITERION_STATUS.NEEDS_SOURCE,
     ruleType: null,
@@ -91,45 +141,49 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-NAM-PHON',
     name: 'นำผล',
-    aliases: [],
+    aliases: ['นำพล'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'เกณฑ์ชื่อเฉพาะ',
     status: CRITERION_STATUS.NEEDS_SOURCE,
     ruleType: null,
     planets: 'ยังระบุไม่ได้',
-    notes: ['คำว่า “นำผล” กับ “นำพล” ยังห้ามรวมเป็นเกณฑ์เดียวกันจนกว่าอาจารย์แทนจะยืนยัน'],
+    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “นำผล/นำพล” ในฐานะชื่อพ้อง; สูตรยังไม่มีแหล่งยืนยันและยังปิดใช้งาน'],
     execution: 'DISABLED'
   },
   {
     id: 'SPECIAL-TAM-PHON',
     name: 'ตามผล',
-    aliases: [],
+    aliases: ['ขับพล'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'เกณฑ์ชื่อเฉพาะ',
     status: CRITERION_STATUS.NEEDS_SOURCE,
     ruleType: null,
     planets: 'ยังระบุไม่ได้',
-    notes: ['คำว่า “ตามผล” กับ “ตามพล” ยังห้ามรวมเป็นเกณฑ์เดียวกันจนกว่าจะยืนยัน'],
+    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “ตามผล/ขับพล” ในฐานะชื่อพ้อง; สูตรยังไม่มีแหล่งยืนยันและยังปิดใช้งาน'],
     execution: 'DISABLED'
   },
   {
     id: 'SPECIAL-CHART-TRIANGLE',
     name: 'ดวงสามเหลี่ยม',
-    aliases: [],
+    aliases: ['ดวงหนุมาน'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.DISCOVERY,
     ruleType: null,
     planets: 'ยังไม่ยืนยันว่าต้องใช้ดาวใดและครบกี่ตำแหน่ง',
-    notes: ['ห้ามใช้แทนความสัมพันธ์ตรีโกณแบบนับราศีโดยอัตโนมัติ'],
+    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “ดวงสามเหลี่ยม/ดวงหนุมาน” ในฐานะชื่อพ้อง; สูตร/เงื่อนไขยังไม่ครบและยังปิดใช้งาน', 'การรวมชื่อไม่อนุญาตให้อนุมานว่าสูตรของทุกสำนักเหมือนกัน'],
     execution: 'DISABLED'
   },
   {
     id: 'SPECIAL-MOON-CRESCENT',
     name: 'ดวงจันทร์เสี้ยว',
-    aliases: [],
+    aliases: ['ดวงจันทร์ครึ่งซีก', 'มาลัยโยค', 'อัฒจักร'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: null,
     planets: 'ยังไม่ยืนยันว่าต้องใช้ดาวใดและรูปแบบการกระจายต้องเป็นอย่างไร',
-    notes: ['แยกจากดวงจันทร์ครึ่งซีก/อัฒจักร/มาลัยโยค จนกว่าจะมีแหล่งยืนยันว่าเป็นสูตรเดียวกัน'],
+    notes: ['อาจารย์แทนยืนยันให้รวมชื่อดวงจันทร์เสี้ยว/ดวงจันทร์ครึ่งซีก/มาลัยโยค/อัฒจักรในฐานะกลุ่มชื่อเดียวกัน', 'การยืนยันชื่อไม่ใช่การยืนยันสูตร; รายละเอียดดาวและเงื่อนไขยังไม่ครบ จึงยังปิดใช้งาน'],
     execution: 'DISABLED'
   },
   {
@@ -217,12 +271,14 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-COFFIN-CHEST',
     name: 'ดวงโลงศพ',
-    aliases: [],
+    aliases: ['ดวงโลงผี'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
+    mergedInto: 'SPECIAL-COFFIN',
     category: 'รูปแบบดวงชื่อเฉพาะ',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: null,
     planets: 'ยังไม่ยืนยันว่าเหมือนดวงโลงผีหรือไม่',
-    notes: ['เก็บแยกจากดวงโลงผีจนกว่าจะยืนยันว่าเป็นชื่อพ้อง'],
+    notes: ['ชื่อ “ดวงโลงศพ/ดวงโลงผี” ได้รับการยืนยันให้รวมในฐานะชื่อพ้องและใช้ SPECIAL-COFFIN เป็นรายการอ้างอิง', 'คงรหัสเดิมไว้เพื่อความเข้ากันได้; ไม่สร้างตัวตรวจแยก และไม่เปิดใช้งาน'],
     execution: 'DISABLED'
   },
   {
@@ -245,6 +301,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     id: 'SPECIAL-ELEMENT-KENDRA',
     name: 'องค์เกณฑ์',
     aliases: ['องค์เกณฑ์ 4 ประเภท'],
+    advisorDecision: { selectedVariant: 'A', state: 'RECORDED_NOT_ENABLED', selectedRule: 'จำแนกประเภทลัคนาตามราศีเต็ม; ไม่ใช้การแบ่งตามช่วงองศาแบบ B', unresolved: ['เกณฑ์จำแนกประเภทลัคนาตามสำนัก', 'ต้องมีดาวครบทุกดวงหรือไม่'] },
     category: 'เกณฑ์ตำแหน่งดาวเทียบลัคนา',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: 'ascendant-type-and-house',
@@ -256,8 +313,8 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     ],
     planets: 'ขึ้นกับประเภทลัคนา: ปัศวะ ๑/๒/๓/๕; นระ ๑/๕/๗; อัมพุ ๒/๔/๕/๖; กีฏะ ๘',
     notes: [
-      'เป็นชุดเงื่อนไขที่ถอดได้จากแหล่งตำราหนึ่ง แต่การแบ่งราศีเป็นประเภทปัศวะ/นระ/อัมพุ/กีฏะต่างกันได้ตามสำนัก',
-      'ต้องยืนยันประเภทของราศีและว่าต้องมีดาวครบทุกดวงก่อนเปิดใช้'
+      'ข้อสรุปอาจารย์แทน: เลือกแบบ A คือจำแนกประเภทลัคนาตามราศีเต็ม; ไม่ใช้แบบ B ที่แบ่งตามช่วงองศา',
+      'ต้องยืนยันเกณฑ์จำแนกประเภทลัคนาและว่าต้องมีดาวครบทุกดวงก่อนเปิดใช้'
     ],
     execution: 'REFERENCE_ONLY'
   },
@@ -335,6 +392,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-KITA-KENDRA',
     name: 'กีฏะเกณฑ์',
+    advisorDecision: { selectedVariant: 'B', state: 'RECORDED_NOT_ENABLED', selectedRule: 'อังคารและราหูอยู่ภพ 7', unresolved: ['ต้องอยู่ภพ 7 พร้อมกันหรือไม่', 'เงื่อนไขประเภทลัคนา', 'แหล่งอ้างอิง'] },
     aliases: ['กีฏเกณฑ์', 'กีรฏะเกณฑ์'],
     category: 'เกณฑ์องค์เกณฑ์',
     status: CRITERION_STATUS.SOURCE_VARIANT,
@@ -366,7 +424,8 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     ruleType: 'house-relationship',
     housesFromAscendant: [1, 4, 7, 10],
     planets: 'ดาวใดก็ได้สำหรับความสัมพันธ์พื้นฐาน; บางสูตรกำหนดดาวเฉพาะเพิ่มเติม',
-    notes: ['อย่ารวมกับมุม 90 องศาแบบดาราศาสตร์หรือจตุโกณอื่นโดยอัตโนมัติ'],
+    advisorDecision: { selectedVariant: 'A', state: 'RECORDED_NOT_ENABLED', selectedRule: 'ความสัมพันธ์ภพ 1, 4, 7, 10; แยกจากสูตรดาว/ราศีเฉพาะแบบ B', unresolved: ['จุดตั้งต้น/วิธีนับภพ', 'ดาวที่นับและความครบถ้วน'] },
+    notes: ['อาจารย์แทนเลือกแบบ A: ความสัมพันธ์ภพ 1, 4, 7, 10; เก็บแยกจากสูตรดาว/ราศีเฉพาะแบบ B', 'ยังไม่เปิดใช้จนเงื่อนไขดาวและวิธีนับภพครบถ้วน', 'อย่ารวมกับมุม 90 องศาแบบดาราศาสตร์หรือจตุโกณอื่นโดยอัตโนมัติ'],
     execution: 'REFERENCE_ONLY'
   },
   {
