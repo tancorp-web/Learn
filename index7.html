@@ -159,11 +159,12 @@
 <div id="starDetails" class="panel">
   <div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">แยกตาราง · เกณฑ์รายดวง</span></div>
   <p class="criteria7-lead">แยกข้อมูลเป็นสองตารางเพื่อดูได้ชัดว่าดาวแต่ละดวงอยู่ราศี/ภพใด มีมาตรฐานหรือเกณฑ์พื้นฐานอะไร และสัมพันธ์กับดาวใดบ้าง</p>
+  <p class="criteria7-muted">คอลัมน์ “มาตรฐานดาว” แสดงเฉพาะเกณฑ์ที่ชุดข้อมูล HORA เปิดใช้: เกษตร/อุจจ์/นิจตามราศีในชุดปัจจุบัน ส่วนองศาอุจจ์/นิจเฉพาะยังไม่ถูกนำมาตัดสิน; ราหู เกตุ และมฤตยูแสดงว่า “ยังไม่กำหนดตามสำนัก” แทนการเดาเกณฑ์ ส่วนมาตรฐานที่ยังไม่มีสูตรยืนยันจะไม่ถูกแสดงเป็นผลผ่าน</p>
   <h3>ตารางที่ 1 · ดาวกำเนิดจริง</h3>
-  <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศี</th><th>องศา</th><th>ภพจากลัคนากำเนิด</th><th>ตำแหน่ง/มาตรฐาน</th><th>นวางค์</th><th>ตรียางค์</th><th>ฤกษ์</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="natalStarDetailsBody"></tbody></table></div>
+  <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศี</th><th>องศา</th><th>ภพจากลัคนากำเนิด</th><th>ตำแหน่งตามภพ</th><th>มาตรฐานดาว</th><th>นวางค์</th><th>ตรียางค์</th><th>ฤกษ์</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="natalStarDetailsBody"></tbody></table></div>
   <h3 style="margin-top:22px">ตารางที่ 2 · ดาวจรจริง</h3>
   <p class="criteria7-muted">ภพดาวจรนับจากลัคนากำเนิด เพื่อให้เห็นว่าดาวจรผ่านภพใดในดวงกำเนิด ส่วนลัคนาจรแสดงภพของตัวเอง</p>
-  <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศีจร</th><th>องศาจร</th><th>ภพจรจากลัคนากำเนิด</th><th>ตำแหน่ง/มาตรฐานจร</th><th>นวางค์จร</th><th>ตรียางค์จร</th><th>ฤกษ์จร</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="transitStarDetailsBody"></tbody></table></div>
+  <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศีจร</th><th>องศาจร</th><th>ภพจรจากลัคนากำเนิด</th><th>ตำแหน่งตามภพจร</th><th>มาตรฐานดาวจร</th><th>นวางค์จร</th><th>ตรียางค์จร</th><th>ฤกษ์จร</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="transitStarDetailsBody"></tbody></table></div>
 </div>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
 
@@ -377,7 +378,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main.js?v=20261011-same-chart-trine-chatu-7f82a9d"></script>
+<script type="module" src="./main.js?v=20261011-planet-standard-column-494d53f"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
