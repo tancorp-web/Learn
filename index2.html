@@ -3,7 +3,7 @@
 <style>
 :root{color-scheme:light;--ink:#17233d;--muted:#6c7890;--paper:#f4f6fb;--line:#e1e6f0;--navy:#14213d;--gold:#d5a94f;--violet:#6258d9;--shadow:0 12px 34px rgba(24,39,75,.08)}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:86px}body{margin:0;background:radial-gradient(ellipse at 50% -12%,#e6eaff 0,transparent 45%),var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}.container{width:min(1200px,calc(100% - 36px));margin-inline:auto}.hero{position:relative;overflow:hidden;text-align:center;padding:44px 0 35px;background:linear-gradient(135deg,#101a31,#202f52 58%,#394779);color:#fff}.hero:before,.hero:after{content:"";position:absolute;border:1px solid #ffffff20;border-radius:50%;pointer-events:none}.hero:before{width:360px;height:360px;left:-130px;top:-245px}.hero:after{width:300px;height:300px;right:-100px;bottom:-230px}.hero .container{position:relative;z-index:1}.hero h1{margin:0;font-size:clamp(27px,4vw,42px);font-weight:800;letter-spacing:-.035em;line-height:1.2}.hero p{margin:10px 0 17px;color:#d9e1f5;font-size:15px}.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid #e6d19a;border-radius:999px;color:#775516;background:#fff6df;font-size:12px;font-weight:750}.hero .badge{color:#ffdf91;background:#ffffff12;border-color:#ffdf9180}.sticky-nav{position:sticky;top:0;z-index:100;background:#fffffff0;backdrop-filter:blur(16px);border-bottom:1px solid #d7deeb;box-shadow:0 4px 18px #18274b0d}.nav-inner{width:min(1200px,calc(100% - 28px));margin:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;padding:10px 0}.menu-btn{min-height:43px;border:1px solid transparent;background:transparent;color:#52617c;padding:10px 12px;border-radius:12px;cursor:pointer;font:inherit;font-size:13px;font-weight:750;transition:background .18s,color .18s,border-color .18s}.menu-btn:hover{background:#f0f2fb;color:var(--navy);border-color:#e1e5f3}.menu-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 5px 13px #14213d2e}main.container{padding-top:10px}.panel{min-width:0;background:#fff;border:1px solid var(--line);border-radius:18px;margin:18px 0;padding:clamp(16px,2.3vw,25px);box-shadow:var(--shadow)}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.section-title h2,.menu-panel>h2{margin:0;color:var(--navy);font-size:clamp(18px,2vw,22px);font-weight:800;letter-spacing:-.02em}.section-title h2:before{content:"";display:inline-block;width:4px;height:1.05em;margin-right:10px;vertical-align:-.12em;border-radius:9px;background:var(--gold)}.form-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:14px 12px}.field{display:flex;min-width:0;flex-direction:column;gap:6px}.field label{font-size:12px;color:#596781;font-weight:700}.field label small{font-size:11px;color:#8b95a8;font-weight:500}.field input,.field select{width:100%;min-width:0;min-height:43px;border:1px solid #d7deeb;border-radius:11px;background:#fbfcff;color:var(--ink);padding:10px 11px;font:inherit;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s,background .18s}.field input:hover,.field select:hover{border-color:#b8c3dc;background:#fff}.field input:focus,.field select:focus{border-color:var(--violet);background:#fff;box-shadow:0 0 0 3px #6258d922}.field select{cursor:pointer}.span-2{grid-column:span 2}.span-6{grid-column:span 6}.calc-row{margin-top:20px;padding-top:16px;border-top:1px solid #edf0f6;display:flex;align-items:center;gap:13px;flex-wrap:wrap}#calc{min-height:46px;border:0;border-radius:12px;padding:12px 22px;background:linear-gradient(135deg,#6b5ce7,#4b49b9);color:#fff;cursor:pointer;font:inherit;font-weight:800;box-shadow:0 7px 16px #534cc33d;transition:transform .18s,box-shadow .18s,filter .18s}#calc:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 10px 22px #534cc34d}#msg{font-size:13px;color:var(--muted)}.wheel-wrap{width:100%;max-width:900px;margin:0 auto;display:grid;place-items:center;overflow:hidden}.wheel-wrap svg,#wheel svg{display:block;width:100%;height:auto;max-width:900px}#birthDetails,#starDetails,#compare{scroll-margin-top:90px}.table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px;background:#fff}th,td{padding:11px 12px;border-bottom:1px solid #e9edf5;text-align:left;vertical-align:top}th{position:sticky;top:0;z-index:1;font-size:12px;line-height:1.4;white-space:nowrap;background:#f2f5fb;color:#40506f;font-weight:800}td{font-size:13px}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f8faff}.pass{color:#16845b;font-weight:800}.fail{color:#c43d58;font-weight:800}.pending{color:#9a6a00;font-weight:800}.menu-panel{display:none}.menu-panel.show{display:block;animation:panel-in .2s ease-out}@keyframes panel-in{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}.formula-card,.golden-card,.status-card{border:1px solid #2d3b5c;background:linear-gradient(145deg,#111b32,#1b2946);border-radius:14px;padding:17px;margin:14px 0;color:#e9eefb;box-shadow:0 8px 20px #14213d1a}.formula-card h3,.golden-card h3,.status-card h3{margin:0 0 10px;color:#ffdf91;font-size:15px}.formula-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;color:#d7e0f5;font-size:12px}#errorLog{display:none;border-color:#d9dfed;background:linear-gradient(145deg,#fff,#f7f8fd);scroll-margin-top:90px}#errorLog.show{display:block}#errorLog h3{display:flex;align-items:center;gap:8px;margin:0 0 12px;color:var(--navy);font-size:18px}#errorLogText{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#e6eaf5;font-size:12px;line-height:1.7;max-height:420px;overflow:auto;background:#101827;border:1px solid #2a3650;border-radius:12px;padding:14px;box-shadow:inset 0 1px 4px #0003;scrollbar-color:#53617c #101827;scrollbar-width:thin}.log-actions{position:relative;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid #e6eaf2}.log-actions button{border:1px solid #d8ddea;background:#fff;color:var(--navy);border-radius:10px;padding:9px 13px;cursor:pointer;font:inherit;font-size:12px;font-weight:750;transition:background .18s,border-color .18s}.log-actions button:hover{background:#f2f5fb;border-color:#b8c3dc}.log-actions button:active{transform:translateY(1px)}#logStatus{font-size:12px;color:var(--muted)}footer{text-align:center;padding:28px 0 42px;color:#7c879b;font-size:12px}button:focus-visible{outline:3px solid #6258d959;outline-offset:2px}::selection{background:#e2dcff;color:#25204e}@media(max-width:900px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.span-2,.span-6{grid-column:span 1}.panel{border-radius:15px}}@media(max-width:600px){.container{width:calc(100% - 18px)}.hero{padding:30px 0 25px}.hero h1{font-size:27px}.hero p{font-size:13px}.hero .badge{max-width:100%;font-size:10px;line-height:1.5}.nav-inner{width:calc(100% - 16px);grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:8px 0}.menu-btn{min-height:41px;padding:9px 7px;font-size:12px}.panel{margin:12px 0;padding:15px}.section-title{align-items:flex-start;margin-bottom:15px}.section-title h2,.menu-panel>h2{font-size:18px}.section-title .badge{flex-shrink:0;font-size:10px;padding:5px 8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 9px}.span-2,.span-6{grid-column:span 2}.field input,.field select{min-height:42px;padding:9px;font-size:14px}.calc-row{align-items:stretch;flex-direction:column}.calc-row #calc{width:100%}.calc-row #msg{text-align:center}.wheel-wrap{margin-inline:-3px;width:calc(100% + 6px)}th,td{padding:9px 10px}.formula-card,.golden-card,.status-card{padding:14px}.formula-code{font-size:11px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
-/* index2.html only: full-wheel Navamsa and Nakshatra overlay */
+/* index2.html only: full-wheel Drekkana, Navamsa and continuous Nakshatra overlay */
 #wheelPanel2{max-width:none}
 #wheelPanel2 .wheel-tools{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:-4px 0 12px}
 #wheelPanel2 .wheel-tools button{border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#17233d;padding:8px 13px;min-height:38px;font:inherit;font-weight:750;cursor:pointer}
@@ -14,12 +14,18 @@
 #wheelPanel2 #wheel svg{display:block;width:100%!important;height:auto;max-width:none!important;background:#fff}
 #wheelPanel2 #wheel svg .nava-number2{font-family:system-ui,Tahoma,sans-serif;font-size:11px;font-weight:900;fill:#111827;paint-order:stroke;stroke:#fff;stroke-width:2.4px;stroke-linejoin:round}
 #wheelPanel2 #wheel svg .nava-tick2{stroke:#64748b;stroke-width:.8;opacity:.85}
+#wheelPanel2 #wheel svg .drek-tick2{stroke:#b45309;stroke-width:1.5;opacity:.95}
+#wheelPanel2 #wheel svg .nak-boundary2{stroke:#7c3aed;stroke-width:1.6;opacity:.95}
 #wheelPanel2 #wheel svg .nak-name2{font-family:system-ui,Tahoma,sans-serif;font-size:12px;font-weight:850;fill:#7c2d12;paint-order:stroke;stroke:#fff;stroke-width:2.6px;stroke-linejoin:round}
 #wheelPanel2 #wheel svg .nak-type2{font-family:system-ui,Tahoma,sans-serif;font-size:10px;font-weight:800;fill:#1d4ed8;paint-order:stroke;stroke:#fff;stroke-width:2.5px;stroke-linejoin:round}
 #wheelPanel2 .nakshatra-legend2{margin-top:12px;border-top:1px solid #e2e8f0;padding-top:10px}
 #wheelPanel2 .nakshatra-legend2 summary{cursor:pointer;font-weight:800;color:#243653;padding:6px 0}
 #wheelPanel2 .nakshatra-legend2 table{min-width:0;width:100%}
 #wheelPanel2 .nakshatra-legend2 th,#wheelPanel2 .nakshatra-legend2 td{padding:7px 9px;font-size:13px}
+#wheelPanel2 .drekkana-legend2{margin-top:10px;border-top:1px solid #e2e8f0;padding-top:10px}
+#wheelPanel2 .drekkana-legend2 summary{cursor:pointer;font-weight:800;color:#243653;padding:6px 0}
+#wheelPanel2 .drekkana-legend2 table{min-width:0;width:100%}
+#wheelPanel2 .drekkana-legend2 th,#wheelPanel2 .drekkana-legend2 td{padding:7px 9px;font-size:13px}
 #wheelPanel2:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:10px 12px;border:0;border-radius:0;overflow:hidden;background:#f4f6fb;display:flex;flex-direction:column}
 #wheelPanel2:fullscreen .section-title{margin-bottom:8px}
 #wheelPanel2:fullscreen .wheel-tools{flex:0 0 auto;margin:0 0 8px}
@@ -47,7 +53,7 @@
 <div class="field"><label>วัน</label><select id="fDay"></select></div><div class="field"><label>เดือน</label><select id="fMonth"></select></div><div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="fYear"></select></div><div class="field"><label>ชั่วโมง</label><select id="fHour"></select></div><div class="field"><label>นาที</label><select id="fMinute"></select></div>
 <div class="field span-2"><label>จังหวัด</label><select id="fProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="fDistrict"></select></div><div class="field"><label>ละติจูด</label><input id="fLat" type="number" step="0.000001"></div><div class="field"><label>ลองจิจูด</label><input id="fLon" type="number" step="0.000001"></div><div class="field span-6"><label>สถานที่</label><input id="fPlace" type="text"></div>
 </div><div class="calc-row"><button id="calc" type="button">🔮 คำนวณดวง</button><span id="msg">พร้อมคำนวณ</span></div></div>
-<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์</summary><div id="nakshatraLegend2"></div></details></div>
+<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
 <div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
 <div id="starDetails" class="panel"><div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">ราศี · ภพ · ตำแหน่ง · ฤกษ์</span></div><div class="table-wrap"><table><thead><tr><th>ดาว</th><th>กำเนิด ราศี</th><th>กำเนิด องศา</th><th>กำเนิด ภพ</th><th>กำเนิด ตำแหน่ง</th><th>กำเนิด นวางค์</th><th>กำเนิด ตรียางค์</th><th>กำเนิด ฤกษ์</th><th>จร ราศี</th><th>จร องศา</th><th>จร ภพ</th><th>จร ตำแหน่ง</th><th>จร นวางค์</th><th>จร ตรียางค์</th><th>จร ฤกษ์</th></tr></thead><tbody id="starDetailsBody"></tbody></table></div></div>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
@@ -99,9 +105,15 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
   if(!svg||svg.dataset.nakshatraFullRing==='1')return;
   svg.dataset.nakshatraFullRing='1';
   svg.setAttribute('viewBox','-85 -85 890 890');
-  svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขนวางค์ครบ 108 ช่อง และชื่อฤกษ์ 27 ฤกษ์พร้อมประเภทฤกษ์');
+  svg.setAttribute('aria-label','วงจักรราศีพร้อมตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
   svg.style.width='100%';svg.style.maxWidth='none';
-  const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','เลขนวางค์และชื่อฤกษ์');svg.appendChild(g);
+  const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
+  /* ตรียางค์: 3 ช่วงต่อราศี ช่วงละ 10 องศา */
+  for(let d=0;d<36;d++){
+   const lon=d*10,p=xy(lon,371),q=xy(lon,360);
+   add(g,'line',{x1:q.x,y1:q.y,x2:p.x,y2:p.y,class:'drek-tick2'});
+  }
+  /* นวางค์: 9 ช่วงต่อราศี ช่วงละ 3°20′ */
   for(let s=0;s<12;s++){
    const seq=navaByElement[elements[s]];
    for(let j=0;j<9;j++){
@@ -109,6 +121,11 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
     add(g,'line',{x1:tick1.x,y1:tick1.y,x2:tick2.x,y2:tick2.y,class:'nava-tick2'});
     add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nava-number2'},seq[j]);
    }
+  }
+  /* ขอบเขตฤกษ์ทุก 13°20′ อยู่ขอบนอกเพื่อให้เห็นช่วงที่คร่อมราศี */
+  for(let i=0;i<27;i++){
+   const lon=i*(360/27),p=xy(lon,402),q=xy(lon,394);
+   add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'nak-boundary2'});
   }
   for(let i=0;i<27;i++){
    const lon=i*(360/27)+(180/27),p=xy(lon,408),q=xy(lon,438);
@@ -152,6 +169,18 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
    h+='<tr><td>'+(i+1)+'</td><td>'+nak[i]+'</td><td>'+types[i%9]+'</td><td>'+fmt(a)+'–'+fmt(b)+'</td></tr>';
   }
   legend.innerHTML=h+'</tbody></table></div>';
+ }
+ const dlegend=$('drekkanaLegend2');
+ if(dlegend){
+  const localFmt=x=>{const total=Math.round(x*60),d=Math.floor(total/60),m=total%60;return String(d).padStart(2,'0')+'°'+String(m).padStart(2,'0')+'′'};
+  let h='<div class="table-wrap"><table><thead><tr><th>ราศีต้นกำเนิด</th><th>ตรียางค์</th><th>องศาในราศี</th><th>ราศีตรียางค์</th></tr></thead><tbody>';
+  for(let s=0;s<12;s++){
+   const drekSigns=[s,(s+4)%12,(s+8)%12];
+   for(let j=0;j<3;j++){
+    h+='<tr><td>'+signs[s]+'</td><td>'+(j+1)+'</td><td>'+localFmt(j*10)+'–'+localFmt((j+1)*10)+'</td><td>'+signs[drekSigns[j]]+'</td></tr>';
+   }
+  }
+  dlegend.innerHTML=h+'</tbody></table></div>';
  }
 })();
 </script>
