@@ -12,6 +12,9 @@
 ## โครงสร้างไฟล์
 
 - `data/astrology/planetary_dignities.json` — กฎแบบเครื่องอ่านได้สำหรับค้นมาตรฐานดาวตามดาวและราศี
+- `js/data/thai-special-criteria.js` — คลังเกณฑ์พิเศษโหราศาสตร์ไทย (รูปแบบดวง/องค์เกณฑ์/โยค) พร้อมดาว เงื่อนไข และสถานะตรวจสอบ; ยังเป็น reference-only
+- `docs/THAI_SPECIAL_ASTROLOGY_CRITERIA.md` — ตารางสรุปสูตรที่พบและรายการที่รออาจารย์แทนยืนยัน
+- `qa/formula-tests/thai-special-criteria.test.js` — ทดสอบความครบของ metadata และป้องกันไม่ให้สูตรที่ยังไม่ยืนยันถูกเปิดใช้
 - `docs/THAI_ASTROLOGY_KNOWLEDGE_BASE.md` — คำอธิบายแนวคิด ขอบเขต และสถานะ
 - `docs/ASTROLOGICAL_STANDARDS.md` และภาคผนวก — รายละเอียดเกณฑ์และข้อควรระวัง
 - มีฟังก์ชัน lookup แล้วที่ `js/astrology/knowledge.js` และชุดทดสอบที่ `qa/formula-tests/astrology-knowledge.test.js`; ต้องรัน CI ให้ผ่านก่อนเชื่อมกับ UI
