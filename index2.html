@@ -260,13 +260,32 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
   if(!svg||svg.dataset.nakshatraFullRing==='1')return;
   svg.dataset.nakshatraFullRing='1';
   svg.setAttribute('viewBox','-85 -85 890 890');
-  svg.setAttribute('aria-label','วงจักรราศีพร้อมตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
+  svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขดาวครองตรียางค์ตามธาตุ ตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
   svg.style.width='100%';svg.style.maxWidth='none';
-  const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
+  const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','เลขดาวครองตรียางค์ในวงจักรราศี ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
   /* ตรียางค์: 3 ช่วงต่อราศี ช่วงละ 10 องศา */
   for(let d=0;d<36;d++){
    const lon=d*10,p=xy(lon,371),q=xy(lon,360);
    add(g,'line',{x1:q.x,y1:q.y,x2:p.x,y2:p.y,class:'drek-tick2'});
+  }
+  /*
+   * เลขดาวครองตรียางค์ตามธาตุ: วางเลขไว้ภายในวงจักรราศี
+   * ปฐม/ทุติย/ตติย = 0–10 / 10–20 / 20–30 องศาในแต่ละราศี
+   * ธาตุลมตติยเลือกแสดงราหู (8) เป็นค่าอ้างอิงหลัก; บางตำราใช้เสาร์ (7)
+   * เป็นเพียงป้ายความรู้อ้างอิง ไม่เปลี่ยน engine คำนวณดาว
+   */
+  const triyangRulers={fire:[3,1,5],earth:[6,4,7],air:[4,6,8],water:[2,3,5]};
+  for(let s=0;s<12;s++){
+   const rulers=triyangRulers[elements[s]];
+   for(let j=0;j<3;j++){
+    const lon=s*30+j*10+5,p=xy(lon,245);
+    add(g,'text',{
+     x:p.x,y:p.y+4,'text-anchor':'middle',
+     'font-size':15,'font-weight':900,fill:'#14213d',
+     stroke:'#fff','stroke-width':3,'paint-order':'stroke',
+     class:'triyang-ruler-number2'
+    },rulers[j]);
+   }
   }
   /* นวางค์: 9 ช่วงต่อราศี ช่วงละ 3°20′ */
   for(let s=0;s<12;s++){
