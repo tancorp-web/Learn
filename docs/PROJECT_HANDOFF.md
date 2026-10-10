@@ -63,3 +63,13 @@ Updated: 2026-10-10
 - Corrected the SVG viewport from its previous `-20 -20 760 760` bounds to `-90 -90 900 900` so the extended Navamsa ring and labels are not clipped beyond the old 740 coordinate boundary. The red natal and green transit ascendant rays remain extended toward radius 408.
 - No changes to `index2.html`, `main.js`, or planet calculation formulas. Commit: `a38cf89e6cec3785261d0019a1a82f2235f7cdb1`. Check Actions and manually confirm the rendered page after deployment; do not claim visual verification before it is checked.
 - Follow-up safety fix in commit `c6119819b4135d6e8b2e1fd844d99852eb1a754b`: the wheel observer now changes the `@จร` text only when its content differs, preventing repeated mutation-observer callbacks while retaining the visible time label.
+
+
+## Work log — 2026-10-10 index3 ascendant time labels
+- User requirement: edit only `index3.html` and this handoff document; do not modify `index2.html`, other files, or any planet calculation formulas.
+- Updated `index3.html` so the selected birth time (`bHour/bMinute`) and transit time (`fHour/fMinute`) are each rendered as a separate opaque, high-contrast SVG time tag associated with its own red natal or green transit ascendant ray. Each leader line ends at the ring intersection computed from that ray's actual SVG endpoint direction, rather than a fixed screen location.
+- Expanded the SVG viewBox to `-150 -150 1020 1020`. Time tags are tangentially offset from existing `@เกิด/@จร` markers; when the two ascendant angles are within 31 degrees, both tags move to an outer lane and retain individual connector lines to the correct ring intersections. The label layer is rebuilt idempotently and the observer watches only direct children of the wheel to avoid self-trigger loops.
+- Transit status strip now shows both selected times. Changing either birth or transit hour/minute, or recalculating the chart, refreshes the time labels.
+- Commits: `55f1457fe23da9714080be648ae434a48e1cdbd2` (initial labels), `8a75995f2947c47811fe15768d03aecb53be1916` (label separation).
+- Formula integrity: no astronomy/calculation code touched; `index2.html` and `main.js` were not edited. Only `index3.html` and `docs/PROJECT_HANDOFF.md` are intended to change.
+- Verification status: source changes committed; pending verification of GitHub Actions / GitHub Pages deployment. Automated multi-time browser interaction and manual visual inspection have not yet been confirmed, so do not describe those as passed until checked.
