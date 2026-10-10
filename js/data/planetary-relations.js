@@ -219,13 +219,13 @@ export function checkCountedRelationship({ relation, fromSign, toSign, startPoin
 
 /**
  * Check the COMPLETE counted pattern, requiring at least one planet in every
- * required sign. The source may be a planet or the ascendant, but occupiedSigns
- * must still contain planets in all pattern positions (including the source
- * sign). No partial pattern is classified as a match.
+ * required sign. The source may be a planet or the ascendant. Both planets and
+ * the ascendant count as valid occupied points in the pattern. No partial
+ * pattern is classified as a match.
  * Trine: counted positions 1, 5, 9 (three occupied points).
  * Chatu-kona: counted positions 1, 4, 7, 10 (four occupied points).
  */
-export function checkCompleteCountedPattern({ relation, fromSign, occupiedSigns, startPointType }) {
+export function checkCompleteCountedPattern({ relation, fromSign, occupiedSigns, startPointType, ascendantSign }) {
   if (!['planet', 'ascendant'].includes(startPointType)) {
     return { matches: false, requiredSigns: [], missingSigns: [], reason: 'invalid-start-point-type' };
   }
@@ -237,6 +237,8 @@ export function checkCompleteCountedPattern({ relation, fromSign, occupiedSigns,
   if (!offsets) return { matches: false, requiredSigns: [], missingSigns: [], reason: 'unsupported-relation' };
   const requiredSigns = offsets.map(offset => SIGN_ORDER[(from + offset) % 12]);
   const occupied = new Set(occupiedSigns);
+  // The ascendant is a valid counted point, not merely a starting reference.
+  if (ascendantSign && SIGN_ORDER.includes(ascendantSign)) occupied.add(ascendantSign);
   const missingSigns = requiredSigns.filter(sign => !occupied.has(sign));
   return {
     matches: missingSigns.length === 0, relation, startPointType,
