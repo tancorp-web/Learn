@@ -524,7 +524,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  }
  async function renderBoundaryTimes(svg){
   const runId=++boundaryRun;
-  svg.querySelector('#ascendantBoundaryTimes3')?.remove();
+  svg?.querySelector('#ascendantBoundaryTimes3')?.remove();
   const table=document.getElementById('ascendantBoundaryTimesTable3');
   if(table)table.innerHTML='<p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p>';
   let boundaries;
@@ -534,7 +534,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    if(table)table.innerHTML='<p role="alert">คำนวณเวลาเข้า 0° ไม่สำเร็จ กรุณาตรวจวันที่และสถานที่จร แล้วกดคำนวณใหม่</p>';
    return;
   }
-  if(runId!==boundaryRun||!svg.isConnected)return;
+  if(runId!==boundaryRun)return;
   const dateParts=[Number(document.getElementById('fYear')?.value)-543,Number(document.getElementById('fMonth')?.value),Number(document.getElementById('fDay')?.value)];
   const dateStr=String(dateParts[0])+'-'+pad(dateParts[1])+'-'+pad(dateParts[2]);
   const dateLabel=formatThaiDate(dateStr);
@@ -543,6 +543,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const rows=boundaries.slice().sort((a,b)=>Number(a.sign)-Number(b.sign)).map(item=>'<tr><td>0° '+signNames[Number(item.sign)]+'</td><td>'+dateLabel+'</td><td>'+clock(item.minutes)+' น.</td></tr>').join('');
    table.innerHTML='<table class="reference-table"><thead><tr><th>จุดเข้าเส้นราศี</th><th>วันที่เข้า (พ.ศ.)</th><th>เวลาไทย</th></tr></thead><tbody>'+rows+'</tbody></table><p class="reference-note">อ้างอิงวันที่จรและพิกัดสถานที่จรที่เลือกในแบบฟอร์ม</p>';
   }
+  if(!svg||!svg.isConnected)return;
   const layer=svgEl(svg,'g',{id:'ascendantBoundaryTimes3','font-family':'system-ui, sans-serif','pointer-events':'none'});
   const ascAngles=[];
   svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
@@ -637,7 +638,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  }
  if(wheel){
   let pending=false;
-  const run=()=>{pending=false;const svg=wheel.querySelector('svg');if(svg){enhanceAscendant(svg);renderBoundaryTimes(svg);}};
+  const run=()=>{pending=false;const svg=wheel?.querySelector('svg');if(svg)enhanceAscendant(svg);renderBoundaryTimes(svg||null);};
   const schedule=()=>{if(!pending){pending=true;setTimeout(run,0);}};
   const observer=new MutationObserver(schedule);
   observer.observe(wheel,{childList:true});
