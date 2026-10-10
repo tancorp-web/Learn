@@ -190,3 +190,4 @@ Updated: 2026-10-10
 - Current mapping is sourced from `data/astrology/planetary_dignities.json` and remains `DISCOVERY`, not an approved universal standard. Review before connecting it to the zodiac wheel.
 - Live page after GitHub Pages deployment: https://tancorp-web.github.io/Learn/index4.html
 
+- Follow-up fix: `index4.html` now overlays the text `เกษตร + ดาวประจำราศี` directly inside all 12 zodiac sectors of the SVG wheel. The overlay is isolated to index4 and redraws after the wheel is regenerated; index3 and astronomical formulas remain unchanged.
