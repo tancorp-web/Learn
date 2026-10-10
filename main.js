@@ -4,6 +4,7 @@ import { getPlanetaryDignities, getPlanetaryDignityReferences } from './js/data/
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
+import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261011-tanu-sesha-1';
 
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
@@ -24,7 +25,7 @@ function formatInSign(lon){const d=((lon%360)+360)%360%30;return pad(Math.floor(
 function calcAt(dateStr,timeStr,isBirth,location){console.groupCollapsed('[HORA][CALC] '+dateStr+' '+timeStr+(isBirth?' [กำเนิด]':' [จร]'));console.log('[HORA][INPUT]',{date:dateStr,time:timeStr,isBirth,location});const hh=parseInt(timeStr.split(':')[0],10),beY=parseInt(dateStr.split('-')[0],10)+543,month=parseInt(dateStr.split('-')[1],10),day=parseInt(dateStr.split('-')[2],10),loc=location||{lat:13.752555,lon:100.494066,timezone:7};const engine=calculateSuriyayatra({date:dateStr,time:timeStr,longitude:Number(loc.lon)});console.log('[HORA][ENGINE] harakun=',engine.harakun,'jd=',engine.jd,'version=',engine.metadata?.engineVersion);console.log('[HORA][KETU DEBUG]',engine.metadata?.ketuDebug);console.table(engine.planets.map(p=>({ดาว:p.name,longitude:p.longitude,ราศี:signObj(p.longitude).name,retrograde:p.retrograde})));const sun=engine.planets.find(p=>p.name==='อาทิตย์');console.log('[HORA][ASC INPUT]',{lat:Number(loc.lat),lon:Number(loc.lon),localTimeCorrectionMinutes:Number(engine.metadata?.localTimeCorrectionMinutes),sunLongitude:Number(sun?.longitude),method:'อันโตนาทีสามัญ'});if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('SUN_LONGITUDE_INVALID');let asc=calculateSuriyayatraAscendant({timeMinutes:hh*60+parseInt(timeStr.split(':')[1],10),sunLongitude:Number(sun.longitude),longitude:Number(loc.lon),localTimeCorrectionMinutes:Number(engine.metadata?.localTimeCorrectionMinutes)});const planets=engine.planets.map(p=>({id:p.id,name:p.name,longitude:((Number(p.longitude)%360)+360)%360,sign:signObj(p.longitude),house:houseFromAsc(p.longitude,asc),retrograde:Boolean(p.retrograde)}));console.log('[HORA][ASC RESULT]',{asc,sign:signObj(asc).name,localTimeCorrectionMinutes:Number(engine.metadata?.localTimeCorrectionMinutes),method:'Suriyayatra อันโตนาทีสามัญ'});console.table(planets.map(p=>({ดาว:p.name,longitude:p.longitude,ราศี:p.sign.name,ภพ:p.house})));const wd=getWeekdayThai(beY,month,day,hh),result={date:dateStr,time:timeStr,asc,planets,weekday:wd.weekday,weekdayInfo:wd,ascSign:signObj(asc),thaksa:calcThaksa(wd.weekday),metadata:{...engine,location:{lat:Number(loc.lat),lon:Number(loc.lon)}}};console.log('[HORA][CALC DONE]',{asc:result.asc,ascSign:result.ascSign.name,weekday:result.weekday});console.groupEnd();return result}
 function planetNo(n){return{'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'}[n]||''}
 function wheelAngleDeg(longitude){return -(longitude-15)-90}
-function renderWheel(natal,transit){
+function renderWheel(natal,transit,tanuSesha){
  const el=$('wheel');if(!el)return;
  const c=360,rad=292,inner=88;
  // The zodiac wheel remains fixed; house names follow the natal ascendant's whole-sign sector.
@@ -77,7 +78,7 @@ function renderWheel(natal,transit){
    if(!chosen)chosen=best;
    placed.push(chosen);
    const truePoint=xy(p.longitude,isTransit?rad+2:chosen.lane);
-   const isNatalSun=!isTransit&&p.name==='อาทิตย์';svg+='<g'+(isNatalSun?' data-natal-sun-marker="true"':'')+'><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>';
+   const isNatalSun=!isTransit&&p.name==='อาทิตย์';svg+='<g'+(isNatalSun?' data-natal-sun-marker="true"':'')+'><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
   });
  }
  draw(natal,false);if(transit)draw(transit,true);
@@ -134,7 +135,7 @@ function standardOf(name,sign,longitude=null){
 }
 function positionOf(name,p,asc){const h=p.house,n=[];if(h===1)n.push('ตนุ');if([4,7,10].includes(h))n.push('เรือนเกณฑ์');return n.length?n.join(' · '):'—';}
 function formatNak(lon){const n=nakshatraOf(lon);return n.name+' บาท '+n.pada;}
-function renderStarDetails(natal,transit){
+function renderStarDetails(natal,transit,tanuSesha){
  const birthEl=$('natalStarDetailsBody'),transitEl=$('transitStarDetailsBody');
  if(!birthEl||!transitEl)return;
  const names=GOLDEN_PLANET_ORDER;
@@ -187,10 +188,10 @@ function renderStarDetails(natal,transit){
    return (html||'—')+relatedHtml+'<span class="star-criteria-note">เกณฑ์พิเศษทั้งดวงตรวจแยกในส่วน “ตรวจเกณฑ์ดาวกำเนิดจากราศีและลัคนา”</span>';
  };
  const natalRows=rows.map(({name,b,t})=>{
-   const isAsc=name==='ลัคนา',house=b.house;
+   const isAsc=name==='ลัคนา',house=b.house,displayName=!isAsc&&tanuSesha?.planetName===name?name+'+':name;
    const position=isAsc?'ลัคนากำเนิด':positionOf(name,b,b.longitude);
    const v=formatVarga(b.longitude),nak=formatNakFull(b.longitude);
-   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(b.sign.name)+'</td><td>'+esc7(formatInSign(b.longitude))+'</td><td>'+esc7(house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(standardOf(name,b.sign.name,b.longitude))+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:b},natal,rows.map(r=>({name:r.name,p:r.b})))+'</td></tr>';
+   return '<tr><td>'+esc7(displayName)+'</td><td>'+esc7(b.sign.name)+'</td><td>'+esc7(formatInSign(b.longitude))+'</td><td>'+esc7(house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(standardOf(name,b.sign.name,b.longitude))+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:b},natal,rows.map(r=>({name:r.name,p:r.b})))+'</td></tr>';
  }).join('');
  const transitRows=rows.map(({name,b,t})=>{
    if(!t)return '';
@@ -208,6 +209,7 @@ function render(natal,transit){
  const fProv=$('fProvince').selectedOptions[0]?.text||'',fDist=$('fDistrict').value||'';
  const lat=$('bLat').value,lon=$('bLon').value,flat=$('fLat').value,flon=$('fLon').value;
  const asc=natal.asc,ascSign=signObj(asc).name,ascVarga=formatVarga(asc),ascNak=formatNakFull(asc);
+ const tanuSesha=calculateTanuSesha({ascendantLongitude:natal.asc,planets:natal.planets});
  const birthLunar=calculateThaiLunarDate(Number(b.date.slice(0,4)),Number(b.date.slice(5,7)),Number(b.date.slice(8,10)));
  const transitLunar=calculateThaiLunarDate(Number(f.date.slice(0,4)),Number(f.date.slice(5,7)),Number(f.date.slice(8,10)));
  const thaiDigits=value=>String(value).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
@@ -230,14 +232,14 @@ function render(natal,transit){
  '<div class="birth-details-line birth-lunar">จันทรคติ '+safeText(lunarText(b.date,birthLunar,b.time))+'</div>'+
  '<div class="birth-details-line birth-location">'+safeText(locationBirth)+'</div>'+
  '<div class="birth-details-line birth-sky">ดวงอาทิตย์/ดวงจันทร์: ยังไม่มีผลเวลาขึ้น–ตกและดิถีที่ผ่านการตรวจสอบสำหรับวันและพิกัดนี้</div>'+
- '<div class="birth-details-line birth-asc">'+safeText(ascDetail)+' · ดาวจันทร์ ('+safeText(planetNo('จันทร์'))+') ราศี'+safeText(moonSign)+' · ตนุเศษ: ยังไม่คำนวณ เนื่องจากต้องยืนยันกฎโหราศาสตร์ก่อน</div>'+
+ '<div class="birth-details-line birth-asc">'+safeText(ascDetail)+' · ดาวจันทร์ ('+safeText(planetNo('จันทร์'))+') ราศี'+safeText(moonSign)+' · ตนุเศษ: '+safeText(tanuSesha?('ดาว'+tanuSesha.planetName+' ('+tanuSesha.planetNumber+')'):'คำนวณไม่ได้ — ข้อมูลดาวกำเนิดไม่ครบ')+'</div>'+
  '<div id="sunIngressPanel3" class="sun-ingress-panel3" aria-live="polite"><div class="sun-ingress-heading3">☉ เวลาจรของอาทิตย์ ณ เส้น 0° ราศีถัดไป</div><div id="sunIngressResult3">กำลังคำนวณเวลาที่อาทิตย์จรถึงเส้น 0° ราศี...</div><div class="sun-ingress-note3">เวลาไทย UTC+7 · ใช้สูตรอาทิตย์ของ HORA index3</div></div></div>'+
  '<div class="section-title birth-details-title transit-details-title"><h2>วันจร</h2></div><div class="birth-details-group transit-details-group">'+
  '<div class="birth-details-line birth-primary">'+safeText(civilDate(f.date,f.time))+'</div>'+
  '<div class="birth-details-line birth-lunar">จันทรคติ '+safeText(lunarText(f.date,transitLunar,f.time))+'</div>'+
  '<div class="birth-details-line birth-location">'+safeText(locationTransit)+'</div>'+
  '<div class="birth-details-line birth-age">อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(Number(f.date.slice(0,4))+544)+')</div></div>';
- renderWheel(natal,transit);console.log('[HORA][RENDER] natal updated',natal);renderStarDetails(natal,transit);renderQA(natal);console.log('[HORA][TABLE] ดาวกำเนิดและดาวจรจริง rendered')
+ renderWheel(natal,transit,tanuSesha);console.log('[HORA][RENDER] natal updated',natal);renderStarDetails(natal,transit,tanuSesha);renderQA(natal);console.log('[HORA][TABLE] ดาวกำเนิดและดาวจรจริง rendered')
 }
 function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
 function bootHORA(){
