@@ -61,32 +61,21 @@ function renderWheel(natal,transit){
  const placed=[];
  function draw(list,isTransit){
   if(!list?.planets)return;
-  const lanes=isTransit?[310,331,352]:[145,166,187,208,229];
+  const lanes=isTransit?[310,342,374]:[116,148,180,212,244];
   const color=isTransit?'#07834b':'#7250bd';
   list.planets.filter(p=>!(list===natal&&!isTransit&&p.name==='อาทิตย์')).slice().sort((a,b)=>a.longitude-b.longitude).forEach(p=>{
-   const baseAngle=wheelAngleDeg(p.longitude);
-   let chosen=null;
-   // Keep the longitude as close as possible to its true position while separating nearby labels.
+   let chosen=null,best=null,bestClearance=-Infinity;
+   // A planet's longitude fixes its angle. Resolve collisions only by changing radius, never by shifting it into another sign.
    for(const lane of lanes){
-    for(let step=0;step<=18&&!chosen;step++){
-     const offsets=step===0?[0]:[step*2,-step*2];
-     for(const offset of offsets){
-      const q=xy(p.longitude+offset,lane);
-      if(placed.every(v=>Math.hypot(v.x-q.x,v.y-q.y)>=29)){chosen={...q,lane,offset};break}
-     }
-    }
-    if(chosen)break;
+    const q=xy(p.longitude,lane);
+    const clearance=placed.length?Math.min(...placed.map(v=>Math.hypot(v.x-q.x,v.y-q.y))):Infinity;
+    if(clearance>bestClearance){bestClearance=clearance;best={...q,lane,offset:0};}
+    if(clearance>=29){chosen={...q,lane,offset:0};break;}
    }
-   if(!chosen){
-    // Dense clusters use a final outer/inner lane with a small angular spread.
-    const lane=lanes[placed.length%lanes.length],offset=((placed.length%7)-3)*5;
-    chosen={...xy(p.longitude+offset,lane),lane,offset};
-   }
+   // If every lane is occupied, keep the exact longitude and use the lane with the most space.
+   if(!chosen)chosen=best;
    placed.push(chosen);
    const truePoint=xy(p.longitude,isTransit?rad+2:chosen.lane);
-   if(Math.abs(chosen.offset)>0){
-    svg+='<line x1="'+truePoint.x+'" y1="'+truePoint.y+'" x2="'+chosen.x+'" y2="'+chosen.y+'" stroke="'+color+'" stroke-opacity=".45" stroke-width="1"/>';
-   }
    svg+='<g><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>';
   });
  }
