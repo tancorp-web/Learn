@@ -139,3 +139,9 @@ Updated: 2026-10-10
 - Expanded `docs/ASTROLOGICAL_STANDARDS.md` to include a broader vocabulary inventory: เกษตร, ประเกษตร, อนุเกษตร, อุจจ์, นิจ, อุจจาวิลาส, อุจจาภิมุข, ราชาโชค, เทวีโชค, มหาจักร, จุลจักร, ปกิณกะโชค and spelling variants including ปฏิณณะกะโชค, ประกิณโชค, มูลเกษตร, จตุสดัย, ปฏิเลโท, อุตสัย์, โชคเทวฤทธิ์ and จาตุรงคโชค.
 - Similar names remain separate pending verification; no unverified sign mappings or formulas are invented. The catalogue is broad but is not claimed to exhaust every term in every Thai astrology school.
 - No website-reference list was added. No app code, planetary formulas, or `index2.html` changed.
+
+
+## Detailed Thai astrology standards reference — 2026-10-10
+- Added `docs/THAI_ASTROLOGICAL_STANDARDS_REFERENCE.md` to organize the user's detailed notes on standard placements, planet-by-planet interpretations, and planetary relationship groups (คู่ธาตุ, คู่สมพล, คู่มิตร, คู่ศัตรู).
+- The reference separates interpretive descriptions from calculation rules and flags inconsistencies in the supplied Nicha degree thresholds; do not hard-code those values until the source rule is clarified.
+- Linked the reference from `docs/ASTROLOGICAL_STANDARDS.md`. Documentation only: no app code, planetary formulas, or `index2.html` changed.
