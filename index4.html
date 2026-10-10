@@ -719,17 +719,17 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
   data.signs.forEach((sign,index)=>{
    const item=data.mappings[category]?.[sign];
    if(!item)return;
-   /* Place standard numbers on exact zodiac boundaries, in a separate inner lane from natal planets. */
-   const angle=(-(index*30)-75)*Math.PI/180;
-   const r=120,c=360;
+   /* Center each standard number in its zodiac sector, slightly inward from natal planet markers. */
+   const angle=(-(index*30)-90)*Math.PI/180;
+   const r=116,c=360;
    const x=c+r*Math.cos(angle),y=c+r*Math.sin(angle);
    const circle=document.createElementNS(ns,"circle");
-   circle.setAttribute("cx",x.toFixed(2));circle.setAttribute("cy",y.toFixed(2));circle.setAttribute("r","8");
+   circle.setAttribute("cx",x.toFixed(2));circle.setAttribute("cy",y.toFixed(2));circle.setAttribute("r","6");
    circle.setAttribute("fill","#fff");circle.setAttribute("fill-opacity","0.96");
    circle.setAttribute("stroke","#1d4ed8");circle.setAttribute("stroke-width","1.5");
    const text=document.createElementNS(ns,"text");
    text.setAttribute("x",x.toFixed(2));text.setAttribute("y",(y+4.5).toFixed(2));
-   text.setAttribute("text-anchor","middle");text.setAttribute("font-size","11");
+   text.setAttribute("text-anchor","middle");text.setAttribute("font-size","10");
    text.setAttribute("font-weight","950");text.setAttribute("fill","#1d4ed8");
    text.textContent=item.number;
    text.setAttribute("aria-label",category+" "+sign+" ดาว"+item.planet+" เลข"+item.number);
