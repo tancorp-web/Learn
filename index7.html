@@ -178,6 +178,82 @@
 #starDetails .star-criteria-chip.warn{background:#fff2d9;color:#815600}
 #starDetails .star-criteria-note{display:block;color:var(--muted);font-size:12px;margin-top:4px}
 
+
+/* Unified birth details: one left-aligned group, consistent text size and contrast. */
+#birthDetails .birth-details-title{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:2px!important;
+  margin:0 0 10px!important;
+}
+#birthDetails .birth-details-title h2{
+  margin:0!important;
+  font-size:20px!important;
+  line-height:1.7!important;
+  font-weight:700!important;
+  color:#111827!important;
+}
+#birthDetails .birth-details-title h2:before{height:1em!important;margin-right:8px!important}
+#birthDetails .birth-details-title .badge{
+  display:block!important;
+  max-width:100%!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#111827!important;
+  font-size:20px!important;
+  line-height:1.7!important;
+  font-weight:600!important;
+  white-space:normal!important;
+}
+#birthDetails .birth-details-group{
+  width:100%;
+  padding:14px 16px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#f8fafc;
+  color:#111827;
+}
+#birthDetails .birth-details-summary,
+#birthDetails .sun-ingress-panel3{
+  width:100%;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#birthDetails .sun-ingress-panel3{margin-top:10px!important;padding-top:10px!important;border-top:1px solid #cbd5e1!important}
+#birthDetails .birth-details-summary,
+#birthDetails .sun-ingress-heading3,
+#birthDetails #sunIngressResult3,
+#birthDetails #sunIngressResult3 > div,
+#birthDetails .sun-ingress-note3{
+  font-size:20px!important;
+  font-weight:600!important;
+  line-height:1.7!important;
+  color:#111827!important;
+  text-align:left!important;
+}
+#birthDetails .sun-ingress-heading3{margin:0 0 4px!important}
+#birthDetails #sunIngressResult3 > div:nth-child(2),
+#birthDetails #sunIngressResult3 > div:nth-child(3){font-size:20px!important;line-height:1.7!important}
+#birthDetails .sun-ingress-note3{margin-top:4px!important}
+@media(max-width:600px){
+  #birthDetails .birth-details-group{padding:12px!important}
+  #birthDetails .birth-details-title h2,
+  #birthDetails .birth-details-title .badge,
+  #birthDetails .birth-details-summary,
+  #birthDetails .sun-ingress-heading3,
+  #birthDetails #sunIngressResult3,
+  #birthDetails #sunIngressResult3 > div,
+  #birthDetails .sun-ingress-note3{font-size:18px!important;line-height:1.7!important}
+}
+
 </style>
 </head><body>
 <header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index7</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index7 · ENGINE v8.9.3 · TRANSIT TIME FEATURE + KNOWLEDGE LIBRARY</span></div></header>
@@ -420,7 +496,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main.js?v=20261011-birth-details-readable-3"></script>
+<script type="module" src="./main.js?v=20261011-birth-details-unified-4"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
