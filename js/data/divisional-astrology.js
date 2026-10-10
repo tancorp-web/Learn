@@ -49,6 +49,38 @@ export const TRIYANG_SECTIONS = [
   { number: 3, name: 'ตติยตรียางค์', startArcMinutes: 1200, endArcMinutes: 1800 }
 ];
 
+// Traditional Thai astrology reference: planetary rulers of triyang sections
+// are assigned by the three signs of the same element, in order:
+// initial element sign (ปฐม), middle element sign (ทุติย), final element sign (ตติย).
+// Reference-only; this table is NOT imported by main.js and does not change runtime calculations.
+// Aquarius / air-element third triyang varies by school: Rahu (8) or Saturn (7).
+export const TRIYANG_RULERS_BY_ELEMENT = Object.freeze({
+  ไฟ: [
+    { number: 1, name: 'ปฐมตรียางค์', sign: 'เมษ', planetNumber: 3, planet: 'อังคาร' },
+    { number: 2, name: 'ทุติยตรียางค์', sign: 'สิงห์', planetNumber: 1, planet: 'อาทิตย์' },
+    { number: 3, name: 'ตติยตรียางค์', sign: 'ธนู', planetNumber: 5, planet: 'พฤหัสบดี' }
+  ],
+  ดิน: [
+    { number: 1, name: 'ปฐมตรียางค์', sign: 'พฤษภ', planetNumber: 6, planet: 'ศุกร์' },
+    { number: 2, name: 'ทุติยตรียางค์', sign: 'กันย์', planetNumber: 4, planet: 'พุธ' },
+    { number: 3, name: 'ตติยตรียางค์', sign: 'มกร', planetNumber: 7, planet: 'เสาร์' }
+  ],
+  ลม: [
+    { number: 1, name: 'ปฐมตรียางค์', sign: 'มิถุน', planetNumber: 4, planet: 'พุธ' },
+    { number: 2, name: 'ทุติยตรียางค์', sign: 'ตุล', planetNumber: 6, planet: 'ศุกร์' },
+    { number: 3, name: 'ตติยตรียางค์', sign: 'กุมภ์', planetNumber: null, planet: null, alternatives: [
+      { planetNumber: 8, planet: 'ราหู' },
+      { planetNumber: 7, planet: 'เสาร์' }
+    ], status: 'ต้องเลือกตามตำรา' }
+  ],
+  น้ำ: [
+    { number: 1, name: 'ปฐมตรียางค์', sign: 'กรกฎ', planetNumber: 2, planet: 'จันทร์' },
+    { number: 2, name: 'ทุติยตรียางค์', sign: 'พิจิก', planetNumber: 3, planet: 'อังคาร' },
+    { number: 3, name: 'ตติยตรียางค์', sign: 'มีน', planetNumber: 5, planet: 'พฤหัสบดี' }
+  ]
+});
+
+
 // 27 nakshatras, each spanning 13°20′; each has four padas of 3°20′.
 // Spellings are common Thai transliterations; variant spellings exist.
 export const NAKSHATRAS = [
