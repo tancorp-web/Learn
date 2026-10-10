@@ -102,3 +102,12 @@ Updated: 2026-10-10
 ## Refinement update — 2026-10-10
 - Improved the 0° boundary clock times: after the first estimate from the existing boundary helper, each boundary is recalculated twice using the existing Suriyayatra Sun engine at its estimated local crossing time. This accounts for the Sun's changing longitude during the selected date without changing any formula or engine source file.
 - Latest index3 implementation commit: `e2451289deb7d6bb3af9d2bb312b55c43ac2c3d5`. The inline module parses successfully in a JavaScript syntax check. Latest GitHub Actions run: [38048544296](https://github.com/tancorp-web/Learn/actions/runs/38048544296), queued/pending at the time of this note.
+
+
+## Visibility fix — 2026-10-10: transit ascendant 0° date/time output
+- User reported that the 0° times were not visible. Updated only `index3.html` and this handoff file.
+- Moved the explanatory knowledge section immediately before `#errorLog`, and added a clearly visible table listing all 12 sign-boundary crossings with the 0° sign, the selected transit date in Buddhist Era, and Thai local clock time.
+- Kept the labels at the actual 0° positions on the zodiac wheel, now with two lines per label: `0° [sign]` and `[date] [time]`. The table is an accessible, always-visible companion so the times remain readable if wheel labels are clipped or crowded.
+- Changed rendering so the table calculation runs even before the wheel SVG exists; SVG labels are added when the wheel is available. Calculation continues to use the existing Suriyayatra engine and boundary-time helper, with two refinement passes. No planetary formulas or engine source files were changed.
+- Commits: `278c7a5075aaabd6a41f572d871d37bc48b241b3` (visible table, date labels, knowledge moved before log) and `4fd9ec7baf17fc4e2d1aa806692af97288b47232` (table calculation independent of SVG readiness).
+- Static syntax and CI/Pages deployment status must be checked for the latest commit before reporting completion. Live visual confirmation on a phone is still required.
