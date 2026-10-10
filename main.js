@@ -31,8 +31,8 @@ function renderWheel(natal,transit){
  const xy=(lon,r)=>{const a=wheelAngleDeg(lon)*Math.PI/180;return{x:c+r*Math.cos(a),y:c+r*Math.sin(a)}};
  let svg='<svg viewBox="-20 -20 760 760" role="img" aria-label="วงกลมจักรราศี ภพอยู่ด้านใน ดาวกำเนิดอยู่ในวงกลาง และดาวจรอยู่นอกวงกลม" style="width:100%;max-width:820px;background:#fff"><circle cx="'+c+'" cy="'+c+'" r="'+rad+'" fill="#fff" stroke="#1e293b" stroke-width="2"/><circle cx="'+c+'" cy="'+c+'" r="'+inner+'" fill="#fff" stroke="#334155" stroke-width="1.2"/>';
  const sun=natal.planets.find(p=>p.name==='อาทิตย์');
- svg+='<text x="'+c+'" y="'+(c-18)+'" text-anchor="middle" font-size="22" font-weight="900" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text><text x="'+c+'" y="'+(c+2)+'" text-anchor="middle" font-size="12" fill="#6b7280">อาทิตย์ '+(sun?sun.sign.name:'')+'</text>';
- if(sun){svg+='<circle cx="'+c+'" cy="'+(c+39)+'" r="12" fill="#7250bd" stroke="#fff" stroke-width="2"/><text x="'+c+'" y="'+(c+43)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">1</text>';}
+ // Show only the Sun's degree as plain text, centered in the inner circle.
+ svg+='<text x="'+c+'" y="'+(c+7)+'" text-anchor="middle" font-size="22" font-weight="400" fill="#1e293b">'+(sun?formatInSign(sun.longitude):'')+'</text>';
  for(let i=0;i<12;i++){
   const angle=wheelAngleDeg(i*30)*Math.PI/180,x1=c+inner*Math.cos(angle),y1=c+inner*Math.sin(angle),x2=c+rad*Math.cos(angle),y2=c+rad*Math.sin(angle);
   svg+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#334155" stroke-width="1"/>';
