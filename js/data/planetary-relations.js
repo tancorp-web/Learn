@@ -218,6 +218,34 @@ export function checkCountedRelationship({ relation, fromSign, toSign, startPoin
 }
 
 /**
+ * Check the COMPLETE counted pattern, requiring at least one planet in every
+ * required sign. The source may be a planet or the ascendant, but occupiedSigns
+ * must still contain planets in all pattern positions (including the source
+ * sign). No partial pattern is classified as a match.
+ * Trine: counted positions 1, 5, 9 (three occupied points).
+ * Chatu-kona: counted positions 1, 4, 7, 10 (four occupied points).
+ */
+export function checkCompleteCountedPattern({ relation, fromSign, occupiedSigns, startPointType }) {
+  if (!['planet', 'ascendant'].includes(startPointType)) {
+    return { matches: false, requiredSigns: [], missingSigns: [], reason: 'invalid-start-point-type' };
+  }
+  const from = SIGN_ORDER.indexOf(fromSign);
+  if (from < 0 || !Array.isArray(occupiedSigns)) {
+    return { matches: false, requiredSigns: [], missingSigns: [], reason: 'invalid-input' };
+  }
+  const offsets = relation === 'ตรีโกณ' ? [0, 4, 8] : relation === 'จตุโกณ' ? [0, 3, 6, 9] : null;
+  if (!offsets) return { matches: false, requiredSigns: [], missingSigns: [], reason: 'unsupported-relation' };
+  const requiredSigns = offsets.map(offset => SIGN_ORDER[(from + offset) % 12]);
+  const occupied = new Set(occupiedSigns);
+  const missingSigns = requiredSigns.filter(sign => !occupied.has(sign));
+  return {
+    matches: missingSigns.length === 0, relation, startPointType,
+    requiredCount: requiredSigns.length, requiredSigns, missingSigns,
+    reason: missingSigns.length === 0 ? 'all-required-points-occupied' : 'incomplete-pattern'
+  };
+}
+
+/**
  * Check the commonly described "ดอกพิกุล" occupancy pattern.
  * Input:
  *   ascendantSign: Thai sign name
