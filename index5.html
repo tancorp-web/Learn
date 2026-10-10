@@ -25,6 +25,7 @@
 #wheelPanel2 #wheel svg .nak-boundary2{stroke:#7c3aed;stroke-width:1.6;opacity:.95}
 #wheelPanel2 #wheel svg .nak-name2{font-family:system-ui,Tahoma,sans-serif;font-size:12px;font-weight:850;fill:#7c2d12;paint-order:stroke;stroke:#fff;stroke-width:2.6px;stroke-linejoin:round}
 #wheelPanel2.hide-nak-name5 #wheel svg .nak-name2{display:none!important}
+#wheelPanel2.hide-talittho5 #wheel svg .talittho-type5{display:none!important}
 #wheelPanel2 .visibility-toggle5{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#17233d;font-weight:750;cursor:pointer}
 #wheelPanel2 .visibility-toggle5 input{width:18px;height:18px;accent-color:#2563eb;cursor:pointer}
 #wheelPanel2 #wheel svg .nak-type2{font-family:system-ui,Tahoma,sans-serif;font-size:10px;font-weight:800;fill:#1d4ed8;paint-order:stroke;stroke:#fff;stroke-width:2.5px;stroke-linejoin:round}
@@ -107,7 +108,7 @@
   <div id="sunIngressResult3">กำลังคำนวณเวลาที่อาทิตย์จรถึงเส้น 0° ราศี...</div>
   <div class="sun-ingress-note3">เวลาไทย UTC+7 · ค้นหาจากวันและเวลาจรที่เลือก โดยใช้สูตรอาทิตย์ของ HORA index3</div>
 </div></div>
-<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div id="transitAscTime3" role="status" aria-live="polite" style="margin:0 auto 12px;padding:10px 14px;max-width:520px;text-align:center;border:2px solid #07834b;border-radius:12px;background:#ecfdf5;color:#065f46;font-size:16px;font-weight:850">เวลาลัคนาจร: --:-- น.</div><div id="planetStandardPickerBar4" style="max-width:520px;margin:0 auto 14px;padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label for="planetStandardSelect4" style="font-weight:850;color:#14213d">มาตรฐานดาว</label><select id="planetStandardSelect4" style="min-width:160px;max-width:100%;padding:9px 12px;border:1px solid #94a3b8;border-radius:8px;background:#fff;font:inherit;font-weight:750"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
+<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div id="transitAscTime3" role="status" aria-live="polite" style="margin:0 auto 12px;padding:10px 14px;max-width:520px;text-align:center;border:2px solid #07834b;border-radius:12px;background:#ecfdf5;color:#065f46;font-size:16px;font-weight:850">เวลาลัคนาจร: --:-- น.</div><div id="planetStandardPickerBar4" style="max-width:520px;margin:0 auto 14px;padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="hideTalittho5"><input type="checkbox" id="hideTalittho5"> ปิดชุดทลิทโท</label><label for="planetStandardSelect4" style="font-weight:850;color:#14213d">มาตรฐานดาว</label><select id="planetStandardSelect4" style="min-width:160px;max-width:100%;padding:9px 12px;border:1px solid #94a3b8;border-radius:8px;background:#fff;font:inherit;font-weight:750"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
 <div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
 <div id="starDetails" class="panel"><div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">ราศี · ภพ · ตำแหน่ง · ฤกษ์</span></div><div class="table-wrap"><table><thead><tr><th>ดาว</th><th>กำเนิด ราศี</th><th>กำเนิด องศา</th><th>กำเนิด ภพ</th><th>กำเนิด ตำแหน่ง</th><th>กำเนิด นวางค์</th><th>กำเนิด ตรียางค์</th><th>กำเนิด ฤกษ์</th><th>จร ราศี</th><th>จร องศา</th><th>จร ภพ</th><th>จร ตำแหน่ง</th><th>จร นวางค์</th><th>จร ตรียางค์</th><th>จร ฤกษ์</th></tr></thead><tbody id="starDetailsBody"></tbody></table></div></div>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
@@ -433,7 +434,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   for(let i=0;i<27;i++){
    const lon=i*(360/27)+(180/27),p=xy(lon,408),q=xy(lon,438);
    add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nak-name2'},(i+1)+'. '+nak[i]);
-   add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'},types[i%9]);
+   add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'+(types[i%9]==='ทลิทโท'?' talittho-type5':'')},types[i%9]);
   }
  }
  const wheel=$('wheel');
@@ -448,6 +449,12 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   const syncNakNameVisibility5=()=>panel?.classList.toggle('hide-nak-name5',!showNakNames5.checked);
   showNakNames5.addEventListener('change',syncNakNameVisibility5);
   syncNakNameVisibility5();
+ }
+ const hideTalittho5=$('hideTalittho5');
+ if(hideTalittho5){
+  const syncTalitthoVisibility5=()=>panel?.classList.toggle('hide-talittho5',hideTalittho5.checked);
+  hideTalittho5.addEventListener('change',syncTalitthoVisibility5);
+  syncTalitthoVisibility5();
  }
  let zoom=1;
  function applyZoom(){
