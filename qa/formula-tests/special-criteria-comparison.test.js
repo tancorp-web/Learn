@@ -82,3 +82,28 @@ test('comparison never enables any rule and excludes merged duplicate entries', 
   assert.equal(result.criteria.some(item => item.id === 'SPECIAL-COFFIN-CHEST'), false);
   assert.equal(result.zodiacComparison.length, 12);
 });
+
+
+test('full display exposes detailed placements, all related rule fields, and unspecified rules', () => {
+  const result = compareSpecialCriteria({
+    ascendantSign: 'เมษ',
+    planetPositions: [{ planet: 'อาทิตย์', sign: 'เมษ', longitude: '12°34′' }]
+  });
+  const aries = result.zodiacComparison.find(item => item.sign === 'เมษ');
+  assert.deepEqual(aries.occupants, ['อาทิตย์']);
+  assert.equal(aries.occupantDetails[0].longitude, '12°34′');
+  assert.equal(aries.houseName, 'ภพที่ 1');
+  assert.ok(aries.criteria.every(rule => rule.id && rule.name && rule.category && rule.status && rule.execution));
+  assert.ok(aries.generalOrUnspecifiedCriteria.some(rule => rule.id === 'SPECIAL-DHANA-YOGA'));
+  assert.ok(result.allCataloguedCriteria.every(rule => Array.isArray(rule.notes) && Array.isArray(rule.aliases)));
+  assert.equal(result.interpretationPolicy, 'NO_AUTOMATIC_JUDGMENT');
+});
+
+test('criteria evaluation explains missing planets and does not claim missing formulas are matches', () => {
+  const result = compareSpecialCriteria({ ascendantSign: 'เมษ', planetPositions: [] });
+  const saturnRule = result.criteria.find(item => item.id === 'SPECIAL-SAO-CHAI-FOUR-POSTS');
+  assert.ok(saturnRule.unmetConditions.some(item => item.reason === 'ไม่พบตำแหน่งดาวในข้อมูลที่ส่งเข้ามา'));
+  const needsSource = result.criteria.find(item => item.id === 'SPECIAL-DHANA-YOGA');
+  assert.equal(needsSource.resultType, 'not-evaluable');
+  assert.match(needsSource.evaluationNote, /ยังไม่มีเงื่อนไข/);
+});
