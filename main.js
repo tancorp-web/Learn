@@ -61,7 +61,7 @@ function renderWheel(natal,transit){
  const placed=[];
  function draw(list,isTransit){
   if(!list?.planets)return;
-  const lanes=isTransit?[310,342,374]:[116,148,180,212,244];
+  const lanes=isTransit?[310,342,374]:[160,190,220,250,270];
   const color=isTransit?'#07834b':'#7250bd';
   list.planets.filter(p=>!(list===natal&&!isTransit&&p.name==='อาทิตย์')).slice().sort((a,b)=>a.longitude-b.longitude).forEach(p=>{
    let chosen=null,best=null,bestClearance=-Infinity;
