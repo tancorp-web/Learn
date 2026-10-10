@@ -1,0 +1,57 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  THAI_SPECIAL_ASTROLOGY_CRITERIA,
+  CRITERION_STATUS,
+  getThaiSpecialCriterionById,
+  getThaiSpecialCriteriaByName,
+  getThaiSpecialCriteriaSummary
+} from '../../js/data/thai-special-criteria.js';
+
+test('special-criteria catalogue has unique stable IDs and names', () => {
+  const ids = THAI_SPECIAL_ASTROLOGY_CRITERIA.map(x => x.id);
+  assert.equal(new Set(ids).size, ids.length);
+  assert.ok(THAI_SPECIAL_ASTROLOGY_CRITERIA.length >= 30);
+  assert.ok(THAI_SPECIAL_ASTROLOGY_CRITERIA.every(x => x.id && x.name && x.category && x.status));
+});
+
+test('catalogue does not silently enable unverified astrology rules', () => {
+  assert.ok(THAI_SPECIAL_ASTROLOGY_CRITERIA.every(x => x.execution !== 'ENABLED'));
+  assert.ok(THAI_SPECIAL_ASTROLOGY_CRITERIA.some(x => x.status === CRITERION_STATUS.NEEDS_SOURCE));
+  assert.ok(THAI_SPECIAL_ASTROLOGY_CRITERIA.some(x => x.status === CRITERION_STATUS.SOURCE_VARIANT));
+  assert.equal(getThaiSpecialCriteriaSummary().executable, 0);
+});
+
+test('coffin pattern records the four stated signs and unspecified planet identities', () => {
+  const rule = getThaiSpecialCriterionById('SPECIAL-COFFIN');
+  assert.deepEqual(rule.requiredSigns, ['มิถุน', 'สิงห์', 'ธนู', 'กุมภ์']);
+  assert.ok(rule.acceptedOccupants.includes('ลัคนา'));
+  assert.match(rule.planets, /ดาวใดก็ได้/);
+  assert.equal(rule.execution, 'REFERENCE_ONLY');
+});
+
+test('known specific planet conditions remain explicit and provisional', () => {
+  const rule = getThaiSpecialCriterionById('SPECIAL-PADUM-KENDRA');
+  assert.equal(rule.status, CRITERION_STATUS.REFERENCE_PROVISIONAL);
+  assert.deepEqual(rule.planetConditions, [
+    { planet: 'จันทร์', houseFromAscendant: 11 },
+    { planet: 'พฤหัสบดี', houseFromAscendant: 4 },
+    { planet: 'ศุกร์', houseFromAscendant: 3 }
+  ]);
+  assert.equal(rule.execution, 'REFERENCE_ONLY');
+});
+
+test('unverified names are preserved without invented planet formulas', () => {
+  for (const id of ['SPECIAL-DOK-UTTAPHIT', 'SPECIAL-NAM-PHON', 'SPECIAL-TAM-PHON']) {
+    const rule = getThaiSpecialCriterionById(id);
+    assert.ok(rule);
+    assert.equal(rule.status, CRITERION_STATUS.NEEDS_SOURCE);
+    assert.equal(rule.execution, 'DISABLED');
+    assert.equal(rule.ruleType, null);
+  }
+});
+
+test('lookup returns all matches and unknown names return an empty list', () => {
+  assert.equal(getThaiSpecialCriteriaByName('ดอกพิกุล')[0].id, 'SPECIAL-DOK-PHIKUN');
+  assert.deepEqual(getThaiSpecialCriteriaByName('ชื่อที่ไม่มีในคลัง'), []);
+});
