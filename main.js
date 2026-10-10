@@ -125,13 +125,12 @@ function dignityOf(name,sign,longitude=null){
  return out.length?out.join(' · '):'';
 }
 function standardOf(name,sign,longitude=null){
- if(name==='ลัคนา')return 'ไม่ใช้กับลัคนา';
+ // แสดงเฉพาะมาตรฐานที่มีอยู่ในชุดข้อมูล; ถ้าไม่พบ ให้เว้นคอลัมน์ว่าง
+ if(name==='ลัคนา')return '';
  const enabled=dignityOf(name,sign,longitude).split(' · ').filter(Boolean);
  const reference=getPlanetaryDignityReferences(name,sign).filter(category=>!enabled.includes(category));
  const parts=[...enabled,...reference.map(category=>category+' (อ้างอิง·รอยืนยัน)')];
- if(parts.length)return parts.join(' · ');
- if(['ราหู','เกตุ','มฤตยู'].includes(name))return 'ยังไม่พบกฎที่ยืนยันสำหรับราศีนี้';
- return 'ไม่พบมาตรฐานในชุดข้อมูล';
+ return parts.join(' · ');
 }
 function positionOf(name,p,asc){const h=p.house,n=[];if(h===1)n.push('ตนุ');if([4,7,10].includes(h))n.push('เรือนเกณฑ์');return n.length?n.join(' · '):'—';}
 function formatNak(lon){const n=nakshatraOf(lon);return n.name+' บาท '+n.pada;}
