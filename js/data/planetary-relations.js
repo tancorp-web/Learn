@@ -17,7 +17,7 @@
  * countedSign = (clockwiseOffset + 1), i.e. sign itself counts as 1.
  */
 
-export const PLANETARY_RELATIONS_VERSION = '1.0.0-reference-only';
+export const PLANETARY_RELATIONS_VERSION = '1.1.0-inclusive-counting';
 
 export const SIGN_ORDER = Object.freeze([
   'เมษ', 'พฤษภ', 'มิถุน', 'กรกฎ', 'สิงห์', 'กันย์',
@@ -79,7 +79,7 @@ export const SIGN_RELATION_RULES = Object.freeze({
     countedSigns: [5, 9],
     clockwiseOffsets: [4, 8],
     approximateDegrees: [120, 240],
-    description: 'ราศีที่ 5 และ 9 จากจุดตั้งต้น; มักอธิบายว่าอยู่ร่วมธาตุ',
+    description: 'นับราศีต้นทางเป็นช่องที่ 1; ตรีโกณหลักตามกติกาที่ผู้ใช้ยืนยันคือช่องที่ 5 (ช่องที่ 9 เป็นตำแหน่งตรีโกณอีกด้านในระบบนับ 12 ช่อง) ต้องตรวจองค์ประกอบให้ครบก่อนสรุป',
     scope: 'sign-based',
     enabledForReference: true
   },
@@ -88,7 +88,7 @@ export const SIGN_RELATION_RULES = Object.freeze({
     countedSigns: [1, 4, 7, 10],
     clockwiseOffsets: [0, 3, 6, 9],
     approximateDegrees: [0, 90, 180, 270],
-    description: 'เกณฑ์ 1, 4, 7, 10; บางตำราเรียกจตุสดัยหรือเกณฑ์ และใช้ชื่อ/ขอบเขตต่างกัน จึงควรเก็บ alias ตามสำนัก',
+    description: 'นับราศีต้นทางเป็นช่องที่ 1; จตุโกณตามกติกาที่ผู้ใช้ยืนยันให้ตรวจช่องที่ 4 เป็นหลัก ส่วนชุด 1, 7, 10 ในจตุสดัย/เกณฑ์ต้องแยกชื่อและเงื่อนไข ไม่เหมารวมเป็นกฎเดียวกัน',
     scope: 'sign-based',
     enabledForReference: true,
     aliases: ['จตุสดัย', 'เกณฑ์']
@@ -176,6 +176,45 @@ export function getSignRelations(fromSign, toSign) {
     if (rule.clockwiseOffsets?.includes(offset)) result.push(name);
   }
   return [...new Set(result)];
+}
+
+/**
+ * Count zodiac signs inclusively from a starting point.
+ * The start sign is counted as position 1. The start point may represent a
+ * planet or the ascendant; this function handles sign positions only.
+ * Example: เมษ -> สิงห์ = 5; เมษ -> กรกฎ = 4.
+ */
+export function getInclusiveSignCount(fromSign, toSign) {
+  const from = SIGN_ORDER.indexOf(fromSign);
+  const to = SIGN_ORDER.indexOf(toSign);
+  if (from < 0 || to < 0) return null;
+  return ((to - from + 12) % 12) + 1;
+}
+
+/**
+ * Check the user-confirmed counted position for trine/quadrangular rules.
+ * This checks the target sign's inclusive count only. Verify any required
+ * occupants/completeness separately before declaring a full configuration.
+ */
+export function checkCountedRelationship({ relation, fromSign, toSign, startPointType }) {
+  if (!['planet', 'ascendant'].includes(startPointType)) {
+    return { matches: false, countedPosition: null, requiredPosition: null, reason: 'invalid-start-point-type' };
+  }
+  const countedPosition = getInclusiveSignCount(fromSign, toSign);
+  if (countedPosition === null) {
+    return { matches: false, countedPosition: null, requiredPosition: null, reason: 'invalid-sign' };
+  }
+  const requiredPosition = relation === 'ตรีโกณ' ? 5 : relation === 'จตุโกณ' ? 4 : null;
+  if (requiredPosition === null) {
+    return { matches: false, countedPosition, requiredPosition: null, reason: 'unsupported-relation' };
+  }
+  return {
+    matches: countedPosition === requiredPosition,
+    countedPosition,
+    requiredPosition,
+    startPointType,
+    reason: countedPosition === requiredPosition ? 'counted-position-matches' : 'counted-position-does-not-match'
+  };
 }
 
 /**
