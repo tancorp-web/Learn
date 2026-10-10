@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>HORA v8.9.3 · index4 · Thai Suriyayat</title>
+<style>
+:root{color-scheme:light;--ink:#17233d;--muted:#6c7890;--paper:#f4f6fb;--line:#e1e6f0;--navy:#14213d;--gold:#d5a94f;--violet:#6258d9;--shadow:0 12px 34px rgba(24,39,75,.08)}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:86px}body{margin:0;background:radial-gradient(ellipse at 50% -12%,#e6eaff 0,transparent 45%),var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}.container{width:min(1200px,calc(100% - 36px));margin-inline:auto}.hero{position:relative;overflow:hidden;text-align:center;padding:44px 0 35px;background:linear-gradient(135deg,#101a31,#202f52 58%,#394779);color:#fff}.hero:before,.hero:after{content:"";position:absolute;border:1px solid #ffffff20;border-radius:50%;pointer-events:none}.hero:before{width:360px;height:360px;left:-130px;top:-245px}.hero:after{width:300px;height:300px;right:-100px;bottom:-230px}.hero .container{position:relative;z-index:1}.hero h1{margin:0;font-size:clamp(27px,4vw,42px);font-weight:800;letter-spacing:-.035em;line-height:1.2}.hero p{margin:10px 0 17px;color:#d9e1f5;font-size:15px}.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid #e6d19a;border-radius:999px;color:#775516;background:#fff6df;font-size:12px;font-weight:750}.hero .badge{color:#ffdf91;background:#ffffff12;border-color:#ffdf9180}.sticky-nav{position:sticky;top:0;z-index:100;background:#fffffff0;backdrop-filter:blur(16px);border-bottom:1px solid #d7deeb;box-shadow:0 4px 18px #18274b0d}.nav-inner{width:min(1200px,calc(100% - 28px));margin:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;padding:10px 0}.menu-btn{min-height:43px;border:1px solid transparent;background:transparent;color:#52617c;padding:10px 12px;border-radius:12px;cursor:pointer;font:inherit;font-size:13px;font-weight:750;transition:background .18s,color .18s,border-color .18s}.menu-btn:hover{background:#f0f2fb;color:var(--navy);border-color:#e1e5f3}.menu-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 5px 13px #14213d2e}main.container{padding-top:10px}.panel{min-width:0;background:#fff;border:1px solid var(--line);border-radius:18px;margin:18px 0;padding:clamp(16px,2.3vw,25px);box-shadow:var(--shadow)}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.section-title h2,.menu-panel>h2{margin:0;color:var(--navy);font-size:clamp(18px,2vw,22px);font-weight:800;letter-spacing:-.02em}.section-title h2:before{content:"";display:inline-block;width:4px;height:1.05em;margin-right:10px;vertical-align:-.12em;border-radius:9px;background:var(--gold)}.form-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:14px 12px}.field{display:flex;min-width:0;flex-direction:column;gap:6px}.field label{font-size:12px;color:#596781;font-weight:700}.field label small{font-size:11px;color:#8b95a8;font-weight:500}.field input,.field select{width:100%;min-width:0;min-height:43px;border:1px solid #d7deeb;border-radius:11px;background:#fbfcff;color:var(--ink);padding:10px 11px;font:inherit;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s,background .18s}.field input:hover,.field select:hover{border-color:#b8c3dc;background:#fff}.field input:focus,.field select:focus{border-color:var(--violet);background:#fff;box-shadow:0 0 0 3px #6258d922}.field select{cursor:pointer}.span-2{grid-column:span 2}.span-6{grid-column:span 6}.calc-row{margin-top:20px;padding-top:16px;border-top:1px solid #edf0f6;display:flex;align-items:center;gap:13px;flex-wrap:wrap}#calc{min-height:46px;border:0;border-radius:12px;padding:12px 22px;background:linear-gradient(135deg,#6b5ce7,#4b49b9);color:#fff;cursor:pointer;font:inherit;font-weight:800;box-shadow:0 7px 16px #534cc33d;transition:transform .18s,box-shadow .18s,filter .18s}#calc:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 10px 22px #534cc34d}#msg{font-size:13px;color:var(--muted)}.wheel-wrap{width:100%;max-width:900px;margin:0 auto;display:grid;place-items:center;overflow:hidden}.wheel-wrap svg,#wheel svg{display:block;width:100%;height:auto;max-width:900px}#birthDetails,#starDetails,#compare{scroll-margin-top:90px}.table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px;background:#fff}th,td{padding:11px 12px;border-bottom:1px solid #e9edf5;text-align:left;vertical-align:top}th{position:sticky;top:0;z-index:1;font-size:12px;line-height:1.4;white-space:nowrap;background:#f2f5fb;color:#40506f;font-weight:800}td{font-size:13px}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f8faff}.pass{color:#16845b;font-weight:800}.fail{color:#c43d58;font-weight:800}.pending{color:#9a6a00;font-weight:800}.menu-panel{display:none}.menu-panel.show{display:block;animation:panel-in .2s ease-out}@keyframes panel-in{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}.formula-card,.golden-card,.status-card{border:1px solid #2d3b5c;background:linear-gradient(145deg,#111b32,#1b2946);border-radius:14px;padding:17px;margin:14px 0;color:#e9eefb;box-shadow:0 8px 20px #14213d1a}.formula-card h3,.golden-card h3,.status-card h3{margin:0 0 10px;color:#ffdf91;font-size:15px}.formula-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;color:#d7e0f5;font-size:12px}#errorLog{display:none;border-color:#d9dfed;background:linear-gradient(145deg,#fff,#f7f8fd);scroll-margin-top:90px}#errorLog.show{display:block}#errorLog h3{display:flex;align-items:center;gap:8px;margin:0 0 12px;color:var(--navy);font-size:18px}#errorLogText{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#e6eaf5;font-size:12px;line-height:1.7;max-height:420px;overflow:auto;background:#101827;border:1px solid #2a3650;border-radius:12px;padding:14px;box-shadow:inset 0 1px 4px #0003;scrollbar-color:#53617c #101827;scrollbar-width:thin}.log-actions{position:relative;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid #e6eaf2}.log-actions button{border:1px solid #d8ddea;background:#fff;color:var(--navy);border-radius:10px;padding:9px 13px;cursor:pointer;font:inherit;font-size:12px;font-weight:750;transition:background .18s,border-color .18s}.log-actions button:hover{background:#f2f5fb;border-color:#b8c3dc}.log-actions button:active{transform:translateY(1px)}#logStatus{font-size:12px;color:var(--muted)}footer{text-align:center;padding:28px 0 42px;color:#7c879b;font-size:12px}button:focus-visible{outline:3px solid #6258d959;outline-offset:2px}::selection{background:#e2dcff;color:#25204e}@media(max-width:900px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.span-2,.span-6{grid-column:span 1}.panel{border-radius:15px}}@media(max-width:600px){.container{width:calc(100% - 18px)}.hero{padding:30px 0 25px}.hero h1{font-size:27px}.hero p{font-size:13px}.hero .badge{max-width:100%;font-size:10px;line-height:1.5}.nav-inner{width:calc(100% - 16px);grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:8px 0}.menu-btn{min-height:41px;padding:9px 7px;font-size:12px}.panel{margin:12px 0;padding:15px}.section-title{align-items:flex-start;margin-bottom:15px}.section-title h2,.menu-panel>h2{font-size:18px}.section-title .badge{flex-shrink:0;font-size:10px;padding:5px 8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 9px}.span-2,.span-6{grid-column:span 2}.field input,.field select{min-height:42px;padding:9px;font-size:14px}.calc-row{align-items:stretch;flex-direction:column}.calc-row #calc{width:100%}.calc-row #msg{text-align:center}.wheel-wrap{margin-inline:-3px;width:calc(100% + 6px)}th,td{padding:9px 10px}.formula-card,.golden-card,.status-card{padding:14px}.formula-code{font-size:11px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* index3.html only: next solar sign-boundary time */
+.sun-ingress-panel3{margin-top:14px;padding:13px 15px;border:1px solid #cbd5e1;border-left:4px solid #d97706;border-radius:12px;background:#fffbeb;color:#17233d}
+.sun-ingress-heading3{font-weight:850;font-size:15px;margin-bottom:7px}
+#sunIngressResult3{font-size:15px;line-height:1.65;font-weight:750}
+.sun-ingress-note3{margin-top:5px;font-size:12px;color:#64748b;line-height:1.5}
+
+/* index3.html only: full-wheel Drekkana, Navamsa and continuous Nakshatra overlay */
+#wheelPanel2{max-width:none}
+#wheelPanel2 .wheel-tools{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:-4px 0 12px}
+#wheelPanel2 .wheel-tools button{border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#17233d;padding:8px 13px;min-height:38px;font:inherit;font-weight:750;cursor:pointer}
+#wheelPanel2 .wheel-tools button:hover{background:#edf2ff}
+#wheelPanel2 #wheelZoomLabel2{min-width:48px;text-align:center;font-size:13px;font-weight:800;color:#334155}
+#wheelWrap2{max-width:none;width:100%;margin:0 auto;display:block;overflow:auto;overscroll-behavior:contain;max-height:calc(100vh - 150px)}
+#wheelPanel2 #wheel{width:100%;min-width:0}
+#wheelPanel2 #wheel svg{display:block;width:100%!important;height:auto;max-width:none!important;background:#fff}
+#wheelPanel2 #wheel svg .nava-number2{font-family:system-ui,Tahoma,sans-serif;font-size:11px;font-weight:900;fill:#111827;paint-order:stroke;stroke:#fff;stroke-width:2.4px;stroke-linejoin:round}
+#wheelPanel2 #wheel svg .nava-tick2{stroke:#64748b;stroke-width:.8;opacity:.85}
+#wheelPanel2 #wheel svg .drek-tick2{stroke:#b45309;stroke-width:1.5;opacity:.95}
+#wheelPanel2 #wheel svg .nak-boundary2{stroke:#7c3aed;stroke-width:1.6;opacity:.95}
+#wheelPanel2 #wheel svg .nak-name2{font-family:system-ui,Tahoma,sans-serif;font-size:12px;font-weight:850;fill:#7c2d12;paint-order:stroke;stroke:#fff;stroke-width:2.6px;stroke-linejoin:round}
+#wheelPanel2 #wheel svg .nak-type2{font-family:system-ui,Tahoma,sans-serif;font-size:10px;font-weight:800;fill:#1d4ed8;paint-order:stroke;stroke:#fff;stroke-width:2.5px;stroke-linejoin:round}
+#wheelPanel2 .nakshatra-legend2{margin-top:12px;border-top:1px solid #e2e8f0;padding-top:10px}
+#wheelPanel2 .nakshatra-legend2 summary{cursor:pointer;font-weight:800;color:#243653;padding:6px 0}
+#wheelPanel2 .nakshatra-legend2 table{min-width:0;width:100%}
+#wheelPanel2 .nakshatra-legend2 th,#wheelPanel2 .nakshatra-legend2 td{padding:7px 9px;font-size:13px}
+#wheelPanel2 .drekkana-legend2{margin-top:10px;border-top:1px solid #e2e8f0;padding-top:10px}
+#wheelPanel2 .drekkana-legend2 summary{cursor:pointer;font-weight:800;color:#243653;padding:6px 0}
+#wheelPanel2 .drekkana-legend2 table{min-width:0;width:100%}
+#wheelPanel2 .drekkana-legend2 th,#wheelPanel2 .drekkana-legend2 td{padding:7px 9px;font-size:13px}
+#wheelPanel2:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:10px 12px;border:0;border-radius:0;overflow:hidden;background:#f4f6fb;display:flex;flex-direction:column}
+#wheelPanel2:fullscreen .section-title{margin-bottom:8px}
+#wheelPanel2:fullscreen .wheel-tools{flex:0 0 auto;margin:0 0 8px}
+#wheelPanel2:fullscreen #wheelWrap2{flex:1 1 auto;min-height:0;max-height:none;width:100%;overflow:auto}
+#wheelPanel2:fullscreen #wheel{width:var(--wheel-zoom2,100%);min-width:var(--wheel-zoom2,100%)}
+#wheelPanel2:fullscreen #wheel svg{width:100%!important;max-width:none!important}
+#wheelPanel2:fullscreen .nakshatra-legend2{display:none}
+#wheelPanel2.wheel-fallback-full2{position:fixed;inset:0;z-index:99999;background:#f4f6fb;margin:0;padding:10px;overflow:auto}
+@media(max-width:640px){#wheelPanel2{padding:10px}#wheelPanel2 .wheel-tools button{padding:7px 10px}#wheelPanel2 #wheel svg .nak-name2{font-size:11px}#wheelPanel2 #wheel svg .nak-type2{font-size:9px}#wheelPanel2 #wheel svg .nava-number2{font-size:10px}}
+
+
+/* Extended HORA reference panels: explanatory data only; no calculation hooks */
+.reference-panel{margin:14px 0;padding:16px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.reference-panel h2{margin:0 0 10px;font-size:19px;color:var(--navy)}
+.reference-panel h3{margin:14px 0 7px;font-size:16px;color:var(--navy)}
+.reference-panel p{margin:7px 0}
+.reference-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.reference-card{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcff;min-width:0}
+.reference-card h3{margin:0 0 6px}
+.reference-note{font-size:13px;color:var(--muted)}
+.reference-table-wrap{width:100%;overflow-x:auto;margin:8px 0 12px}
+.reference-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.reference-table th,.reference-table td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+.reference-table th{background:#f0f3fa;color:var(--navy);white-space:nowrap}
+.reference-table code{white-space:normal;overflow-wrap:anywhere}
+.reference-panel details{border-top:1px solid var(--line);padding:10px 0}
+.reference-panel details:first-of-type{margin-top:8px}
+.reference-panel summary{font-weight:750;color:var(--navy);cursor:pointer}
+.reference-links{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px}
+.reference-links a{color:#344fb5;text-decoration:underline;overflow-wrap:anywhere}
+.reference-status{display:inline-block;border-radius:5px;background:#f0f3fa;padding:2px 7px;font-size:12px;font-weight:700}
+.reference-status.warn{background:#fff2d9;color:#815600}
+.reference-status.good{background:#e5f6ed;color:#17633c}
+@media(max-width:600px){.reference-panel{padding:12px}.reference-panel h2{font-size:17px}.reference-table{font-size:12px}}
+
+
+/* index4: reusable planetary-standard dataset panel */
+.planet-standard4{margin:18px 0;padding:clamp(16px,2.3vw,25px);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.planet-standard4 h2{margin:0 0 8px;color:var(--navy);font-size:clamp(18px,2vw,22px)}
+.planet-standard4 .standard-lead4{color:var(--muted);margin:0 0 14px}
+.standard-sign-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.standard-sign4{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfcff;min-width:0}
+.standard-sign4 .sign-name4{font-weight:800;color:var(--navy);margin-bottom:5px}
+.standard-sign4 .planet-name4{font-size:15px;font-weight:750}
+.standard-sign4 .standard-label4{font-size:11px;color:var(--muted);margin-top:4px}
+.standard-status4{display:inline-block;border:1px solid #ead7a6;background:#fff6df;color:#775516;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:800}
+@media(max-width:720px){.standard-sign-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:380px){.standard-sign-grid4{grid-template-columns:1fr}}
+
+</style>
+</head><body>
+<header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index3</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index3 · ENGINE v8.9.3 · TRANSIT TIME FEATURE</span></div></header>
+
+<main class="container"><section id="calculatePanel" class="menu-panel show">
+<div class="panel"><div class="section-title"><h2>ข้อมูลกำเนิด</h2><span class="badge">Birth Data</span></div><div class="form-grid">
+<div class="field span-2"><label>ชื่อ-สกุล</label><input id="bPlace" type="text" value="ไม่ระบุชื่อ"></div>
+<div class="field"><label>วัน</label><select id="bDay"></select></div><div class="field"><label>เดือน</label><select id="bMonth"></select></div>
+<div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="bYear"></select></div>
+<div class="field"><label>เวลา ชั่วโมง</label><select id="bHour"></select></div><div class="field"><label>เวลา นาที</label><select id="bMinute"></select></div>
+<div class="field span-2"><label>สถานที่เกิด / จังหวัด</label><select id="bProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="bDistrict"></select></div>
+<div class="field"><label>ละติจูด</label><input id="bLat" type="number" step="0.000001" value="13.752555"></div><div class="field"><label>ลองจิจูด</label><input id="bLon" type="number" step="0.000001" value="100.494066"></div>
+</div></div>
+<div class="panel"><div class="section-title"><h2>เวลาทำนาย</h2><span class="badge">Transit</span></div><div class="form-grid">
+<div class="field"><label>วัน</label><select id="fDay"></select></div><div class="field"><label>เดือน</label><select id="fMonth"></select></div><div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="fYear"></select></div><div class="field"><label>ชั่วโมง</label><select id="fHour"></select></div><div class="field"><label>นาที</label><select id="fMinute"></select></div>
+<div class="field span-2"><label>จังหวัด</label><select id="fProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="fDistrict"></select></div><div class="field"><label>ละติจูด</label><input id="fLat" type="number" step="0.000001"></div><div class="field"><label>ลองจิจูด</label><input id="fLon" type="number" step="0.000001"></div><div class="field span-6"><label>สถานที่</label><input id="fPlace" type="text"></div>
+</div><div class="calc-row"><button id="calc" type="button">คำนวณดวง</button><span id="msg">พร้อมคำนวณ</span></div>
+<div id="sunIngressPanel3" class="sun-ingress-panel3" aria-live="polite">
+  <div class="sun-ingress-heading3">☉ เวลาจรของอาทิตย์ ณ เส้น 0° ราศีถัดไป</div>
+  <div id="sunIngressResult3">กำลังคำนวณเวลาที่อาทิตย์จรถึงเส้น 0° ราศี...</div>
+  <div class="sun-ingress-note3">เวลาไทย UTC+7 · ค้นหาจากวันและเวลาจรที่เลือก โดยใช้สูตรอาทิตย์ของ HORA index3</div>
+</div></div>
+<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div id="transitAscTime3" role="status" aria-live="polite" style="margin:0 auto 12px;padding:10px 14px;max-width:520px;text-align:center;border:2px solid #07834b;border-radius:12px;background:#ecfdf5;color:#065f46;font-size:16px;font-weight:850">เวลาลัคนาจร: --:-- น.</div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
+<div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
+<div id="starDetails" class="panel"><div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">ราศี · ภพ · ตำแหน่ง · ฤกษ์</span></div><div class="table-wrap"><table><thead><tr><th>ดาว</th><th>กำเนิด ราศี</th><th>กำเนิด องศา</th><th>กำเนิด ภพ</th><th>กำเนิด ตำแหน่ง</th><th>กำเนิด นวางค์</th><th>กำเนิด ตรียางค์</th><th>กำเนิด ฤกษ์</th><th>จร ราศี</th><th>จร องศา</th><th>จร ภพ</th><th>จร ตำแหน่ง</th><th>จร นวางค์</th><th>จร ตรียางค์</th><th>จร ฤกษ์</th></tr></thead><tbody id="starDetailsBody"></tbody></table></div></div>
+<div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
+</section>
+
+<section class="reference-panel" id="calculationMethod2">
+  <h2>หลักการคำนวณและขอบเขตของระบบ</h2>
+  <p>ส่วนนี้รวบรวมคำอธิบายจากเอกสารและไฟล์อ้างอิงที่อยู่ในคลังเว็บไซต์ HORA โดยแยกให้ชัดระหว่างข้อมูลที่หน้าคำนวณใช้จริง กับข้อมูลอ้างอิงที่ยังไม่ได้เชื่อมเข้ากับการคำนวณ เพื่อไม่ให้เข้าใจว่าสูตรทุกชุดผ่านการยืนยันแล้ว</p>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>ข้อมูลพื้นฐาน</h3><p>จักรราศี 12 ราศี ราศีละ 30° รวม 360° เริ่มเมษที่ 0° และตำแหน่งดาวภายในระบบอ้างอิงเป็นลองจิจูดสุริยวิถี 0–360°</p><p>การแสดงผลหลักใช้ องศาและลิปดา โดยเก็บค่าภายในให้ละเอียดกว่าแค่ค่าที่แสดง</p></div>
+    <div class="reference-card"><h3>วัน เวลา และสถานที่</h3><p>เขตเวลาไทย UTC+7 ไม่มีการปรับเวลาออมแสง จังหวัดใช้กำหนดพิกัดละติจูด/ลองจิจูด และหน้าคำนวณมีข้อมูลเวลาเกิดกับเวลาจรแยกกัน</p><p>กติกาวันเปลี่ยนสำหรับทักษาที่เก็บเป็นข้อมูลอ้างอิงใช้ 06:00 น. แต่เอกสารระบบระบุว่าเกณฑ์ที่ขึ้นกับวันทางดาราศาสตร์อาจต้องใช้เวลาอาทิตย์ขึ้นจริง จึงไม่ควรถือว่าสองกติกานี้เป็นเรื่องเดียวกัน</p></div>
+    <div class="reference-card"><h3>มาตรฐาน HORA</h3><p>ไฟล์ ruleset ระบุจักรราศีแบบ sidereal, ayanamsa Lahiri, ความละเอียดองศา–ลิปดา และสถานะสูตรโดยรวมเป็น PROVISIONAL</p><p>มีการระบุระบบเรือนแบบ 30° เริ่มจากลัคนาในเอกสารสถาปัตยกรรม และ whole-sign ใน ruleset มาตรฐาน จึงควรเลือกกติกาเรือนให้ตรงก่อนนำไปเทียบตำราต่างสำนัก</p></div>
+    <div class="reference-card"><h3>ลำดับการคำนวณที่บันทึกไว้</h3><p>เอกสารเดิมระบุสายงานสุริยยาตร์เป็น Horakhun → Madhyam Sun/Moon → Uccabala birth → Madhyam Ucc → Uccavises → Plaken/Khan/Bhuj → Chandra shadow</p><p class="reference-note">ชื่อขั้นตอนนี้เป็นบันทึกหลักการเดิม ไม่ใช่หลักฐานว่าทุกขั้นตอนในรายการได้ผ่านการตรวจสอบอิสระครบแล้ว</p></div>
+  </div>
+  <h3>สถานะสูตรจากทะเบียนสูตรใน repository</h3>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>รหัส</th><th>หัวข้อ</th><th>สถานะที่บันทึก</th><th>รายละเอียด</th></tr></thead><tbody>
+    <tr><td>F-001</td><td>ลองจิจูดสัมบูรณ์</td><td><span class="reference-status good">APPROVED</span></td><td>ตำแหน่งดาวในช่วง 0–360°</td></tr>
+    <tr><td>F-002</td><td>แบ่งจักรราศี</td><td><span class="reference-status good">APPROVED</span></td><td>แบ่งราศีช่วงละ 30°</td></tr>
+    <tr><td>F-003</td><td>นวางค์</td><td><span class="reference-status warn">PROVISIONAL</span></td><td>9 ส่วนต่อราศี; กติกาสำนักต้องกำหนดและมีเวอร์ชัน</td></tr>
+    <tr><td>F-004</td><td>ทักษา</td><td><span class="reference-status warn">PROVISIONAL</span></td><td>หมุนตำแหน่งทักษาตามวันเกิด ต้องตรวจสอบกติกาตามตำรา</td></tr>
+    <tr><td>F-005</td><td>เดือนอธิกมาส/ปฏิทินจันทรคติ</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังมีขั้นตอนเทียบข้อมูลอ้างอิงและตรวจข้อแตกต่าง</td></tr>
+    <tr><td>F-006</td><td>เกณฑ์คุณภาพดาว</td><td><span class="reference-status warn">RESEARCH</span></td><td>ต้องยืนยันสำนัก/แหล่งตำราก่อนใช้กฎทุกประเภท</td></tr>
+    <tr><td>F-007</td><td>เสวยอายุ</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังต้องยืนยันสูตรและวิธีนับอายุจากแหล่งมาตรฐาน</td></tr>
+    <tr><td>F-008</td><td>เสวยจร</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังต้องยืนยันสูตรและกติกาการนับ</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="reference-panel" id="goldenCases2">
+  <h2>Golden Case และจุดอ้างอิงสำหรับตรวจสอบ</h2>
+  <p>ค่าด้านล่างเป็นข้อมูลอ้างอิงที่บันทึกไว้ในโครงการ ใช้เทียบผลเพื่อหาความคลาดเคลื่อน ไม่ควรนำค่าที่คาดหวังไปแทนผลคำนวณของวันอื่น</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>รายการ</th><th>วัน เวลา</th><th>สถานที่/พิกัดอ้างอิง</th><th>ค่าดาวอ้างอิงที่บันทึก</th></tr></thead><tbody>
+    <tr><td>Golden Case #1</td><td>14 ต.ค. 2534 (1991), 01:05</td><td>ขอนแก่น, 16.4322°N, 102.8236°E</td><td>ลัคนา 25°58′ กรกฎ; อาทิตย์ 25°38′ กันย์; จันทร์ 06°27′ ธนู; อังคาร 04°45′ ตุล; พุธ 10°25′ ตุล; พฤหัสบดี 14°05′ สิงห์; ศุกร์ 11°37′ สิงห์; เสาร์ 01°32′ มกร; ราหู 19°37′ ธนู; เกตุ 28°26′ สิงห์; มฤตยู 12°31′ ธนู</td></tr>
+    <tr><td>Golden Case #2</td><td>14 ต.ค. 2518 (1975), 01:05</td><td>กรุงเทพมหานคร, 13.752555°N, 100.494066°E</td><td>ลัคนา 23°51′ กรกฎ; อาทิตย์ 25°48′ กันย์; จันทร์ 15°34′ มกร; อังคาร 08°13′ มิถุน; พุธ 08°39′ กันย์; พฤหัสบดี 27°12′ มีน; ศุกร์ 14°28′ สิงห์; เสาร์ 05°28′ กรกฎ</td></tr>
+    <tr><td>จุดอ้างอิงเกตุ</td><td>14 ธ.ค. 2534 (1991), 01:05</td><td>ขอนแก่น, ใช้พิกัดเดียวกับเคสปี 2534</td><td>เกตุ 26°06′ กรกฎ; ระยะจากวันเริ่มเดือน 8/8 ที่บันทึกไว้ 155 วัน</td></tr>
+  </tbody></table></div>
+  <div class="reference-card"><h3>การอ่านผลเทียบ</h3><p>ผลเทียบควรแสดงตำแหน่งที่คำนวณได้ ตำแหน่งอ้างอิง ส่วนต่างเชิงมุม และ PASS/FAIL แยกเป็นรายดาว โดยคำนึงถึงการวนผ่าน 0°/360° ไม่ใช้การลบองศาแบบเส้นตรงอย่างเดียว</p><p class="reference-note">Golden Case เป็นชุดทดสอบ ไม่ใช่แหล่งข้อมูลที่ควรใช้แทนสูตรทั่วไปหรือปรับผลวันอื่นให้ตรงโดยอัตโนมัติ</p></div>
+</section>
+
+<section class="reference-panel" id="divisionalReference2">
+  <h2>จักรราศี นวางค์ ตรียางค์ และฤกษ์ 27</h2>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>จักรราศี</h3><p>เมษ–มีน เรียงต่อเนื่องครบ 12 ราศี ราศีละ 30° รวม 360° วงแสดงผลกำหนดให้เมษอยู่ด้านบนสุดตามการออกแบบของหน้านี้</p></div>
+    <div class="reference-card"><h3>นวางค์ 108 ส่วน</h3><p>หนึ่งราศีแบ่ง 9 ส่วน ส่วนละ 3°20′ รวม 108 ส่วนทั่วจักรราศี การหานวางค์ราศีอ้างอิงกติกาจุดเริ่มของราศีจรราศี สถิรราศี และอุภยราศี ซึ่งต้องแยกจากแค่เลขลำดับนวางค์ในวง</p></div>
+    <div class="reference-card"><h3>ตรียางค์ 36 ส่วน</h3><p>หนึ่งราศีแบ่ง 3 ส่วน ส่วนละ 10° กฎตรียางค์ที่เก็บไว้: ส่วนที่ 1 ใช้ราศีเดิม ส่วนที่ 2 นับไป 5 ราศี และส่วนที่ 3 นับไป 9 ราศี โดยวนต่อครบทั้ง 12 ราศี</p></div>
+    <div class="reference-card"><h3>ดาวครองตรียางค์ตามธาตุ</h3><p>หลักอ้างอิงอีกชุดหนึ่ง: ใช้ดาวเจ้าเรือนเกษตรของราศีต้นธาตุ กลางธาตุ และปลายธาตุ ตามลำดับปฐม ทุติย และตติยตรียางค์ (0°–10°, 10°–20°, 20°–30°) แยกจากกฎหาราศีตรียางค์เดิมด้านบน</p></div>
+    <div class="reference-card"><h3>ฤกษ์ 27 และบาท</h3><p>หนึ่งฤกษ์ยาว 13°20′ และแบ่งเป็น 4 บาท บาทละ 3°20′ ฤกษ์เดินต่อเนื่องตลอด 360° จึงสามารถคร่อมขอบราศีได้ ไม่ควรเริ่มนับฤกษ์ใหม่เมื่อเปลี่ยนราศี</p></div>
+  </div>
+  <details><summary>ตารางดาวครองตรียางค์ตามธาตุ (ข้อมูลอ้างอิง)</summary>
+    <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>ธาตุ</th><th>ช่วงในราศี</th><th>ราศีตัวแทนธาตุ</th><th>เลขดาว</th><th>ดาวครองตรียางค์</th></tr></thead><tbody>
+      <tr><td>ไฟ</td><td>ปฐม 0°–10°</td><td>เมษ</td><td>3</td><td>อังคาร</td></tr>
+      <tr><td>ไฟ</td><td>ทุติย 10°–20°</td><td>สิงห์</td><td>1</td><td>อาทิตย์</td></tr>
+      <tr><td>ไฟ</td><td>ตติย 20°–30°</td><td>ธนู</td><td>5</td><td>พฤหัสบดี</td></tr>
+      <tr><td>ดิน</td><td>ปฐม 0°–10°</td><td>พฤษภ</td><td>6</td><td>ศุกร์</td></tr>
+      <tr><td>ดิน</td><td>ทุติย 10°–20°</td><td>กันย์</td><td>4</td><td>พุธ</td></tr>
+      <tr><td>ดิน</td><td>ตติย 20°–30°</td><td>มกร</td><td>7</td><td>เสาร์</td></tr>
+      <tr><td>ลม</td><td>ปฐม 0°–10°</td><td>มิถุน</td><td>4</td><td>พุธ</td></tr>
+      <tr><td>ลม</td><td>ทุติย 10°–20°</td><td>ตุล</td><td>6</td><td>ศุกร์</td></tr>
+      <tr><td>ลม</td><td>ตติย 20°–30°</td><td>กุมภ์</td><td>8 / 7</td><td>ราหู / เสาร์</td></tr>
+      <tr><td>น้ำ</td><td>ปฐม 0°–10°</td><td>กรกฎ</td><td>2</td><td>จันทร์</td></tr>
+      <tr><td>น้ำ</td><td>ทุติย 10°–20°</td><td>พิจิก</td><td>3</td><td>อังคาร</td></tr>
+      <tr><td>น้ำ</td><td>ตติย 20°–30°</td><td>มีน</td><td>5</td><td>พฤหัสบดี</td></tr>
+    </tbody></table></div>
+    <p class="reference-note">หมายเหตุ: ธาตุลมช่วงตติยตรียางค์ยังเป็นข้อมูลต่างสำนัก ต้องเลือกว่าจะใช้ราหู (8) หรือเสาร์ (7) ก่อนนำไปคำนวณจริง ตารางนี้เป็นความรู้อ้างอิงเท่านั้น ไม่เปลี่ยนสูตรหรือผลคำนวณของ main.js</p>
+  </details>
+  <details><summary>ชื่อฤกษ์ 27 ตามข้อมูลอ้างอิงในเว็บไซต์</summary><p>1 อัศวินี · 2 ภรณี · 3 กฤติกา · 4 โรหิณี · 5 มฤคศิระ · 6 อารทรา · 7 ปุนรวสุ · 8 ปุษยะ · 9 อาศเลษา · 10 มฆา · 11 ปูรพผลคุนี · 12 อุตตรผลคุนี · 13 หัสตะ · 14 จิตรา · 15 สวาติ · 16 วิศาขา · 17 อนุราธา · 18 เชษฐา · 19 มูละ · 20 ปูรพาษาฒา · 21 อุตตราษาฒา · 22 ศรวณะ · 23 ธนิษฐา · 24 ศตภิษก์ · 25 ปูรพภัทรปทา · 26 อุตตรภัทรปทา · 27 เรวดี</p><p class="reference-note">คำสะกดชื่อฤกษ์อาจต่างกันตามตำรา และคำจำแนกฉินทฤกษ์/ภิณทฤกษ์ยังต้องเลือกแหล่งมาตรฐานก่อนใช้ตัดสินผล</p></details>
+</section>
+
+<section class="reference-panel" id="thaksaReference2">
+  <h2>ทักษาเดิม ทักษาจร และข้อมูลวันเกิด</h2>
+  <p>มีหน้าทักษาเดิม–ทักษาจรแยกอยู่ในเว็บไซต์ และมีไฟล์อ้างอิงสำหรับตำแหน่งทักษา การนับวันเกิด และมหาทักษา โดยไฟล์อ้างอิงเหล่านี้ระบุชัดว่าไม่ได้เชื่อมกับเครื่องคำนวณหลักทั้งหมด</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>ลำดับ</th><th>ตำแหน่งทักษา</th><th>ความหมายอ้างอิง</th></tr></thead><tbody>
+    <tr><td>1</td><td>บริวาร</td><td>ญาติ บริวาร ผู้สนับสนุน</td></tr>
+    <tr><td>2</td><td>อายุ</td><td>อายุ สุขภาพ ความเป็นอยู่</td></tr>
+    <tr><td>3</td><td>เดช</td><td>อำนาจ บารมี ความกล้าหาญ</td></tr>
+    <tr><td>4</td><td>ศรี</td><td>สิริมงคล เสน่ห์ ความสำเร็จ</td></tr>
+    <tr><td>5</td><td>มูละ</td><td>ทรัพย์สิน หลักฐาน ความมั่นคง</td></tr>
+    <tr><td>6</td><td>อุตสาหะ</td><td>ความเพียร การงาน ความพยายาม</td></tr>
+    <tr><td>7</td><td>มนตรี</td><td>ผู้ใหญ่ คำแนะนำ ความช่วยเหลือ</td></tr>
+    <tr><td>8</td><td>กาลกิณี</td><td>อุปสรรคและสิ่งที่ควรระวังตามตำรา</td></tr>
+  </tbody></table></div>
+  <div class="reference-card"><h3>ผัง 9 ช่องและตากลาง</h3><p>รูปผังอ้างอิงเป็น 3×3: แถวบน 1–2–3, แถวกลาง 6–ตากลาง–4, แถวล่าง 8–5–7 เมื่อใช้ตัวเลขตำแหน่งกลางเป็นเลข 9 ในผัง ช่องกลางหมายถึง “ตากลาง” ไม่ใช่ดาวเกตุและไม่ใช่ทักษาตำแหน่งที่ 9</p><p>ข้อมูลวันเกิดสำหรับทักษาที่เก็บไว้กำหนดว่าเวลาไทยก่อน 06:00 น. ให้ใช้วันปฏิทินก่อนหน้า และตั้งแต่ 06:00 น. เป็นต้นไปใช้วันที่กรอก ทั้งนี้ต้องเลือกตำราสำหรับการแปลผลเมื่อการนับตกที่ตากลาง</p></div>
+  <details><summary>มหาทักษาและสถานะการใช้งาน</summary><p>ข้อมูลอ้างอิงบันทึกกำลังดาวรวม 108 ปี: อาทิตย์ 6 ปี, จันทร์ 15 ปี, อังคาร 8 ปี, พุธกลางวัน 17 ปี, เสาร์ 10 ปี, พฤหัสบดี 19 ปี, ราหู/พุธกลางคืน 12 ปี และศุกร์ 21 ปี โดยสูตรดาวแทรกที่บันทึกไว้คือ (จำนวนปีดาวเสวยอายุ × จำนวนปีดาวแทรก) ÷ 108</p><p class="reference-note">การเริ่มดาว ระยะอายุ วิธีนับปี/เดือน/วัน และการจัดการตากลางยังต้องยืนยันกับตำราที่เลือกก่อนใช้ทำนายจริง</p></details>
+  <div class="reference-links"><a href="./project/hora-thaksa-transit.html">เปิดหน้าทักษาเดิม–ทักษาจร</a><a href="https://github.com/tancorp-web/Learn/blob/main/js/data/thaksa-reference.js">ข้อมูลอ้างอิงทักษาใน GitHub</a></div>
+</section>
+
+<section class="reference-panel" id="housesAndPlanets2">
+  <h2>เรือนชะตา คุณภาพดาว และความสัมพันธ์ดาว</h2>
+  <details open><summary>ความหมายเรือนชะตา 12 ภพ</summary>
+    <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>ภพ</th><th>ชื่อ</th><th>หัวข้อความหมายอ้างอิง</th></tr></thead><tbody>
+      <tr><td>1</td><td>ตนุ</td><td>ตัวตน รูปร่าง บุคลิก สุขภาพพื้นฐาน และแนวทางชีวิต</td></tr>
+      <tr><td>2</td><td>กดุมภะ</td><td>ทรัพย์สิน รายได้ เงินเก็บ คำพูด ครอบครัว และคุณค่าที่ถือครอง</td></tr>
+      <tr><td>3</td><td>สหัชชะ</td><td>พี่น้อง การสื่อสาร ความกล้า ความพยายาม ทักษะ และการเดินทางใกล้</td></tr>
+      <tr><td>4</td><td>พันธุ</td><td>บ้าน ครอบครัว รากฐาน ที่ดิน อสังหาริมทรัพย์ และความเป็นอยู่ส่วนตัว</td></tr>
+      <tr><td>5</td><td>ปุตตะ</td><td>บุตร ความรัก ความคิดสร้างสรรค์ การเรียนรู้ และการเสี่ยงโชค</td></tr>
+      <tr><td>6</td><td>อริ</td><td>อุปสรรค ศัตรู หนี้สิน คดีข้อพิพาท โรคภัย และภาระงาน</td></tr>
+      <tr><td>7</td><td>ปัตนิ</td><td>คู่ครอง หุ้นส่วน ลูกค้า คู่สัญญา และความร่วมมือแบบหนึ่งต่อหนึ่ง</td></tr>
+      <tr><td>8</td><td>มรณะ</td><td>การเปลี่ยนแปลง การสูญเสีย มรดก ทรัพย์สินร่วม และวิกฤต</td></tr>
+      <tr><td>9</td><td>ศุภะ</td><td>ครู ความเชื่อ ศาสนา ปรัชญา การศึกษาสูง และการเดินทางไกล</td></tr>
+      <tr><td>10</td><td>กัมมะ</td><td>การงาน อาชีพ หน้าที่ กิจการ ตำแหน่ง และชื่อเสียง</td></tr>
+      <tr><td>11</td><td>ลาภะ</td><td>ลาภผล กำไร รายได้เสริม เพื่อน เครือข่าย และผู้สนับสนุน</td></tr>
+      <tr><td>12</td><td>วินาศ</td><td>รายจ่าย การสูญเสีย เรื่องลับ ต่างแดน การพักฟื้น และการปลีกตัว</td></tr>
+    </tbody></table></div>
+    <p class="reference-note">ข้อมูลเรือนเป็นข้อมูลอ้างอิงแบบ whole-sign โดยเรือนที่ 1 เริ่มจากราศีลัคนา และเรียงราศีต่อไปตามลำดับ</p>
+  </details>
+  <details><summary>คุณภาพดาวและเกณฑ์ที่เปิดใช้</summary>
+    <p>ฐานข้อมูลคุณภาพดาวแยกเกณฑ์เกษตร อุจจ์ และนิจซึ่งเป็นเกณฑ์ที่ runtime หลักเปิดใช้ตามราศี ส่วนองศาอุจจ์/นิจเฉพาะและมูลตรีโกณเป็นข้อมูลอ้างอิงเพิ่มเติม ไม่ควรตีความว่าทุกจุดถูกบังคับใช้ในการคำนวณปัจจุบัน</p>
+    <p>ข้อมูลอ้างอิงยังไม่กำหนดเกษตร/อุจจ์/นิจให้ราหู เกตุ และมฤตยูโดยอัตโนมัติ เพราะหลักเกณฑ์แตกต่างกันตามสำนัก ส่วนประ มหาจักร ราชาโชค เทวีโชค จุลจักร และมูลตรีโกณยังไม่เปิดใช้จนกว่าจะยืนยันตำรา</p>
+  </details>
+  <details><summary>ความสัมพันธ์ราศีและรูปดวงพิเศษ</summary>
+    <p>ฐานข้อมูลแยกการนับราศีตามลำดับออกจากมุมองศาระหว่างดาว ห้ามใช้เป็นกฎเดียวกัน คำว่า “ทับ” ต้องมีบริบทดาวจรเทียบดาวเดิมหรือลัคนา จึงไม่ตัดสินจากชื่อราศีสองตัวอย่างเดียว</p>
+    <p>รูปดวงพิเศษที่มีข้อมูลอ้างอิง เช่น ดอกพิกุล ระบุโครงตำแหน่งที่นับจากลัคนาเป็นภพ 1, 3, 5, 7, 9, 11 แต่เงื่อนไขว่าต้องมีดาวครบช่องใด นับจุดใด และรวมดาวนอก/ราหู/เกตุหรือไม่ ยังต้องยืนยันตามตำราที่เลือก เกณฑ์อื่นที่ยังไม่มีนิยามตรวจสอบได้จะคงสถานะอ้างอิง ไม่ใช้สรุปคำพยากรณ์โดยอัตโนมัติ</p>
+  </details>
+</section>
+
+<section class="reference-panel" id="lunarKetuReference2">
+  <h2>ปฏิทินจันทรคติไทยและสูตรเกตุ 679 วัน</h2>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>ฐานข้อมูลปีอธิกมาส</h3><p>repository มีข้อมูลอ้างอิงต่อเนื่อง 201 ปี พ.ศ. สำหรับตรวจประเภทปีและวันเริ่มเดือน 8/8 รวมทั้งการเทียบผลสูตรหลักกับสูตรสำรอง/สูตรเดิม เพื่อระบุปีที่ตรงและปีที่คลาดเคลื่อน</p><p>ข้อมูลทดสอบตรวจว่า ปีอธิกมาสต้องมีวันเริ่มเดือน 8/8 และปีปกติไม่ควรยืมวันอ้างอิงจากปีก่อนมาใช้</p></div>
+    <div class="reference-card"><h3>กติกาเกตุที่ระบุในชุดทดสอบ</h3><p>อัตราครบรอบ 679 วัน = 360° จุดตั้งต้นเดือน 8/8 ที่บันทึกไว้คือ 198°16′30″ เมื่อมีวันเริ่มเดือน 8/8 ที่ตรวจสอบได้ จึงนับวันจากจุดเริ่มนั้นโดยไม่หัก 30 วันซ้ำ</p><p>ก่อนวันเริ่ม 8/8 และในปีปกติที่ไม่มีจุดอ้างอิง ให้ใช้สูตร 679 วันเดิมตามชุดทดสอบ</p></div>
+  </div>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>กรณีตรวจ</th><th>วันอ้างอิง</th><th>จำนวนวันจาก 8/8</th><th>ผลเกตุที่ชุดทดสอบคาดหวัง</th></tr></thead><tbody>
+    <tr><td>วันเริ่ม 8/8</td><td>12 ก.ค. 2534 / 1991</td><td>0</td><td>198°16′30″ (จุดตั้งต้น)</td></tr>
+    <tr><td>Golden Case #1</td><td>14 ต.ค. 2534 / 1991</td><td>94</td><td>28°26′ สิงห์</td></tr>
+    <tr><td>Golden Case #3</td><td>14 ธ.ค. 2534 / 1991</td><td>155</td><td>26°06′ กรกฎ</td></tr>
+    <tr><td>วันก่อนเริ่ม 8/8</td><td>11 ก.ค. 2534 / 1991</td><td>ไม่ใช้จุดเริ่ม 8/8</td><td>กลับไปใช้สูตรเดิม 679 วัน</td></tr>
+    <tr><td>ปีปกติ</td><td>14 ต.ค. 2533 / 1990</td><td>ไม่มีจุดเริ่ม 8/8</td><td>ใช้สูตรเดิม 679 วัน</td></tr>
+  </tbody></table></div>
+  <p class="reference-note">ส่วนนี้แสดงกติกาและกรณีทดสอบจากไฟล์ QA/ข้อมูลอ้างอิง ไม่ได้เปลี่ยนสูตรใน main.js หรือ engine ที่หน้าคำนวณใช้อยู่</p>
+</section>
+
+
+
+<section class="reference-panel" id="otherReferences2">
+  <h2>ข้อมูลอ้างอิงอื่นที่เก็บในเว็บไซต์</h2>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>อันโตนาทีสามัญ</h3><p>มีตารางนาทีประจำ 12 ราศีและสูตรแบ่งเวลาที่ผ่านไป/เวลาที่เหลือจากองศาอาทิตย์ ใช้เป็นข้อมูลอ้างอิงสำหรับการประมาณเวลาขอบเขตลัคนาจร ไม่ใช่เวลาขึ้นจริงเฉพาะพิกัด และยังไม่ได้เชื่อมกับ main.js</p></div>
+    <div class="reference-card"><h3>ข้อมูลจังหวัดและอำเภอ</h3><p>มีฐานข้อมูลพิกัดจังหวัดไทย รวมถึงข้อมูลจังหวัด/อำเภอ และชุดข้อมูลแยกสำหรับจังหวัด/อำเภอ เพื่อให้การเลือกสถานที่กำเนิดและสถานที่จรเติมพิกัดได้</p></div>
+    <div class="reference-card"><h3>การตรวจสอบอัตโนมัติ</h3><p>มีชุดทดสอบสำหรับเรขาคณิตจักรราศี ลัคนา/เรือน นวางค์ การตรวจข้อมูลป้อนเข้า สูตรเกตุ 679 วัน และการเทียบวันเริ่มเดือน 8/8 ย้อนหลัง 201 ปี โดยผลทดสอบแต่ละชุดต้องรันจริงจึงจะยืนยัน PASS ล่าสุดได้</p></div>
+    <div class="reference-card"><h3>ข้อมูลที่ยังไม่ใช่คำทำนายอัตโนมัติ</h3><p>ไฟล์เรือนชะตา นวางค์ ทักษา คุณภาพดาว ความสัมพันธ์ดาว และอันโตนาทีสามัญหลายส่วนเป็น reference-only ไม่ได้ถูก import เข้า main.js จึงแสดงไว้เพื่อให้ตรวจสอบความรู้และที่มา ไม่ควรถือว่าเปลี่ยนผลคำนวณหลักแล้ว</p></div>
+  </div>
+  <div class="reference-links">
+    <a href="https://github.com/tancorp-web/Learn/tree/main/js/data">ฐานข้อมูลอ้างอิงทั้งหมด</a>
+    <a href="https://github.com/tancorp-web/Learn/tree/main/qa/formula-tests">ชุดทดสอบสูตร</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/docs/DECISIONS.md">ข้อกำหนดและการตัดสินใจของระบบ</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/data/rulesets/hora-standard.json">HORA Standard ruleset</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/js/astronomy/THAI_LUNAR_ENGINE_LICENSE.md">ข้อมูลสัญญาอนุญาตไลบรารีปฏิทินจันทรคติ</a>
+  </div>
+</section>
+
+<section class="reference-panel" id="ascendantTimeKnowledge3">
+  <h2>ชุดความรู้: เวลาเข้าราศีของลัคนาจร</h2>
+  <p><strong>ตารางเวลาเข้าเส้น 0° ของลัคนาจร</strong> คำนวณตามวันที่และสถานที่จรที่เลือก เวลาที่แสดงเป็นเวลาท้องถิ่นของไทย (UTC+7) และวันที่ พ.ศ. ตามช่องวันจร ตารางนี้เป็นส่วนแสดงผลหลัก หากวงล้อมีพื้นที่จำกัดยังอ่านเวลาได้จากตารางนี้</p>
+  <div id="ascendantBoundaryTimesTable3" class="reference-table-wrap" aria-live="polite"><p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p></div>
+  <div class="reference-grid">
+    <div class="reference-card">
+      <h3>ลัคนาเดิม (ดวงกำเนิด)</h3>
+      <p>ลัคนาเดิมคือตำแหน่งจักรราศีที่กำลังขึ้นทางขอบฟ้าทิศตะวันออก ณ วัน เวลา และสถานที่เกิด จึงต้องอ้างอิงเวลาเกิดและพิกัดสถานที่เกิดให้ถูกต้อง ลัคนาเดิมใช้เป็นจุดอ้างอิงของดวงกำเนิด ไม่เปลี่ยนตามเวลาจรที่เลือกภายหลัง</p>
+    </div>
+    <div class="reference-card">
+      <h3>ลัคนาจร (ดวงตามเวลาที่เลือก)</h3>
+      <p>ลัคนาจรคือตำแหน่งลัคนาที่คำนวณใหม่จากวัน เวลา และพิกัดของสถานที่จรที่เลือก เมื่อเปลี่ยนเวลาจร ลัคนาจรและองศาบนวงราศีอาจเปลี่ยนตาม ต้องใช้เวลาและพิกัดจรชุดเดียวกันในการเปรียบเทียบทุกครั้ง</p>
+    </div>
+    <div class="reference-card">
+      <h3>เส้น 0° ของราศีและเวลาที่ลัคนาจรผ่าน</h3>
+      <p>เส้น 0° คือจุดเริ่มต้นของราศีแต่ละราศี (ขอบเขตระหว่างราศีก่อนหน้ากับราศีถัดไป) เวลาใดที่ลัคนาจรผ่านเส้น 0° ต้องหาโดยคำนวณลัคนาตามวัน เวลา และพิกัดจริง แล้วตรวจหาช่วงเวลาที่ตำแหน่งลัคนาข้ามขอบเขตนั้น ไม่ควรใช้เวลาคงที่หรืออนุมานจากองศาอย่างเดียว เพราะแต่ละราศีใช้เวลาขึ้นไม่เท่ากัน</p>
+    </div>
+    <div class="reference-card">
+      <h3>อย่าสับสนกับเวลาอาทิตย์จรเข้า 0°</h3>
+      <p>เวลาอาทิตย์จรเข้า 0° ราศีเป็นเวลาที่ตำแหน่งอาทิตย์ข้ามขอบเขตราศี ส่วนเวลาลัคนาจรเข้า 0° ราศีเป็นอีกเหตุการณ์หนึ่งและใช้การคำนวณคนละตำแหน่ง ทั้งสองเวลาไม่ใช่ค่าเดียวกันและใช้แทนกันไม่ได้</p>
+    </div>
+  </div>
+  <p class="reference-note">เวลาเข้า 0° ของแต่ละราศีเป็นเวลาลัคนาจร ไม่ใช่เวลาอาทิตย์จรเข้าราศี และไม่ใช่เวลาที่เลือกในช่องโดยตรง ระบบใช้สูตรเดิมและไม่เปลี่ยนสูตรคำนวณดาว</p>
+</section>
+
+<section id="errorLog" class="panel"><h3>Calculation Log — คัดลอกส่งตรวจได้</h3><div id="errorLogText"></div><div class="log-actions"><button id="copyErrorLog" type="button">คัดลอก Log ทั้งหมด</button><button id="clearErrorLog" type="button">ล้าง Log</button><span id="logStatus">กำลังเก็บ log...</span></div></section>
+</main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
+<script>
+(()=>{const fill=(id,arr,s)=>{const e=document.getElementById(id);if(!e)return;e.innerHTML=arr.map(x=>'<option value="'+x.v+'">'+x.t+'</option>').join('');if(s!==undefined)e.value=String(s)};const y=[];for(let be=2400;be<=2600;be++)y.push({v:be,t:'พ.ศ. '+be+' / ค.ศ. '+(be-543)});fill('bYear',y,2534);fill('fYear',y,2569);fill('bDay',Array.from({length:31},(_,i)=>({v:i+1,t:String(i+1).padStart(2,'0')})),14);fill('fDay',Array.from({length:31},(_,i)=>({v:i+1,t:String(i+1).padStart(2,'0')})),8);const m=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'].map((t,i)=>({v:i+1,t:t+' ('+(i+1)+')'}));fill('bMonth',m,10);fill('fMonth',m,10);fill('bHour',Array.from({length:24},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),1);fill('fHour',Array.from({length:24},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),12);fill('bMinute',Array.from({length:60},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),5);fill('fMinute',Array.from({length:60},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),0)})();
+</script>
+<script>
+(()=>{const box=document.getElementById("errorLog"),out=document.getElementById("errorLogText"),copy=document.getElementById("copyErrorLog"),clear=document.getElementById("clearErrorLog"),stat=document.getElementById("logStatus"),lines=[];const old={};["log","warn","error","info","table","group","groupCollapsed","groupEnd"].forEach(k=>old[k]=console[k]);const s=v=>{if(typeof v==="string")return v;try{return JSON.stringify(v,(k,x)=>typeof x==="bigint"?x.toString():x)}catch(_){return String(v)}};const add=(t,a)=>{lines.push("["+new Date().toLocaleString("th-TH",{hour12:false})+"] ["+t+"] "+a.map(s).join(" "));out.textContent=lines.join("\n");box.classList.add("show");stat.textContent="Log "+lines.length+" รายการ · พร้อมคัดลอก";out.scrollTop=out.scrollHeight};["log","warn","error","info"].forEach(k=>console[k]=(...a)=>{add(k.toUpperCase(),a);old[k].apply(console,a)});console.table=v=>{add("TABLE",[v]);old.table.call(console,v)};console.group=(...a)=>{add("GROUP",a);old.group.apply(console,a)};console.groupCollapsed=(...a)=>{add("GROUP",a);old.groupCollapsed.apply(console,a)};console.groupEnd=(...a)=>{add("GROUP-END",a);old.groupEnd.apply(console,a)};add("BOOT",["เริ่มเก็บ Calculation Log แล้ว"]);window.addEventListener("error",e=>add("WINDOW ERROR",[e.message,e.filename+":"+e.lineno+":"+e.colno]));window.addEventListener("unhandledrejection",e=>add("PROMISE ERROR",[String(e.reason||"Unhandled rejection")]));copy.onclick=async()=>{const v=out.textContent;try{await navigator.clipboard.writeText(v)}catch(_){const t=document.createElement("textarea");t.value=v;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}stat.textContent="✓ คัดลอก Log แล้ว"};clear.onclick=()=>{lines.length=0;out.textContent="";box.classList.remove("show");stat.textContent="ล้าง Log แล้ว"};})();
+</script>
+<div id="bootDiagnostic" role="status" style="position:relative;z-index:9999;padding:12px 16px;background:#fff3cd;color:#664d03;border-bottom:2px solid #ffecb5;text-align:center;font:600 14px/1.5 system-ui,sans-serif">HORA: กำลังเริ่มระบบคำนวณ...</div>
+<script>
+(()=>{const el=document.getElementById("bootDiagnostic");if(!el)return;
+window.addEventListener("error",e=>{el.hidden=false;const detail=e.message||e.type||"JavaScript error";el.textContent="HORA โหลด JavaScript ผิดพลาด: "+detail+(e.filename?" · "+e.filename:"");});
+window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reason;el.textContent="HORA JavaScript error: "+String(r&&r.message||r||"Promise rejected");});
+setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
+})();
+</script>
+<script type="module" src="./main.js?v=20261009-house-sign-0ce35b0"></script>
+
+<script type="module">
+/* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261010-ingress-fix2';
+(()=>{
+ const $=id=>document.getElementById(id);
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const pad=n=>String(n).padStart(2,'0');
+ const pause=()=>new Promise(resolve=>setTimeout(resolve,0));
+ const dateTimeAt=stamp=>{const d=new Date(stamp);return {date:d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()),time:pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())};};
+ const sunLongitude=(stamp,longitude)=>{
+   const dt=dateTimeAt(stamp);
+   const result=calculateSuriyayatra({date:dt.date,time:dt.time,longitude,includeMotion:false});
+   const sun=result?.planets?.find(p=>p.name==='อาทิตย์');
+   if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ไม่พบตำแหน่งอาทิตย์จากสูตร HORA');
+   return ((Number(sun.longitude)%360)+360)%360;
+ };
+ const fmtLocal=stamp=>{const d=new Date(stamp);return pad(d.getUTCDate())+'/'+pad(d.getUTCMonth()+1)+'/'+(d.getUTCFullYear()+543)+' เวลา '+pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())+' น.';};
+ let running=false,rerun=false,lastKey='';
+ async function calculateNext(){
+   const out=$('sunIngressResult3');if(!out)return;
+   const day=Number($('fDay')?.value),month=Number($('fMonth')?.value),beYear=Number($('fYear')?.value);
+   const hour=Number($('fHour')?.value),minute=Number($('fMinute')?.value),longitude=Number($('fLon')?.value);
+   const key=[day,month,beYear,hour,minute,longitude].join('|');
+   if(running){if(key!==lastKey)rerun=true;return;}
+   if(key===lastKey&&out.dataset.ready==='1')return;
+   running=true;rerun=false;lastKey=key;out.dataset.ready='0';
+   out.textContent='กำลังคำนวณเวลาจรของอาทิตย์…';
+   try{
+     if(!day||!month||!beYear||!Number.isInteger(hour)||hour<0||hour>23||!Number.isInteger(minute)||minute<0||minute>59||!Number.isFinite(longitude))throw new Error('กรุณาเลือกวัน เวลา และลองจิจูดจรให้ครบ');
+     const start=Date.UTC(beYear-543,month-1,day,hour,minute);
+     const startLon=sunLongitude(start,longitude),startSign=Math.floor(startLon/30);
+     const nextSign=(startSign+1)%12,boundary=((startSign+1)*30)%360;
+     let low=start,high=null;
+     out.textContent='กำลังค้นหาเวลาอาทิตย์จรเข้าราศีถัดไป…';
+     // Yield between samples so the status can paint and mobile browsers stay responsive.
+     for(let d=1;d<=45;d++){
+       const t=start+d*86400000,lon=sunLongitude(t,longitude);
+       if(Math.floor(lon/30)!==startSign){low=start+(d-1)*86400000;high=t;break;}
+       if(d%2===0)await pause();
+     }
+     if(high===null)throw new Error('สูตรอาทิตย์ไม่พบการเปลี่ยนราศีภายใน 45 วัน');
+     while(high-low>60000){
+       const mid=low+Math.floor((high-low)/120000)*60000;
+       if(mid<=low){high=low+60000;break;}
+       if(Math.floor(sunLongitude(mid,longitude)/30)===startSign)low=mid;else high=mid;
+       await pause();
+     }
+     const foundLon=sunLongitude(high,longitude);
+     const delta=((foundLon-boundary+540)%360)-180;
+     out.innerHTML='<div>อาทิตย์จรจะเข้าราศี <strong>'+signs[nextSign]+'</strong> ที่เส้น 0°</div><div style="font-size:18px;font-weight:850">'+fmtLocal(high)+'</div><div style="font-size:12px;font-weight:600;color:#64748b">อ้างอิงตำแหน่งเริ่มต้น '+signs[startSign]+' '+startLon.toFixed(2)+'° · คลาดจากเส้นตามความละเอียดสูตร '+Math.abs(delta*60).toFixed(1)+'′</div>';
+     out.dataset.ready='1';
+     console.log('[HORA][SUN INGRESS] สำเร็จ',{sign:signs[nextSign],dateTime:fmtLocal(high),startLongitude:startLon,boundary,longitude});
+   }catch(err){
+     out.textContent='คำนวณเวลาจรไม่สำเร็จ: '+String(err?.message||err);
+     console.error('[HORA][SUN INGRESS] ERROR',err);
+   }finally{
+     running=false;
+     if(rerun){rerun=false;lastKey='';setTimeout(calculateNext,50);}
+   }
+ }
+ const button=$('calc');
+ if(button)button.addEventListener('click',()=>{lastKey='';setTimeout(calculateNext,50);});
+ // Main app populates date/time selects during startup; wait until after its initial calculation.
+ setTimeout(()=>{lastKey='';calculateNext();},900);
+})();
+</script>
+
+<script>
+/* NAKSHATRA_FULL_RING: additional labels live only in index3.html; main.js and index.html remain unchanged. */
+(()=> {
+ const $=id=>document.getElementById(id);
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const nak=['อัศวินี','ภรณี','กฤติกา','โรหิณี','มฤคศิร','อารทรา','ปุนัพสุ','ปุษยะ','อาศเลษะ','มาฆะ','บุรพผลคุนี','อุตตรผลคุนี','หัสตะ','จิตรา','สวาติ','วิศาขา','อนุราธา','เชษฐา','มูละ','บุรพาษาฒ','อุตตราษาฒ','ศรวณะ','ธนิษฐา','ศตภิษัช','บุรพภัทรบท','อุตรภัทรบท','เรวดี'];
+ const types=['ทลิทโท','มหัทธโน','โจโร','ภูมิปาโล','เทศาตรี','เทวี','เพชฌฆาต','ราชา','สมโณ'];
+ const navaByElement={fire:[3,4,2,1,4,6,3,5,7],water:[2,4,6,3,5,7,8,5,3],air:[6,3,5,7,8,5,3,6,4],earth:[7,8,5,3,6,4,2,1,4]};
+ const elements=['fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
+ const NS='http://www.w3.org/2000/svg',C=360;
+ const xy=(lon,r)=>{const a=(-lon-75)*Math.PI/180;return{x:C+r*Math.cos(a),y:C+r*Math.sin(a)}};
+ const add=(svg,tag,attrs,txt)=>{const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,String(v)));if(txt!==undefined)n.textContent=txt;svg.appendChild(n);return n};
+ function augment(svg){
+  if(!svg||svg.dataset.nakshatraFullRing==='1')return;
+  svg.dataset.nakshatraFullRing='1';
+  svg.setAttribute('viewBox','-85 -85 890 890');
+  svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขดาวเจ้าเรือนตรียางค์ตามตรียางค์จักร ตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
+  svg.style.width='100%';svg.style.maxWidth='none';
+  const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','เลขดาวครองตรียางค์ในวงจักรราศี ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
+  /* ตรียางค์: 3 ช่วงต่อราศี ช่วงละ 10 องศา */
+  for(let d=0;d<36;d++){
+   const lon=d*10,p=xy(lon,371),q=xy(lon,360);
+   add(g,'line',{x1:q.x,y1:q.y,x2:p.x,y2:p.y,class:'drek-tick2'});
+  }
+  /* ดาวครองตรียางค์ตามธาตุ: ใช้ลำดับ ปฐม / ทุติย / ตติย ตามองศาในราศี */
+  /* ไฟ = 3,1,5 · ดิน = 6,4,7 · ลม = 4,6,8 (ตัวเลือกตามตำรา: ตติยลมอาจใช้ 7) · น้ำ = 2,3,5 */
+  const triyangLordsByElement={fire:[3,1,5],earth:[6,4,7],air:[4,6,8],water:[2,3,5]};
+  for(let s=0;s<12;s++){
+   const seq=triyangLordsByElement[elements[s]];
+   for(let j=0;j<3;j++){
+    const lon=s*30+j*10+5,p=xy(lon,245);
+    add(g,'text',{
+     x:p.x,y:p.y+3.5,'text-anchor':'middle',
+     'font-size':13,'font-weight':900,fill:'#14213d',
+     stroke:'#fff','stroke-width':2.8,'paint-order':'stroke',
+     class:'triyang-ruler-number2'
+    },seq[j]);
+   }
+  }
+  /* นวางค์: 9 ช่วงต่อราศี ช่วงละ 3°20′ */
+  for(let s=0;s<12;s++){
+   const seq=navaByElement[elements[s]];
+   for(let j=0;j<9;j++){
+    const lon=s*30+(j+.5)*(30/9),p=xy(lon,374),tick1=xy(s*30+j*(30/9),360),tick2=xy(s*30+j*(30/9),366);
+    add(g,'line',{x1:tick1.x,y1:tick1.y,x2:tick2.x,y2:tick2.y,class:'nava-tick2'});
+    add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nava-number2'},seq[j]);
+   }
+  }
+  /* ขอบเขตฤกษ์ทุก 13°20′ อยู่ขอบนอกเพื่อให้เห็นช่วงที่คร่อมราศี */
+  for(let i=0;i<27;i++){
+   const lon=i*(360/27),p=xy(lon,402),q=xy(lon,394);
+   add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'nak-boundary2'});
+  }
+  for(let i=0;i<27;i++){
+   const lon=i*(360/27)+(180/27),p=xy(lon,408),q=xy(lon,438);
+   add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nak-name2'},(i+1)+'. '+nak[i]);
+   add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'},types[i%9]);
+  }
+ }
+ const wheel=$('wheel');
+ if(wheel){
+  const scan=()=>{const svg=wheel.querySelector('svg');if(svg)augment(svg)};
+  new MutationObserver(scan).observe(wheel,{childList:true,subtree:true});
+  scan();
+ }
+ const panel=$('wheelPanel2'),wrap=$('wheelWrap2'),fullscreen=$('wheelFullscreen2');
+ let zoom=1;
+ function applyZoom(){
+  const svg=$('wheel')?.querySelector('svg');if(!svg)return;
+  const pct=Math.round(zoom*100);
+  $('wheelZoomLabel2').textContent=pct+'%';
+  $('wheel').style.width=pct+'%';
+  $('wheel').style.minWidth=pct>100?pct+'%':'0';
+ }
+ $('wheelZoomIn2').addEventListener('click',()=>{zoom=Math.min(2.5,Math.round((zoom+.15)*100)/100);applyZoom()});
+ $('wheelZoomOut2').addEventListener('click',()=>{zoom=Math.max(.55,Math.round((zoom-.15)*100)/100);applyZoom()});
+ $('wheelZoomReset2').addEventListener('click',()=>{zoom=1;applyZoom();wrap.scrollTo({top:0,left:0,behavior:'smooth'})});
+ fullscreen.addEventListener('click',async()=>{
+  try{
+   if(!document.fullscreenElement){if(panel.requestFullscreen)await panel.requestFullscreen();else panel.classList.toggle('wheel-fallback-full2');}
+   else await document.exitFullscreen();
+  }catch(e){panel.classList.toggle('wheel-fallback-full2');}
+  fullscreen.textContent=document.fullscreenElement?'⤢ ออกจากเต็มจอ':'⛶ เต็มจอ';
+  applyZoom();
+ });
+ document.addEventListener('fullscreenchange',()=>{fullscreen.textContent=document.fullscreenElement?'⤢ ออกจากเต็มจอ':'⛶ เต็มจอ';applyZoom()});
+ const legend=$('nakshatraLegend2');
+ if(legend){
+  let h='<div class="table-wrap"><table><thead><tr><th>เลข</th><th>ชื่อฤกษ์</th><th>ประเภทฤกษ์</th><th>ช่วงองศาจักรราศี</th></tr></thead><tbody>';
+  for(let i=0;i<27;i++){
+   const a=i*(360/27),b=(i+1)*(360/27);
+   const fmt=x=>{const d=Math.floor(x),m=Math.round((x-d)*60);return d+'°'+String(m).padStart(2,'0')+'′'};
+   h+='<tr><td>'+(i+1)+'</td><td>'+nak[i]+'</td><td>'+types[i%9]+'</td><td>'+fmt(a)+'–'+fmt(b)+'</td></tr>';
+  }
+  legend.innerHTML=h+'</tbody></table></div>';
+ }
+ const dlegend=$('drekkanaLegend2');
+ if(dlegend){
+  const localFmt=x=>{const total=Math.round(x*60),d=Math.floor(total/60),m=total%60;return String(d).padStart(2,'0')+'°'+String(m).padStart(2,'0')+'′'};
+  const elementNames={fire:'ไฟ',earth:'ดิน',air:'ลม',water:'น้ำ'};
+  const planetNames={1:'อาทิตย์',2:'จันทร์',3:'อังคาร',4:'พุธ',5:'พฤหัสบดี',6:'ศุกร์',7:'เสาร์',8:'ราหู'};
+  const drekLordsByElement={fire:[3,1,5],earth:[6,4,7],air:[4,6,8],water:[2,3,5]};
+  let h='<div class="table-wrap"><table><thead><tr><th>ราศี</th><th>ธาตุ</th><th>ตรียางค์</th><th>องศาในราศี</th><th>เลขดาวครอง</th><th>ดาวครองตรียางค์</th></tr></thead><tbody>';
+  for(let s=0;s<12;s++){
+   const element=elements[s],seq=drekLordsByElement[element];
+   for(let j=0;j<3;j++){
+    h+='<tr><td>'+signs[s]+'</td><td>'+elementNames[element]+'</td><td>'+['ปฐม','ทุติย','ตติย'][j]+'</td><td>'+localFmt(j*10)+'–'+localFmt((j+1)*10)+'</td><td>'+seq[j]+'</td><td>'+planetNames[seq[j]]+'</td></tr>';
+   }
+  }
+  dlegend.innerHTML=h+'</tbody></table></div>';
+ }
+})();
+</script>
+
+
+<script type="module">
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
+/* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
+(()=>{
+ const wheel=document.getElementById('wheel');
+ const C=360, RING=292;
+ const COLORS={natal:'#dc2626',transit:'#07834b'};
+ const pad=n=>String(n).padStart(2,'0');
+ function timeOf(prefix){
+  const hh=document.getElementById(prefix+'Hour')?.value,mm=document.getElementById(prefix+'Minute')?.value;
+  if(hh==null||hh===''||mm==null||mm==='')return '--:--';
+  return pad(Number(hh))+':'+pad(Number(mm));
+ }
+ function svgEl(svg,tag,attrs){
+  const node=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));
+  svg.appendChild(node);return node;
+ }
+ const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ let boundaryCacheKey='',boundaryCache=[];
+ let boundaryRun=0;
+ async function getBoundaryTimes(){
+  const dateDay=document.getElementById('fDay')?.value;
+  const dateMonth=document.getElementById('fMonth')?.value;
+  const dateYear=document.getElementById('fYear')?.value;
+  const hh=document.getElementById('fHour')?.value,mm=document.getElementById('fMinute')?.value;
+  const lon=Number(document.getElementById('fLon')?.value);
+  if(!dateDay||!dateMonth||!dateYear||hh==null||hh===''||mm==null||mm===''||!Number.isFinite(lon))return [];
+  const date=String(Number(dateYear)-543)+'-'+pad(Number(dateMonth))+'-'+pad(Number(dateDay));
+  const time=pad(Number(hh))+':'+pad(Number(mm));
+  const key=[date,time,lon].join('|');
+  if(key===boundaryCacheKey)return boundaryCache;
+  const engine=await calculateSuriyayatra({date,time,longitude:lon});
+  const sun=engine?.planets?.find(p=>p.name==='อาทิตย์');
+  if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ASC_BOUNDARY_SUN_INVALID');
+  const correction=Number(engine.metadata?.localTimeCorrectionMinutes);
+  let result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude:lon,localTimeCorrectionMinutes:correction});
+  const asClock=minutes=>{const v=((Math.round(Number(minutes))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60);};
+  for(let pass=0;pass<2;pass++){
+   result=await Promise.all(result.map(async item=>{
+    const atEngine=await calculateSuriyayatra({date,time:asClock(item.minutes),longitude:lon});
+    const atSun=atEngine?.planets?.find(p=>p.name==='อาทิตย์');
+    if(!atSun||!Number.isFinite(Number(atSun.longitude)))return item;
+    const atCorrection=Number(atEngine.metadata?.localTimeCorrectionMinutes);
+    const refined=calculateAscendantBoundaryTimes({sunLongitude:Number(atSun.longitude),longitude:lon,localTimeCorrectionMinutes:Number.isFinite(atCorrection)?atCorrection:correction});
+    return refined.find(v=>Number(v.sign)===Number(item.sign))||item;
+   }));
+  }
+  boundaryCacheKey=key;boundaryCache=result;
+  console.log('[HORA][ASC 0 DEGREE TIMES]',{date,time,longitude:lon,sunLongitude:Number(sun.longitude),times:result});
+  return result;
+ }
+ function formatThaiDate(dateStr){
+  const parts=dateStr.split('-').map(Number);
+  const months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return pad(parts[2])+' '+months[parts[1]-1]+' '+String(parts[0]+543);
+ }
+ async function renderBoundaryTimes(svg){
+  const runId=++boundaryRun;
+  svg?.querySelector('#ascendantBoundaryTimes3')?.remove();
+  const table=document.getElementById('ascendantBoundaryTimesTable3');
+  if(table)table.innerHTML='<p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p>';
+  let boundaries;
+  try{boundaries=await getBoundaryTimes();}
+  catch(err){
+   console.error('[HORA][ASC 0 DEGREE TIMES] ERROR',err);
+   if(table)table.innerHTML='<p role="alert">คำนวณเวลาเข้า 0° ไม่สำเร็จ กรุณาตรวจวันที่และสถานที่จร แล้วกดคำนวณใหม่</p>';
+   return;
+  }
+  if(runId!==boundaryRun)return;
+  const dateParts=[Number(document.getElementById('fYear')?.value)-543,Number(document.getElementById('fMonth')?.value),Number(document.getElementById('fDay')?.value)];
+  const dateStr=String(dateParts[0])+'-'+pad(dateParts[1])+'-'+pad(dateParts[2]);
+  const dateLabel=formatThaiDate(dateStr);
+  const clock=n=>{const v=((Math.round(Number(n))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60);};
+  if(table){
+   const rows=boundaries.slice().sort((a,b)=>Number(a.sign)-Number(b.sign)).map(item=>'<tr><td>0° '+signNames[Number(item.sign)]+'</td><td>'+dateLabel+'</td><td>'+clock(item.minutes)+' น.</td></tr>').join('');
+   table.innerHTML='<table class="reference-table"><thead><tr><th>จุดเข้าเส้นราศี</th><th>วันที่เข้า (พ.ศ.)</th><th>เวลาไทย</th></tr></thead><tbody>'+rows+'</tbody></table><p class="reference-note">อ้างอิงวันที่จรและพิกัดสถานที่จรที่เลือกในแบบฟอร์ม</p>';
+  }
+  if(!svg||!svg.isConnected)return;
+  const layer=svgEl(svg,'g',{id:'ascendantBoundaryTimes3','font-family':'system-ui, sans-serif','pointer-events':'none'});
+  const ascAngles=[];
+  svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
+   const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
+   const x2=Number(line.getAttribute('x2')),y2=Number(line.getAttribute('y2'));
+   const r1=Math.hypot(x1-C,y1-C),r2=Math.hypot(x2-C,y2-C);
+   if(r1>75&&r1<115&&(r2>250||line.dataset.navaExtended==='1'))ascAngles.push(Math.atan2(y2-C,x2-C));
+  });
+  boundaries.forEach(item=>{
+   const sign=Number(item.sign);
+   if(!Number.isInteger(sign)||sign<0||sign>11||!Number.isFinite(Number(item.minutes)))return;
+   const a=(-(sign*30-15)-90)*Math.PI/180;
+   const ring={x:C+RING*Math.cos(a),y:C+RING*Math.sin(a)};
+   const nearAsc=ascAngles.some(aa=>Math.abs(Math.atan2(Math.sin(a-aa),Math.cos(a-aa)))<0.16);
+   const labelR=nearAsc?438:365,tagW=128,tagH=34;
+   const labelA=a+(nearAsc?0.10:0);
+   const x=C+labelR*Math.cos(labelA),y=C+labelR*Math.sin(labelA);
+   // Time-only text: no green strip, box, dot, or leader line to obscure zodiac details.
+   const textNode=svgEl(layer,'text',{x,y:y+4,'text-anchor':'middle','font-size':12,'font-weight':750,fill:'#075e3b','paint-order':'stroke','stroke':'#fff','stroke-width':2.5,'stroke-linejoin':'round'});
+   textNode.textContent=clock(item.minutes)+' น.';
+  });
+ }
+ function enhanceAscendant(svg){
+  if(!svg)return;
+  // Room around the wheel for collision-avoiding labels; wheel center and all astronomy coordinates stay unchanged.
+  svg.setAttribute('viewBox','-150 -150 1020 1020');
+  const natalTime=timeOf('b'),transitTime=timeOf('f');
+  const visible=document.getElementById('transitAscTime3');
+  if(visible)visible.textContent='ลัคนาเกิด: '+natalTime+' น.  ·  ลัคนาจร: '+transitTime+' น.';
+  svg.querySelectorAll('text').forEach(t=>{
+   const label=t.textContent.trim();
+   if(label==='@จร'||label.startsWith('@จร ')){
+    const desired='@จร '+transitTime;
+    if(t.textContent!==desired)t.textContent=desired;
+    t.setAttribute('font-size','10');t.setAttribute('font-weight','900');t.setAttribute('text-anchor','middle');
+    const tag=t.previousElementSibling;
+    if(tag&&tag.tagName.toLowerCase()==='rect'){
+     tag.setAttribute('x',String(Number(t.getAttribute('x'))-43));
+     tag.setAttribute('width','86');tag.setAttribute('height','22');
+     tag.setAttribute('y',String(Number(t.getAttribute('y'))-12));
+    }
+   }
+  });
+  const rays=[];
+  svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
+   const color=line.getAttribute('stroke');
+   const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
+   const x2=Number(line.getAttribute('x2')),y2=Number(line.getAttribute('y2'));
+   const r1=Math.hypot(x1-C,y1-C),r2=Math.hypot(x2-C,y2-C);
+   if(r1>75&&r1<115&&r2>250&&r2<430){
+    const angle=Math.atan2(y2-C,x2-C);
+    rays.push({line,color,angle,ring:{x:C+RING*Math.cos(angle),y:C+RING*Math.sin(angle)}});
+    if(line.dataset.navaExtended!=='1'&&r2<320){
+     const scale=408/r2;
+     line.setAttribute('x2',String(C+(x2-C)*scale));line.setAttribute('y2',String(C+(y2-C)*scale));
+     line.dataset.navaExtended='1';line.setAttribute('stroke-width','3.5');
+    }
+   }
+  });
+  // Rebuild one idempotent layer. Observe only direct wheel children below, so this layer cannot retrigger itself.
+  svg.querySelector('#ascendantTimeLabels3')?.remove();
+  const layer=svgEl(svg,'g',{id:'ascendantTimeLabels3','font-family':'system-ui, sans-serif','pointer-events':'none'});
+  const wanted=[];
+  rays.forEach(ray=>{
+   const natal=ray.color===COLORS.natal;
+   wanted.push({...ray,text:natal?'เกิด '+natalTime+' น.':transitTime+' น.',kind:natal?'natal':'transit'});
+  });
+  // Put labels outside when the rays are close enough that their tags would collide.
+  let collide=false;
+  for(let i=0;i<wanted.length;i++)for(let j=i+1;j<wanted.length;j++){
+   const d=Math.abs(Math.atan2(Math.sin(wanted[i].angle-wanted[j].angle),Math.cos(wanted[i].angle-wanted[j].angle)))*180/Math.PI;
+   if(d<31)collide=true;
+  }
+  // Offset labels tangentially so they do not sit on top of the existing @เกิด/@จร markers.
+  // If the two ascendants are close, move both tags to the outer safe lane.
+  const labelR=collide?445:326;
+  const tagW=collide?104:94,tagH=26;
+  wanted.forEach((item,index)=>{
+   let a=item.angle+(item.kind==='natal'?-0.34:0.34);
+   // In collision mode, separate tags further; leaders still terminate at their own true ring intersection.
+   if(collide)a+=(index===0?-1:1)*0.14;
+   const x=C+labelR*Math.cos(a),y=C+labelR*Math.sin(a);
+   if(item.kind==='natal'){
+    svgEl(layer,'line',{x1:item.ring.x,y1:item.ring.y,x2:x,y2:y,stroke:item.color,'stroke-width':2,'stroke-linecap':'round'});
+    svgEl(layer,'circle',{cx:item.ring.x,cy:item.ring.y,r:5,fill:item.color,stroke:'#fff','stroke-width':1.5});
+    svgEl(layer,'rect',{x:x-tagW/2,y:y-tagH/2,width:tagW,height:tagH,rx:7,fill:item.color,stroke:'#fff','stroke-width':1.6});
+   }
+   const t=svgEl(layer,'text',{x,y:y+4,'text-anchor':'middle','font-size':item.kind==='transit'?12:11,'font-weight':850,fill:item.kind==='transit'?'#07834b':'#fff','paint-order':'stroke','stroke':item.kind==='transit'?'#fff':item.color,'stroke-width':item.kind==='transit'?2.5:0.5,'stroke-linejoin':'round'});
+   t.textContent=item.text;
+  });
+ }
+ if(wheel){
+  let pending=false;
+  const run=()=>{pending=false;const svg=wheel?.querySelector('svg');if(svg)enhanceAscendant(svg);renderBoundaryTimes(svg||null);};
+  const schedule=()=>{if(!pending){pending=true;setTimeout(run,0);}};
+  const observer=new MutationObserver(schedule);
+  observer.observe(wheel,{childList:true});
+  run();
+  document.getElementById('calc')?.addEventListener('click',()=>setTimeout(run,100));
+  ['bHour','bMinute','fHour','fMinute'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(run,50)));
+ }
+})();</script>
+
+<section class="planet-standard4" id="planetaryStandardKaset4" aria-labelledby="planetaryStandardTitle4">
+  <div class="section-title"><h2 id="planetaryStandardTitle4">ชุดมาตรฐานดาว · เกษตร</h2><span class="standard-status4">DISCOVERY · รอตรวจสอบ</span></div>
+  <p class="standard-lead4">ชุดข้อมูลเริ่มต้นสำหรับนำไปใส่ในช่องราศีภายหลัง แยกข้อมูลดาวประจำราศีออกจากสูตรคำนวณดวง และเตรียมให้ชื่อ “มาตรฐานดาว” เปลี่ยนเป็นชื่อมาตรฐานที่เลือกจาก dropdown ในอนาคต</p>
+  <div class="standard-sign-grid4" id="planetaryStandardSignGrid4">
+    <article class="standard-sign4" data-sign="0"><div class="sign-name4">เมษ</div><div class="planet-name4">อังคาร</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="1"><div class="sign-name4">พฤษภ</div><div class="planet-name4">ศุกร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="2"><div class="sign-name4">มิถุน</div><div class="planet-name4">พุธ</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="3"><div class="sign-name4">กรกฎ</div><div class="planet-name4">จันทร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="4"><div class="sign-name4">สิงห์</div><div class="planet-name4">อาทิตย์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="5"><div class="sign-name4">กันย์</div><div class="planet-name4">พุธ</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="6"><div class="sign-name4">ตุล</div><div class="planet-name4">ศุกร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="7"><div class="sign-name4">พิจิก</div><div class="planet-name4">อังคาร</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="8"><div class="sign-name4">ธนู</div><div class="planet-name4">พฤหัสบดี</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="9"><div class="sign-name4">มกร</div><div class="planet-name4">เสาร์</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="10"><div class="sign-name4">กุมภ์</div><div class="planet-name4">ราหู</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+    <article class="standard-sign4" data-sign="11"><div class="sign-name4">มีน</div><div class="planet-name4">พฤหัสบดี</div><div class="standard-label4">มาตรฐานดาว: เกษตร</div></article>
+  </div>
+  <p class="reference-note">หมายเหตุ: ชุดนี้แสดงข้อมูลจากทะเบียนอ้างอิงปัจจุบันเท่านั้น ยังไม่เปลี่ยนข้อความในช่องราศีของวงจักรราศี และยังไม่เพิ่ม dropdown เพื่อรอการตรวจสอบชุดมาตรฐานก่อน</p>
+</section>
+<script>
+/* Structured dataset for future dropdown-driven sign labels. Keep all standards as separate records. */
+window.HORA_PLANET_STANDARDS4 = {
+  selectedStandard: "เกษตร",
+  selectorLabel: "มาตรฐานดาว",
+  status: "DISCOVERY",
+  signs: [
+    {sign:0,name:"เมษ",planet:"อังคาร",standard:"เกษตร"},
+    {sign:1,name:"พฤษภ",planet:"ศุกร์",standard:"เกษตร"},
+    {sign:2,name:"มิถุน",planet:"พุธ",standard:"เกษตร"},
+    {sign:3,name:"กรกฎ",planet:"จันทร์",standard:"เกษตร"},
+    {sign:4,name:"สิงห์",planet:"อาทิตย์",standard:"เกษตร"},
+    {sign:5,name:"กันย์",planet:"พุธ",standard:"เกษตร"},
+    {sign:6,name:"ตุล",planet:"ศุกร์",standard:"เกษตร"},
+    {sign:7,name:"พิจิก",planet:"อังคาร",standard:"เกษตร"},
+    {sign:8,name:"ธนู",planet:"พฤหัสบดี",standard:"เกษตร"},
+    {sign:9,name:"มกร",planet:"เสาร์",standard:"เกษตร"},
+    {sign:10,name:"กุมภ์",planet:"ราหู",standard:"เกษตร"},
+    {sign:11,name:"มีน",planet:"พฤหัสบดี",standard:"เกษตร"}
+  ]
+};
+</script>
+
+</body></html>
