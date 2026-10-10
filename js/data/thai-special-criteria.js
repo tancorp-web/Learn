@@ -63,7 +63,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-NAM-PHON',
     name: 'นำผล',
-    aliases: ['นำพล (ต้องตรวจว่าเป็นคำเดียวกันหรือไม่)'],
+    aliases: [],
     category: 'เกณฑ์ชื่อเฉพาะ',
     status: CRITERION_STATUS.NEEDS_SOURCE,
     ruleType: null,
@@ -74,7 +74,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-TAM-PHON',
     name: 'ตามผล',
-    aliases: ['ตามพล (ต้องตรวจว่าเป็นคำเดียวกันหรือไม่)'],
+    aliases: [],
     category: 'เกณฑ์ชื่อเฉพาะ',
     status: CRITERION_STATUS.NEEDS_SOURCE,
     ruleType: null,
@@ -85,7 +85,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-CHART-TRIANGLE',
     name: 'ดวงสามเหลี่ยม',
-    aliases: ['ดวงตรีโกณ (อาจเป็นคนละความหมาย)'],
+    aliases: [],
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.DISCOVERY,
     ruleType: null,
@@ -96,7 +96,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-CHANDRA-HALF',
     name: 'ดวงจันทร์ครึ่งซีก',
-    aliases: ['ดวงอัฒจักร', 'มาลัยโยค', 'ดวงจันทร์เสี้ยว'],
+    aliases: [],
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: null,
