@@ -63,7 +63,7 @@ function renderWheel(natal,transit){
   if(!list?.planets)return;
   const lanes=isTransit?[310,342,374]:[160,190,220,250,270];
   const color=isTransit?'#07834b':'#7250bd';
-  list.planets.slice().sort((a,b)=>a.longitude-b.longitude).forEach(p=>{
+  list.planets.slice().sort((a,b)=>{if(!isTransit&&a.name==='อาทิตย์')return 1;if(!isTransit&&b.name==='อาทิตย์')return -1;return a.longitude-b.longitude}).forEach(p=>{
    let chosen=null,best=null,bestClearance=-Infinity;
    // A planet's longitude fixes its angle. Resolve collisions only by changing radius, never by shifting it into another sign.
    for(const lane of lanes){
@@ -76,7 +76,7 @@ function renderWheel(natal,transit){
    if(!chosen)chosen=best;
    placed.push(chosen);
    const truePoint=xy(p.longitude,isTransit?rad+2:chosen.lane);
-   svg+='<g><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="12" fill="'+color+'" stroke="#fff" stroke-width="2"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>';
+   const isNatalSun=!isTransit&&p.name==='อาทิตย์';svg+='<g'+(isNatalSun?' data-natal-sun-marker="true"':'')+'><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+'</text></g>';
   });
  }
  draw(natal,false);if(transit)draw(transit,true);
