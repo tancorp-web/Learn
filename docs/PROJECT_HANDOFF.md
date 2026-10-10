@@ -126,3 +126,10 @@ Updated: 2026-10-10
 ## Green transit time labels without boxes — 2026-10-10
 - User reported green time strips/labels overlapped other zodiac-wheel content and requested no frame, only the time. Updated `index3.html` so the green 0° transit boundary labels are plain green `HH:MM น.` text with a light text outline for contrast; removed the green background rectangle, dot, and leader line. The green transit ascendant-ray label is also plain text without a box or leader line. Red natal ascendant label remains unchanged.
 - The 12-boundary reference table and all calculation formulas remain unchanged. Only `index3.html` and this handoff document are changed; `index2.html`, `main.js`, and astronomy engine files remain untouched. Verify GitHub Actions/Pages for this commit before claiming deployment is complete.
+
+
+## Thai astrology planetary standards knowledge — 2026-10-10
+- Added `docs/ASTROLOGICAL_STANDARDS.md` as an internal project knowledge note; it intentionally contains no website citations or web-reference list.
+- The note defines the separation between planetary-position calculations and standards classification, outlines เกษตร, ประ, อุจจ์, นิจ, อุจจาวิลาส, อุจจาภิมุข, ราชาโชค, มหาจักร, จุลจักร, เทวีโชค, มูลเกษตร and other standards, and records a provisional baseline table for เกษตร/อุจจ์/นิจ for planets ๑–๗.
+- Values for specialized standards are deliberately not guessed or hard-coded. The baseline table is marked provisional and must be checked against the owner's chosen Thai astrology standard before implementation. Rahu, Ketu and Uranus are not automatically assigned the rules for planets ๑–๗.
+- Implementation guidance: allow multiple standards per planet, make every result auditable, and test against confirmed cases. Do not alter planetary/ascendant formulas or `index2.html` as part of this knowledge record.
