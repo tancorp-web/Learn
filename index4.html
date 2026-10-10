@@ -294,7 +294,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main.js?v=20261010-exact-longitude-radial-lanes-72f77e0"></script>
+<script type="module" src="./main.js?v=20261010-standard-clearance-288e82b"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
@@ -707,7 +707,7 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
    const markerText=markerGroup?.querySelector("text");
    if(markerGroup && markerGroup.getAttribute("data-index4-natal-shifted")!=="true"){
     const cx=Number(circle.getAttribute("cx")),cy=Number(circle.getAttribute("cy"));
-    const dx=cx-360,dy=cy-360,len=Math.hypot(dx,dy)||1,shift=24;
+    const dx=cx-360,dy=cy-360,len=Math.hypot(dx,dy)||1,shift=0;
     const sx=dx/len*shift,sy=dy/len*shift;
     circle.setAttribute("cx",(cx+sx).toFixed(2));
     circle.setAttribute("cy",(cy+sy).toFixed(2));
