@@ -406,9 +406,10 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
       { id: 'B', planetConditions: [{ planet: 'อังคาร', houseFromAscendant: 7 }, { planet: 'ราหู', houseFromAscendant: 7 }], state: 'SELECTED_REFERENCE_NOT_ENABLED' }
     ],
     planetConditions: [
+      { planet: 'อังคาร', houseFromAscendant: 7 },
       { planet: 'ราหู', houseFromAscendant: 7 }
     ],
-    planets: 'แบบ A: ราหู (๘) ภพ 7; แบบ B ที่อาจารย์แทนเลือก: อังคาร (๓) และราหู (๘) ภพ 7',
+    planets: 'แบบ B ที่อาจารย์แทนเลือก: อังคาร (๓) และราหู (๘) ภพ 7; แบบ A (ราหูภพ 7) ยังคงเก็บแยกใน variants',
     notes: ['ข้อสรุปอาจารย์แทน: เลือกแบบ B โดยเก็บเงื่อนไขอังคารและราหูในภพ 7 แยกจากแบบ A', 'ยังไม่เปิดใช้จนยืนยันว่าต้องอยู่ภพ 7 พร้อมกันหรือไม่ ประเภทลัคนา และแหล่งอ้างอิง'],
     execution: 'REFERENCE_ONLY'
   },
