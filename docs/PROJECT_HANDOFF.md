@@ -111,3 +111,8 @@ Updated: 2026-10-10
 - Changed rendering so the table calculation runs even before the wheel SVG exists; SVG labels are added when the wheel is available. Calculation continues to use the existing Suriyayatra engine and boundary-time helper, with two refinement passes. No planetary formulas or engine source files were changed.
 - Commits: `278c7a5075aaabd6a41f572d871d37bc48b241b3` (visible table, date labels, knowledge moved before log) and `4fd9ec7baf17fc4e2d1aa806692af97288b47232` (table calculation independent of SVG readiness).
 - Static syntax and CI/Pages deployment status must be checked for the latest commit before reporting completion. Live visual confirmation on a phone is still required.
+
+
+## Transit ascendant label simplification — 2026-10-10
+- User confirmed the page is visible and requested that the green transit ascendant label show only the transit clock time. Updated `index3.html` so the green ray tag displays `HH:MM น.` without the extra `จร` prefix; the red natal tag remains `เกิด HH:MM น.`. This changes only label text, not geometry, boundary-time labels, or any calculation formula.
+- Only `index3.html` and this handoff document are changed for this request. `index2.html`, `main.js`, and astronomy engine files remain untouched. Verify the newest GitHub Actions / Pages deployment before claiming deployment completion.
