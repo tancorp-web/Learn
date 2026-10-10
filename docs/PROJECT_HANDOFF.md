@@ -73,3 +73,9 @@ Updated: 2026-10-10
 - Commits: `55f1457fe23da9714080be648ae434a48e1cdbd2` (initial labels), `8a75995f2947c47811fe15768d03aecb53be1916` (label separation).
 - Formula integrity: no astronomy/calculation code touched; `index2.html` and `main.js` were not edited. Only `index3.html` and `docs/PROJECT_HANDOFF.md` are intended to change.
 - Verification status: source changes committed; pending verification of GitHub Actions / GitHub Pages deployment. Automated multi-time browser interaction and manual visual inspection have not yet been confirmed, so do not describe those as passed until checked.
+
+
+## Verification update — 2026-10-10
+- Latest index3 UI commit `06bd7885c5f1ecf5fd209399ce677ce6adb2c89d` passed the full diagnostic test suite and required core, Ketu, and Thai lunar recheck tests in GitHub Actions run [38047813141](https://github.com/tancorp-web/Learn/actions/runs/38047813141). GitHub Pages deployment step also completed successfully for that commit.
+- Static source checks confirm the live branch version of `index3.html` includes separate dynamic birth/transit time inputs and the ring-intersection label layer. The red/green ray geometry is derived from each ray's endpoint coordinates, and labels update on calculation and time-input changes.
+- Limitation: no real mobile browser session was available in this verification pass, so visual collision behavior on-device and repeated interactive time changes were not manually observed. Do not state those manual checks passed. Formula regression tests passed; calculation source files and `index2.html` were not changed.
