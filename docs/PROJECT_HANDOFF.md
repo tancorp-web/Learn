@@ -97,3 +97,8 @@ Updated: 2026-10-10
 - Static JavaScript syntax check on the final inline module passed (`new Function` parse after removing import declarations); this does not replace a live browser test.
 - GitHub Actions run for the boundary-label implementation: [38048447874](https://github.com/tancorp-web/Learn/actions/runs/38048447874) completed successfully on the initial feature commit. Subsequent minor geometry/idempotency fixes are in later commits; the latest run is pending at the time of this note. Confirm the newest workflow and Pages deployment before claiming deployment complete.
 - Not yet manually verified in a live mobile browser. Boundary times are generated from the selected transit date/time's Sun longitude using the project's existing boundary-time helper; they are not a minute-by-minute search over the full day. Do not describe them as independently validated against real-world ephemeris until such a test is performed.
+
+
+## Refinement update — 2026-10-10
+- Improved the 0° boundary clock times: after the first estimate from the existing boundary helper, each boundary is recalculated twice using the existing Suriyayatra Sun engine at its estimated local crossing time. This accounts for the Sun's changing longitude during the selected date without changing any formula or engine source file.
+- Latest index3 implementation commit: `e2451289deb7d6bb3af9d2bb312b55c43ac2c3d5`. The inline module parses successfully in a JavaScript syntax check. Latest GitHub Actions run: [38048544296](https://github.com/tancorp-web/Learn/actions/runs/38048544296), queued/pending at the time of this note.
