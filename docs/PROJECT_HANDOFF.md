@@ -145,3 +145,10 @@ Updated: 2026-10-10
 - Added `docs/THAI_ASTROLOGICAL_STANDARDS_REFERENCE.md` to organize the user's detailed notes on standard placements, planet-by-planet interpretations, and planetary relationship groups (คู่ธาตุ, คู่สมพล, คู่มิตร, คู่ศัตรู).
 - The reference separates interpretive descriptions from calculation rules and flags inconsistencies in the supplied Nicha degree thresholds; do not hard-code those values until the source rule is clarified.
 - Linked the reference from `docs/ASTROLOGICAL_STANDARDS.md`. Documentation only: no app code, planetary formulas, or `index2.html` changed.
+
+
+## Detailed Thai astrology standards appendix — 2026-10-10
+- Added `docs/THAI_ASTROLOGICAL_STANDARDS_APPENDIX.md` to preserve the user's expanded notes on the ten standard categories, planet-by-planet interpretations for เกษตร/ประเกษตร/อุจจ์/อุจจาวิลาส/อุจจาภิมุข/มหาจักร/ราชาโชค, จุลจักร/เทวีโชค, planetary pairs, and Mercury/Uranus interpretive notes.
+- Recorded the user-supplied Nicha degree thresholds as unverified raw data because several stated limiting degrees conflict with the stated thresholds for when a planet ceases to be Nicha. Do not implement those degree rules until clarified against the source table.
+- Added a terminology caution: เกษตร, อุจจ์ and นิจ must not be treated as interchangeable English labels; keep Thai terms as primary until the selected tradition's terminology is confirmed.
+- Updated `docs/ASTROLOGICAL_STANDARDS.md` to link the appendix. Documentation-only change: no app code, planetary formulas, or `index2.html` changed; no deployment required.
