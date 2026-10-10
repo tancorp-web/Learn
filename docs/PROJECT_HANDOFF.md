@@ -181,3 +181,12 @@ Updated: 2026-10-10
 - Added `qa/formula-tests/astrology-knowledge.test.js` for Mars-in-Aries lookup, per-chart house join, missing mappings, and exclusion of unverified rules.
 - Canonical registry remains `data/astrology/planetary_dignities.json`; a temporary duplicate registry was removed. Its status remains `DISCOVERY` and it is not an approved default for automatic interpretation.
 - No edits to `index2.html`, `index3.html`, astronomy engines, or planetary formulas. Next: verify the GitHub Actions run; then expand tests and rule coverage before any UI integration.
+
+## HORA index4 — Planetary standards starter set
+- Created `index4.html` as a copy of `index3.html`; `index2.html` and `index3.html` remain untouched.
+- Added an initial visible “ชุดมาตรฐานดาว · เกษตร” set for all 12 signs, plus `window.HORA_PLANET_STANDARDS4` structured data for future reuse.
+- The reusable structure separates sign, planet, standard label, and verification status. The display label is currently “มาตรฐานดาว: เกษตร”; future dropdown selection can replace the selected standard label without changing the sign-card structure.
+- This first pass does not inject labels into the zodiac SVG sign boxes and does not add the dropdown yet; it provides a reviewable data set first, as requested.
+- Current mapping is sourced from `data/astrology/planetary_dignities.json` and remains `DISCOVERY`, not an approved universal standard. Review before connecting it to the zodiac wheel.
+- Live page after GitHub Pages deployment: https://tancorp-web.github.io/Learn/index4.html
+
