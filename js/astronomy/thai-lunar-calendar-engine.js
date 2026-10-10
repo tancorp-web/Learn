@@ -131,7 +131,7 @@ function findLunarDate(calType, days) {
   return { month, day: days };
 }
 
-function lunarMonthForGregorianDate(year, month, day) {
+function lunarDateForGregorianDate(year, month, day) {
   const jd = gregorianToJulianDay(year, month, day);
   const horakhun = jd - CS_JULIAN_DAY_OFFSET;
   let csYear = Math.trunc((horakhun * 800 - 373) / DAYS_IN_800_YEARS);
@@ -151,7 +151,21 @@ function lunarMonthForGregorianDate(year, month, day) {
     yearInfo = calculateYear0(csYear);
     daysInYear = yearInfo.leapday ? 366 : 365;
   }
-  return findLunarDate(yearInfo.calType, yearInfo.offsetDays + days).month;
+  const lunar = findLunarDate(yearInfo.calType, yearInfo.offsetDays + days);
+  return { ...lunar, chulaSakarat: csYear, isAdhikamas: yearInfo.calType === 'C' || yearInfo.calType === 'c', isLeapDay: yearInfo.leapday };
+}
+
+function lunarMonthForGregorianDate(year, month, day) {
+  return lunarDateForGregorianDate(year, month, day).month;
+}
+
+/** Return the traditional Thai lunar date for a Gregorian civil date. */
+export function calculateThaiLunarDate(year, month, day) {
+  if (![year, month, day].every(Number.isInteger) || year < 1 || month < 1 || month > 12 || day < 1 || day > 31) {
+    throw new TypeError('Invalid Gregorian date');
+  }
+  const result = lunarDateForGregorianDate(year, month, day);
+  return { ...result, gregorianYear: year, gregorianMonth: month, gregorianDay: day };
 }
 
 /**
