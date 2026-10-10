@@ -691,7 +691,7 @@ export function getThaiSpecialCriteriaByName(name) {
   const normalized = String(name ?? '').trim();
   if (!normalized) return [];
   return THAI_SPECIAL_ASTROLOGY_CRITERIA.filter(item =>
-    item.name === normalized || item.aliases?.includes(normalized)
+    !item.mergedInto && (item.name === normalized || item.aliases?.includes(normalized))
   );
 }
 
