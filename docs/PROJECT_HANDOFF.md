@@ -6,7 +6,7 @@ Updated: 2026-10-10
 - Stable working reference: https://tancorp-web.github.io/Learn/index2.html
 - New working copy: https://tancorp-web.github.io/Learn/index3.html
 - Repository: https://github.com/tancorp-web/Learn
-- Current task source page: `index2.html`; new changes for this task belong in `index3.html` unless explicitly requested otherwise.
+- Current working page: `index3.html` only. `index2.html` is the stable reference and must not be edited unless explicitly requested.
 
 ## Current task
 1. Work only in `index3.html` for UI/feature changes. Do not edit `index2.html` unless the user explicitly asks.
@@ -17,7 +17,8 @@ Updated: 2026-10-10
 
 ## Transit-time behavior and limitations
 - `index3.html` adds a panel under the transit inputs for the next Sun crossing of a 0° zodiac boundary.
-- The feature reads the selected transit date, time, and longitude; it searches forward up to 45 days, then refines to the first minute at/after the boundary using the existing `calculateSuriyayatra` Sun output.
+- The feature reads the selected transit date, time, and longitude; it brackets the next boundary using daily samples for up to 45 days, then refines to the first minute at/after the boundary using the existing `calculateSuriyayatra` Sun output.
+- 2026-10-10 follow-up fix: removed the overlapping page-load and timeout triggers that could start two expensive searches simultaneously; the feature now starts once after module initialization, avoids duplicate work for unchanged inputs, shows a calculating status, and logs a successful ingress result. Only `index3.html` was edited; no planet formulas were changed.
 - This is the existing HORA engine's result and minute-level search, not an independently validated ephemeris. Compare against a trusted reference before treating the time as final for electional astrology.
 - Next steps: verify the panel renders on the live page and compare a few Sun sign-ingress times to a trusted reference. Only after this is validated, extend the same pattern to Moon or other planets with explicit approval.
 
@@ -45,3 +46,7 @@ Updated: 2026-10-10
 ## Work log
 - 2026-10-10: Created `index3.html` as an isolated copy of `index2.html`.
 - 2026-10-10: Added Sun transit-ingress panel to `index3.html` only. It calculates the next 0° sign boundary time using the current Suriyayatra Sun engine, based on selected transit date/time and longitude. GitHub Actions workflow `38046271698` completed successfully, including formula tests and GitHub Pages deployment. Manual browser verification of the displayed timestamp is still recommended.
+
+
+## Work log
+- 2026-10-10: Fixed the Sun-ingress panel behavior in `index3.html` after the user reported the time was not appearing. The previous code triggered calculations both from `window.load` and a separate timeout and sampled every six hours; the updated code uses one initial trigger, daily bracketing plus minute refinement, duplicate-run protection, visible status, and success logging. Commit: `4c763f6f548412d1d2484798ffa9c42815786e53`. Automated deployment status and live display still need verification.
