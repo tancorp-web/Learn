@@ -63,7 +63,7 @@ function renderWheel(natal,transit){
   if(!list?.planets)return;
   const lanes=isTransit?[310,342,374]:[160,190,220,250,270];
   const color=isTransit?'#07834b':'#7250bd';
-  list.planets.filter(p=>!(list===natal&&!isTransit&&p.name==='อาทิตย์')).slice().sort((a,b)=>a.longitude-b.longitude).forEach(p=>{
+  list.planets.slice().sort((a,b)=>a.longitude-b.longitude).forEach(p=>{
    let chosen=null,best=null,bestClearance=-Infinity;
    // A planet's longitude fixes its angle. Resolve collisions only by changing radius, never by shifting it into another sign.
    for(const lane of lanes){
