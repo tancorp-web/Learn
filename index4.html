@@ -715,6 +715,7 @@ window.HORA_PLANET_STANDARDS4 = {
   {sign:8,name:"ธนู",planet:"พฤหัสบดี"},{sign:9,name:"มกร",planet:"เสาร์"},
   {sign:10,name:"กุมภ์",planet:"ราหู"},{sign:11,name:"มีน",planet:"พฤหัสบดี"}
  ];
+ const planetNumbers={"อาทิตย์":"๑","จันทร์":"๒","อังคาร":"๓","พุธ":"๔","พฤหัสบดี":"๕","ศุกร์":"๖","เสาร์":"๗","ราหู":"๘"};
  const ns="http://www.w3.org/2000/svg";
  function draw(){
   const svg=document.querySelector("#wheel svg");
@@ -734,8 +735,8 @@ window.HORA_PLANET_STANDARDS4 = {
    t.setAttribute("font-weight","800");t.setAttribute("fill","#1d4ed8");
    t.setAttribute("paint-order","stroke");t.setAttribute("stroke","#fff");
    t.setAttribute("stroke-width","3");t.setAttribute("stroke-linejoin","round");
-   t.textContent="เกษตร "+item.planet;
-   t.setAttribute("aria-label","มาตรฐานดาวเกษตร "+item.name+" ดาว"+item.planet);
+   t.textContent="เกษตร "+(planetNumbers[item.planet]||"")+" "+item.planet;
+   t.setAttribute("aria-label","มาตรฐานดาวเกษตร "+item.name+" เลขดาว"+(planetNumbers[item.planet]||"ไม่ระบุ")+" ดาว"+item.planet);
    g.appendChild(t);
   });
   svg.appendChild(g);
