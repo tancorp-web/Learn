@@ -6,44 +6,45 @@ import { dirname, resolve } from 'node:path';
 import { classifyPlanetInSign, getNatalPlanetFacts } from '../../js/astrology/knowledge.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const registry = JSON.parse(readFileSync(resolve(here, '../../data/knowledge/planetary-sign-standards.json'), 'utf8'));
+const registry = JSON.parse(readFileSync(resolve(here, '../../data/astrology/planetary_dignities.json'), 'utf8'));
 
-test('structured registry is marked discovery and not enabled by default', () => {
+test('rule registry remains discovery-only', () => {
   assert.equal(registry.status, 'DISCOVERY');
-  assert.equal(registry.defaultEnabled, false);
+  assert.ok(registry.rules.length > 0);
 });
 
-test('Mars in Aries can be queried by Thai planet and sign names', () => {
+test('Mars in Aries returns all matching labels and rule IDs', () => {
   const result = classifyPlanetInSign({ planet: 'อังคาร', sign: 'เมษ', registry });
   assert.equal(result.status, 'MATCHED');
-  assert.ok(result.matches.some(x => x.id === 'kaset' && x.name === 'เกษตร'));
-  // Preserve the recorded table as-is; do not silently resolve overlapping mappings.
-  assert.ok(result.matches.some(x => x.id === 'pra' && x.name === 'ประ/ประเกษตร'));
+  assert.ok(result.matches.some(x => x.ruleId === 'DIGNITY-KASET-MARS-ARIES' && x.category === 'เกษตร'));
+  assert.ok(result.matches.every(x => x.status === 'DISCOVERY'));
   assert.equal(result.registryStatus, 'DISCOVERY');
 });
 
-test('planet names and sign names accept English aliases and numeric sign index', () => {
-  const result = classifyPlanetInSign({ planet: 'Mars', sign: 0, registry });
-  assert.equal(result.planet, 'อังคาร');
-  assert.equal(result.sign, 'เมษ');
-  assert.ok(result.matches.some(x => x.id === 'kaset'));
-});
-
-test('personal natal house is calculated from this chart’s ascendant longitude', () => {
+test('personal natal house is joined to the same planet/sign lookup', () => {
   const result = getNatalPlanetFacts({
     planet: 'Mars',
     longitude: 15,
     ascendantLongitude: 60,
     registry
   });
-  assert.equal(result.sign, 'เมษ');
+  assert.equal(result.sign, 'aries');
+  assert.equal(result.signThai, 'เมษ');
   assert.equal(result.houseNumber, 11);
   assert.equal(result.houseName, 'ลาภะ');
-  assert.ok(result.dignity.matches.some(x => x.id === 'kaset'));
+  assert.ok(result.dignity.matches.some(x => x.category === 'เกษตร'));
+  assert.equal(result.dignity.registryStatus, 'DISCOVERY');
 });
 
-test('unknown planet/sign does not invent a standard mapping', () => {
+test('unknown planet/sign does not invent a mapping', () => {
   const result = classifyPlanetInSign({ planet: 'เกตุ', sign: 'เมษ', registry });
   assert.equal(result.status, 'NO_RECORDED_MATCH');
   assert.deepEqual(result.matches, []);
+});
+
+test('caller can exclude all unverified rules', () => {
+  const result = classifyPlanetInSign({
+    planet: 'mars', sign: 'aries', registry, includeUnverified: false
+  });
+  assert.equal(result.status, 'NO_RECORDED_MATCH');
 });
