@@ -57,3 +57,8 @@ Updated: 2026-10-10
 - Added index3-only wheel enhancement: the `@จร` label now includes the selected transit time (HH:MM); both the red natal ascendant ray and green transit ascendant ray extend outward to radius 408, at the Navamsa outer tick ring. Existing main.js and all planet calculation formulas remain untouched.
 - Commit: `b055007ef62fe9f4a3dbebeee2e4fb2ba830c1e0`.
 - Must still verify the new deployment workflow and ask user to refresh index3.html. Do not claim manual browser verification until confirmed.
+
+## Work log — 2026-10-10 visible transit ascendant time
+- User reported they could not see the transit time at the wheel's `@จร` marker. Updated `index3.html` only: added a high-contrast green `เวลาลัคนาจร: HH:MM น.` status strip above the wheel, and the green `@จร HH:MM` marker continues to reflect the selected transit time.
+- Corrected the SVG viewport from its previous `-20 -20 760 760` bounds to `-90 -90 900 900` so the extended Navamsa ring and labels are not clipped beyond the old 740 coordinate boundary. The red natal and green transit ascendant rays remain extended toward radius 408.
+- No changes to `index2.html`, `main.js`, or planet calculation formulas. Commit: `a38cf89e6cec3785261d0019a1a82f2235f7cdb1`. Check Actions and manually confirm the rendered page after deployment; do not claim visual verification before it is checked.
