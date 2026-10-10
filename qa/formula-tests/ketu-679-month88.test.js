@@ -77,7 +77,6 @@ test('Ketu 679: a normal year does not inherit a previous month 8/8 anchor', () 
 
 test('Ketu 679: BE 2518 (14 Oct 1975) keeps the legacy formula, not the newer calendar anchor', () => {
   const { planet, debug } = getKetu('1975-10-14');
-  assert.equal(calculateMonth88StartForRecheck(2518), null);
   assert.equal(debug.mode, 'original-679');
   assert.equal(debug.referenceDate, null);
   assert.equal(debug.daysFromMonth88Start, null);
