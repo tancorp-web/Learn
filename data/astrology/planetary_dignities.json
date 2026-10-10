@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "title": "Thai astrology dignity lookup rules",
   "purpose": "Machine-readable draft rules for matching a planet's sign to dignity labels; house placement is sourced from the user's computed chart, not from this table.",
   "status": "DISCOVERY",
@@ -28,273 +28,1924 @@
   },
   "rules": [
     {
+      "rule_id": "DIGNITY-KASET-SUN-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "เกษตร",
-      "placements": {
-        "sun": [
-          "leo"
-        ],
-        "moon": [
-          "cancer"
-        ],
-        "mars": [
-          "aries",
-          "scorpio"
-        ],
-        "mercury": [
-          "gemini",
-          "virgo"
-        ],
-        "jupiter": [
-          "sagittarius",
-          "pisces"
-        ],
-        "venus": [
-          "taurus",
-          "libra"
-        ],
-        "saturn": [
-          "capricorn"
-        ],
-        "rahu": [
-          "aquarius"
-        ]
-      }
+      "planet": "sun",
+      "sign": "leo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "leo"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-KASET-MOON-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "moon",
+      "sign": "cancer",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "cancer"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-MARS-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mars",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "aries"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-MARS-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mars",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "scorpio"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-MERCURY-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mercury",
+      "sign": "gemini",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "gemini"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-MERCURY-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mercury",
+      "sign": "virgo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "virgo"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-JUPITER-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "jupiter",
+      "sign": "sagittarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "sagittarius"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-JUPITER-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "jupiter",
+      "sign": "pisces",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "pisces"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-VENUS-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "venus",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "taurus"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-VENUS-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "venus",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "libra"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-SATURN-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "saturn",
+      "sign": "capricorn",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "capricorn"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-KASET-RAHU-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "rahu",
+      "sign": "aquarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "aquarius"
+          },
+          "expected_category": "เกษตร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-SUN-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "ประ",
-      "placements": {
-        "sun": [
-          "aquarius"
-        ],
-        "moon": [
-          "capricorn"
-        ],
-        "mars": [
-          "libra",
-          "taurus"
-        ],
-        "mercury": [
-          "sagittarius",
-          "pisces"
-        ],
-        "jupiter": [
-          "gemini",
-          "virgo"
-        ],
-        "venus": [
-          "scorpio",
-          "aries"
-        ],
-        "saturn": [
-          "cancer"
-        ],
-        "rahu": [
-          "leo"
-        ]
-      }
+      "planet": "sun",
+      "sign": "aquarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "aquarius"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-PRA-MOON-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "moon",
+      "sign": "capricorn",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "capricorn"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-MARS-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mars",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "libra"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-MARS-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mars",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "taurus"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-MERCURY-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mercury",
+      "sign": "sagittarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "sagittarius"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-MERCURY-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mercury",
+      "sign": "pisces",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "pisces"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-JUPITER-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "jupiter",
+      "sign": "gemini",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "gemini"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-JUPITER-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "jupiter",
+      "sign": "virgo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "virgo"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-VENUS-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "venus",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "scorpio"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-VENUS-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "venus",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "aries"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-SATURN-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "saturn",
+      "sign": "cancer",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "cancer"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PRA-RAHU-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "rahu",
+      "sign": "leo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "leo"
+          },
+          "expected_category": "ประ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-SUN-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "อุจ",
-      "placements": {
-        "sun": [
-          "aries"
-        ],
-        "moon": [
-          "taurus"
-        ],
-        "mars": [
-          "capricorn"
-        ],
-        "mercury": [
-          "virgo"
-        ],
-        "jupiter": [
-          "cancer"
-        ],
-        "venus": [
-          "pisces"
-        ],
-        "saturn": [
-          "libra"
-        ],
-        "rahu": [
-          "scorpio"
-        ]
-      }
+      "planet": "sun",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "aries"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-UCH-MOON-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจ",
+      "planet": "moon",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "taurus"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-MARS-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจ",
+      "planet": "mars",
+      "sign": "capricorn",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "capricorn"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-MERCURY-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจ",
+      "planet": "mercury",
+      "sign": "virgo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "virgo"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-JUPITER-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจ",
+      "planet": "jupiter",
+      "sign": "cancer",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "cancer"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-VENUS-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจ",
+      "planet": "venus",
+      "sign": "pisces",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "pisces"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-SATURN-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจ",
+      "planet": "saturn",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "libra"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-RAHU-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจ",
+      "planet": "rahu",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "scorpio"
+          },
+          "expected_category": "อุจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-NICH-SUN-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "นิจ",
-      "placements": {
-        "sun": [
-          "libra"
-        ],
-        "moon": [
-          "scorpio"
-        ],
-        "mars": [
-          "cancer"
-        ],
-        "mercury": [
-          "pisces"
-        ],
-        "jupiter": [
-          "capricorn"
-        ],
-        "venus": [
-          "virgo"
-        ],
-        "saturn": [
-          "aries"
-        ],
-        "rahu": [
-          "taurus"
-        ]
-      }
+      "planet": "sun",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "libra"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-NICH-MOON-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "moon",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "scorpio"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-NICH-MARS-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "mars",
+      "sign": "cancer",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "cancer"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-NICH-MERCURY-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "mercury",
+      "sign": "pisces",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "pisces"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-NICH-JUPITER-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "jupiter",
+      "sign": "capricorn",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "capricorn"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-NICH-VENUS-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "venus",
+      "sign": "virgo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "virgo"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-NICH-SATURN-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "saturn",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "aries"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-NICH-RAHU-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "rahu",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "taurus"
+          },
+          "expected_category": "นิจ",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-RACHA-CHOK-SUN-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "ราชาโชค",
-      "placements": {
-        "sun": [
-          "gemini"
-        ],
-        "moon": [
-          "virgo"
-        ],
-        "mars": [
-          "taurus"
-        ],
-        "mercury": [
-          "leo"
-        ],
-        "jupiter": [
-          "aries"
-        ],
-        "venus": [
-          "cancer"
-        ],
-        "saturn": [
-          "scorpio"
-        ],
-        "rahu": [
-          "libra"
-        ]
-      }
+      "planet": "sun",
+      "sign": "gemini",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "gemini"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-RACHA-CHOK-MOON-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "moon",
+      "sign": "virgo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "virgo"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-RACHA-CHOK-MARS-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "mars",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "taurus"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-RACHA-CHOK-MERCURY-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "mercury",
+      "sign": "leo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "leo"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-RACHA-CHOK-JUPITER-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "jupiter",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "aries"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-RACHA-CHOK-VENUS-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "venus",
+      "sign": "cancer",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "cancer"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-RACHA-CHOK-SATURN-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "saturn",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "scorpio"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-RACHA-CHOK-RAHU-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "rahu",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "libra"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-CHAK-SUN-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "มหาจักร",
-      "placements": {
-        "sun": [
-          "cancer"
-        ],
-        "moon": [
-          "aries"
-        ],
-        "mars": [
-          "virgo"
-        ],
-        "mercury": [
-          "leo"
-        ],
-        "jupiter": [
-          "scorpio"
-        ],
-        "venus": [
-          "sagittarius"
-        ],
-        "saturn": [
-          "taurus"
-        ],
-        "rahu": [
-          "capricorn"
-        ]
-      }
+      "planet": "sun",
+      "sign": "cancer",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "cancer"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-MAHA-CHAK-MOON-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "moon",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "aries"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-CHAK-MARS-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "mars",
+      "sign": "virgo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "virgo"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-CHAK-MERCURY-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "mercury",
+      "sign": "leo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "leo"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-CHAK-JUPITER-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "jupiter",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "scorpio"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-CHAK-VENUS-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "venus",
+      "sign": "sagittarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "sagittarius"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-CHAK-SATURN-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "saturn",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "taurus"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-CHAK-RAHU-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "rahu",
+      "sign": "capricorn",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "capricorn"
+          },
+          "expected_category": "มหาจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-CHULA-CHAK-SUN-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "จุลจักร",
-      "placements": {
-        "sun": [
-          "capricorn"
-        ],
-        "moon": [
-          "libra"
-        ],
-        "mars": [
-          "pisces"
-        ],
-        "mercury": [
-          "aquarius"
-        ],
-        "jupiter": [
-          "taurus"
-        ],
-        "venus": [
-          "gemini"
-        ],
-        "saturn": [
-          "scorpio"
-        ],
-        "rahu": [
-          "cancer"
-        ]
-      }
+      "planet": "sun",
+      "sign": "capricorn",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "capricorn"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-CHULA-CHAK-MOON-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "moon",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "libra"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-CHULA-CHAK-MARS-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "mars",
+      "sign": "pisces",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "pisces"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-CHULA-CHAK-MERCURY-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "mercury",
+      "sign": "aquarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "aquarius"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-CHULA-CHAK-JUPITER-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "jupiter",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "taurus"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-CHULA-CHAK-VENUS-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "venus",
+      "sign": "gemini",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "gemini"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-CHULA-CHAK-SATURN-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "saturn",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "scorpio"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-CHULA-CHAK-RAHU-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "rahu",
+      "sign": "cancer",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "cancer"
+          },
+          "expected_category": "จุลจักร",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-SUN-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "อุจจาภิมุข",
-      "placements": {
-        "sun": [
-          "taurus"
-        ],
-        "moon": [
-          "gemini"
-        ],
-        "mars": [
-          "aquarius"
-        ],
-        "mercury": [
-          "libra"
-        ],
-        "jupiter": [
-          "leo"
-        ],
-        "venus": [
-          "aries"
-        ],
-        "saturn": [
-          "scorpio"
-        ],
-        "rahu": [
-          "sagittarius"
-        ]
-      }
+      "planet": "sun",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "taurus"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
     },
     {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-MOON-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "moon",
+      "sign": "gemini",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "gemini"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-MARS-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "mars",
+      "sign": "aquarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "aquarius"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-MERCURY-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "mercury",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "libra"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-JUPITER-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "jupiter",
+      "sign": "leo",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "leo"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-VENUS-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "venus",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "aries"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-SATURN-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "saturn",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "scorpio"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-UCHCHA-ABHIMUK-RAHU-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "rahu",
+      "sign": "sagittarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "sagittarius"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-SUN-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
       "category": "เทวีโชค",
-      "placements": {
-        "sun": [
-          "sagittarius"
-        ],
-        "moon": [
-          "pisces"
-        ],
-        "mars": [
-          "scorpio"
-        ],
-        "mercury": [
-          "aquarius"
-        ],
-        "jupiter": [
-          "libra"
-        ],
-        "venus": [
-          "capricorn"
-        ],
-        "saturn": [
-          "taurus"
-        ],
-        "rahu": [
-          "aries"
-        ]
-      }
+      "planet": "sun",
+      "sign": "sagittarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "sun",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "sun",
+            "sign": "sagittarius"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-MOON-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "moon",
+      "sign": "pisces",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "moon",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "moon",
+            "sign": "pisces"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-MARS-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "mars",
+      "sign": "scorpio",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mars",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mars",
+            "sign": "scorpio"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-MERCURY-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "mercury",
+      "sign": "aquarius",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "mercury",
+            "sign": "aquarius"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-JUPITER-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "jupiter",
+      "sign": "libra",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "jupiter",
+            "sign": "libra"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-VENUS-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "venus",
+      "sign": "capricorn",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "venus",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "venus",
+            "sign": "capricorn"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-SATURN-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "saturn",
+      "sign": "taurus",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "saturn",
+            "sign": "taurus"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-THEWI-CHOK-RAHU-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "rahu",
+      "sign": "aries",
+      "status": "DISCOVERY",
+      "version": "1.0.0",
+      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "aries"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "needs-golden-test"
+        }
+      ]
     }
   ],
   "cautions": [
@@ -310,6 +1961,7 @@
       "sign": "aries",
       "house": 4
     },
+    "matching_rule_id": "DIGNITY-KASET-MARS-ARIES",
     "matching_rule": {
       "category": "เกษตร",
       "condition": "mars in aries",
