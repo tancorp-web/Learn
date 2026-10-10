@@ -1006,7 +1006,7 @@ import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-na
  }[result]||'ยังตรวจยืนยันไม่ได้');
  const chip=(text,kind='')=>'<span class="criteria7-chip '+kind+'">'+esc(text)+'</span>';
  function readNatal(){
-  const tbody=$('starDetailsBody');if(!tbody)return null;
+  const tbody=$('natalStarDetailsBody');if(!tbody)return null;
   const rows=[...tbody.querySelectorAll('tr')].map(tr=>[...tr.cells].map(td=>td.textContent.trim())).filter(c=>c.length>=8);
   if(!rows.length)return null;
   const asc=rows.find(c=>c[0]==='ลัคนา');if(!asc)return null;
@@ -1094,7 +1094,7 @@ import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-na
    console.error('[HORA][NATAL CRITERIA]',error);
   }
  }
- const body=$('starDetailsBody');
+ const body=$('natalStarDetailsBody');
  if(body){new MutationObserver(()=>render()).observe(body,{childList:true,subtree:true,characterData:true});}
  document.addEventListener('DOMContentLoaded',render);
  setTimeout(render,700);setTimeout(render,1800);
