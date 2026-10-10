@@ -22,10 +22,12 @@
 #wheelPanel2 #wheel svg .nava-tick2{stroke:#64748b;stroke-width:.8;opacity:.85}
 #wheelPanel2 #wheel svg .drek-tick2{stroke:#b45309;stroke-width:1.5;opacity:.95}
 #wheelPanel2 #wheel svg .triyang-boundary-line5{stroke:#b7791f;stroke-width:2;opacity:.9;pointer-events:none}
+#wheelPanel2 #wheel svg .triyang-poison-icon5{pointer-events:none;overflow:visible}
+#wheelPanel2 #wheel svg .triyang-poison-number5{fill:#c62828!important}
 #wheelPanel2 #wheel svg .nak-boundary2{stroke:#7c3aed;stroke-width:1.6;opacity:.95}
 #wheelPanel2 #wheel svg .nak-name2{font-family:system-ui,Tahoma,sans-serif;font-size:12px;font-weight:850;fill:#7c2d12;paint-order:stroke;stroke:#fff;stroke-width:2.6px;stroke-linejoin:round}
 #wheelPanel2.hide-nak-name5 #wheel svg .nak-name2,#wheelPanel2.hide-nak-name5 #wheel svg .nak-boundary2{display:none!important}
-#wheelPanel2.hide-triyang5 #wheel svg .triyang-ruler-number2,#wheelPanel2.hide-triyang5 #wheel svg .triyang-boundary-line5,#wheelPanel2.hide-triyang5 #wheel svg .triyang-separator5,#wheelPanel2.hide-triyang5 #wheel svg .drek-tick2{display:none!important}
+#wheelPanel2.hide-triyang5 #wheel svg .triyang-ruler-number2,#wheelPanel2.hide-triyang5 #wheel svg .triyang-boundary-line5,#wheelPanel2.hide-triyang5 #wheel svg .triyang-separator5,#wheelPanel2.hide-triyang5 #wheel svg .drek-tick2#wheelPanel2.hide-triyang5 #wheel svg .triyang-poison-icon5{display:none!important}
 #wheelPanel2.hide-nava5 #wheel svg .nava-number2,#wheelPanel2.hide-nava5 #wheel svg .nava-tick2{display:none!important}
 #wheelPanel2:not(.show-nak-types5) #wheel svg .nak-type2{display:none!important}
 #wheelPanel2 .visibility-toggle5{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#17233d;font-weight:700;line-height:1.25;cursor:pointer;box-sizing:border-box}
@@ -416,16 +418,41 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   /* ดาวครองตรียางค์ตามธาตุ: ใช้ลำดับ ปฐม / ทุติย / ตติย ตามองศาในราศี */
   /* ไฟ = 3,1,5 · ดิน = 6,4,7 · ลม = 4,6,8 (ตัวเลือกตามตำรา: ตติยลมอาจใช้ 7) · น้ำ = 2,3,5 */
   const triyangLordsByElement={fire:[3,1,5],earth:[6,4,7],air:[4,6,8],water:[2,3,5]};
+  /* พิษตรียางค์ — ตารางเบื้องต้นที่ผู้ใช้อนุมัติให้ทดลองแสดงผล:
+     นาค: ปฐมในเมษ/กันย์/ธนู/มีน · ครุฑ: ทุติยในพฤษภ/สิงห์/ตุล/กุมภ์
+     สุนัข: ตติยในมิถุน/กรกฎ/พิจิก/มกร. ยังเป็นเกณฑ์เบื้องต้น ไม่ใช่การยืนยันตำราสากล */
+  const poisonBySegment={
+   naga:{decan:0,signs:[0,5,8,11],label:'นาค'},
+   garuda:{decan:1,signs:[1,4,6,10],label:'ครุฑ'},
+   dog:{decan:2,signs:[2,3,7,9],label:'สุนัข'}
+  };
+  function addPoisonIcon(parent,type,x,y){
+   const icon=add(parent,'g',{transform:`translate(${x} ${y})`,class:'triyang-poison-icon5 triyang-poison-'+type,'aria-label':poisonBySegment[type].label});
+   if(type==='naga'){
+    add(icon,'path',{d:'M -4 3 C -6 0 -3 -2 0 -1 C 3 0 4 -2 2 -4',fill:'none',stroke:'#c62828','stroke-width':1.8,'stroke-linecap':'round','stroke-linejoin':'round'});
+    add(icon,'circle',{cx:2.2,cy:-4,r:1.5,fill:'#c62828'});
+   }else if(type==='garuda'){
+    add(icon,'path',{d:'M -6 0 L -2 -1 L -1 -4 L 0 -2 L 1 -4 L 2 -1 L 6 0 L 2 2 L 0 1 L -2 2 Z',fill:'#c62828','stroke':'#c62828','stroke-width':.5,'stroke-linejoin':'round'});
+   }else{
+    add(icon,'path',{d:'M -4 -2 L -2 -5 L 0 -3 L 2 -4 L 4 -2 L 4 1 L 2 4 L -1 4 L -4 1 Z',fill:'#c62828','stroke':'#c62828','stroke-width':.5,'stroke-linejoin':'round'});
+    add(icon,'circle',{cx:2.7,cy:0,r:.55,fill:'#fff'});
+   }
+  }
   for(let s=0;s<12;s++){
    const seq=triyangLordsByElement[elements[s]];
    for(let j=0;j<3;j++){
     const lon=s*30+j*10+5,p=xy(lon,245);
+    const poisonType=Object.keys(poisonBySegment).find(type=>poisonBySegment[type].decan===j&&poisonBySegment[type].signs.includes(s));
     add(g,'text',{
      x:p.x,y:p.y+3.5,'text-anchor':'middle',
-     'font-size':13,'font-weight':900,fill:'#14213d',
+     'font-size':13,'font-weight':900,fill:poisonType?'#c62828':'#14213d',
      stroke:'#fff','stroke-width':2.8,'paint-order':'stroke',
-     class:'triyang-ruler-number2'
+     class:'triyang-ruler-number2'+(poisonType?' triyang-poison-number5':'')
     },seq[j]);
+    if(poisonType){
+     const iconPos=xy(lon,269);
+     addPoisonIcon(g,poisonType,iconPos.x,iconPos.y);
+    }
    }
   }
   /* นวางค์: 9 ช่วงต่อราศี ช่วงละ 3°20′ */
