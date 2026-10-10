@@ -708,8 +708,8 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
    const item=data.mappings[category]?.[sign];
    if(!item)return;
    /* Wheel center is (360,360); place numbers just outside the central innermost circle. */
-   const angle=(-(index*30+15)-90)*Math.PI/180;
-   const r=118,c=360;
+   const angle=(-(index*30)-90)*Math.PI/180;
+   const r=132,c=360;
    const x=c+r*Math.cos(angle),y=c+r*Math.sin(angle);
    const circle=document.createElementNS(ns,"circle");
    circle.setAttribute("cx",x.toFixed(2));circle.setAttribute("cy",y.toFixed(2));circle.setAttribute("r","12");
