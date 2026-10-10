@@ -563,10 +563,10 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
    const x2=Number(line.getAttribute('x2')),y2=Number(line.getAttribute('y2'));
    const r1=Math.hypot(x1-C,y1-C),r2=Math.hypot(x2-C,y2-C);
-   if(r1>75&&r1<115&&r2>250&&r2<320){
+   if(r1>75&&r1<115&&r2>250&&r2<430){
     const angle=Math.atan2(y2-C,x2-C);
     rays.push({line,color,angle,ring:{x:C+RING*Math.cos(angle),y:C+RING*Math.sin(angle)}});
-    if(line.dataset.navaExtended!=='1'){
+    if(line.dataset.navaExtended!=='1'&&r2<320){
      const scale=408/r2;
      line.setAttribute('x2',String(C+(x2-C)*scale));line.setAttribute('y2',String(C+(y2-C)*scale));
      line.dataset.navaExtended='1';line.setAttribute('stroke-width','3.5');
