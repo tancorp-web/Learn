@@ -43,6 +43,38 @@ test('known specific planet conditions remain explicit and provisional', () => {
   assert.equal(rule.execution, 'REFERENCE_ONLY');
 });
 
+test('sign-based criteria are catalogued separately from house-based criteria', () => {
+  const expectedSignRules = [
+    ['SPECIAL-SAO-CHAI-FOUR-POSTS', 'เสาร์', ['พฤษภ', 'กันย์', 'พิจิก', 'มีน']],
+    ['SPECIAL-PRUETTHI-KENDRA', 'อาทิตย์', ['เมษ', 'สิงห์', 'ธนู']],
+    ['SPECIAL-PRAK-KENDRA', 'อังคาร', ['พฤษภ', 'กันย์', 'มกร']],
+    ['SPECIAL-CHAKRA-KENDRA', 'เสาร์', ['มิถุน', 'ตุล', 'กุมภ์']],
+    ['SPECIAL-THAI-KENDRA', 'ราหู', ['กรกฎ', 'พิจิก', 'มีน']]
+  ];
+
+  for (const [id, planet, signs] of expectedSignRules) {
+    const rule = getThaiSpecialCriterionById(id);
+    assert.ok(rule, id);
+    assert.equal(rule.ruleType, 'planet-sign');
+    assert.deepEqual(rule.planetConditions, [{ planet, signs }]);
+    assert.notEqual(rule.execution, 'ENABLED');
+  }
+
+  const moonGuruSun = getThaiSpecialCriterionById('SPECIAL-CHANDRA-GURU-SURYA');
+  assert.equal(moonGuruSun.ruleType, 'planet-sign-class');
+  assert.equal(moonGuruSun.execution, 'REFERENCE_ONLY');
+
+  const kita = getThaiSpecialCriterionById('SPECIAL-KITA-KENDRA');
+  assert.deepEqual(kita.variants.find(x => x.id === 'A').planetConditions, [
+    { planet: 'ราหู', houseFromAscendant: 7 }
+  ]);
+  assert.deepEqual(kita.variants.find(x => x.id === 'B').planetConditions, [
+    { planet: 'อังคาร', houseFromAscendant: 7 },
+    { planet: 'ราหู', houseFromAscendant: 7 }
+  ]);
+  assert.equal(kita.execution, 'REFERENCE_ONLY');
+});
+
 test('unverified names are preserved without invented planet formulas', () => {
   for (const id of ['SPECIAL-DOK-UTTAPHIT', 'SPECIAL-NAM-PHON', 'SPECIAL-TAM-PHON']) {
     const rule = getThaiSpecialCriterionById(id);
