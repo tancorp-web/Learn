@@ -152,3 +152,11 @@ Updated: 2026-10-10
 - Recorded the user-supplied Nicha degree thresholds as unverified raw data because several stated limiting degrees conflict with the stated thresholds for when a planet ceases to be Nicha. Do not implement those degree rules until clarified against the source table.
 - Added a terminology caution: เกษตร, อุจจ์ and นิจ must not be treated as interchangeable English labels; keep Thai terms as primary until the selected tradition's terminology is confirmed.
 - Updated `docs/ASTROLOGICAL_STANDARDS.md` to link the appendix. Documentation-only change: no app code, planetary formulas, or `index2.html` changed; no deployment required.
+
+
+## Expanded planetary dignity definitions and modifiers — 2026-10-10
+- Added the user's definitions and examples for เกษตรตราธิบดี, อุจจ์/มหาอุจจ์, มหาจักร, ราชาโชค, เทวีโชค, อุจจาวิลาส, จุลจักร, ประเกษตร/ประ, and นิจ/ประนิจ to the Thai astrology appendix.
+- Recorded วรโคตมนวางค์ and กาลกิณีวันเกิด as modifiers/conditions separate from zodiac-based standards.
+- Important: the new text provides definitions and a few examples, but does not contain a complete planet-by-sign mapping for every standard. Do not infer or hard-code missing mappings; continue building a per-planet table with sign, degree conditions, provenance, and verification status.
+- Interpretive phrases and percentages (e.g. “80–90%” and “2–3 times”) are retained as source wording, not implemented as numeric scoring.
+- Appendix commit: `065df9b1a36a6f5fa7be00c214af1df83c8dde91`. Documentation-only; no app code, calculation formulas, or `index2.html` changed.
