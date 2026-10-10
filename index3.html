@@ -564,9 +564,8 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    svgEl(layer,'line',{x1:ring.x,y1:ring.y,x2:x,y2:y,stroke:'#07834b','stroke-width':1.7,'stroke-dasharray':'4 3','stroke-linecap':'round'});
    svgEl(layer,'circle',{cx:ring.x,cy:ring.y,r:4.4,fill:'#07834b',stroke:'#fff','stroke-width':1.4});
    svgEl(layer,'rect',{x:x-tagW/2,y:y-tagH/2,width:tagW,height:tagH,rx:6,fill:'#075e3b',stroke:'#fff','stroke-width':1.4});
-   const textNode=svgEl(layer,'text',{x,'text-anchor':'middle','font-size':9.5,'font-weight':850,fill:'#fff'});
-   const first=document.createElementNS('http://www.w3.org/2000/svg','tspan');first.setAttribute('x',String(x));first.setAttribute('y',String(y-3));first.textContent='0° '+signNames[sign];textNode.appendChild(first);
-   const second=document.createElementNS('http://www.w3.org/2000/svg','tspan');second.setAttribute('x',String(x));second.setAttribute('y',String(y+10));second.textContent=dateLabel+' '+clock(item.minutes);textNode.appendChild(second);
+   const textNode=svgEl(layer,'text',{x,y:y+4,'text-anchor':'middle','font-size':11,'font-weight':850,fill:'#fff'});
+   textNode.textContent=clock(item.minutes)+' น.';
   });
  }
  function enhanceAscendant(svg){
