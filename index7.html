@@ -11,23 +11,49 @@
 #sunIngressResult3>div:nth-child(3){font-size:clamp(14px,1.7vw,16px)!important;line-height:1.7;margin-top:6px}
 .sun-ingress-note3{margin-top:9px;font-size:14px;color:#596781;line-height:1.7}
 #birthDetails .sun-ingress-panel3{margin-top:24px}
-/* Birth summary and solar-ingress text share one readable typographic style. */
+/* Keep all birth details and solar-ingress information grouped, dark, and easy to read. */
 #birthDetails .birth-details-summary,
 #birthDetails .sun-ingress-panel3,
 #birthDetails .sun-ingress-heading3,
 #birthDetails #sunIngressResult3,
-#birthDetails #sunIngressResult3>div,
+#birthDetails #sunIngressResult3 > div,
 #birthDetails .sun-ingress-note3{
+  box-sizing:border-box!important;
   font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif!important;
-  font-size:17px!important;
-  font-weight:500!important;
-  line-height:1.8!important;
-  color:#17233d!important;
+  font-size:20px!important;
+  font-weight:600!important;
+  line-height:1.75!important;
+  color:#111827!important;
+  opacity:1!important;
+  text-shadow:none!important;
 }
-#birthDetails .sun-ingress-panel3{background:#fff;border:1px solid var(--line);border-left:4px solid #64748b;box-shadow:none}
+#birthDetails .birth-details-summary,
+#birthDetails .sun-ingress-panel3{
+  display:block;
+  width:100%;
+  padding:14px 16px;
+  background:#f8fafc!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:10px;
+  box-shadow:none!important;
+}
+#birthDetails .sun-ingress-panel3{margin-top:10px;border-left:1px solid #cbd5e1!important}
 #birthDetails .sun-ingress-heading3{margin-bottom:8px}
-#birthDetails #sunIngressResult3>div{margin:0!important}
-@media(max-width:600px){#birthDetails .sun-ingress-panel3{padding:15px}#birthDetails .birth-details-summary,#birthDetails .sun-ingress-panel3,#birthDetails .sun-ingress-heading3,#birthDetails #sunIngressResult3,#birthDetails #sunIngressResult3>div,#birthDetails .sun-ingress-note3{font-size:16px!important}}
+#birthDetails #sunIngressResult3 > div{margin:0!important}
+#birthDetails .sun-ingress-note3{margin-top:8px!important}
+@media(max-width:600px){
+  #birthDetails .birth-details-summary,
+  #birthDetails .sun-ingress-panel3,
+  #birthDetails .sun-ingress-heading3,
+  #birthDetails #sunIngressResult3,
+  #birthDetails #sunIngressResult3 > div,
+  #birthDetails .sun-ingress-note3{
+    font-size:18px!important;
+    line-height:1.7!important;
+  }
+  #birthDetails .birth-details-summary,
+  #birthDetails .sun-ingress-panel3{padding:12px}
+}
 
 /* index3.html only: full-wheel Drekkana, Navamsa and continuous Nakshatra overlay */
 #wheelPanel2{max-width:none}
@@ -394,7 +420,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main.js?v=20261011-unified-birth-text-2"></script>
+<script type="module" src="./main.js?v=20261011-birth-details-readable-3"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
