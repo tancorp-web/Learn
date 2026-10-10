@@ -99,6 +99,29 @@
 @media(max-width:720px){.standard-sign-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.standard-sign-grid4{grid-template-columns:1fr}}
 
+
+/* index7: natal criteria comparison — display/reference only */
+#natalCriteriaPanel7 .criteria7-lead{color:var(--muted);margin:0 0 14px}
+#natalCriteriaPanel7 .criteria7-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0 18px}
+#natalCriteriaPanel7 .criteria7-stat{border:1px solid var(--line);border-radius:12px;padding:12px;background:#f8faff}
+#natalCriteriaPanel7 .criteria7-stat strong{display:block;font-size:18px;color:var(--navy);margin-bottom:3px}
+#natalCriteriaPanel7 .criteria7-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:10px}
+#natalCriteriaPanel7 .criteria7-card{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff;min-width:0}
+#natalCriteriaPanel7 .criteria7-card h3{margin:0 0 7px;font-size:15px;color:var(--navy)}
+#natalCriteriaPanel7 .criteria7-card p{margin:5px 0}
+#natalCriteriaPanel7 .criteria7-muted{font-size:12px;color:var(--muted)}
+#natalCriteriaPanel7 .criteria7-chip{display:inline-block;margin:3px 4px 2px 0;padding:3px 7px;border-radius:7px;background:#edf1fb;color:#34456b;font-size:12px;line-height:1.45}
+#natalCriteriaPanel7 .criteria7-chip.warn{background:#fff2d9;color:#815600}
+#natalCriteriaPanel7 .criteria7-chip.good{background:#e5f6ed;color:#17633c}
+#natalCriteriaPanel7 .criteria7-chip.bad{background:#fdecef;color:#9f2940}
+#natalCriteriaPanel7 .criteria7-details{border-top:1px solid var(--line);margin-top:15px;padding-top:12px}
+#natalCriteriaPanel7 .criteria7-details summary{cursor:pointer;font-weight:800;color:var(--navy);padding:7px 0}
+#natalCriteriaPanel7 .criteria7-details .criteria7-card{margin:8px 0}
+#natalCriteriaPanel7 .criteria7-table{width:100%;min-width:680px;border-collapse:collapse}
+#natalCriteriaPanel7 .criteria7-table th,#natalCriteriaPanel7 .criteria7-table td{border:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+#natalCriteriaPanel7 .criteria7-table th{background:#f2f5fb}
+@media(max-width:600px){#natalCriteriaPanel7 .criteria7-grid{grid-template-columns:1fr}#natalCriteriaPanel7 .criteria7-stat strong{font-size:16px}}
+
 </style>
 </head><body>
 <header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index7</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index7 · ENGINE v8.9.3 · TRANSIT TIME FEATURE + KNOWLEDGE LIBRARY</span></div></header>
@@ -125,6 +148,30 @@
 <div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
 <div id="starDetails" class="panel"><div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">ราศี · ภพ · ตำแหน่ง · ฤกษ์</span></div><div class="table-wrap"><table><thead><tr><th>ดาว</th><th>กำเนิด ราศี</th><th>กำเนิด องศา</th><th>กำเนิด ภพ</th><th>กำเนิด ตำแหน่ง</th><th>กำเนิด นวางค์</th><th>กำเนิด ตรียางค์</th><th>กำเนิด ฤกษ์</th><th>จร ราศี</th><th>จร องศา</th><th>จร ภพ</th><th>จร ตำแหน่ง</th><th>จร นวางค์</th><th>จร ตรียางค์</th><th>จร ฤกษ์</th></tr></thead><tbody id="starDetailsBody"></tbody></table></div></div>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
+
+<section id="natalCriteriaPanel7" class="panel">
+  <div class="section-title"><h2>ตรวจเกณฑ์ดาวกำเนิดจากราศีและลัคนา</h2><span class="badge">Natal Criteria · Reference QA</span></div>
+  <p class="criteria7-lead">ระบบอ่านตำแหน่งกำเนิดจากตาราง “ดาวกำเนิดจริง · ดาวจรจริง” ด้านบน แล้วเทียบกับคลังเกณฑ์ที่บันทึกในโปรเจค แยกตามราศีและภพจากลัคนา แสดงทั้งเงื่อนไขที่ตรง/ไม่ตรงและรายการที่ยังไม่มีสูตรยืนยัน โดยไม่เปลี่ยนสูตรคำนวณดาวหรือสร้างคำทำนายอัตโนมัติ</p>
+  <div id="criteria7Status" aria-live="polite">กำลังรอตารางตำแหน่งดาวกำเนิด…</div>
+  <div id="criteria7Summary" class="criteria7-summary"></div>
+  <h3>1. ดาวกำเนิดอยู่ราศีใด — เกณฑ์ที่สัมพันธ์กับราศี/ภพนั้น</h3>
+  <div id="criteria7SignGrid" class="criteria7-grid"></div>
+  <div class="criteria7-details">
+    <h3>2. ตรวจจากลัคนากำเนิด — ดาวอยู่ภพใดและมีเกณฑ์อ้างอิงอะไร</h3>
+    <div id="criteria7Ascendant"></div>
+  </div>
+  <div class="criteria7-details">
+    <h3>3. ความสัมพันธ์ดาวกำเนิดกับลัคนาและดาวดวงอื่น</h3>
+    <p class="criteria7-muted">กุม/เล็ง/โยค/ตรีโกณ/จตุโกณในส่วนนี้เป็นการนับราศีตามคลังความสัมพันธ์ ไม่ใช่การวัดมุมองศาจริง ส่วน “ฉาก” ต้องตรวจองศาแยกต่างหาก</p>
+    <div id="criteria7Relations" class="reference-table-wrap"></div>
+  </div>
+  <div class="criteria7-details">
+    <h3>4. คลังเกณฑ์พิเศษทั้งหมดในโปรเจค</h3>
+    <p class="criteria7-muted">รายการที่สถานะ DISCOVERY / NEEDS_SOURCE / SOURCE_VARIANT / REFERENCE_PROVISIONAL จะแสดงเพื่อให้ตรวจสอบเท่านั้น ไม่ถือว่าเป็นสูตรที่ยืนยันหรือเปิดใช้งานแล้ว</p>
+    <div id="criteria7Catalog"></div>
+  </div>
+  <p class="criteria7-muted">ข้อจำกัด: ภพในรายงานนี้นับราศีเต็มจากลัคนากำเนิดเพื่อเทียบคลังเกณฑ์เท่านั้น เกณฑ์ที่ยังขาดนิยามจะแสดงว่า “ยังตรวจยืนยันไม่ได้” ไม่เดาเงื่อนไขให้ครบ; สำหรับรูปแบบการกระจายดาวตามแนวที่กำหนดในโปรเจค จะไม่นับเกตุ (๙) และมฤตยู (๐) เป็นดาวตัวนับ</p>
+</section>
 </section>
 
 <section class="reference-panel" id="calculationMethod2">
@@ -917,6 +964,122 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
   const q=e.target.value.trim().toLowerCase();
   docs.forEach(d=>{d.hidden=!!q&&!((d.dataset.search||d.textContent).toLowerCase().includes(q));});
  });
+})();
+</script>
+
+
+<script type="module">
+import { compareSpecialCriteria, SPECIAL_CRITERIA_SIGN_ORDER, getWholeSignHouse } from './js/astrology/special-criteria-comparison.js?v=20261011-natal-criteria';
+import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-natal-criteria';
+(()=>{
+ const $=id=>document.getElementById(id);
+ const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const normalizeSign=value=>({'เมถุน':'มิถุน','มังกร':'มกร'}[String(value||'').trim()]||String(value||'').trim());
+ const labelStatus=status=>({
+  REFERENCE_PROVISIONAL:'อ้างอิงเบื้องต้น',DISCOVERY:'ค้นคว้า',NEEDS_SOURCE:'รอแหล่งยืนยัน',
+  SOURCE_VARIANT:'มีหลายแนว/รอยืนยัน',REFERENCE_ONLY:'อ้างอิงเท่านั้น',DISABLED:'ปิดใช้งาน',
+  'needs-tradition-definition':'รอนิยามสำนัก'
+ }[status]||status||'ไม่ระบุสถานะ');
+ const resultLabel=result=>({
+  'reference-match':'ตรงตามเงื่อนไขอ้างอิงที่บันทึก',
+  'partial-or-no-match':'ยังขาด/ไม่ตรงบางเงื่อนไข',
+  'not-evaluable':'ยังตรวจอัตโนมัติไม่ได้',
+  'insufficient-chart-data':'ข้อมูลดวงไม่ครบ'
+ }[result]||'ยังตรวจยืนยันไม่ได้');
+ const chip=(text,kind='')=>'<span class="criteria7-chip '+kind+'">'+esc(text)+'</span>';
+ function readNatal(){
+  const tbody=$('starDetailsBody');if(!tbody)return null;
+  const rows=[...tbody.querySelectorAll('tr')].map(tr=>[...tr.cells].map(td=>td.textContent.trim())).filter(c=>c.length>=8);
+  if(!rows.length)return null;
+  const asc=rows.find(c=>c[0]==='ลัคนา');if(!asc)return null;
+  const ascendantSign=normalizeSign(asc[1]);
+  const planets=rows.filter(c=>c[0]!=='ลัคนา').map(c=>({planet:c[0],sign:normalizeSign(c[1]),degree:c[2],house:Number(c[3]),placement:c[4]}));
+  if(!SPECIAL_CRITERIA_SIGN_ORDER.includes(ascendantSign)||!planets.length)return null;
+  return {ascendantSign,planets,allRows:rows};
+ }
+ function render(){
+  const status=$('criteria7Status'),summary=$('criteria7Summary'),signGrid=$('criteria7SignGrid');
+  const data=readNatal();
+  if(!data){status.textContent='ยังไม่มีข้อมูลตำแหน่งกำเนิดให้อ่าน กรุณากดคำนวณดวงก่อน';return;}
+  try{
+   const allPositions=data.planets.map(p=>({planet:p.planet,sign:p.sign,degree:p.degree,source:'ตารางดาวกำเนิดจริง'}));
+   /* For distribution-pattern checks, follow the project decision to exclude Ketu (9) and Uranus (0). */
+   const comparisonPositions=allPositions.filter(p=>p.planet!=='เกตุ'&&p.planet!=='มฤตยู');
+   const report=compareSpecialCriteria({ascendantSign:data.ascendantSign,planetPositions:comparisonPositions});
+   const bySign=new Map();
+   for(const p of data.planets){if(!bySign.has(p.sign))bySign.set(p.sign,[]);bySign.get(p.sign).push(p);}
+   const houseCount=new Map();
+   for(const p of data.planets){const h=getWholeSignHouse(data.ascendantSign,p.sign);if(!houseCount.has(h))houseCount.set(h,[]);houseCount.get(h).push(p);}
+   const evaluated=report.criteria||[];
+   const matched=evaluated.filter(c=>c.resultType==='reference-match').length;
+   const unevaluable=evaluated.filter(c=>c.resultType==='not-evaluable'||c.resultType==='insufficient-chart-data').length;
+   summary.innerHTML=[
+    '<div class="criteria7-stat"><strong>ลัคนา '+esc(data.ascendantSign)+'</strong><span>ภพที่ 1 · จุดตั้งต้นการนับภพ</span></div>',
+    '<div class="criteria7-stat"><strong>'+bySign.size+' / 12 ราศี</strong><span>ราศีที่มีดาวกำเนิดสถิต (ไม่รวมลัคนาเป็นดาว)</span></div>',
+    '<div class="criteria7-stat"><strong>'+matched+'</strong><span>รายการตรงตามเงื่อนไขอ้างอิงที่ลงรหัสไว้*</span></div>',
+    '<div class="criteria7-stat"><strong>'+unevaluable+'</strong><span>รายการยังตรวจอัตโนมัติไม่ได้</span></div>'
+   ].join('');
+   status.textContent='อ่านข้อมูลกำเนิดแล้ว: '+data.planets.length+' รายการดาว · ใช้ลัคนา '+data.ascendantSign+' · เกณฑ์พิเศษเป็นผลเทียบอ้างอิงเท่านั้น';
+   signGrid.innerHTML=SPECIAL_CRITERIA_SIGN_ORDER.map((sign,index)=>{
+    const occupants=bySign.get(sign)||[];
+    const house=getWholeSignHouse(data.ascendantSign,sign);
+    const signReport=(report.zodiacComparison||[]).find(x=>x.sign===sign);
+    const criteria=(signReport?.criteria||[]);
+    const occupantsHtml=occupants.length?occupants.map(p=>chip(p.planet+' '+p.degree+(p.placement?' · '+p.placement:''))).join(''):'<span class="criteria7-muted">ไม่มีดาวกำเนิดสถิต</span>';
+    const ascTag=sign===data.ascendantSign?chip('ราศีลัคนากำเนิด','good'):'';
+    const criteriaHtml=criteria.length?criteria.map(c=>{
+      const ev=c.evaluation||{};
+      const resultKind=ev.resultType==='reference-match'?'good':(ev.resultType==='partial-or-no-match'?'warn':'');
+      const notes=(c.notes||[]).slice(0,2).map(n=>'<p class="criteria7-muted">'+esc(n)+'</p>').join('');
+      const conditions=(c.conditions||[]).map(x=>x.description).join(' · ');
+      return '<div class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(resultLabel(ev.resultType),resultKind)+(conditions?'<p>'+esc(conditions)+'</p>':'')+notes+'</div>';
+    }).join(''):'<p class="criteria7-muted">คลังปัจจุบันไม่มีเกณฑ์ที่ระบุราศี/ภพนี้โดยตรง รายการสูตรไม่ชัดจะแสดงในคลังเกณฑ์ทั้งหมดด้านล่าง</p>';
+    return '<article class="criteria7-card"><h3>'+String(index+1)+'. '+esc(sign)+' · ภพ '+esc(house)+'</h3>'+ascTag+'<p><strong>ดาวกำเนิด:</strong></p><div>' +occupantsHtml+'</div><div class="criteria7-details"><strong>เกณฑ์ที่สัมพันธ์กับราศี/ภพ:</strong>'+criteriaHtml+'</div></article>';
+   }).join('');
+   const ascHouseRules=report.criteria||[];
+   const houseRows=SPECIAL_CRITERIA_SIGN_ORDER.map(sign=>{
+     const h=getWholeSignHouse(data.ascendantSign,sign),occupants=houseCount.get(h)||[];
+     return '<tr><td>'+esc(h)+'</td><td>'+esc(sign)+'</td><td>'+(occupants.length?occupants.map(p=>esc(p.planet+' '+p.degree+' · '+p.placement)).join('<br>'):'—')+'</td></tr>';
+   }).join('');
+   const houseCriteria=ascHouseRules.map(c=>{
+    const ev=c;
+    const cond=(c.conditions||[]).map(x=>x.description).join(' · ');
+    const detail=(c.notes||[]).map(n=>'<p class="criteria7-muted">'+esc(n)+'</p>').join('');
+    return '<article class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(resultLabel(ev.resultType),ev.resultType==='reference-match'?'good':'warn')+(cond?'<p>'+esc(cond)+'</p>':'')+(ev.missingPlanets?.length?'<p>ดาวที่ไม่พบในข้อมูล: '+esc(ev.missingPlanets.join(', '))+'</p>':'')+(ev.unmetConditions?.length?'<p>เงื่อนไขที่ยังไม่ตรง/ขาด: '+esc(ev.unmetConditions.map(x=>x.description+' ('+x.reason+')').join(' · '))+'</p>':'')+detail+'</article>';
+   }).join('');
+   $('criteria7Ascendant').innerHTML='<p>ลัคนากำเนิดอยู่ราศี <strong>'+esc(data.ascendantSign)+'</strong> จึงนับเป็นภพ 1 ตามระบบราศีเต็มที่ใช้เทียบในส่วนนี้</p><div class="reference-table-wrap"><table class="criteria7-table"><thead><tr><th>ภพ</th><th>ราศี</th><th>ดาวกำเนิดสถิต</th></tr></thead><tbody>'+houseRows+'</tbody></table></div><h4>ผลเทียบคลังเกณฑ์จากลัคนา</h4><div class="criteria7-grid">'+houseCriteria+'</div>';
+   const relationRows=data.planets.map(p=>{
+     const toAsc=getSignRelations(data.ascendantSign,p.sign);
+     const same=data.planets.filter(q=>q.planet!==p.planet&&q.sign===p.sign).map(q=>q.planet);
+     const related=data.planets.filter(q=>q.planet!==p.planet&&q.sign!==p.sign&&getSignRelations(p.sign,q.sign).length).map(q=>q.planet+' ('+getSignRelations(p.sign,q.sign).join(', ')+')');
+     const house=getWholeSignHouse(data.ascendantSign,p.sign);
+     const tags=[house===1?'ตนุ':null,[4,7,10].includes(house)?'เรือนเกณฑ์':null,[1,5,9].includes(house)?'ตรีโกณ':null,...toAsc].filter(Boolean);
+     return '<tr><td>'+esc(p.planet)+'</td><td>'+esc(p.sign)+' '+esc(p.degree)+'</td><td>'+esc(house)+'</td><td>'+(tags.length?tags.map(t=>chip(t)).join(' '):'—')+'</td><td>'+(same.length?same.map(esc).join(', '):'—')+'</td><td>'+(related.length?related.map(esc).join('<br>'):'—')+'</td></tr>';
+   }).join('');
+   $('criteria7Relations').innerHTML='<table class="criteria7-table"><thead><tr><th>ดาวกำเนิด</th><th>ราศี/องศา</th><th>ภพจากลัคนา</th><th>เกณฑ์ภพ/ความสัมพันธ์กับลัคนา</th><th>ดาวร่วมราศี (กุมโดยราศี)</th><th>ดาวที่สัมพันธ์ตามการนับราศี</th></tr></thead><tbody>'+relationRows+'</tbody></table>';
+   const catalog=(report.allCataloguedCriteria||[]).map(c=>{
+     const ev=(report.criteria||[]).find(x=>x.id===c.id)||{};
+     const conditions=(c.conditions||[]).map(x=>x.description).join(' · ');
+     const aliases=(c.aliases||[]).length?'<p><strong>ชื่อเรียกอื่น:</strong> '+esc(c.aliases.join(' / '))+'</p>':'';
+     const planets=c.planets?'<p><strong>ดาว/องค์ประกอบ:</strong> '+esc(c.planets)+'</p>':'';
+     const req=(c.requiredSigns||[]).length?'<p><strong>ราศีที่ระบุ:</strong> '+esc(c.requiredSigns.join(' / '))+'</p>':'';
+     const houses=(c.housesFromAscendant||[]).length?'<p><strong>ภพที่ระบุ:</strong> '+esc(c.housesFromAscendant.join(', '))+'</p>':'';
+     const cond=conditions?'<p><strong>เงื่อนไข:</strong> '+esc(conditions)+'</p>':'';
+     const notes=(c.notes||[]).map(n=>'<li>'+esc(n)+'</li>').join('');
+     const evidence=c.evidence?'<p><strong>หลักฐาน/ขอบเขต:</strong> '+esc(c.evidence)+'</p>':'';
+     const evalText=ev.resultType?'<p><strong>ผลตรวจ:</strong> '+esc(resultLabel(ev.resultType))+' — '+esc(ev.evaluationNote||'')+'</p>':'';
+     return '<article class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(c.execution||'REFERENCE_ONLY')+aliases+planets+req+houses+cond+(c.detail?'<p>'+esc(c.detail)+'</p>':'')+(notes?'<ul>'+notes+'</ul>':'')+evidence+evalText+'</article>';
+   }).join('');
+   $('criteria7Catalog').innerHTML='<p>รวม '+(report.allCataloguedCriteria||[]).length+' รายการที่ยังไม่ถูกรวมเป็นชื่อซ้ำในคลังเกณฑ์พิเศษ (แสดงสถานะและรายละเอียดตามฐานข้อมูลปัจจุบัน)</p><div class="criteria7-grid">'+catalog+'</div>';
+  }catch(error){
+   status.textContent='แสดงผลเกณฑ์ไม่สำเร็จ: '+String(error?.message||error);
+   console.error('[HORA][NATAL CRITERIA]',error);
+  }
+ }
+ const body=$('starDetailsBody');
+ if(body){new MutationObserver(()=>render()).observe(body,{childList:true,subtree:true,characterData:true});}
+ document.addEventListener('DOMContentLoaded',render);
+ setTimeout(render,700);setTimeout(render,1800);
 })();
 </script>
 
