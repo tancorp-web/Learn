@@ -88,12 +88,17 @@ function evaluateRule(rule, positions, ascendantSign) {
     resultType = fullMatch ? 'reference-match' :
       (matchedConditions.length || unmetConditions.length ? 'partial-or-no-match' : 'insufficient-chart-data');
   } else if (isSignOccupancy) {
+    // Do not count the Ascendant as an occupant for matching yet: this criterion's
+    // catalogue explicitly records that the Ascendant-counting rule is unresolved.
     const occupiedSigns = new Set(positions.map(item => item.sign));
-    if (rule.acceptedOccupants?.includes('ลัคนา') && isKnownSign(ascendantSign)) {
-      occupiedSigns.add(ascendantSign);
-    }
     const occupiedRequiredSigns = rule.requiredSigns.filter(sign => occupiedSigns.has(sign));
     const missingRequiredSigns = rule.requiredSigns.filter(sign => !occupiedSigns.has(sign));
+    const ascendantOccupancyUnresolved = Boolean(
+      isKnownSign(ascendantSign) &&
+      rule.acceptedOccupants?.includes('ลัคนา') &&
+      rule.requiredSigns.includes(ascendantSign) &&
+      !occupiedSigns.has(ascendantSign)
+    );
     matchedConditions.push(...occupiedRequiredSigns.map(sign => ({ sign, condition: 'required-sign-occupied' })));
     unmetConditions.push(...missingRequiredSigns.map(sign => ({ sign, condition: 'required-sign-occupied' })));
     fullMatch = missingRequiredSigns.length === 0 && isKnownSign(ascendantSign);
@@ -102,7 +107,7 @@ function evaluateRule(rule, positions, ascendantSign) {
       id: rule.id, name: rule.name, category: rule.category, status: rule.status,
       execution: rule.execution ?? 'REFERENCE_ONLY',
       resultType, fullMatch, matchedConditions, unmetConditions, missingPlanets,
-      missingRequiredSigns, evaluatedAgainstReferenceOnly: true
+      missingRequiredSigns, ascendantOccupancyUnresolved, evaluatedAgainstReferenceOnly: true
     };
   }
 
