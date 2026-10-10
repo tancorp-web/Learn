@@ -18,6 +18,10 @@
 #wheelPanel2 #wheel svg .nak-boundary2{stroke:#7c3aed;stroke-width:1.6;opacity:.95}
 #wheelPanel2 #wheel svg .nak-name2{font-family:system-ui,Tahoma,sans-serif;font-size:12px;font-weight:850;fill:#7c2d12;paint-order:stroke;stroke:#fff;stroke-width:2.6px;stroke-linejoin:round}
 #wheelPanel2 #wheel svg .nak-type2{font-family:system-ui,Tahoma,sans-serif;font-size:10px;font-weight:800;fill:#1d4ed8;paint-order:stroke;stroke:#fff;stroke-width:2.5px;stroke-linejoin:round}
+#wheelPanel2 #wheel svg .solar-ingress-tick2{stroke:#b91c1c;stroke-width:2.2;opacity:.98}
+#wheelPanel2 #wheel svg .solar-ingress-date2{font-family:system-ui,Tahoma,sans-serif;font-size:11px;font-weight:900;fill:#991b1b;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+#wheelPanel2 #wheel svg .solar-ingress-time2{font-family:system-ui,Tahoma,sans-serif;font-size:10px;font-weight:850;fill:#1d4ed8;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+#wheelPanel2 .solar-ingress-status2{font-size:11px;color:#7f1d1d;font-weight:750;text-align:center}
 #wheelPanel2 .nakshatra-legend2{margin-top:12px;border-top:1px solid #e2e8f0;padding-top:10px}
 #wheelPanel2 .nakshatra-legend2 summary{cursor:pointer;font-weight:800;color:#243653;padding:6px 0}
 #wheelPanel2 .nakshatra-legend2 table{min-width:0;width:100%}
@@ -78,7 +82,7 @@
 <div class="field"><label>วัน</label><select id="fDay"></select></div><div class="field"><label>เดือน</label><select id="fMonth"></select></div><div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="fYear"></select></div><div class="field"><label>ชั่วโมง</label><select id="fHour"></select></div><div class="field"><label>นาที</label><select id="fMinute"></select></div>
 <div class="field span-2"><label>จังหวัด</label><select id="fProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="fDistrict"></select></div><div class="field"><label>ละติจูด</label><input id="fLat" type="number" step="0.000001"></div><div class="field"><label>ลองจิจูด</label><input id="fLon" type="number" step="0.000001"></div><div class="field span-6"><label>สถานที่</label><input id="fPlace" type="text"></div>
 </div><div class="calc-row"><button id="calc" type="button">คำนวณดวง</button><span id="msg">พร้อมคำนวณ</span></div></div>
-<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
+<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><span id="solarIngressStatus2" class="solar-ingress-status2">กำลังคำนวณวันย้ายราศี…</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
 <div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
 <div id="starDetails" class="panel"><div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">ราศี · ภพ · ตำแหน่ง · ฤกษ์</span></div><div class="table-wrap"><table><thead><tr><th>ดาว</th><th>กำเนิด ราศี</th><th>กำเนิด องศา</th><th>กำเนิด ภพ</th><th>กำเนิด ตำแหน่ง</th><th>กำเนิด นวางค์</th><th>กำเนิด ตรียางค์</th><th>กำเนิด ฤกษ์</th><th>จร ราศี</th><th>จร องศา</th><th>จร ภพ</th><th>จร ตำแหน่ง</th><th>จร นวางค์</th><th>จร ตรียางค์</th><th>จร ฤกษ์</th></tr></thead><tbody id="starDetailsBody"></tbody></table></div></div>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
@@ -309,9 +313,93 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
    add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'},types[i%9]);
   }
  }
+ const solarMonthNames=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+ let solarIngressData=null,solarIngressKey='',solarIngressTimer=null,solarIngressPromise=null;
+ const solarCache=new Map();
+ const wallDateTime=ms=>{const d=new Date(ms);return{year:d.getUTCFullYear(),month:d.getUTCMonth()+1,day:d.getUTCDate(),hour:d.getUTCHours(),minute:d.getUTCMinutes()}};
+ const wallStamp=ms=>{const d=wallDateTime(ms);return String(d.year).padStart(4,'0')+'-'+String(d.month).padStart(2,'0')+'-'+String(d.day).padStart(2,'0')};
+ const wallTime=ms=>{const d=wallDateTime(ms);return String(d.hour).padStart(2,'0')+':'+String(d.minute).padStart(2,'0')};
+ const solarLongitudeAt=(engine,dateMs,longitude)=>{const dt=wallDateTime(dateMs);const result=engine.calculateSuriyayatra({date:wallStamp(dateMs),time:wallTime(dateMs),longitude:Number(longitude)});const sun=result.planets.find(p=>p.name==='อาทิตย์');const lon=Number(sun?.longitude);if(!Number.isFinite(lon))throw new Error('SUN_LONGITUDE_INVALID');return((lon%360)+360)%360};
+ const signedFromBoundary=(longitude,boundary)=>((longitude-boundary+540)%360)-180;
+ async function calculateSolarIngresses(beYear,longitude){
+  const key=String(beYear)+':'+Number(longitude).toFixed(6);
+  if(solarCache.has(key))return solarCache.get(key);
+  const mod=await import('./js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03');
+  const engine=mod;
+  const year=Number(beYear)-543;
+  if(!Number.isInteger(year)||year<1)throw new Error('YEAR_INVALID');
+  const minute=60000,day=86400000;
+  const start=Date.UTC(year,0,1,12,0),end=Date.UTC(year+1,0,1,12,0);
+  const events=Array(12).fill(null);
+  let previousTime=start,previousLon=solarLongitudeAt(engine,previousTime,longitude),previousSign=Math.floor(previousLon/30);
+  for(let time=start+day;time<=end;time+=day){
+   const lon=solarLongitudeAt(engine,time,longitude),sign=Math.floor(lon/30);
+   if(sign!==previousSign){
+    const entered=sign;
+    const boundary=entered*30;
+    let low=previousTime,high=time;
+    while(high-low>minute){
+     const mid=Math.floor(((low+high)/2)/minute)*minute;
+     if(mid<=low||mid>=high)break;
+     const mlon=solarLongitudeAt(engine,mid,longitude);
+     if(signedFromBoundary(mlon,boundary)>=0)high=mid;else low=mid;
+    }
+    const found={signIndex:entered,date:wallStamp(high),time:wallTime(high),timestamp:high};
+    events[entered]=found;
+   }
+   previousTime=time;previousLon=lon;previousSign=sign;
+  }
+  solarCache.set(key,events);
+  return events;
+ }
+ function drawSolarIngressLabels(svg){
+  if(!svg||!solarIngressData)return;
+  const old=svg.querySelector('#SOLAR_INGRESS_LABELS2');if(old)old.remove();
+  const g=document.createElementNS(NS,'g');g.setAttribute('id','SOLAR_INGRESS_LABELS2');g.setAttribute('aria-label','วันที่และเวลาที่ดวงอาทิตย์ย้ายเข้าราศีตามปีที่เลือก');
+  for(let i=0;i<12;i++){
+   const ev=solarIngressData[i],lon=i*30,p=xy(lon,294),q=xy(lon,307),dateP=xy(lon,325),timeP=xy(lon,340);
+   add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'solar-ingress-tick2'});
+   const label=ev?String(Number(ev.date.slice(8,10)))+' '+solarMonthNames[Number(ev.date.slice(5,7))-1]:'—';
+   const dateText=add(g,'text',{x:dateP.x,y:dateP.y+3,'text-anchor':'middle',class:'solar-ingress-date2'},label);
+   const timeText=add(g,'text',{x:timeP.x,y:timeP.y+3,'text-anchor':'middle',class:'solar-ingress-time2'},ev?ev.time:'—');
+   const title=document.createElementNS(NS,'title');
+   title.textContent=ev?'อาทิตย์เข้าราศี'+signs[i]+' วันที่ '+ev.date+' เวลา '+ev.time+' น. (พ.ศ. '+(Number(solarIngressKey.split(':')[0]))+')':'ไม่พบเวลาย้ายเข้าราศี'+signs[i]+' ในปีที่เลือก';
+   dateText.appendChild(title);timeText.appendChild(title.cloneNode(true));
+  }
+  svg.appendChild(g);
+ }
+ async function refreshSolarIngress(){
+  const yearEl=$('bYear'),lonEl=$('bLon'),status=$('solarIngressStatus2');
+  if(!yearEl||!yearEl.value||!lonEl||lonEl.value==='')return;
+  const key=String(yearEl.value)+':'+Number(lonEl.value).toFixed(6);
+  if(key===solarIngressKey&&solarIngressData){const svg=$('wheel')?.querySelector('svg');if(svg)drawSolarIngressLabels(svg);return}
+  solarIngressKey=key;solarIngressData=null;solarIngressPromise=null;
+  if(status)status.textContent='กำลังคำนวณวันและเวลาย้ายราศี ปี พ.ศ. '+yearEl.value+'…';
+  try{
+   solarIngressPromise=calculateSolarIngresses(Number(yearEl.value),Number(lonEl.value));
+   const events=await solarIngressPromise;
+   if(key!==String($('bYear')?.value)+':'+Number($('bLon')?.value).toFixed(6))return;
+   solarIngressData=events;
+   const found=events.filter(Boolean).length;
+   if(status)status.textContent='วัน/เวลาย้ายราศี · พ.ศ. '+yearEl.value+' · พบ '+found+'/12 ช่วง · เวลาไทยตามสูตร HORA';
+   const svg=$('wheel')?.querySelector('svg');if(svg)drawSolarIngressLabels(svg);
+   if(found!==12)console.warn('[HORA][SOLAR INGRESS] พบเหตุการณ์ไม่ครบ 12 ราศี',events);
+  }catch(err){
+   console.error('[HORA][SOLAR INGRESS ERROR]',err);
+   if(status)status.textContent='คำนวณวันย้ายราศีไม่สำเร็จ · '+String(err?.message||err);
+  }
+ }
+ function scheduleSolarIngressRefresh(){clearTimeout(solarIngressTimer);solarIngressTimer=setTimeout(()=>{refreshSolarIngress()},350)}
  const wheel=$('wheel');
  if(wheel){
-  const scan=()=>{const svg=wheel.querySelector('svg');if(svg)augment(svg)};
+  const scan=()=>{const svg=wheel.querySelector('svg');if(svg){augment(svg);if(solarIngressData)drawSolarIngressLabels(svg);else if(!solarIngressKey&&$('bYear')?.value)scheduleSolarIngressRefresh()}};
+  new MutationObserver(scan).observe(wheel,{childList:true,subtree:true});
+  scan();
+ }
+ ['bYear','bLon'].forEach(id=>$(id)?.addEventListener('change',scheduleSolarIngressRefresh));
+ $('bProvince')?.addEventListener('change',()=>setTimeout(scheduleSolarIngressRefresh,80));
+ $('calc')?.addEventListener('click',scheduleSolarIngressRefresh);
+ setTimeout(scheduleSolarIngressRefresh,1200);
   new MutationObserver(scan).observe(wheel,{childList:true,subtree:true});
   scan();
  }
