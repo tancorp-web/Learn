@@ -230,8 +230,8 @@ function render(natal,transit){
  '<div class="birth-details-line birth-primary">ระบุชื่อวันเกิด'+safeText(civilDate(b.date,b.time))+'</div>'+
  '<div class="birth-details-line birth-lunar">จันทรคติ '+safeText(lunarText(b.date,birthLunar,b.time))+'</div>'+
  '<div class="birth-details-line birth-location">'+safeText(locationBirth)+'</div>'+
- '<div class="birth-details-line birth-sky">ดวงอาทิตย์/ดวงจันทร์: ข้อมูลเวลาขึ้น–ตกและดิถีต้องเชื่อมสูตรดาราศาสตร์ที่ตรวจสอบแล้วก่อนแสดง</div>'+
- '<div class="birth-details-line birth-asc">'+safeText(ascDetail)+' · ดาวจันทร์ ('+safeText(planetNo('จันทร์'))+') ราศี'+safeText(moonSign)+' · รายละเอียดตนุเศษรอเชื่อมกฎที่ยืนยัน</div>'+
+ '<div class="birth-details-line birth-sky">ดวงอาทิตย์/ดวงจันทร์: ยังไม่มีผลเวลาขึ้น–ตกและดิถีที่ผ่านการตรวจสอบสำหรับวันและพิกัดนี้</div>'+
+ '<div class="birth-details-line birth-asc">'+safeText(ascDetail)+' · ดาวจันทร์ ('+safeText(planetNo('จันทร์'))+') ราศี'+safeText(moonSign)+' · ตนุเศษ: ยังไม่คำนวณ เนื่องจากต้องยืนยันกฎโหราศาสตร์ก่อน</div>'+
  '<div id="sunIngressPanel3" class="sun-ingress-panel3" aria-live="polite"><div class="sun-ingress-heading3">☉ เวลาจรของอาทิตย์ ณ เส้น 0° ราศีถัดไป</div><div id="sunIngressResult3">กำลังคำนวณเวลาที่อาทิตย์จรถึงเส้น 0° ราศี...</div><div class="sun-ingress-note3">เวลาไทย UTC+7 · ใช้สูตรอาทิตย์ของ HORA index3</div></div></div>'+
  '<div class="section-title birth-details-title transit-details-title"><h2>วันจร</h2></div><div class="birth-details-group transit-details-group">'+
  '<div class="birth-details-line birth-primary">'+safeText(civilDate(f.date,f.time))+'</div>'+
