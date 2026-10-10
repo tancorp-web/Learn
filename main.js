@@ -130,11 +130,16 @@ function renderStarDetails(natal,transit){
    const offset=(b-a+12)%12,items=[];
    if(offset===0)items.push('กุม/ร่วมราศี');
    if(offset===2)items.push('โยคหน้า');
-   if(offset===4||offset===8)items.push('ตรีโกณ');
    if(offset===6)items.push('เล็ง');
    if(offset===10)items.push('โยคหลัง');
-   if([0,3,6,9].includes(offset))items.push('จตุโกณ/เรือนเกณฑ์');
+   // ตรีโกณ/จตุโกณเป็นเกณฑ์แบบครบชุด ไม่ติดป้ายจากคู่ดาวเพียงคู่เดียว
    return [...new Set(items)];
+ };
+ const hasCompleteSameChartPattern=(fromSign,allRows,offsets)=>{
+   const from=signNames.indexOf(fromSign);
+   if(from<0)return false;
+   const occupied=new Set(allRows.filter(row=>row.p?.sign?.name).map(row=>row.p.sign.name));
+   return offsets.every(offset=>occupied.has(signNames[(from+offset)%12]));
  };
  const renderCriteria=(row,chart,allRows)=>{
    const {name,p}=row;
@@ -151,6 +156,10 @@ function renderStarDetails(natal,transit){
      const relationToAsc=signRelation(chart.ascSign.name||chart.ascSign,sign);
      relationToAsc.forEach(x=>labels.push([x,'']));
    }
+   // ตรวจเฉพาะชุดข้อมูลของผังที่กำลังแสดง: กำเนิดเทียบกำเนิด หรือจรเทียบจร
+   // ลัคนาของผังนั้นเป็นองค์ประกอบที่นับได้ แต่ห้ามใช้ตำแหน่งจากอีกผังมาช่วยเติม
+   if(hasCompleteSameChartPattern(sign,allRows,[0,4,8]))labels.push(['ตรีโกณครบชุด (ประเภทเดียวกัน)','good']);
+   if(hasCompleteSameChartPattern(sign,allRows,[0,3,6,9]))labels.push(['จตุโกณครบชุด (ประเภทเดียวกัน)','good']);
    const same=allRows.filter(other=>other.name!==name&&other.p&&other.p.sign.name===sign).map(other=>other.name);
    if(same.length)labels.push(['ร่วมราศีกับ '+same.join(', '),'']);
    const related=allRows.filter(other=>other.name!==name&&other.p&&other.p.sign.name!==sign)
@@ -171,7 +180,7 @@ function renderStarDetails(natal,transit){
    if(!t)return '';
    const isAsc=name==='ลัคนา',position=isAsc?'ลัคนาจร':positionOf(name,t,t.longitude);
    const v=formatVarga(t.longitude),nak=formatNakFull(t.longitude);
-   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(t.sign.name)+'</td><td>'+esc7(formatInSign(t.longitude))+'</td><td>'+esc7(t.house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:t},natal,rows.map(r=>({name:r.name,p:r.t})))+'</td></tr>';
+   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(t.sign.name)+'</td><td>'+esc7(formatInSign(t.longitude))+'</td><td>'+esc7(t.house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:t},transit,rows.map(r=>({name:r.name,p:r.t})))+'</td></tr>';
  }).join('');
  birthEl.innerHTML=natalRows;transitEl.innerHTML=transitRows;
 }
