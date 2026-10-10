@@ -79,3 +79,16 @@ export function getNatalPlanetFacts({ planet, longitude, ascendantLongitude, reg
     source: 'natal-chart-input'
   };
 }
+
+
+/** Load the canonical rule registry from the same deployed site. */
+export async function loadPlanetaryDignityRegistry() {
+  const url = new URL('../../data/astrology/planetary_dignities.json', import.meta.url);
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Unable to load astrology rule registry: HTTP ${response.status}`);
+  const registry = await response.json();
+  if (!Array.isArray(registry.rules) || !registry.system_id) {
+    throw new TypeError('Invalid planetary dignity registry format');
+  }
+  return registry;
+}
