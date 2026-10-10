@@ -885,7 +885,7 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
  function inline(s){return esc(s).replace(/\x60([^\x60]+)\x60/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');}
  function markdown(src){
   const lines=src.replace(/\r/g,'').split('\n');let out='',para=[],list='',code=false,codeLines=[];
-  const flush=()=>{if(para.length){out+='<p>'+para.map(inline).join('<br>')+'</p>';para=[];}if(list){out+=list;list='';}};
+  const flush=()=>{if(para.length){out+='<p>'+para.map(inline).join('<br>')+'</p>';para=[];}if(list){out+=list+(list.startsWith('<ol>')?'</ol>':'</ul>');list='';}};
   for(const line of lines){
    if(line.trim().startsWith('```')){flush();if(!code){code=true;codeLines=[];}else{out+='<pre><code>'+esc(codeLines.join('\n'))+'</code></pre>';code=false;}continue;}
    if(code){codeLines.push(line);continue;}
@@ -893,7 +893,7 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
    if(h){flush();const n=h[1].length;out+='<h'+n+'>'+inline(h[2])+'</h'+n+'>';continue;}
    if(/^\s*([-*])\s+/.test(line)){if(para.length)flush();if(!list)list='<ul>';list+='<li>'+inline(line.replace(/^\s*[-*]\s+/,''))+'</li>';continue;}
    if(/^\s*\d+\.\s+/.test(line)){if(para.length)flush();if(!list)list='<ol>';list+='<li>'+inline(line.replace(/^\s*\d+\.\s+/,''))+'</li>';continue;}
-   if(!line.trim()){flush();if(list){list+=(list.startsWith('<ol>')?'</ol>':'</ul>');}continue;}
+   if(!line.trim()){flush();continue;}
    if(/^\s*>/.test(line)){flush();out+='<blockquote>'+inline(line.replace(/^\s*>\s?/,''))+'</blockquote>';continue;}
    if(/^\s*\|/.test(line)){flush();out+='<p><code>'+esc(line)+'</code></p>';continue;}
    para.push(line);
