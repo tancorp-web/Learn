@@ -199,3 +199,10 @@ Updated: 2026-10-10
 - Latest index4 layout refinement: moved the planetary-standard dropdown directly below the birth/transit ascendant time strip; moved each displayed standard numeral to the angular boundary between adjacent zodiac sectors in the innermost ring. Selecting any of the nine recorded standards updates both the visible wheel numerals and the 12-sign reference cards. Unmapped sign/category pairs remain blank/`—`; formulas and index3 remain unchanged. Commit: `a7f4c42956144ac406bdbcbacc966648128b0315`.
 - Latest index4 readability fix: corrected the standard-number angle to match the actual zodiac-sector boundary geometry; moved those small blue badges to a separate inner radial lane to reduce collisions with natal planet markers. Enlarged natal (purple) planet markers and their numerals only; transit (green) markers and all calculation formulas remain unchanged. Commit: d6f75c83067a1527c65bf0b51b6d58a96750dd7f.
 - Follow-up index4 adjustment: standard-number badges are now centered within each zodiac sector (sector-center angle, not the boundary line) and moved slightly inward to radius 116 with smaller badges to keep them distinct from the enlarged natal markers. No formula changes. Commit: 44575b058ae55922494f187faf862622836c3e91.
+
+
+## HORA index4 wheel spacing refinement — 2026-10-10
+- User reported the centered standard-number badges were overlapping house labels and approved moving natal planet markers outward to create a dedicated visual lane.
+- In `index4.html` only, natal purple planet markers and their numerals are shifted radially outward by 24 SVG units; marker size remains enlarged. Standard-number badges move to radius 132, leaving more room between house labels, standard numbers, and natal markers.
+- Transit green markers, all calculation formulas, `index2.html`, and `index3.html` remain unchanged. This is a display-only SVG layout change. Live visual confirmation on device is still needed.
+- Commit: 433b7bbbe63fbedbaf36a450445b24fdf419a929.
