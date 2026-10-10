@@ -55,7 +55,7 @@ function renderWheel(natal,transit){
   svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+color+'" stroke-width="4.5"/><circle cx="'+p2.x+'" cy="'+p2.y+'" r="4" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><rect x="'+(tag.x-35)+'" y="'+(tag.y-10)+'" width="70" height="20" rx="8" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><text x="'+tag.x+'" y="'+(tag.y+4)+'" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">'+label+'</text>';
  }
  ascMark(natal.asc,'@เกิด','#dc2626',-16);
- if(transit)ascMark(transit.asc,'@จร','#07834b',18);
+ if(transit)ascMark(transit.asc,'@จร','#07834b',88);
  const placed=[];
  function draw(list,isTransit){
   if(!list?.planets)return;
