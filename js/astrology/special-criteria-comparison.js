@@ -239,12 +239,13 @@ export function buildZodiacSignComparison({ planetPositions = [], ascendantSign 
       ascendantSign: validAscendant,
       houseFromAscendant,
       houseName: houseFromAscendant === null ? null : `ภพที่ ${houseFromAscendant}`,
-      occupants: occupants.map(item => ({
+      occupants: occupants.map(item => item.planet),
+      occupantNames: occupants.map(item => item.planet),
+      occupantDetails: occupants.map(item => ({
         ...item,
         houseFromAscendant,
         isAscendantSign: sign === validAscendant
       })),
-      occupantNames: occupants.map(item => item.planet),
       occupiedByPlanets: occupants.length > 0,
       occupied: occupants.length > 0 || sign === validAscendant,
       criteria: relatedCriteria,
