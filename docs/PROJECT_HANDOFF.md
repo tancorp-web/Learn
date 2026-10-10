@@ -191,3 +191,5 @@ Updated: 2026-10-10
 - Live page after GitHub Pages deployment: https://tancorp-web.github.io/Learn/index4.html
 
 - Follow-up fix: `index4.html` now overlays the text `เกษตร + ดาวประจำราศี` directly inside all 12 zodiac sectors of the SVG wheel. The overlay is isolated to index4 and redraws after the wheel is regenerated; index3 and astronomical formulas remain unchanged.
+
+- Follow-up: Kaset labels inside the `index4.html` zodiac wheel now include Thai planet numerals as well as planet names (e.g. `เกษตร ๓ อังคาร`, `เกษตร ๑ อาทิตย์`). Numerals use the Thai astrology numbering ๑–๘ for Sun through Rahu. This is display-only and does not change calculation formulas.
