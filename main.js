@@ -114,8 +114,9 @@ function getInput(p){const d=$(p+'Day').value,m=$(p+'Month').value,y=$(p+'Year')
 const NAKSHATRAS=['อัศวินี','ภรณี','กฤติกา','โรหิณี','มฤคศิร','อารทรา','ปุนัพสุ','ปุษยะ','อาศเลษะ','มาฆะ','บุรพผลคุนี','อุตรผลคุนี','หัสดา','จิตรา','สวาติ','วิสาขา','อนุราธา','เชษฐา','มูละ','บุรพาษาฒ','อุตราษาฒ','ศรวณะ','ธนิษฐา','ศตภิษัช','บุรพภัทรบท','อุตรภัทรบท','เรวดี'];
 /* Planetary dignity reference data lives in js/data/planetary-dignities.js. */
 function nakshatraOf(lon){const n=((lon%360)+360)%360;const pos=n/(360/27),idx=Math.floor(pos),pada=Math.floor((pos-idx)*4)+1;return{index:idx,name:NAKSHATRAS[idx],pada,degreeInNakshatra:(pos-idx)*13.3333333333};}const SIGNS=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];const SIGN_LORDS=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','เสาร์','พฤหัสบดี'];const PLANET_NUM={อาทิตย์:'1',จันทร์:'2',อังคาร:'3',พุธ:'4',พฤหัสบดี:'5',ศุกร์:'6',เสาร์:'7',ราหู:'8',เกตุ:'9'};const NAK_LORDS=['เกตุ','ศุกร์','อาทิตย์','จันทร์','อังคาร','ราหู','พฤหัสบดี','เสาร์','พุธ'];const NAK_YOGA=['ทลิทโท','มหัทธโน','โจโร','ภูมิปาโล','เทศาตรี','เทวี','เพชฌฆาต','ราชา','สมโณ'];function navamsaOf(lon){const n=((lon%360)+360)%360,s=Math.floor(n/30),d=n%30,part=Math.floor(d/(30/9)),start=s%3===0?s:s%3===1?(s+8)%12:(s+4)%12,sign=(start+part)%12;return{number:part+1,sign:SIGNS[sign],lord:SIGN_LORDS[sign],lordNum:PLANET_NUM[SIGN_LORDS[sign]]};}function drekkanaOf(lon){const n=((lon%360)+360)%360,s=Math.floor(n/30),part=Math.floor((n%30)/10),sign=(s+[0,5,9][part])%12;return{number:part+1,sign:SIGNS[sign],lord:SIGN_LORDS[sign],lordNum:PLANET_NUM[SIGN_LORDS[sign]]};}function formatVarga(lon){const v=navamsaOf(lon),d=drekkanaOf(lon);const vn=['ปฐม','ทุติย','ตติย','จตุตถ','ปัญจม','ฉัฏฐม','สัตตม','อัฏฐม','นวม'][v.number-1];const dn=['ปฐม','ทุติย','ตติย'][d.number-1];return{nav:vn+'นวางค์ '+v.lordNum+' '+v.sign,dre:dn+'ตรียางค์ '+d.lordNum+' '+d.sign};}function formatNakFull(lon){const n=nakshatraOf(lon),k=n.index%9;return n.name+' ฤกษ์ที่ '+(k+1)+' · '+NAK_YOGA[k]+' · บาท '+n.pada+' · ดาว'+NAK_LORDS[k];}
-function dignityOf(name,sign){const out=getPlanetaryDignities(name,sign);return out.length?out.join(' · '):'ปกติ';}
-function positionOf(name,p,asc){const s=p.sign.name,h=p.house,n=[];n.push(dignityOf(name,s));if(h===1)n.push('ตนุ');if([4,7,10].includes(h))n.push('เรือนเกณฑ์');return n.filter((v,i,a)=>v&&a.indexOf(v)===i).join(' · ');}
+function dignityOf(name,sign){const out=getPlanetaryDignities(name,sign);return out.length?out.join(' · '):'';}
+function standardOf(name,sign){if(name==='ลัคนา')return 'ไม่ใช้กับลัคนา';const out=getPlanetaryDignities(name,sign);if(out.length)return out.join(' · ');if(['ราหู','เกตุ','มฤตยู'].includes(name))return 'ยังไม่กำหนดตามสำนัก';return 'ไม่พบมาตรฐานในชุดที่เปิดใช้';}
+function positionOf(name,p,asc){const h=p.house,n=[];if(h===1)n.push('ตนุ');if([4,7,10].includes(h))n.push('เรือนเกณฑ์');return n.length?n.join(' · '):'—';}
 function formatNak(lon){const n=nakshatraOf(lon);return n.name+' บาท '+n.pada;}
 function renderStarDetails(natal,transit){
  const birthEl=$('natalStarDetailsBody'),transitEl=$('transitStarDetailsBody');
@@ -173,13 +174,13 @@ function renderStarDetails(natal,transit){
    const isAsc=name==='ลัคนา',house=b.house;
    const position=isAsc?'ลัคนากำเนิด':positionOf(name,b,b.longitude);
    const v=formatVarga(b.longitude),nak=formatNakFull(b.longitude);
-   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(b.sign.name)+'</td><td>'+esc7(formatInSign(b.longitude))+'</td><td>'+esc7(house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:b},natal,rows.map(r=>({name:r.name,p:r.b})))+'</td></tr>';
+   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(b.sign.name)+'</td><td>'+esc7(formatInSign(b.longitude))+'</td><td>'+esc7(house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(standardOf(name,b.sign.name))+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:b},natal,rows.map(r=>({name:r.name,p:r.b})))+'</td></tr>';
  }).join('');
  const transitRows=rows.map(({name,b,t})=>{
    if(!t)return '';
    const isAsc=name==='ลัคนา',position=isAsc?'ลัคนาจร':positionOf(name,t,t.longitude);
    const v=formatVarga(t.longitude),nak=formatNakFull(t.longitude);
-   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(t.sign.name)+'</td><td>'+esc7(formatInSign(t.longitude))+'</td><td>'+esc7(t.house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:t},transit,rows.map(r=>({name:r.name,p:r.t})))+'</td></tr>';
+   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(t.sign.name)+'</td><td>'+esc7(formatInSign(t.longitude))+'</td><td>'+esc7(t.house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(standardOf(name,t.sign.name))+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:t},transit,rows.map(r=>({name:r.name,p:r.t})))+'</td></tr>';
  }).join('');
  birthEl.innerHTML=natalRows;transitEl.innerHTML=transitRows;
 }
