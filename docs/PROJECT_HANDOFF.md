@@ -160,3 +160,9 @@ Updated: 2026-10-10
 - Important: the new text provides definitions and a few examples, but does not contain a complete planet-by-sign mapping for every standard. Do not infer or hard-code missing mappings; continue building a per-planet table with sign, degree conditions, provenance, and verification status.
 - Interpretive phrases and percentages (e.g. “80–90%” and “2–3 times”) are retained as source wording, not implemented as numeric scoring.
 - Appendix commit: `065df9b1a36a6f5fa7be00c214af1df83c8dde91`. Documentation-only; no app code, calculation formulas, or `index2.html` changed.
+
+
+## Expanded Thai astrology knowledge base — 2026-10-10
+- Added `docs/THAI_ASTROLOGY_KNOWLEDGE_BASE.md` with a structured, paraphrased knowledge digest covering planets, signs/elements, houses, ascendant and related concepts, planetary dignity standards, relationships between planets, transits, calendar cautions, interpretation practice, and rule-status handling.
+- Removed the previously named-source document and anonymized its section in the standards appendix per user preference. Do not store the website name or source URL in project knowledge.
+- This is documentation/knowledge organization only. No calculation formulas or app UI changed; unverified rules remain non-executable until validated.
