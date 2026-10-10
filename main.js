@@ -117,7 +117,64 @@ function nakshatraOf(lon){const n=((lon%360)+360)%360;const pos=n/(360/27),idx=M
 function dignityOf(name,sign){const out=getPlanetaryDignities(name,sign);return out.length?out.join(' · '):'ปกติ';}
 function positionOf(name,p,asc){const s=p.sign.name,h=p.house,n=[];n.push(dignityOf(name,s));if(h===1)n.push('ตนุ');if([4,7,10].includes(h))n.push('เรือนเกณฑ์');if([1,5,9].includes(h))n.push('ตรีโกณ');return n.filter((v,i,a)=>v&&a.indexOf(v)===i).join(' · ');}
 function formatNak(lon){const n=nakshatraOf(lon);return n.name+' บาท '+n.pada;}
-function renderStarDetails(natal,transit){const el=$('starDetailsBody');if(!el)return;const ascRow={name:'ลัคนา',b:{longitude:natal.asc,sign:natal.ascSign,house:1},t:{longitude:transit.asc,sign:transit.ascSign,house:1}};const names=GOLDEN_PLANET_ORDER;const rows=[ascRow,...names.map(name=>{const b=natal.planets.find(p=>p.name===name),t=transit.planets.find(p=>p.name===name);if(t)t.house=houseFromAsc(t.longitude,natal.asc);return{name,b,t}})];el.innerHTML=rows.map(({name,b,t})=>{const isAsc=name==='ลัคนา';const birth=isAsc?'ลัคนากำเนิด':positionOf(name,b,b?b.longitude:null),tran=isAsc?'ลัคนาจร':positionOf(name,t,t?t.longitude:null);const bv=formatVarga(b.longitude),tv=formatVarga(t.longitude),bn=formatNakFull(b.longitude),tn=formatNakFull(t.longitude);return '<tr><td>'+name+'</td><td>'+b.sign.name+'</td><td>'+formatInSign(b.longitude)+'</td><td>'+b.house+'</td><td>'+birth+'</td><td>'+bv.nav+'</td><td>'+bv.dre+'</td><td>'+bn+'</td><td>'+t.sign.name+'</td><td>'+formatInSign(t.longitude)+'</td><td>'+t.house+'</td><td>'+tran+'</td><td>'+tv.nav+'</td><td>'+tv.dre+'</td><td>'+tn+'</td></tr>'}).join('');}
+function renderStarDetails(natal,transit){
+ const birthEl=$('natalStarDetailsBody'),transitEl=$('transitStarDetailsBody');
+ if(!birthEl||!transitEl)return;
+ const names=GOLDEN_PLANET_ORDER;
+ const ascRow={name:'ลัคนา',b:{longitude:natal.asc,sign:natal.ascSign,house:1},t:{longitude:transit.asc,sign:transit.ascSign,house:1}};
+ const rows=[ascRow,...names.map(name=>{const b=natal.planets.find(p=>p.name===name),t=transit.planets.find(p=>p.name===name);if(t)t.house=houseFromAsc(t.longitude,natal.asc);return{name,b,t}})];
+ const signNames=SIGNS;
+ const esc7=v=>String(v==null?'':v).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const signRelation=(from,to)=>{
+   const a=signNames.indexOf(from),b=signNames.indexOf(to);if(a<0||b<0)return [];
+   const offset=(b-a+12)%12,items=[];
+   if(offset===0)items.push('กุม/ร่วมราศี');
+   if(offset===2)items.push('โยคหน้า');
+   if(offset===4||offset===8)items.push('ตรีโกณ');
+   if(offset===6)items.push('เล็ง');
+   if(offset===10)items.push('โยคหลัง');
+   if([0,3,6,9].includes(offset))items.push('จตุโกณ/เรือนเกณฑ์');
+   return [...new Set(items)];
+ };
+ const renderCriteria=(row,chart,allRows)=>{
+   const {name,p}=row;
+   const sign=p.sign.name,house=p.house;
+   const labels=[];
+   if(name==='ลัคนา')labels.push(['จุดตั้งต้นภพ 1','good']);
+   else {
+     const dignity=dignityOf(name,sign);
+     if(dignity&&dignity!=='ปกติ')dignity.split(' · ').forEach(x=>labels.push([x,'good']));
+     else labels.push(['ปกติ','']);
+     if(house===1)labels.push(['ตนุ','good']);
+     if([4,7,10].includes(house))labels.push(['เรือนเกณฑ์','good']);
+     if([1,5,9].includes(house))labels.push(['ตรีโกณ','good']);
+     const relationToAsc=signRelation(chart.ascSign.name||chart.ascSign,sign);
+     relationToAsc.forEach(x=>labels.push([x,'']));
+   }
+   const same=allRows.filter(other=>other.name!==name&&other.p&&other.p.sign.name===sign).map(other=>other.name);
+   if(same.length)labels.push(['ร่วมราศีกับ '+same.join(', '),'']);
+   const related=allRows.filter(other=>other.name!==name&&other.p&&other.p.sign.name!==sign)
+     .map(other=>({name:other.name,rels:signRelation(sign,other.p.sign.name)})).filter(x=>x.rels.length);
+   const uniqueRelated=[...new Set(related.flatMap(x=>x.rels))];
+   uniqueRelated.forEach(x=>labels.push([x,'']));
+   const html=labels.map(([label,kind])=>'<span class="star-criteria-chip '+kind+'">'+esc7(label)+'</span>').join('');
+   const relatedHtml=related.length?'<span class="star-criteria-note">สัมพันธ์กับ: '+related.map(x=>esc7(x.name)+' ('+esc7(x.rels.join('/'))+')').join(' · ')+'</span>':'';
+   return (html||'—')+relatedHtml+'<span class="star-criteria-note">เกณฑ์พิเศษทั้งดวงตรวจแยกในส่วน “ตรวจเกณฑ์ดาวกำเนิดจากราศีและลัคนา”</span>';
+ };
+ const natalRows=rows.map(({name,b,t})=>{
+   const isAsc=name==='ลัคนา',house=b.house;
+   const position=isAsc?'ลัคนากำเนิด':positionOf(name,b,b.longitude);
+   const v=formatVarga(b.longitude),nak=formatNakFull(b.longitude);
+   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(b.sign.name)+'</td><td>'+esc7(formatInSign(b.longitude))+'</td><td>'+esc7(house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:b},natal,rows.map(r=>({name:r.name,p:r.b})))+'</td></tr>';
+ }).join('');
+ const transitRows=rows.map(({name,b,t})=>{
+   if(!t)return '';
+   const isAsc=name==='ลัคนa',position=isAsc?'ลัคนาจร':positionOf(name,t,t.longitude);
+   const v=formatVarga(t.longitude),nak=formatNakFull(t.longitude);
+   return '<tr><td>'+esc7(name)+'</td><td>'+esc7(t.sign.name)+'</td><td>'+esc7(formatInSign(t.longitude))+'</td><td>'+esc7(t.house)+'</td><td>'+esc7(position)+'</td><td>'+esc7(v.nav)+'</td><td>'+esc7(v.dre)+'</td><td>'+esc7(nak)+'</td><td>'+renderCriteria({name,p:t},natal,rows.map(r=>({name:r.name,p:r.t})))+'</td></tr>';
+ }).join('');
+ birthEl.innerHTML=natalRows;transitEl.innerHTML=transitRows;
+}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
 function render(natal,transit){const b=getInput('b'),bProv=$('bProvince').selectedOptions[0]?.text||'',bDist=$('bDistrict').value||'',lat=$('bLat').value,lon=$('bLon').value,ascText=ascSummary(natal.asc);$('birthDetails').innerHTML='<div class="section-title"><h2>รายละเอียดกำเนิด</h2><span class="badge">ข้อมูลจากการคำนวณ HORA</span></div><div class="formula-code">วันเกิด '+natal.date+' เวลา '+natal.time+' น. · พ.ศ.'+b.beYear+' / ค.ศ.'+(b.beYear-543)+'<br>สถานที่ '+bDist+' '+bProv+' (UTC+07:00) · ละติจูด '+lat+'° · ลองจิจูด '+lon+'°<br>'+ascText+'</div>';renderWheel(natal,transit);console.log('[HORA][RENDER] natal updated',natal);renderStarDetails(natal,transit);renderQA(natal);console.log('[HORA][TABLE] ดาวกำเนิดและดาวจรจริง rendered')}
 function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
