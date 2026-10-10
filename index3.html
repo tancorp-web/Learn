@@ -497,7 +497,18 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const sun=engine?.planets?.find(p=>p.name==='อาทิตย์');
   if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ASC_BOUNDARY_SUN_INVALID');
   const correction=Number(engine.metadata?.localTimeCorrectionMinutes);
-  const result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude:lon,localTimeCorrectionMinutes:correction});
+  let result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude:lon,localTimeCorrectionMinutes:correction});
+  const asClock=minutes=>{const v=((Math.round(Number(minutes))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60);};
+  for(let pass=0;pass<2;pass++){
+   result=await Promise.all(result.map(async item=>{
+    const atEngine=await calculateSuriyayatra({date,time:asClock(item.minutes),longitude:lon});
+    const atSun=atEngine?.planets?.find(p=>p.name==='อาทิตย์');
+    if(!atSun||!Number.isFinite(Number(atSun.longitude)))return item;
+    const atCorrection=Number(atEngine.metadata?.localTimeCorrectionMinutes);
+    const refined=calculateAscendantBoundaryTimes({sunLongitude:Number(atSun.longitude),longitude:lon,localTimeCorrectionMinutes:Number.isFinite(atCorrection)?atCorrection:correction});
+    return refined.find(v=>Number(v.sign)===Number(item.sign))||item;
+   }));
+  }
   boundaryCacheKey=key;boundaryCache=result;
   console.log('[HORA][ASC 0 DEGREE TIMES]',{date,time,longitude:lon,sunLongitude:Number(sun.longitude),times:result});
   return result;
