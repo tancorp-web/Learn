@@ -3,13 +3,14 @@
   "title": "HORA confirmed planetary standards",
   "language": "th",
   "status": "CONFIRMED_BY_USER",
-  "runtime_status": "REFERENCE_ONLY_NOT_YET_CONNECTED_TO_RUNTIME",
+  "runtime_status": "CONNECTED_TO_RUNTIME",
   "notes": [
     "รายการนี้บันทึกเกณฑ์ที่ผู้ใช้ยืนยันแล้ว ห้ามเปลี่ยนสูตรคำนวณตำแหน่งดาว",
     "เครื่องหมาย - หมายถึงไม่มีเกณฑ์ที่ยืนยันไว้ในชุดนี้",
     "นิจทั่วไปตรวจจากราศีนิจ ไม่จำเป็นต้องตรงองศามหานิจ",
     "มหาอุจจ์และมหานิจมีองศาเฉพาะตามตาราง",
-    "อุจจาวิลาสคำนวณจากราศีอุจจ์ถอยหลังหนึ่งราศีเต็ม"
+    "อุจจาวิลาสคำนวณจากราศีอุจจ์ถอยหลังหนึ่งราศีเต็ม",
+    "เกณฑ์ sign_based_rules, exact_degree_rules และ moolatrikona เชื่อมกับ js/data/planetary-dignities.js และ main.js แล้ว; เกณฑ์องศาใช้ตำแหน่งองศา/ลิปดา/พิลิปดาจริง และไม่เปลี่ยนสูตรตำแหน่งดาว"
   ],
   "signs_order": [
     "เมษ",
