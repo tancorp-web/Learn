@@ -392,7 +392,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
  function scheduleSolarIngressRefresh(){clearTimeout(solarIngressTimer);solarIngressTimer=setTimeout(()=>{refreshSolarIngress()},350)}
  const wheel=$('wheel');
  if(wheel){
-  const scan=()=>{const svg=wheel.querySelector('svg');if(svg){augment(svg);if(solarIngressData)drawSolarIngressLabels(svg);else if(!solarIngressKey&&$('bYear')?.value)scheduleSolarIngressRefresh()}};
+  const scan=()=>{const svg=wheel.querySelector('svg');if(svg){augment(svg);if(solarIngressData&&!svg.querySelector('#SOLAR_INGRESS_LABELS2'))drawSolarIngressLabels(svg);else if(!solarIngressData&&!solarIngressKey&&$('bYear')?.value)scheduleSolarIngressRefresh()}};
   new MutationObserver(scan).observe(wheel,{childList:true,subtree:true});
   scan();
  }
