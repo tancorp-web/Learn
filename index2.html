@@ -36,6 +36,31 @@
 #wheelPanel2.wheel-fallback-full2{position:fixed;inset:0;z-index:99999;background:#f4f6fb;margin:0;padding:10px;overflow:auto}
 @media(max-width:640px){#wheelPanel2{padding:10px}#wheelPanel2 .wheel-tools button{padding:7px 10px}#wheelPanel2 #wheel svg .nak-name2{font-size:11px}#wheelPanel2 #wheel svg .nak-type2{font-size:9px}#wheelPanel2 #wheel svg .nava-number2{font-size:10px}}
 
+
+/* Extended HORA reference panels: explanatory data only; no calculation hooks */
+.reference-panel{margin:14px 0;padding:16px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.reference-panel h2{margin:0 0 10px;font-size:19px;color:var(--navy)}
+.reference-panel h3{margin:14px 0 7px;font-size:16px;color:var(--navy)}
+.reference-panel p{margin:7px 0}
+.reference-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.reference-card{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcff;min-width:0}
+.reference-card h3{margin:0 0 6px}
+.reference-note{font-size:13px;color:var(--muted)}
+.reference-table-wrap{width:100%;overflow-x:auto;margin:8px 0 12px}
+.reference-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.reference-table th,.reference-table td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+.reference-table th{background:#f0f3fa;color:var(--navy);white-space:nowrap}
+.reference-table code{white-space:normal;overflow-wrap:anywhere}
+.reference-panel details{border-top:1px solid var(--line);padding:10px 0}
+.reference-panel details:first-of-type{margin-top:8px}
+.reference-panel summary{font-weight:750;color:var(--navy);cursor:pointer}
+.reference-links{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px}
+.reference-links a{color:#344fb5;text-decoration:underline;overflow-wrap:anywhere}
+.reference-status{display:inline-block;border-radius:5px;background:#f0f3fa;padding:2px 7px;font-size:12px;font-weight:700}
+.reference-status.warn{background:#fff2d9;color:#815600}
+.reference-status.good{background:#e5f6ed;color:#17633c}
+@media(max-width:600px){.reference-panel{padding:12px}.reference-panel h2{font-size:17px}.reference-table{font-size:12px}}
+
 </style>
 </head><body>
 <header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD 20261009.03 · ENGINE v8.9.3 · ID FIX</span></div></header>
@@ -58,6 +83,131 @@
 <div id="starDetails" class="panel"><div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">ราศี · ภพ · ตำแหน่ง · ฤกษ์</span></div><div class="table-wrap"><table><thead><tr><th>ดาว</th><th>กำเนิด ราศี</th><th>กำเนิด องศา</th><th>กำเนิด ภพ</th><th>กำเนิด ตำแหน่ง</th><th>กำเนิด นวางค์</th><th>กำเนิด ตรียางค์</th><th>กำเนิด ฤกษ์</th><th>จร ราศี</th><th>จร องศา</th><th>จร ภพ</th><th>จร ตำแหน่ง</th><th>จร นวางค์</th><th>จร ตรียางค์</th><th>จร ฤกษ์</th></tr></thead><tbody id="starDetailsBody"></tbody></table></div></div>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
 </section>
+
+<section class="reference-panel" id="calculationMethod2">
+  <h2>หลักการคำนวณและขอบเขตของระบบ</h2>
+  <p>ส่วนนี้รวบรวมคำอธิบายจากเอกสารและไฟล์อ้างอิงที่อยู่ในคลังเว็บไซต์ HORA โดยแยกให้ชัดระหว่างข้อมูลที่หน้าคำนวณใช้จริง กับข้อมูลอ้างอิงที่ยังไม่ได้เชื่อมเข้ากับการคำนวณ เพื่อไม่ให้เข้าใจว่าสูตรทุกชุดผ่านการยืนยันแล้ว</p>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>ข้อมูลพื้นฐาน</h3><p>จักรราศี 12 ราศี ราศีละ 30° รวม 360° เริ่มเมษที่ 0° และตำแหน่งดาวภายในระบบอ้างอิงเป็นลองจิจูดสุริยวิถี 0–360°</p><p>การแสดงผลหลักใช้ องศาและลิปดา โดยเก็บค่าภายในให้ละเอียดกว่าแค่ค่าที่แสดง</p></div>
+    <div class="reference-card"><h3>วัน เวลา และสถานที่</h3><p>เขตเวลาไทย UTC+7 ไม่มีการปรับเวลาออมแสง จังหวัดใช้กำหนดพิกัดละติจูด/ลองจิจูด และหน้าคำนวณมีข้อมูลเวลาเกิดกับเวลาจรแยกกัน</p><p>กติกาวันเปลี่ยนสำหรับทักษาที่เก็บเป็นข้อมูลอ้างอิงใช้ 06:00 น. แต่เอกสารระบบระบุว่าเกณฑ์ที่ขึ้นกับวันทางดาราศาสตร์อาจต้องใช้เวลาอาทิตย์ขึ้นจริง จึงไม่ควรถือว่าสองกติกานี้เป็นเรื่องเดียวกัน</p></div>
+    <div class="reference-card"><h3>มาตรฐาน HORA</h3><p>ไฟล์ ruleset ระบุจักรราศีแบบ sidereal, ayanamsa Lahiri, ความละเอียดองศา–ลิปดา และสถานะสูตรโดยรวมเป็น PROVISIONAL</p><p>มีการระบุระบบเรือนแบบ 30° เริ่มจากลัคนาในเอกสารสถาปัตยกรรม และ whole-sign ใน ruleset มาตรฐาน จึงควรเลือกกติกาเรือนให้ตรงก่อนนำไปเทียบตำราต่างสำนัก</p></div>
+    <div class="reference-card"><h3>ลำดับการคำนวณที่บันทึกไว้</h3><p>เอกสารเดิมระบุสายงานสุริยยาตร์เป็น Horakhun → Madhyam Sun/Moon → Uccabala birth → Madhyam Ucc → Uccavises → Plaken/Khan/Bhuj → Chandra shadow</p><p class="reference-note">ชื่อขั้นตอนนี้เป็นบันทึกหลักการเดิม ไม่ใช่หลักฐานว่าทุกขั้นตอนในรายการได้ผ่านการตรวจสอบอิสระครบแล้ว</p></div>
+  </div>
+  <h3>สถานะสูตรจากทะเบียนสูตรใน repository</h3>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>รหัส</th><th>หัวข้อ</th><th>สถานะที่บันทึก</th><th>รายละเอียด</th></tr></thead><tbody>
+    <tr><td>F-001</td><td>ลองจิจูดสัมบูรณ์</td><td><span class="reference-status good">APPROVED</span></td><td>ตำแหน่งดาวในช่วง 0–360°</td></tr>
+    <tr><td>F-002</td><td>แบ่งจักรราศี</td><td><span class="reference-status good">APPROVED</span></td><td>แบ่งราศีช่วงละ 30°</td></tr>
+    <tr><td>F-003</td><td>นวางค์</td><td><span class="reference-status warn">PROVISIONAL</span></td><td>9 ส่วนต่อราศี; กติกาสำนักต้องกำหนดและมีเวอร์ชัน</td></tr>
+    <tr><td>F-004</td><td>ทักษา</td><td><span class="reference-status warn">PROVISIONAL</span></td><td>หมุนตำแหน่งทักษาตามวันเกิด ต้องตรวจสอบกติกาตามตำรา</td></tr>
+    <tr><td>F-005</td><td>เดือนอธิกมาส/ปฏิทินจันทรคติ</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังมีขั้นตอนเทียบข้อมูลอ้างอิงและตรวจข้อแตกต่าง</td></tr>
+    <tr><td>F-006</td><td>เกณฑ์คุณภาพดาว</td><td><span class="reference-status warn">RESEARCH</span></td><td>ต้องยืนยันสำนัก/แหล่งตำราก่อนใช้กฎทุกประเภท</td></tr>
+    <tr><td>F-007</td><td>เสวยอายุ</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังต้องยืนยันสูตรและวิธีนับอายุจากแหล่งมาตรฐาน</td></tr>
+    <tr><td>F-008</td><td>เสวยจร</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังต้องยืนยันสูตรและกติกาการนับ</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="reference-panel" id="goldenCases2">
+  <h2>Golden Case และจุดอ้างอิงสำหรับตรวจสอบ</h2>
+  <p>ค่าด้านล่างเป็นข้อมูลอ้างอิงที่บันทึกไว้ในโครงการ ใช้เทียบผลเพื่อหาความคลาดเคลื่อน ไม่ควรนำค่าที่คาดหวังไปแทนผลคำนวณของวันอื่น</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>รายการ</th><th>วัน เวลา</th><th>สถานที่/พิกัดอ้างอิง</th><th>ค่าดาวอ้างอิงที่บันทึก</th></tr></thead><tbody>
+    <tr><td>Golden Case #1</td><td>14 ต.ค. 2534 (1991), 01:05</td><td>ขอนแก่น, 16.4322°N, 102.8236°E</td><td>ลัคนา 25°58′ กรกฎ; อาทิตย์ 25°38′ กันย์; จันทร์ 06°27′ ธนู; อังคาร 04°45′ ตุล; พุธ 10°25′ ตุล; พฤหัสบดี 14°05′ สิงห์; ศุกร์ 11°37′ สิงห์; เสาร์ 01°32′ มกร; ราหู 19°37′ ธนู; เกตุ 28°26′ สิงห์; มฤตยู 12°31′ ธนู</td></tr>
+    <tr><td>Golden Case #2</td><td>14 ต.ค. 2518 (1975), 01:05</td><td>กรุงเทพมหานคร, 13.752555°N, 100.494066°E</td><td>ลัคนา 23°51′ กรกฎ; อาทิตย์ 25°48′ กันย์; จันทร์ 15°34′ มกร; อังคาร 08°13′ มิถุน; พุธ 08°39′ กันย์; พฤหัสบดี 27°12′ มีน; ศุกร์ 14°28′ สิงห์; เสาร์ 05°28′ กรกฎ</td></tr>
+    <tr><td>จุดอ้างอิงเกตุ</td><td>14 ธ.ค. 2534 (1991), 01:05</td><td>ขอนแก่น, ใช้พิกัดเดียวกับเคสปี 2534</td><td>เกตุ 26°06′ กรกฎ; ระยะจากวันเริ่มเดือน 8/8 ที่บันทึกไว้ 155 วัน</td></tr>
+  </tbody></table></div>
+  <div class="reference-card"><h3>การอ่านผลเทียบ</h3><p>ผลเทียบควรแสดงตำแหน่งที่คำนวณได้ ตำแหน่งอ้างอิง ส่วนต่างเชิงมุม และ PASS/FAIL แยกเป็นรายดาว โดยคำนึงถึงการวนผ่าน 0°/360° ไม่ใช้การลบองศาแบบเส้นตรงอย่างเดียว</p><p class="reference-note">Golden Case เป็นชุดทดสอบ ไม่ใช่แหล่งข้อมูลที่ควรใช้แทนสูตรทั่วไปหรือปรับผลวันอื่นให้ตรงโดยอัตโนมัติ</p></div>
+</section>
+
+<section class="reference-panel" id="divisionalReference2">
+  <h2>จักรราศี นวางค์ ตรียางค์ และฤกษ์ 27</h2>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>จักรราศี</h3><p>เมษ–มีน เรียงต่อเนื่องครบ 12 ราศี ราศีละ 30° รวม 360° วงแสดงผลกำหนดให้เมษอยู่ด้านบนสุดตามการออกแบบของหน้านี้</p></div>
+    <div class="reference-card"><h3>นวางค์ 108 ส่วน</h3><p>หนึ่งราศีแบ่ง 9 ส่วน ส่วนละ 3°20′ รวม 108 ส่วนทั่วจักรราศี การหานวางค์ราศีอ้างอิงกติกาจุดเริ่มของราศีจรราศี สถิรราศี และอุภยราศี ซึ่งต้องแยกจากแค่เลขลำดับนวางค์ในวง</p></div>
+    <div class="reference-card"><h3>ตรียางค์ 36 ส่วน</h3><p>หนึ่งราศีแบ่ง 3 ส่วน ส่วนละ 10° กฎตรียางค์ที่เก็บไว้: ส่วนที่ 1 ใช้ราศีเดิม ส่วนที่ 2 นับไป 5 ราศี และส่วนที่ 3 นับไป 9 ราศี โดยวนต่อครบทั้ง 12 ราศี</p></div>
+    <div class="reference-card"><h3>ฤกษ์ 27 และบาท</h3><p>หนึ่งฤกษ์ยาว 13°20′ และแบ่งเป็น 4 บาท บาทละ 3°20′ ฤกษ์เดินต่อเนื่องตลอด 360° จึงสามารถคร่อมขอบราศีได้ ไม่ควรเริ่มนับฤกษ์ใหม่เมื่อเปลี่ยนราศี</p></div>
+  </div>
+  <details><summary>ชื่อฤกษ์ 27 ตามข้อมูลอ้างอิงในเว็บไซต์</summary><p>1 อัศวินี · 2 ภรณี · 3 กฤติกา · 4 โรหิณี · 5 มฤคศิระ · 6 อารทรา · 7 ปุนรวสุ · 8 ปุษยะ · 9 อาศเลษา · 10 มฆา · 11 ปูรพผลคุนี · 12 อุตตรผลคุนี · 13 หัสตะ · 14 จิตรา · 15 สวาติ · 16 วิศาขา · 17 อนุราธา · 18 เชษฐา · 19 มูละ · 20 ปูรพาษาฒา · 21 อุตตราษาฒา · 22 ศรวณะ · 23 ธนิษฐา · 24 ศตภิษก์ · 25 ปูรพภัทรปทา · 26 อุตตรภัทรปทา · 27 เรวดี</p><p class="reference-note">คำสะกดชื่อฤกษ์อาจต่างกันตามตำรา และคำจำแนกฉินทฤกษ์/ภิณทฤกษ์ยังต้องเลือกแหล่งมาตรฐานก่อนใช้ตัดสินผล</p></details>
+</section>
+
+<section class="reference-panel" id="thaksaReference2">
+  <h2>ทักษาเดิม ทักษาจร และข้อมูลวันเกิด</h2>
+  <p>มีหน้าทักษาเดิม–ทักษาจรแยกอยู่ในเว็บไซต์ และมีไฟล์อ้างอิงสำหรับตำแหน่งทักษา การนับวันเกิด และมหาทักษา โดยไฟล์อ้างอิงเหล่านี้ระบุชัดว่าไม่ได้เชื่อมกับเครื่องคำนวณหลักทั้งหมด</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>ลำดับ</th><th>ตำแหน่งทักษา</th><th>ความหมายอ้างอิง</th></tr></thead><tbody>
+    <tr><td>1</td><td>บริวาร</td><td>ญาติ บริวาร ผู้สนับสนุน</td></tr>
+    <tr><td>2</td><td>อายุ</td><td>อายุ สุขภาพ ความเป็นอยู่</td></tr>
+    <tr><td>3</td><td>เดช</td><td>อำนาจ บารมี ความกล้าหาญ</td></tr>
+    <tr><td>4</td><td>ศรี</td><td>สิริมงคล เสน่ห์ ความสำเร็จ</td></tr>
+    <tr><td>5</td><td>มูละ</td><td>ทรัพย์สิน หลักฐาน ความมั่นคง</td></tr>
+    <tr><td>6</td><td>อุตสาหะ</td><td>ความเพียร การงาน ความพยายาม</td></tr>
+    <tr><td>7</td><td>มนตรี</td><td>ผู้ใหญ่ คำแนะนำ ความช่วยเหลือ</td></tr>
+    <tr><td>8</td><td>กาลกิณี</td><td>อุปสรรคและสิ่งที่ควรระวังตามตำรา</td></tr>
+  </tbody></table></div>
+  <div class="reference-card"><h3>ผัง 9 ช่องและตากลาง</h3><p>รูปผังอ้างอิงเป็น 3×3: แถวบน 1–2–3, แถวกลาง 6–ตากลาง–4, แถวล่าง 8–5–7 เมื่อใช้ตัวเลขตำแหน่งกลางเป็นเลข 9 ในผัง ช่องกลางหมายถึง “ตากลาง” ไม่ใช่ดาวเกตุและไม่ใช่ทักษาตำแหน่งที่ 9</p><p>ข้อมูลวันเกิดสำหรับทักษาที่เก็บไว้กำหนดว่าเวลาไทยก่อน 06:00 น. ให้ใช้วันปฏิทินก่อนหน้า และตั้งแต่ 06:00 น. เป็นต้นไปใช้วันที่กรอก ทั้งนี้ต้องเลือกตำราสำหรับการแปลผลเมื่อการนับตกที่ตากลาง</p></div>
+  <details><summary>มหาทักษาและสถานะการใช้งาน</summary><p>ข้อมูลอ้างอิงบันทึกกำลังดาวรวม 108 ปี: อาทิตย์ 6 ปี, จันทร์ 15 ปี, อังคาร 8 ปี, พุธกลางวัน 17 ปี, เสาร์ 10 ปี, พฤหัสบดี 19 ปี, ราหู/พุธกลางคืน 12 ปี และศุกร์ 21 ปี โดยสูตรดาวแทรกที่บันทึกไว้คือ (จำนวนปีดาวเสวยอายุ × จำนวนปีดาวแทรก) ÷ 108</p><p class="reference-note">การเริ่มดาว ระยะอายุ วิธีนับปี/เดือน/วัน และการจัดการตากลางยังต้องยืนยันกับตำราที่เลือกก่อนใช้ทำนายจริง</p></details>
+  <div class="reference-links"><a href="./project/hora-thaksa-transit.html">เปิดหน้าทักษาเดิม–ทักษาจร</a><a href="https://github.com/tancorp-web/Learn/blob/main/js/data/thaksa-reference.js">ข้อมูลอ้างอิงทักษาใน GitHub</a></div>
+</section>
+
+<section class="reference-panel" id="housesAndPlanets2">
+  <h2>เรือนชะตา คุณภาพดาว และความสัมพันธ์ดาว</h2>
+  <details open><summary>ความหมายเรือนชะตา 12 ภพ</summary>
+    <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>ภพ</th><th>ชื่อ</th><th>หัวข้อความหมายอ้างอิง</th></tr></thead><tbody>
+      <tr><td>1</td><td>ตนุ</td><td>ตัวตน รูปร่าง บุคลิก สุขภาพพื้นฐาน และแนวทางชีวิต</td></tr>
+      <tr><td>2</td><td>กดุมภะ</td><td>ทรัพย์สิน รายได้ เงินเก็บ คำพูด ครอบครัว และคุณค่าที่ถือครอง</td></tr>
+      <tr><td>3</td><td>สหัชชะ</td><td>พี่น้อง การสื่อสาร ความกล้า ความพยายาม ทักษะ และการเดินทางใกล้</td></tr>
+      <tr><td>4</td><td>พันธุ</td><td>บ้าน ครอบครัว รากฐาน ที่ดิน อสังหาริมทรัพย์ และความเป็นอยู่ส่วนตัว</td></tr>
+      <tr><td>5</td><td>ปุตตะ</td><td>บุตร ความรัก ความคิดสร้างสรรค์ การเรียนรู้ และการเสี่ยงโชค</td></tr>
+      <tr><td>6</td><td>อริ</td><td>อุปสรรค ศัตรู หนี้สิน คดีข้อพิพาท โรคภัย และภาระงาน</td></tr>
+      <tr><td>7</td><td>ปัตนิ</td><td>คู่ครอง หุ้นส่วน ลูกค้า คู่สัญญา และความร่วมมือแบบหนึ่งต่อหนึ่ง</td></tr>
+      <tr><td>8</td><td>มรณะ</td><td>การเปลี่ยนแปลง การสูญเสีย มรดก ทรัพย์สินร่วม และวิกฤต</td></tr>
+      <tr><td>9</td><td>ศุภะ</td><td>ครู ความเชื่อ ศาสนา ปรัชญา การศึกษาสูง และการเดินทางไกล</td></tr>
+      <tr><td>10</td><td>กัมมะ</td><td>การงาน อาชีพ หน้าที่ กิจการ ตำแหน่ง และชื่อเสียง</td></tr>
+      <tr><td>11</td><td>ลาภะ</td><td>ลาภผล กำไร รายได้เสริม เพื่อน เครือข่าย และผู้สนับสนุน</td></tr>
+      <tr><td>12</td><td>วินาศ</td><td>รายจ่าย การสูญเสีย เรื่องลับ ต่างแดน การพักฟื้น และการปลีกตัว</td></tr>
+    </tbody></table></div>
+    <p class="reference-note">ข้อมูลเรือนเป็นข้อมูลอ้างอิงแบบ whole-sign โดยเรือนที่ 1 เริ่มจากราศีลัคนา และเรียงราศีต่อไปตามลำดับ</p>
+  </details>
+  <details><summary>คุณภาพดาวและเกณฑ์ที่เปิดใช้</summary>
+    <p>ฐานข้อมูลคุณภาพดาวแยกเกณฑ์เกษตร อุจจ์ และนิจซึ่งเป็นเกณฑ์ที่ runtime หลักเปิดใช้ตามราศี ส่วนองศาอุจจ์/นิจเฉพาะและมูลตรีโกณเป็นข้อมูลอ้างอิงเพิ่มเติม ไม่ควรตีความว่าทุกจุดถูกบังคับใช้ในการคำนวณปัจจุบัน</p>
+    <p>ข้อมูลอ้างอิงยังไม่กำหนดเกษตร/อุจจ์/นิจให้ราหู เกตุ และมฤตยูโดยอัตโนมัติ เพราะหลักเกณฑ์แตกต่างกันตามสำนัก ส่วนประ มหาจักร ราชาโชค เทวีโชค จุลจักร และมูลตรีโกณยังไม่เปิดใช้จนกว่าจะยืนยันตำรา</p>
+  </details>
+  <details><summary>ความสัมพันธ์ราศีและรูปดวงพิเศษ</summary>
+    <p>ฐานข้อมูลแยกการนับราศีตามลำดับออกจากมุมองศาระหว่างดาว ห้ามใช้เป็นกฎเดียวกัน คำว่า “ทับ” ต้องมีบริบทดาวจรเทียบดาวเดิมหรือลัคนา จึงไม่ตัดสินจากชื่อราศีสองตัวอย่างเดียว</p>
+    <p>รูปดวงพิเศษที่มีข้อมูลอ้างอิง เช่น ดอกพิกุล ระบุโครงตำแหน่งที่นับจากลัคนาเป็นภพ 1, 3, 5, 7, 9, 11 แต่เงื่อนไขว่าต้องมีดาวครบช่องใด นับจุดใด และรวมดาวนอก/ราหู/เกตุหรือไม่ ยังต้องยืนยันตามตำราที่เลือก เกณฑ์อื่นที่ยังไม่มีนิยามตรวจสอบได้จะคงสถานะอ้างอิง ไม่ใช้สรุปคำพยากรณ์โดยอัตโนมัติ</p>
+  </details>
+</section>
+
+<section class="reference-panel" id="lunarKetuReference2">
+  <h2>ปฏิทินจันทรคติไทยและสูตรเกตุ 679 วัน</h2>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>ฐานข้อมูลปีอธิกมาส</h3><p>repository มีข้อมูลอ้างอิงต่อเนื่อง 201 ปี พ.ศ. สำหรับตรวจประเภทปีและวันเริ่มเดือน 8/8 รวมทั้งการเทียบผลสูตรหลักกับสูตรสำรอง/สูตรเดิม เพื่อระบุปีที่ตรงและปีที่คลาดเคลื่อน</p><p>ข้อมูลทดสอบตรวจว่า ปีอธิกมาสต้องมีวันเริ่มเดือน 8/8 และปีปกติไม่ควรยืมวันอ้างอิงจากปีก่อนมาใช้</p></div>
+    <div class="reference-card"><h3>กติกาเกตุที่ระบุในชุดทดสอบ</h3><p>อัตราครบรอบ 679 วัน = 360° จุดตั้งต้นเดือน 8/8 ที่บันทึกไว้คือ 198°16′30″ เมื่อมีวันเริ่มเดือน 8/8 ที่ตรวจสอบได้ จึงนับวันจากจุดเริ่มนั้นโดยไม่หัก 30 วันซ้ำ</p><p>ก่อนวันเริ่ม 8/8 และในปีปกติที่ไม่มีจุดอ้างอิง ให้ใช้สูตร 679 วันเดิมตามชุดทดสอบ</p></div>
+  </div>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>กรณีตรวจ</th><th>วันอ้างอิง</th><th>จำนวนวันจาก 8/8</th><th>ผลเกตุที่ชุดทดสอบคาดหวัง</th></tr></thead><tbody>
+    <tr><td>วันเริ่ม 8/8</td><td>12 ก.ค. 2534 / 1991</td><td>0</td><td>198°16′30″ (จุดตั้งต้น)</td></tr>
+    <tr><td>Golden Case #1</td><td>14 ต.ค. 2534 / 1991</td><td>94</td><td>28°26′ สิงห์</td></tr>
+    <tr><td>Golden Case #3</td><td>14 ธ.ค. 2534 / 1991</td><td>155</td><td>26°06′ กรกฎ</td></tr>
+    <tr><td>วันก่อนเริ่ม 8/8</td><td>11 ก.ค. 2534 / 1991</td><td>ไม่ใช้จุดเริ่ม 8/8</td><td>กลับไปใช้สูตรเดิม 679 วัน</td></tr>
+    <tr><td>ปีปกติ</td><td>14 ต.ค. 2533 / 1990</td><td>ไม่มีจุดเริ่ม 8/8</td><td>ใช้สูตรเดิม 679 วัน</td></tr>
+  </tbody></table></div>
+  <p class="reference-note">ส่วนนี้แสดงกติกาและกรณีทดสอบจากไฟล์ QA/ข้อมูลอ้างอิง ไม่ได้เปลี่ยนสูตรใน main.js หรือ engine ที่หน้าคำนวณใช้อยู่</p>
+</section>
+
+<section class="reference-panel" id="otherReferences2">
+  <h2>ข้อมูลอ้างอิงอื่นที่เก็บในเว็บไซต์</h2>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>อันโตนาทีสามัญ</h3><p>มีตารางนาทีประจำ 12 ราศีและสูตรแบ่งเวลาที่ผ่านไป/เวลาที่เหลือจากองศาอาทิตย์ ใช้เป็นข้อมูลอ้างอิงสำหรับการประมาณเวลาขอบเขตลัคนาจร ไม่ใช่เวลาขึ้นจริงเฉพาะพิกัด และยังไม่ได้เชื่อมกับ main.js</p></div>
+    <div class="reference-card"><h3>ข้อมูลจังหวัดและอำเภอ</h3><p>มีฐานข้อมูลพิกัดจังหวัดไทย รวมถึงข้อมูลจังหวัด/อำเภอ และชุดข้อมูลแยกสำหรับจังหวัด/อำเภอ เพื่อให้การเลือกสถานที่กำเนิดและสถานที่จรเติมพิกัดได้</p></div>
+    <div class="reference-card"><h3>การตรวจสอบอัตโนมัติ</h3><p>มีชุดทดสอบสำหรับเรขาคณิตจักรราศี ลัคนา/เรือน นวางค์ การตรวจข้อมูลป้อนเข้า สูตรเกตุ 679 วัน และการเทียบวันเริ่มเดือน 8/8 ย้อนหลัง 201 ปี โดยผลทดสอบแต่ละชุดต้องรันจริงจึงจะยืนยัน PASS ล่าสุดได้</p></div>
+    <div class="reference-card"><h3>ข้อมูลที่ยังไม่ใช่คำทำนายอัตโนมัติ</h3><p>ไฟล์เรือนชะตา นวางค์ ทักษา คุณภาพดาว ความสัมพันธ์ดาว และอันโตนาทีสามัญหลายส่วนเป็น reference-only ไม่ได้ถูก import เข้า main.js จึงแสดงไว้เพื่อให้ตรวจสอบความรู้และที่มา ไม่ควรถือว่าเปลี่ยนผลคำนวณหลักแล้ว</p></div>
+  </div>
+  <div class="reference-links">
+    <a href="https://github.com/tancorp-web/Learn/tree/main/js/data">ฐานข้อมูลอ้างอิงทั้งหมด</a>
+    <a href="https://github.com/tancorp-web/Learn/tree/main/qa/formula-tests">ชุดทดสอบสูตร</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/docs/DECISIONS.md">ข้อกำหนดและการตัดสินใจของระบบ</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/data/rulesets/hora-standard.json">HORA Standard ruleset</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/js/astronomy/THAI_LUNAR_ENGINE_LICENSE.md">ข้อมูลสัญญาอนุญาตไลบรารีปฏิทินจันทรคติ</a>
+  </div>
+</section>
+
 <section id="errorLog" class="panel"><h3>Calculation Log — คัดลอกส่งตรวจได้</h3><div id="errorLogText"></div><div class="log-actions"><button id="copyErrorLog" type="button">คัดลอก Log ทั้งหมด</button><button id="clearErrorLog" type="button">ล้าง Log</button><span id="logStatus">กำลังเก็บ log...</span></div></section>
 </main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
 <script>
