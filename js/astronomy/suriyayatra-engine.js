@@ -1,3 +1,5 @@
+import { calculateClassicalMonth88Start } from './thai-lunar-calendar-engine.js';
+
 // HORA — Classical Thai Suriyayatra engine.
 // This implementation follows the integer arithmetic / interpolation sequence
 // used by the classical Suriyayatra model: Horakhun -> solar/lunar mean
