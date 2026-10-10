@@ -260,7 +260,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
   if(!svg||svg.dataset.nakshatraFullRing==='1')return;
   svg.dataset.nakshatraFullRing='1';
   svg.setAttribute('viewBox','-85 -85 890 890');
-  svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขดาวครองตรียางค์ตามธาตุ ตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
+  svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขดาวเจ้าเรือนตรียางค์ตามตรียางค์จักร ตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
   svg.style.width='100%';svg.style.maxWidth='none';
   const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','เลขดาวครองตรียางค์ในวงจักรราศี ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
   /* ตรียางค์: 3 ช่วงต่อราศี ช่วงละ 10 องศา */
@@ -274,17 +274,20 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
    * ธาตุลมตติยเลือกแสดงราหู (8) เป็นค่าอ้างอิงหลัก; บางตำราใช้เสาร์ (7)
    * เป็นเพียงป้ายความรู้อ้างอิง ไม่เปลี่ยน engine คำนวณดาว
    */
-  const triyangRulers={fire:[3,1,5],earth:[6,4,7],air:[4,6,8],water:[2,3,5]};
+  /* ตรียางค์จักรให้ตรงกับ main.js: ปฐม = ราศีเดิม, ทุติย = ถัดไป 5 ราศี, ตติย = ถัดไป 9 ราศี */
+  const triyangOffsets=[0,5,9];
+  const triyangSignLordNums=[3,6,4,2,1,4,6,3,5,7,7,5];
   for(let s=0;s<12;s++){
-   const rulers=triyangRulers[elements[s]];
    for(let j=0;j<3;j++){
+    const drekSign=(s+triyangOffsets[j])%12;
+    const rulerNum=triyangSignLordNums[drekSign];
     const lon=s*30+j*10+5,p=xy(lon,245);
     add(g,'text',{
-     x:p.x,y:p.y+4,'text-anchor':'middle',
-     'font-size':15,'font-weight':900,fill:'#14213d',
-     stroke:'#fff','stroke-width':3,'paint-order':'stroke',
+     x:p.x,y:p.y+3.5,'text-anchor':'middle',
+     'font-size':11,'font-weight':900,fill:'#14213d',
+     stroke:'#fff','stroke-width':2.8,'paint-order':'stroke',
      class:'triyang-ruler-number2'
-    },rulers[j]);
+    },rulerNum+' '+signs[drekSign]);
    }
   }
   /* นวางค์: 9 ช่วงต่อราศี ช่วงละ 3°20′ */
@@ -347,11 +350,12 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
  const dlegend=$('drekkanaLegend2');
  if(dlegend){
   const localFmt=x=>{const total=Math.round(x*60),d=Math.floor(total/60),m=total%60;return String(d).padStart(2,'0')+'°'+String(m).padStart(2,'0')+'′'};
-  let h='<div class="table-wrap"><table><thead><tr><th>ราศีต้นกำเนิด</th><th>ตรียางค์</th><th>องศาในราศี</th><th>ราศีตรียางค์</th></tr></thead><tbody>';
+  let h='<div class="table-wrap"><table><thead><tr><th>ราศีต้นกำเนิด</th><th>ตรียางค์</th><th>องศาในราศี</th><th>ราศีตรียางค์</th><th>เลขดาวเจ้าเรือน</th></tr></thead><tbody>';
+  const drekOffsets=[0,5,9],drekLordNums=[3,6,4,2,1,4,6,3,5,7,7,5];
   for(let s=0;s<12;s++){
-   const drekSigns=[s,(s+4)%12,(s+8)%12];
+   const drekSigns=drekOffsets.map(offset=>(s+offset)%12);
    for(let j=0;j<3;j++){
-    h+='<tr><td>'+signs[s]+'</td><td>'+(j+1)+'</td><td>'+localFmt(j*10)+'–'+localFmt((j+1)*10)+'</td><td>'+signs[drekSigns[j]]+'</td></tr>';
+    h+='<tr><td>'+signs[s]+'</td><td>'+(j+1)+'</td><td>'+localFmt(j*10)+'–'+localFmt((j+1)*10)+'</td><td>'+signs[drekSigns[j]]+'</td><td>'+drekLordNums[drekSigns[j]]+'</td></tr>';
    }
   }
   dlegend.innerHTML=h+'</tbody></table></div>';
