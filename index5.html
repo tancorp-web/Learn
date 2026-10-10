@@ -662,11 +662,13 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const a=(-(sign*30-15)-90)*Math.PI/180;
    const ring={x:C+RING*Math.cos(a),y:C+RING*Math.sin(a)};
    const nearAsc=ascAngles.some(aa=>Math.abs(Math.atan2(Math.sin(a-aa),Math.cos(a-aa)))<0.16);
-   const labelR=nearAsc?438:365,tagW=128,tagH=34;
-   const labelA=a+(nearAsc?0.10:0);
+   // Put all 12 transit times in a dedicated outer lane, beyond the navamsa-name ring.
+   // Alternate each label slightly around its sign boundary so text does not sit on a radial divider.
+   const labelR=468;
+   const labelA=a+(sign%2===0?0.12:-0.12);
    const x=C+labelR*Math.cos(labelA),y=C+labelR*Math.sin(labelA);
-   // Time-only text: no green strip, box, dot, or leader line to obscure zodiac details.
-   const textNode=svgEl(layer,'text',{x,y:y+4,'text-anchor':'middle','font-size':12,'font-weight':750,fill:'#075e3b','paint-order':'stroke','stroke':'#fff','stroke-width':2.5,'stroke-linejoin':'round',class:'transit-zodiac-all-time5'});
+   // Text only: no colored box, strip, dot, or leader line; white halo keeps it readable.
+   const textNode=svgEl(layer,'text',{x,y:y+4,'text-anchor':'middle','font-size':11.5,'font-weight':800,fill:'#075e3b','paint-order':'stroke','stroke':'#fff','stroke-width':3.2,'stroke-linejoin':'round',class:'transit-zodiac-all-time5'});
    textNode.textContent=clock(item.minutes)+' น.';
   });
  }
