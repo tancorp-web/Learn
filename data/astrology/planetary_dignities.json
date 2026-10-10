@@ -1,0 +1,321 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Thai astrology dignity lookup rules",
+  "purpose": "Machine-readable draft rules for matching a planet's sign to dignity labels; house placement is sourced from the user's computed chart, not from this table.",
+  "status": "DISCOVERY",
+  "system_id": "thai_reference_system_anonymized_01",
+  "source_note": "Paraphrased/anonymized project reference. Source identity intentionally omitted. Verify against an approved reference and golden test cases before production use.",
+  "scope": {
+    "lookup_inputs": [
+      "planet",
+      "sign",
+      "system_id"
+    ],
+    "chart_fields_not_defined_here": [
+      "house",
+      "longitude",
+      "birth_datetime",
+      "birth_location",
+      "house_system",
+      "zodiac_system"
+    ],
+    "rule_does_not_calculate": [
+      "planetary_longitude",
+      "ascendant",
+      "house_cusps",
+      "house_placement"
+    ]
+  },
+  "rules": [
+    {
+      "category": "เกษตร",
+      "placements": {
+        "sun": [
+          "leo"
+        ],
+        "moon": [
+          "cancer"
+        ],
+        "mars": [
+          "aries",
+          "scorpio"
+        ],
+        "mercury": [
+          "gemini",
+          "virgo"
+        ],
+        "jupiter": [
+          "sagittarius",
+          "pisces"
+        ],
+        "venus": [
+          "taurus",
+          "libra"
+        ],
+        "saturn": [
+          "capricorn"
+        ],
+        "rahu": [
+          "aquarius"
+        ]
+      }
+    },
+    {
+      "category": "ประ",
+      "placements": {
+        "sun": [
+          "aquarius"
+        ],
+        "moon": [
+          "capricorn"
+        ],
+        "mars": [
+          "libra",
+          "taurus"
+        ],
+        "mercury": [
+          "sagittarius",
+          "pisces"
+        ],
+        "jupiter": [
+          "gemini",
+          "virgo"
+        ],
+        "venus": [
+          "scorpio",
+          "aries"
+        ],
+        "saturn": [
+          "cancer"
+        ],
+        "rahu": [
+          "leo"
+        ]
+      }
+    },
+    {
+      "category": "อุจ",
+      "placements": {
+        "sun": [
+          "aries"
+        ],
+        "moon": [
+          "taurus"
+        ],
+        "mars": [
+          "capricorn"
+        ],
+        "mercury": [
+          "virgo"
+        ],
+        "jupiter": [
+          "cancer"
+        ],
+        "venus": [
+          "pisces"
+        ],
+        "saturn": [
+          "libra"
+        ],
+        "rahu": [
+          "scorpio"
+        ]
+      }
+    },
+    {
+      "category": "นิจ",
+      "placements": {
+        "sun": [
+          "libra"
+        ],
+        "moon": [
+          "scorpio"
+        ],
+        "mars": [
+          "cancer"
+        ],
+        "mercury": [
+          "pisces"
+        ],
+        "jupiter": [
+          "capricorn"
+        ],
+        "venus": [
+          "virgo"
+        ],
+        "saturn": [
+          "aries"
+        ],
+        "rahu": [
+          "taurus"
+        ]
+      }
+    },
+    {
+      "category": "ราชาโชค",
+      "placements": {
+        "sun": [
+          "gemini"
+        ],
+        "moon": [
+          "virgo"
+        ],
+        "mars": [
+          "taurus"
+        ],
+        "mercury": [
+          "leo"
+        ],
+        "jupiter": [
+          "aries"
+        ],
+        "venus": [
+          "cancer"
+        ],
+        "saturn": [
+          "scorpio"
+        ],
+        "rahu": [
+          "libra"
+        ]
+      }
+    },
+    {
+      "category": "มหาจักร",
+      "placements": {
+        "sun": [
+          "cancer"
+        ],
+        "moon": [
+          "aries"
+        ],
+        "mars": [
+          "virgo"
+        ],
+        "mercury": [
+          "leo"
+        ],
+        "jupiter": [
+          "scorpio"
+        ],
+        "venus": [
+          "sagittarius"
+        ],
+        "saturn": [
+          "taurus"
+        ],
+        "rahu": [
+          "capricorn"
+        ]
+      }
+    },
+    {
+      "category": "จุลจักร",
+      "placements": {
+        "sun": [
+          "capricorn"
+        ],
+        "moon": [
+          "libra"
+        ],
+        "mars": [
+          "pisces"
+        ],
+        "mercury": [
+          "aquarius"
+        ],
+        "jupiter": [
+          "taurus"
+        ],
+        "venus": [
+          "gemini"
+        ],
+        "saturn": [
+          "scorpio"
+        ],
+        "rahu": [
+          "cancer"
+        ]
+      }
+    },
+    {
+      "category": "อุจจาภิมุข",
+      "placements": {
+        "sun": [
+          "taurus"
+        ],
+        "moon": [
+          "gemini"
+        ],
+        "mars": [
+          "aquarius"
+        ],
+        "mercury": [
+          "libra"
+        ],
+        "jupiter": [
+          "leo"
+        ],
+        "venus": [
+          "aries"
+        ],
+        "saturn": [
+          "scorpio"
+        ],
+        "rahu": [
+          "sagittarius"
+        ]
+      }
+    },
+    {
+      "category": "เทวีโชค",
+      "placements": {
+        "sun": [
+          "sagittarius"
+        ],
+        "moon": [
+          "pisces"
+        ],
+        "mars": [
+          "scorpio"
+        ],
+        "mercury": [
+          "aquarius"
+        ],
+        "jupiter": [
+          "libra"
+        ],
+        "venus": [
+          "capricorn"
+        ],
+        "saturn": [
+          "taurus"
+        ],
+        "rahu": [
+          "aries"
+        ]
+      }
+    }
+  ],
+  "cautions": [
+    "This draft preserves the source-specific mappings as recorded; overlapping labels are intentional and must not be silently normalized.",
+    "A rule match may return multiple labels; do not force a single label unless the selected system explicitly defines priority.",
+    "No exact-degree boundaries are represented in this dataset.",
+    "No Uranus mapping is included in this initial lookup table.",
+    "Do not use this DISCOVERY dataset as the sole authority for production chart interpretation."
+  ],
+  "example": {
+    "chart_fact": {
+      "planet": "mars",
+      "sign": "aries",
+      "house": 4
+    },
+    "matching_rule": {
+      "category": "เกษตร",
+      "condition": "mars in aries",
+      "status": "DISCOVERY"
+    },
+    "expected_display": "อังคาร — เมษ — ภพ 4 — เกษตร (ตามชุดกฎที่เลือก; สถานะ DISCOVERY)",
+    "note": "The house value comes from the user's computed chart and is not inferred by this rule table."
+  }
+}
