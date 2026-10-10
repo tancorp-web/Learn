@@ -220,8 +220,29 @@
   <p class="reference-note">ส่วนนี้แสดงกติกาและกรณีทดสอบจากไฟล์ QA/ข้อมูลอ้างอิง ไม่ได้เปลี่ยนสูตรใน main.js หรือ engine ที่หน้าคำนวณใช้อยู่</p>
 </section>
 
+
+
+<section class="reference-panel" id="otherReferences2">
+  <h2>ข้อมูลอ้างอิงอื่นที่เก็บในเว็บไซต์</h2>
+  <div class="reference-grid">
+    <div class="reference-card"><h3>อันโตนาทีสามัญ</h3><p>มีตารางนาทีประจำ 12 ราศีและสูตรแบ่งเวลาที่ผ่านไป/เวลาที่เหลือจากองศาอาทิตย์ ใช้เป็นข้อมูลอ้างอิงสำหรับการประมาณเวลาขอบเขตลัคนาจร ไม่ใช่เวลาขึ้นจริงเฉพาะพิกัด และยังไม่ได้เชื่อมกับ main.js</p></div>
+    <div class="reference-card"><h3>ข้อมูลจังหวัดและอำเภอ</h3><p>มีฐานข้อมูลพิกัดจังหวัดไทย รวมถึงข้อมูลจังหวัด/อำเภอ และชุดข้อมูลแยกสำหรับจังหวัด/อำเภอ เพื่อให้การเลือกสถานที่กำเนิดและสถานที่จรเติมพิกัดได้</p></div>
+    <div class="reference-card"><h3>การตรวจสอบอัตโนมัติ</h3><p>มีชุดทดสอบสำหรับเรขาคณิตจักรราศี ลัคนา/เรือน นวางค์ การตรวจข้อมูลป้อนเข้า สูตรเกตุ 679 วัน และการเทียบวันเริ่มเดือน 8/8 ย้อนหลัง 201 ปี โดยผลทดสอบแต่ละชุดต้องรันจริงจึงจะยืนยัน PASS ล่าสุดได้</p></div>
+    <div class="reference-card"><h3>ข้อมูลที่ยังไม่ใช่คำทำนายอัตโนมัติ</h3><p>ไฟล์เรือนชะตา นวางค์ ทักษา คุณภาพดาว ความสัมพันธ์ดาว และอันโตนาทีสามัญหลายส่วนเป็น reference-only ไม่ได้ถูก import เข้า main.js จึงแสดงไว้เพื่อให้ตรวจสอบความรู้และที่มา ไม่ควรถือว่าเปลี่ยนผลคำนวณหลักแล้ว</p></div>
+  </div>
+  <div class="reference-links">
+    <a href="https://github.com/tancorp-web/Learn/tree/main/js/data">ฐานข้อมูลอ้างอิงทั้งหมด</a>
+    <a href="https://github.com/tancorp-web/Learn/tree/main/qa/formula-tests">ชุดทดสอบสูตร</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/docs/DECISIONS.md">ข้อกำหนดและการตัดสินใจของระบบ</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/data/rulesets/hora-standard.json">HORA Standard ruleset</a>
+    <a href="https://github.com/tancorp-web/Learn/blob/main/js/astronomy/THAI_LUNAR_ENGINE_LICENSE.md">ข้อมูลสัญญาอนุญาตไลบรารีปฏิทินจันทรคติ</a>
+  </div>
+</section>
+
 <section class="reference-panel" id="ascendantTimeKnowledge3">
-  <h2>ชุดความรู้: ลัคนาเดิม ลัคนาจร และเวลาเส้น 0° ราศี</h2>
+  <h2>ชุดความรู้: เวลาเข้าราศีของลัคนาจร</h2>
+  <p><strong>ตารางเวลาเข้าเส้น 0° ของลัคนาจร</strong> คำนวณตามวันที่และสถานที่จรที่เลือก เวลาที่แสดงเป็นเวลาท้องถิ่นของไทย (UTC+7) และวันที่ พ.ศ. ตามช่องวันจร ตารางนี้เป็นส่วนแสดงผลหลัก หากวงล้อมีพื้นที่จำกัดยังอ่านเวลาได้จากตารางนี้</p>
+  <div id="ascendantBoundaryTimesTable3" class="reference-table-wrap" aria-live="polite"><p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p></div>
   <div class="reference-grid">
     <div class="reference-card">
       <h3>ลัคนาเดิม (ดวงกำเนิด)</h3>
@@ -240,24 +261,7 @@
       <p>เวลาอาทิตย์จรเข้า 0° ราศีเป็นเวลาที่ตำแหน่งอาทิตย์ข้ามขอบเขตราศี ส่วนเวลาลัคนาจรเข้า 0° ราศีเป็นอีกเหตุการณ์หนึ่งและใช้การคำนวณคนละตำแหน่ง ทั้งสองเวลาไม่ใช่ค่าเดียวกันและใช้แทนกันไม่ได้</p>
     </div>
   </div>
-  <p class="reference-note">ป้ายเวลาลัคนาเกิดและลัคนาจรบนวงล้อแสดงเวลาที่เลือกในช่องข้อมูล ส่วนเวลา ณ จุด 0° ต้องระบุให้ชัดว่าเป็นเวลาเข้าเส้น 0° ของราศีใด และคำนวณจากตำแหน่งลัคนาจรจริงก่อนนำมาแสดง</p>
-</section>
-
-<section class="reference-panel" id="otherReferences2">
-  <h2>ข้อมูลอ้างอิงอื่นที่เก็บในเว็บไซต์</h2>
-  <div class="reference-grid">
-    <div class="reference-card"><h3>อันโตนาทีสามัญ</h3><p>มีตารางนาทีประจำ 12 ราศีและสูตรแบ่งเวลาที่ผ่านไป/เวลาที่เหลือจากองศาอาทิตย์ ใช้เป็นข้อมูลอ้างอิงสำหรับการประมาณเวลาขอบเขตลัคนาจร ไม่ใช่เวลาขึ้นจริงเฉพาะพิกัด และยังไม่ได้เชื่อมกับ main.js</p></div>
-    <div class="reference-card"><h3>ข้อมูลจังหวัดและอำเภอ</h3><p>มีฐานข้อมูลพิกัดจังหวัดไทย รวมถึงข้อมูลจังหวัด/อำเภอ และชุดข้อมูลแยกสำหรับจังหวัด/อำเภอ เพื่อให้การเลือกสถานที่กำเนิดและสถานที่จรเติมพิกัดได้</p></div>
-    <div class="reference-card"><h3>การตรวจสอบอัตโนมัติ</h3><p>มีชุดทดสอบสำหรับเรขาคณิตจักรราศี ลัคนา/เรือน นวางค์ การตรวจข้อมูลป้อนเข้า สูตรเกตุ 679 วัน และการเทียบวันเริ่มเดือน 8/8 ย้อนหลัง 201 ปี โดยผลทดสอบแต่ละชุดต้องรันจริงจึงจะยืนยัน PASS ล่าสุดได้</p></div>
-    <div class="reference-card"><h3>ข้อมูลที่ยังไม่ใช่คำทำนายอัตโนมัติ</h3><p>ไฟล์เรือนชะตา นวางค์ ทักษา คุณภาพดาว ความสัมพันธ์ดาว และอันโตนาทีสามัญหลายส่วนเป็น reference-only ไม่ได้ถูก import เข้า main.js จึงแสดงไว้เพื่อให้ตรวจสอบความรู้และที่มา ไม่ควรถือว่าเปลี่ยนผลคำนวณหลักแล้ว</p></div>
-  </div>
-  <div class="reference-links">
-    <a href="https://github.com/tancorp-web/Learn/tree/main/js/data">ฐานข้อมูลอ้างอิงทั้งหมด</a>
-    <a href="https://github.com/tancorp-web/Learn/tree/main/qa/formula-tests">ชุดทดสอบสูตร</a>
-    <a href="https://github.com/tancorp-web/Learn/blob/main/docs/DECISIONS.md">ข้อกำหนดและการตัดสินใจของระบบ</a>
-    <a href="https://github.com/tancorp-web/Learn/blob/main/data/rulesets/hora-standard.json">HORA Standard ruleset</a>
-    <a href="https://github.com/tancorp-web/Learn/blob/main/js/astronomy/THAI_LUNAR_ENGINE_LICENSE.md">ข้อมูลสัญญาอนุญาตไลบรารีปฏิทินจันทรคติ</a>
-  </div>
+  <p class="reference-note">เวลาเข้า 0° ของแต่ละราศีเป็นเวลาลัคนาจร ไม่ใช่เวลาอาทิตย์จรเข้าราศี และไม่ใช่เวลาที่เลือกในช่องโดยตรง ระบบใช้สูตรเดิมและไม่เปลี่ยนสูตรคำนวณดาว</p>
 </section>
 
 <section id="errorLog" class="panel"><h3>Calculation Log — คัดลอกส่งตรวจได้</h3><div id="errorLogText"></div><div class="log-actions"><button id="copyErrorLog" type="button">คัดลอก Log ทั้งหมด</button><button id="clearErrorLog" type="button">ล้าง Log</button><span id="logStatus">กำลังเก็บ log...</span></div></section>
@@ -513,38 +517,55 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   console.log('[HORA][ASC 0 DEGREE TIMES]',{date,time,longitude:lon,sunLongitude:Number(sun.longitude),times:result});
   return result;
  }
+ function formatThaiDate(dateStr){
+  const parts=dateStr.split('-').map(Number);
+  const months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return pad(parts[2])+' '+months[parts[1]-1]+' '+String(parts[0]+543);
+ }
  async function renderBoundaryTimes(svg){
   const runId=++boundaryRun;
-  const layerOld=svg.querySelector('#ascendantBoundaryTimes3');if(layerOld)layerOld.remove();
+  svg.querySelector('#ascendantBoundaryTimes3')?.remove();
+  const table=document.getElementById('ascendantBoundaryTimesTable3');
+  if(table)table.innerHTML='<p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p>';
   let boundaries;
   try{boundaries=await getBoundaryTimes();}
-  catch(err){console.error('[HORA][ASC 0 DEGREE TIMES] ERROR',err);return;}
+  catch(err){
+   console.error('[HORA][ASC 0 DEGREE TIMES] ERROR',err);
+   if(table)table.innerHTML='<p role="alert">คำนวณเวลาเข้า 0° ไม่สำเร็จ กรุณาตรวจวันที่และสถานที่จร แล้วกดคำนวณใหม่</p>';
+   return;
+  }
   if(runId!==boundaryRun||!svg.isConnected)return;
+  const dateParts=[Number(document.getElementById('fYear')?.value)-543,Number(document.getElementById('fMonth')?.value),Number(document.getElementById('fDay')?.value)];
+  const dateStr=String(dateParts[0])+'-'+pad(dateParts[1])+'-'+pad(dateParts[2]);
+  const dateLabel=formatThaiDate(dateStr);
+  const clock=n=>{const v=((Math.round(Number(n))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60);};
+  if(table){
+   const rows=boundaries.slice().sort((a,b)=>Number(a.sign)-Number(b.sign)).map(item=>'<tr><td>0° '+signNames[Number(item.sign)]+'</td><td>'+dateLabel+'</td><td>'+clock(item.minutes)+' น.</td></tr>').join('');
+   table.innerHTML='<table class="reference-table"><thead><tr><th>จุดเข้าเส้นราศี</th><th>วันที่เข้า (พ.ศ.)</th><th>เวลาไทย</th></tr></thead><tbody>'+rows+'</tbody></table><p class="reference-note">อ้างอิงวันที่จรและพิกัดสถานที่จรที่เลือกในแบบฟอร์ม</p>';
+  }
   const layer=svgEl(svg,'g',{id:'ascendantBoundaryTimes3','font-family':'system-ui, sans-serif','pointer-events':'none'});
   const ascAngles=[];
   svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
    const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
    const x2=Number(line.getAttribute('x2')),y2=Number(line.getAttribute('y2'));
    const r1=Math.hypot(x1-C,y1-C),r2=Math.hypot(x2-C,y2-C);
-   if(r1>75&&r1<115&&(r2>250||line.dataset.navaExtended==='1'))ascAngles.push(Math.atan2(y2-C,y2===y1?x2-C:y2-C));
+   if(r1>75&&r1<115&&(r2>250||line.dataset.navaExtended==='1'))ascAngles.push(Math.atan2(y2-C,x2-C));
   });
-  const clock=n=>{const v=((Math.round(Number(n))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60)+' น.';};
   boundaries.forEach(item=>{
    const sign=Number(item.sign);
    if(!Number.isInteger(sign)||sign<0||sign>11||!Number.isFinite(Number(item.minutes)))return;
-   const deg=sign*30;
-   const a=(-(deg-15)-90)*Math.PI/180;
+   const a=(-(sign*30-15)-90)*Math.PI/180;
    const ring={x:C+RING*Math.cos(a),y:C+RING*Math.sin(a)};
    const nearAsc=ascAngles.some(aa=>Math.abs(Math.atan2(Math.sin(a-aa),Math.cos(a-aa)))<0.16);
-   const labelR=nearAsc?438:365,tagW=106,tagH=25;
-   let labelA=a;
-   if(nearAsc)labelA+=0.12;
+   const labelR=nearAsc?438:365,tagW=128,tagH=34;
+   const labelA=a+(nearAsc?0.10:0);
    const x=C+labelR*Math.cos(labelA),y=C+labelR*Math.sin(labelA);
-   svgEl(layer,'line',{x1:ring.x,y1:ring.y,x2:x,y2:y,stroke:'#07834b','stroke-width':1.5,'stroke-dasharray':'4 3','stroke-linecap':'round'});
-   svgEl(layer,'circle',{cx:ring.x,cy:ring.y,r:4.2,fill:'#07834b',stroke:'#fff','stroke-width':1.3});
+   svgEl(layer,'line',{x1:ring.x,y1:ring.y,x2:x,y2:y,stroke:'#07834b','stroke-width':1.7,'stroke-dasharray':'4 3','stroke-linecap':'round'});
+   svgEl(layer,'circle',{cx:ring.x,cy:ring.y,r:4.4,fill:'#07834b',stroke:'#fff','stroke-width':1.4});
    svgEl(layer,'rect',{x:x-tagW/2,y:y-tagH/2,width:tagW,height:tagH,rx:6,fill:'#075e3b',stroke:'#fff','stroke-width':1.4});
-   const textNode=svgEl(layer,'text',{x,y:y+3.7,'text-anchor':'middle','font-size':10.5,'font-weight':850,fill:'#fff'});
-   textNode.textContent='0° '+signNames[sign]+' '+clock(item.minutes);
+   const textNode=svgEl(layer,'text',{x,'text-anchor':'middle','font-size':9.5,'font-weight':850,fill:'#fff'});
+   const first=document.createElementNS('http://www.w3.org/2000/svg','tspan');first.setAttribute('x',String(x));first.setAttribute('y',String(y-3));first.textContent='0° '+signNames[sign];textNode.appendChild(first);
+   const second=document.createElementNS('http://www.w3.org/2000/svg','tspan');second.setAttribute('x',String(x));second.setAttribute('y',String(y+10));second.textContent=dateLabel+' '+clock(item.minutes);textNode.appendChild(second);
   });
  }
  function enhanceAscendant(svg){
