@@ -121,3 +121,8 @@ Updated: 2026-10-10
 ## Transit zodiac-time label text — 2026-10-10
 - Clarified by user: green labels marking transit zodiac boundaries should show only the transit time. Updated `index3.html` boundary labels from the two-line sign/date/time text to a single `HH:MM น.` time. The supporting table of all 12 boundaries retains sign, date, and time; only the green labels on the wheel were simplified.
 - No calculation or planetary formula changed. `index2.html`, `main.js`, and astronomy engine files were not modified. Deploy workflow should be checked before claiming the live page has updated.
+
+
+## Green transit time labels without boxes — 2026-10-10
+- User reported green time strips/labels overlapped other zodiac-wheel content and requested no frame, only the time. Updated `index3.html` so the green 0° transit boundary labels are plain green `HH:MM น.` text with a light text outline for contrast; removed the green background rectangle, dot, and leader line. The green transit ascendant-ray label is also plain text without a box or leader line. Red natal ascendant label remains unchanged.
+- The 12-boundary reference table and all calculation formulas remain unchanged. Only `index3.html` and this handoff document are changed; `index2.html`, `main.js`, and astronomy engine files remain untouched. Verify GitHub Actions/Pages for this commit before claiming deployment is complete.
