@@ -242,12 +242,14 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
   {
     id: 'SPECIAL-HANUMAN',
     name: 'ดวงหนุมาน',
-    aliases: ['ดวงสามเหลี่ยม (ต้องตรวจความสัมพันธ์)'],
+    aliases: ['ดวงสามเหลี่ยม (ต้องตรวจความสัมพันธ์)', 'ดวงสามเหลี่ยม'],
+    nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
+    mergedInto: 'SPECIAL-CHART-TRIANGLE',
     category: 'รูปแบบดวงชื่อเฉพาะ',
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: null,
     planets: 'ยังไม่ยืนยันว่าต้องใช้ดาวใด',
-    notes: ['บางแหล่งกล่าวรวมกับรูปสามเหลี่ยม แต่ยังไม่ควรถือว่าเป็นสูตรเดียวกัน'],
+    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “ดวงสามเหลี่ยม/ดวงหนุมาน” ในฐานะชื่อพ้อง; ใช้ SPECIAL-CHART-TRIANGLE เป็นรายการอ้างอิงชื่อ', 'คงรหัสเดิมไว้เพื่อความเข้ากันได้; สูตรยังไม่ครบและไม่เปิดใช้งาน'],
     execution: 'DISABLED'
   },
   {
