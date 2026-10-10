@@ -6,5 +6,6 @@ export const FORMULAS={
  INTERCALARY:{id:'F-005',status:'RESEARCH',description:'Thai lunar intercalary month rules pending authoritative verification.'},
  DIGNITY:{id:'F-006',status:'RESEARCH',description:'Planetary dignity registry pending school/source approval.'},
  AGE_PERIOD:{id:'F-007',status:'RESEARCH',description:'เสวยอายุ rules pending source verification.'},
- TRANSIT_PERIOD:{id:'F-008',status:'RESEARCH',description:'เสวยจร rules pending source verification.'}
+ TRANSIT_PERIOD:{id:'F-008',status:'RESEARCH',description:'เสวยจร rules pending source verification.'},
+ TANU_SESHA:{id:'F-009',status:'APPROVED',description:'ตนุเศษจากตำแหน่งดาวกำเนิดเท่านั้น; คูณจำนวนราศีที่นับสองช่วงแล้วหาร 7 ตามกฎที่เจ้าของโครงการยืนยัน.'}
 };
