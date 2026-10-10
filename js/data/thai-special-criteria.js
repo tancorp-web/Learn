@@ -94,6 +94,17 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     execution: 'DISABLED'
   },
   {
+    id: 'SPECIAL-MOON-CRESCENT',
+    name: 'ดวงจันทร์เสี้ยว',
+    aliases: [],
+    category: 'รูปแบบการกระจายดาว',
+    status: CRITERION_STATUS.SOURCE_VARIANT,
+    ruleType: null,
+    planets: 'ยังไม่ยืนยันว่าต้องใช้ดาวใดและรูปแบบการกระจายต้องเป็นอย่างไร',
+    notes: ['แยกจากดวงจันทร์ครึ่งซีก/อัฒจักร/มาลัยโยค จนกว่าจะมีแหล่งยืนยันว่าเป็นสูตรเดียวกัน'],
+    execution: 'DISABLED'
+  },
+  {
     id: 'SPECIAL-CHANDRA-HALF',
     name: 'ดวงจันทร์ครึ่งซีก',
     aliases: [],
@@ -399,6 +410,18 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     ruleType: null,
     planets: 'จันทร์ (๒), ราหู (๘); ต้องยืนยันความหมายว่าเป็นมุม ตำแหน่ง หรือช่วงโคจร',
     execution: 'DISABLED'
+  },
+  {
+    id: 'SPECIAL-SAO-CHAI-FOUR-POSTS',
+    name: 'เสาไชย 4 ต้น',
+    aliases: ['เสาร์ชัย'],
+    category: 'เกณฑ์ตำแหน่งดาว',
+    status: CRITERION_STATUS.DISCOVERY,
+    ruleType: 'planet-sign',
+    planetConditions: [{ planet: 'เสาร์', signs: ['พฤษภ', 'กันย์', 'พิจิก', 'มีน'] }],
+    planets: 'เสาร์ (๗)',
+    notes: ['พบคำอธิบายเบื้องต้นว่าดาวเสาร์อยู่ในราศีพฤษภ กันย์ พิจิก หรือมีน; ต้องยืนยันชื่อเกณฑ์และเงื่อนไขจากตำราต้นฉบับ'],
+    execution: 'REFERENCE_ONLY'
   },
   {
     id: 'SPECIAL-PRUETTHI-KENDRA',
