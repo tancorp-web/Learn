@@ -438,61 +438,96 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 
 
 <script>
-/* index3-only: make the selected transit time visible and keep ascendant rays inside the SVG viewport. */
+/* index3-only: attach each selected time to its actual ascendant ray/ring intersection. No calculation code is changed. */
 (()=>{
  const wheel=document.getElementById('wheel');
+ const C=360, RING=292;
+ const COLORS={natal:'#dc2626',transit:'#07834b'};
  const pad=n=>String(n).padStart(2,'0');
- function getTime(){
-  const hh=document.getElementById('fHour')?.value,mm=document.getElementById('fMinute')?.value;
+ function timeOf(prefix){
+  const hh=document.getElementById(prefix+'Hour')?.value,mm=document.getElementById(prefix+'Minute')?.value;
   if(hh==null||hh===''||mm==null||mm==='')return '--:--';
   return pad(Number(hh))+':'+pad(Number(mm));
  }
+ function svgEl(svg,tag,attrs){
+  const node=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));
+  svg.appendChild(node);return node;
+ }
  function enhanceAscendant(svg){
   if(!svg)return;
-  // Existing viewBox clipped the outer Navamsa ring and labels beyond x/y=740.
-  // Keep the wheel center at (360,360), with enough room for radius 438.
-  svg.setAttribute('viewBox','-90 -90 900 900');
-  const time=getTime();
+  // Room around the wheel for collision-avoiding labels; wheel center and all astronomy coordinates stay unchanged.
+  svg.setAttribute('viewBox','-150 -150 1020 1020');
+  const natalTime=timeOf('b'),transitTime=timeOf('f');
   const visible=document.getElementById('transitAscTime3');
-  if(visible)visible.textContent='เวลาลัคนาจร: '+time+' น.  ·  ป้าย @จร สีเขียว';
+  if(visible)visible.textContent='ลัคนาเกิด: '+natalTime+' น.  ·  ลัคนาจร: '+transitTime+' น.';
   svg.querySelectorAll('text').forEach(t=>{
    const label=t.textContent.trim();
    if(label==='@จร'||label.startsWith('@จร ')){
-    const desired='@จร '+time;
+    const desired='@จร '+transitTime;
     if(t.textContent!==desired)t.textContent=desired;
-    t.setAttribute('font-size','10');
-    t.setAttribute('font-weight','900');
-    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-size','10');t.setAttribute('font-weight','900');t.setAttribute('text-anchor','middle');
     const tag=t.previousElementSibling;
     if(tag&&tag.tagName.toLowerCase()==='rect'){
      tag.setAttribute('x',String(Number(t.getAttribute('x'))-43));
-     tag.setAttribute('width','86');
-     tag.setAttribute('height','22');
+     tag.setAttribute('width','86');tag.setAttribute('height','22');
      tag.setAttribute('y',String(Number(t.getAttribute('y'))-12));
     }
    }
   });
+  const rays=[];
   svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
-   if(line.dataset.navaExtended==='1')return;
+   const color=line.getAttribute('stroke');
    const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
    const x2=Number(line.getAttribute('x2')),y2=Number(line.getAttribute('y2'));
-   const r1=Math.hypot(x1-360,y1-360),r2=Math.hypot(x2-360,y2-360);
+   const r1=Math.hypot(x1-C,y1-C),r2=Math.hypot(x2-C,y2-C);
    if(r1>75&&r1<115&&r2>250&&r2<320){
-    const scale=408/r2;
-    line.setAttribute('x2',String(360+(x2-360)*scale));
-    line.setAttribute('y2',String(360+(y2-360)*scale));
-    line.dataset.navaExtended='1';
-    line.setAttribute('stroke-width','3.5');
+    const angle=Math.atan2(y2-C,x2-C);
+    rays.push({line,color,angle,ring:{x:C+RING*Math.cos(angle),y:C+RING*Math.sin(angle)}});
+    if(line.dataset.navaExtended!=='1'){
+     const scale=408/r2;
+     line.setAttribute('x2',String(C+(x2-C)*scale));line.setAttribute('y2',String(C+(y2-C)*scale));
+     line.dataset.navaExtended='1';line.setAttribute('stroke-width','3.5');
+    }
    }
+  });
+  // Rebuild one idempotent layer. Observe only direct wheel children below, so this layer cannot retrigger itself.
+  svg.querySelector('#ascendantTimeLabels3')?.remove();
+  const layer=svgEl(svg,'g',{id:'ascendantTimeLabels3','font-family':'system-ui, sans-serif','pointer-events':'none'});
+  const wanted=[];
+  rays.forEach(ray=>{
+   const natal=ray.color===COLORS.natal;
+   wanted.push({...ray,text:(natal?'เกิด ':'จร ')+(natal?natalTime:transitTime)+' น.',kind:natal?'natal':'transit'});
+  });
+  // Put labels outside when the rays are close enough that their tags would collide.
+  let collide=false;
+  for(let i=0;i<wanted.length;i++)for(let j=i+1;j<wanted.length;j++){
+   const d=Math.abs(Math.atan2(Math.sin(wanted[i].angle-wanted[j].angle),Math.cos(wanted[i].angle-wanted[j].angle)))*180/Math.PI;
+   if(d<31)collide=true;
+  }
+  const labelR=collide?445:326;
+  const tagW=collide?104:94,tagH=26;
+  wanted.forEach((item,index)=>{
+   let a=item.angle;
+   // In collision mode, separate tags tangentially, while leaders still terminate at their own true ring intersection.
+   if(collide)a+=(index===0?-1:1)*Math.min(0.10,tagW/(2*labelR));
+   const x=C+labelR*Math.cos(a),y=C+labelR*Math.sin(a);
+   svgEl(layer,'line',{x1:item.ring.x,y1:item.ring.y,x2:x,y2:y,stroke:item.color,'stroke-width':2,'stroke-linecap':'round'});
+   svgEl(layer,'circle',{cx:item.ring.x,cy:item.ring.y,r:5,fill:item.color,stroke:'#fff','stroke-width':1.5});
+   svgEl(layer,'rect',{x:x-tagW/2,y:y-tagH/2,width:tagW,height:tagH,rx:7,fill:item.color,stroke:'#fff','stroke-width':1.6});
+   const t=svgEl(layer,'text',{x,y:y+4,'text-anchor':'middle','font-size':11,'font-weight':900,fill:'#fff','paint-order':'stroke','stroke':item.color,'stroke-width':0.5});
+   t.textContent=item.text;
   });
  }
  if(wheel){
-  const run=()=>{const svg=wheel.querySelector('svg');if(svg)enhanceAscendant(svg);};
-  const observer=new MutationObserver(run);
-  observer.observe(wheel,{childList:true,subtree:true});
+  let pending=false;
+  const run=()=>{pending=false;const svg=wheel.querySelector('svg');if(svg)enhanceAscendant(svg);};
+  const schedule=()=>{if(!pending){pending=true;setTimeout(run,0);}};
+  const observer=new MutationObserver(schedule);
+  observer.observe(wheel,{childList:true});
   run();
   document.getElementById('calc')?.addEventListener('click',()=>setTimeout(run,100));
-  ['fHour','fMinute'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(run,50)));
+  ['bHour','bMinute','fHour','fMinute'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(run,50)));
  }
 })();</script>
 </body></html>
