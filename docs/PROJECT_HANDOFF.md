@@ -44,4 +44,4 @@ Updated: 2026-10-10
 
 ## Work log
 - 2026-10-10: Created `index3.html` as an isolated copy of `index2.html`.
-- 2026-10-10: Added Sun transit-ingress panel to `index3.html` only. It calculates the next 0° sign boundary time using the current Suriyayatra Sun engine, based on selected transit date/time and longitude. GitHub Actions/live rendering still needs verification for this commit.
+- 2026-10-10: Added Sun transit-ingress panel to `index3.html` only. It calculates the next 0° sign boundary time using the current Suriyayatra Sun engine, based on selected transit date/time and longitude. GitHub Actions workflow `38046271698` completed successfully, including formula tests and GitHub Pages deployment. Manual browser verification of the displayed timestamp is still recommended.
