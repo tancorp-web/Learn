@@ -9,17 +9,17 @@ Updated: 2026-10-10
 - Current task source page: `index2.html`; new changes for this task belong in `index3.html` unless explicitly requested otherwise.
 
 ## Current task
-1. Create `index3.html` as a full independent copy of `index2.html`; do not change `index2.html`.
-2. Add transit date/time information related to the zodiac sign 0° line, so the user can identify the time.
-3. Verify with a live URL and include that URL in every task completion response.
-4. Update this handoff note when behavior, decisions, test results, or next steps change.
+1. Work only in `index3.html` for UI/feature changes. Do not edit `index2.html` unless the user explicitly asks.
+2. Transit-time feature is being developed one planet at a time, starting with the Sun.
+3. Show the next Sun ingress time at the next zodiac sign boundary (0° of the next sign), based on the selected transit date/time and transit longitude.
+4. Verify the live URL and include it in every task completion response.
+5. Update this handoff note when behavior, decisions, test results, or next steps change.
 
-## Important clarification still needed
-The phrase “เวลาวันจร ตามเส้น 0° ราศี” can mean either:
-- A. show the currently selected transit date/time on the wheel, aligned to the radial 0° boundary line(s); or
-- B. calculate and display the actual date/time each transiting planet crosses 0° of each zodiac sign.
-
-Do not guess which behavior is intended. Confirm this before implementing the transit-time feature. The current `index3.html` is the baseline copy of `index2.html`; the transit-time feature is not yet implemented.
+## Transit-time behavior and limitations
+- `index3.html` adds a panel under the transit inputs for the next Sun crossing of a 0° zodiac boundary.
+- The feature reads the selected transit date, time, and longitude; it searches forward up to 45 days, then refines to the first minute at/after the boundary using the existing `calculateSuriyayatra` Sun output.
+- This is the existing HORA engine's result and minute-level search, not an independently validated ephemeris. Compare against a trusted reference before treating the time as final for electional astrology.
+- Next steps: verify the panel renders on the live page and compare a few Sun sign-ingress times to a trusted reference. Only after this is validated, extend the same pattern to Moon or other planets with explicit approval.
 
 ## Protected calculation rules
 - Do not modify formulas for planets other than Moon and Ketu unless the user explicitly authorizes it and there is clear evidence.
@@ -40,3 +40,8 @@ Do not guess which behavior is intended. Confirm this before implementing the tr
 
 ## Work log
 - 2026-10-10: Created `index3.html` from `index2.html` as an isolated baseline copy. Transit-time behavior awaits the clarification above. Do not claim the requested feature is complete yet.
+
+
+## Work log
+- 2026-10-10: Created `index3.html` as an isolated copy of `index2.html`.
+- 2026-10-10: Added Sun transit-ingress panel to `index3.html` only. It calculates the next 0° sign boundary time using the current Suriyayatra Sun engine, based on selected transit date/time and longitude. GitHub Actions/live rendering still needs verification for this commit.
