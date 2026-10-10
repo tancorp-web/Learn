@@ -89,7 +89,7 @@
   <div id="sunIngressResult3">กำลังคำนวณเวลาที่อาทิตย์จรถึงเส้น 0° ราศี...</div>
   <div class="sun-ingress-note3">เวลาไทย UTC+7 · ค้นหาจากวันและเวลาจรที่เลือก โดยใช้สูตรอาทิตย์ของ HORA index3</div>
 </div></div>
-<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
+<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button></div><div id="transitAscTime3" role="status" aria-live="polite" style="margin:0 auto 12px;padding:10px 14px;max-width:520px;text-align:center;border:2px solid #07834b;border-radius:12px;background:#ecfdf5;color:#065f46;font-size:16px;font-weight:850">เวลาลัคนาจร: --:-- น.</div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
 <div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
 <div id="starDetails" class="panel"><div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">ราศี · ภพ · ตำแหน่ง · ฤกษ์</span></div><div class="table-wrap"><table><thead><tr><th>ดาว</th><th>กำเนิด ราศี</th><th>กำเนิด องศา</th><th>กำเนิด ภพ</th><th>กำเนิด ตำแหน่ง</th><th>กำเนิด นวางค์</th><th>กำเนิด ตรียางค์</th><th>กำเนิด ฤกษ์</th><th>จร ราศี</th><th>จร องศา</th><th>จร ภพ</th><th>จร ตำแหน่ง</th><th>จร นวางค์</th><th>จร ตรียางค์</th><th>จร ฤกษ์</th></tr></thead><tbody id="starDetailsBody"></tbody></table></div></div>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
@@ -438,25 +438,39 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 
 
 <script>
-/* index3-only: show transit time at @จร and extend both ascendant lines to the Navamsa outer ring. */
+/* index3-only: make the selected transit time visible and keep ascendant rays inside the SVG viewport. */
 (()=>{
  const wheel=document.getElementById('wheel');
  const pad=n=>String(n).padStart(2,'0');
+ function getTime(){
+  const hh=document.getElementById('fHour')?.value,mm=document.getElementById('fMinute')?.value;
+  if(hh==null||hh===''||mm==null||mm==='')return '--:--';
+  return pad(Number(hh))+':'+pad(Number(mm));
+ }
  function enhanceAscendant(svg){
   if(!svg)return;
-  const hh=document.getElementById('fHour')?.value,mm=document.getElementById('fMinute')?.value;
-  if(hh!==undefined&&mm!==undefined){
-   svg.querySelectorAll('text').forEach(t=>{
-    if(t.textContent.trim()==='@จร'){
-     const tag=t.previousElementSibling;
-     t.textContent='@จร '+pad(Number(hh))+':'+pad(Number(mm));
-     t.setAttribute('font-size','10');
-     if(tag&&tag.tagName.toLowerCase()==='rect'){tag.setAttribute('x',String(Number(t.getAttribute('x'))-43));tag.setAttribute('width','86');}
+  // Existing viewBox clipped the outer Navamsa ring and labels beyond x/y=740.
+  // Keep the wheel center at (360,360), with enough room for radius 438.
+  svg.setAttribute('viewBox','-90 -90 900 900');
+  const time=getTime();
+  const visible=document.getElementById('transitAscTime3');
+  if(visible)visible.textContent='เวลาลัคนาจร: '+time+' น.  ·  ป้าย @จร สีเขียว';
+  svg.querySelectorAll('text').forEach(t=>{
+   const label=t.textContent.trim();
+   if(label==='@จร'||label.startsWith('@จร ')){
+    t.textContent='@จร '+time;
+    t.setAttribute('font-size','10');
+    t.setAttribute('font-weight','900');
+    t.setAttribute('text-anchor','middle');
+    const tag=t.previousElementSibling;
+    if(tag&&tag.tagName.toLowerCase()==='rect'){
+     tag.setAttribute('x',String(Number(t.getAttribute('x'))-43));
+     tag.setAttribute('width','86');
+     tag.setAttribute('height','22');
+     tag.setAttribute('y',String(Number(t.getAttribute('y'))-12));
     }
-   });
-  }
-  // The zodiac wheel's center is (360,360); extend only long ascendant rays
-  // (inner radius ~90 to zodiac radius ~291), not the short planet label leaders.
+   }
+  });
   svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
    if(line.dataset.navaExtended==='1')return;
    const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
@@ -472,15 +486,12 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   });
  }
  if(wheel){
-  const observer=new MutationObserver(()=>{
-   const svg=wheel.querySelector('svg');if(svg)enhanceAscendant(svg);
-  });
-  observer.observe(wheel,{childList:true,subtree:true,attributes:true,attributeFilter:['viewBox']});
   const run=()=>{const svg=wheel.querySelector('svg');if(svg)enhanceAscendant(svg);};
+  const observer=new MutationObserver(run);
+  observer.observe(wheel,{childList:true,subtree:true});
   run();
-  document.getElementById('calc')?.addEventListener('click',()=>setTimeout(run,80));
-  ['fHour','fMinute'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(run,80)));
+  document.getElementById('calc')?.addEventListener('click',()=>setTimeout(run,100));
+  ['fHour','fMinute'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(run,50)));
  }
-})();
-</script>
+})();</script>
 </body></html>
