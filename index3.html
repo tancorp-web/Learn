@@ -612,7 +612,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const wanted=[];
   rays.forEach(ray=>{
    const natal=ray.color===COLORS.natal;
-   wanted.push({...ray,text:(natal?'เกิด ':'จร ')+(natal?natalTime:transitTime)+' น.',kind:natal?'natal':'transit'});
+   wanted.push({...ray,text:natal?'เกิด '+natalTime+' น.':transitTime+' น.',kind:natal?'natal':'transit'});
   });
   // Put labels outside when the rays are close enough that their tags would collide.
   let collide=false;
