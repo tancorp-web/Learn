@@ -201,7 +201,39 @@ function renderStarDetails(natal,transit){
  birthEl.innerHTML=natalRows;transitEl.innerHTML=transitRows;
 }
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
-function render(natal,transit){const b=getInput('b'),bProv=$('bProvince').selectedOptions[0]?.text||'',bDist=$('bDistrict').value||'',lat=$('bLat').value,lon=$('bLon').value,ascText=ascSummary(natal.asc);$('birthDetails').innerHTML='<div class="section-title"><h2>รายละเอียดกำเนิด</h2><span class="badge">ข้อมูลจากการคำนวณ HORA</span></div><div class="formula-code">วันเกิด '+natal.date+' เวลา '+natal.time+' น. · พ.ศ.'+b.beYear+' / ค.ศ.'+(b.beYear-543)+'<br>สถานที่ '+bDist+' '+bProv+' (UTC+07:00) · ละติจูด '+lat+'° · ลองจิจูด '+lon+'°<br>'+ascText+'</div>';renderWheel(natal,transit);console.log('[HORA][RENDER] natal updated',natal);renderStarDetails(natal,transit);renderQA(natal);console.log('[HORA][TABLE] ดาวกำเนิดและดาวจรจริง rendered')}
+function render(natal,transit){const b=getInput('b'),bProv=$('bProvince').selectedOptions[0]?.text||'',bDist=$('bDistrict').value||'',lat=$('bLat').value,lon=$('bLon').value,ascText=ascSummary(natal.asc);$('birthDetails').innerHTML='<div class="section-title"><h2>รายละเอียดกำเนิด</h2><span class="badge">ข้อมูลจากการคำนวณ HORA</span></div><div class="formula-code">วันเกิด '+natal.date+' เวลา '+natal.time+' น. · พ.ศ.'+b.beYear+' / ค.ศ.'+(b.beYear-543)+'<br>สถานที่ '+bDist+' '+bProv+' (UTC+07:00) · ละติจูด '+lat+'° · ลองจิจูด '+lon+'°<br>'+ascText+'</div><div id="sunIngressPanel3" class="sun-ingress-panel3" aria-live="polite"><div class="sun-ingress-heading3">☉ เวลาจรของอาทิตย์ ณ เส้น 0° ราศีถัดไป</div><div id="sunIngressResult3">กำลังคำนวณเวลาที่อาทิตย์จรถึงเส้น 0° ราศี...</div><div class="sun-ingress-note3">เวลาไทย UTC+7 · ค้นหาจากวันเวลาและลองจิจูดจรที่เลือก โดยใช้สูตรอาทิตย์ของ HORA index3</div></div>';renderWheel(natal,transit);console.log('[HORA][RENDER] natal updated',natal);renderStarDetails(natal,transit);renderQA(natal);console.log('[HORA][TABLE] ดาวกำเนิดและดาวจรจริง rendered')}
 function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
-function bootHORA(){$('bProvince').addEventListener('change',()=>{populate('b');update('b')});$('fProvince').addEventListener('change',()=>{populate('f');update('f')});$('bDistrict').addEventListener('change',()=>update('b'));$('fDistrict').addEventListener('change',()=>update('f'));$('calc').addEventListener('click',()=>{console.group('[HORA][BUTTON] กดคำนวณใหม่');try{const b=getInput('b'),f=getInput('f');console.log('[HORA][FORM]',{birth:b,forecast:f,bLat:$('bLat').value,bLon:$('bLon').value,fLat:$('fLat').value,fLon:$('fLon').value});const natal=calcAt(b.date,b.time,true,{lat:$('bLat').value,lon:$('bLon').value,timezone:7});const transit=calcAt(f.date,f.time,false,{lat:$('fLat').value,lon:$('fLon').value,timezone:7});render(natal,transit);$('msg').innerHTML='<div class="ok">คำนวณเสร็จ — กรุณาตรวจตาราง Golden Case</div>';console.log('[HORA][BUTTON] ตารางถูก render ใหม่แล้ว')}catch(err){console.error('[HORA][ERROR]',err);showRuntimeError(err)}finally{console.groupEnd()}});initDropdowns();window.__HORA_BOOT_OK=true;const bootDiagnostic=$('bootDiagnostic');if(bootDiagnostic)bootDiagnostic.hidden=true;requestAnimationFrame(()=>console.log('[HORA][BOOT] initial star details ready'));setTimeout(()=>{try{$('calc').click()}catch(err){showRuntimeError(err)}},600)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootHORA,{once:true});else bootHORA();
+function bootHORA(){
+ $('bProvince').addEventListener('change',()=>{populate('b');update('b')});
+ $('fProvince').addEventListener('change',()=>{populate('f');update('f')});
+ $('bDistrict').addEventListener('change',()=>update('b'));
+ $('fDistrict').addEventListener('change',()=>update('f'));
+ const button=$('calc');
+ button.addEventListener('click',()=>{
+  if(button.dataset.calculating==='1')return;
+  button.dataset.calculating='1';button.classList.add('is-calculating');button.disabled=true;button.setAttribute('aria-busy','true');
+  button.textContent='กำลังคำนวณ…';
+  const msg=$('msg');if(msg)msg.textContent='กำลังคำนวณดวงกำเนิดและดวงจร กรุณารอสักครู่';
+  // Let the pressed/loading state paint before synchronous ephemeris work starts.
+  setTimeout(()=>{
+   console.group('[HORA][BUTTON] กดคำนวณใหม่');
+   try{
+    const b=getInput('b'),f=getInput('f');
+    console.log('[HORA][FORM]',{birth:b,forecast:f,bLat:$('bLat').value,bLon:$('bLon').value,fLat:$('fLat').value,fLon:$('fLon').value});
+    const natal=calcAt(b.date,b.time,true,{lat:$('bLat').value,lon:$('bLon').value,timezone:7});
+    const transit=calcAt(f.date,f.time,false,{lat:$('fLat').value,lon:$('fLon').value,timezone:7});
+    render(natal,transit);
+    if(msg)msg.innerHTML='<div class="ok">✓ คำนวณเสร็จแล้ว — ผลแสดงตามวันเวลาและข้อมูลล่าสุด</div>';
+    console.log('[HORA][BUTTON] ตารางถูก render ใหม่แล้ว');
+   }catch(err){console.error('[HORA][ERROR]',err);showRuntimeError(err)}
+   finally{
+    button.dataset.calculating='0';button.classList.remove('is-calculating');button.disabled=false;button.removeAttribute('aria-busy');button.textContent='คำนวณดวง';
+    console.groupEnd();
+   }
+  },35);
+ });
+ initDropdowns();window.__HORA_BOOT_OK=true;
+ const bootDiagnostic=$('bootDiagnostic');if(bootDiagnostic)bootDiagnostic.hidden=true;
+ requestAnimationFrame(()=>console.log('[HORA][BOOT] initial star details ready'));
+ setTimeout(()=>{try{button.click()}catch(err){showRuntimeError(err)}},600);
+}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootHORA,{once:true});else bootHORA();
