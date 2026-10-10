@@ -257,7 +257,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
 
 <script type="module">
 /* index3-only feature: calculate next Sun ingress at a 0° zodiac boundary.
-   Keep this independent of main.js and do not change any other planet formula. */
+   Keep independent of main.js and do not change any other planet formula. */
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
 (()=>{
  const $=id=>document.getElementById(id);
@@ -266,17 +266,23 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  const dateTimeAt=stamp=>{const d=new Date(stamp);return {date:d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()),time:pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())};};
  const sunLongitude=(stamp,longitude)=>{
    const dt=dateTimeAt(stamp);
-   const out=calculateSuriyayatra({date:dt.date,time:dt.time,longitude:Number(longitude),includeMotion:false});
-   const sun=out.planets.find(p=>p.name==='อาทิตย์');
+   const result=calculateSuriyayatra({date:dt.date,time:dt.time,longitude,includeMotion:false});
+   const sun=result?.planets?.find(p=>p.name==='อาทิตย์');
    if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ไม่พบตำแหน่งอาทิตย์จากสูตร HORA');
    return ((Number(sun.longitude)%360)+360)%360;
  };
  const fmtLocal=stamp=>{const d=new Date(stamp);return pad(d.getUTCDate())+'/'+pad(d.getUTCMonth()+1)+'/'+(d.getUTCFullYear()+543)+' เวลา '+pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())+' น.';};
+ let running=false, rerun=false, lastKey='';
  const calculateNext=()=>{
-   const out=$('sunIngressResult3');if(!out)return;
+   const resultEl=$('sunIngressResult3');if(!resultEl)return;
+   const day=Number($('fDay')?.value),month=Number($('fMonth')?.value),beYear=Number($('fYear')?.value);
+   const hour=Number($('fHour')?.value),minute=Number($('fMinute')?.value),longitude=Number($('fLon')?.value);
+   const key=[day,month,beYear,hour,minute,longitude].join('|');
+   if(running){if(key!==lastKey)rerun=true;return;}
+   if(key===lastKey&&resultEl.dataset.ready==='1')return;
+   running=true;rerun=false;lastKey=key;resultEl.dataset.ready='0';
+   resultEl.textContent='กำลังคำนวณเวลาจรของอาทิตย์…';
    try{
-     const day=Number($('fDay').value),month=Number($('fMonth').value),beYear=Number($('fYear').value);
-     const hour=Number($('fHour').value),minute=Number($('fMinute').value),longitude=Number($('fLon').value);
      if(!day||!month||!beYear||!Number.isFinite(longitude))throw new Error('กรุณาเลือกวัน เวลา และสถานที่จรให้ครบ');
      const start=Date.UTC(beYear-543,month-1,day,hour,minute);
      const startLon=sunLongitude(start,longitude);
@@ -285,25 +291,35 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
      const targetDistance=((boundary-startLon+360)%360)||30;
      let low=start,high=start,found=false;
      const maxStamp=start+45*24*60*60000;
-     for(let t=start+6*60*60000;t<=maxStamp;t+=6*60*60000){
+     // The Sun advances far less than 30° per day; daily bracketing avoids
+     // duplicate heavy scans on mobile while still safely bracketing ingress.
+     for(let t=start+24*60*60000;t<=maxStamp;t+=24*60*60000){
        const delta=(sunLongitude(t,longitude)-startLon+360)%360;
-       if(delta+1e-9>=targetDistance){low=t-6*60*60000;high=t;found=true;break;}
+       if(delta+1e-9>=targetDistance){low=t-24*60*60000;high=t;found=true;break;}
      }
      if(!found)throw new Error('ไม่พบเวลาอาทิตย์เข้าราศีภายใน 45 วัน');
      while(high-low>60000){
-       const mid=Math.floor((low+high)/120000)*60000;
+       const mid=low+Math.floor((high-low)/120000)*60000;
        if(mid<=low){high=low+60000;break;}
        const delta=(sunLongitude(mid,longitude)-startLon+360)%360;
        if(delta+1e-9>=targetDistance)high=mid;else low=mid;
      }
      const resultLon=sunLongitude(high,longitude);
      const drift=((resultLon-boundary+540)%360)-180;
-     out.innerHTML='<div>อาทิตย์จรจะถึงเส้น 0° ราศี <strong>'+signs[nextSign]+'</strong></div><div>'+fmtLocal(high)+'</div><div style="font-size:12px;font-weight:600;color:#64748b">ตำแหน่งขณะถึงเส้น: '+(boundary===0?'0°00′':boundary+'°00′')+' · คลาดจากเส้นตามความละเอียดสูตร: '+Math.abs(drift*60).toFixed(1)+'′</div>';
-   }catch(err){out.textContent='คำนวณเวลาจรไม่สำเร็จ: '+String(err?.message||err);console.error('[HORA][SUN INGRESS]',err);}
+     resultEl.innerHTML='<div>อาทิตย์จรจะถึงเส้น 0° ราศี <strong>'+signs[nextSign]+'</strong></div><div>'+fmtLocal(high)+'</div><div style="font-size:12px;font-weight:600;color:#64748b">ตำแหน่งขณะถึงเส้น: '+(boundary===0?'0°00′':boundary+'°00′')+' · คลาดจากเส้นตามความละเอียดสูตร: '+Math.abs(drift*60).toFixed(1)+'′</div>';
+     resultEl.dataset.ready='1';
+     console.info('[HORA][SUN INGRESS] คำนวณสำเร็จ', {sign:signs[nextSign],dateTime:fmtLocal(high),startLongitude:startLon,boundary});
+   }catch(err){
+     resultEl.textContent='คำนวณเวลาจรไม่สำเร็จ: '+String(err?.message||err);
+     console.error('[HORA][SUN INGRESS]',err);
+   }finally{
+     running=false;
+     if(rerun){rerun=false;setTimeout(calculateNext,0);}
+   }
  };
  const button=$('calc');if(button)button.addEventListener('click',()=>setTimeout(calculateNext,0));
- window.addEventListener('load',()=>setTimeout(calculateNext,750),{once:true});
- setTimeout(calculateNext,900);
+ // Run once after main.js (also a module) has initialized the transit fields.
+ setTimeout(calculateNext,0);
 })();
 </script>
 
