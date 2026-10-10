@@ -510,7 +510,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   const labelR=collide?445:326;
   const tagW=collide?104:94,tagH=26;
   wanted.forEach((item,index)=>{
-   let a=item.angle+(item.kind==='natal'?-0.24:0.24);
+   let a=item.angle+(item.kind==='natal'?-0.34:0.34);
    // In collision mode, separate tags further; leaders still terminate at their own true ring intersection.
    if(collide)a+=(index===0?-1:1)*0.14;
    const x=C+labelR*Math.cos(a),y=C+labelR*Math.sin(a);
