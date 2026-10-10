@@ -724,7 +724,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const tagW=collide?104:94,tagH=26;
   wanted.forEach((item,index)=>{
    // Keep transit time close to its green transit ray; natal time retains its own collision-avoiding lane.
-   const labelR=item.kind==='transit'?430:(collide?445:326);
+   const labelR=item.kind==='transit'?437:(collide?445:326);
    let a=item.angle+(item.kind==='natal'?-0.34:0.18);
    if(collide&&item.kind==='natal')a+=(index===0?-1:1)*0.14;
    const x=C+labelR*Math.cos(a),y=C+labelR*Math.sin(a);
