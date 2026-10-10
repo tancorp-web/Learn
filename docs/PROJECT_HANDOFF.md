@@ -133,3 +133,9 @@ Updated: 2026-10-10
 - The note defines the separation between planetary-position calculations and standards classification, outlines เกษตร, ประ, อุจจ์, นิจ, อุจจาวิลาส, อุจจาภิมุข, ราชาโชค, มหาจักร, จุลจักร, เทวีโชค, มูลเกษตร and other standards, and records a provisional baseline table for เกษตร/อุจจ์/นิจ for planets ๑–๗.
 - Values for specialized standards are deliberately not guessed or hard-coded. The baseline table is marked provisional and must be checked against the owner's chosen Thai astrology standard before implementation. Rahu, Ketu and Uranus are not automatically assigned the rules for planets ๑–๗.
 - Implementation guidance: allow multiple standards per planet, make every result auditable, and test against confirmed cases. Do not alter planetary/ascendant formulas or `index2.html` as part of this knowledge record.
+
+
+## Expanded Thai astrology standards catalogue — 2026-10-10
+- Expanded `docs/ASTROLOGICAL_STANDARDS.md` to include a broader vocabulary inventory: เกษตร, ประเกษตร, อนุเกษตร, อุจจ์, นิจ, อุจจาวิลาส, อุจจาภิมุข, ราชาโชค, เทวีโชค, มหาจักร, จุลจักร, ปกิณกะโชค and spelling variants including ปฏิณณะกะโชค, ประกิณโชค, มูลเกษตร, จตุสดัย, ปฏิเลโท, อุตสัย์, โชคเทวฤทธิ์ and จาตุรงคโชค.
+- Similar names remain separate pending verification; no unverified sign mappings or formulas are invented. The catalogue is broad but is not claimed to exhaust every term in every Thai astrology school.
+- No website-reference list was added. No app code, planetary formulas, or `index2.html` changed.
