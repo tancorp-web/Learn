@@ -50,12 +50,14 @@ function renderWheel(natal,transit){
   const q=xy(sectorMid,104);
   svg+='<text x="'+q.x+'" y="'+(q.y+4)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#26364f">'+houseNames[h]+'</text>';
  }
- function ascMark(lon,label,color,offset){
+ function ascMark(lon,label,color,offset,time,isTransit){
   const p1=xy(lon,inner+2),p2=xy(lon,rad-1),tag=xy(lon,rad+offset);
-  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+color+'" stroke-width="4.5"/><circle cx="'+p2.x+'" cy="'+p2.y+'" r="4" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><rect x="'+(tag.x-35)+'" y="'+(tag.y-10)+'" width="70" height="20" rx="8" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><text x="'+tag.x+'" y="'+(tag.y+4)+'" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">'+label+'</text>';
+  const labelText=label+' '+(time||'')+' น.';
+  const timeClass=isTransit?' class="transit-zodiac-time5"':'';
+  svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+color+'" stroke-width="4.5"/><circle cx="'+p2.x+'" cy="'+p2.y+'" r="4" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><text'+timeClass+' x="'+tag.x+'" y="'+(tag.y+4)+'" text-anchor="middle" font-size="13" font-weight="900" fill="'+color+'" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-linejoin="round">'+labelText+'</text>';
  }
- ascMark(natal.asc,'@เกิด','#dc2626',-16);
- if(transit)ascMark(transit.asc,'@จร','#07834b',145);
+ ascMark(natal.asc,'@เกิด','#dc2626',-16,natal.time,false);
+ if(transit)ascMark(transit.asc,'@จร','#07834b',145,transit.time,true);
  const placed=[];
  function draw(list,isTransit){
   if(!list?.planets)return;
