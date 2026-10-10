@@ -461,7 +461,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
      class:'triyang-ruler-number2'+(poisonType?' triyang-poison-number5':'')
     },seq[j]);
     if(poisonType){
-     const iconPos=xy(lon,269);
+     /* ย้ายสัญลักษณ์เข้าด้านในวงล้อให้ห่างจากเส้น/ป้ายด้านนอก */
+     const iconPos=xy(lon,222);
      addPoisonIcon(g,poisonType,iconPos.x,iconPos.y);
     }
    }
