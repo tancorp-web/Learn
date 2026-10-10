@@ -95,11 +95,22 @@ function findMonth88StartByLegacyTithiFormula(beYear) {
 
 
 function findMonth88StartForBeYear(beYear) {
-  // Keep HORA's legacy Suriyayatra tithi-boundary rule as the authority
-  // for selecting the Ketu 679-day anchor. The newer lunar-calendar port
-  // can classify historical years differently (notably BE 2518), which
-  // changes Ketu's formula branch compared with the previously verified
-  // index1 behavior. Do not use the separate calendar port for this branch.
+  const date = calculateClassicalMonth88Start(beYear);
+  if (!date) return null;
+  const [year, month, day] = date.split('-').map(Number);
+  return {
+    date,
+    beYear,
+    chulaSakarat: beYear - 1181,
+    horakhun: civilJulianDay(year, month, day) - 1954167,
+    isAdhikamas: true
+  };
+}
+
+// Ketu must retain the legacy Suriyayatra tithi-boundary rule. The separate
+// classical-calendar QA helper remains independent and must not select
+// Ketu's formula branch, because historical classifications can differ.
+function findKetuMonth88StartForBeYear(beYear) {
   return findMonth88StartByLegacyTithiFormula(beYear);
 }
 
@@ -145,7 +156,7 @@ function ketu679FromMonth88Start(date, beYear) {
   // This prevents a normal year from accidentally inheriting the previous
   // year's month-8/88 anchor.
   const [year] = String(date).split('-').map(Number);
-  const currentYearMonth88 = findMonth88StartForBeYear(beYear);
+  const currentYearMonth88 = findKetuMonth88StartForBeYear(beYear);
 
   const useMonth88Cycle =
     currentYearMonth88 !== null &&
