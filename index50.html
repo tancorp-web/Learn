@@ -356,10 +356,10 @@ main.container h3::after{
 
 <section class="panel" id="navamsaPanel50">
  <div class="section-title"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><span class="badge">Navamsa 108 divisions</span></div>
- <p class="criteria7-muted">วงนี้ใช้ผลดาวที่คำนวณจากฟอร์มด้านบนโดยตรง แต่ละดาวถูกแปลงจากองศาราศีเดิมเป็นราศีนวางค์ แล้ววางเลขดาวในราศีนวางค์ที่คำนวณได้ เลขนวางค์ 1–9 ของราศีเดิมแสดงในตารางผลด้านล่าง</p>
+ <p class="criteria7-muted">วงนี้ใช้ผลคำนวณดาวและลัคนาทั้งเดิมและจร เดินเลขนวางค์ตามธาตุ แล้วนำเลขดาวเดิมหรือลัคนาไปใส่ในราศีปลายทางตามลำดับการเดินดาว</p>
  <div class="wheel-wrap" id="navamsaWheelWrap50"><div id="navamsaWheel50" style="width:100%"></div></div>
  <div class="reference-grid" id="navamsaResults50" style="margin-top:14px"><p class="criteria7-muted">กรุณากด “คำนวณดาวเดิม + ดาวจร” เพื่อสร้างวงกลมนวางค์จากผลจริง</p></div>
- <p class="criteria7-muted">สีม่วง = ดาวเดิม · สีเขียว = ดาวจร · ตัวเลขในช่อง = เลขดาวตามระบบ HORA · เลขเจ้าเรือนแสดงตามราศีนวางค์</p>
+ <p class="criteria7-muted">สีม่วง = ดาวเดิมและลัคนาเดิม · สีเขียว = ดาวจรและลัคนาจร · เลขเล็กข้างดาว = เลขนวางค์ · @ = ลัคนา</p>
 </section>
 <style>
 #navamsaPanel50 .nav50-svg{display:block;width:100%;height:auto;max-width:900px;margin:auto;background:#fff}
@@ -1659,73 +1659,81 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 
 
 <script>
-/* index50 only: draw a Navamsa zodiac wheel from the exact calculated planet longitudes. */
+/* index50 only: Navamsa placement by element sequence; keep all other HORA logic untouched. */
 (()=> {
  const NS='http://www.w3.org/2000/svg';
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
- const signLords=['๓','๖','๔','๒','๑','๔','๖','๓','๕','๗','๗','๕'];
- const planetNums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
- const signTypes=['movable','fixed','dual','movable','fixed','dual','movable','fixed','dual','movable','fixed','dual'];
- const lordNames={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์'};
+ // HORA sign-lord numbers used for Navamsa walking: Aquarius is 8 (Rahu).
+ const signLords=['๓','๖','๔','๒','๑','๔','๖','๓','๕','๗','๘','๕'];
+ const planetNums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'@'};
+ const elementOfSign=['fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
+ // Each sequence is the Navamsa sign-lord-number path for that element.
+ const elementSequences={fire:'364214635',earth:'785364214',air:'635785364',water:'214635785'};
+ const elementStart={fire:0,earth:9,air:6,water:3};
+ const lordNames={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ'};
  const fmt=(n)=>String(n).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
  function navOf(lon){
-   const n=((Number(lon)%360)+360)%360,s=Math.floor(n/30),d=n%30;
-   const part=Math.min(8,Math.floor(d/(30/9)));
-   const start=signTypes[s]==='movable'?s:signTypes[s]==='fixed'?(s+8)%12:(s+4)%12;
-   const navSign=(start+part)%12;
-   const withinPart=d-part*(30/9);
-   return {number:part+1,signIndex:navSign,sign:signs[navSign],lordNum:signLords[navSign],longitude:navSign*30+withinPart*9};
+   const n=((Number(lon)%360)+360)%360,sourceSign=Math.floor(n/30),within=n%30;
+   const part=Math.min(8,Math.floor(within/(30/9))),number=part+1;
+   const el=elementOfSign[sourceSign],sequence=elementSequences[el];
+   const navNumber=sequence[number-1];
+   // Walk the Navamsa signs from the first sign of this element and stop at this division.
+   // The digit must agree with that sign's HORA lord number; never place the planet by digit alone.
+   const navSign=(elementStart[el]+part)%12;
+   const withinPart=within-part*(30/9);
+   return {number,navNumber,element:el,signIndex:navSign,sign:signs[navSign],lordNum:signLords[navSign],longitude:navSign*30+withinPart*9};
  }
  function polar(cx,cy,r,lon){const a=(-lon-75)*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]}
- function element(tag,attrs,text){const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));if(text!==undefined)e.textContent=text;return e}
+ function elementNode(tag,attrs,text){const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));if(text!==undefined)e.textContent=text;return e}
  function draw(data){
    const root=document.getElementById('navamsaWheel50');if(!root)return;
    const natal=(data.natal?.planets||[]).map(p=>({...p,kind:'birth'}));
    const transit=(data.transit?.planets||[]).map(p=>({...p,kind:'transit'}));
+   if(Number.isFinite(Number(data.natal?.asc)))natal.push({name:'ลัคนา',longitude:Number(data.natal.asc),kind:'birth',isAsc:true});
+   if(Number.isFinite(Number(data.transit?.asc)))transit.push({name:'ลัคนา',longitude:Number(data.transit.asc),kind:'transit',isAsc:true});
    const all=[...natal,...transit].filter(p=>Number.isFinite(Number(p.longitude))).map(p=>({...p,nav:navOf(p.longitude)}));
-   const svg=element('svg',{class:'nav50-svg',viewBox:'0 0 720 720',role:'img','aria-label':'วงกลมจักรราศีนวางค์ แสดงเลขดาวเดิมและดาวจรในราศีนวางค์ที่คำนวณได้'});
+   const svg=elementNode('svg',{class:'nav50-svg',viewBox:'0 0 720 720',role:'img','aria-label':'วงกลมนวางค์ แสดงดาวเดิม ดาวจร และลัคนา โดยเดินตามเลขนวางค์และธาตุ'});
    const cx=360,cy=360,outer=322,inner=208,markerR=154;
-   svg.appendChild(element('circle',{cx,cy,r:outer,fill:'#fff',stroke:'#233453','stroke-width':2}));
+   svg.appendChild(elementNode('circle',{cx,cy,r:outer,fill:'#fff',stroke:'#233453','stroke-width':2}));
    for(let s=0;s<12;s++){
      const a0=s*30,a1=(s+1)*30;
      const [x1,y1]=polar(cx,cy,outer,a0),[x2,y2]=polar(cx,cy,outer,a1),[x3,y3]=polar(cx,cy,inner,a1),[x4,y4]=polar(cx,cy,inner,a0);
-     const d='M '+x1+' '+y1+' A '+outer+' '+outer+' 0 0 0 '+x2+' '+y2+' L '+x3+' '+y3+' A '+inner+' '+inner+' 0 0 1 '+x4+' '+y4+' Z';
-     svg.appendChild(element('path',{d,fill:s%2?'#f4f6fc':'#e9eef9',stroke:'#8795b0','stroke-width':1}));
+     const pathD='M '+x1+' '+y1+' A '+outer+' '+outer+' 0 0 0 '+x2+' '+y2+' L '+x3+' '+y3+' A '+inner+' '+inner+' 0 0 1 '+x4+' '+y4+' Z';
+     svg.appendChild(elementNode('path',{d:pathD,fill:s%2?'#f4f6fc':'#e9eef9',stroke:'#8795b0','stroke-width':1}));
      const [tx,ty]=polar(cx,cy,(outer+inner)/2,a0+15);
-     svg.appendChild(element('text',{x:tx,y:ty+5,'text-anchor':'middle','font-size':17,'font-weight':850,fill:s===0?'#c62828':'#263859'},signs[s]));
+     svg.appendChild(elementNode('text',{x:tx,y:ty+5,'text-anchor':'middle','font-size':17,'font-weight':850,fill:s===0?'#c62828':'#263859'},signs[s]));
      const [lx,ly]=polar(cx,cy,inner-18,a0+15);
-     svg.appendChild(element('text',{x:lx,y:ly+4,'text-anchor':'middle','font-size':12,'font-weight':800,fill:'#7a879d'},'เจ้าเรือน '+signLords[s]));
+     svg.appendChild(elementNode('text',{x:lx,y:ly+4,'text-anchor':'middle','font-size':12,'font-weight':800,fill:'#7a879d'},'เกษตร '+signLords[s]));
    }
-   svg.appendChild(element('circle',{cx,cy,r:inner,fill:'#fff',stroke:'#7f8eac','stroke-width':1.3}));
-   svg.appendChild(element('text',{x:cx,y:cy-24,'text-anchor':'middle','font-size':25,'font-weight':850,fill:'#172746'},'จักรราศีนวางค์'));
-   svg.appendChild(element('text',{x:cx,y:cy+5,'text-anchor':'middle','font-size':14,fill:'#68758c'},'แสดงตามองศาดาวที่คำนวณจริง'));
-   svg.appendChild(element('text',{x:cx,y:cy+28,'text-anchor':'middle','font-size':12,fill:'#68758c'},'แต่ละราศีมีช่วงนวางค์ 3°20′'));
+   svg.appendChild(elementNode('circle',{cx,cy,r:inner,fill:'#fff',stroke:'#7f8eac','stroke-width':1.3}));
+   svg.appendChild(elementNode('text',{x:cx,y:cy-24,'text-anchor':'middle','font-size':25,'font-weight':850,fill:'#172746'},'จักรราศีนวางค์'));
+   svg.appendChild(elementNode('text',{x:cx,y:cy+5,'text-anchor':'middle','font-size':14,fill:'#68758c'},'เลขนวางค์เดินตามธาตุ'));
+   svg.appendChild(elementNode('text',{x:cx,y:cy+28,'text-anchor':'middle','font-size':12,fill:'#68758c'},'เลขในวงคือดาวเดิม · @ คือลัคนา'));
    const placed=[];
    all.forEach(p=>{
-     const angle=p.nav.longitude;
-     const color=p.kind==='transit'?'#16835d':'#6258d9';
+     const angle=p.nav.longitude,color=p.kind==='transit'?'#16835d':'#6258d9';
      const [x,y]=polar(cx,cy,markerR,angle);
      const offset=placed.filter(q=>Math.hypot(q.x-x,q.y-y)<28).length;
      const r=markerR+(offset?Math.min(offset,3)*18:0);
      const [mx,my]=polar(cx,cy,r,angle);placed.push({x:mx,y:my});
-     const g=element('g',{'data-kind':p.kind,'data-planet':p.name,'data-navamsha-sign':p.nav.sign});
-     g.appendChild(element('circle',{cx:mx,cy:my,r:13,fill:color,stroke:'#fff','stroke-width':2}));
-     g.appendChild(element('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':12,'font-weight':900,fill:'#fff'},planetNums[p.name]||'•'));
+     const g=elementNode('g',{'data-kind':p.kind,'data-planet':p.name,'data-navamsha-sign':p.nav.sign,'data-navamsa-number':p.nav.number});
+     g.appendChild(elementNode('circle',{cx:mx,cy:my,r:p.isAsc?15:13,fill:color,stroke:'#fff','stroke-width':2}));
+     g.appendChild(elementNode('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':p.isAsc?12:12,'font-weight':900,fill:'#fff'},planetNums[p.name]||'•'));
      const [tx,ty]=polar(cx,cy,r+18,angle);
-     g.appendChild(element('text',{x:tx,y:ty+3,'text-anchor':'middle','font-size':10,'font-weight':800,fill:color,'paint-order':'stroke',stroke:'#fff','stroke-width':2},p.nav.number));
+     g.appendChild(elementNode('text',{x:tx,y:ty+3,'text-anchor':'middle','font-size':10,'font-weight':800,fill:color,'paint-order':'stroke',stroke:'#fff','stroke-width':2},p.nav.navNumber));
      svg.appendChild(g);
    });
    root.replaceChildren(svg);
    const results=document.getElementById('navamsaResults50');results.innerHTML='';
    all.forEach(p=>{
-     const signIndex=Math.floor((((Number(p.longitude)%360)+360)%360)/30);
+     const sourceSign=Math.floor((((Number(p.longitude)%360)+360)%360)/30);
      const within=((Number(p.longitude)%30)+30)%30,deg=Math.floor(within),min=Math.floor((within-deg)*60);
      const lordNum=signLords[p.nav.signIndex],lordName=lordNames[lordNum]||'ตามเกณฑ์ราศี';
      const card=document.createElement('article');card.className='nav50-card';
-     const title=document.createElement('strong');title.textContent=(p.kind==='transit'?'ดาวจร ':'ดาวเดิม ')+(planetNums[p.name]||'')+' '+p.name;card.appendChild(title);
-     const line1=document.createElement('small');line1.textContent='ตำแหน่งเดิม: '+signs[signIndex]+' '+fmt(deg)+'° '+fmt(min)+'′';card.appendChild(line1);
-     const line2=document.createElement('small');line2.className='nav50-em';line2.textContent='นวางค์ที่ '+fmt(p.nav.number)+' · ราศีนวางค์ '+p.nav.sign;card.appendChild(line2);
-     const line3=document.createElement('small');line3.textContent='เลขดาวเจ้าเรือนราศีนวางค์: '+lordNum+(lordName?' ('+lordName+')':'');card.appendChild(line3);
+     const title=document.createElement('strong');title.textContent=(p.kind==='transit'?'จร ':'เดิม ')+(planetNums[p.name]||'')+' '+p.name;card.appendChild(title);
+     const line1=document.createElement('small');line1.textContent='ตำแหน่งเดิม: '+signs[sourceSign]+' '+fmt(deg)+'° '+fmt(min)+'′';card.appendChild(line1);
+     const line2=document.createElement('small');line2.className='nav50-em';line2.textContent='นวางค์ที่ '+fmt(p.nav.number)+' · เลขนวางค์ '+fmt(p.nav.navNumber)+' · ลงราศี'+p.nav.sign;card.appendChild(line2);
+     const line3=document.createElement('small');line3.textContent='เกษตรของราศีปลายทาง: '+p.nav.lordNum+(lordName?' ('+lordName+')':'');card.appendChild(line3);
      results.appendChild(card);
    });
  }
