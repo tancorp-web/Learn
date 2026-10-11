@@ -1748,20 +1748,32 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
      svg.appendChild(node('text',{x:cx,y:labelY,'text-anchor':'middle','font-size':13,'font-weight':900,fill:ring.color,'paint-order':'stroke',stroke:'#fff','stroke-width':3},ring.label));
      const placed=[];
      ring.items.forEach(p=>{
-       const angle=p.nav.longitude,[x,y]=polar(cx,cy,ring.markerR,angle);
-       const offset=placed.filter(q=>Math.hypot(q.x-x,q.y-y)<25).length;
-       const radius=ring.markerR+(offset?Math.min(offset,3)*(ring.key==='transit'?17:15):0);
-       const [mx,my]=polar(cx,cy,radius,angle);placed.push({x:mx,y:my});
+       const angle=((Number(p.nav.longitude)%360)+360)%360;
+       const [ax,ay]=polar(cx,cy,ring.markerR,angle); // exact calculated position, never moved
+       const within=angle%30,distToBoundary=Math.min(within,30-within);
+       const nearBoundary=distToBoundary<=5;
+       const overlap=placed.filter(q=>Math.hypot(q.x-ax,q.y-ay)<27).length;
+       // Move only the visible marker away from the boundary/collision; retain the exact anchor above.
+       let displayAngle=angle;
+       if(nearBoundary)displayAngle+=within<15?6:-6;
+       const radius=ring.markerR+(overlap?Math.min(overlap,3)*(ring.key==='transit'?17:15):0);
+       let [mx,my]=polar(cx,cy,radius,displayAngle);
+       if(placed.some(q=>Math.hypot(q.x-mx,q.y-my)<25)){
+         displayAngle+=overlap%2===0?4:-4;
+         [mx,my]=polar(cx,cy,radius,displayAngle);
+       }
+       placed.push({x:mx,y:my});
        const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-navamsha-sign':p.nav.sign,'data-navamsa-number':p.nav.number,'data-navamsa-digit':p.nav.navNumber});
-       // Leader line makes each marker's exact Navamsa sign/ring sector clear, especially when markers overlap.
-       const [sx,sy]=polar(cx,cy,ring.markerR-13,angle);
-       const [ex,ey]=polar(cx,cy,ring.outer-3,angle);
-       g.appendChild(node('line',{x1:sx,y1:sy,x2:ex,y2:ey,stroke:ring.color,'stroke-width':1.4,'stroke-linecap':'round',opacity:0.95}));
+       // When close to a sign boundary or another marker, show the exact anchor and connect it to the offset marker.
+       if(nearBoundary||overlap){
+         g.appendChild(node('line',{x1:ax,y1:ay,x2:mx,y2:my,stroke:ring.color,'stroke-width':1.25,'stroke-linecap':'round',opacity:0.98}));
+         g.appendChild(node('circle',{cx:ax,cy:ay,r:3.2,fill:ring.color,stroke:'#fff','stroke-width':1}));
+       }
        g.appendChild(node('circle',{cx:mx,cy:my,r:p.isAsc?15:13,fill:ring.color,stroke:'#fff','stroke-width':2}));
-       g.appendChild(node('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':p.isAsc?12:12,'font-weight':900,fill:'#fff'},planetNums[p.name]||'•'));
-       const [nx,ny]=polar(cx,cy,radius+(ring.key==='transit'?19:18),angle);
+       g.appendChild(node('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':12,'font-weight':900,fill:'#fff'},planetNums[p.name]||'•'));
+       const [nx,ny]=polar(cx,cy,radius+(ring.key==='transit'?19:18),displayAngle);
        g.appendChild(node('text',{x:nx,y:ny+3,'text-anchor':'middle','font-size':11,'font-weight':900,fill:ring.color,'paint-order':'stroke',stroke:'#fff','stroke-width':2.5},p.nav.navNumber));
-       const title=node('title',{},(p.kind==='transit'?'จร ':'เดิม ')+p.name+' · นวางค์ที่ '+p.nav.number+' · เลขนวางค์ '+p.nav.navNumber+' · ราศี'+p.nav.sign);
+       const title=node('title',{},(p.kind==='transit'?'จร ':'เดิม ')+p.name+' · นวางค์ที่ '+p.nav.number+' · เลขนวางค์ '+p.nav.navNumber+' · ราศี'+p.nav.sign+' · ตำแหน่งจริง '+angle.toFixed(4)+'°');
        g.appendChild(title);svg.appendChild(g);
      });
    });
