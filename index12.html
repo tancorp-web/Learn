@@ -510,6 +510,11 @@ body,main.container,.container{
   <p>ส่วนนี้เป็นการวิเคราะห์เพิ่มเติม ใช้เวลาคำนวณมากกว่าตารางเวลาเข้า 0° กรุณากดปุ่มเมื่อต้องการดูผล โดยไม่คำนวณซ้ำอัตโนมัติทุกครั้ง</p>
   <button type="button" id="runAscendantSegmentCriteria9" class="secondary-button">วิเคราะห์มาตรฐานดาวและเกณฑ์ทั้ง 12 ช่วง</button>
   <div id="ascendantSegmentCriteriaTable9" class="reference-table-wrap" aria-live="polite"><p>ยังไม่ได้เรียกวิเคราะห์ส่วนนี้</p></div>
+  <div class="reference-panel" id="segmentStrengthPanel12">
+    <h3>ตารางความซ้ำและกำลังดาวจรแยกตามช่วงลัคนาจร</h3>
+    <p>นับจำนวนครั้งที่ดาวจรซึ่งมีมาตรฐานในช่วงนั้นปรากฏในความสัมพันธ์ดาวจร/ลัคนาจร แล้วคำนวณสัดส่วนจากจำนวนครั้งของดาวที่ผ่านเกณฑ์ทั้งหมดในช่วงเดียวกัน ตัดดาวที่มีมาตรฐาน “ประ” หรือ “นิจ” ออกจากทั้งจำนวนและฐานเปอร์เซ็นต์</p>
+    <div id="segmentStrengthTable12" aria-live="polite"><p>กดปุ่มวิเคราะห์มาตรฐานดาวและเกณฑ์ทั้ง 12 ช่วง เพื่อสร้างตาราง</p></div>
+  </div>
   <div class="reference-panel" id="numberFrequencyPanel12">
     <h3>คลังเลขดาวจรตามช่วงเวลา</h3>
     <p>เก็บเลขของดาวจรที่เข้าเกณฑ์มาตรฐานซึ่งระบบมีสูตรรองรับในแต่ละช่วงลัคนาจร แล้วนับความถี่เลขซ้ำเพื่อใช้วิเคราะห์ภายหลัง ระบบไม่นำลัคนาเดิมมาเป็นตัวแบ่งช่วง และไม่ตีความว่าเลขที่ซ้ำบ่อยเป็นเลขมงคลโดยอัตโนมัติ</p>
@@ -963,20 +968,54 @@ function saveSegmentNumberHistory12(records){
   console.log('[HORA][NUMBER HISTORY] SAVED',{addedOrUpdated:records.length,totalUniqueSegments:all.length});
  }catch(err){console.warn('[HORA][NUMBER HISTORY] SAVE',err);const box=document.getElementById('numberFrequencySummary12');if(box)box.innerHTML='<p role="alert">บันทึกประวัติไม่ได้ในเบราว์เซอร์นี้ อาจปิดการใช้พื้นที่จัดเก็บไว้</p>'}
 }
+function isExcludedStrengthPlanet12(record,planet){
+ const relevant=(record.standards||[]).filter(line=>String(line).startsWith('')&&String(line).includes(planet+':'));
+ return relevant.some(line=>/:.*(?:^|,\\s*)(?:ประ|นิจ)(?:,|$)/.test(String(line)));
+}
+function eligibleStrengthPlanets12(record){
+ if(!Array.isArray(record.standards))return [];
+ return (record.numbers||[]).filter(item=>item.planet&&!isExcludedStrengthPlanet12(record,item.planet));
+}
 function renderNumberFrequencySummary12(){
  const box=document.getElementById('numberFrequencySummary12');if(!box)return;
- const records=readNumberHistory12();
- if(!records.length){box.innerHTML='<p>ยังไม่มีข้อมูลที่บันทึกจากการวิเคราะห์ช่วงเวลา</p>';return}
+ const records=readNumberHistory12().filter(r=>Array.isArray(r.standards));
+ if(!records.length){box.innerHTML='<p>ยังไม่มีข้อมูลที่วิเคราะห์ตามเกณฑ์ตัดดาวประและดาวนิจ กรุณากดวิเคราะห์ทั้ง 12 ช่วงอีกครั้ง</p>';return}
  const digitOrder='๐๑๒๓๔๕๖๗๘๙'.split('');
  const counts=Object.fromEntries(digitOrder.map(n=>[n,0]));
  let occurrences=0;
- for(const record of records)for(const item of (record.numbers||[])){
+ for(const record of records)for(const item of eligibleStrengthPlanets12(record)){
   const n=String(item.number);if(Object.prototype.hasOwnProperty.call(counts,n)){counts[n]++;occurrences++}
  }
  const planetByDigit={'๐':'มฤตยู','๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ'};
  const digits=digitOrder.slice().sort((a,b)=>counts[b]-counts[a]||digitOrder.indexOf(a)-digitOrder.indexOf(b));
  const rows=digits.map(n=>'<tr><td>'+n+'</td><td>'+planetByDigit[n]+'</td><td>'+counts[n]+'</td><td>'+(occurrences?(counts[n]*100/occurrences).toFixed(2):'0.00')+'%</td></tr>').join('');
- box.innerHTML='<p><strong>ช่วงเวลาที่บันทึก:</strong> '+records.length+' ช่วงที่ไม่ซ้ำกัน · <strong>จำนวนเลขดาวที่นับ:</strong> '+occurrences+'</p><div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>เลข</th><th>ดาว</th><th>จำนวนที่พบ</th><th>สัดส่วน</th></tr></thead><tbody>'+rows+'</tbody></table></div><p class="reference-note">นับเฉพาะเลขดาวจรที่เข้าเกณฑ์มาตรฐานในแต่ละช่วงที่บันทึกซ้ำได้หนึ่งชุดต่อวัน เวลาเริ่ม ราศีลัคนาจร และพิกัดเดียวกัน การคำนวณซ้ำเงื่อนไขเดิมจะอัปเดตข้อมูลเดิม ไม่เพิ่มจำนวนซ้ำเทียม</p>';
+ box.innerHTML='<p><strong>ช่วงเวลาที่วิเคราะห์ตามเกณฑ์:</strong> '+records.length+' ช่วงที่ไม่ซ้ำกัน · <strong>จำนวนดาวที่นับ:</strong> '+occurrences+'</p><div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>เลข</th><th>ดาว</th><th>จำนวนช่วงที่พบ</th><th>สัดส่วน (%)</th></tr></thead><tbody>'+rows+'</tbody></table></div><p class="reference-note">ตารางนี้เป็นภาพรวมข้ามช่วงเวลา โดยนับดาวที่ผ่านมาตรฐานต่อช่วงเพียงหนึ่งครั้ง และตัดดาวที่มีมาตรฐานประหรือนิจออกทั้งหมด ส่วนตารางความซ้ำด้านบนของคลังนี้จะแสดงจำนวนการปรากฏในความสัมพันธ์แยกตามช่วงลัคนาจร</p>';
+}
+function renderSegmentStrengthTable12(records){
+ const box=document.getElementById('segmentStrengthTable12');if(!box)return;
+ const usable=(records||[]).filter(r=>Array.isArray(r.standards)&&Array.isArray(r.relationNumbers));
+ if(!usable.length){box.innerHTML='<p>ยังไม่มีช่วงเวลาที่วิเคราะห์ตามเกณฑ์ตัดดาวประและดาวนิจ กรุณากดปุ่มวิเคราะห์ทั้ง 12 ช่วง</p>';return}
+ const digitByPlanet={'มฤตยู':'๐','อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙'};
+ const planetByDigit={'๐':'มฤตยู','๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ'};
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const rows=[];
+ for(const r of usable){
+  const eligible=eligibleStrengthPlanets12(r);
+  const eligibleNames=new Set(eligible.map(x=>x.planet));
+  const counts=Object.fromEntries(eligible.map(x=>[x.planet,0]));
+  for(const rel of r.relationNumbers||[]){
+   if(eligibleNames.has(rel.from))counts[rel.from]++;
+   if(eligibleNames.has(rel.to))counts[rel.to]++;
+  }
+  const total=Object.values(counts).reduce((sum,n)=>sum+n,0);
+  const planets=eligible.slice().sort((a,b)=>String(a.number).localeCompare(String(b.number),'th'));
+  for(const item of planets){
+   const count=counts[item.planet]||0;
+   rows.push('<tr><td>'+esc(r.date)+'</td><td>'+esc(r.sign)+'</td><td>'+esc(r.startTime)+'–'+esc(r.endTime)+'</td><td>'+esc(item.number)+'</td><td>'+esc(item.planet)+'</td><td>'+count+'</td><td>'+(total?((count*100/total).toFixed(2)):'0.00')+'%</td><td>'+(count>1?'ซ้ำ '+count+' ครั้ง':'ไม่ซ้ำ')+'</td></tr>');
+  }
+ }
+ if(!rows.length){box.innerHTML='<p>ยังไม่มีดาวที่ผ่านเกณฑ์มาตรฐานหลังตัดดาวประและดาวนิจ</p>';return}
+ box.innerHTML='<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>วันที่เริ่ม</th><th>ราศีลัคนาจร</th><th>ช่วงเวลา</th><th>เลขดาว</th><th>ดาว</th><th>จำนวนปรากฏในความสัมพันธ์</th><th>สัดส่วนกำลังสัมพัทธ์ (%)</th><th>สถานะความซ้ำ</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div><p class="reference-note">คำนวณแยกตามแต่ละช่วง: นับหนึ่งครั้งต่อการปรากฏของดาวในคู่ความสัมพันธ์ที่ระบบสร้าง (รวมความสัมพันธ์กับลัคนาจร) เฉพาะดาวที่เข้าเกณฑ์มาตรฐานในช่วงนั้น โดยตัดดาวที่มีมาตรฐาน “ประ” หรือ “นิจ” ออกก่อนนับทั้งจำนวนและตัวหารเปอร์เซ็นต์ ค่าเปอร์เซ็นต์นี้เป็นสัดส่วนการปรากฏในความสัมพันธ์ ไม่ใช่ค่ากำลังทางดาราศาสตร์ที่ผ่านการยืนยันแล้ว</p>';
 }
 document.getElementById('clearNumberHistory12')?.addEventListener('click',()=>{
  if(!confirm('ลบประวัติเลขดาวจรที่บันทึกไว้ในอุปกรณ์นี้ทั้งหมดหรือไม่?'))return;
@@ -1017,6 +1056,7 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
      sign:signNames[Number(item.sign)]||'—',
      date:String(startDate.getUTCFullYear())+'-'+pad(startDate.getUTCMonth()+1)+'-'+pad(startDate.getUTCDate()),
      startTime,endTime,longitude:Number(lon.toFixed(5)),
+     standards:(analysis?.standards||[]).map(String),
      numbers:(analysis?.numbers||[]).map(x=>({planet:x.planet,number:String(x.number)})),
      relationNumbers:(analysis?.relationNumbers||[]).map(x=>({relation:x.relation,from:x.from,to:x.to,offset:x.offset,countedPosition:x.countedPosition}))
     });
@@ -1026,6 +1066,7 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
    target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจรที่เข้าเกณฑ์มาตรฐาน</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>ความสัมพันธ์ดาวจรและลัคนาจร</th><th>เลขความสัมพันธ์</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ความสัมพันธ์คำนวณจากราศีของดาวจรทุกคู่และลัคนาจร ณ เวลาเริ่มช่วง ได้แก่ กุม ทับลัคนาจร เล็ง โยคหน้า โยคหลัง ตรีโกณ และจตุโกณตามตำแหน่งราศีที่เข้าเกณฑ์เท่านั้น; คอลัมน์เลขความสัมพันธ์แสดงเฉพาะตัวเลขลำดับราศีที่นับรวมราศีต้นทางเป็น 1 ไม่แสดงชื่อความสัมพันธ์; มุมองศาอย่างฉากที่ยังไม่มีค่าออร์บยืนยัน และเกณฑ์พิเศษที่ยังไม่มีสูตรยืนยันจะไม่ตัดสินอัตโนมัติ. ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
    saveSegmentNumberHistory12(segmentRecords);
    renderNumberFrequencySummary12();
+   renderSegmentStrengthTable12(readNumberHistory12());
   }
  function enhanceAscendant(svg){
   if(!svg)return;
