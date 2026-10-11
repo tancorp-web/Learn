@@ -1005,9 +1005,10 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
      sign:signNames[Number(item.sign)]||'—',
      date:String(startDate.getUTCFullYear())+'-'+pad(startDate.getUTCMonth()+1)+'-'+pad(startDate.getUTCDate()),
      startTime,endTime,longitude:Number(lon.toFixed(5)),
-     numbers:(analysis?.numbers||[]).map(x=>({planet:x.planet,number:String(x.number)}))
+     numbers:(analysis?.numbers||[]).map(x=>({planet:x.planet,number:String(x.number)})),
+     relationNumbers:(analysis?.relationNumbers||[]).map(x=>({relation:x.relation,from:x.from,to:x.to,offset:x.offset,countedPosition:x.countedPosition}))
     });
-    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td><td>'+relations+'</td></tr>');
+    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td><td>'+relations+'</td><td>'+relationNumbers+'</td></tr>');
    }
    if(runId!==boundaryRun)return;
    target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจรที่เข้าเกณฑ์มาตรฐาน</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>ความสัมพันธ์ดาวจรและลัคนาจร</th><th>ตำแหน่งสัมพันธ์เชิงตัวเลข</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ความสัมพันธ์คำนวณจากราศีของดาวจรทุกคู่และลัคนาจร ณ เวลาเริ่มช่วง ได้แก่ กุม ทับลัคนาจร เล็ง โยคหน้า โยคหลัง ตรีโกณ และจตุโกณตามตำแหน่งราศีที่เข้าเกณฑ์เท่านั้น; คอลัมน์ตัวเลขแสดงดาวต้นทาง→ดาว/ลัคนาปลายทาง = ลำดับราศีที่นับรวมราศีต้นทางเป็น 1 (เช่น 1=ราศีเดียวกัน, 3=ตำแหน่งที่ 3, 7=ตำแหน่งที่ 7) เป็นค่าตำแหน่งดิบ ไม่ใช่คะแนนน้ำหนัก และไม่ใช้ข้อมูลดวงกำเนิด; มุมองศาอย่างฉากที่ยังไม่มีค่าออร์บยืนยัน และเกณฑ์พิเศษที่ยังไม่มีสูตรยืนยันจะไม่ตัดสินอัตโนมัติ. ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
