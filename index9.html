@@ -954,7 +954,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
     rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+standards+'</td><td>'+criteria+'</td></tr>');
    }
    if(runId!==boundaryRun)return;
-   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้าราศี</th><th>เวลาจรที่ออกจากราศี</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>เกณฑ์/ความสัมพันธ์ที่ตรวจพบ</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ผลมาตรฐานและเกณฑ์คำนวณจากดวงจรที่เวลาเริ่มช่วงของแต่ละราศี โดยใช้สูตรคำนวณเดิมของ HORA; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
+   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้าราศี</th><th>เวลาจรที่ออกจากราศี</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>เกณฑ์/ความสัมพันธ์ที่ตรวจพบ</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ผลมาตรฐานและความสัมพันธ์คำนวณจากดวงจรใหม่ ณ เวลาเริ่มช่วง โดยใช้สูตรเดิมของ HORA; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป. เกณฑ์ดวงโลงผีและดวงสามเหลี่ยม/หนุมานตรวจจากดวงเดิมตามกฎที่ยืนยันแล้ว ส่วนอุตพิต นำผล/นำพล ตามผล/ขับพล ดอกพิกุล และเกณฑ์อื่นที่ยังแยกสูตรไม่ครบจะไม่ตัดสินผ่าน/ไม่ผ่านจนกว่าจะยืนยันสูตร</p>';
   }
  function enhanceAscendant(svg){
   if(!svg)return;
