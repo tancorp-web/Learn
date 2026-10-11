@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17233d">
+<title>HORA · เลขมงคลตามช่วงเวลา</title>
+<style>
+:root{color-scheme:light;--ink:#17233d;--muted:#68758c;--paper:#f4f6fb;--line:#dfe5ef;--navy:#17233d;--violet:#6258d9;--gold:#d5a94f;--green:#177a56;--red:#b63c50;--shadow:0 10px 30px #18274b0c}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+header{padding:28px 16px 24px;background:linear-gradient(130deg,#101a31,#26395f);color:white;text-align:center}header h1{margin:0;font-size:clamp(25px,4vw,38px);letter-spacing:-.03em}header p{margin:8px auto 0;color:#dce4f6;max-width:760px}
+main{width:min(1240px,calc(100% - 24px));margin:16px auto 44px}.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:clamp(14px,2.2vw,23px);margin:14px 0;box-shadow:var(--shadow);min-width:0}
+h2{margin:0 0 14px;font-size:20px;color:var(--navy)}h3{margin:0 0 8px;font-size:16px}.muted{color:var(--muted);font-size:13px}.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field label{font-size:12px;font-weight:800;color:#53617b}.field input,.field select{width:100%;min-width:0;min-height:44px;border:1px solid #cfd7e5;border-radius:10px;background:#fbfcff;padding:9px 10px;font:inherit;color:var(--ink)}.field input:focus,.field select:focus{outline:3px solid #6258d925;border-color:var(--violet)}
+.action-row{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:10px;padding:11px 16px;background:var(--violet);color:white;font:inherit;font-weight:800;cursor:pointer}.btn.secondary{background:#edf0f8;color:var(--navy);border:1px solid var(--line)}.btn:disabled{opacity:.55;cursor:wait}#status{font-size:13px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:minmax(280px,.95fr) minmax(0,1.2fr);gap:14px;align-items:start}.wheel-box{display:flex;flex-direction:column;align-items:center}.wheel-box svg{display:block;width:100%;max-width:540px;height:auto;touch-action:manipulation}.sign-sector{cursor:pointer;stroke:#d5ddeb;stroke-width:1.2;transition:fill .15s,stroke .15s}.sign-sector:hover{stroke:#6258d9;stroke-width:3}.sign-sector.selected{fill:#e5e7ff!important;stroke:#5547c9;stroke-width:3}.sign-label{font-size:12px;font-weight:850;fill:#24324d;pointer-events:none;text-anchor:middle;dominant-baseline:middle}.wheel-center{font-size:12px;fill:#647089;text-anchor:middle}.wheel-center-main{font-size:18px;font-weight:900;fill:#17233d;text-anchor:middle}
+.period-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.period{display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;border:1px solid var(--line);background:#fbfcff;border-radius:11px;padding:10px 11px;color:var(--ink);cursor:pointer;min-width:0}.period:hover{border-color:#aab5d1;background:#f6f7ff}.period.selected{border-color:#6258d9;background:#eeedff;box-shadow:inset 0 0 0 1px #6258d9}.period strong{display:block;font-size:14px}.period small{display:block;color:var(--muted);font-size:11px}.period .sign-chip{flex:0 0 auto;border-radius:8px;padding:4px 7px;background:#eef1f8;font-weight:900;font-size:12px}
+.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0}.metric{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfcff;min-width:0}.metric .label{font-size:11px;color:var(--muted);font-weight:750}.metric .value{font-size:23px;font-weight:900;line-height:1.3;overflow-wrap:anywhere}.metric .sub{font-size:11px;color:var(--muted)}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px;margin-top:10px}table{border-collapse:collapse;width:100%;min-width:620px}th,td{padding:9px 10px;border-bottom:1px solid #e7ebf3;text-align:left;vertical-align:top;font-size:13px}th{background:#f0f3fa;color:#42516e;font-size:12px;white-space:nowrap}tr:last-child td{border-bottom:0}.tag{display:inline-block;padding:3px 7px;border-radius:6px;background:#eef1f8;font-size:11px;font-weight:800;margin:2px 3px 2px 0}.tag.good{background:#e4f5ed;color:#166444}.tag.excluded{background:#fff0f1;color:#a92d44}
+.number-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:9px}.number-card{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;min-width:0}.number-top{display:flex;align-items:center;justify-content:space-between;gap:5px}.number{font-size:28px;font-weight:950;color:#3f36a8}.percent{font-weight:900;color:var(--green)}.bar{height:6px;background:#e9edf5;border-radius:10px;overflow:hidden;margin:8px 0 5px}.bar span{display:block;height:100%;background:linear-gradient(90deg,#7768e8,#40a982);border-radius:10px}.number-card small{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}.pair{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;justify-content:space-between;gap:8px;align-items:center}.pair strong{font-size:21px;letter-spacing:.05em}.pair span{font-size:12px;color:var(--green);font-weight:850}
+.weights{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.weights .field input{min-height:40px}
+.notice{background:#fff9e9;border:1px solid #eed9a5;border-radius:11px;padding:12px 14px;font-size:13px;color:#6e5419}.empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed #cbd4e3;border-radius:11px}
+footer{text-align:center;padding:0 14px 30px;color:var(--muted);font-size:12px}
+@media(max-width:900px){.layout{grid-template-columns:1fr 1fr}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.weights{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){main{width:calc(100% - 14px);margin-top:9px}.panel{padding:13px;border-radius:13px;margin:10px 0}.layout{grid-template-columns:1fr}.period-list{grid-template-columns:repeat(2,minmax(0,1fr))}.period{padding:8px}.period strong{font-size:12px}.period small{font-size:10px}.summary-grid{gap:7px}.metric{padding:9px}.metric .value{font-size:20px}.weights{grid-template-columns:repeat(2,minmax(0,1fr))}header{padding:23px 12px}.number-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header><h1>HORA · เลขมงคลตามช่วงเวลา</h1><p>เลือกวัน ดูวงจักรราศี เลือกช่วงลัคนา แล้วตรวจเลขจากความสัมพันธ์ดาวและมาตรฐานดาวในช่วงนั้น</p></header>
+<main>
+<section class="panel">
+<h2>1 · เลือกวันและสถานที่</h2>
+<div class="controls">
+ <div class="field"><label for="date">วันที่ (พ.ศ./ค.ศ. ในปฏิทิน)</label><input id="date" type="date"></div>
+ <div class="field"><label for="province">จังหวัด</label><select id="province"></select></div>
+ <div class="field"><label for="periodSelect">ช่วงเวลาราศี</label><select id="periodSelect"><option value="">เลือกวันก่อน</option></select></div>
+ <div class="field"><label for="displayMode">รูปแบบเลขที่แสดง</label><select id="displayMode"><option value="all">ทั้งหมดที่ผ่านเกณฑ์</option><option value="top">เฉพาะเลขคะแนนสูง</option></select></div>
+</div>
+<div class="action-row"><button class="btn" id="calculate">คำนวณวันและช่วงเวลา</button><button class="btn secondary" id="resetWeights" type="button">คืนค่าน้ำหนักเริ่มต้น</button><span id="status" role="status">เลือกวันที่เพื่อเริ่มต้น</span></div>
+</section>
+
+<section class="layout">
+ <section class="panel wheel-box">
+  <h2 style="align-self:stretch">2 · วงจักรราศี</h2>
+  <svg id="wheel" viewBox="0 0 420 420" role="img" aria-label="วงจักรราศี กดชื่อราศีเพื่อเลือกช่วงเวลา"></svg>
+  <p class="muted">กดชื่อราศีในวงเพื่อเปิดช่วงเวลาของราศีนั้น · เมษอยู่ด้านบนและเรียงทวนเข็มนาฬิกา</p>
+ </section>
+ <section class="panel">
+  <h2>3 · เลือกช่วงเวลา</h2>
+  <div id="selectedPeriod" class="notice">เมื่อเลือกวัน ระบบจะแสดงช่วงเวลาของลัคนาจรทั้ง 12 ราศีที่คำนวณจากสูตร HORA</div>
+  <div id="periodList" class="period-list" style="margin-top:10px"></div>
+ </section>
+</section>
+
+<section class="panel">
+ <h2>4 · ผลเลขมงคลในช่วงที่เลือก</h2>
+ <div id="resultIntro" class="muted">เลือกวันและช่วงเวลาก่อน เพื่อแสดงตำแหน่งดาว มาตรฐานดาว และความสัมพันธ์ที่ผ่านเกณฑ์</div>
+ <div id="summary" class="summary-grid"></div>
+ <h3>เลขเด่นและเปอร์เซ็นต์เปรียบเทียบ</h3>
+ <p class="muted">เปอร์เซ็นต์คำนวณเทียบกับเลขที่มีคะแนนน้ำหนักสูงสุดในช่วงเดียวกัน (เลขคะแนนสูงสุด = 100%) ไม่ใช่ความน่าจะเป็นของผลลัพธ์จริง</p>
+ <div id="numberResults" class="number-grid"><div class="empty">ยังไม่มีผลคำนวณ</div></div>
+ <h3 style="margin-top:18px">ค่าเฉลี่ยและคู่เลข</h3>
+ <div id="average"></div>
+ <div id="pairs" class="pairs" style="margin-top:9px"></div>
+</section>
+
+<section class="panel">
+ <h2>5 · น้ำหนักคะแนนที่ใช้</h2>
+ <p class="muted">ค่าตามที่ระบุไว้เป็นค่าเริ่มต้น: ทับ 100, เล็ง 100, โยคหน้า/หลัง 70, มาตรฐานดาว 110 คะแนน ส่วนตรีโกณและจตุโกณตั้งเป็นค่าทดลองที่ปรับได้ ยังไม่ถือเป็นเกณฑ์ที่ยืนยัน</p>
+ <div class="weights">
+  <div class="field"><label for="wConj">ทับ / กุม</label><input id="wConj" type="number" min="0" max="500" value="100"></div>
+  <div class="field"><label for="wOpp">เล็ง</label><input id="wOpp" type="number" min="0" max="500" value="100"></div>
+  <div class="field"><label for="wYog">โยคหน้า / หลัง</label><input id="wYog" type="number" min="0" max="500" value="70"></div>
+  <div class="field"><label for="wTrine">ตรีโกณ (ทดลอง)</label><input id="wTrine" type="number" min="0" max="500" value="90"></div>
+  <div class="field"><label for="wSquare">จตุโกณ (ทดลอง)</label><input id="wSquare" type="number" min="0" max="500" value="60"></div>
+  <div class="field"><label for="wStandard">มาตรฐานดาว</label><input id="wStandard" type="number" min="0" max="500" value="110"></div>
+ </div>
+ <div class="notice" style="margin-top:12px">หลักคัดกรอง: หากดาวได้สถานะ “ประ” หรือ “นิจ” ระบบจะตัดดาวดวงนั้นออกจากการสะสมเลขและคะแนน ทั้งในส่วนมาตรฐานดาวและความสัมพันธ์ดาว ไม่แก้สูตรคำนวณตำแหน่งดาวของ HORA</div>
+</section>
+
+<section class="panel">
+ <h2>6 · รายละเอียดดาวและความสัมพันธ์</h2>
+ <div id="planetTable" class="empty">ยังไม่มีผลคำนวณ</div>
+ <div id="relationTable"></div>
+</section>
+</main>
+<footer>HORA Astrology · สูตรตำแหน่งดาวสุริยยาตร์ · ระบบต้นแบบ index14</footer>
+<script type="module">
+import { THAI_PROVINCE_COORDS } from './js/data/thai-provinces.js?v=20261009-77provinces';
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261011-confirmed-standards-runtime';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
+
+const SIGNS=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+const PLANET_NUM={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const mod=(n,m)=>((n%m)+m)%m;
+const dateNow=new Date();
+$('date').value=dateNow.getFullYear()+'-'+pad(dateNow.getMonth()+1)+'-'+pad(dateNow.getDate());
+THAI_PROVINCE_COORDS.forEach(([name,lat,lon])=>{const o=document.createElement('option');o.value=name;o.textContent=name;$('province').appendChild(o)});
+$('province').value=THAI_PROVINCE_COORDS.some(p=>p[0]==='กรุงเทพมหานคร')?'กรุงเทพมหานคร':THAI_PROVINCE_COORDS[0][0];
+
+let periods=[],selectedSign=0,latestDate='',latestProvince='';
+function locationNow(){const row=THAI_PROVINCE_COORDS.find(p=>p[0]===$('province').value)||THAI_PROVINCE_COORDS[0];return {name:row[0],lat:Number(row[1]),lon:Number(row[2])};}
+function stampDate(dateStr,dayDelta=0){const [y,m,d]=dateStr.split('-').map(Number);const dt=new Date(Date.UTC(y,m-1,d+dayDelta));return dt.toISOString().slice(0,10);}
+function thaiDate(dateStr){const [y,m,d]=dateStr.split('-').map(Number);return d+'/'+pad(m)+'/'+(y+543);}
+function clock(minute){return pad(Math.floor(mod(Math.round(minute),1440)/60))+':'+pad(mod(Math.round(minute),60));}
+function calcChart(dateStr,timeMinutes,loc){
+ const dayDelta=Math.floor(timeMinutes/1440),minute=mod(timeMinutes,1440),date=stampDate(dateStr,dayDelta);
+ const dateParts=date.split('-').map(Number),time=pad(Math.floor(minute/60))+':'+pad(minute%60);
+ const engine=calculateSuriyayatra({date,time,longitude:loc.lon});
+ const sun=engine.planets.find(p=>p.name==='อาทิตย์');
+ if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('สูตร HORA ไม่คืนตำแหน่งอาทิตย์');
+ const correction=Number(engine.metadata?.localTimeCorrectionMinutes);
+ const asc=calculateSuriyayatraAscendant({timeMinutes:minute,sunLongitude:Number(sun.longitude),longitude:loc.lon,localTimeCorrectionMinutes:Number.isFinite(correction)?correction:undefined});
+ const planets=engine.planets.map(p=>{
+  const longitude=mod(Number(p.longitude),360),signIndex=Math.floor(longitude/30),within=longitude%30;
+  const degree=Math.floor(within),minuteInSign=Math.floor((within-degree)*60),secondInSign=Math.round((((within-degree)*60)-minuteInSign)*60);
+  const dignity=getPlanetaryDignities(p.name,SIGNS[signIndex],degree,minuteInSign,secondInSign);
+  return {name:p.name,number:PLANET_NUM[p.name]||'',longitude,sign:SIGNS[signIndex],signIndex,degree,minute:minuteInSign,second:secondInSign,dignity,excluded:dignity.some(x=>x==='ประ'||x==='นิจ'),retrograde:Boolean(p.retrograde)};
+ });
+ const ascLon=mod(Number(asc),360),ascIndex=Math.floor(ascLon/30);
+ return {date,time,minute,engine,asc:ascLon,ascSign:SIGNS[ascIndex],ascIndex,planets,location:loc};
+}
+function makePeriods(dateStr,loc){
+ const noon=calcChart(dateStr,720,loc),sun=noon.planets.find(p=>p.name==='อาทิตย์');
+ const correction=Number(noon.engine.metadata?.localTimeCorrectionMinutes);
+ const bounds=calculateAscendantBoundaryTimes({sunLongitude:sun.longitude,longitude:loc.lon,localTimeCorrectionMinutes:Number.isFinite(correction)?correction:undefined});
+ return bounds.map(b=>{
+  const start=mod(Math.round(b.minutes),1440),duration=Number(b.duration),end=mod(start+duration,1440);
+  const mid=start+duration/2;
+  const chart=calcChart(dateStr,mid,loc);
+  return {sign:SIGNS[b.sign],signIndex:b.sign,start,duration,end,mid,chart};
+ }).sort((a,b)=>a.start-b.start);
+}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function periodLabel(p){return clock(p.start)+'–'+clock(p.end)+(p.start+p.duration>=1440?' (+ข้ามวัน)':'');}
+function sectorPath(cx,cy,r1,r2,start,end){const pt=(r,a)=>[cx+r*Math.cos(a*Math.PI/180),cy+r*Math.sin(a*Math.PI/180)];const a=pt(r2,start),b=pt(r2,end),c=pt(r1,end),d=pt(r1,start);return 'M '+a[0]+' '+a[1]+' A '+r2+' '+r2+' 0 0 1 '+b[0]+' '+b[1]+' L '+c[0]+' '+c[1]+' A '+r1+' '+r1+' 0 0 0 '+d[0]+' '+d[1]+' Z';}
+function drawWheel(){
+ const svg=$('wheel'),cx=210,cy=210;svg.replaceChildren();
+ const ns='http://www.w3.org/2000/svg';
+ const bg=document.createElementNS(ns,'circle');bg.setAttribute('cx',cx);bg.setAttribute('cy',cy);bg.setAttribute('r',194);bg.setAttribute('fill','#f8faff');bg.setAttribute('stroke','#d8dfec');svg.appendChild(bg);
+ SIGNS.forEach((sign,i)=>{
+  const center=-90-i*30,start=center-15,end=center+15;
+  const path=document.createElementNS(ns,'path');path.setAttribute('d',sectorPath(cx,cy,185,112,start,end));path.setAttribute('class','sign-sector'+(selectedSign===i?' selected':''));path.setAttribute('fill',i%2?'#f2f5fb':'#fff');path.setAttribute('role','button');path.setAttribute('tabindex','0');path.setAttribute('aria-label','เลือกราศี'+sign);path.dataset.sign=String(i);
+  path.addEventListener('click',()=>selectSign(i));path.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectSign(i)}});
+  svg.appendChild(path);
+  const a=center*Math.PI/180,r=150,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);
+  const text=document.createElementNS(ns,'text');text.setAttribute('x',x);text.setAttribute('y',y);text.setAttribute('class','sign-label');text.textContent=sign;svg.appendChild(text);
+  const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',cx+174*Math.cos(a));dot.setAttribute('cy',cy+174*Math.sin(a));dot.setAttribute('r',4);dot.setAttribute('fill',selectedSign===i?'#6258d9':'#d5a94f');dot.setAttribute('pointer-events','none');svg.appendChild(dot);
+ });
+ const inner=document.createElementNS(ns,'circle');inner.setAttribute('cx',cx);inner.setAttribute('cy',cy);inner.setAttribute('r',106);inner.setAttribute('fill','#fff');inner.setAttribute('stroke','#dfe5ef');svg.appendChild(inner);
+ const t1=document.createElementNS(ns,'text');t1.setAttribute('x',cx);t1.setAttribute('y',cy-15);t1.setAttribute('class','wheel-center');t1.textContent=latestDate?thaiDate(latestDate):'เลือกวัน';svg.appendChild(t1);
+ const t2=document.createElementNS(ns,'text');t2.setAttribute('x',cx);t2.setAttribute('y',cy+13);t2.setAttribute('class','wheel-center-main');t2.textContent=periods.find(p=>p.signIndex===selectedSign)?.sign||'จักรราศี';svg.appendChild(t2);
+ const t3=document.createElementNS(ns,'text');t3.setAttribute('x',cx);t3.setAttribute('y',cy+35);t3.setAttribute('class','wheel-center');t3.textContent=periods.find(p=>p.signIndex===selectedSign)?periodLabel(periods.find(p=>p.signIndex===selectedSign)):'กดชื่อราศี';svg.appendChild(t3);
+}
+function renderPeriodOptions(){
+ const select=$('periodSelect');select.replaceChildren();
+ periods.forEach(p=>{const o=document.createElement('option');o.value=String(p.signIndex);o.textContent=p.sign+' · '+periodLabel(p);select.appendChild(o)});
+ select.value=String(selectedSign);
+ $('periodList').innerHTML=periods.map(p=>'<button type="button" class="period'+(p.signIndex===selectedSign?' selected':'')+'" data-sign="'+p.signIndex+'"><span><strong>'+escapeHtml(p.sign)+'</strong><small>'+escapeHtml(periodLabel(p))+'</small></span><span class="sign-chip">'+(p.signIndex+1)+'</span></button>').join('');
+ $('periodList').querySelectorAll('[data-sign]').forEach(btn=>btn.addEventListener('click',()=>selectSign(Number(btn.dataset.sign))));
+}
+function getWeights(){return {conj:Number($('wConj').value)||0,opp:Number($('wOpp').value)||0,yog:Number($('wYog').value)||0,trine:Number($('wTrine').value)||0,square:Number($('wSquare').value)||0,standard:Number($('wStandard').value)||0};}
+function buildAnalysis(chart){
+ const eligible=chart.planets.filter(p=>!p.excluded),excluded=chart.planets.filter(p=>p.excluded),weight=getWeights(),sources=[],relations=[];
+ const addSource=(number,score,type,detail,planet='')=>{if(number!==''&&number!==undefined&&number!==null)sources.push({number:String(number),score:Number(score)||0,type,detail,planet});};
+ const signOffset=(from,to)=>mod(to-from,12);
+ // คะแนนมาตรฐาน: หนึ่งคะแนนต่อหนึ่งมาตรฐานที่ผ่านเกณฑ์และไม่ใช่ประ/นิจ
+ eligible.forEach(p=>p.dignity.filter(d=>d!=='ประ'&&d!=='นิจ').forEach(d=>addSource(p.number,weight.standard,'มาตรฐานดาว',p.name+' · '+d,p.name)));
+ const ascIndex=chart.ascIndex;
+ const relationInfo=(offset)=>{
+  if(offset===0)return {name:'ทับ/กุม',score:weight.conj};
+  if(offset===6)return {name:'เล็ง',score:weight.opp};
+  if(offset===2)return {name:'โยคหน้า',score:weight.yog};
+  if(offset===10)return {name:'โยคหลัง',score:weight.yog};
+  if(offset===4||offset===8)return {name:'ตรีโกณ',score:weight.trine};
+  if(offset===3||offset===9)return {name:'จตุโกณ',score:weight.square};
+  return null;
+ };
+ // ความสัมพันธ์ดาวกับลัคนาจร: ดาวที่ได้ประ/นิจถูกตัดออกก่อนคำนวณเลข
+ eligible.forEach(p=>{
+  const o=signOffset(p.signIndex,ascIndex),rel=relationInfo(o);
+  if(rel){const n=o+1;addSource(n,rel.score,'ความสัมพันธ์ดาว',p.name+' → ลัคนาจร · '+rel.name,p.name);relations.push({from:p.name,to:'ลัคนาจร',fromSign:p.sign,toSign:chart.ascSign,relation:rel.name,number:n,score:rel.score});}
+ });
+ // ความสัมพันธ์ดาวต่อดาว ตรวจสองทิศทางแยกกัน เฉพาะทับ/เล็งที่ไม่ซ้ำทิศทางเดียว
+ for(let i=0;i<eligible.length;i++)for(let j=i+1;j<eligible.length;j++){
+  const a=eligible[i],b=eligible[j],o=signOffset(a.signIndex,b.signIndex),forward=relationInfo(o);
+  if(forward){addSource(o+1,forward.score,'ความสัมพันธ์ดาว',a.name+' → '+b.name+' · '+forward.name,a.name);relations.push({from:a.name,to:b.name,fromSign:a.sign,toSign:b.sign,relation:forward.name,number:o+1,score:forward.score});}
+  const rev=12-o,back=relationInfo(mod(rev,12));
+  if(back&&o!==0&&o!==6){addSource(mod(rev,12)+1,back.score,'ความสัมพันธ์ดาว',b.name+' → '+a.name+' · '+back.name,b.name);relations.push({from:b.name,to:a.name,fromSign:b.sign,toSign:a.sign,relation:back.name,number:mod(rev,12)+1,score:back.score});}
+ }
+ const byNumber=new Map();
+ sources.forEach(s=>{if(!byNumber.has(s.number))byNumber.set(s.number,{number:s.number,score:0,sources:[]});const x=byNumber.get(s.number);x.score+=s.score;x.sources.push(s)});
+ const numbers=[...byNumber.values()].sort((a,b)=>b.score-a.score||a.number.localeCompare(b.number,'th'));
+ const max=numbers[0]?.score||0;numbers.forEach(n=>n.percent=max>0?Math.round(n.score/max*100):0);
+ const meanScore=numbers.length?numbers.reduce((sum,n)=>sum+n.score,0)/numbers.length:0;
+ const meanPercent=numbers.length?numbers.reduce((sum,n)=>sum+n.percent,0)/numbers.length:0;
+ const pairCandidates=numbers.slice(0,8),pairs=[];
+ for(let i=0;i<pairCandidates.length;i++)for(let j=i+1;j<pairCandidates.length;j++){const a=pairCandidates[i],b=pairCandidates[j];pairs.push({pair:a.number+b.number,score:(a.score+b.score)/2,percent:max?Math.round(((a.score+b.score)/2)/max*100):0});}
+ pairs.sort((a,b)=>b.score-a.score||a.pair.localeCompare(b.pair,'th'));
+ return {chart,eligible,excluded,sources,relations,numbers,meanScore,meanPercent,pairs:pairs.slice(0,24),max};
+}
+function renderResults(p){
+ const chart=p.chart,period=periods.find(x=>x.signIndex===selectedSign);
+ $('selectedPeriod').innerHTML='<strong>ราศี'+escapeHtml(period.sign)+' · '+escapeHtml(periodLabel(period))+'</strong><br>คำนวณดาว ณ จุดกึ่งกลางช่วงเวลา '+escapeHtml(chart.time)+' น. · ลัคนาจร '+escapeHtml(chart.ascSign)+' · สถานที่ '+escapeHtml(chart.location.name);
+ $('resultIntro').textContent='วันที่ '+thaiDate(latestDate)+' · ช่วง '+periodLabel(period)+' · เลือกจังหวัด '+chart.location.name+' · ตัดดาวที่ได้ประ/นิจออกจากคะแนนแล้ว';
+ $('summary').innerHTML=[
+  ['เลขที่ผ่านเกณฑ์',p.numbers.length,'เลขไม่ซ้ำ'],
+  ['ค่าเฉลี่ยคะแนน',p.meanScore.toFixed(1),'คะแนนต่อเลข'],
+  ['เปอร์เซ็นต์เฉลี่ย',p.meanPercent.toFixed(1)+'%','เทียบเลขคะแนนสูงสุด'],
+  ['ดาวที่ถูกตัด',p.excluded.length,'ได้ประ/นิจ']
+ ].map(x=>'<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><div class="sub">'+x[2]+'</div></div>').join('');
+ const shown=$('displayMode').value==='top'?p.numbers.filter(n=>n.percent>=70):p.numbers;
+ $('numberResults').innerHTML=shown.length?shown.map(n=>'<article class="number-card"><div class="number-top"><span class="number">'+escapeHtml(n.number)+'</span><span class="percent">'+n.percent+'%</span></div><div class="bar"><span style="width:'+n.percent+'%"></span></div><small>คะแนน '+n.score+' · แหล่ง '+n.sources.length+' รายการ</small><details><summary>ดูที่มา</summary>'+n.sources.map(s=>'<div class="muted">'+escapeHtml(s.type)+' · '+escapeHtml(s.detail)+' ('+s.score+')</div>').join('')+'</details></article>').join(''):'<div class="empty">ไม่มีเลขผ่านเกณฑ์ในช่วงเวลานี้</div>';
+ $('average').innerHTML='<div class="notice">ค่าเฉลี่ยคะแนนของเลขที่ผ่านเกณฑ์: <strong>'+p.meanScore.toFixed(2)+'</strong> · ค่าเฉลี่ยเปอร์เซ็นต์: <strong>'+p.meanPercent.toFixed(2)+'%</strong> · ใช้เลขไม่ซ้ำ '+p.numbers.length+' ตัว</div>';
+ $('pairs').innerHTML=p.pairs.length?p.pairs.map(x=>'<div class="pair"><strong>'+escapeHtml(x.pair)+'</strong><span>'+x.percent+'%</span></div>').join(''):'<div class="empty">มีเลขไม่พอสำหรับจับคู่</div>';
+ const planetRows=chart.planets.map(x=>'<tr><td>'+escapeHtml(x.number||'—')+'</td><td>'+escapeHtml(x.name)+'</td><td>'+escapeHtml(x.sign)+'</td><td>'+pad(x.degree)+'° '+pad(x.minute)+'′</td><td>'+(x.excluded?'<span class="tag excluded">ตัดออก · '+escapeHtml(x.dignity.join(', '))+'</span>':x.dignity.length?x.dignity.map(d=>'<span class="tag good">'+escapeHtml(d)+'</span>').join(''):'—')+'</td><td>'+(x.retrograde?'พักร์':'')+'</td></tr>').join('');
+ $('planetTable').innerHTML='<div class="table-wrap"><table><thead><tr><th>เลขดาว</th><th>ดาว</th><th>ราศี</th><th>องศา</th><th>มาตรฐาน / สถานะ</th><th>การเดิน</th></tr></thead><tbody>'+planetRows+'</tbody></table></div>';
+ $('relationTable').innerHTML='<h3 style="margin-top:16px">ความสัมพันธ์ที่นำมาคิดคะแนน</h3>'+(p.relations.length?'<div class="table-wrap"><table><thead><tr><th>จาก</th><th>ราศีต้นทาง → ปลายทาง</th><th>ความสัมพันธ์</th><th>เลขนับ</th><th>น้ำหนัก</th></tr></thead><tbody>'+p.relations.map(r=>'<tr><td>'+escapeHtml(r.from+' → '+r.to)+'</td><td>'+escapeHtml(r.fromSign+' → '+r.toSign)+'</td><td>'+escapeHtml(r.relation)+'</td><td><strong>'+r.number+'</strong></td><td>'+r.score+'</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">ไม่มีความสัมพันธ์ที่ผ่านเกณฑ์ในช่วงนี้</div>')+'<p class="muted">ดาวที่ตัดออก: '+(p.excluded.map(x=>escapeHtml(x.name+' ('+x.dignity.join(', ')+')')).join(' · ')||'ไม่มี')+'</p>';
+}
+function selectSign(index){
+ selectedSign=index;
+ $('periodSelect').value=String(index);
+ renderPeriodOptions();drawWheel();
+ const p=periods.find(x=>x.signIndex===index);
+ if(p){const analysis=buildAnalysis(p.chart);renderResults(analysis);}
+}
+function calculateDay(){
+ const dateStr=$('date').value;if(!dateStr){$('status').textContent='กรุณาเลือกวันที่';return;}
+ $('calculate').disabled=true;$('status').textContent='กำลังคำนวณช่วงเวลาทั้ง 12 ราศี…';
+ try{
+  const loc=locationNow();periods=makePeriods(dateStr,loc);latestDate=dateStr;latestProvince=loc.name;
+  if(!periods.length)throw new Error('ไม่พบช่วงเวลาลัคนาจร');
+  if(!periods.some(p=>p.signIndex===selectedSign))selectedSign=periods[0].signIndex;
+  renderPeriodOptions();drawWheel();selectSign(selectedSign);
+  $('status').textContent='คำนวณสำเร็จ · '+periods.length+' ช่วงเวลา · '+loc.name;
+ }catch(err){console.error('[HORA][INDEX14]',err);$('status').textContent='คำนวณไม่สำเร็จ: '+String(err?.message||err);$('selectedPeriod').textContent='ตรวจสอบวันที่และลองใหม่อีกครั้ง';}
+ finally{$('calculate').disabled=false;}
+}
+$('calculate').addEventListener('click',calculateDay);
+$('date').addEventListener('change',calculateDay);
+$('province').addEventListener('change',calculateDay);
+$('periodSelect').addEventListener('change',()=>selectSign(Number($('periodSelect').value)));
+$('displayMode').addEventListener('change',()=>{const p=periods.find(x=>x.signIndex===selectedSign);if(p)renderResults(buildAnalysis(p.chart));});
+['wConj','wOpp','wYog','wTrine','wSquare','wStandard'].forEach(id=>$(id).addEventListener('change',()=>{const p=periods.find(x=>x.signIndex===selectedSign);if(p)renderResults(buildAnalysis(p.chart));}));
+$('resetWeights').addEventListener('click',()=>{[['wConj',100],['wOpp',100],['wYog',70],['wTrine',90],['wSquare',60],['wStandard',110]].forEach(([id,v])=>$(id).value=v);const p=periods.find(x=>x.signIndex===selectedSign);if(p)renderResults(buildAnalysis(p.chart));});
+drawWheel();
+calculateDay();
+</script>
+</body>
+</html>
