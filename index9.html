@@ -302,8 +302,41 @@ main.container h3::after{
 }
 
 </style>
+
+<style id="displayPickerStyle9">
+#displayPicker9{position:relative;padding:13px 16px;margin:12px 0;background:#fff;border:1px solid #d9e1ef;border-radius:14px}
+#displayPicker9 summary{cursor:pointer;list-style:revert;color:#17233d;line-height:1.6}
+#displayPicker9 summary strong{font-size:15px}
+#displayPickerCount9{display:inline-block;margin-left:6px;color:#64748b;font-size:12px;font-weight:650}
+#displayPicker9 .display-picker-note9{margin:10px 0;color:#64748b;font-size:12px;line-height:1.6}
+#displayPicker9 .display-picker-actions9{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+#displayPicker9 .display-picker-actions9 button{border:1px solid #cbd5e1;border-radius:9px;padding:8px 11px;background:#f8fafc;color:#17233d;font:inherit;font-size:12px;font-weight:750;cursor:pointer}
+#displayPicker9 .display-picker-actions9 button:hover{background:#edf2ff}
+#displayPicker9 .display-picker-list9{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+#displayPicker9 .display-picker-item9{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border:1px solid #e1e7f1;border-radius:9px;background:#fbfcff;min-width:0;font-size:13px;line-height:1.45;cursor:pointer}
+#displayPicker9 .display-picker-item9:has(input:checked){border-color:#a9b8ef;background:#f3f5ff}
+#displayPicker9 .display-picker-item9 input{flex:0 0 auto;width:17px;height:17px;margin:2px 0 0;accent-color:#4f46e5}
+#displayPicker9 .display-picker-item9 span{overflow-wrap:anywhere}
+#displayPicker9 .display-picker-item9 em{display:block;color:#64748b;font-size:11px;font-style:normal;margin-top:2px}
+@media(max-width:600px){#displayPicker9{padding:12px}#displayPicker9 .display-picker-list9{grid-template-columns:1fr}#displayPicker9 .display-picker-actions9 button{flex:1 1 auto}}
+</style>
+
 </head><body>
 <header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index9</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index9 · ENGINE v8.9.3 · TRANSIT TIME FEATURE + KNOWLEDGE LIBRARY</span></div></header>
+
+
+<section id="displayPicker9" class="panel" aria-label="เลือกหมวดแสดงผล">
+  <details id="displayPickerDetails9">
+    <summary><strong>เลือกหมวดตารางและรายละเอียดที่ต้องการแสดง</strong> <span id="displayPickerCount9">กำลังเตรียมรายการ…</span></summary>
+    <p class="display-picker-note9">ติ๊กเลือกได้หลายหมวด ส่วนที่ไม่เลือกจะถูกซ่อนจากหน้าเว็บเท่านั้น ไม่ลบข้อมูลหรือเปลี่ยนสูตรคำนวณ</p>
+    <div class="display-picker-actions9">
+      <button type="button" id="displayPickerAll9">เลือกทั้งหมด</button>
+      <button type="button" id="displayPickerNone9">ซ่อนหมวดที่เลือกได้ทั้งหมด</button>
+      <button type="button" id="displayPickerReset9">คืนค่าเริ่มต้น</button>
+    </div>
+    <div id="displayPickerList9" class="display-picker-list9"><p>กำลังเตรียมรายการหมวด…</p></div>
+  </details>
+</section>
 
 <main class="container"><section id="calculatePanel" class="menu-panel show">
 <div class="panel"><div class="section-title"><h2>ข้อมูลกำเนิด</h2><span class="badge">Birth Data</span></div><div class="form-grid">
@@ -1531,6 +1564,81 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 
 /* Numeric summary is rendered directly from calculated chart objects in main.js. */
 
+</script>
+
+
+<script>
+/* index9: user-selectable display categories. Hiding a category never deletes its data or changes calculations. */
+(function(){
+  const init=()=>{
+    const root=document.getElementById('displayPicker9');
+    const list=document.getElementById('displayPickerList9');
+    const count=document.getElementById('displayPickerCount9');
+    if(!root||!list||root.dataset.ready==='1')return;
+    root.dataset.ready='1';
+    const excludedTitles=new Set(['ข้อมูลกำเนิด','เวลาทำนาย']);
+    const headings=[...document.querySelectorAll('main.container h2')].filter(h=>!root.contains(h));
+    const groups=new Map();
+    headings.forEach(h=>{
+      const title=(h.textContent||'').replace(/〔หมวด\s*\d+〕/g,'').replace(/\s+/g,' ').trim();
+      const owner=h.closest('.panel, .reference-panel, .planet-standard4, .menu-panel');
+      if(!owner||owner===root||excludedTitles.has(title))return;
+      if(owner.closest('#calculatePanel')&&excludedTitles.has(title))return;
+      if(!groups.has(owner))groups.set(owner,{owner,headings:[]});
+      groups.get(owner).headings.push(title||'หมวดไม่มีชื่อ');
+    });
+    const entries=[...groups.values()].filter(g=>!g.owner.contains(root));
+    list.innerHTML='';
+    if(!entries.length){
+      list.innerHTML='<p>ยังไม่พบหมวดแสดงผลให้เลือก</p>';
+      count.textContent='';
+      return;
+    }
+    entries.forEach((entry,index)=>{
+      const id='displayPickerCheck9_'+index;
+      const label=document.createElement('label');
+      label.className='display-picker-item9';
+      const input=document.createElement('input');
+      input.type='checkbox';input.id=id;input.checked=true;
+      const text=document.createElement('span');
+      const primary=entry.headings[0];
+      text.appendChild(document.createTextNode(primary));
+      if(entry.headings.length>1){
+        const sub=document.createElement('em');
+        sub.textContent='รวม '+entry.headings.length+' หัวข้อในส่วนนี้';
+        text.appendChild(sub);
+      }
+      input.addEventListener('change',()=>{
+        entry.owner.style.display=input.checked?'':'none';
+        window.dispatchEvent(new Event('resize'));
+        updateCount();
+      });
+      label.append(input,text);
+      list.appendChild(label);
+      entry.input=input;
+    });
+    function updateCount(){
+      const shown=entries.filter(e=>e.input.checked).length;
+      count.textContent='แสดง '+shown+' จาก '+entries.length+' หมวด';
+    }
+    document.getElementById('displayPickerAll9')?.addEventListener('click',()=>{
+      entries.forEach(e=>{e.input.checked=true;e.owner.style.display='';});
+      window.dispatchEvent(new Event('resize'));updateCount();
+    });
+    document.getElementById('displayPickerNone9')?.addEventListener('click',()=>{
+      entries.forEach(e=>{e.input.checked=false;e.owner.style.display='none';});
+      window.dispatchEvent(new Event('resize'));updateCount();
+    });
+    document.getElementById('displayPickerReset9')?.addEventListener('click',()=>{
+      entries.forEach(e=>{e.input.checked=true;e.owner.style.display='';});
+      window.dispatchEvent(new Event('resize'));updateCount();
+    });
+    updateCount();
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+  setTimeout(init,900);
+})();
 </script>
 
 </body></html>
