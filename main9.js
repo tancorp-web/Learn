@@ -273,9 +273,12 @@ function renderNumericAstrologySummary(natal,transit){
  const head=table.querySelector('thead');if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
  const lead=$('planetDignityNumberSummary8')?.querySelector('.criteria7-lead');if(lead)lead.textContent='สร้างตารางจากวัตถุผลคำนวณโดยตรง จึงไม่ต้องอ่านย้อนจาก HTML. เลขเดี่ยวคือดาวที่เข้าเกณฑ์; ๓–๖ คือคู่ดาวเดิม; ๓→๖ คือดาวจรเทียบดาวเดิม. กุม/ทับ/เล็ง/โยค/ตรีโกณ/จตุโกณคำนวณจากราศีตามชุดกฎของโปรเจค ส่วนฉากต้องกำหนดออร์บองศา. ดอกพิกุลแสดงเพียงโครงตำแหน่งแบบ A ซึ่งยังมีเงื่อนไขบางส่วนที่ต้องยืนยัน.';
 }
+let __HORA9_NATAL_CACHE=null;
 window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
  const birth=getInput('b');
- const natal=calcAt(birth.date,birth.time,true,{lat:$('bLat').value,lon:$('bLon').value,timezone:7});
+ const natalKey=[birth.date,birth.time,$('bLat').value,$('bLon').value].join('|');
+ if(!__HORA9_NATAL_CACHE||__HORA9_NATAL_CACHE.key!==natalKey)__HORA9_NATAL_CACHE={key:natalKey,chart:calcAt(birth.date,birth.time,true,{lat:$('bLat').value,lon:$('bLon').value,timezone:7})};
+ const natal=__HORA9_NATAL_CACHE.chart;
  const transit=calcAt(date,time,false,{lat:$('fLat').value,lon:Number(longitude),timezone:7});
  const standards=[];
  const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
