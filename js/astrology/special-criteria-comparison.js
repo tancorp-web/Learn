@@ -152,14 +152,13 @@ function evaluateRule(rule, positions, ascendantSign) {
   } else if (isSignOccupancy) {
     // Ascendant is deliberately not counted as an occupant until the source rule is confirmed.
     const occupiedSigns = new Set(positions.map(item => item.sign));
+    // Count the natal ascendant as an occupant only when the rule explicitly accepts it.
+    if (isKnownSign(ascendantSign) && rule.acceptedOccupants?.some(item => item === 'ลัคนา' || item === 'ลัคนาเดิม')) {
+      occupiedSigns.add(ascendantSign);
+    }
     const occupiedRequiredSigns = rule.requiredSigns.filter(sign => occupiedSigns.has(sign));
     const missingRequiredSigns = rule.requiredSigns.filter(sign => !occupiedSigns.has(sign));
-    const ascendantOccupancyUnresolved = Boolean(
-      isKnownSign(ascendantSign) &&
-      rule.acceptedOccupants?.includes('ลัคนา') &&
-      rule.requiredSigns.includes(ascendantSign) &&
-      !occupiedSigns.has(ascendantSign)
-    );
+    const ascendantOccupancyUnresolved = false;
     matchedConditions.push(...occupiedRequiredSigns.map(sign => ({
       sign, condition: 'required-sign-occupied', description: `มีดาวอย่างน้อยหนึ่งดวงในราศี${sign}`
     })));
