@@ -66,19 +66,30 @@ function renderWheel(natal,transit,tanuSesha){
   const lanes=isTransit?[310,342,374]:[160,190,220,250,270];
   const color=isTransit?'#07834b':'#7250bd';
   list.planets.slice().sort((a,b)=>{if(!isTransit&&a.name==='อาทิตย์')return 1;if(!isTransit&&b.name==='อาทิตย์')return -1;return a.longitude-b.longitude}).forEach(p=>{
+   const lon=((Number(p.longitude)%360)+360)%360;
    let chosen=null,best=null,bestClearance=-Infinity;
-   // A planet's longitude fixes its angle. Resolve collisions only by changing radius, never by shifting it into another sign.
+   // Preserve calculated longitude; choose a radial lane to reduce marker collisions.
    for(const lane of lanes){
-    const q=xy(p.longitude,lane);
+    const q=xy(lon,lane);
     const clearance=placed.length?Math.min(...placed.map(v=>Math.hypot(v.x-q.x,v.y-q.y))):Infinity;
     if(clearance>bestClearance){bestClearance=clearance;best={...q,lane,offset:0};}
     if(clearance>=29){chosen={...q,lane,offset:0};break;}
    }
-   // If every lane is occupied, keep the exact longitude and use the lane with the most space.
    if(!chosen)chosen=best;
-   placed.push(chosen);
-   const truePoint=xy(p.longitude,isTransit?rad+2:chosen.lane);
-   const isNatalSun=!isTransit&&p.name==='อาทิตย์';svg+='<g'+(isNatalSun?' data-natal-sun-marker="true"':'')+'><circle cx="'+chosen.x+'" cy="'+chosen.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+chosen.x+'" y="'+(chosen.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(!isTransit&&tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
+   const within=((lon%30)+30)%30;
+   const distanceToSignEdge=Math.min(within,30-within);
+   const nearSignEdge=distanceToSignEdge<=5;
+   // Move only the visible marker toward the middle of its own sign; anchor stays at exact longitude.
+   const displayLon=nearSignEdge?((lon+(within<15?6:-6))%360+360)%360:lon;
+   const anchor=xy(lon,chosen.lane);
+   const marker=xy(displayLon,chosen.lane);
+   placed.push(marker);
+   const isNatalSun=!isTransit&&p.name==='อาทิตย์';
+   svg+='<g data-planet-marker="true" data-planet="'+p.name+'" data-kind="'+(isTransit?'transit':'natal')+'" data-longitude="'+lon.toFixed(6)+'" data-sign="'+signOf(lon).name+'">';
+   if(nearSignEdge){
+    svg+='<line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="'+color+'" stroke-width="1.5" stroke-linecap="round"/><circle cx="'+anchor.x.toFixed(2)+'" cy="'+anchor.y.toFixed(2)+'" r="3.2" fill="'+color+'" stroke="#fff" stroke-width="1"/>';
+   }
+   svg+='<circle cx="'+marker.x+'" cy="'+marker.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+marker.x+'" y="'+(marker.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(!isTransit&&tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
   });
  }
  draw(natal,false);if(transit)draw(transit,true);
