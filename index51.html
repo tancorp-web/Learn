@@ -385,7 +385,7 @@ main.container h3::after{
 </div>
 <div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
 <section class="panel" id="navamsaPanel50">
- <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="navamsaRun50" class="navamsa-calc-button">คำนวณนวางค์</button><span class="badge">Navamsa 108 divisions</span></div><p id="navamsaRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณนวางค์” เพื่อวาดวงแยกต่างหาก</p>
+ <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="navamsaRun50" class="navamsa-calc-button" disabled>รอข้อมูลดวงหลัก</button><span class="badge">Navamsa 108 divisions</span></div><p id="navamsaRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณนวางค์” เพื่อวาดวงแยกต่างหาก</p>
  <p class="criteria7-muted">วงนวางค์สองชั้น: วงด้านในแสดงดาวและลัคนาเดิม วงด้านนอกแสดงดาวและลัคนาจร โดยเดินเลขนวางค์ตามธาตุและวางเลขดาวลงในราศีปลายทาง</p>
 
  <div class="wheel-wrap" id="navamsaWheelWrap50"><div id="navamsaWheel50" style="width:100%"></div></div>
@@ -396,7 +396,7 @@ main.container h3::after{
 
 
 <section class="panel" id="triyangPanel50">
- <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมตรียางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="triyangRun50" class="navamsa-calc-button">คำนวณตรียางค์</button><span class="badge">ตรียางค์ 36 ส่วน</span></div>
+ <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมตรียางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="triyangRun50" class="navamsa-calc-button" disabled>รอข้อมูลดวงหลัก</button><span class="badge">ตรียางค์ 36 ส่วน</span></div>
  <p id="triyangRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณตรียางค์” เพื่อวาดวงแยกต่างหาก</p>
  <p class="criteria7-muted">แบ่งราศีละ 3 ส่วน ส่วนละ 10°: ส่วนที่ 1 ลงราศีที่ 1, ส่วนที่ 2 ลงราศีที่ 5, ส่วนที่ 3 ลงราศีที่ 9 (นับราศีต้นทางเป็น 1) วงในสีม่วง = ดาวเดิม วงนอกสีเขียว = ดาวจร เลขในวงกลมคือดาวที่คำนวณได้ และเลขเล็กข้างดาวคือเลขเกษตรของราศีปลายทาง</p>
  <div class="wheel-wrap" id="triyangWheelWrap50"><div id="triyangWheel50" style="width:100%"></div></div>
@@ -732,7 +732,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main50.js?v=20261011-tanu-plus-1"></script>
+<script type="module" src="./main50.js?v=20261011-index51-asc-circle-2"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
@@ -1173,11 +1173,9 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   let pending=false;
   const run=()=>{pending=false;const svg=wheel?.querySelector('svg');if(svg)enhanceAscendant(svg);renderBoundaryTimes(svg||null);};
   const schedule=()=>{if(!pending){pending=true;setTimeout(run,0);}};
+  // คำนวณเวลาเข้า 0° หลังวงจักรราศีถูกวาดใหม่เท่านั้น ไม่คำนวณหนักทุกครั้งที่เปลี่ยนช่องเวลา
   const observer=new MutationObserver(schedule);
   observer.observe(wheel,{childList:true});
-  run();
-  document.getElementById('calc')?.addEventListener('click',()=>setTimeout(run,100));
-  ['bHour','bMinute','fHour','fMinute'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(run,50)));
  }
 })();</script>
 
@@ -1868,7 +1866,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
        }
        g.appendChild(node('circle',{cx:mx,cy:my,r:p.tanuLord?17:(p.isAsc?15:13),fill:ring.color,stroke:'#fff','stroke-width':2}));
        g.appendChild(node('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':p.tanuLord?10.5:12,'font-weight':900,fill:'#fff'},(planetNums[p.name]||'•')+(p.tanuLord?'+':'')));
-       const [nx,ny]=polar(cx,cy,radius+(ring.key==='transit'?19:18),displayAngle);
+       const [nx,ny]=polar(cx,cy,radius+(ring.key==='transit'?19:18),angle);
        g.appendChild(node('text',{x:nx,y:ny+3,'text-anchor':'middle','font-size':11,'font-weight':900,fill:ring.color,'paint-order':'stroke',stroke:'#fff','stroke-width':2.5},p.nav.navNumber));
        const title=node('title',{},(p.kind==='transit'?'จร ':'เดิม ')+p.name+(p.tanuLord?' + ตนุนวางค์':'')+' · นวางค์ที่ '+p.nav.number+' · เลขนวางค์ '+p.nav.navNumber+' · ราศี'+p.nav.sign+' · ตำแหน่งจริง '+angle.toFixed(4)+'°');
        g.appendChild(title);svg.appendChild(g);
@@ -1895,7 +1893,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    });
  }
  let latestChartData=null;
- window.addEventListener('hora50:chart-calculated',e=>{latestChartData=e.detail||null;log('CHART DATA CACHED FOR NAVAMSA',{keys:Object.keys(latestChartData||{}),natalCount:latestChartData?.natal?.planets?.length??null,transitCount:latestChartData?.transit?.planets?.length??null});const status=document.getElementById('navamsaRunStatus50');if(status)status.textContent='รับข้อมูลดวงหลักแล้ว · กด “คำนวณนวางค์” เพื่อวาดวงแยก';});
+ document.getElementById('calc')?.addEventListener('click',()=>{latestChartData=null;const b=document.getElementById('navamsaRun50');if(b){b.disabled=true;b.textContent='รอข้อมูลดวงใหม่…';}});
+ window.addEventListener('hora50:chart-calculated',e=>{latestChartData=e.detail||null;const readyBtn=document.getElementById('navamsaRun50');if(readyBtn){readyBtn.disabled=false;readyBtn.textContent='คำนวณนวางค์';}log('CHART DATA CACHED FOR NAVAMSA',{keys:Object.keys(latestChartData||{}),natalCount:latestChartData?.natal?.planets?.length??null,transitCount:latestChartData?.transit?.planets?.length??null});const status=document.getElementById('navamsaRunStatus50');if(status)status.textContent='รับข้อมูลดวงหลักแล้ว · กด “คำนวณนวางค์” เพื่อวาดวงแยก';});
  document.getElementById('navamsaRun50')?.addEventListener('click',()=>{const status=document.getElementById('navamsaRunStatus50');const results=document.getElementById('navamsaResults50');if(!latestChartData){log('NAVAMSA BUTTON BLOCKED: NO CHART DATA');if(status)status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดาวเดิม + ดาวจร” ก่อน';if(results)results.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดวงหลักก่อน';return;}const btn=document.getElementById('navamsaRun50');if(btn.dataset.calculating==='1')return;btn.dataset.calculating='1';btn.disabled=true;btn.classList.add('is-calculating');btn.setAttribute('aria-busy','true');btn.textContent='กำลังคำนวณนวางค์…';log('NAVAMSA BUTTON CLICKED');setTimeout(()=>{try{draw(latestChartData);if(status)status.textContent='คำนวณและวาดวงนวางค์เสร็จแล้ว · ใช้ข้อมูลดวงหลักชุดล่าสุด';log('NAVAMSA DRAW COMPLETE')}catch(err){log('DRAW ERROR',{name:err?.name,message:err?.message,stack:err?.stack||''});console.error('[HORA][NAVAMSA50]',err);if(results)results.textContent='วาดวงกลมนวางค์ไม่สำเร็จ: '+(err?.message||err);if(status)status.textContent='วาดนวางค์ไม่สำเร็จ กรุณาดู LOG ด้านบน'}finally{btn.dataset.calculating='0';btn.disabled=false;btn.classList.remove('is-calculating');btn.removeAttribute('aria-busy');btn.textContent='คำนวณนวางค์';}},35);});
 })();
 
@@ -1949,19 +1948,17 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
      // Search nearby angles and radii until the visible purple/green markers no longer collide.
      // This changes drawing positions only; the true calculated anchor and longitude remain untouched.
      const markerSize=p.tanuLord?17:(p.isAsc?15:13);
-     const angleOffsets=[0,5,-5,10,-10,15,-15,20,-20,25,-25,30,-30,36,-36,42,-42];
      const radialOffsets=[0,15,-15,30,-30,42,-42];
-     let mx=ax,my=ay,displayAngle=angle,radius=ring.markerR,found=false,bestScore=Infinity;
+     let mx=ax,my=ay,radius=ring.markerR,found=false,bestScore=Infinity;
+     // ห้ามเลื่อนดาวตามมุมเด็ดขาด เพราะเส้นชี้จะทำให้ดูเหมือนดาวอยู่คนละราศี
+     // แยกดาวที่ทับกันด้วยรัศมีเท่านั้น โดยรักษามุมจริงของดาวไว้
      for(const ro of radialOffsets){
       const candidateR=ring.markerR+ro;
       if(candidateR<ring.inner+markerSize+2||candidateR>ring.outer-markerSize-2)continue;
-      for(const ao of angleOffsets){
-       const candidateAngle=angle+ao,[x,y]=polar(cx,cy,candidateR,candidateAngle);
-       const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
-       if(collision===0){mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;found=true;break;}
-       if(collision<bestScore){bestScore=collision;mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;}
-      }
-      if(found)break;
+      const [x,y]=polar(cx,cy,candidateR,angle);
+      const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
+      if(collision===0){mx=x;my=y;radius=candidateR;found=true;break;}
+      if(collision<bestScore){bestScore=collision;mx=x;my=y;radius=candidateR;}
      }
      placed.push({x:mx,y:my,size:markerSize});
      const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-triyang-sign':p.tri.sign,'data-triyang-part':p.tri.part});
@@ -1993,7 +1990,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    log('TRIYANG DRAW COMPLETE',{markers:svg.querySelectorAll('g[data-planet]').length});
  }
  let latestChartData=null;
- window.addEventListener('hora50:chart-calculated',e=>{latestChartData=e.detail||null;const status=document.getElementById('triyangRunStatus50');if(status)status.textContent='รับข้อมูลดวงหลักแล้ว · กด “คำนวณตรียางค์” เพื่อวาดวงแยก';});
+ document.getElementById('calc')?.addEventListener('click',()=>{latestChartData=null;const b=document.getElementById('triyangRun50');if(b){b.disabled=true;b.textContent='รอข้อมูลดวงใหม่…';}});
+ window.addEventListener('hora50:chart-calculated',e=>{latestChartData=e.detail||null;const readyBtn=document.getElementById('triyangRun50');if(readyBtn){readyBtn.disabled=false;readyBtn.textContent='คำนวณตรียางค์';}const status=document.getElementById('triyangRunStatus50');if(status)status.textContent='รับข้อมูลดวงหลักแล้ว · กด “คำนวณตรียางค์” เพื่อวาดวงแยก';});
  document.getElementById('triyangRun50')?.addEventListener('click',()=>{
   const status=document.getElementById('triyangRunStatus50'),results=document.getElementById('triyangResults50'),btn=document.getElementById('triyangRun50');
   if(!latestChartData){if(status)status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดาวเดิม + ดาวจรก่อน';if(results)results.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดวงหลักก่อน';return;}
