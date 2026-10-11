@@ -584,8 +584,9 @@ body,main.container,.container{
   <p><strong>ตารางเวลาเข้าเส้น 0° ของลัคนาจร</strong> คำนวณตามวันที่และสถานที่จรที่เลือก เวลาที่แสดงเป็นเวลาท้องถิ่นของไทย (UTC+7) และวันที่ พ.ศ. ตามช่องวันจร ตารางนี้เป็นส่วนแสดงผลหลัก หากวงล้อมีพื้นที่จำกัดยังอ่านเวลาได้จากตารางนี้</p>
   <div id="ascendantBoundaryTimesTable3" class="reference-table-wrap" aria-live="polite"><p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p></div>
   <h3 style="margin-top:22px">ตารางช่วงเวลาลัคนาจร · มาตรฐานดาวและเกณฑ์ในแต่ละช่วง</h3>
-  <p>แต่ละแถวเริ่มคำนวณดวงจรใหม่ ณ เวลาเข้าราศี และสิ้นสุด ณ เวลาเข้าราศีถัดไป (รองรับช่วงข้ามเที่ยงคืน) โดยไม่แก้สูตรดาวเดิมที่ล็อกไว้ เกณฑ์ที่ยังไม่มีสูตรยืนยันจะแสดงว่า “รอสูตรยืนยัน” ไม่ตัดสินผ่าน/ไม่ผ่านเอง</p>
-  <div id="ascendantSegmentCriteriaTable9" class="reference-table-wrap" aria-live="polite"><p>รอคำนวณช่วงเวลาและตรวจเกณฑ์...</p></div>
+  <p>ส่วนนี้เป็นการวิเคราะห์เพิ่มเติม ใช้เวลาคำนวณมากกว่าตารางเวลาเข้า 0° กรุณากดปุ่มเมื่อต้องการดูผล โดยไม่คำนวณซ้ำอัตโนมัติทุกครั้ง</p>
+  <button type="button" id="runAscendantSegmentCriteria9" class="secondary-button">วิเคราะห์มาตรฐานดาวและเกณฑ์ทั้ง 12 ช่วง</button>
+  <div id="ascendantSegmentCriteriaTable9" class="reference-table-wrap" aria-live="polite"><p>ยังไม่ได้เรียกวิเคราะห์ส่วนนี้</p></div>
   <div class="reference-grid">
     <div class="reference-card">
       <h3>ลัคนาเดิม (ดวงกำเนิด)</h3>
@@ -987,7 +988,10 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const rows=boundaries.slice().sort((a,b)=>Number(a.sign)-Number(b.sign)).map(item=>'<tr><td>0° '+signNames[Number(item.sign)]+'</td><td>'+dateLabel+'</td><td>'+clock(item.minutes)+' น.</td></tr>').join('');
    table.innerHTML='<table class="reference-table"><thead><tr><th>จุดเข้าเส้นราศี</th><th>วันที่เข้า (พ.ศ.)</th><th>เวลาไทย</th></tr></thead><tbody>'+rows+'</tbody></table><p class="reference-note">อ้างอิงวันที่จรและพิกัดสถานที่จรที่เลือกในแบบฟอร์ม</p>';
   }
-  await renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId);
+  const analyzeButton=document.getElementById('runAscendantSegmentCriteria9');
+  if(analyzeButton){
+   analyzeButton.onclick=()=>renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId);
+  }
   if(!svg||!svg.isConnected)return;
   const layer=svgEl(svg,'g',{id:'ascendantBoundaryTimes3','font-family':'system-ui, sans-serif','pointer-events':'none'});
   const ascAngles=[];
