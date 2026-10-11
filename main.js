@@ -201,6 +201,41 @@ function renderStarDetails(natal,transit,tanuSesha){
  }).join('');
  birthEl.innerHTML=natalRows;transitEl.innerHTML=transitRows;
 }
+
+function renderNumericAstrologySummary(natal,transit){
+ const body=$('planetDignityNumberSummaryBody8'),table=$('planetDignityNumberTable8');
+ if(!body||!table)return;
+ const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+ const standards=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ','อนุเกษตร'];
+ const relations=['กุม','ทับ','เล็ง','โยคหน้า','โยคหลัง','ตรีโกณ','จตุโกณ','ฉาก'];
+ const signOf=p=>signObj(p.longitude).name, esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const points=(chart,includeAsc)=>[...(includeAsc?[{name:'ลัคนา',number:'ล',sign:signObj(chart.asc).name,longitude:chart.asc}]:[]),...chart.planets.map(p=>({name:p.name,number:nums[p.name],sign:signOf(p),longitude:p.longitude}))].filter(p=>p.number);
+ const n=points(natal,true),t=points(transit,true),nPlanets=n.filter(p=>p.number!=='ล'),tPlanets=t.filter(p=>p.number!=='ล');
+ const dignity=(list,category)=>[...new Set(list.filter(p=>{const x=((p.longitude%30)+30)%30,d=Math.floor(x),m=Math.floor((x-d)*60),s=Math.round((((x-d)*60)-m)*60);return getPlanetaryDignities(p.name,p.sign,d,m,s).includes(category)}).map(p=>p.number))].join(' · ')||'—';
+ const off=(a,b)=>(signs.indexOf(b.sign)-signs.indexOf(a.sign)+12)%12;
+ const pairs=(from,to,cat,transitMode=false)=>[...new Set(from.flatMap(a=>to.filter(b=>{
+  if(!transitMode&&a.name===b.name)return false;
+  const o=off(a,b);
+  if(cat==='กุม')return o===0;
+  if(cat==='ทับ')return transitMode&&o===0;
+  if(cat==='เล็ง')return o===6;
+  if(cat==='โยคหน้า')return o===2;
+  if(cat==='โยคหลัง')return o===10;
+  if(cat==='ตรีโกณ')return o===4||o===8;
+  if(cat==='จตุโกณ')return o===3||o===9;
+  return false;
+ }).map(b=>transitMode?a.number+'→'+b.number:a.number+'–'+b.number)))].join(' · ')||'—';
+ const rows=[];
+ standards.forEach(c=>rows.push({group:'มาตรฐานดาว',c,n:dignity(nPlanets,c),t:dignity(tPlanets,c)}));
+ relations.forEach(c=>rows.push({group:'ความสัมพันธ์ดาว',c,n:c==='ทับ'?'—':pairs(n,n,c),t:c==='ฉาก'?'ต้องกำหนดออร์บองศาก่อน':pairs(t,n,c,true)}));
+ const occupied=new Set(n.filter(p=>p.number==='ล'||['๑','๒','๓','๔','๕','๖','๗','๘'].includes(p.number)).map(p=>p.sign));
+ const ascIndex=signs.indexOf(signObj(natal.asc).name),missing=[1,3,5,7,9,11].filter(h=>!occupied.has(signs[(ascIndex+h-1)%12]));
+ rows.push({group:'เกณฑ์พิเศษที่มีโครงสูตรในคลัง',c:'ดอกพิกุล · แบบ A: ตำแหน่ง 1, 3, 5, 7, 9, 11 จากลัคนา',n:missing.length?'ยังไม่ครบ · ขาดภพ '+missing.join(', '):'ครบตำแหน่งตามโครงแบบ A*',t:'ไม่ประเมินเป็นดวงกำเนิด'});
+ ['ดอกอุตพิต','นำผล/นำพล','ตามผล/ขับพล','ดวงโลงผี','ดวงสามเหลี่ยม/ดวงหนุมาน','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','ปฏินกะโชค','ราคาโชค'].forEach(c=>rows.push({group:'คลังชื่อเกณฑ์ที่ต้องแยกสูตร',c,n:'ไม่แสดงเลขจนมีเงื่อนไขครบ',t:'ไม่แสดงเลขจนมีเงื่อนไขครบ'}));
+ let group='';body.innerHTML=rows.map(r=>{const g=r.group!==group?'<tr class="criteria7-group-row"><th colspan="3">'+esc(r.group)+'</th></tr>':'';group=r.group;return g+'<tr><td>'+esc(r.c)+'</td><td>'+esc(r.n)+'</td><td>'+esc(r.t)+'</td></tr>'}).join('');
+ const head=table.querySelector('thead');if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
+ const lead=$('planetDignityNumberSummary8')?.querySelector('.criteria7-lead');if(lead)lead.textContent='สร้างตารางจากวัตถุผลคำนวณโดยตรง จึงไม่ต้องอ่านย้อนจาก HTML. เลขเดี่ยวคือดาวที่เข้าเกณฑ์; ๓–๖ คือคู่ดาวเดิม; ๓→๖ คือดาวจรเทียบดาวเดิม. กุม/ทับ/เล็ง/โยค/ตรีโกณ/จตุโกณคำนวณจากราศีตามชุดกฎของโปรเจค ส่วนฉากต้องกำหนดออร์บองศา. ดอกพิกุลแสดงเพียงโครงตำแหน่งแบบ A ซึ่งยังมีเงื่อนไขบางส่วนที่ต้องยืนยัน.';
+}
 function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60),direction=isLatitude?(value<0?'S':'N'):(value<0?'W':'E');return degrees+'°'+direction+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+"''";}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
 function render(natal,transit){
@@ -239,7 +274,7 @@ function render(natal,transit){
  '<div class="birth-details-line birth-lunar">จันทรคติ '+safeText(lunarText(f.date,transitLunar,f.time))+'</div>'+
  '<div class="birth-details-line birth-location">'+safeText(locationTransit)+'</div>'+
  '<div class="birth-details-line birth-age">อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(Number(f.date.slice(0,4))+544)+')</div></div>';
- renderWheel(natal,transit,tanuSesha);console.log('[HORA][RENDER] natal updated',natal);renderStarDetails(natal,transit,tanuSesha);renderQA(natal);console.log('[HORA][TABLE] ดาวกำเนิดและดาวจรจริง rendered')
+ renderWheel(natal,transit,tanuSesha);console.log('[HORA][RENDER] natal updated',natal);renderStarDetails(natal,transit,tanuSesha);renderNumericAstrologySummary(natal,transit);renderQA(natal);console.log('[HORA][TABLE] ดาวกำเนิด ดาวจร และตารางเลขเกณฑ์ rendered')
 }
 function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
 function bootHORA(){
