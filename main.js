@@ -234,7 +234,7 @@ function renderNumericAstrologySummary(natal,transit){
  const rahu=natal.planets.find(p=>p.name==='ราหู');
  const rahuSign=rahu?signOf(rahu):'—';
  const rahuHouse=rahu?((signs.indexOf(rahuSign)-signs.indexOf(signObj(natal.asc).name)+12)%12)+1:null;
- const airSigns=['เมถุน','ตุลย์','กุมภ์'];
+ const airSigns=['มิถุน','ตุล','กุมภ์'];
  rows.push({group:'เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา',c:'ปกิณกะโชค · แบบ A: ราหูในราศีธาตุลม',n:rahu?(airSigns.includes(rahuSign)?'๘ — เข้าเกณฑ์ · ราหูอยู่ราศี'+rahuSign:'๘ — ไม่เข้าเกณฑ์ · ราหูอยู่ราศี'+rahuSign):'ข้อมูลราหูไม่ครบ',t:'ไม่ใช้ดาวจร · ตรวจดวงกำเนิด'});
  rows.push({group:'เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา',c:'ปกิณกะโชค · แบบ B: ราหูโยคหน้าลัคนา (บุญสุรา)',n:rahu?(rahuHouse===3?'๘ — เข้าเกณฑ์ · ราหูภพ 3':'๘ — ไม่เข้าเกณฑ์ · ราหูภพ '+rahuHouse):'ข้อมูลราหูไม่ครบ',t:'ไม่ใช้ดาวจร · ตรวจดวงกำเนิด'});
  ['ดอกอุตพิต','นำผล/นำพล','ตามผล/ขับพล','ดวงโลงผี','ดวงสามเหลี่ยม/ดวงหนุมาน','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','ราคาโชค'].forEach(c=>rows.push({group:'คลังชื่อเกณฑ์ที่ต้องแยกสูตร',c,n:'ยังไม่มีสูตรที่ยืนยันครบ',t:'ยังไม่มีสูตรที่ยืนยันครบ'}));
