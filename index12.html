@@ -963,13 +963,15 @@ function renderNumberFrequencySummary12(){
  const box=document.getElementById('numberFrequencySummary12');if(!box)return;
  const records=readNumberHistory12();
  if(!records.length){box.innerHTML='<p>ยังไม่มีข้อมูลที่บันทึกจากการวิเคราะห์ช่วงเวลา</p>';return}
- const counts=Object.fromEntries('0123456789'.split('').map(n=>[n,0]));
+ const digitOrder='๐๑๒๓๔๕๖๗๘๙'.split('');
+ const counts=Object.fromEntries(digitOrder.map(n=>[n,0]));
  let occurrences=0;
  for(const record of records)for(const item of (record.numbers||[])){
   const n=String(item.number);if(Object.prototype.hasOwnProperty.call(counts,n)){counts[n]++;occurrences++}
  }
- const digits=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]||Number(a)-Number(b));
- const rows=digits.map(n=>'<tr><td>'+n+'</td><td>'+({'0':'มฤตยู','1':'อาทิตย์','2':'จันทร์','3':'อังคาร','4':'พุธ','5':'พฤหัสบดี','6':'ศุกร์','7':'เสาร์','8':'ราหู','9':'เกตุ'}[n])+'</td><td>'+counts[n]+'</td><td>'+(occurrences?(counts[n]*100/occurrences).toFixed(2):'0.00')+'%</td></tr>').join('');
+ const planetByDigit={'๐':'มฤตยู','๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ'};
+ const digits=digitOrder.slice().sort((a,b)=>counts[b]-counts[a]||digitOrder.indexOf(a)-digitOrder.indexOf(b));
+ const rows=digits.map(n=>'<tr><td>'+n+'</td><td>'+planetByDigit[n]+'</td><td>'+counts[n]+'</td><td>'+(occurrences?(counts[n]*100/occurrences).toFixed(2):'0.00')+'%</td></tr>').join('');
  box.innerHTML='<p><strong>ช่วงเวลาที่บันทึก:</strong> '+records.length+' ช่วงที่ไม่ซ้ำกัน · <strong>จำนวนเลขดาวที่นับ:</strong> '+occurrences+'</p><div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>เลข</th><th>ดาว</th><th>จำนวนที่พบ</th><th>สัดส่วน</th></tr></thead><tbody>'+rows+'</tbody></table></div><p class="reference-note">นับความถี่จากเลขดาวจรทั้ง 10 ดวงในแต่ละช่วงที่บันทึกซ้ำได้หนึ่งชุดต่อวัน เวลาเริ่ม ราศีลัคนาจร และพิกัดเดียวกัน การคำนวณซ้ำเงื่อนไขเดิมจะอัปเดตข้อมูลเดิม ไม่เพิ่มจำนวนซ้ำเทียม</p>';
 }
 document.getElementById('clearNumberHistory12')?.addEventListener('click',()=>{
