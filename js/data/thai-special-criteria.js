@@ -71,9 +71,8 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
     ruleType: 'sign-occupancy',
     requiredSigns: ['มิถุน', 'สิงห์', 'ธนู', 'กุมภ์'],
-    acceptedOccupants: ['ดาวกำเนิด', 'ลัคนา'],
-    requiredOccupancy: 'แต่ละราศีที่กำหนดต้องมีดาวเดิมหรือลัคนาเดิมอย่างน้อยหนึ่งตำแหน่ง',
     acceptedOccupants: ['ดาวกำเนิด', 'ลัคนาเดิม'],
+    requiredOccupancy: 'แต่ละราศีที่กำหนดต้องมีดาวเดิมหรือลัคนาเดิมอย่างน้อยหนึ่งตำแหน่ง',
     planets: 'ดาวเดิมดวงใดก็ได้ และลัคนาเดิม; ไม่ใช้ดาวจรหรือลัคนาจร',
     notes: [
       'ผู้ใช้ยืนยันสูตร: ต้องมีตำแหน่งดาวเดิมหรือลัคนาเดิมอยู่ครบทั้งเมถุน สิงห์ ธนู และกุมภ์',
