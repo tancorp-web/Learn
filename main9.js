@@ -362,12 +362,14 @@ function bootHORA(){
   if(button.dataset.calculating==='1')return;
   button.dataset.calculating='1';button.classList.add('is-calculating');button.disabled=true;button.setAttribute('aria-busy','true');
   button.textContent='กำลังคำนวณ…';
-  const msg=$('msg');if(msg)msg.textContent='กำลังคำนวณดาวจรจากวัน เวลา และสถานที่จรเท่านั้น';
+  const msg=$('msg');if(msg)msg.textContent='กำลังคำนวณดาวกำเนิดและดาวจรจากข้อมูลที่เลือก';
   setTimeout(()=>{
-   console.group('[HORA][TRANSIT ONLY]');
+   console.group('[HORA][NATAL + TRANSIT]');
    try{
-    const f=getInput('f');
+    const b=getInput('b'),f=getInput('f');
+    const natal=calcAt(b.date,b.time,true,{lat:$('bLat').value,lon:$('bLon').value,timezone:7});
     const transit=calcAt(f.date,f.time,false,{lat:$('fLat').value,lon:$('fLon').value,timezone:7});
+    render(natal,transit);
     const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
     const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
     const rows=transit.planets.map(p=>{
@@ -376,15 +378,15 @@ function bootHORA(){
      return '<tr><td>'+esc(nums[p.name]||'—')+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.sign.name)+'</td><td>'+esc(formatInSign(p.longitude))+'</td><td>'+esc(cats.join(' · ')||'—')+'</td><td>'+esc(v.nav+' / '+v.dre)+'</td><td>'+esc(formatNakFull(p.longitude))+'</td></tr>';
     }).join('');
     const box=$('transitOnlyTable12');
-    if(box)box.innerHTML='<p><strong>วันเวลาจร:</strong> '+esc(f.date)+' '+esc(f.time)+' น. · <strong>ลัคนาจร:</strong> '+esc(ascSummary(transit.asc))+'</p><div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>เลขดาว</th><th>ดาวจร</th><th>ราศีจร</th><th>องศาจร</th><th>มาตรฐานดาวจร</th><th>นวางค์ / ตรียางค์จร</th><th>ฤกษ์จร</th></tr></thead><tbody>'+rows+'</tbody></table></div><p class="reference-note">คำนวณจากวัน เวลา และพิกัดจรที่เลือกเท่านั้น ไม่ใช้ข้อมูลดวงกำเนิด</p>';
-    if(msg)msg.innerHTML='<div class="ok">✓ คำนวณดาวจรเสร็จแล้ว</div>';
+    if(box)box.innerHTML='<p><strong>วันเวลาจร:</strong> '+esc(f.date)+' '+esc(f.time)+' น. · <strong>ลัคนาจร:</strong> '+esc(ascSummary(transit.asc))+'</p><div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>เลขดาว</th><th>ดาวจร</th><th>ราศีจร</th><th>องศาจร</th><th>มาตรฐานดาวจร</th><th>นวางค์ / ตรียางค์จร</th><th>ฤกษ์จร</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+    if(msg)msg.innerHTML='<div class="ok">✓ คำนวณดาวกำเนิด ดาวจร และวงกลมจักรราศีเสร็จแล้ว</div>';
    }catch(err){console.error('[HORA][ERROR]',err);showRuntimeError(err)}
    finally{
-    button.dataset.calculating='0';button.classList.remove('is-calculating');button.disabled=false;button.removeAttribute('aria-busy');button.textContent='คำนวณดาวจร';
+    button.dataset.calculating='0';button.classList.remove('is-calculating');button.disabled=false;button.removeAttribute('aria-busy');button.textContent='คำนวณดาวเดิม + ดาวจร';
     console.groupEnd();
    }
   },35);
- });
+ });;
  initDropdowns();window.__HORA_BOOT_OK=true;
  const bootDiagnostic=$('bootDiagnostic');if(bootDiagnostic)bootDiagnostic.hidden=true;
  requestAnimationFrame(()=>console.log('[HORA][BOOT] initial star details ready'));
