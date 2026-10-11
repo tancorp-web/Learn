@@ -168,11 +168,16 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     aliases: ['ดวงหนุมาน'],
     nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'รูปแบบการกระจายดาว',
-    status: CRITERION_STATUS.DISCOVERY,
-    ruleType: null,
-    planets: 'ยังไม่ยืนยันว่าต้องใช้ดาวใดและครบกี่ตำแหน่ง',
-    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “ดวงสามเหลี่ยม/ดวงหนุมาน” ในฐานะชื่อพ้อง; สูตร/เงื่อนไขยังไม่ครบและยังปิดใช้งาน', 'การรวมชื่อไม่อนุญาตให้อนุมานว่าสูตรของทุกสำนักเหมือนกัน'],
-    execution: 'DISABLED'
+    status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
+    ruleType: 'hanuman-three-sign-count',
+    planets: 'ดาวเดิม ๐–๙ และลัคนาเดิม',
+    requiredSigns: [],
+    housesFromAscendant: [12, 1, 2],
+    requiredOccupancy: 5,
+    acceptedOccupants: ['ดาวเดิม ๐–๙', 'ลัคนาเดิม'],
+    notes: ['ผู้ใช้ยืนยันสูตร 2026-10-11: ตรวจภพวินาสน์–ตนุ–กดุมภะ (3 ราศีต่อเนื่องโดยมีลัคนาเดิมตรงกลาง)', 'นับดาวเดิม ๐–๙ รวมลัคนาเดิมเป็นหนึ่งตำแหน่ง; ต้องรวมอย่างน้อย 5 ตำแหน่ง', 'ใช้เฉพาะดาวเดิมและลัคนาเดิม; นับมฤตยู (๐) และเกตุ (๙) ด้วย', 'มีตัวตรวจเฉพาะใน index8.html; ไม่ใช้กฎการกรองดาวของเกณฑ์อื่น'],
+    evidence: 'กฎที่ผู้ใช้ยืนยันในบทสนทนา 2026-10-11',
+    execution: 'REFERENCE_ONLY'
   },
   {
     id: 'SPECIAL-MOON-CRESCENT',
@@ -264,11 +269,11 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     mergedInto: 'SPECIAL-CHART-TRIANGLE',
     category: 'รูปแบบดวงชื่อเฉพาะ',
-    status: CRITERION_STATUS.SOURCE_VARIANT,
-    ruleType: null,
-    planets: 'ยังไม่ยืนยันว่าต้องใช้ดาวใด',
-    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “ดวงสามเหลี่ยม/ดวงหนุมาน” ในฐานะชื่อพ้อง; ใช้ SPECIAL-CHART-TRIANGLE เป็นรายการอ้างอิงชื่อ', 'คงรหัสเดิมไว้เพื่อความเข้ากันได้; สูตรยังไม่ครบและไม่เปิดใช้งาน'],
-    execution: 'DISABLED'
+    status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
+    ruleType: 'hanuman-three-sign-count',
+    planets: 'อ้างอิง SPECIAL-CHART-TRIANGLE: ดาวเดิม ๐–๙ และลัคนาเดิม รวมอย่างน้อย 5 ตำแหน่ง',
+    notes: ['คงรหัสเดิมไว้เพื่อความเข้ากันได้; สูตรอ้างอิงที่ผู้ใช้ยืนยันแล้วถูกจัดเก็บที่ SPECIAL-CHART-TRIANGLE', 'ใช้ตัวตรวจเดียวกับดวงสามเหลี่ยม ไม่สร้างเกณฑ์หนุมานซ้ำ'],
+    execution: 'REFERENCE_ONLY'
   },
   {
     id: 'SPECIAL-POINT-SPEAR',
