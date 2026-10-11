@@ -403,6 +403,14 @@ main.container h3::after{
 </style>
 
 
+
+<style>
+#triyangRun50,#navamsaRun50,#thaksaRun51{min-height:46px;border:0;border-radius:12px;padding:12px 22px;background:linear-gradient(135deg,#6b5ce7,#4b49b9);color:#fff;cursor:pointer;font:inherit;font-weight:800;box-shadow:0 7px 16px #534cc33d;transition:transform .18s,box-shadow .18s,filter .18s}
+#triyangRun50:hover,#navamsaRun50:hover,#thaksaRun51:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 10px 22px #534cc34d}
+#triyangRun50:active,#navamsaRun50:active,#thaksaRun51:active{transform:translateY(2px) scale(.985);filter:brightness(.92);box-shadow:0 2px 6px #534cc34d}
+#triyangRun50:focus-visible,#navamsaRun50:focus-visible,#thaksaRun51:focus-visible{outline:3px solid #6258d959;outline-offset:2px}
+</style>
+
 <section class="panel" id="thaksaPanel51">
  <div class="section-title" style="flex-wrap:wrap">
   <h2>ตารางทักษาเดิม · ตารางทักษาจร</h2>
@@ -422,7 +430,7 @@ main.container h3::after{
 #thaksaPanel51 .thaksa51-card{border:1px solid #e1e6f0;border-radius:12px;background:#fff;padding:12px;min-width:0}
 #thaksaPanel51 .thaksa51-card h3{font-size:15px;font-weight:900;margin:0 0 8px;color:#172746}
 #thaksaPanel51 .thaksa51-square{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;max-width:420px;width:100%;margin:5px auto;aspect-ratio:1;padding:4px;border:2px solid #334779;border-radius:10px}
-#thaksaPanel51 .thaksa51-square.transit{border-color:#b96b18}
+#thaksaPanel51 .thaksa51-square.transit{border:0}
 #thaksaPanel51 .thaksa51-cell{border:1px solid #dfe5f0;border-radius:7px;background:#f9faff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3px;min-width:0;gap:4px}
 #thaksaPanel51 .thaksa51-cell b{font-size:clamp(12px,1.7vw,16px);font-weight:950}
 #thaksaPanel51 .thaksa51-role{display:inline-block;font-size:clamp(10px,1.25vw,12px);font-weight:900;color:#27334b;padding:2px 5px;border:1px solid transparent;border-radius:6px;line-height:1.25}
@@ -460,7 +468,7 @@ main.container h3::after{
  function ageData(b,t){let years=t.y-b.y;if(t.m<b.m||(t.m===b.m&&t.d<b.d))years--;let months=t.m-b.m;if(t.d<b.d)months--;if(months<0)months+=12;let days=t.d-b.d;if(days<0)days+=new Date(t.y,t.m-1,0).getDate();return {years:Math.max(0,years),months,days,ageYang:Math.max(1,years+1)}}
  function digitalRoot(n){while(n>9)n=String(n).split('').reduce((a,c)=>a+Number(c),0);return n}
  function transitPlanet(start,ageYang){const count=digitalRoot(ageYang);let i=path.indexOf(start);if(i<0)i=0;let found;for(let n=0;n<count;n++)found=path[(i+n)%path.length];if(found==='จุดกลาง')found='พฤหัสบดี';return {planet:found,count}}
- function draw(id,start,highlight,isTransit){const target=document.getElementById(id);target.innerHTML='';target.classList.toggle('transit',isTransit);const roleByPlanet={};let idx=planets.indexOf(start);if(idx<0)idx=0;for(let i=0;i<8;i++)roleByPlanet[planets[(idx+i)%8]]=roles[i];const color={'อาทิตย์':'sun','จันทร์':'moon','อังคาร':'mars','พุธ':'mercury','พฤหัสบดี':'jupiter','ศุกร์':'venus','เสาร์':'saturn','ราหู':'rahu'};slots.forEach(slot=>{const el=document.createElement('div');if(slot==='center'){el.className='thaksa51-cell center';el.setAttribute('aria-label','ตากลาง');const c=document.createElement('b');c.textContent='ตากลาง';c.style.fontSize='12px';el.append(c)}else{const p=planets[slot],role=roleByPlanet[p];el.className='thaksa51-cell '+(color[p]||'')+(p===highlight?' highlight':'');const name=document.createElement('b');name.textContent=p;const r=document.createElement('span');r.className='thaksa51-role';if(role==='ศรี')r.classList.add('role-sri');if(role==='กาลกิณี')r.classList.add('role-kal');r.textContent=role+(isTransit?'จร':'');el.append(name,r)}target.appendChild(el)})}
+ function draw(id,start,highlight,isTransit){const target=document.getElementById(id);target.innerHTML='';target.classList.toggle('transit',isTransit);const roleByPlanet={};let idx=planets.indexOf(start);if(idx<0)idx=0;for(let i=0;i<8;i++)roleByPlanet[planets[(idx+i)%8]]=roles[i];const color={'อาทิตย์':'sun','จันทร์':'moon','อังคาร':'mars','พุธ':'mercury','พฤหัสบดี':'jupiter','ศุกร์':'venus','เสาร์':'saturn','ราหู':'rahu'};slots.forEach(slot=>{const el=document.createElement('div');if(slot==='center'){el.className='thaksa51-cell center';el.setAttribute('aria-label','ตากลาง')}else{const p=planets[slot],role=roleByPlanet[p];el.className='thaksa51-cell '+(color[p]||'')+(p===highlight?' highlight':'');const name=document.createElement('b');name.textContent=p;const r=document.createElement('span');r.className='thaksa51-role';if(role==='ศรี')r.classList.add('role-sri');if(role==='กาลกิณี')r.classList.add('role-kal');r.textContent=role+(isTransit?'จร':'');el.append(name,r)}target.appendChild(el)})}
  function calculate(){if(!chartReady){status.textContent='กรุณากด “คำนวณดวง” ก่อน แล้วจึงคำนวณทักษา';return}const bd=getDate('b'),bt=getTime('b'),fd=getDate('f');if(!bd||!bt||!fd){status.textContent='ข้อมูลวันเกิดหรือวันทำนายไม่ครบ กรุณาตรวจสอบช่องวัน เดือน ปี และเวลา';return}const b=birthPlanet(bd,bt),age=ageData(bd,fd),t=transitPlanet(b.planet,age.ageYang);draw('thaksaOld51',b.planet,'',false);draw('thaksaTransit51',t.planet,t.planet,true);const weekday=weekdayThai[b.dow];summary.innerHTML='<strong>บริวารเดิม:</strong> ดาว'+b.planet+' · <strong>บริวารจร:</strong> ดาว'+t.planet+'จร · <strong>อายุย่าง:</strong> '+age.ageYang+' ปี · <strong>วันเกิดที่ใช้:</strong> '+weekday+(b.beforeSix?' (เกิดก่อน 06:00 น. จึงนับวันก่อนหน้า)':'');status.textContent='คำนวณทักษาเรียบร้อย · ใช้วันเกิด/เวลาที่กรอก และวันทำนายปัจจุบันจากแบบฟอร์มหลัก'}
  run.addEventListener('click',calculate);
  window.addEventListener('hora50:chart-calculated',()=>{chartReady=true;status.textContent='ดวงหลักคำนวณแล้ว · กด “คำนวณทักษา” เพื่อแสดงผังทักษาเดิมและทักษาจร'});
