@@ -542,7 +542,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main9.js?v=20261011-transit-only-no-natal-2"></script>
+<script type="module" src="./main9.js?v=20261011-transit-relations-column-1"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
@@ -999,16 +999,17 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
     const standards=analysis?.standards?.length?analysis.standards.map(x=>escapeHtml(x)).join(' · '):'—';
     const criteria=analysis?.criteria?.length?analysis.criteria.map(x=>escapeHtml(x)).join(' · '):'—';
     const numbers=analysis?.numbers?.length?analysis.numbers.map(x=>x.number).join(' · '):'—';
+    const relations=analysis?.relations?.length?analysis.relations.map(x=>escapeHtml(x)).join(' · '):'ไม่พบความสัมพันธ์ตามเกณฑ์ราศีที่รองรับ';
     segmentRecords.push({
      sign:signNames[Number(item.sign)]||'—',
      date:String(startDate.getUTCFullYear())+'-'+pad(startDate.getUTCMonth()+1)+'-'+pad(startDate.getUTCDate()),
      startTime,endTime,longitude:Number(lon.toFixed(5)),
      numbers:(analysis?.numbers||[]).map(x=>({planet:x.planet,number:String(x.number)}))
     });
-    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td></tr>');
+    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td><td>'+relations+'</td></tr>');
    }
    if(runId!==boundaryRun)return;
-   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจรที่เข้าเกณฑ์มาตรฐาน</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">เลขดาวจรใช้ mapping ที่มีอยู่ใน HORA: อาทิตย์ ๑, จันทร์ ๒, อังคาร ๓, พุธ ๔, พฤหัสบดี ๕, ศุกร์ ๖, เสาร์ ๗, ราหู ๘, เกตุ ๙, มฤตยู ๐. คำนวณจากวัน เวลา และพิกัดจร ณ เวลาเริ่มแต่ละช่วงเท่านั้น ไม่ใช้ข้อมูลดวงกำเนิดหรือเทียบดาวเดิม; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
+   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจรที่เข้าเกณฑ์มาตรฐาน</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>ความสัมพันธ์ดาวจรและลัคนาจร</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ความสัมพันธ์คำนวณจากราศีของดาวจรทุกคู่และลัคนาจร ณ เวลาเริ่มช่วง ได้แก่ กุม ทับลัคนาจร เล็ง โยคหน้า โยคหลัง ตรีโกณ และจตุโกณตามตำแหน่งราศีที่เข้าเกณฑ์เท่านั้น ไม่ใช้ข้อมูลดวงกำเนิด; มุมองศาอย่างฉากที่ยังไม่มีค่าออร์บยืนยัน และเกณฑ์พิเศษที่ยังไม่มีสูตรยืนยันจะไม่ตัดสินอัตโนมัติ. ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
    saveSegmentNumberHistory12(segmentRecords);
    renderNumberFrequencySummary12();
   }
