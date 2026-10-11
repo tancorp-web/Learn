@@ -320,6 +320,21 @@ main.container h3::after{
   overflow:hidden!important;pointer-events:none!important;
 }
 
+
+/* index12 fix: reference-only categories must stay fully hidden, including nested elements.
+   Keep their headings in the layout tree so the requested original category numbers remain stable. */
+#natalCriteriaPanel7 *,
+#goldenCases2 *,
+#divisionalReference2 *,
+#thaksaReference2 *,
+#housesAndPlanets2 *,
+#lunarKetuReference2 *,
+#otherReferences2 *,
+#ascendantTimeKnowledge3 *,
+#errorLog *{
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
 </style>
 
 <style id="displayPickerStyle9">
