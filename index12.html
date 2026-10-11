@@ -568,6 +568,31 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
 })();
 </script>
 <script type="module" src="./main9.js?v=20261011-diagnostic-copy-log-2"></script>
+<script type="module" id="index12-default-calendar-overrides">
+/* index12 only: apply requested defaults after main9.js initializes its dropdowns. */
+(()=>{
+  const $=id=>document.getElementById(id);
+  const now=new Date();
+  const day=String(now.getDate()), month=String(now.getMonth()+1), year=String(now.getFullYear()+543);
+  for(const prefix of ['b','f']){
+    if($(prefix+'Day')) $(prefix+'Day').value=day;
+    if($(prefix+'Month')) $(prefix+'Month').value=month;
+    if($(prefix+'Year')) $(prefix+'Year').value=year;
+    if($(prefix+'Province')){
+      $(prefix+'Province').value='1'; // กรุงเทพมหานคร
+      $(prefix+'Province').dispatchEvent(new Event('change',{bubbles:true}));
+    }
+    if($(prefix+'District')){
+      $(prefix+'District').value='พระนคร';
+      $(prefix+'District').dispatchEvent(new Event('change',{bubbles:true}));
+    }
+  }
+  if($('bHour')) $('bHour').value='6';
+  if($('bMinute')) $('bMinute').value='0';
+  if($('fHour')) $('fHour').value=String(now.getHours());
+  if($('fMinute')) $('fMinute').value=String(now.getMinutes());
+})();
+</script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
