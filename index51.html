@@ -473,7 +473,7 @@ main.container h3::after{
  const pad=n=>String(n).padStart(2,'0');
  function getDate(prefix){const d=Number(val(prefix+'Day')),m=Number(val(prefix+'Month')),y=Number(val(prefix+'Year'));if(!d||!m||!y||m<1||m>12)return null;const ad=y-543,lastDay=new Date(ad,m,0).getDate();if(d<1||d>lastDay)return null;return {d,m,y,ad,date:new Date(ad,m-1,d,12)}}
  function getTime(prefix){const h=val(prefix+'Hour'),m=val(prefix+'Minute');if(h===''||m==='')return null;return {h:Number(h),m:Number(m)}}
- function birthPlanet(date,time){let dow=date.date.getDay();const beforeSix=time.h<6;const wedNight=(dow===3&&time.h>=18)||(dow===4&&beforeSix);if(beforeSix){const prev=new Date(date.y,date.m-1,date.d-1,12);dow=prev.getDay()}return {planet:wedNight?'ราหู':weekdayPlanet[dow],dow,beforeSix,wedNight}}
+ function birthPlanet(date,time){let dow=date.date.getDay();const beforeSix=time.h<6;const wedNight=(dow===3&&time.h>=18)||(dow===4&&beforeSix);if(beforeSix){const prev=new Date(date.ad,date.m-1,date.d-1,12);dow=prev.getDay()}return {planet:wedNight?'ราหู':weekdayPlanet[dow],dow,beforeSix,wedNight}}
  function ageData(b,t){let years=t.y-b.y;if(t.m<b.m||(t.m===b.m&&t.d<b.d))years--;let months=t.m-b.m;if(t.d<b.d)months--;if(months<0)months+=12;let days=t.d-b.d;if(days<0)days+=new Date(t.ad,t.m-1,0).getDate();return {years:Math.max(0,years),months,days,ageYang:Math.max(1,years+1)}}
  function digitalRoot(n){while(n>9)n=String(n).split('').reduce((a,c)=>a+Number(c),0);return n}
  function transitPlanet(start,ageYang){const count=digitalRoot(ageYang);let i=path.indexOf(start);if(i<0)i=0;let found;for(let n=0;n<count;n++)found=path[(i+n)%path.length];if(found==='จุดกลาง')found='พฤหัสบดี';return {planet:found,count}}
