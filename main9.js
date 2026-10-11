@@ -308,7 +308,8 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
  criteria.push('ตามผล/ขับพล: รอสูตรยืนยัน');
  criteria.push('ดอกพิกุล: โครงแบบ A ยังรอยืนยันเงื่อนไขครบ');
  if(!criteria.length)criteria.push('ไม่พบเกณฑ์ที่ยืนยันได้ในช่วงนี้');
- return {standards,criteria,ascSign:signObj(transit.asc).name};
+ const numbers=transit.planets.map(p=>({planet:p.name,number:nums[p.name]})).filter(p=>p.number!==undefined);
+ return {standards,criteria,numbers,ascSign:signObj(transit.asc).name};
 };
 function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60),direction=isLatitude?(value<0?'S':'N'):(value<0?'W':'E');return degrees+'°'+direction+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+"''";}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
