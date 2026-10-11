@@ -1389,43 +1389,95 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  });
 })();
 
-/* HORA index8: summarize dignity categories as planet numbers in one natal/transit table. */
+/* HORA index8: unified numeric summary of dignity, sign relations, and project knowledge catalog. */
 (function(){
- const categories=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ'];
+ const standardCategories=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ','อนุเกษตร'];
+ const relationCategories=['กุม','ทับ','เล็ง','โยคหน้า','โยคหลัง','ตรีโกณ','จตุโกณ','ฉาก'];
+ const specialCategories=['ดอกพิกุล','ดอกอุตพิต','นำผล/นำพล','ตามผล/ขับพล','ดวงโลงผี/ดวงโลงศพ','ดวงสามเหลี่ยม/ดวงหนุมาน','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','เสี้ยวจันทร์','ปฏินกะโชค','ราคาโชค'];
  const numberByPlanet={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const body=document.getElementById('planetDignityNumberSummaryBody8');
  const natal=document.getElementById('natalStarDetailsBody');
  const transit=document.getElementById('transitStarDetailsBody');
- if(!body||!natal||!transit)return;
+ const table=document.getElementById('planetDignityNumberTable8');
+ if(!body||!natal||!transit||!table)return;
  const escapeHtml=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
- function readChart(tbody){
-  const found=Object.fromEntries(categories.map(category=>[category,[]]));
+ const allCategories=[...standardCategories,...relationCategories,...specialCategories];
+ const parseChart=tbody=>{
+  const planets=[];
   [...tbody.querySelectorAll('tr')].forEach(row=>{
    const cells=row.querySelectorAll('td');
    if(cells.length<6)return;
    const name=(cells[0].textContent||'').trim().replace(/\+$/,'');
    const number=numberByPlanet[name];
-   if(!number)return;
-   const standards=(cells[5].textContent||'').split(' · ').map(x=>x.trim()).filter(Boolean);
-   standards.forEach(raw=>{
+   const sign=(cells[1].textContent||'').trim();
+   if(!number||!signs.includes(sign))return;
+   const degreeText=(cells[2].textContent||'').trim();
+   const dm=degreeText.match(/(\d{1,2})\s*°\s*(\d{1,2})/);
+   const degree=dm?Number(dm[1])+Number(dm[2])/60:0;
+   planets.push({name,number,sign,signIndex:signs.indexOf(sign),degree,standardText:(cells[5].textContent||'').trim()});
+  });
+  return planets;
+ };
+ const natalPlanets=parseChart(natal),transitPlanets=parseChart(transit);
+ const unique=list=>[...new Set(list)];
+ const signRelation=(from,to)=>{
+  const offset=(to.signIndex-from.signIndex+12)%12;
+  if(offset===0)return ['กุม'];
+  if(offset===6)return ['เล็ง'];
+  if(offset===2)return ['โยคหน้า'];
+  if(offset===10)return ['โยคหลัง'];
+  if(offset===4||offset===8)return ['ตรีโกณ'];
+  if(offset===3||offset===9)return ['จตุโกณ'];
+  return [];
+ };
+ const relationResults=(source,target,relation,mode)=>{
+  const out=[];
+  source.forEach(a=>target.forEach(b=>{
+   if(a===b&&mode==='natal')return;
+   const rels=signRelation(a,b);
+   let match=relation==='ทับ' ? mode==='transit'&&a.signIndex===b.signIndex : rels.includes(relation);
+   if(match){
+    const pair=mode==='natal'?a.number+'–'+b.number:a.number+'→'+b.number;
+    out.push(pair);
+   }
+  }));
+  return unique(out);
+ };
+ const standardResults=(planets,category)=>{
+  const out=[];
+  planets.forEach(p=>{
+   const pieces=p.standardText.split(' · ').map(x=>x.trim()).filter(Boolean);
+   pieces.forEach(raw=>{
     const provisional=/อ้างอิง\s*[·.]\s*รอยืนยัน/.test(raw);
     const label=raw.replace(/\s*\(อ้างอิง\s*[·.]\s*รอยืนยัน\)\s*/g,'').trim();
-    const category=label==='อุจ'?'อุจจ์':label;
-    if(found[category]&&!found[category].some(item=>item.number===number)){
-     found[category].push({number,provisional});
-    }
+    const normalized=label==='อุจ'?'อุจจ์':label;
+    if(normalized===category)out.push(p.number+(provisional?'*':''));
    });
   });
-  return found;
- }
- function render(){
-  const natalData=readChart(natal),transitData=readChart(transit);
-  body.innerHTML=categories.map(category=>{
-   const natalNumbers=natalData[category].map(x=>x.number+(x.provisional?'*':'')).join(' · ')||'—';
-   const transitNumbers=transitData[category].map(x=>x.number+(x.provisional?'*':'')).join(' · ')||'—';
-   return '<tr><td>'+escapeHtml(category)+'</td><td>'+escapeHtml(natalNumbers)+'</td><td>'+escapeHtml(transitNumbers)+'</td></tr>';
-  }).join('');
- }
+  return unique(out);
+ };
+ const pending='รอสูตร/นิยามยืนยัน';
+ const render=()=>{
+  const rows=[];
+  standardCategories.forEach(category=>{
+   rows.push({category, natal:standardResults(natalPlanets,category).join(' · ')||'—',transit:standardResults(transitPlanets,category).join(' · ')||'—',group:'มาตรฐานดาว'});
+  });
+  relationCategories.forEach(category=>{
+   const n=category==='ทับ'?'— (ใช้เทียบดาวจรกับดาวเดิม)':relationResults(natalPlanets,natalPlanets,category,'natal').join(' · ')||'—';
+   const t=relationResults(transitPlanets,natalPlanets,category,'transit').join(' · ')|| (category==='ฉาก'?'รอเกณฑ์มุมองศา/ออร์บ':'—');
+   rows.push({category,natal:n,transit:t,group:'ความสัมพันธ์ดาว'});
+  });
+  specialCategories.forEach(category=>{
+   rows.push({category:category+' · อ้างอิง/รอยืนยัน',natal:pending,transit:pending,group:'เกณฑ์พิเศษในคลังความรู้'});
+  });
+  body.innerHTML=rows.map(row=>'<tr><td>'+escapeHtml(row.category)+'</td><td>'+escapeHtml(row.natal)+'</td><td>'+escapeHtml(row.transit)+'</td></tr>').join('');
+  const head=table.querySelector('thead');
+  if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
+  const section=document.getElementById('planetDignityNumberSummary8');
+  const lead=section&&section.querySelector('.criteria7-lead');
+  if(lead)lead.textContent='รวมมาตรฐานดาว ความสัมพันธ์ดาว และชื่อเกณฑ์พิเศษทั้งหมดที่มีบันทึกในโปรเจคไว้ในตารางเดียวกัน: เลขเดี่ยวคือดาวที่เข้าเกณฑ์; คู่เลข เช่น ๓–๖ คือคู่ดาวเดิม และ ๓→๖ คือดาวจรเลข ๓ เทียบดาวเดิมเลข ๖. เครื่องหมาย * หมายถึงข้อมูลอ้างอิงที่ยังรอยืนยัน. เกณฑ์พิเศษที่ยังไม่มีสูตรยืนยันจะแสดงสถานะรอสูตร ไม่ตัดสินว่าเข้าเกณฑ์';
+ };
  const observer=new MutationObserver(render);
  observer.observe(natal,{childList:true,subtree:true,characterData:true});
  observer.observe(transit,{childList:true,subtree:true,characterData:true});
