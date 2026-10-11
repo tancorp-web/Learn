@@ -275,11 +275,13 @@ function renderNumericAstrologySummary(natal,transit){
 }
 window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
  const transit=calcAt(date,time,false,{lat:$('fLat').value,lon:Number(longitude),timezone:7});
- const standards=[],numbers=[],relations=[];
+ const standards=[],numbers=[],relations=[],relationNumbers=[];
  const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
  const signOrder=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const ascSign=signObj(transit.asc).name,relGroups={};
  const addRel=(name,label)=>{(relGroups[name]||(relGroups[name]=[])).push(label)};
+ // ตัวเลขเป็นตำแหน่งราศีที่นับรวมราศีต้นทางเป็น 1 ไม่ใช่คะแนนน้ำหนักที่แต่งขึ้น
+ const addNumericRelation=(relation,from,to,o)=>relationNumbers.push({relation,from,to,offset:o,countedPosition:o+1});
  const offset=(a,b)=>{const x=signOrder.indexOf(a),y=signOrder.indexOf(b);return x<0||y<0?null:(y-x+12)%12};
  const relationForOffset=o=>o===0?'กุม':o===2?'โยคหน้า':o===10?'โยคหลัง':o===6?'เล็ง':(o===4||o===8)?'ตรีโกณ':(o===3||o===9)?'จตุโกณ':null;
  for(const p of transit.planets){
@@ -287,25 +289,27 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
   const cats=getPlanetaryDignities(p.name,p.sign.name,d,m,s);
   if(cats.length){standards.push(nums[p.name]+' '+p.name+': '+cats.join(', '));if(nums[p.name]!==undefined)numbers.push({planet:p.name,number:nums[p.name]})}
   const toAsc=offset(p.sign.name,ascSign);
-  if(toAsc===0)addRel('ทับลัคนาจร',p.name);
-  else {const rn=relationForOffset(toAsc);if(rn)addRel(rn+' (เทียบลัคนาจร)',p.name)}
+  if(toAsc!==null){
+   if(toAsc===0){addRel('ทับลัคนาจร',p.name);addNumericRelation('ทับลัคนาจร',p.name,'ลัคนาจร',toAsc)}
+   else {const rn=relationForOffset(toAsc);if(rn){addRel(rn+' (เทียบลัคนาจร)',p.name);addNumericRelation(rn+' (เทียบลัคนาจร)',p.name,'ลัคนาจร',toAsc)}}
+  }
  }
  for(let i=0;i<transit.planets.length;i++){
   const a=transit.planets[i];
   for(let k=i+1;k<transit.planets.length;k++){
    const b=transit.planets[k],o=offset(a.sign.name,b.sign.name);
    if(o===null)continue;
-   if(o===0)addRel('กุม',a.name+'–'+b.name);
+   if(o===0){addRel('กุม',a.name+'–'+b.name);addNumericRelation('กุม',a.name,b.name,o)}
    else {
     const rn=relationForOffset(o);
-    if(rn)addRel(rn,a.name+'→'+b.name);
-    const reverse=relationForOffset((12-o)%12);
-    if(reverse&&reverse!==rn)addRel(reverse,b.name+'→'+a.name);
+    if(rn){addRel(rn,a.name+'→'+b.name);addNumericRelation(rn,a.name,b.name,o)}
+    const reverseOffset=(12-o)%12,reverse=relationForOffset(reverseOffset);
+    if(reverse&&reverse!==rn){addRel(reverse,b.name+'→'+a.name);addNumericRelation(reverse,b.name,a.name,reverseOffset)}
    }
   }
  }
  for(const [name,items] of Object.entries(relGroups))relations.push(name+': '+items.join(', '));
- return {standards,criteria:[],numbers,relations,ascSign};
+ return {standards,criteria:[],numbers,relations,relationNumbers,ascSign};
 };
 function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60),direction=isLatitude?(value<0?'S':'N'):(value<0?'W':'E');return degrees+'°'+direction+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+"''";}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
