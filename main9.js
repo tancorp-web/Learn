@@ -387,5 +387,5 @@ function bootHORA(){
  initDropdowns();window.__HORA_BOOT_OK=true;
  const bootDiagnostic=$('bootDiagnostic');if(bootDiagnostic)bootDiagnostic.hidden=true;
  requestAnimationFrame(()=>console.log('[HORA][BOOT] initial star details ready'));
- setTimeout(()=>{try{button.click()}catch(err){showRuntimeError(err)}},600);
-}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootHORA,{once:true});else bootHORA();
+ // index12: defer full calculation until the user presses Calculate.
+ }if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootHORA,{once:true});else bootHORA();
