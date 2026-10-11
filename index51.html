@@ -1865,7 +1865,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
        placed.push({x:mx,y:my,size:markerSize});
        const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-navamsha-sign':p.nav.sign,'data-navamsa-number':p.nav.number,'data-navamsa-digit':p.nav.navNumber});
        // When close to a sign boundary or another marker, show the exact anchor and connect it to the offset marker.
-       if(nearBoundary||overlap){
+       if(nearBoundary||Math.hypot(mx-ax,my-ay)>1){
          g.appendChild(node('line',{x1:ax,y1:ay,x2:mx,y2:my,stroke:ring.color,'stroke-width':1.25,'stroke-linecap':'round',opacity:0.98}));
          g.appendChild(node('circle',{cx:ax,cy:ay,r:3.2,fill:ring.color,stroke:'#fff','stroke-width':1}));
        }
@@ -1971,7 +1971,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
      }
      placed.push({x:mx,y:my,size:markerSize});
      const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-triyang-sign':p.tri.sign,'data-triyang-part':p.tri.part});
-     if(nearBoundary||overlap){g.appendChild(node('line',{x1:ax,y1:ay,x2:mx,y2:my,stroke:ring.color,'stroke-width':1.25,'stroke-linecap':'round'}));g.appendChild(node('circle',{cx:ax,cy:ay,r:1.8,fill:ring.color,stroke:'#fff','stroke-width':.7,'data-true-anchor':'true'}));}
+     if(nearBoundary||Math.hypot(mx-ax,my-ay)>1){g.appendChild(node('line',{x1:ax,y1:ay,x2:mx,y2:my,stroke:ring.color,'stroke-width':1.25,'stroke-linecap':'round'}));g.appendChild(node('circle',{cx:ax,cy:ay,r:1.8,fill:ring.color,stroke:'#fff','stroke-width':.7,'data-true-anchor':'true'}));}
      g.appendChild(node('circle',{cx:mx,cy:my,r:p.tanuLord?17:(p.isAsc?15:13),fill:ring.color,stroke:'#fff','stroke-width':2}));
      g.appendChild(node('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':p.tanuLord?10.5:12,'font-weight':900,fill:'#fff'},(planetNums[p.name]||'•')+(p.tanuLord?'+':'')));
      const [nx,ny]=polar(cx,cy,radius+(ring.key==='transit'?19:18),displayAngle);
