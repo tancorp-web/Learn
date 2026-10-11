@@ -640,7 +640,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main50.js?v=20261011-close-marker-small-anchor-3"></script>
+<script type="module" src="./main50.js?v=20261011-true-anchor-dot-fix-4"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
@@ -1158,7 +1158,7 @@ window.HORA_RAJA_CHOK_INTERPRETATIONS4 = {
   if(!svg)return false;
   svg.querySelector("#planetStandardNumbersIndex4")?.remove();
   /* Index4-only: enlarge natal markers and move them outward to separate them from house names and standard badges. */
-  svg.querySelectorAll('circle[fill="#7250bd"]').forEach(circle=>{
+  svg.querySelectorAll('circle[fill="#7250bd"]:not([data-true-anchor="true"])').forEach(circle=>{
    circle.setAttribute("r","15");
    circle.setAttribute("stroke-width","2.5");
    const markerGroup=circle.parentElement;
