@@ -1180,4 +1180,302 @@ window.HORA_RAJA_CHOK_INTERPRETATIONS4 = {
 </script>
 
 
+<script type="module">
+
+import { compareSpecialCriteria, SPECIAL_CRITERIA_SIGN_ORDER, getWholeSignHouse } from './js/astrology/special-criteria-comparison.js?v=20261011-hanuman-1';
+import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-natal-criteria';
+(()=>{
+ const $=id=>document.getElementById(id);
+ const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const normalizeSign=value=>({'เมถุน':'มิถุน','มังกร':'มกร'}[String(value||'').trim()]||String(value||'').trim());
+ const labelStatus=status=>({
+  REFERENCE_PROVISIONAL:'อ้างอิงเบื้องต้น',DISCOVERY:'ค้นคว้า',NEEDS_SOURCE:'รอแหล่งยืนยัน',
+  SOURCE_VARIANT:'มีหลายแนว/รอยืนยัน',REFERENCE_ONLY:'อ้างอิงเท่านั้น',DISABLED:'ปิดใช้งาน',
+  'needs-tradition-definition':'รอนิยามสำนัก'
+ }[status]||status||'ไม่ระบุสถานะ');
+ const resultLabel=result=>({
+  'reference-match':'ตรงตามเงื่อนไขอ้างอิงที่บันทึก',
+  'partial-or-no-match':'ยังขาด/ไม่ตรงบางเงื่อนไข',
+  'not-evaluable':'ยังตรวจอัตโนมัติไม่ได้',
+  'insufficient-chart-data':'ข้อมูลดวงไม่ครบ'
+ }[result]||'ยังตรวจยืนยันไม่ได้');
+ const chip=(text,kind='')=>'<span class="criteria7-chip '+kind+'">'+esc(text)+'</span>';
+ function readNatal(){
+  const tbody=$('natalStarDetailsBody');if(!tbody)return null;
+  const rows=[...tbody.querySelectorAll('tr')].map(tr=>[...tr.cells].map(td=>td.textContent.trim())).filter(c=>c.length>=8);
+  if(!rows.length)return null;
+  const asc=rows.find(c=>c[0]==='ลัคนา');if(!asc)return null;
+  const ascendantSign=normalizeSign(asc[1]);
+  const planets=rows.filter(c=>c[0]!=='ลัคนา').map(c=>({planet:c[0],sign:normalizeSign(c[1]),degree:c[2],house:Number(c[3]),placement:c[4]}));
+  if(!SPECIAL_CRITERIA_SIGN_ORDER.includes(ascendantSign)||!planets.length)return null;
+  return {ascendantSign,planets,allRows:rows};
+ }
+ function render(){
+  const status=$('criteria7Status'),summary=$('criteria7Summary'),signGrid=$('criteria7SignGrid');
+  const data=readNatal();
+  if(!data){status.textContent='ยังไม่มีข้อมูลตำแหน่งกำเนิดให้อ่าน กรุณากดคำนวณดวงก่อน';return;}
+  try{
+   const allPositions=data.planets.map(p=>({planet:p.planet,sign:p.sign,degree:p.degree,source:'ตารางดาวกำเนิดจริง'}));
+   /* For distribution-pattern checks, follow the project decision to exclude Ketu (9) and Uranus (0). */
+   const comparisonPositions=allPositions.filter(p=>p.planet!=='เกตุ'&&p.planet!=='มฤตยู');
+   const report=compareSpecialCriteria({ascendantSign:data.ascendantSign,planetPositions:comparisonPositions});
+   /* Hanuman is a user-confirmed natal-only rule: count planets 0–9 plus natal ascendant across 12th/1st/2nd houses. Do not reuse the generic distribution filter above. */
+   const hanumanPlanets=data.planets.filter(p=>['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'].includes(p.planet));
+   const ascIndex=SPECIAL_CRITERIA_SIGN_ORDER.indexOf(data.ascendantSign);
+   const hanumanSigns=[SPECIAL_CRITERIA_SIGN_ORDER[(ascIndex+11)%12],data.ascendantSign,SPECIAL_CRITERIA_SIGN_ORDER[(ascIndex+1)%12]];
+   const hanumanOccupants=hanumanPlanets.filter(p=>hanumanSigns.includes(p.sign));
+   const hanumanCount=hanumanOccupants.length+1; // natal ascendant counts as one position
+   const hanumanPass=hanumanCount>=5;
+   const hanumanDetails=$('hanumanCriteriaResult');
+   if(hanumanDetails){
+    const byHanumanSign=hanumanSigns.map(sign=>{
+     const occupants=hanumanOccupants.filter(p=>p.sign===sign).map(p=>p.planet+' '+p.degree);
+     if(sign===data.ascendantSign)occupants.push('ลัคนาเดิม');
+     return '<div class="criteria7-card"><h4>'+esc(sign)+' · ภพ '+esc(getWholeSignHouse(data.ascendantSign,sign))+'</h4><p>'+(occupants.length?occupants.map(esc).join(' · '):'ไม่มีดาวเดิม')+'</p></div>';
+    }).join('');
+    hanumanDetails.innerHTML='<h3>ดวงหนุมาน / ดวงสามเหลี่ยม</h3><p><strong>ราศีที่ตรวจ:</strong> '+hanumanSigns.map(esc).join(' – ')+'</p><p><strong>จำนวนที่นับได้:</strong> '+hanumanCount+' ตำแหน่ง (ดาวเดิม ๐–๙ '+hanumanOccupants.length+' ดวง + ลัคนาเดิม 1 ตำแหน่ง)</p><p><strong>ผลตรวจ:</strong> '+(hanumanPass?'เข้าเกณฑ์ — ครบอย่างน้อย 5 ตำแหน่ง':'ยังไม่เข้าเกณฑ์ — ต้องมีอย่างน้อย 5 ตำแหน่ง')+'</p><div class="criteria7-grid">'+byHanumanSign+'</div><p class="criteria7-muted">ใช้เฉพาะดาวเดิมและลัคนาเดิม; นับมฤตยู (๐) และเกตุ (๙) ด้วย ไม่ใช้ดาวจรหรือลัคนาจร</p>';
+   }
+   /* Confirmed natal-only sign-occupancy rule for the coffin chart. */
+   const coffinSigns=['มิถุน','สิงห์','ธนู','กุมภ์'];
+   const coffinDetails=$('coffinCriteriaResult');
+   if(coffinDetails){
+    const coffinRows=coffinSigns.map(sign=>{
+     const occupants=data.planets.filter(p=>p.sign===sign).map(p=>p.planet+' '+p.degree);
+     if(sign===data.ascendantSign)occupants.push('ลัคนาเดิม');
+     return {sign,occupants};
+    });
+    const coffinPass=coffinRows.every(x=>x.occupants.length>0);
+    coffinDetails.innerHTML='<h3>ดวงโลงผี</h3><p><strong>เงื่อนไข:</strong> ต้องมีดาวเดิมหรือลัคนาเดิมอยู่ครบ เมถุน · สิงห์ · ธนู · กุมภ์</p><p><strong>ผลตรวจ:</strong> '+(coffinPass?'ครบทั้ง 4 ราศีตามกฎที่บันทึก':'ยังไม่ครบ — ขาด '+coffinRows.filter(x=>!x.occupants.length).map(x=>x.sign).join(' · '))+'</p><div class="criteria7-grid">'+coffinRows.map(x=>'<div class="criteria7-card"><h4>'+esc(x.sign)+' · ภพ '+esc(getWholeSignHouse(data.ascendantSign,x.sign))+'</h4><p>'+(x.occupants.length?x.occupants.map(esc).join(' · '):'ไม่มีดาวเดิมหรือลัคนาเดิม')+'</p></div>').join('')+'</div><p class="criteria7-muted">นับดาวกำเนิดทุกดวงและลัคนากำเนิด; ไม่ใช้ดาวจร/ลัคนาจร และไม่เพิ่มเงื่อนไขราศีกรกฎหรือมังกรว่าง</p>';
+   }
+   /* Utpit: starting at house 2 and skipping one sign yields houses 2,4,6,8,10,12.
+      The user has not yet clarified whether "ครบ" requires all six target signs occupied, so show placements without asserting a pass/fail result. */
+   const utthaphitDetails=$('utthaphitCriteriaResult');
+   if(utthaphitDetails){
+    const utthaphitSigns=[1,3,5,7,9,11].map(offset=>SPECIAL_CRITERIA_SIGN_ORDER[(ascIndex+offset)%12]);
+    const utthaphitRows=utthaphitSigns.map(sign=>{
+     const occupants=data.planets.filter(p=>p.sign===sign).map(p=>p.planet+' '+p.degree);
+     if(sign===data.ascendantSign)occupants.push('ลัคนาเดิม');
+     return '<div class="criteria7-card"><h4>'+esc(sign)+' · ภพ '+esc(getWholeSignHouse(data.ascendantSign,sign))+'</h4><p>'+(occupants.length?occupants.map(esc).join(' · '):'ไม่มีดาวเดิม/ลัคนาเดิม')+'</p></div>';
+    }).join('');
+    utthaphitDetails.innerHTML='<h3>ดอกอุตพิต</h3><p><strong>หลักที่บันทึก:</strong> เริ่มจากกดุมภะ (ภพ 2) แล้วเว้นหนึ่งราศี; ตรวจภพ 2, 4, 6, 8, 10 และ 12 โดยใช้ดาวเดิมและลัคนาเดิม</p><p class="criteria7-pending">สถานะ: แสดงตำแหน่งตามกฎที่บันทึกไว้ก่อน ยังไม่สรุปผ่าน/ไม่ผ่าน เพราะต้องยืนยันความหมายของคำว่า “มีครบ”</p><div class="criteria7-grid">'+utthaphitRows+'</div><p class="criteria7-muted">ไม่ใช้ดาวจรหรือลัคนาจร และไม่ยืมสูตรดอกพิกุลมาแทน</p>';
+   }
+   const sequenceDetails=$('sequenceCriteriaResult');
+   if(sequenceDetails){
+    sequenceDetails.innerHTML='<h3>นำผล/นำพล และตามผล/ขับพล</h3><div class="criteria7-grid"><article class="criteria7-card"><h4>นำผล / นำพล</h4><p>ใช้ลัคนาเดิมและดาวเดิม · นับ 7 ราศี · “นำ” อยู่ด้านหน้าตามทิศทางเดินดาว</p><p>อาจเว้นหนึ่งราศีหรือไม่เว้นตามรูปแบบการคำนวณ; ไม่มีเงื่อนไขวันเกิดเพิ่ม</p><p class="criteria7-pending">บันทึกหลักการแล้ว แต่ยังไม่สรุปผ่าน/ไม่ผ่านจนกว่าจะกำหนดวิธีเลือกแบบเว้น/ไม่เว้นให้ตรวจได้</p></article><article class="criteria7-card"><h4>ตามผล / ขับพล</h4><p>ใช้ลัคนาเดิมและดาวเดิม · นับ 7 ราศี · ลัคนาอยู่ด้านหลังในราศีสุดท้าย</p><p>อาจเว้นหนึ่งราศีหรือไม่เว้นตามรูปแบบการคำนวณ; ไม่มีเงื่อนไขวันเกิดเพิ่ม</p><p class="criteria7-pending">บันทึกหลักการแล้ว แต่ยังไม่สรุปผ่าน/ไม่ผ่านจนกว่าจะกำหนดวิธีเลือกแบบเว้น/ไม่เว้นให้ตรวจได้</p></article></div><p class="criteria7-muted">ใช้ข้อมูลกำเนิดเท่านั้น ไม่ใช้ดาวจรหรือลัคนาจร</p>';
+   }
+   const bySign=new Map();
+   for(const p of data.planets){if(!bySign.has(p.sign))bySign.set(p.sign,[]);bySign.get(p.sign).push(p);}
+   const houseCount=new Map();
+   for(const p of data.planets){const h=getWholeSignHouse(data.ascendantSign,p.sign);if(!houseCount.has(h))houseCount.set(h,[]);houseCount.get(h).push(p);}
+   const evaluated=report.criteria||[];
+   const matched=evaluated.filter(c=>c.resultType==='reference-match').length;
+   const unevaluable=evaluated.filter(c=>c.resultType==='not-evaluable'||c.resultType==='insufficient-chart-data').length;
+   summary.innerHTML=[
+    '<div class="criteria7-stat"><strong>ลัคนา '+esc(data.ascendantSign)+'</strong><span>ภพที่ 1 · จุดตั้งต้นการนับภพ</span></div>',
+    '<div class="criteria7-stat"><strong>'+bySign.size+' / 12 ราศี</strong><span>ราศีที่มีดาวกำเนิดสถิต (ไม่รวมลัคนาเป็นดาว)</span></div>',
+    '<div class="criteria7-stat"><strong>'+matched+'</strong><span>รายการตรงตามเงื่อนไขอ้างอิงที่ลงรหัสไว้*</span></div>',
+    '<div class="criteria7-stat"><strong>'+unevaluable+'</strong><span>รายการยังตรวจอัตโนมัติไม่ได้</span></div>'
+   ].join('');
+   status.textContent='อ่านข้อมูลกำเนิดแล้ว: '+data.planets.length+' รายการดาว · ใช้ลัคนา '+data.ascendantSign+' · เกณฑ์พิเศษเป็นผลเทียบอ้างอิงเท่านั้น';
+   signGrid.innerHTML=SPECIAL_CRITERIA_SIGN_ORDER.map((sign,index)=>{
+    const occupants=bySign.get(sign)||[];
+    const house=getWholeSignHouse(data.ascendantSign,sign);
+    const signReport=(report.zodiacComparison||[]).find(x=>x.sign===sign);
+    const criteria=(signReport?.criteria||[]);
+    const occupantsHtml=occupants.length?occupants.map(p=>chip(p.planet+' '+p.degree+(p.placement?' · '+p.placement:''))).join(''):'<span class="criteria7-muted">ไม่มีดาวกำเนิดสถิต</span>';
+    const ascTag=sign===data.ascendantSign?chip('ราศีลัคนากำเนิด','good'):'';
+    const criteriaHtml=criteria.length?criteria.map(c=>{
+      const ev=c.evaluation||{};
+      const resultKind=ev.resultType==='reference-match'?'good':(ev.resultType==='partial-or-no-match'?'warn':'');
+      const notes=(c.notes||[]).slice(0,2).map(n=>'<p class="criteria7-muted">'+esc(n)+'</p>').join('');
+      const conditions=(c.conditions||[]).map(x=>x.description).join(' · ');
+      return '<div class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(resultLabel(ev.resultType),resultKind)+(conditions?'<p>'+esc(conditions)+'</p>':'')+notes+'</div>';
+    }).join(''):'<p class="criteria7-muted">คลังปัจจุบันไม่มีเกณฑ์ที่ระบุราศี/ภพนี้โดยตรง รายการสูตรไม่ชัดจะแสดงในคลังเกณฑ์ทั้งหมดด้านล่าง</p>';
+    return '<article class="criteria7-card"><h3>'+String(index+1)+'. '+esc(sign)+' · ภพ '+esc(house)+'</h3>'+ascTag+'<p><strong>ดาวกำเนิด:</strong></p><div>' +occupantsHtml+'</div><div class="criteria7-details"><strong>เกณฑ์ที่สัมพันธ์กับราศี/ภพ:</strong>'+criteriaHtml+'</div></article>';
+   }).join('');
+   const ascHouseRules=report.criteria||[];
+   const houseRows=SPECIAL_CRITERIA_SIGN_ORDER.map(sign=>{
+     const h=getWholeSignHouse(data.ascendantSign,sign),occupants=houseCount.get(h)||[];
+     return '<tr><td>'+esc(h)+'</td><td>'+esc(sign)+'</td><td>'+(occupants.length?occupants.map(p=>esc(p.planet+' '+p.degree+' · '+p.placement)).join('<br>'):'—')+'</td></tr>';
+   }).join('');
+   const houseCriteria=ascHouseRules.map(c=>{
+    const ev=c;
+    const cond=(c.conditions||[]).map(x=>x.description).join(' · ');
+    const detail=(c.notes||[]).map(n=>'<p class="criteria7-muted">'+esc(n)+'</p>').join('');
+    return '<article class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(resultLabel(ev.resultType),ev.resultType==='reference-match'?'good':'warn')+(cond?'<p>'+esc(cond)+'</p>':'')+(ev.missingPlanets?.length?'<p>ดาวที่ไม่พบในข้อมูล: '+esc(ev.missingPlanets.join(', '))+'</p>':'')+(ev.unmetConditions?.length?'<p>เงื่อนไขที่ยังไม่ตรง/ขาด: '+esc(ev.unmetConditions.map(x=>x.description+' ('+x.reason+')').join(' · '))+'</p>':'')+detail+'</article>';
+   }).join('');
+   $('criteria7Ascendant').innerHTML='<p>ลัคนากำเนิดอยู่ราศี <strong>'+esc(data.ascendantSign)+'</strong> จึงนับเป็นภพ 1 ตามระบบราศีเต็มที่ใช้เทียบในส่วนนี้</p><div class="reference-table-wrap"><table class="criteria7-table"><thead><tr><th>ภพ</th><th>ราศี</th><th>ดาวกำเนิดสถิต</th></tr></thead><tbody>'+houseRows+'</tbody></table></div><h4>ผลเทียบคลังเกณฑ์จากลัคนา</h4><div class="criteria7-grid">'+houseCriteria+'</div>';
+   const relationRows=data.planets.map(p=>{
+     const toAsc=getSignRelations(data.ascendantSign,p.sign);
+     const same=data.planets.filter(q=>q.planet!==p.planet&&q.sign===p.sign).map(q=>q.planet);
+     const related=data.planets.filter(q=>q.planet!==p.planet&&q.sign!==p.sign&&getSignRelations(p.sign,q.sign).length).map(q=>q.planet+' ('+getSignRelations(p.sign,q.sign).join(', ')+')');
+     const house=getWholeSignHouse(data.ascendantSign,p.sign);
+     const tags=[house===1?'ตนุ':null,[4,7,10].includes(house)?'เรือนเกณฑ์':null,[1,5,9].includes(house)?'ตรีโกณ':null,...toAsc].filter(Boolean);
+     return '<tr><td>'+esc(p.planet)+'</td><td>'+esc(p.sign)+' '+esc(p.degree)+'</td><td>'+esc(house)+'</td><td>'+(tags.length?tags.map(t=>chip(t)).join(' '):'—')+'</td><td>'+(same.length?same.map(esc).join(', '):'—')+'</td><td>'+(related.length?related.map(esc).join('<br>'):'—')+'</td></tr>';
+   }).join('');
+   $('criteria7Relations').innerHTML='<table class="criteria7-table"><thead><tr><th>ดาวกำเนิด</th><th>ราศี/องศา</th><th>ภพจากลัคนา</th><th>เกณฑ์ภพ/ความสัมพันธ์กับลัคนา</th><th>ดาวร่วมราศี (กุมโดยราศี)</th><th>ดาวที่สัมพันธ์ตามการนับราศี</th></tr></thead><tbody>'+relationRows+'</tbody></table>';
+   const catalog=(report.allCataloguedCriteria||[]).map(c=>{
+     const ev=(report.criteria||[]).find(x=>x.id===c.id)||{};
+     const conditions=(c.conditions||[]).map(x=>x.description).join(' · ');
+     const aliases=(c.aliases||[]).length?'<p><strong>ชื่อเรียกอื่น:</strong> '+esc(c.aliases.join(' / '))+'</p>':'';
+     const planets=c.planets?'<p><strong>ดาว/องค์ประกอบ:</strong> '+esc(c.planets)+'</p>':'';
+     const req=(c.requiredSigns||[]).length?'<p><strong>ราศีที่ระบุ:</strong> '+esc(c.requiredSigns.join(' / '))+'</p>':'';
+     const houses=(c.housesFromAscendant||[]).length?'<p><strong>ภพที่ระบุ:</strong> '+esc(c.housesFromAscendant.join(', '))+'</p>':'';
+     const cond=conditions?'<p><strong>เงื่อนไข:</strong> '+esc(conditions)+'</p>':'';
+     const notes=(c.notes||[]).map(n=>'<li>'+esc(n)+'</li>').join('');
+     const evidence=c.evidence?'<p><strong>หลักฐาน/ขอบเขต:</strong> '+esc(c.evidence)+'</p>':'';
+     const evalText=ev.resultType?'<p><strong>ผลตรวจ:</strong> '+esc(resultLabel(ev.resultType))+' — '+esc(ev.evaluationNote||'')+'</p>':'';
+     return '<article class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(c.execution||'REFERENCE_ONLY')+aliases+planets+req+houses+cond+(c.detail?'<p>'+esc(c.detail)+'</p>':'')+(notes?'<ul>'+notes+'</ul>':'')+evidence+evalText+'</article>';
+   }).join('');
+   $('criteria7Catalog').innerHTML='<p>รวม '+(report.allCataloguedCriteria||[]).length+' รายการที่ยังไม่ถูกรวมเป็นชื่อซ้ำในคลังเกณฑ์พิเศษ (แสดงสถานะและรายละเอียดตามฐานข้อมูลปัจจุบัน)</p><div class="criteria7-grid">'+catalog+'</div>';
+  }catch(error){
+   status.textContent='แสดงผลเกณฑ์ไม่สำเร็จ: '+String(error?.message||error);
+   console.error('[HORA][NATAL CRITERIA]',error);
+  }
+ }
+ const body=$('natalStarDetailsBody');
+ if(body){new MutationObserver(()=>render()).observe(body,{childList:true,subtree:true,characterData:true});}
+ document.addEventListener('DOMContentLoaded',render);
+ setTimeout(render,700);setTimeout(render,1800);
+})();
+
+</script>
+
+<script type="module">
+
+/* index8 only: show the sign-ingress and sign-egress times for the clicked natal/transit planet. */
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+(()=>{
+ const $=id=>document.getElementById(id);
+ const wheel=$('wheel');
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ const planetByNumber={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
+ const pause=()=>new Promise(resolve=>setTimeout(resolve,0));
+ const stampFromInputs=prefix=>{
+  const day=Number($(prefix+'Day')?.value),month=Number($(prefix+'Month')?.value),beYear=Number($(prefix+'Year')?.value);
+  const hour=Number($(prefix+'Hour')?.value),minute=Number($(prefix+'Minute')?.value);
+  if(!day||!month||!beYear||!Number.isInteger(hour)||!Number.isInteger(minute))throw new Error('กรุณากรอกวันเดือนปีและเวลาให้ครบก่อน');
+  const year=beYear-543;
+  if(year<1||month<1||month>12||day<1||day>31||hour<0||hour>23||minute<0||minute>59)throw new Error('วันหรือเวลาไม่ถูกต้อง');
+  const stamp=Date.UTC(year,month-1,day,hour,minute);
+  const check=new Date(stamp);
+  if(check.getUTCFullYear()!==year||check.getUTCMonth()!==month-1||check.getUTCDate()!==day)throw new Error('วันที่ที่เลือกไม่ถูกต้อง');
+  return stamp;
+ };
+ const localDateTime=stamp=>{
+  const d=new Date(stamp),p=n=>String(n).padStart(2,'0');
+  return p(d.getUTCDate())+' '+months[d.getUTCMonth()]+' พ.ศ. '+(d.getUTCFullYear()+543)+' เวลา '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+' น.';
+ };
+ const planetLongitude=(stamp,planet,longitude)=>{
+  const d=new Date(stamp),p=n=>String(n).padStart(2,'0');
+  const date=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate());
+  const time=p(d.getUTCHours())+':'+p(d.getUTCMinutes());
+  const result=calculateSuriyayatra({date,time,longitude,includeMotion:false});
+  const item=result?.planets?.find(x=>x.name===planet);
+  const lon=Number(item?.longitude);
+  if(!Number.isFinite(lon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
+  return ((lon%360)+360)%360;
+ };
+ const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
+ const stepFor=planet=>planet==='จันทร์'?6*3600000:
+   planet==='อาทิตย์'?12*3600000:
+   ['พุธ','ศุกร์','อังคาร'].includes(planet)?86400000:
+   ['พฤหัสบดี','เสาร์','ราหู','เกตุ'].includes(planet)?3*86400000:10*86400000;
+ const findBoundary=async({start,planet,longitude,targetSign,direction,step})=>{
+  const maxSpan=5*366*86400000;
+  let inside=start;
+  for(let elapsed=step,tries=0;elapsed<=maxSpan;elapsed+=step,tries++){
+   const probe=start+direction*elapsed;
+   const idx=signIndex(probe,planet,longitude);
+   if(idx!==targetSign){
+    let low=Math.min(probe,inside),high=Math.max(probe,inside);
+    // Refine the crossing to one-minute resolution. The output is local Thai wall-clock time.
+    while(high-low>60000){
+     const mid=low+Math.floor((high-low)/120000)*60000;
+     if(mid<=low){high=low+60000;break;}
+     const isTarget=signIndex(mid,planet,longitude)===targetSign;
+     if(direction<0){if(isTarget)high=mid;else low=mid;}
+     else{if(isTarget)low=mid;else high=mid;}
+     if((high-low)>60000)await pause();
+    }
+    return high;
+   }
+   inside=probe;
+   if(tries%12===0)await pause();
+  }
+  return null;
+ };
+ let panel=$('planetSignStayPanel8');
+ if(!panel){
+  panel=document.createElement('section');
+  panel.id='planetSignStayPanel8';
+  panel.hidden=true;
+  panel.setAttribute('aria-live','polite');
+  const wrap=$('wheelWrap2');
+  if(wrap)wrap.insertAdjacentElement('afterend',panel);
+  else if(wheel)wheel.insertAdjacentElement('afterend',panel);
+ }
+ const showMessage=message=>{panel.hidden=false;panel.textContent=message;};
+ const showResults=({planet,kind,sign,entry,exit,longitude})=>{
+  panel.hidden=false;
+  panel.innerHTML='';
+  const title=document.createElement('div');title.className='pss-title';
+  title.textContent=planet+' · '+(kind==='natal'?'ดาวเดิม (ดวงกำเนิด)':'ดาวจร')+' · ราศี'+sign;
+  panel.appendChild(title);
+  const grid=document.createElement('div');grid.className='pss-grid';
+  const add=(label,value)=>{
+   const card=document.createElement('div');card.className='pss-item';
+   const l=document.createElement('div');l.className='pss-label';l.textContent=label;
+   const v=document.createElement('div');v.className='pss-date';v.textContent=value||'ไม่พบภายในช่วงค้นหา';
+   card.append(l,v);grid.appendChild(card);
+  };
+  add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
+  add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
+  panel.appendChild(grid);
+  const note=document.createElement('div');note.className='pss-note';
+  note.textContent='คำนวณจากสูตรตำแหน่งดาว HORA และลองจิจูดของสถานที่ที่เลือก · เวลาไทย · ค่าที่แสดงเป็น พ.ศ. · หากดาวพักร์ อาจมีการกลับเข้าราศีเดิมอีกครั้งในภายหลัง';
+  panel.appendChild(note);
+ };
+ let requestId=0;
+ if(wheel)wheel.addEventListener('click',async event=>{
+  const group=event.target?.closest?.('g');
+  const circle=group?.querySelector?.('circle');
+  const text=group?.querySelector?.('text');
+  if(!circle||!text)return;
+  const fill=(circle.getAttribute('fill')||'').toLowerCase();
+  const kind=fill==='#7250bd'?'natal':fill==='#07834b'?'transit':null;
+  if(!kind)return;
+  const numeral=(text.textContent||'').trim().replace('+','');
+  const planet=planetByNumber[numeral];
+  if(!planet)return;
+  const id=++requestId;
+  try{
+   const prefix=kind==='natal'?'b':'f';
+   const start=stampFromInputs(prefix);
+   const longitude=Number($(prefix+'Lon')?.value);
+   if(!Number.isFinite(longitude))throw new Error('ไม่พบลองจิจูดของสถานที่');
+   const currentLon=planetLongitude(start,planet,longitude);
+   const targetSign=Math.floor(currentLon/30);
+   const sign=signs[targetSign];
+   showMessage('กำลังค้นหาวันและเวลาที่ดาว'+planet+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
+   const step=stepFor(planet);
+   const [entry,exit]=await Promise.all([
+    findBoundary({start,planet,longitude,targetSign,direction:-1,step}),
+    findBoundary({start,planet,longitude,targetSign,direction:1,step})
+   ]);
+   if(id!==requestId)return;
+   showResults({planet,kind,sign,entry,exit,longitude});
+  }catch(error){
+   if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
+   console.error('[HORA][SIGN STAY][index9]',error);
+  }
+ });
+})();
+
+/* Numeric summary is rendered directly from calculated chart objects in main.js. */
+
+
+</script>
+
 </body></html>
