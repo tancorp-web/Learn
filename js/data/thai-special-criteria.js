@@ -22,9 +22,9 @@ export const THAI_SPECIAL_CRITERIA_DECISIONS = Object.freeze([
     id: 'DECISION-COFFIN',
     criterionId: 'SPECIAL-COFFIN',
     selectedVariant: 'A',
-    selectedRule: 'ตรวจเฉพาะเมถุน สิงห์ ธนู และกุมภ์; ไม่เพิ่มเงื่อนไขกรกฎ/มังกรว่างใน variant A',
+    selectedRule: 'ตรวจเฉพาะเมถุน สิงห์ ธนู และกุมภ์; แต่ละราศีต้องมีดาวเดิมหรือลัคนาเดิมอย่างน้อยหนึ่งตำแหน่ง; ไม่เพิ่มเงื่อนไขกรกฎ/มังกรว่างใน variant A',
     state: 'RECORDED_NOT_ENABLED',
-    unresolved: ['นับเฉพาะดาวหรือดาวร่วมกับลัคนา', 'เงื่อนไขดาว/การครองตำแหน่งที่ต้องใช้']
+    unresolved: []
   },
   {
     id: 'DECISION-ELEMENT-KENDRA',
@@ -66,21 +66,22 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     id: 'SPECIAL-COFFIN',
     name: 'ดวงโลงผี',
     aliases: ['โลงผี', 'โลงผี-แคล้วคลาด', 'ดวงโลงศพ'],
-    advisorDecision: { selectedVariant: 'A', state: 'RECORDED_NOT_ENABLED', unresolved: ['นับเฉพาะดาวหรือดาวร่วมกับลัคนา'] },
+    advisorDecision: { selectedVariant: 'A', state: 'RECORDED_NOT_ENABLED', unresolved: [] },
     category: 'รูปแบบการกระจายดาว',
     status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
     ruleType: 'sign-occupancy',
     requiredSigns: ['มิถุน', 'สิงห์', 'ธนู', 'กุมภ์'],
     acceptedOccupants: ['ดาวกำเนิด', 'ลัคนา'],
-    requiredOccupancy: 'มีสิ่งแทนตำแหน่งอย่างน้อยหนึ่งรายการในแต่ละราศีที่กำหนด',
-    planets: 'ดาวใดก็ได้; ไม่พบข้อกำหนดว่าต้องเป็นดาวเฉพาะดวง',
+    requiredOccupancy: 'แต่ละราศีที่กำหนดต้องมีดาวเดิมหรือลัคนาเดิมอย่างน้อยหนึ่งตำแหน่ง',
+    acceptedOccupants: ['ดาวกำเนิด', 'ลัคนาเดิม'],
+    planets: 'ดาวเดิมดวงใดก็ได้ และลัคนาเดิม; ไม่ใช้ดาวจรหรือลัคนาจร',
     notes: [
-      'ข้อสรุปอาจารย์แทน: เลือกแบบ A ให้ตรวจเฉพาะเมถุน สิงห์ ธนู และกุมภ์; ไม่เพิ่มเงื่อนไขกรกฎ/มังกรว่างของแบบ B',
-      'ยังต้องยืนยันว่าจะนับเฉพาะดาวหรือรวมลัคนาด้วย; จึงคงสถานะไม่เปิดใช้',
-      'คำพยากรณ์เรื่องแคล้วคลาดเป็นความเชื่อตามตำรา ไม่ใช่ข้อเท็จจริงที่ระบบยืนยันได้'
+      'ผู้ใช้ยืนยันสูตร: ต้องมีตำแหน่งดาวเดิมหรือลัคนาเดิมอยู่ครบทั้งเมถุน สิงห์ ธนู และกุมภ์',
+      'เลือกแบบ A; ไม่เพิ่มเงื่อนไขกรกฎ/มังกรว่างของแบบ B',
+      'ตัวตรวจเป็นการเทียบตำแหน่งกำเนิดกับเงื่อนไขที่บันทึกไว้เท่านั้น; ไม่ยืนยันคำพยากรณ์เรื่องแคล้วคลาด'
     ],
     execution: 'REFERENCE_ONLY',
-    evidence: 'พบคำอธิบายสูตรสี่ราศีในบทความโหราศาสตร์มากกว่าหนึ่งแหล่ง; ยังต้องยืนยันข้อกำหนดผู้ครองตำแหน่งและเงื่อนไขราศีว่าง'
+    evidence: 'กฎสี่ราศีและการนับดาวเดิมร่วมกับลัคนาเดิมยืนยันโดยผู้ใช้'
   },
   {
     id: 'SPECIAL-DOK-PHIKUN',
@@ -132,11 +133,14 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     aliases: ['ดอกอุตพิด', 'อุตพิต'],
     nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'รูปแบบดวงชื่อเฉพาะ',
-    status: CRITERION_STATUS.NEEDS_SOURCE,
-    ruleType: null,
-    planets: 'ยังระบุไม่ได้',
-    notes: ['ยังไม่มีสูตรต้นฉบับที่ยืนยันได้ ห้ามอนุมานจากชื่อหรือเทียบกับดอกพิกุล'],
-    execution: 'DISABLED'
+    status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
+    ruleType: 'sign-occupancy-from-ascendant',
+    housesFromAscendant: [2, 4, 6, 8, 10, 12],
+    planets: 'ลัคนาเดิมและดาวเดิม; ไม่ใช้ลัคนาจรหรือดาวจร',
+    requiredOccupancy: 'เริ่มภพกดุมภะ (2) แล้วเว้นหนึ่งราศี ตรวจราศีในภพ 2, 4, 6, 8, 10 และ 12; ความหมายของคำว่า “มีครบ” ยังรอยืนยันก่อนเปิดตัวตัดสินอัตโนมัติ',
+    notes: ['ผู้ใช้ยืนยันหลักเริ่มจากกดุมภะ (ภพ 2) แล้วเว้นหนึ่งช่อง; ใช้ลัคนาเดิมและดาวเดิม', 'แยกจากดอกพิกุล ไม่อนุมานว่าใช้สูตรเดียวกัน', 'บันทึกลำดับราศีที่ตรวจไว้แล้ว แต่ยังไม่เปิดผลผ่าน/ไม่ผ่านจนกว่าจะยืนยันว่าต้องมีผู้ครองตำแหน่งครบทั้ง 6 ราศีหรือไม่'],
+    evidence: 'หลักการเริ่มต้นและการเว้นช่องยืนยันโดยผู้ใช้; เงื่อนไขความครบถ้วนยังรอการยืนยัน',
+    execution: 'REFERENCE_ONLY'
   },
   {
     id: 'SPECIAL-NAM-PHON',
@@ -144,11 +148,14 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     aliases: ['นำพล'],
     nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'เกณฑ์ชื่อเฉพาะ',
-    status: CRITERION_STATUS.NEEDS_SOURCE,
-    ruleType: null,
-    planets: 'ยังระบุไม่ได้',
-    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “นำผล/นำพล” ในฐานะชื่อพ้อง; สูตรยังไม่มีแหล่งยืนยันและยังปิดใช้งาน'],
-    execution: 'DISABLED'
+    status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
+    ruleType: 'seven-sign-leading-sequence',
+    housesFromAscendant: [1, 2, 3, 4, 5, 6, 7],
+    planets: 'ดาวเดิมและลัคนาเดิม; ไม่ใช้ดาวจรหรือลัคนาจร',
+    requiredOccupancy: 'นับ 7 ราศีตามลำดับ; อาจเว้นหนึ่งราศีหรือไม่เว้นขึ้นกับรูปแบบการคำนวณ; “นำ” หมายถึงอยู่ด้านหน้าตามทิศทางเดินดาว',
+    notes: ['ผู้ใช้ยืนยันหลักการนำผล/นำพล: ใช้ลัคนาเดิม, คำว่า “นำ” คือด้านหน้าตามทิศทางเดินดาว, นับ 7 ราศี', 'อาจเว้นหนึ่งราศีหรือไม่เว้นก็ได้ตามรูปแบบการคำนวณ; ไม่มีเงื่อนไขวันเกิดที่เพิ่มขึ้นมา', 'บันทึกเป็นกฎอ้างอิง; ยังไม่เปิดตัวตัดสินอัตโนมัติจนกว่าจะระบุวิธีเลือกแบบเว้น/ไม่เว้นให้เป็นขั้นตอนที่ตรวจได้'],
+    evidence: 'หลักการยืนยันโดยผู้ใช้',
+    execution: 'REFERENCE_ONLY'
   },
   {
     id: 'SPECIAL-TAM-PHON',
@@ -156,11 +163,14 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     aliases: ['ขับพล'],
     nameMergeState: 'MERGE_CONFIRMED_ALIAS_ONLY',
     category: 'เกณฑ์ชื่อเฉพาะ',
-    status: CRITERION_STATUS.NEEDS_SOURCE,
-    ruleType: null,
-    planets: 'ยังระบุไม่ได้',
-    notes: ['อาจารย์แทนยืนยันให้รวมชื่อ “ตามผล/ขับพล” ในฐานะชื่อพ้อง; สูตรยังไม่มีแหล่งยืนยันและยังปิดใช้งาน'],
-    execution: 'DISABLED'
+    status: CRITERION_STATUS.REFERENCE_PROVISIONAL,
+    ruleType: 'seven-sign-trailing-sequence',
+    housesFromAscendant: [1, 2, 3, 4, 5, 6, 7],
+    planets: 'ดาวเดิมและลัคนาเดิม; ไม่ใช้ดาวจรหรือลัคนาจร',
+    requiredOccupancy: 'นับ 7 ราศีตามลำดับ; อาจเว้นหนึ่งราศีหรือไม่เว้นขึ้นกับรูปแบบการคำนวณ; ลัคนาเดิมอยู่ด้านหลังในราศีสุดท้าย',
+    notes: ['ผู้ใช้ยืนยันหลักการตามผล/ขับพล: ใช้ลัคนาเดิม, ลัคนาอยู่ด้านหลังในราศีสุดท้าย, นับ 7 ราศี', 'อาจเว้นหนึ่งราศีหรือไม่เว้นก็ได้ตามรูปแบบการคำนวณ; ไม่มีเงื่อนไขวันเกิดที่เพิ่มขึ้นมา', 'บันทึกเป็นกฎอ้างอิง; ยังไม่เปิดตัวตัดสินอัตโนมัติจนกว่าจะระบุวิธีเลือกแบบเว้น/ไม่เว้นให้เป็นขั้นตอนที่ตรวจได้'],
+    evidence: 'หลักการยืนยันโดยผู้ใช้',
+    execution: 'REFERENCE_ONLY'
   },
   {
     id: 'SPECIAL-CHART-TRIANGLE',
