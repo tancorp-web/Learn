@@ -1009,7 +1009,9 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
     const standards=analysis?.standards?.length?analysis.standards.map(x=>escapeHtml(x)).join(' · '):'—';
     const criteria=analysis?.criteria?.length?analysis.criteria.map(x=>escapeHtml(x)).join(' · '):'—';
     const numbers=analysis?.numbers?.length?analysis.numbers.map(x=>x.number).join(' · '):'—';
-    const relations=analysis?.relations?.length?analysis.relations.map(x=>escapeHtml(x)).join(' · '):'ไม่พบความสัมพันธ์ตามเกณฑ์ราศีที่รองรับ';
+    const planetDigits12=[['พฤหัสบดี','๕'],['มฤตยู','๐'],['อาทิตย์','๑'],['จันทร์','๒'],['อังคาร','๓'],['พุธ','๔'],['ศุกร์','๖'],['เสาร์','๗'],['ราหู','๘'],['เกตุ','๙']];
+     const relationAsNumbers12=value=>planetDigits12.reduce((text,[planet,digit])=>text.split(planet).join(digit),String(value??''));
+     const relations=analysis?.relations?.length?analysis.relations.map(x=>escapeHtml(relationAsNumbers12(x))).join(' · '):'ไม่พบความสัมพันธ์ตามเกณฑ์ราศีที่รองรับ';
      const relationNumbers=analysis?.relationNumbers?.length?analysis.relationNumbers.map(x=>String(x.countedPosition)).join(', '):'—';
     segmentRecords.push({
      sign:signNames[Number(item.sign)]||'—',
