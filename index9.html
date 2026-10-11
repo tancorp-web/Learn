@@ -280,9 +280,30 @@
 #birthDetails .transit-details-title{margin-top:18px!important}
 @media(max-width:600px){#birthDetails .birth-details-group{padding:12px!important}#birthDetails .birth-details-line{font-size:16px!important;line-height:1.75!important}#birthDetails .birth-details-title h2{font-size:19px!important}#birthDetails .birth-details-title .badge{font-size:16px!important}#birthDetails .sun-ingress-heading3,#birthDetails #sunIngressResult3,#birthDetails #sunIngressResult3>div,#birthDetails .sun-ingress-note3{font-size:16px!important}}
 
+
+/* index9: stable, hierarchical numbering for every visible section heading.
+   CSS counters also apply to headings inserted later by the calculation renderer. */
+main.container{counter-reset: hora9-section hora9-detail}
+main.container h2{counter-increment:hora9-section;counter-reset:hora9-subsection}
+main.container h2::after{
+  content:" 〔หมวด " counter(hora9-section,decimal-leading-zero) "〕";
+  display:inline-block;margin-left:8px;padding:2px 7px;border:1px solid #d8deeb;border-radius:7px;
+  color:#52617c;background:#f5f7fc;font-size:.58em;font-weight:800;letter-spacing:0;vertical-align:middle;white-space:nowrap
+}
+main.container h3{counter-increment:hora9-subsection}
+main.container h3::after{
+  content:" 〔" counter(hora9-section,decimal-leading-zero) "." counter(hora9-subsection,decimal-leading-zero) "〕";
+  display:inline-block;margin-left:7px;padding:1px 6px;border:1px solid #e1e6f0;border-radius:6px;
+  color:#65718a;background:#f8f9fd;font-size:.68em;font-weight:750;letter-spacing:0;vertical-align:middle;white-space:nowrap
+}
+@media(max-width:600px){
+  main.container h2::after{margin-left:5px;padding:2px 5px;font-size:.56em}
+  main.container h3::after{margin-left:4px;padding:1px 4px;font-size:.64em}
+}
+
 </style>
 </head><body>
-<header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index7</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index7 · ENGINE v8.9.3 · TRANSIT TIME FEATURE + KNOWLEDGE LIBRARY</span></div></header>
+<header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index9</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index9 · ENGINE v8.9.3 · TRANSIT TIME FEATURE + KNOWLEDGE LIBRARY</span></div></header>
 
 <main class="container"><section id="calculatePanel" class="menu-panel show">
 <div class="panel"><div class="section-title"><h2>ข้อมูลกำเนิด</h2><span class="badge">Birth Data</span></div><div class="form-grid">
@@ -329,19 +350,19 @@
   <div id="coffinCriteriaResult" class="criteria7-details" aria-live="polite"><h3>ดวงโลงผี</h3><p>รอข้อมูลดวงกำเนิดเพื่อตรวจเมถุน สิงห์ ธนู และกุมภ์</p></div>
   <div id="utthaphitCriteriaResult" class="criteria7-details" aria-live="polite"><h3>ดอกอุตพิต</h3><p>รอข้อมูลดวงกำเนิดเพื่อตรวจภพ 2, 4, 6, 8, 10 และ 12</p></div>
   <div id="sequenceCriteriaResult" class="criteria7-details" aria-live="polite"><h3>นำผล/นำพล และตามผล/ขับพล</h3><p>รอข้อมูลดวงกำเนิด</p></div>
-  <h3>1. ดาวกำเนิดอยู่ราศีใด — เกณฑ์ที่สัมพันธ์กับราศี/ภพนั้น</h3>
+  <h3>ดาวกำเนิดอยู่ราศีใด — เกณฑ์ที่สัมพันธ์กับราศี/ภพนั้น</h3>
   <div id="criteria7SignGrid" class="criteria7-grid"></div>
   <div class="criteria7-details">
-    <h3>2. ตรวจจากลัคนากำเนิด — ดาวอยู่ภพใดและมีเกณฑ์อ้างอิงอะไร</h3>
+    <h3>ตรวจจากลัคนากำเนิด — ดาวอยู่ภพใดและมีเกณฑ์อ้างอิงอะไร</h3>
     <div id="criteria7Ascendant"></div>
   </div>
   <div class="criteria7-details">
-    <h3>3. ความสัมพันธ์ดาวกำเนิดกับลัคนาและดาวดวงอื่น</h3>
+    <h3>ความสัมพันธ์ดาวกำเนิดกับลัคนาและดาวดวงอื่น</h3>
     <p class="criteria7-muted">กุม/เล็ง/โยค/ตรีโกณ/จตุโกณในส่วนนี้เป็นการนับราศีตามคลังความสัมพันธ์ ไม่ใช่การวัดมุมองศาจริง ส่วน “ฉาก” ต้องตรวจองศาแยกต่างหาก</p>
     <div id="criteria7Relations" class="reference-table-wrap"></div>
   </div>
   <div class="criteria7-details">
-    <h3>4. คลังเกณฑ์พิเศษทั้งหมดในโปรเจค</h3>
+    <h3>คลังเกณฑ์พิเศษทั้งหมดในโปรเจค</h3>
     <p class="criteria7-muted">รายการที่สถานะ DISCOVERY / NEEDS_SOURCE / SOURCE_VARIANT / REFERENCE_PROVISIONAL จะแสดงเพื่อให้ตรวจสอบเท่านั้น ไม่ถือว่าเป็นสูตรที่ยืนยันหรือเปิดใช้งานแล้ว</p>
     <div id="criteria7Catalog"></div>
   </div>
