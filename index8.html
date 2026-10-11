@@ -302,7 +302,7 @@
   <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศีจร</th><th>องศาจร</th><th>ภพจรจากลัคนากำเนิด</th><th>ตำแหน่งตามภพจร</th><th>มาตรฐานดาวจร</th><th>นวางค์จร</th><th>ตรียางค์จร</th><th>ฤกษ์จร</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="transitStarDetailsBody"></tbody></table></div>
 </div>
 <section id="planetDignityNumberSummary8" class="panel">
-  <div class="section-title"><h2>ตารางสรุปมาตรฐานดาว · เลขดาวเดิมและดาวจร</h2><span class="badge">รวมตารางเดียว · แสดงเป็นตัวเลข</span></div>
+  <div class="section-title"><h2>ตารางใหม่ · สรุปมาตรฐานดาวเป็นเลขดาวเดิมและดาวจร</h2><span class="badge">รวมตารางเดียว · แสดงเป็นตัวเลข</span></div>
   <p class="criteria7-lead">รวบรวมเลขดาวที่เข้าเกณฑ์แต่ละประเภทจากตำแหน่งและองศาที่คำนวณได้ แยกคอลัมน์ดาวเดิมกับดาวจรในตารางเดียวกัน เลขที่มีเครื่องหมาย * เป็นข้อมูลอ้างอิงที่ยังรอยืนยัน ไม่ใช่เกณฑ์ที่ยืนยันแล้ว</p>
   <div class="table-wrap"><table class="criteria7-table" id="planetDignityNumberTable8">
     <thead><tr><th>มาตรฐานดาว</th><th>ดาวเดิม (เลขดาว)</th><th>ดาวจร (เลขดาว)</th></tr></thead>
@@ -1406,7 +1406,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const name=(cells[0].textContent||'').trim().replace(/\+$/,'');
    const number=numberByPlanet[name];
    if(!number)return;
-   const standards=(cells[5].textContent||'').split(/\\s+·\\s+/).map(x=>x.trim()).filter(Boolean);
+   const standards=(cells[5].textContent||'').split(' · ').map(x=>x.trim()).filter(Boolean);
    standards.forEach(raw=>{
     const provisional=/อ้างอิง\s*[·.]\s*รอยืนยัน/.test(raw);
     const label=raw.replace(/\s*\(อ้างอิง\s*[·.]\s*รอยืนยัน\)\s*/g,'').trim();
