@@ -283,7 +283,16 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
  // ตัวเลขเป็นตำแหน่งราศีที่นับรวมราศีต้นทางเป็น 1 ไม่ใช่คะแนนน้ำหนักที่แต่งขึ้น
  const addNumericRelation=(relation,from,to,o)=>relationNumbers.push({relation,from,to,offset:o,countedPosition:o+1});
  const offset=(a,b)=>{const x=signOrder.indexOf(a),y=signOrder.indexOf(b);return x<0||y<0?null:(y-x+12)%12};
- const relationForOffset=o=>o===0?'กุม':o===2?'โยคหน้า':o===10?'โยคหลัง':o===6?'เล็ง':(o===4||o===8)?'ตรีโกณ':(o===3||o===9)?'จตุโกณ':null;
+ // ตรีโกณ/จตุโกณจะนับได้ต่อเมื่อผังดาวจรมีราศีครบทุกจุดของชุดนั้น
+ // ใช้เฉพาะดาวจรและลัคนาจรในช่วงเดียวกัน ห้ามนำตำแหน่งจากผังอื่นมาเติม
+ const occupiedTransitSigns=new Set([...transit.planets.map(p=>p.sign.name),ascSign]);
+ const hasCompleteTransitPattern=(fromSign,offsets)=>{
+  const from=signOrder.indexOf(fromSign);
+  return from>=0&&offsets.every(step=>occupiedTransitSigns.has(signOrder[(from+step)%12]));
+ };
+ const relationForOffset=(o,fromSign)=>o===0?'กุม':o===2?'โยคหน้า':o===10?'โยคหลัง':o===6?'เล็ง':
+  (o===4||o===8)&&hasCompleteTransitPattern(fromSign,[0,4,8])?'ตรีโกณ':
+  (o===3||o===9)&&hasCompleteTransitPattern(fromSign,[0,3,6,9])?'จตุโกณ':null;
  for(const p of transit.planets){
   const x=((p.longitude%30)+30)%30,d=Math.floor(x),m=Math.floor((x-d)*60),s=Math.round((((x-d)*60)-m)*60);
   const cats=getPlanetaryDignities(p.name,p.sign.name,d,m,s);
@@ -291,7 +300,7 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
   const toAsc=offset(p.sign.name,ascSign);
   if(toAsc!==null){
    if(toAsc===0){addRel('ทับลัคนาจร',p.name);addNumericRelation('ทับลัคนาจร',p.name,'ลัคนาจร',toAsc)}
-   else {const rn=relationForOffset(toAsc);if(rn){addRel(rn+' (เทียบลัคนาจร)',p.name);addNumericRelation(rn+' (เทียบลัคนาจร)',p.name,'ลัคนาจร',toAsc)}}
+   else {const rn=relationForOffset(toAsc,p.sign.name);if(rn){addRel(rn+' (เทียบลัคนาจร)',p.name);addNumericRelation(rn+' (เทียบลัคนาจร)',p.name,'ลัคนาจร',toAsc)}}
   }
  }
  for(let i=0;i<transit.planets.length;i++){
@@ -301,9 +310,9 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
    if(o===null)continue;
    if(o===0){addRel('กุม',a.name+'–'+b.name);addNumericRelation('กุม',a.name,b.name,o)}
    else {
-    const rn=relationForOffset(o);
+    const rn=relationForOffset(o,a.sign.name);
     if(rn){addRel(rn,a.name+'→'+b.name);addNumericRelation(rn,a.name,b.name,o)}
-    const reverseOffset=(12-o)%12,reverse=relationForOffset(reverseOffset);
+    const reverseOffset=(12-o)%12,reverse=relationForOffset(reverseOffset,b.sign.name);
     if(reverse&&reverse!==rn){addRel(reverse,b.name+'→'+a.name);addNumericRelation(reverse,b.name,a.name,reverseOffset)}
    }
   }
