@@ -200,6 +200,24 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     execution: 'DISABLED'
   },
   {
+    id: 'SPECIAL-PAKINAKA-CHOK',
+    name: 'ปกิณกะโชค',
+    aliases: ['ปฏิณนกะโชค', 'ปฏินกะโชค', 'ราหูปกิณกะโชค', 'บุญสุรา'],
+    category: 'เกณฑ์โชคลาภที่แยกตามตำรา',
+    status: CRITERION_STATUS.SOURCE_VARIANT,
+    ruleType: 'rahu-sign-or-house',
+    variants: [
+      { id: 'A', name: 'ราหูในราศีธาตุลม', rule: 'ราหู (๘) ในดวงกำเนิดอยู่ราศีเมถุน ตุลย์ หรือกุมภ์', acceptedSigns: ['เมถุน', 'ตุลย์', 'กุมภ์'], scope: 'natal', status: 'USER_PROVIDED_REFERENCE' },
+      { id: 'B', name: 'ราหูโยคหน้าลัคนา (บุญสุรา)', rule: 'ราหู (๘) ในดวงกำเนิดอยู่ภพ 3 จากลัคนา', houseFromAscendant: 3, scope: 'natal', status: 'USER_PROVIDED_REFERENCE' }
+    ],
+    notes: [
+      'รับข้อมูลสูตรอ้างอิงจากผู้ใช้; ต้องเก็บแบบ A และ B แยกกัน ไม่รวมเป็นสูตรเดียว',
+      'คำอธิบายเรื่องลาภลอยและผู้อุปถัมภ์เป็นความหมายตามตำรา ไม่ใช่ผลที่สูตรคำนวณพิสูจน์ได้',
+      'ชื่อสะกดคลาดเคลื่อนเก็บเป็น alias เพื่อค้นหาได้'
+    ],
+    execution: 'REFERENCE_VARIANTS'
+  },
+  {
     id: 'SPECIAL-MERU-POLE',
     name: 'ดวงเสาพระสุเมรุ',
     aliases: [],
