@@ -357,6 +357,12 @@ main.container h3::after{
 <section class="panel" id="navamsaPanel50">
  <div class="section-title"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><span class="badge">Navamsa 108 divisions</span></div>
  <p class="criteria7-muted">วงนวางค์สองชั้น: วงด้านในแสดงดาวและลัคนาเดิม วงด้านนอกแสดงดาวและลัคนาจร โดยเดินเลขนวางค์ตามธาตุและวางเลขดาวลงในราศีปลายทาง</p>
+ <details id="navamsaLogPanel50" open style="margin:12px 0;padding:12px;border:1px solid #d5dbea;border-radius:10px;background:#f8fafc">
+  <summary style="font-weight:800;cursor:pointer">LOG ตรวจสอบวงกลมนวางค์</summary>
+  <button type="button" id="navamsaLogCopy50" style="margin:8px 0;padding:9px 13px;border:0;border-radius:8px;background:#243b64;color:#fff;font-weight:800">คัดลอก LOG</button>
+  <p id="navamsaLogStatus50" class="criteria7-muted">เริ่มบันทึก…</p>
+  <textarea id="navamsaLogText50" readonly style="box-sizing:border-box;width:100%;min-height:180px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#172033;font:12px/1.5 monospace"></textarea>
+ </details>
  <div class="wheel-wrap" id="navamsaWheelWrap50"><div id="navamsaWheel50" style="width:100%"></div></div>
  <div class="reference-grid" id="navamsaResults50" style="margin-top:14px"><p class="criteria7-muted">กรุณากด “คำนวณดาวเดิม + ดาวจร” เพื่อสร้างวงกลมนวางค์จากผลจริง</p></div>
  <p class="criteria7-muted">วงในสีม่วง = นวางค์เดิม · วงนอกสีเขียว = นวางค์จร · ชื่อราศีแสดงครบ 12 ราศี · เลขเล็กข้างดาว = เลขนวางค์ · @ = ลัคนา</p>
@@ -1745,4 +1751,5 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  window.addEventListener('hora50:chart-calculated',e=>{try{draw(e.detail||{})}catch(err){console.error('[HORA][NAVAMSA50]',err);const root=document.getElementById('navamsaResults50');if(root)root.textContent='วาดวงกลมนวางค์ไม่สำเร็จ: '+(err?.message||err)}});
 })();
 
+</script>
 </body></html>
