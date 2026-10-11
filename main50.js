@@ -59,6 +59,9 @@ function renderWheel(natal,transit,tanuSesha){
   svg+='<line x1="'+p1.x+'" y1="'+p1.y+'" x2="'+p2.x+'" y2="'+p2.y+'" stroke="'+color+'" stroke-width="4.5"/><circle cx="'+p2.x+'" cy="'+p2.y+'" r="4" fill="'+color+'" stroke="#fff" stroke-width="1.5"/><text'+timeClass+' x="'+tag.x+'" y="'+(tag.y+4)+'" text-anchor="middle" font-size="13" font-weight="900" fill="'+color+'" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-linejoin="round">'+labelText+'</text>';
  }
  ascMark(natal.asc,'@เกิด','#dc2626',-16,natal.time,false);
+ // วงกลมสีม่วง @ แสดงลัคนาเกิดตรงองศาจริง ไม่เลื่อนมุมไปยังราศีข้างเคียง
+ const natalAscPoint=xy(natal.asc,132);
+ svg+='<g data-natal-ascendant-marker="true" aria-label="ลัคนาเกิด"><circle cx="'+natalAscPoint.x.toFixed(2)+'" cy="'+natalAscPoint.y.toFixed(2)+'" r="14" fill="#7250bd" stroke="#fff" stroke-width="2.5"/><text x="'+natalAscPoint.x.toFixed(2)+'" y="'+(natalAscPoint.y+4.5).toFixed(2)+'" text-anchor="middle" font-size="12" font-weight="950" fill="#fff">@</text></g>';
  if(transit)ascMark(transit.asc,'@จร','#07834b',145,transit.time,true);
  const placed=[];
  function draw(list,isTransit){
