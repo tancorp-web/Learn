@@ -474,7 +474,7 @@ main.container h3::after{
 </style>
 
 
-<div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
+
 <div id="starDetails" class="panel">
   <div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">แยกตาราง · เกณฑ์รายดวง</span></div>
   <p class="criteria7-lead">แยกข้อมูลเป็นสองตารางเพื่อดูได้ชัดว่าดาวแต่ละดวงอยู่ราศี/ภพใด มีมาตรฐานหรือเกณฑ์พื้นฐานอะไร และสัมพันธ์กับดาวใดบ้าง</p>
@@ -538,72 +538,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
 </script>
 <script type="module" src="./main50.js?v=20261011-index51-asc-circle-3"></script>
 
-<script type="module">
-/* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261010-ingress-fix2';
-(()=>{
- const $=id=>document.getElementById(id);
- const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
- const pad=n=>String(n).padStart(2,'0');
- const pause=()=>new Promise(resolve=>setTimeout(resolve,0));
- const dateTimeAt=stamp=>{const d=new Date(stamp);return {date:d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()),time:pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())};};
- const sunLongitude=(stamp,longitude)=>{
-   const dt=dateTimeAt(stamp);
-   const result=calculateSuriyayatra({date:dt.date,time:dt.time,longitude,includeMotion:false});
-   const sun=result?.planets?.find(p=>p.name==='อาทิตย์');
-   if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ไม่พบตำแหน่งอาทิตย์จากสูตร HORA');
-   return ((Number(sun.longitude)%360)+360)%360;
- };
- const fmtLocal=stamp=>{const d=new Date(stamp);return pad(d.getUTCDate())+'/'+pad(d.getUTCMonth()+1)+'/'+(d.getUTCFullYear()+543)+' เวลา '+pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())+' น.';};
- let running=false,rerun=false,lastKey='';
- async function calculateNext(){
-   const out=$('sunIngressResult3');if(!out)return;
-   const day=Number($('fDay')?.value),month=Number($('fMonth')?.value),beYear=Number($('fYear')?.value);
-   const hour=Number($('fHour')?.value),minute=Number($('fMinute')?.value),longitude=Number($('fLon')?.value);
-   const key=[day,month,beYear,hour,minute,longitude].join('|');
-   if(running){if(key!==lastKey)rerun=true;return;}
-   if(key===lastKey&&out.dataset.ready==='1')return;
-   running=true;rerun=false;lastKey=key;out.dataset.ready='0';
-   out.textContent='กำลังคำนวณเวลาจรของอาทิตย์…';
-   try{
-     if(!day||!month||!beYear||!Number.isInteger(hour)||hour<0||hour>23||!Number.isInteger(minute)||minute<0||minute>59||!Number.isFinite(longitude))throw new Error('กรุณาเลือกวัน เวลา และลองจิจูดจรให้ครบ');
-     const start=Date.UTC(beYear-543,month-1,day,hour,minute);
-     const startLon=sunLongitude(start,longitude),startSign=Math.floor(startLon/30);
-     const nextSign=(startSign+1)%12,boundary=((startSign+1)*30)%360;
-     let low=start,high=null;
-     out.textContent='กำลังค้นหาเวลาอาทิตย์จรเข้าราศีถัดไป…';
-     // Yield between samples so the status can paint and mobile browsers stay responsive.
-     for(let d=1;d<=45;d++){
-       const t=start+d*86400000,lon=sunLongitude(t,longitude);
-       if(Math.floor(lon/30)!==startSign){low=start+(d-1)*86400000;high=t;break;}
-       if(d%2===0)await pause();
-     }
-     if(high===null)throw new Error('สูตรอาทิตย์ไม่พบการเปลี่ยนราศีภายใน 45 วัน');
-     while(high-low>60000){
-       const mid=low+Math.floor((high-low)/120000)*60000;
-       if(mid<=low){high=low+60000;break;}
-       if(Math.floor(sunLongitude(mid,longitude)/30)===startSign)low=mid;else high=mid;
-       await pause();
-     }
-     const foundLon=sunLongitude(high,longitude);
-     const delta=((foundLon-boundary+540)%360)-180;
-     out.innerHTML='<div>อาทิตย์จรจะเข้าราศี <strong>'+signs[nextSign]+'</strong> ที่เส้น 0°</div><div style="font-size:18px;font-weight:850">'+fmtLocal(high)+'</div><div style="font-size:12px;font-weight:600;color:#64748b">อ้างอิงตำแหน่งเริ่มต้น '+signs[startSign]+' '+startLon.toFixed(2)+'° · คลาดจากเส้นตามความละเอียดสูตร '+Math.abs(delta*60).toFixed(1)+'′</div>';
-     out.dataset.ready='1';
-     console.log('[HORA][SUN INGRESS] สำเร็จ',{sign:signs[nextSign],dateTime:fmtLocal(high),startLongitude:startLon,boundary,longitude});
-   }catch(err){
-     out.textContent='คำนวณเวลาจรไม่สำเร็จ: '+String(err?.message||err);
-     console.error('[HORA][SUN INGRESS] ERROR',err);
-   }finally{
-     running=false;
-     if(rerun){rerun=false;lastKey='';setTimeout(calculateNext,50);}
-   }
- }
- const button=$('calc');
- if(button)button.addEventListener('click',()=>{lastKey='';setTimeout(calculateNext,50);});
- // Main app populates date/time selects during startup; wait until after its initial calculation.
- setTimeout(()=>{lastKey='';calculateNext();},900);
-})();
-</script>
+
 
 <script>
 /* NAKSHATRA_FULL_RING: additional labels live only in index3.html; main.js and index.html remain unchanged. */
