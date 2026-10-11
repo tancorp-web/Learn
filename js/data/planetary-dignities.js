@@ -530,7 +530,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "มิถุน",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "มีอานุภาพมาก เป็นที่รักและยอมรับของคนทั่วไป",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-MOON-VIRGO",
@@ -538,7 +540,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "กันย์",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "ได้คู่ครองหรือผู้ใหญ่ที่เป็นสตรีคอยให้ความเมตตาและสูงศักดิ์",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-MARS-TAURUS",
@@ -546,7 +550,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "พฤษภ",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "ได้มิตรสหายที่ดีและคอยเป็นที่พึ่งพา",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-MERCURY-LEO",
@@ -554,7 +560,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "สิงห์",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "มีสติปัญญาเฉียบแหลม เจรจาพาทีมีเสน่ห์อ่อนหวานน่าฟัง",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-JUPITER-ARIES",
@@ -562,7 +570,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "เมษ",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "ชีวิตมีความสุขร่มเย็น ผู้ใหญ่รักใคร่เอ็นดูและคอยชุบเลี้ยง",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-VENUS-CANCER",
@@ -570,7 +580,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "กรกฎ",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "อุดมสมบูรณ์ด้วยทรัพย์สินเงินทอง ทำงานราชการหรือกิจการใดก็เจริญก้าวหน้า",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-SATURN-SCORPIO",
@@ -578,7 +590,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "พิจิก",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "เหมาะกับการรับราชการทหารหรือฝ่ายปกครอง มีความมั่นคงและอายุยืน",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-RAHU-LIBRA",
@@ -586,7 +600,9 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "sign": "ตุล",
     "category": "ราชาโชค",
     "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "interpretation": "อุดมสมบูรณ์ด้วยโภคทรัพย์และเงินทองมากกว่าญาติพี่น้อง",
+    "interpretationSource": "USER_PROVIDED_REFERENCE",
+    "source": "Existing HORA sign mapping; interpretation supplied by user; not runtime-enabled."
   },
   {
     "id": "DIGNITY-MAHA-CHAK-SUN-CANCER",
