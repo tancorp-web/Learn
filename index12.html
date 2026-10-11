@@ -969,8 +969,8 @@ function saveSegmentNumberHistory12(records){
  }catch(err){console.warn('[HORA][NUMBER HISTORY] SAVE',err);const box=document.getElementById('numberFrequencySummary12');if(box)box.innerHTML='<p role="alert">บันทึกประวัติไม่ได้ในเบราว์เซอร์นี้ อาจปิดการใช้พื้นที่จัดเก็บไว้</p>'}
 }
 function isExcludedStrengthPlanet12(record,planet){
- const relevant=(record.standards||[]).filter(line=>String(line).startsWith('')&&String(line).includes(planet+':'));
- return relevant.some(line=>/:.*(?:^|,\\s*)(?:ประ|นิจ)(?:,|$)/.test(String(line)));
+ const relevant=(record.standards||[]).filter(line=>String(line).includes(planet+':'));
+ return relevant.some(line=>String(line).split(':').slice(1).join(':').split(',').map(v=>v.trim()).some(category=>category==='ประ'||category==='นิจ'));
 }
 function eligibleStrengthPlanets12(record){
  if(!Array.isArray(record.standards))return [];
@@ -1023,6 +1023,7 @@ document.getElementById('clearNumberHistory12')?.addEventListener('click',()=>{
  catch(err){console.warn('[HORA][NUMBER HISTORY] CLEAR',err)}
 });
 renderNumberFrequencySummary12();
+renderSegmentStrengthTable12(readNumberHistory12());
 async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId){
    const target=document.getElementById('ascendantSegmentCriteriaTable9');
    if(!target)return;
