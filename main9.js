@@ -273,43 +273,16 @@ function renderNumericAstrologySummary(natal,transit){
  const head=table.querySelector('thead');if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
  const lead=$('planetDignityNumberSummary8')?.querySelector('.criteria7-lead');if(lead)lead.textContent='สร้างตารางจากวัตถุผลคำนวณโดยตรง จึงไม่ต้องอ่านย้อนจาก HTML. เลขเดี่ยวคือดาวที่เข้าเกณฑ์; ๓–๖ คือคู่ดาวเดิม; ๓→๖ คือดาวจรเทียบดาวเดิม. กุม/ทับ/เล็ง/โยค/ตรีโกณ/จตุโกณคำนวณจากราศีตามชุดกฎของโปรเจค ส่วนฉากต้องกำหนดออร์บองศา. ดอกพิกุลแสดงเพียงโครงตำแหน่งแบบ A ซึ่งยังมีเงื่อนไขบางส่วนที่ต้องยืนยัน.';
 }
-let __HORA9_NATAL_CACHE=null;
 window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
- const birth=getInput('b');
- const natalKey=[birth.date,birth.time,$('bLat').value,$('bLon').value].join('|');
- if(!__HORA9_NATAL_CACHE||__HORA9_NATAL_CACHE.key!==natalKey)__HORA9_NATAL_CACHE={key:natalKey,chart:calcAt(birth.date,birth.time,true,{lat:$('bLat').value,lon:$('bLon').value,timezone:7})};
- const natal=__HORA9_NATAL_CACHE.chart;
  const transit=calcAt(date,time,false,{lat:$('fLat').value,lon:Number(longitude),timezone:7});
- const standards=[];
- const numbers=[];
+ const standards=[],numbers=[];
  const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
  for(const p of transit.planets){
   const x=((p.longitude%30)+30)%30,d=Math.floor(x),m=Math.floor((x-d)*60),s=Math.round((((x-d)*60)-m)*60);
   const cats=getPlanetaryDignities(p.name,p.sign.name,d,m,s);
   if(cats.length){standards.push(nums[p.name]+' '+p.name+': '+cats.join(', '));if(nums[p.name]!==undefined)numbers.push({planet:p.name,number:nums[p.name]})}
  }
- const criteria=[];
- const signIndex=lon=>Math.floor((((Number(lon)%360)+360)%360)/30);
- // Time-segment comparisons must not include the natal ascendant.
- // Transit planets may still be compared with natal planets as reference points.
- const relNames={'0':'กุม/ทับ','2':'โยคหน้า','10':'โยคหลัง','3':'จตุโกณ','9':'จตุโกณ','4':'ตรีโกณ','8':'ตรีโกณ','6':'เล็ง'};
- const related=[];
- for(const tp of transit.planets)for(const np of natal.planets){
-  const gap=(signIndex(tp.longitude)-signIndex(np.longitude)+12)%12;
-  if(relNames[String(gap)])related.push({label:relNames[String(gap)],pair:'ดาวจร '+tp.name+' – ดาวเดิม '+np.name});
- }
- const grouped={};
- for(const item of related)(grouped[item.label]??=[]).push(item.pair);
- for(const label of Object.keys(grouped)){
-  const pairs=[...new Set(grouped[label])];
-  criteria.push(label+': '+pairs.join(', '));
- }
- criteria.push('ดอกอุตพิต: รอสูตรยืนยัน');
- criteria.push('นำผล/นำพล: รอสูตรยืนยัน');
- criteria.push('ตามผล/ขับพล: รอสูตรยืนยัน');
- criteria.push('ดอกพิกุล: โครงแบบ A ยังรอยืนยันเงื่อนไขครบ');
- if(!criteria.length)criteria.push('ไม่พบเกณฑ์ที่ยืนยันได้ในช่วงนี้');
- return {standards,criteria,numbers,ascSign:signObj(transit.asc).name};
+ return {standards,criteria:[],numbers,ascSign:signObj(transit.asc).name};
 };
 function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60),direction=isLatitude?(value<0?'S':'N'):(value<0?'W':'E');return degrees+'°'+direction+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+"''";}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
