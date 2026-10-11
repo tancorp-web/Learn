@@ -82,17 +82,22 @@ function renderWheel(natal,transit,tanuSesha){
    // Keep boundary-adjacent markers inside their true sign; move colliding labels tangentially and draw a leader to the true longitude.
    const baseDisplayLon=((lon+(nearSignEdge?(within<15?6:-6):0))%360+360)%360;
    const signName=signOf(lon).name;
-   const angularOffsets=[0,-4,4,-8,8,-12,12,-16,16];
-   let marker=null,markerClearance=-Infinity,markerShift=0;
+   const angularOffsets=[0,-2,2,-4,4,-6,6,-9,9,-12,12,-16,16];
+   const candidates=[];
+   const preferred=xy(baseDisplayLon,chosen.lane);
    for(const lane of lanes){
     for(const shift of angularOffsets){
      const candidateLon=((baseDisplayLon+shift)%360+360)%360;
      if(signOf(candidateLon).name!==signName)continue;
      const q=xy(candidateLon,lane);
      const clearance=placed.length?Math.min(...placed.map(v=>Math.hypot(v.x-q.x,v.y-q.y))):Infinity;
-     if(clearance>markerClearance){markerClearance=clearance;marker={...q,lane,longitude:candidateLon};markerShift=shift;}
+     const distanceFromPreferred=Math.hypot(q.x-preferred.x,q.y-preferred.y);
+     candidates.push({...q,lane,longitude:candidateLon,clearance,distanceFromPreferred});
     }
    }
+   candidates.sort((a,b)=>a.distanceFromPreferred-b.distanceFromPreferred);
+   let marker=candidates.find(q=>q.clearance>=29)||null;
+   if(!marker&&candidates.length)marker=candidates.slice().sort((a,b)=>b.clearance-a.clearance||a.distanceFromPreferred-b.distanceFromPreferred)[0];
    if(!marker){const q=xy(baseDisplayLon,chosen.lane);marker={...q,lane:chosen.lane,longitude:baseDisplayLon};}
    const anchor=xy(lon,marker.lane);
    const displaced=Math.hypot(anchor.x-marker.x,anchor.y-marker.y)>2;
@@ -100,7 +105,7 @@ function renderWheel(natal,transit,tanuSesha){
    const isNatalSun=!isTransit&&p.name==='อาทิตย์';
    svg+='<g data-planet-marker="true" data-planet="'+p.name+'" data-kind="'+(isTransit?'transit':'natal')+'" data-longitude="'+lon.toFixed(6)+'" data-sign="'+signName+'">';
    if(displaced){
-    svg+='<line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="#fff" stroke-width="4" stroke-linecap="round"/><line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="'+color+'" stroke-width="2" stroke-linecap="round"/><circle cx="'+anchor.x.toFixed(2)+'" cy="'+anchor.y.toFixed(2)+'" r="3.6" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>';
+    svg+='<line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="#fff" stroke-width="4" stroke-linecap="round"/><line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="'+color+'" stroke-width="2" stroke-linecap="round"/><circle cx="'+anchor.x.toFixed(2)+'" cy="'+anchor.y.toFixed(2)+'" r="1.8" fill="'+color+'" stroke="#fff" stroke-width="0.9"/>';
    }
    svg+='<circle cx="'+marker.x.toFixed(2)+'" cy="'+marker.y.toFixed(2)+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+marker.x.toFixed(2)+'" y="'+(marker.y+4).toFixed(2)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(!isTransit&&tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
   });
