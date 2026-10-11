@@ -1406,7 +1406,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const name=(cells[0].textContent||'').trim().replace(/\+$/,'');
    const number=numberByPlanet[name];
    if(!number)return;
-   const standards=(cells[5].textContent||'').split('·').map(x=>x.trim()).filter(Boolean);
+   const standards=(cells[5].textContent||'').split(/\\s+·\\s+/).map(x=>x.trim()).filter(Boolean);
    standards.forEach(raw=>{
     const provisional=/อ้างอิง\s*[·.]\s*รอยืนยัน/.test(raw);
     const label=raw.replace(/\s*\(อ้างอิง\s*[·.]\s*รอยืนยัน\)\s*/g,'').trim();
