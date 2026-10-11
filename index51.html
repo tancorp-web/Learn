@@ -535,10 +535,7 @@ main.container h3::after{
     <p class="criteria7-muted">กุม/เล็ง/โยค/ตรีโกณ/จตุโกณในส่วนนี้เป็นการนับราศีตามคลังความสัมพันธ์ ไม่ใช่การวัดมุมองศาจริง ส่วน “ฉาก” ต้องตรวจองศาแยกต่างหาก</p>
     <div id="criteria7Relations" class="reference-table-wrap"></div>
   </div>
-  <div class="criteria7-details">
-    <h3>คลังเกณฑ์พิเศษทั้งหมดในโปรเจค</h3>
-    <p class="criteria7-muted">รายการที่สถานะ DISCOVERY / NEEDS_SOURCE / SOURCE_VARIANT / REFERENCE_PROVISIONAL จะแสดงเพื่อให้ตรวจสอบเท่านั้น ไม่ถือว่าเป็นสูตรที่ยืนยันหรือเปิดใช้งานแล้ว</p>
-    <div id="criteria7Catalog"></div>
+        <!-- ปิดการโหลด/แสดงรายการคลังเกณฑ์พิเศษทั้งหมด เพื่อให้หน้า index51 โหลดเบาลง -->
   </div>
   <p class="criteria7-muted">ข้อจำกัด: ภพในรายงานนี้นับราศีเต็มจากลัคนากำเนิดเพื่อเทียบคลังเกณฑ์เท่านั้น; ตัวตรวจดวงหนุมานเป็นข้อยกเว้นที่นับดาวเดิม ๐–๙ รวมลัคนาเดิมใน 3 ราศีรอบลัคนา ส่วนเกณฑ์อื่นให้ยึดกติกาการนับของแต่ละเกณฑ์แยกกัน</p>
 </section>
@@ -1534,24 +1531,7 @@ import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-na
    const catalog=(report.allCataloguedCriteria||[]).map(c=>{
      const ev=(report.criteria||[]).find(x=>x.id===c.id)||{};
      const conditions=(c.conditions||[]).map(x=>x.description).join(' · ');
-     const aliases=(c.aliases||[]).length?'<p><strong>ชื่อเรียกอื่น:</strong> '+esc(c.aliases.join(' / '))+'</p>':'';
-     const planets=c.planets?'<p><strong>ดาว/องค์ประกอบ:</strong> '+esc(c.planets)+'</p>':'';
-     const req=(c.requiredSigns||[]).length?'<p><strong>ราศีที่ระบุ:</strong> '+esc(c.requiredSigns.join(' / '))+'</p>':'';
-     const houses=(c.housesFromAscendant||[]).length?'<p><strong>ภพที่ระบุ:</strong> '+esc(c.housesFromAscendant.join(', '))+'</p>':'';
-     const cond=conditions?'<p><strong>เงื่อนไข:</strong> '+esc(conditions)+'</p>':'';
-     const notes=(c.notes||[]).map(n=>'<li>'+esc(n)+'</li>').join('');
-     const evidence=c.evidence?'<p><strong>หลักฐาน/ขอบเขต:</strong> '+esc(c.evidence)+'</p>':'';
-     const evalText=ev.resultType?'<p><strong>ผลตรวจ:</strong> '+esc(resultLabel(ev.resultType))+' — '+esc(ev.evaluationNote||'')+'</p>':'';
-     return '<article class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(c.execution||'REFERENCE_ONLY')+aliases+planets+req+houses+cond+(c.detail?'<p>'+esc(c.detail)+'</p>':'')+(notes?'<ul>'+notes+'</ul>':'')+evidence+evalText+'</article>';
-   }).join('');
-   $('criteria7Catalog').innerHTML='<p>รวม '+(report.allCataloguedCriteria||[]).length+' รายการที่ยังไม่ถูกรวมเป็นชื่อซ้ำในคลังเกณฑ์พิเศษ (แสดงสถานะและรายละเอียดตามฐานข้อมูลปัจจุบัน)</p><div class="criteria7-grid">'+catalog+'</div>';
-  }catch(error){
-   status.textContent='แสดงผลเกณฑ์ไม่สำเร็จ: '+String(error?.message||error);
-   console.error('[HORA][NATAL CRITERIA]',error);
-  }
- }
- const body=$('natalStarDetailsBody');
- if(body){new MutationObserver(()=>render()).observe(body,{childList:true,subtree:true,characterData:true});}
+     const alias   // ไม่ประมวลผล report.allCataloguedCriteria: ปิดรายการคลังเกณฑ์พิเศษทั้งหมดเพื่อประหยัดเวลาโหลดbserver(()=>render()).observe(body,{childList:true,subtree:true,characterData:true});}
  document.addEventListener('DOMContentLoaded',render);
  setTimeout(render,700);setTimeout(render,1800);
 })();
