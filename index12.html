@@ -506,6 +506,15 @@ body,main.container,.container{
   <p>ส่วนนี้เป็นการวิเคราะห์เพิ่มเติม ใช้เวลาคำนวณมากกว่าตารางเวลาเข้า 0° กรุณากดปุ่มเมื่อต้องการดูผล โดยไม่คำนวณซ้ำอัตโนมัติทุกครั้ง</p>
   <button type="button" id="runAscendantSegmentCriteria9" class="secondary-button">วิเคราะห์มาตรฐานดาวและเกณฑ์ทั้ง 12 ช่วง</button>
   <div id="ascendantSegmentCriteriaTable9" class="reference-table-wrap" aria-live="polite"><p>ยังไม่ได้เรียกวิเคราะห์ส่วนนี้</p></div>
+  <div class="reference-panel" id="numberFrequencyPanel12">
+    <h3>คลังเลขดาวจรตามช่วงเวลา</h3>
+    <p>เก็บเลขดาวจรที่แปลงจากดาวทั้ง 10 ดวงในแต่ละช่วงลัคนาจร แล้วนับความถี่เลขซ้ำเพื่อใช้วิเคราะห์ภายหลัง ระบบไม่นำลัคนาเดิมมาเป็นตัวแบ่งช่วง และไม่ตีความว่าเลขที่ซ้ำบ่อยเป็นเลขมงคลโดยอัตโนมัติ</p>
+    <div id="numberFrequencySummary12" aria-live="polite"><p>ยังไม่มีข้อมูลที่บันทึกจากการวิเคราะห์ช่วงเวลา</p></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px">
+      <button type="button" id="clearNumberHistory12" class="secondary-button">ล้างประวัติเลขที่บันทึกในอุปกรณ์นี้</button>
+      <span class="reference-note">เก็บในเบราว์เซอร์ของอุปกรณ์นี้เท่านั้น ไม่ได้ส่งขึ้นฐานข้อมูลออนไลน์</span>
+    </div>
+  </div>
   <div class="reference-grid">
     <div class="reference-card">
       <h3>ลัคนาจร (ดวงตามเวลาที่เลือก)</h3>
@@ -932,7 +941,44 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    textNode.textContent=clock(item.minutes)+' น.';
   });
  }
- async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId){
+ const NUMBER_HISTORY_KEY12='hora-index12-number-history-v1';
+function readNumberHistory12(){
+ try{const raw=localStorage.getItem(NUMBER_HISTORY_KEY12);const data=raw?JSON.parse(raw):[];return Array.isArray(data)?data:[]}
+ catch(err){console.warn('[HORA][NUMBER HISTORY] READ',err);return []}
+}
+function saveSegmentNumberHistory12(records){
+ try{
+  const old=readNumberHistory12();
+  const byKey=new Map(old.map(r=>[r.key,r]));
+  for(const r of records){
+   const key=[r.date,r.startTime,r.sign,Number(r.longitude).toFixed(5)].join('|');
+   byKey.set(key,{...r,key,savedAt:new Date().toISOString()});
+  }
+  const all=[...byKey.values()].sort((a,b)=>(a.date+a.startTime).localeCompare(b.date+b.startTime));
+  localStorage.setItem(NUMBER_HISTORY_KEY12,JSON.stringify(all));
+  console.log('[HORA][NUMBER HISTORY] SAVED',{addedOrUpdated:records.length,totalUniqueSegments:all.length});
+ }catch(err){console.warn('[HORA][NUMBER HISTORY] SAVE',err);const box=document.getElementById('numberFrequencySummary12');if(box)box.innerHTML='<p role="alert">บันทึกประวัติไม่ได้ในเบราว์เซอร์นี้ อาจปิดการใช้พื้นที่จัดเก็บไว้</p>'}
+}
+function renderNumberFrequencySummary12(){
+ const box=document.getElementById('numberFrequencySummary12');if(!box)return;
+ const records=readNumberHistory12();
+ if(!records.length){box.innerHTML='<p>ยังไม่มีข้อมูลที่บันทึกจากการวิเคราะห์ช่วงเวลา</p>';return}
+ const counts=Object.fromEntries('0123456789'.split('').map(n=>[n,0]));
+ let occurrences=0;
+ for(const record of records)for(const item of (record.numbers||[])){
+  const n=String(item.number);if(Object.prototype.hasOwnProperty.call(counts,n)){counts[n]++;occurrences++}
+ }
+ const digits=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]||Number(a)-Number(b));
+ const rows=digits.map(n=>'<tr><td>'+n+'</td><td>'+({'0':'มฤตยู','1':'อาทิตย์','2':'จันทร์','3':'อังคาร','4':'พุธ','5':'พฤหัสบดี','6':'ศุกร์','7':'เสาร์','8':'ราหู','9':'เกตุ'}[n])+'</td><td>'+counts[n]+'</td><td>'+(occurrences?(counts[n]*100/occurrences).toFixed(2):'0.00')+'%</td></tr>').join('');
+ box.innerHTML='<p><strong>ช่วงเวลาที่บันทึก:</strong> '+records.length+' ช่วงที่ไม่ซ้ำกัน · <strong>จำนวนเลขดาวที่นับ:</strong> '+occurrences+'</p><div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>เลข</th><th>ดาว</th><th>จำนวนที่พบ</th><th>สัดส่วน</th></tr></thead><tbody>'+rows+'</tbody></table></div><p class="reference-note">นับความถี่จากเลขดาวจรทั้ง 10 ดวงในแต่ละช่วงที่บันทึกซ้ำได้หนึ่งชุดต่อวัน เวลาเริ่ม ราศีลัคนาจร และพิกัดเดียวกัน การคำนวณซ้ำเงื่อนไขเดิมจะอัปเดตข้อมูลเดิม ไม่เพิ่มจำนวนซ้ำเทียม</p>';
+}
+document.getElementById('clearNumberHistory12')?.addEventListener('click',()=>{
+ if(!confirm('ลบประวัติเลขดาวจรที่บันทึกไว้ในอุปกรณ์นี้ทั้งหมดหรือไม่?'))return;
+ try{localStorage.removeItem(NUMBER_HISTORY_KEY12);renderNumberFrequencySummary12()}
+ catch(err){console.warn('[HORA][NUMBER HISTORY] CLEAR',err)}
+});
+renderNumberFrequencySummary12();
+async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId){
    const target=document.getElementById('ascendantSegmentCriteriaTable9');
    if(!target)return;
    target.innerHTML='<p>กำลังคำนวณดวงจรใหม่ตามเวลาเข้าราศีทั้ง 12 ช่วง…</p>';
@@ -942,6 +988,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const ordered=boundaries.map(x=>({...x,minutes:((Math.round(Number(x.minutes)%1440)+1440)%1440)})).sort((a,b)=>a.minutes-b.minutes);
    const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
    const rows=[];
+   const segmentRecords=[];
    for(let i=0;i<ordered.length;i++){
     if(runId!==boundaryRun)return;
     const item=ordered[i],next=ordered[(i+1)%ordered.length];
@@ -955,10 +1002,19 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
     catch(err){console.warn('[HORA][INDEX9][SEGMENT ANALYSIS]',err)}
     const standards=analysis?.standards?.length?analysis.standards.map(x=>escapeHtml(x)).join(' · '):'—';
     const criteria=analysis?.criteria?.length?analysis.criteria.map(x=>escapeHtml(x)).join(' · '):'—';
-    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+standards+'</td><td>'+criteria+'</td></tr>');
+    const numbers=analysis?.numbers?.length?analysis.numbers.map(x=>x.number).join(' · '):'—';
+    segmentRecords.push({
+     sign:signNames[Number(item.sign)]||'—',
+     date:String(startDate.getUTCFullYear())+'-'+pad(startDate.getUTCMonth()+1)+'-'+pad(startDate.getUTCDate()),
+     startTime,endTime,longitude:Number(lon.toFixed(5)),
+     numbers:(analysis?.numbers||[]).map(x=>({planet:x.planet,number:String(x.number)}))
+    });
+    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td><td>'+criteria+'</td></tr>');
    }
    if(runId!==boundaryRun)return;
-   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้าราศี</th><th>เวลาจรที่ออกจากราศี</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>เกณฑ์/ความสัมพันธ์ที่ตรวจพบ</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ผลมาตรฐานและความสัมพันธ์คำนวณจากดวงจรใหม่ ณ เวลาเริ่มช่วง โดยใช้สูตรเดิมของ HORA; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป. เกณฑ์ดวงโลงผีและดวงสามเหลี่ยม/หนุมานตรวจจากดวงเดิมตามกฎที่ยืนยันแล้ว ส่วนอุตพิต นำผล/นำพล ตามผล/ขับพล ดอกพิกุล และเกณฑ์อื่นที่ยังแยกสูตรไม่ครบจะไม่ตัดสินผ่าน/ไม่ผ่านจนกว่าจะยืนยันสูตร</p>';
+   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจร</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>เกณฑ์/ความสัมพันธ์ที่ตรวจพบ</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">เลขดาวจรใช้ mapping ที่มีอยู่ใน HORA: อาทิตย์ ๑, จันทร์ ๒, อังคาร ๓, พุธ ๔, พฤหัสบดี ๕, ศุกร์ ๖, เสาร์ ๗, ราหู ๘, เกตุ ๙, มฤตยู ๐. คำนวณตำแหน่งดาวจรใหม่ ณ เวลาเริ่มช่วง โดยไม่ใช้ลัคนาเดิมเป็นตัวแบ่งช่วง</p><p class="reference-note">ผลมาตรฐานและความสัมพันธ์คำนวณจากดวงจรใหม่ ณ เวลาเริ่มช่วง โดยใช้สูตรเดิมของ HORA; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป. เกณฑ์ที่ยังแยกสูตรไม่ครบจะไม่ตัดสินผ่าน/ไม่ผ่านจนกว่าจะยืนยันสูตร</p>';
+   saveSegmentNumberHistory12(segmentRecords);
+   renderNumberFrequencySummary12();
   }
  function enhanceAscendant(svg){
   if(!svg)return;
