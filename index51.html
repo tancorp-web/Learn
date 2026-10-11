@@ -1845,17 +1845,24 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
        const [ax,ay]=polar(cx,cy,ring.markerR,angle); // exact calculated position, never moved
        const within=angle%30,distToBoundary=Math.min(within,30-within);
        const nearBoundary=distToBoundary<=5;
-       const overlap=placed.filter(q=>Math.hypot(q.x-ax,q.y-ay)<27).length;
-       // Move only the visible marker away from the boundary/collision; retain the exact anchor above.
-       let displayAngle=angle;
-       if(nearBoundary)displayAngle+=within<15?6:-6;
-       const radius=ring.markerR+(overlap?Math.min(overlap,3)*(ring.key==='transit'?17:15):0);
-       let [mx,my]=polar(cx,cy,radius,displayAngle);
-       if(placed.some(q=>Math.hypot(q.x-mx,q.y-my)<25)){
-         displayAngle+=overlap%2===0?4:-4;
-         [mx,my]=polar(cx,cy,radius,displayAngle);
+       // Search nearby angles and radii until the visible purple/green markers no longer collide.
+       // This changes drawing positions only; the true calculated anchor and longitude remain untouched.
+       const markerSize=p.tanuLord?17:(p.isAsc?15:13);
+       const angleOffsets=[0,5,-5,10,-10,15,-15,20,-20,25,-25,30,-30,36,-36,42,-42];
+       const radialOffsets=[0,15,-15,30,-30,42,-42];
+       let mx=ax,my=ay,displayAngle=angle,radius=ring.markerR,found=false,bestScore=Infinity;
+       for(const ro of radialOffsets){
+         const candidateR=ring.markerR+ro;
+         if(candidateR<ring.inner+markerSize+2||candidateR>ring.outer-markerSize-2)continue;
+         for(const ao of angleOffsets){
+           const candidateAngle=angle+ao,[x,y]=polar(cx,cy,candidateR,candidateAngle);
+           const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
+           if(collision===0){mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;found=true;break;}
+           if(collision<bestScore){bestScore=collision;mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;}
+         }
+         if(found)break;
        }
-       placed.push({x:mx,y:my});
+       placed.push({x:mx,y:my,size:markerSize});
        const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-navamsha-sign':p.nav.sign,'data-navamsa-number':p.nav.number,'data-navamsa-digit':p.nav.navNumber});
        // When close to a sign boundary or another marker, show the exact anchor and connect it to the offset marker.
        if(nearBoundary||overlap){
@@ -1945,13 +1952,24 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
      const angle=((Number(p.tri.longitude)%360)+360)%360;
      const [ax,ay]=polar(cx,cy,ring.markerR,angle);
      const within=angle%30,nearBoundary=Math.min(within,30-within)<=5;
-     const overlap=placed.filter(q=>Math.hypot(q.x-ax,q.y-ay)<27).length;
-     let displayAngle=angle;
-     if(nearBoundary)displayAngle+=within<15?6:-6;
-     const radius=ring.markerR+(overlap?Math.min(overlap,3)*(ring.key==='transit'?17:15):0);
-     let [mx,my]=polar(cx,cy,radius,displayAngle);
-     if(placed.some(q=>Math.hypot(q.x-mx,q.y-my)<25)){displayAngle+=overlap%2===0?4:-4;[mx,my]=polar(cx,cy,radius,displayAngle);}
-     placed.push({x:mx,y:my});
+     // Search nearby angles and radii until the visible purple/green markers no longer collide.
+     // This changes drawing positions only; the true calculated anchor and longitude remain untouched.
+     const markerSize=p.tanuLord?17:(p.isAsc?15:13);
+     const angleOffsets=[0,5,-5,10,-10,15,-15,20,-20,25,-25,30,-30,36,-36,42,-42];
+     const radialOffsets=[0,15,-15,30,-30,42,-42];
+     let mx=ax,my=ay,displayAngle=angle,radius=ring.markerR,found=false,bestScore=Infinity;
+     for(const ro of radialOffsets){
+      const candidateR=ring.markerR+ro;
+      if(candidateR<ring.inner+markerSize+2||candidateR>ring.outer-markerSize-2)continue;
+      for(const ao of angleOffsets){
+       const candidateAngle=angle+ao,[x,y]=polar(cx,cy,candidateR,candidateAngle);
+       const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
+       if(collision===0){mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;found=true;break;}
+       if(collision<bestScore){bestScore=collision;mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;}
+      }
+      if(found)break;
+     }
+     placed.push({x:mx,y:my,size:markerSize});
      const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-triyang-sign':p.tri.sign,'data-triyang-part':p.tri.part});
      if(nearBoundary||overlap){g.appendChild(node('line',{x1:ax,y1:ay,x2:mx,y2:my,stroke:ring.color,'stroke-width':1.25,'stroke-linecap':'round'}));g.appendChild(node('circle',{cx:ax,cy:ay,r:1.8,fill:ring.color,stroke:'#fff','stroke-width':.7,'data-true-anchor':'true'}));}
      g.appendChild(node('circle',{cx:mx,cy:my,r:p.tanuLord?17:(p.isAsc?15:13),fill:ring.color,stroke:'#fff','stroke-width':2}));
