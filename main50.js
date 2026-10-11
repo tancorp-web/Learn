@@ -105,7 +105,7 @@ function renderWheel(natal,transit,tanuSesha){
    const isNatalSun=!isTransit&&p.name==='อาทิตย์';
    svg+='<g data-planet-marker="true" data-planet="'+p.name+'" data-kind="'+(isTransit?'transit':'natal')+'" data-longitude="'+lon.toFixed(6)+'" data-sign="'+signName+'">';
    if(displaced){
-    svg+='<line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="#fff" stroke-width="4" stroke-linecap="round"/><line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="'+color+'" stroke-width="2" stroke-linecap="round"/><circle cx="'+anchor.x.toFixed(2)+'" cy="'+anchor.y.toFixed(2)+'" r="1.8" fill="'+color+'" stroke="#fff" stroke-width="0.9"/>';
+    svg+='<line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="#fff" stroke-width="4" stroke-linecap="round"/><line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="'+color+'" stroke-width="2" stroke-linecap="round"/><circle cx="'+anchor.x.toFixed(2)+'" cy="'+anchor.y.toFixed(2)+'" r="1.8" data-true-anchor="true" fill="'+color+'" stroke="#fff" stroke-width="0.9"/>';
    }
    svg+='<circle cx="'+marker.x.toFixed(2)+'" cy="'+marker.y.toFixed(2)+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+marker.x.toFixed(2)+'" y="'+(marker.y+4).toFixed(2)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(!isTransit&&tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
   });
