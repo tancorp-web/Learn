@@ -231,7 +231,13 @@ function renderNumericAstrologySummary(natal,transit){
  const occupied=new Set(n.filter(p=>p.number==='ล'||['๑','๒','๓','๔','๕','๖','๗','๘'].includes(p.number)).map(p=>p.sign));
  const ascIndex=signs.indexOf(signObj(natal.asc).name),missing=[1,3,5,7,9,11].filter(h=>!occupied.has(signs[(ascIndex+h-1)%12]));
  rows.push({group:'เกณฑ์พิเศษที่มีโครงสูตรในคลัง',c:'ดอกพิกุล · แบบ A: ตำแหน่ง 1, 3, 5, 7, 9, 11 จากลัคนา',n:missing.length?'ยังไม่ครบ · ขาดภพ '+missing.join(', '):'ครบตำแหน่งตามโครงแบบ A*',t:'ไม่ประเมินเป็นดวงกำเนิด'});
- ['ดอกอุตพิต','นำผล/นำพล','ตามผล/ขับพล','ดวงโลงผี','ดวงสามเหลี่ยม/ดวงหนุมาน','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','ปฏินกะโชค','ราคาโชค'].forEach(c=>rows.push({group:'คลังชื่อเกณฑ์ที่ต้องแยกสูตร',c,n:'ไม่แสดงเลขจนมีเงื่อนไขครบ',t:'ไม่แสดงเลขจนมีเงื่อนไขครบ'}));
+ const rahu=natal.planets.find(p=>p.name==='ราหู');
+ const rahuSign=rahu?signOf(rahu):'—';
+ const rahuHouse=rahu?((signs.indexOf(rahuSign)-signs.indexOf(signObj(natal.asc).name)+12)%12)+1:null;
+ const airSigns=['เมถุน','ตุลย์','กุมภ์'];
+ rows.push({group:'เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา',c:'ปกิณกะโชค · แบบ A: ราหูในราศีธาตุลม',n:rahu?(airSigns.includes(rahuSign)?'๘ — เข้าเกณฑ์ · ราหูอยู่ราศี'+rahuSign:'๘ — ไม่เข้าเกณฑ์ · ราหูอยู่ราศี'+rahuSign):'ข้อมูลราหูไม่ครบ',t:'ไม่ใช้ดาวจร · ตรวจดวงกำเนิด'});
+ rows.push({group:'เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา',c:'ปกิณกะโชค · แบบ B: ราหูโยคหน้าลัคนา (บุญสุรา)',n:rahu?(rahuHouse===3?'๘ — เข้าเกณฑ์ · ราหูภพ 3':'๘ — ไม่เข้าเกณฑ์ · ราหูภพ '+rahuHouse):'ข้อมูลราหูไม่ครบ',t:'ไม่ใช้ดาวจร · ตรวจดวงกำเนิด'});
+ ['ดอกอุตพิต','นำผล/นำพล','ตามผล/ขับพล','ดวงโลงผี','ดวงสามเหลี่ยม/ดวงหนุมาน','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','ราคาโชค'].forEach(c=>rows.push({group:'คลังชื่อเกณฑ์ที่ต้องแยกสูตร',c,n:'ยังไม่มีสูตรที่ยืนยันครบ',t:'ยังไม่มีสูตรที่ยืนยันครบ'}));
  let group='';body.innerHTML=rows.map(r=>{const g=r.group!==group?'<tr class="criteria7-group-row"><th colspan="3">'+esc(r.group)+'</th></tr>':'';group=r.group;return g+'<tr><td>'+esc(r.c)+'</td><td>'+esc(r.n)+'</td><td>'+esc(r.t)+'</td></tr>'}).join('');
  const head=table.querySelector('thead');if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
  const lead=$('planetDignityNumberSummary8')?.querySelector('.criteria7-lead');if(lead)lead.textContent='สร้างตารางจากวัตถุผลคำนวณโดยตรง จึงไม่ต้องอ่านย้อนจาก HTML. เลขเดี่ยวคือดาวที่เข้าเกณฑ์; ๓–๖ คือคู่ดาวเดิม; ๓→๖ คือดาวจรเทียบดาวเดิม. กุม/ทับ/เล็ง/โยค/ตรีโกณ/จตุโกณคำนวณจากราศีตามชุดกฎของโปรเจค ส่วนฉากต้องกำหนดออร์บองศา. ดอกพิกุลแสดงเพียงโครงตำแหน่งแบบ A ซึ่งยังมีเงื่อนไขบางส่วนที่ต้องยืนยัน.';
