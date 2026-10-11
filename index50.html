@@ -323,6 +323,37 @@ main.container h3::after{
 
 </head><body>
 <header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index11</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index11 · ENGINE v8.9.3 · TRANSIT TIME FEATURE + KNOWLEDGE LIBRARY</span></div></header>
+<div class="container" style="padding-top:12px"> <details id="navamsaLogPanel50" open style="margin:12px 0;padding:12px;border:1px solid #d5dbea;border-radius:10px;background:#f8fafc">
+  <summary style="font-weight:800;cursor:pointer">LOG ตรวจสอบวงกลมนวางค์</summary>
+  <button type="button" id="navamsaLogCopy50" style="margin:8px 0;padding:9px 13px;border:0;border-radius:8px;background:#243b64;color:#fff;font-weight:800">คัดลอก LOG</button>
+  <p id="navamsaLogStatus50" class="criteria7-muted">เริ่มบันทึก…</p>
+  <textarea id="navamsaLogText50" readonly style="box-sizing:border-box;width:100%;min-height:180px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#172033;font:12px/1.5 monospace"></textarea>
+ </details>
+</div>
+<script>
+(()=> {
+ const area=()=>document.getElementById('navamsaLogText50');
+ const status=()=>document.getElementById('navamsaLogStatus50');
+ const lines=[];
+ const add=(label,detail)=>{
+  let info='';try{info=detail===undefined?'': ' | '+(typeof detail==='string'?detail:JSON.stringify(detail))}catch(_){info=' | '+String(detail)}
+  lines.push('['+new Date().toISOString()+'] '+label+info);if(lines.length>250)lines.shift();
+  if(area())area().value=lines.join(String.fromCharCode(10));
+  if(status())status().textContent='LOG '+lines.length+' รายการ · ล่าสุด: '+label;
+ };
+ window.__NAV50LOG={add,lines};
+ window.addEventListener('error',e=>add('WINDOW ERROR',{message:e.message,source:e.filename,line:e.lineno,column:e.colno,stack:e.error?.stack||''}));
+ window.addEventListener('hora50:chart-calculated',e=>add('CHART EVENT OBSERVED',{detailKeys:Object.keys(e.detail||{}),natalAsc:e.detail?.natal?.asc??null,transitAsc:e.detail?.transit?.asc??null,natalPlanets:e.detail?.natal?.planets?.length??null,transitPlanets:e.detail?.transit?.planets?.length??null}));
+ window.addEventListener('DOMContentLoaded',()=>{const btn=document.getElementById('calcBtn')||document.querySelector('button[type=submit]');if(btn)btn.addEventListener('click',()=>add('CALCULATE BUTTON CLICKED',{id:btn.id,text:btn.textContent.trim()}),true);});
+ window.addEventListener('unhandledrejection',e=>add('PROMISE ERROR',{reason:e.reason?.stack||e.reason?.message||String(e.reason)}));
+ document.addEventListener('DOMContentLoaded',()=>add('DOM READY',{page:location.pathname,navamsaRoot:!!document.getElementById('navamsaWheel50'),results:!!document.getElementById('navamsaResults50'),userAgent:navigator.userAgent}));
+ document.getElementById('navamsaLogCopy50')?.addEventListener('click',async()=>{
+  try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(lines.join(String.fromCharCode(10)));else{area().focus();area().select();if(!document.execCommand('copy'))throw new Error('copy failed')}if(status())status().textContent='คัดลอก LOG แล้ว · ส่งกลับมาในแชตได้เลย'}
+  catch(err){area().focus();area().select();if(status())status().textContent='คัดลอกอัตโนมัติไม่ได้ กรุณากดค้างในช่องแล้วเลือกคัดลอก';add('COPY ERROR',err.message||String(err))}
+ });
+ add('DIAGNOSTICS READY',{scripts:document.scripts.length});
+})();
+</script>
 
 
 <section id="displayPicker9" class="panel" aria-label="เลือกหมวดแสดงผล">
@@ -357,12 +388,7 @@ main.container h3::after{
 <section class="panel" id="navamsaPanel50">
  <div class="section-title"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><span class="badge">Navamsa 108 divisions</span></div>
  <p class="criteria7-muted">วงนวางค์สองชั้น: วงด้านในแสดงดาวและลัคนาเดิม วงด้านนอกแสดงดาวและลัคนาจร โดยเดินเลขนวางค์ตามธาตุและวางเลขดาวลงในราศีปลายทาง</p>
- <details id="navamsaLogPanel50" open style="margin:12px 0;padding:12px;border:1px solid #d5dbea;border-radius:10px;background:#f8fafc">
-  <summary style="font-weight:800;cursor:pointer">LOG ตรวจสอบวงกลมนวางค์</summary>
-  <button type="button" id="navamsaLogCopy50" style="margin:8px 0;padding:9px 13px;border:0;border-radius:8px;background:#243b64;color:#fff;font-weight:800">คัดลอก LOG</button>
-  <p id="navamsaLogStatus50" class="criteria7-muted">เริ่มบันทึก…</p>
-  <textarea id="navamsaLogText50" readonly style="box-sizing:border-box;width:100%;min-height:180px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#172033;font:12px/1.5 monospace"></textarea>
- </details>
+
  <div class="wheel-wrap" id="navamsaWheelWrap50"><div id="navamsaWheel50" style="width:100%"></div></div>
  <div class="reference-grid" id="navamsaResults50" style="margin-top:14px"><p class="criteria7-muted">กรุณากด “คำนวณดาวเดิม + ดาวจร” เพื่อสร้างวงกลมนวางค์จากผลจริง</p></div>
  <p class="criteria7-muted">วงในสีม่วง = นวางค์เดิม · วงนอกสีเขียว = นวางค์จร · ชื่อราศีแสดงครบ 12 ราศี · เลขเล็กข้างดาว = เลขนวางค์ · @ = ลัคนา</p>
@@ -375,28 +401,7 @@ main.container h3::after{
 #navamsaPanel50 .nav50-card .nav50-em{color:#4b43bd;font-weight:800}
 </style>
 
-<script>
-(()=> {
- const area=()=>document.getElementById('navamsaLogText50');
- const status=()=>document.getElementById('navamsaLogStatus50');
- const lines=[];
- const add=(label,detail)=>{
-  let info='';try{info=detail===undefined?'': ' | '+(typeof detail==='string'?detail:JSON.stringify(detail))}catch(_){info=' | '+String(detail)}
-  lines.push('['+new Date().toISOString()+'] '+label+info);if(lines.length>250)lines.shift();
-  if(area())area().value=lines.join(String.fromCharCode(10));
-  if(status())status().textContent='LOG '+lines.length+' รายการ · ล่าสุด: '+label;
- };
- window.__NAV50LOG={add,lines};
- window.addEventListener('error',e=>add('WINDOW ERROR',{message:e.message,source:e.filename,line:e.lineno,column:e.colno,stack:e.error?.stack||''}));
- window.addEventListener('unhandledrejection',e=>add('PROMISE ERROR',{reason:e.reason?.stack||e.reason?.message||String(e.reason)}));
- document.addEventListener('DOMContentLoaded',()=>add('DOM READY',{page:location.pathname,navamsaRoot:!!document.getElementById('navamsaWheel50'),results:!!document.getElementById('navamsaResults50'),userAgent:navigator.userAgent}));
- document.getElementById('navamsaLogCopy50')?.addEventListener('click',async()=>{
-  try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(lines.join(String.fromCharCode(10)));else{area().focus();area().select();if(!document.execCommand('copy'))throw new Error('copy failed')}if(status())status().textContent='คัดลอก LOG แล้ว · ส่งกลับมาในแชตได้เลย'}
-  catch(err){area().focus();area().select();if(status())status().textContent='คัดลอกอัตโนมัติไม่ได้ กรุณากดค้างในช่องแล้วเลือกคัดลอก';add('COPY ERROR',err.message||String(err))}
- });
- add('DIAGNOSTICS READY',{scripts:document.scripts.length});
-})();
-</script>
+
 <div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
 <div id="starDetails" class="panel">
   <div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">แยกตาราง · เกณฑ์รายดวง</span></div>
