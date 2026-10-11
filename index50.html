@@ -375,6 +375,28 @@ main.container h3::after{
 #navamsaPanel50 .nav50-card .nav50-em{color:#4b43bd;font-weight:800}
 </style>
 
+<script>
+(()=> {
+ const area=()=>document.getElementById('navamsaLogText50');
+ const status=()=>document.getElementById('navamsaLogStatus50');
+ const lines=[];
+ const add=(label,detail)=>{
+  let info='';try{info=detail===undefined?'': ' | '+(typeof detail==='string'?detail:JSON.stringify(detail))}catch(_){info=' | '+String(detail)}
+  lines.push('['+new Date().toISOString()+'] '+label+info);if(lines.length>250)lines.shift();
+  if(area())area().value=lines.join(String.fromCharCode(10));
+  if(status())status().textContent='LOG '+lines.length+' รายการ · ล่าสุด: '+label;
+ };
+ window.__NAV50LOG={add,lines};
+ window.addEventListener('error',e=>add('WINDOW ERROR',{message:e.message,source:e.filename,line:e.lineno,column:e.colno,stack:e.error?.stack||''}));
+ window.addEventListener('unhandledrejection',e=>add('PROMISE ERROR',{reason:e.reason?.stack||e.reason?.message||String(e.reason)}));
+ document.addEventListener('DOMContentLoaded',()=>add('DOM READY',{page:location.pathname,navamsaRoot:!!document.getElementById('navamsaWheel50'),results:!!document.getElementById('navamsaResults50'),userAgent:navigator.userAgent}));
+ document.getElementById('navamsaLogCopy50')?.addEventListener('click',async()=>{
+  try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(lines.join(String.fromCharCode(10)));else{area().focus();area().select();if(!document.execCommand('copy'))throw new Error('copy failed')}if(status())status().textContent='คัดลอก LOG แล้ว · ส่งกลับมาในแชตได้เลย'}
+  catch(err){area().focus();area().select();if(status())status().textContent='คัดลอกอัตโนมัติไม่ได้ กรุณากดค้างในช่องแล้วเลือกคัดลอก';add('COPY ERROR',err.message||String(err))}
+ });
+ add('DIAGNOSTICS READY',{scripts:document.scripts.length});
+})();
+</script>
 <div id="birthDetails" class="panel"><div class="section-title"><h2>ตำแหน่งดาวกำเนิด</h2><span class="badge">Birth Chart</span></div></div>
 <div id="starDetails" class="panel">
   <div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">แยกตาราง · เกณฑ์รายดวง</span></div>
@@ -1667,6 +1689,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 <script>
 /* index50 only: concentric Navamsa circles. Calculation rules are documented in docs/NAVAMSA_RULES.md. */
 (()=> {
+ const log=(label,detail)=>window.__NAV50LOG?.add(label,detail);
+ log('NAVAMSA SCRIPT STARTED');
  const NS='http://www.w3.org/2000/svg';
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const signLords=['๓','๖','๔','๒','๑','๔','๖','๓','๕','๗','๘','๕'];
@@ -1690,12 +1714,15 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    return 'M '+x1+' '+y1+' A '+rOuter+' '+rOuter+' 0 0 0 '+x2+' '+y2+' L '+x3+' '+y3+' A '+rInner+' '+rInner+' 0 0 1 '+x4+' '+y4+' Z';
  }
  function draw(data){
-   const root=document.getElementById('navamsaWheel50');if(!root)return;
+   log('DRAW START',{keys:Object.keys(data||{}),natalCount:data?.natal?.planets?.length??null,transitCount:data?.transit?.planets?.length??null,natalAsc:data?.natal?.asc??null,transitAsc:data?.transit?.asc??null});
+   const root=document.getElementById('navamsaWheel50');if(!root){log('DRAW FAIL: ROOT NOT FOUND');return;}
    const natal=(data.natal?.planets||[]).map(p=>({...p,kind:'birth'}));
    const transit=(data.transit?.planets||[]).map(p=>({...p,kind:'transit'}));
    if(Number.isFinite(Number(data.natal?.asc)))natal.push({name:'ลัคนา',longitude:Number(data.natal.asc),kind:'birth',isAsc:true});
    if(Number.isFinite(Number(data.transit?.asc)))transit.push({name:'ลัคนา',longitude:Number(data.transit.asc),kind:'transit',isAsc:true});
+   log('INPUT NORMALIZED',{natal:natal.length,transit:transit.length});
    const all=[...natal,...transit].filter(p=>Number.isFinite(Number(p.longitude))).map(p=>({...p,nav:navOf(p.longitude)}));
+   log('POSITIONS BUILT',{valid:all.length,invalid:[...natal,...transit].filter(p=>!Number.isFinite(Number(p.longitude))).map(p=>({name:p.name,longitude:p.longitude}))});
    const svg=node('svg',{class:'nav50-svg',viewBox:'0 0 760 760',role:'img','aria-label':'วงนวางค์สองชั้น วงในคือนวางค์เดิม วงนอกคือนวางค์จร แสดงชื่อราศีและเลขดาวที่เดินตามธาตุ'});
    const cx=380,cy=380;
    svg.appendChild(node('circle',{cx,cy,r:348,fill:'#fff',stroke:'#233453','stroke-width':2}));
@@ -1735,7 +1762,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    svg.appendChild(node('text',{x:cx,y:cy+23,'text-anchor':'middle','font-size':13,'font-weight':850,fill:'#16835d'},'ด้านนอก · จร'));
    svg.appendChild(node('text',{x:cx,y:cy+45,'text-anchor':'middle','font-size':11,fill:'#68758c'},'เลขเล็ก = เลขนวางค์'));
    root.replaceChildren(svg);
-   const results=document.getElementById('navamsaResults50');results.innerHTML='';
+   log('SVG DRAW COMPLETE',{children:svg.children.length,markers:svg.querySelectorAll('g[data-planet]').length});
+   const results=document.getElementById('navamsaResults50');if(!results){log('DRAW FAIL: RESULTS ROOT NOT FOUND');return;}results.innerHTML='';
    all.forEach(p=>{
      const sourceSign=Math.floor((((Number(p.longitude)%360)+360)%360)/30);
      const within=((Number(p.longitude)%30)+30)%30,deg=Math.floor(within),min=Math.floor((within-deg)*60);
@@ -1748,7 +1776,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
      results.appendChild(card);
    });
  }
- window.addEventListener('hora50:chart-calculated',e=>{try{draw(e.detail||{})}catch(err){console.error('[HORA][NAVAMSA50]',err);const root=document.getElementById('navamsaResults50');if(root)root.textContent='วาดวงกลมนวางค์ไม่สำเร็จ: '+(err?.message||err)}});
+ window.addEventListener('hora50:chart-calculated',e=>{log('CHART EVENT RECEIVED',{keys:Object.keys(e.detail||{}),natalCount:e.detail?.natal?.planets?.length??null,transitCount:e.detail?.transit?.planets?.length??null});try{draw(e.detail||{})}catch(err){log('DRAW ERROR',{name:err?.name,message:err?.message,stack:err?.stack||''});console.error('[HORA][NAVAMSA50]',err);const root=document.getElementById('navamsaResults50');if(root)root.textContent='วาดวงกลมนวางค์ไม่สำเร็จ: '+(err?.message||err)}});
 })();
 
 </script>
