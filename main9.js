@@ -281,7 +281,7 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
  const ascSign=signObj(transit.asc).name,relGroups={};
  const addRel=(name,label)=>{(relGroups[name]||(relGroups[name]=[])).push(label)};
  // ตัวเลขเป็นตำแหน่งราศีที่นับรวมราศีต้นทางเป็น 1 ไม่ใช่คะแนนน้ำหนักที่แต่งขึ้น
- const addNumericRelation=(relation,from,to,o)=>relationNumbers.push({relation,from,to,offset:o,countedPosition:o+1});
+ const addNumericRelation=(relation,from,to,o,fromSign,toSign)=>relationNumbers.push({relation,from,to,offset:o,countedPosition:o+1,fromSign,toSign});
  const offset=(a,b)=>{const x=signOrder.indexOf(a),y=signOrder.indexOf(b);return x<0||y<0?null:(y-x+12)%12};
  // ตรีโกณ/จตุโกณจะนับได้ต่อเมื่อผังดาวจรมีราศีครบทุกจุดของชุดนั้น
  // ใช้เฉพาะดาวจรและลัคนาจรในช่วงเดียวกัน ห้ามนำตำแหน่งจากผังอื่นมาเติม
@@ -299,7 +299,7 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
   if(cats.length){standards.push(nums[p.name]+' '+p.name+': '+cats.join(', '));if(nums[p.name]!==undefined)numbers.push({planet:p.name,number:nums[p.name]})}
   const toAsc=offset(p.sign.name,ascSign);
   if(toAsc!==null){
-   if(toAsc===0){addRel('ทับลัคนาจร',p.name);addNumericRelation('ทับลัคนาจร',p.name,'ลัคนาจร',toAsc)}
+   if(toAsc===0){addRel('ทับลัคนาจร',p.name);addNumericRelation('ทับลัคนาจร',p.name,'ลัคนาจร',toAsc,p.sign.name,ascSign)}
    else {const rn=relationForOffset(toAsc,p.sign.name);if(rn){addRel(rn+' (เทียบลัคนาจร)',p.name);addNumericRelation(rn+' (เทียบลัคนาจร)',p.name,'ลัคนาจร',toAsc)}}
   }
  }
@@ -308,12 +308,12 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
   for(let k=i+1;k<transit.planets.length;k++){
    const b=transit.planets[k],o=offset(a.sign.name,b.sign.name);
    if(o===null)continue;
-   if(o===0){addRel('กุม',a.name+'–'+b.name);addNumericRelation('กุม',a.name,b.name,o)}
+   if(o===0){addRel('กุม',a.name+'–'+b.name);addNumericRelation('กุม',a.name,b.name,o,a.sign.name,b.sign.name)}
    else {
     const rn=relationForOffset(o,a.sign.name);
-    if(rn){addRel(rn,a.name+'→'+b.name);addNumericRelation(rn,a.name,b.name,o)}
+    if(rn){addRel(rn,a.name+'→'+b.name);addNumericRelation(rn,a.name,b.name,o,a.sign.name,b.sign.name)}
     const reverseOffset=(12-o)%12,reverse=relationForOffset(reverseOffset,b.sign.name);
-    if(reverse&&reverse!==rn){addRel(reverse,b.name+'→'+a.name);addNumericRelation(reverse,b.name,a.name,reverseOffset)}
+    if(reverse&&reverse!==rn){addRel(reverse,b.name+'→'+a.name);addNumericRelation(reverse,b.name,a.name,reverseOffset,b.sign.name,a.sign.name)}
    }
   }
  }
