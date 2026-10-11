@@ -207,7 +207,7 @@ export const THAI_SPECIAL_ASTROLOGY_CRITERIA = Object.freeze([
     status: CRITERION_STATUS.SOURCE_VARIANT,
     ruleType: 'rahu-sign-or-house',
     variants: [
-      { id: 'A', name: 'ราหูในราศีธาตุลม', rule: 'ราหู (๘) ในดวงกำเนิดอยู่ราศีเมถุน ตุลย์ หรือกุมภ์', acceptedSigns: ['เมถุน', 'ตุลย์', 'กุมภ์'], scope: 'natal', status: 'USER_PROVIDED_REFERENCE' },
+      { id: 'A', name: 'ราหูในราศีธาตุลม', rule: 'ราหู (๘) ในดวงกำเนิดอยู่ราศีเมถุน ตุลย์ หรือกุมภ์', acceptedSigns: ['มิถุน', 'ตุล', 'กุมภ์'], scope: 'natal', status: 'USER_PROVIDED_REFERENCE' },
       { id: 'B', name: 'ราหูโยคหน้าลัคนา (บุญสุรา)', rule: 'ราหู (๘) ในดวงกำเนิดอยู่ภพ 3 จากลัคนา', houseFromAscendant: 3, scope: 'natal', status: 'USER_PROVIDED_REFERENCE' }
     ],
     notes: [
