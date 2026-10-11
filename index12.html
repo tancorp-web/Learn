@@ -302,35 +302,22 @@ main.container h3::after{
 }
 
 
-/* index12 lightweight view: keep only requested groups visible.
-   Hidden sections stay in the document tree to preserve the established section numbering. */
-/* Keep requested category 6.01/6.02 and category 7 content visible. */
+/* index12: strict allow-list. Remove unrequested reference panels from layout,
+   rather than hiding them invisibly while they still occupy the document tree. */
+#calculationMethod2,
 #divisionalReference2,
 #thaksaReference2,
 #housesAndPlanets2,
 #lunarKetuReference2,
 #otherReferences2,
+#planetaryStandardKaset4,
+#knowledgeAppendix7,
 #errorLog{
-  visibility:hidden!important;
-  position:absolute!important;
-  width:1px!important;height:0!important;max-height:0!important;
-  margin:0!important;padding:0!important;border:0!important;
-  overflow:hidden!important;pointer-events:none!important;
+  display:none!important;
 }
 
-
-/* index12 fix: reference-only categories must stay fully hidden, including nested elements.
-   Keep their headings in the layout tree so the requested original category numbers remain stable. */
-#divisionalReference2 *,
-#thaksaReference2 *,
-#housesAndPlanets2 *,
-#lunarKetuReference2 *,
-#otherReferences2 *,
-#errorLog *{
-  visibility:hidden!important;
-  pointer-events:none!important;
-}
-
+/* Preserve the requested calculator groups, categories 6.01/6.02 and 7,
+   plus the transit ascendant timing group (17/17.01). */
 /* index12 mobile scroll/performance fix: never lock document scrolling. */
 html,body{
   min-height:100%;
