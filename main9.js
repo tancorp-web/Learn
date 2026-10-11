@@ -351,7 +351,7 @@ function render(natal,transit){
  '<div class="birth-details-line birth-age">อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(Number(f.date.slice(0,4))+544)+')</div></div>';
  renderWheel(natal,transit,tanuSesha);renderStarDetails(natal,transit,tanuSesha);renderNumericAstrologySummary(natal,transit);/* Defer reference recalculation so the wheel and main result can paint and remain responsive first. */setTimeout(()=>{try{renderQA(natal)}catch(err){showRuntimeError(err)}},1200);console.log('[HORA][TABLE] ดาวกำเนิด ดาวจร และตารางเลขเกณฑ์ rendered')
 }
-function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
+function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;try{window.__HORA_DIAG12?.add('HORA RUNTIME ERROR',detail)}catch(logErr){console.warn('[HORA][DIAG LOG ERROR]',logErr)}const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
 function bootHORA(){
  $('bProvince').addEventListener('change',()=>{populate('b');update('b')});
  $('fProvince').addEventListener('change',()=>{populate('f');update('f')});
