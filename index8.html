@@ -1471,7 +1471,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   specialCategories.forEach(category=>{
    rows.push({category:category+' · อ้างอิง/รอยืนยัน',natal:pending,transit:pending,group:'เกณฑ์พิเศษในคลังความรู้'});
   });
-  body.innerHTML=rows.map(row=>'<tr><td>'+escapeHtml(row.category)+'</td><td>'+escapeHtml(row.natal)+'</td><td>'+escapeHtml(row.transit)+'</td></tr>').join('');
+  let currentGroup=''; body.innerHTML=rows.map(row=>{const heading=row.group!==currentGroup?'<tr class="criteria7-group-row"><th colspan="3">'+escapeHtml(row.group)+'</th></tr>':'';currentGroup=row.group;return heading+'<tr><td>'+escapeHtml(row.category)+'</td><td>'+escapeHtml(row.natal)+'</td><td>'+escapeHtml(row.transit)+'</td></tr>';}).join('');
   const head=table.querySelector('thead');
   if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
   const section=document.getElementById('planetDignityNumberSummary8');
