@@ -495,27 +495,7 @@ main.container h3::after{
 </section>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
 
-<section class="reference-panel" id="calculationMethod2">
-  <h2>หลักการคำนวณและขอบเขตของระบบ</h2>
-  <p>ส่วนนี้รวบรวมคำอธิบายจากเอกสารและไฟล์อ้างอิงที่อยู่ในคลังเว็บไซต์ HORA โดยแยกให้ชัดระหว่างข้อมูลที่หน้าคำนวณใช้จริง กับข้อมูลอ้างอิงที่ยังไม่ได้เชื่อมเข้ากับการคำนวณ เพื่อไม่ให้เข้าใจว่าสูตรทุกชุดผ่านการยืนยันแล้ว</p>
-  <div class="reference-grid">
-    <div class="reference-card"><h3>ข้อมูลพื้นฐาน</h3><p>จักรราศี 12 ราศี ราศีละ 30° รวม 360° เริ่มเมษที่ 0° และตำแหน่งดาวภายในระบบอ้างอิงเป็นลองจิจูดสุริยวิถี 0–360°</p><p>การแสดงผลหลักใช้ องศาและลิปดา โดยเก็บค่าภายในให้ละเอียดกว่าแค่ค่าที่แสดง</p></div>
-    <div class="reference-card"><h3>วัน เวลา และสถานที่</h3><p>เขตเวลาไทย UTC+7 ไม่มีการปรับเวลาออมแสง จังหวัดใช้กำหนดพิกัดละติจูด/ลองจิจูด และหน้าคำนวณมีข้อมูลเวลาเกิดกับเวลาจรแยกกัน</p><p>กติกาวันเปลี่ยนสำหรับทักษาที่เก็บเป็นข้อมูลอ้างอิงใช้ 06:00 น. แต่เอกสารระบบระบุว่าเกณฑ์ที่ขึ้นกับวันทางดาราศาสตร์อาจต้องใช้เวลาอาทิตย์ขึ้นจริง จึงไม่ควรถือว่าสองกติกานี้เป็นเรื่องเดียวกัน</p></div>
-    <div class="reference-card"><h3>มาตรฐาน HORA</h3><p>ไฟล์ ruleset ระบุจักรราศีแบบ sidereal, ayanamsa Lahiri, ความละเอียดองศา–ลิปดา และสถานะสูตรโดยรวมเป็น PROVISIONAL</p><p>มีการระบุระบบเรือนแบบ 30° เริ่มจากลัคนาในเอกสารสถาปัตยกรรม และ whole-sign ใน ruleset มาตรฐาน จึงควรเลือกกติกาเรือนให้ตรงก่อนนำไปเทียบตำราต่างสำนัก</p></div>
-    <div class="reference-card"><h3>ลำดับการคำนวณที่บันทึกไว้</h3><p>เอกสารเดิมระบุสายงานสุริยยาตร์เป็น Horakhun → Madhyam Sun/Moon → Uccabala birth → Madhyam Ucc → Uccavises → Plaken/Khan/Bhuj → Chandra shadow</p><p class="reference-note">ชื่อขั้นตอนนี้เป็นบันทึกหลักการเดิม ไม่ใช่หลักฐานว่าทุกขั้นตอนในรายการได้ผ่านการตรวจสอบอิสระครบแล้ว</p></div>
-  </div>
-  <h3>สถานะสูตรจากทะเบียนสูตรใน repository</h3>
-  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>รหัส</th><th>หัวข้อ</th><th>สถานะที่บันทึก</th><th>รายละเอียด</th></tr></thead><tbody>
-    <tr><td>F-001</td><td>ลองจิจูดสัมบูรณ์</td><td><span class="reference-status good">APPROVED</span></td><td>ตำแหน่งดาวในช่วง 0–360°</td></tr>
-    <tr><td>F-002</td><td>แบ่งจักรราศี</td><td><span class="reference-status good">APPROVED</span></td><td>แบ่งราศีช่วงละ 30°</td></tr>
-    <tr><td>F-003</td><td>นวางค์</td><td><span class="reference-status warn">PROVISIONAL</span></td><td>9 ส่วนต่อราศี; กติกาสำนักต้องกำหนดและมีเวอร์ชัน</td></tr>
-    <tr><td>F-004</td><td>ทักษา</td><td><span class="reference-status warn">PROVISIONAL</span></td><td>หมุนตำแหน่งทักษาตามวันเกิด ต้องตรวจสอบกติกาตามตำรา</td></tr>
-    <tr><td>F-005</td><td>เดือนอธิกมาส/ปฏิทินจันทรคติ</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังมีขั้นตอนเทียบข้อมูลอ้างอิงและตรวจข้อแตกต่าง</td></tr>
-    <tr><td>F-006</td><td>เกณฑ์คุณภาพดาว</td><td><span class="reference-status warn">RESEARCH</span></td><td>ต้องยืนยันสำนัก/แหล่งตำราก่อนใช้กฎทุกประเภท</td></tr>
-    <tr><td>F-007</td><td>เสวยอายุ</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังต้องยืนยันสูตรและวิธีนับอายุจากแหล่งมาตรฐาน</td></tr>
-    <tr><td>F-008</td><td>เสวยจร</td><td><span class="reference-status warn">RESEARCH</span></td><td>ยังต้องยืนยันสูตรและกติกาการนับ</td></tr>
-  </tbody></table></div>
-</section>
+
 
 <section class="reference-panel" id="goldenCases2">
   <h2>Golden Case และจุดอ้างอิงสำหรับตรวจสอบ</h2>
@@ -643,9 +623,6 @@ main.container h3::after{
   <h2>ชุดความรู้: เวลาเข้าราศีของลัคนาจร</h2>
   <p><strong>ตารางเวลาเข้าเส้น 0° ของลัคนาจร</strong> คำนวณตามวันที่และสถานที่จรที่เลือก เวลาที่แสดงเป็นเวลาท้องถิ่นของไทย (UTC+7) และวันที่ พ.ศ. ตามช่องวันจร ตารางนี้เป็นส่วนแสดงผลหลัก หากวงล้อมีพื้นที่จำกัดยังอ่านเวลาได้จากตารางนี้</p>
   <div id="ascendantBoundaryTimesTable3" class="reference-table-wrap" aria-live="polite"><p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p></div>
-  <h3 style="margin-top:22px">ตารางช่วงเวลาลัคนาจร · มาตรฐานดาวและเกณฑ์ในแต่ละช่วง</h3>
-  <p>แต่ละแถวเริ่มคำนวณดวงจรใหม่ ณ เวลาเข้าราศี และสิ้นสุด ณ เวลาเข้าราศีถัดไป (รองรับช่วงข้ามเที่ยงคืน) โดยไม่แก้สูตรดาวเดิมที่ล็อกไว้ เกณฑ์ที่ยังไม่มีสูตรยืนยันจะแสดงว่า “รอสูตรยืนยัน” ไม่ตัดสินผ่าน/ไม่ผ่านเอง</p>
-  <div id="ascendantSegmentCriteriaTable9" class="reference-table-wrap" aria-live="polite"><p>รอคำนวณช่วงเวลาและตรวจเกณฑ์...</p></div>
   <div class="reference-grid">
     <div class="reference-card">
       <h3>ลัคนาเดิม (ดวงกำเนิด)</h3>
@@ -1048,7 +1025,6 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const rows=boundaries.slice().sort((a,b)=>Number(a.sign)-Number(b.sign)).map(item=>'<tr><td>0° '+signNames[Number(item.sign)]+'</td><td>'+dateLabel+'</td><td>'+clock(item.minutes)+' น.</td></tr>').join('');
    table.innerHTML='<table class="reference-table"><thead><tr><th>จุดเข้าเส้นราศี</th><th>วันที่เข้า (พ.ศ.)</th><th>เวลาไทย</th></tr></thead><tbody>'+rows+'</tbody></table><p class="reference-note">อ้างอิงวันที่จรและพิกัดสถานที่จรที่เลือกในแบบฟอร์ม</p>';
   }
-  await renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId);
   if(!svg||!svg.isConnected)return;
   const layer=svgEl(svg,'g',{id:'ascendantBoundaryTimes3','font-family':'system-ui, sans-serif','pointer-events':'none'});
   const ascAngles=[];
@@ -1074,34 +1050,6 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    textNode.textContent=clock(item.minutes)+' น.';
   });
  }
- async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId){
-   const target=document.getElementById('ascendantSegmentCriteriaTable9');
-   if(!target)return;
-   target.innerHTML='<p>กำลังคำนวณดวงจรใหม่ตามเวลาเข้าราศีทั้ง 12 ช่วง…</p>';
-   const lon=Number(document.getElementById('fLon')?.value);
-   const baseDate=new Date(Date.UTC(dateParts[0],dateParts[1]-1,dateParts[2]));
-   const dayLabel=dt=>pad(dt.getUTCDate())+' '+['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'][dt.getUTCMonth()]+' '+(dt.getUTCFullYear()+543);
-   const ordered=boundaries.map(x=>({...x,minutes:((Math.round(Number(x.minutes)%1440)+1440)%1440)})).sort((a,b)=>a.minutes-b.minutes);
-   const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-   const rows=[];
-   for(let i=0;i<ordered.length;i++){
-    if(runId!==boundaryRun)return;
-    const item=ordered[i],next=ordered[(i+1)%ordered.length];
-    let startAbs=item.minutes,endAbs=next.minutes;
-    if(i===ordered.length-1)endAbs+=1440;
-    const startDate=new Date(baseDate.getTime()+Math.floor(startAbs/1440)*86400000);
-    const endDate=new Date(baseDate.getTime()+Math.floor(endAbs/1440)*86400000);
-    const startTime=clock(startAbs),endTime=clock(endAbs);
-    let analysis=null;
-    try{if(typeof window.__HORA9_ANALYZE_SEGMENT==='function')analysis=await window.__HORA9_ANALYZE_SEGMENT({date:String(startDate.getUTCFullYear())+'-'+pad(startDate.getUTCMonth()+1)+'-'+pad(startDate.getUTCDate()),time:startTime,longitude:lon});}
-    catch(err){console.warn('[HORA][INDEX9][SEGMENT ANALYSIS]',err)}
-    const standards=analysis?.standards?.length?analysis.standards.map(x=>escapeHtml(x)).join(' · '):'—';
-    const criteria=analysis?.criteria?.length?analysis.criteria.map(x=>escapeHtml(x)).join(' · '):'—';
-    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+standards+'</td><td>'+criteria+'</td></tr>');
-   }
-   if(runId!==boundaryRun)return;
-   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้าราศี</th><th>เวลาจรที่ออกจากราศี</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>เกณฑ์/ความสัมพันธ์ที่ตรวจพบ</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ผลมาตรฐานและความสัมพันธ์คำนวณจากดวงจรใหม่ ณ เวลาเริ่มช่วง โดยใช้สูตรเดิมของ HORA; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป. เกณฑ์ดวงโลงผีและดวงสามเหลี่ยม/หนุมานตรวจจากดวงเดิมตามกฎที่ยืนยันแล้ว ส่วนอุตพิต นำผล/นำพล ตามผล/ขับพล ดอกพิกุล และเกณฑ์อื่นที่ยังแยกสูตรไม่ครบจะไม่ตัดสินผ่าน/ไม่ผ่านจนกว่าจะยืนยันสูตร</p>';
-  }
  function enhanceAscendant(svg){
   if(!svg)return;
   svg.setAttribute('viewBox','-150 -150 1020 1020');
