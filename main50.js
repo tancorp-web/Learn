@@ -79,17 +79,30 @@ function renderWheel(natal,transit,tanuSesha){
    const within=((lon%30)+30)%30;
    const distanceToSignEdge=Math.min(within,30-within);
    const nearSignEdge=distanceToSignEdge<=5;
-   // Move only the visible marker toward the middle of its own sign; anchor stays at exact longitude.
-   const displayLon=nearSignEdge?((lon+(within<15?6:-6))%360+360)%360:lon;
-   const anchor=xy(lon,chosen.lane);
-   const marker=xy(displayLon,chosen.lane);
+   // Keep boundary-adjacent markers inside their true sign; move colliding labels tangentially and draw a leader to the true longitude.
+   const baseDisplayLon=((lon+(nearSignEdge?(within<15?6:-6):0))%360+360)%360;
+   const signName=signOf(lon).name;
+   const angularOffsets=[0,-4,4,-8,8,-12,12,-16,16];
+   let marker=null,markerClearance=-Infinity,markerShift=0;
+   for(const lane of lanes){
+    for(const shift of angularOffsets){
+     const candidateLon=((baseDisplayLon+shift)%360+360)%360;
+     if(signOf(candidateLon).name!==signName)continue;
+     const q=xy(candidateLon,lane);
+     const clearance=placed.length?Math.min(...placed.map(v=>Math.hypot(v.x-q.x,v.y-q.y))):Infinity;
+     if(clearance>markerClearance){markerClearance=clearance;marker={...q,lane,longitude:candidateLon};markerShift=shift;}
+    }
+   }
+   if(!marker){const q=xy(baseDisplayLon,chosen.lane);marker={...q,lane:chosen.lane,longitude:baseDisplayLon};}
+   const anchor=xy(lon,marker.lane);
+   const displaced=Math.hypot(anchor.x-marker.x,anchor.y-marker.y)>2;
    placed.push(marker);
    const isNatalSun=!isTransit&&p.name==='อาทิตย์';
-   svg+='<g data-planet-marker="true" data-planet="'+p.name+'" data-kind="'+(isTransit?'transit':'natal')+'" data-longitude="'+lon.toFixed(6)+'" data-sign="'+signOf(lon).name+'">';
-   if(nearSignEdge){
-    svg+='<line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="'+color+'" stroke-width="1.5" stroke-linecap="round"/><circle cx="'+anchor.x.toFixed(2)+'" cy="'+anchor.y.toFixed(2)+'" r="3.2" fill="'+color+'" stroke="#fff" stroke-width="1"/>';
+   svg+='<g data-planet-marker="true" data-planet="'+p.name+'" data-kind="'+(isTransit?'transit':'natal')+'" data-longitude="'+lon.toFixed(6)+'" data-sign="'+signName+'">';
+   if(displaced){
+    svg+='<line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="#fff" stroke-width="4" stroke-linecap="round"/><line x1="'+anchor.x.toFixed(2)+'" y1="'+anchor.y.toFixed(2)+'" x2="'+marker.x.toFixed(2)+'" y2="'+marker.y.toFixed(2)+'" stroke="'+color+'" stroke-width="2" stroke-linecap="round"/><circle cx="'+anchor.x.toFixed(2)+'" cy="'+anchor.y.toFixed(2)+'" r="3.6" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>';
    }
-   svg+='<circle cx="'+marker.x+'" cy="'+marker.y+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+marker.x+'" y="'+(marker.y+4)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(!isTransit&&tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
+   svg+='<circle cx="'+marker.x.toFixed(2)+'" cy="'+marker.y.toFixed(2)+'" r="'+(isNatalSun?14:12)+'" fill="'+color+'" stroke="'+(isNatalSun?'#f59e0b':'#fff')+'" stroke-width="'+(isNatalSun?3:2)+'"/><text x="'+marker.x.toFixed(2)+'" y="'+(marker.y+4).toFixed(2)+'" text-anchor="middle" font-size="12" fill="#fff" font-weight="900">'+planetNo(p.name)+(!isTransit&&tanuSesha?.planetName===p.name?'+':'')+'</text></g>';
   });
  }
  draw(natal,false);if(transit)draw(transit,true);
@@ -333,6 +346,8 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
 };
 function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60),direction=isLatitude?(value<0?'S':'N'):(value<0?'W':'E');return degrees+'°'+direction+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+"''";}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
+function cancelDeferredQA(){if(window.__HORA_QA_TIMER){clearTimeout(window.__HORA_QA_TIMER);window.__HORA_QA_TIMER=null;}if(window.__HORA_QA_IDLE&&typeof window.cancelIdleCallback==='function'){window.cancelIdleCallback(window.__HORA_QA_IDLE);window.__HORA_QA_IDLE=null;}}
+function scheduleDeferredQA(natal){cancelDeferredQA();window.__HORA_QA_TIMER=setTimeout(()=>{window.__HORA_QA_TIMER=null;const run=()=>{window.__HORA_QA_IDLE=null;try{renderQA(natal)}catch(err){showRuntimeError(err)}};if(typeof window.requestIdleCallback==='function'){window.__HORA_QA_IDLE=window.requestIdleCallback(run,{timeout:3500});}else{window.__HORA_QA_TIMER=setTimeout(run,900);}},1500);}
 function render(natal,transit){
  const b=getInput('b'),f=getInput('f');
  const bProv=$('bProvince').selectedOptions[0]?.text||'',bDist=$('bDistrict').value||'';
@@ -369,11 +384,30 @@ function render(natal,transit){
  '<div class="birth-details-line birth-lunar">จันทรคติ '+safeText(lunarText(f.date,transitLunar,f.time))+'</div>'+
  '<div class="birth-details-line birth-location">'+safeText(locationTransit)+'</div>'+
  '<div class="birth-details-line birth-age">อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(Number(f.date.slice(0,4))+544)+')</div></div>';
- renderWheel(natal,transit,tanuSesha);renderStarDetails(natal,transit,tanuSesha);renderNumericAstrologySummary(natal,transit);/* Defer reference recalculation so the wheel and main result can paint and remain responsive first. */setTimeout(()=>{try{renderQA(natal)}catch(err){showRuntimeError(err)}},1200);console.log('[HORA][TABLE] ดาวกำเนิด ดาวจร และตารางเลขเกณฑ์ rendered')
+ renderWheel(natal,transit,tanuSesha);renderStarDetails(natal,transit,tanuSesha);renderNumericAstrologySummary(natal,transit);scheduleDeferredQA(natal);console.log('[HORA][TABLE] ดาวกำเนิด ดาวจร และตารางเลขเกณฑ์ rendered')
   window.dispatchEvent(new CustomEvent('hora50:chart-calculated',{detail:{natal,transit}}));
 }
 function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;try{window.__HORA_DIAG12?.add('HORA RUNTIME ERROR',detail)}catch(logErr){console.warn('[HORA][DIAG LOG ERROR]',logErr)}const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
 function bootHORA(){
+ $('resetBangkokNow50')?.addEventListener('click',()=>{
+  const button=$('resetBangkokNow50');
+  const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+  const part=name=>parts.find(p=>p.type===name)?.value;
+  const day=String(Number(part('day'))),month=String(Number(part('month'))),year=String(Number(part('year'))+543),hour=String(Number(part('hour'))),minute=String(Number(part('minute')));
+  const bangkok=PROVINCES.find(p=>p.name==='กรุงเทพมหานคร'||p.name==='กรุงเทพฯ'||p.name==='กรุงเทพ');
+  if(!bangkok){const msg=$('msg');if(msg)msg.textContent='ไม่พบจังหวัดกรุงเทพมหานครในรายการ';return;}
+  ['b','f'].forEach(prefix=>{
+   $(prefix+'Day').value=day;$(prefix+'Month').value=month;$(prefix+'Year').value=year;$(prefix+'Hour').value=hour;$(prefix+'Minute').value=minute;
+   $(prefix+'Province').value=String(bangkok.id);populate(prefix);
+   const district=$ (prefix+'District');
+   if(!Array.from(district.options).some(o=>o.value==='พระนคร'))district.add(new Option('พระนคร','พระนคร'));
+   district.value='พระนคร';update(prefix);
+   $(prefix+'Lat').value='13.752555';$(prefix+'Lon').value='100.494066';
+  });
+  const place=$('fPlace');if(place)place.value='กรุงเทพมหานคร · พระนคร · 13.752555, 100.494066 UTC+7';
+  const msg=$('msg');if(msg)msg.textContent='รีเซ็ตวันกำเนิดและวันจรเป็นวันเวลาไทยปัจจุบัน · กรุงเทพมหานคร เขตพระนครแล้ว';
+  if(button){button.classList.add('reset-done50');setTimeout(()=>button.classList.remove('reset-done50'),650);}
+ });
  $('bProvince').addEventListener('change',()=>{populate('b');update('b')});
  $('fProvince').addEventListener('change',()=>{populate('f');update('f')});
  $('bDistrict').addEventListener('change',()=>update('b'));
@@ -381,6 +415,7 @@ function bootHORA(){
  const button=$('calc');
  button.addEventListener('click',()=>{
   if(button.dataset.calculating==='1')return;
+  cancelDeferredQA();
   button.dataset.calculating='1';button.classList.add('is-calculating');button.disabled=true;button.setAttribute('aria-busy','true');
   button.textContent='กำลังคำนวณ…';
   const msg=$('msg');if(msg)msg.textContent='กำลังคำนวณดาวกำเนิดและดาวจรจากข้อมูลที่เลือก';
