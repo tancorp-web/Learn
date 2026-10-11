@@ -232,32 +232,42 @@ function renderNumericAstrologySummary(natal,transit){
  const ascIndex=signs.indexOf(ascSign);
  const natalSigns=new Set([ascSign,...natal.planets.map(p=>signOf(p))]);
  const specialRows=[];
- const addIfPass=(group,c,n,t)=>specialRows.push({group,c,n,t});
- // Only show criteria that pass. Non-matches are intentionally omitted without explanation.
- const pikulOffsets=[0,2,4,6,8,10];
- const pikulSigns=pikulOffsets.map(offset=>signs[(ascIndex+offset)%12]);
+ const addSpecial=(group,c,n='')=>specialRows.push({group,c,n,t:''});
+ const numsInSigns=(wanted,includeAsc=false)=>{
+  const selected=n.filter(p=>wanted.includes(p.sign)&& (includeAsc||p.number!=='ล')).map(p=>p.number);
+  return [...new Set(selected)].join(' · ');
+ };
+ const positions=[0,2,4,6,8,10].map(offset=>signs[(ascIndex+offset)%12]);
  const pikulOccupied=new Set(n.filter(p=>p.number==='ล'||['๑','๒','๓','๔','๕','๖','๗','๘','๙','๐'].includes(p.number)).map(p=>p.sign));
- if(pikulSigns.every(sign=>pikulOccupied.has(sign))){
-  addIfPass('เกณฑ์พิเศษที่มีโครงสูตรในคลัง','ดอกพิกุล · แบบ A: ตำแหน่ง 1, 3, 5, 7, 9, 11 จากลัคนา','เข้าเกณฑ์ตามโครงแบบ A','ตรวจดวงกำเนิด');
- }
+ addSpecial('เกณฑ์พิเศษที่มีโครงสูตรในคลัง',
+  'ดอกพิกุล · แบบ A: ตำแหน่ง 1, 3, 5, 7, 9, 11 จากลัคนา',
+  positions.every(sign=>pikulOccupied.has(sign))?numsInSigns(positions,true):'');
  const rahu=natal.planets.find(p=>p.name==='ราหู');
  const rahuSign=rahu?signOf(rahu):null;
  const rahuHouse=rahu?((signs.indexOf(rahuSign)-ascIndex+12)%12)+1:null;
- if(rahu&&['มิถุน','ตุล','กุมภ์'].includes(rahuSign)){
-  addIfPass('เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา','ปกิณกะโชค · แบบ A: ราหูในราศีธาตุลม','เข้าเกณฑ์','ไม่ใช้ดาวจร · ตรวจดวงกำเนิด');
- }
- if(rahu&&rahuHouse===3){
-  addIfPass('เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา','ปกิณกะโชค · แบบ B: ราหูโยคหน้าลัคนา (บุญสุรา)','เข้าเกณฑ์','ไม่ใช้ดาวจร · ตรวจดวงกำเนิด');
- }
+ addSpecial('เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา',
+  'ปกิณกะโชค · แบบ A: ราหูในราศีธาตุลม',
+  rahu&&['มิถุน','ตุล','กุมภ์'].includes(rahuSign)?'๘':'');
+ addSpecial('เกณฑ์พิเศษที่มีสูตรอ้างอิงแยกตำรา',
+  'ปกิณกะโชค · แบบ B: ราหูโยคหน้าลัคนา (บุญสุรา)',
+  rahu&&rahuHouse===3?'๘':'');
+ // Keep every requested criterion visible. Only fill the natal-number column when its rule passes.
+ addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ดอกอุตพิต','');
+ addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','นำผล/นำพล','');
+ addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ตามผล/ขับพล','');
  const coffinSigns=['มิถุน','สิงห์','ธนู','กุมภ์'];
- if(coffinSigns.every(sign=>natalSigns.has(sign))){
-  addIfPass('เกณฑ์พิเศษที่มีโครงสูตรในคลัง','ดวงโลงผี','เข้าเกณฑ์','ใช้ดาวเดิมและลัคนาเดิม');
- }
+ addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ดวงโลงผี',
+  coffinSigns.every(sign=>natalSigns.has(sign))?numsInSigns(coffinSigns,true):'');
  const hanumanSigns=[signs[(ascIndex+11)%12],ascSign,signs[(ascIndex+1)%12]];
- const hanumanCount=n.filter(p=>hanumanSigns.includes(p.sign)&&p.number!=='ล').length+1;
- if(hanumanCount>=5){
-  addIfPass('เกณฑ์พิเศษที่มีโครงสูตรในคลัง','ดวงสามเหลี่ยม/ดวงหนุมาน','เข้าเกณฑ์ · '+hanumanCount+' ตำแหน่ง','ใช้ดาวเดิม ๐–๙ และลัคนาเดิม');
+ const hanumanPoints=n.filter(p=>hanumanSigns.includes(p.sign));
+ if(hanumanPoints.length>=5){
+  addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ดวงสามเหลี่ยม/ดวงหนุมาน',
+   [...new Set(hanumanPoints.map(p=>p.number))].join(' · '));
+ }else{
+  addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ดวงสามเหลี่ยม/ดวงหนุมาน','');
  }
+ addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','');
+ addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ราคาโชค','');
  rows.push(...specialRows);
  let group='';body.innerHTML=rows.map(r=>{const g=r.group!==group?'<tr class="criteria7-group-row"><th colspan="3">'+esc(r.group)+'</th></tr>':'';group=r.group;return g+'<tr><td>'+esc(r.c)+'</td><td>'+esc(r.n)+'</td><td>'+esc(r.t)+'</td></tr>'}).join('');
  const head=table.querySelector('thead');if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
