@@ -301,6 +301,14 @@
   <p class="criteria7-muted">ภพดาวจรนับจากลัคนากำเนิด เพื่อให้เห็นว่าดาวจรผ่านภพใดในดวงกำเนิด ส่วนลัคนาจรแสดงภพของตัวเอง</p>
   <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศีจร</th><th>องศาจร</th><th>ภพจรจากลัคนากำเนิด</th><th>ตำแหน่งตามภพจร</th><th>มาตรฐานดาวจร</th><th>นวางค์จร</th><th>ตรียางค์จร</th><th>ฤกษ์จร</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="transitStarDetailsBody"></tbody></table></div>
 </div>
+<section id="planetDignityNumberSummary8" class="panel">
+  <div class="section-title"><h2>ตารางสรุปมาตรฐานดาว · เลขดาวเดิมและดาวจร</h2><span class="badge">รวมตารางเดียว · แสดงเป็นตัวเลข</span></div>
+  <p class="criteria7-lead">รวบรวมเลขดาวที่เข้าเกณฑ์แต่ละประเภทจากตำแหน่งและองศาที่คำนวณได้ แยกคอลัมน์ดาวเดิมกับดาวจรในตารางเดียวกัน เลขที่มีเครื่องหมาย * เป็นข้อมูลอ้างอิงที่ยังรอยืนยัน ไม่ใช่เกณฑ์ที่ยืนยันแล้ว</p>
+  <div class="table-wrap"><table class="criteria7-table" id="planetDignityNumberTable8">
+    <thead><tr><th>มาตรฐานดาว</th><th>ดาวเดิม (เลขดาว)</th><th>ดาวจร (เลขดาว)</th></tr></thead>
+    <tbody id="planetDignityNumberSummaryBody8"><tr><td colspan="3">รอผลคำนวณตำแหน่งดาว…</td></tr></tbody>
+  </table></div>
+</section>
 <div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
 
 <section id="natalCriteriaPanel7" class="panel">
@@ -1380,6 +1388,50 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   }
  });
 })();
+
+/* HORA index8: summarize dignity categories as planet numbers in one natal/transit table. */
+(function(){
+ const categories=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ'];
+ const numberByPlanet={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+ const body=document.getElementById('planetDignityNumberSummaryBody8');
+ const natal=document.getElementById('natalStarDetailsBody');
+ const transit=document.getElementById('transitStarDetailsBody');
+ if(!body||!natal||!transit)return;
+ const escapeHtml=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ function readChart(tbody){
+  const found=Object.fromEntries(categories.map(category=>[category,[]]));
+  [...tbody.querySelectorAll('tr')].forEach(row=>{
+   const cells=row.querySelectorAll('td');
+   if(cells.length<6)return;
+   const name=(cells[0].textContent||'').trim().replace(/\+$/,'');
+   const number=numberByPlanet[name];
+   if(!number)return;
+   const standards=(cells[5].textContent||'').split('·').map(x=>x.trim()).filter(Boolean);
+   standards.forEach(raw=>{
+    const provisional=/อ้างอิง\s*[·.]\s*รอยืนยัน/.test(raw);
+    const label=raw.replace(/\s*\(อ้างอิง\s*[·.]\s*รอยืนยัน\)\s*/g,'').trim();
+    const category=label==='อุจ'?'อุจจ์':label;
+    if(found[category]&&!found[category].some(item=>item.number===number)){
+     found[category].push({number,provisional});
+    }
+   });
+  });
+  return found;
+ }
+ function render(){
+  const natalData=readChart(natal),transitData=readChart(transit);
+  body.innerHTML=categories.map(category=>{
+   const natalNumbers=natalData[category].map(x=>x.number+(x.provisional?'*':'')).join(' · ')||'—';
+   const transitNumbers=transitData[category].map(x=>x.number+(x.provisional?'*':'')).join(' · ')||'—';
+   return '<tr><td>'+escapeHtml(category)+'</td><td>'+escapeHtml(natalNumbers)+'</td><td>'+escapeHtml(transitNumbers)+'</td></tr>';
+  }).join('');
+ }
+ const observer=new MutationObserver(render);
+ observer.observe(natal,{childList:true,subtree:true,characterData:true});
+ observer.observe(transit,{childList:true,subtree:true,characterData:true});
+ render();
+})();
+
 </script>
 
 </body></html>
