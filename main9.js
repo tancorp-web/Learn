@@ -387,6 +387,6 @@ function bootHORA(){
  initDropdowns();window.__HORA_BOOT_OK=true;
  const bootDiagnostic=$('bootDiagnostic');if(bootDiagnostic)bootDiagnostic.hidden=true;
  requestAnimationFrame(()=>console.log('[HORA][BOOT] initial star details ready'));
- // index12 recovery: render the zodiac wheel on first load; keep user-triggered recalculation available.
- setTimeout(()=>{try{if($('wheel')&&!$('wheel').querySelector('svg'))button.click()}catch(err){showRuntimeError(err)}},600);
+ // index12 responsiveness fix: avoid running the full synchronous calculation automatically on page load.
+ // Scrolling and controls remain available; calculate only after the user presses the button.
  }if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootHORA,{once:true});else bootHORA();
