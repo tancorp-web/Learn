@@ -1848,19 +1848,17 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
        // Search nearby angles and radii until the visible purple/green markers no longer collide.
        // This changes drawing positions only; the true calculated anchor and longitude remain untouched.
        const markerSize=p.tanuLord?17:(p.isAsc?15:13);
-       const angleOffsets=[0,5,-5,10,-10,15,-15,20,-20,25,-25,30,-30,36,-36,42,-42];
-       const radialOffsets=[0,15,-15,30,-30,42,-42];
+       // ห้ามเลื่อนดาวตามมุม เพราะอาจทำให้ marker ไปอยู่คนละราศี/ตรียางค์จากตำแหน่งจริง
+       // แยกดาวที่ชนกันด้วยรัศมีเท่านั้น โดยคงมุมจริงไว้เสมอ
+       const radialOffsets=[0,18,-18,30,-30,42,-42,50,-50];
        let mx=ax,my=ay,displayAngle=angle,radius=ring.markerR,found=false,bestScore=Infinity;
        for(const ro of radialOffsets){
          const candidateR=ring.markerR+ro;
          if(candidateR<ring.inner+markerSize+2||candidateR>ring.outer-markerSize-2)continue;
-         for(const ao of angleOffsets){
-           const candidateAngle=angle+ao,[x,y]=polar(cx,cy,candidateR,candidateAngle);
-           const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
-           if(collision===0){mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;found=true;break;}
-           if(collision<bestScore){bestScore=collision;mx=x;my=y;displayAngle=candidateAngle;radius=candidateR;}
-         }
-         if(found)break;
+         const [x,y]=polar(cx,cy,candidateR,angle);
+         const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
+         if(collision===0){mx=x;my=y;radius=candidateR;found=true;break;}
+         if(collision<bestScore){bestScore=collision;mx=x;my=y;radius=candidateR;}
        }
        placed.push({x:mx,y:my,size:markerSize});
        const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-navamsha-sign':p.nav.sign,'data-navamsa-number':p.nav.number,'data-navamsa-digit':p.nav.navNumber});
