@@ -350,8 +350,7 @@ body,main.container,.container{
 #displayPicker9 .display-picker-item9 em{display:block;color:#64748b;font-size:11px;font-style:normal;margin-top:2px}
 @media(max-width:600px){#displayPicker9{padding:12px}#displayPicker9 .display-picker-list9{grid-template-columns:1fr}#displayPicker9 .display-picker-actions9 button{flex:1 1 auto}}
 
-/* index12 transit-only mode: hide birth-chart controls and mixed natal/transit output. */
-#calculatePanel > .panel:first-child, #wheelPanel2, #birthDetails, #starDetails {display:none !important;}
+/* index12 full mode: natal and transit controls, zodiac wheel and full result panels are enabled. */
 #transitOnlyResults12 {display:block;}
 </style>
 
@@ -373,8 +372,8 @@ body,main.container,.container{
 <div class="panel"><div class="section-title"><h2>เวลาทำนาย</h2><span class="badge">Transit</span></div><div class="form-grid">
 <div class="field"><label>วัน</label><select id="fDay"></select></div><div class="field"><label>เดือน</label><select id="fMonth"></select></div><div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="fYear"></select></div><div class="field"><label>ชั่วโมง</label><select id="fHour"></select></div><div class="field"><label>นาที</label><select id="fMinute"></select></div>
 <div class="field span-2"><label>จังหวัด</label><select id="fProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="fDistrict"></select></div><div class="field"><label>ละติจูด</label><input id="fLat" type="number" step="0.000001"></div><div class="field"><label>ลองจิจูด</label><input id="fLon" type="number" step="0.000001"></div><div class="field span-6"><label>สถานที่</label><input id="fPlace" type="text"></div>
-</div><div class="calc-row"><button id="calc" type="button">คำนวณดาวจร</button><span id="msg">พร้อมคำนวณ</span></div>
-<div class="panel" id="transitOnlyResults12" aria-live="polite"><h2>ผลคำนวณดาวจรตามวันและเวลา</h2><p>เลือกวัน เวลา และสถานที่จร แล้วกดคำนวณ ระบบจะแสดงเฉพาะดาวจร ไม่อ่านหรือเปรียบเทียบข้อมูลดวงกำเนิด</p><div id="transitOnlyTable12"><p>ยังไม่มีผลคำนวณ</p></div></div>
+</div><div class="calc-row"><button id="calc" type="button">คำนวณดาวเดิม + ดาวจร</button><span id="msg">พร้อมคำนวณ</span></div>
+<div class="panel" id="transitOnlyResults12" aria-live="polite"><h2>ผลคำนวณดาวจรตามวันและเวลา</h2><p>เลือกวัน เวลา และสถานที่กำเนิดกับข้อมูลดาวจร แล้วกดคำนวณเพื่อแสดงวงกลมจักรราศี ตารางดาวเดิม ดาวจร และฟังก์ชันวิเคราะห์ที่มีอยู่</p><div id="transitOnlyTable12"><p>ยังไม่มีผลคำนวณ</p></div></div>
 </div>
 <div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
 
@@ -542,7 +541,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main9.js?v=20261011-transit-relations-numeric-1"></script>
+<script type="module" src="./main9.js?v=20261011-full-natal-transit-numeric-relations-1"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
@@ -1000,7 +999,7 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
     const criteria=analysis?.criteria?.length?analysis.criteria.map(x=>escapeHtml(x)).join(' · '):'—';
     const numbers=analysis?.numbers?.length?analysis.numbers.map(x=>x.number).join(' · '):'—';
     const relations=analysis?.relations?.length?analysis.relations.map(x=>escapeHtml(x)).join(' · '):'ไม่พบความสัมพันธ์ตามเกณฑ์ราศีที่รองรับ';
-     const relationNumbers=analysis?.relationNumbers?.length?analysis.relationNumbers.map(x=>escapeHtml(x.from)+'→'+escapeHtml(x.to)+' = '+x.countedPosition+' ['+escapeHtml(x.relation)+']').join(' · '):'—';
+     const relationNumbers=analysis?.relationNumbers?.length?analysis.relationNumbers.map(x=>String(x.countedPosition)).join(', '):'—';
     segmentRecords.push({
      sign:signNames[Number(item.sign)]||'—',
      date:String(startDate.getUTCFullYear())+'-'+pad(startDate.getUTCMonth()+1)+'-'+pad(startDate.getUTCDate()),
@@ -1011,7 +1010,7 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
     rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td><td>'+relations+'</td><td>'+relationNumbers+'</td></tr>');
    }
    if(runId!==boundaryRun)return;
-   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจรที่เข้าเกณฑ์มาตรฐาน</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>ความสัมพันธ์ดาวจรและลัคนาจร</th><th>ตำแหน่งสัมพันธ์เชิงตัวเลข</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ความสัมพันธ์คำนวณจากราศีของดาวจรทุกคู่และลัคนาจร ณ เวลาเริ่มช่วง ได้แก่ กุม ทับลัคนาจร เล็ง โยคหน้า โยคหลัง ตรีโกณ และจตุโกณตามตำแหน่งราศีที่เข้าเกณฑ์เท่านั้น; คอลัมน์ตัวเลขแสดงดาวต้นทาง→ดาว/ลัคนาปลายทาง = ลำดับราศีที่นับรวมราศีต้นทางเป็น 1 (เช่น 1=ราศีเดียวกัน, 3=ตำแหน่งที่ 3, 7=ตำแหน่งที่ 7) เป็นค่าตำแหน่งดิบ ไม่ใช่คะแนนน้ำหนัก และไม่ใช้ข้อมูลดวงกำเนิด; มุมองศาอย่างฉากที่ยังไม่มีค่าออร์บยืนยัน และเกณฑ์พิเศษที่ยังไม่มีสูตรยืนยันจะไม่ตัดสินอัตโนมัติ. ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
+   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจรที่เข้าเกณฑ์มาตรฐาน</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>ความสัมพันธ์ดาวจรและลัคนาจร</th><th>เลขความสัมพันธ์</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">ความสัมพันธ์คำนวณจากราศีของดาวจรทุกคู่และลัคนาจร ณ เวลาเริ่มช่วง ได้แก่ กุม ทับลัคนาจร เล็ง โยคหน้า โยคหลัง ตรีโกณ และจตุโกณตามตำแหน่งราศีที่เข้าเกณฑ์เท่านั้น; คอลัมน์เลขความสัมพันธ์แสดงเฉพาะตัวเลขลำดับราศีที่นับรวมราศีต้นทางเป็น 1 ไม่แสดงชื่อความสัมพันธ์; มุมองศาอย่างฉากที่ยังไม่มีค่าออร์บยืนยัน และเกณฑ์พิเศษที่ยังไม่มีสูตรยืนยันจะไม่ตัดสินอัตโนมัติ. ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
    saveSegmentNumberHistory12(segmentRecords);
    renderNumberFrequencySummary12();
   }
