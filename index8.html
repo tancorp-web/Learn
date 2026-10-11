@@ -144,6 +144,15 @@
 .standard-status4{display:inline-block;border:1px solid #ead7a6;background:#fff6df;color:#775516;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:800}
 @media(max-width:720px){.standard-sign-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:380px){.standard-sign-grid4{grid-template-columns:1fr}}
+.raja-chok-interpretation4{margin-top:16px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fbfcff}
+.raja-chok-interpretation4[hidden]{display:none!important}
+.raja-chok-interpretation4 h3{margin:0 0 6px;color:var(--navy);font-size:17px}
+.raja-chok-note4{margin:0 0 10px;color:var(--muted);font-size:13px}
+.raja-chok-list4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.raja-chok-item4{min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+.raja-chok-item4 strong{display:block;color:var(--navy);font-size:14px;margin-bottom:5px}
+.raja-chok-item4 p{margin:0;color:#3d4b63;font-size:13px;line-height:1.55}
+@media(max-width:600px){.raja-chok-list4{grid-template-columns:1fr}}
 
 
 /* index7: natal criteria comparison — display/reference only */
@@ -946,11 +955,22 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   <div class="section-title"><h2 id="planetaryStandardTitle4">ชุดมาตรฐานดาว · เกษตร</h2><span class="standard-status4">DISCOVERY · รอตรวจสอบ</span></div>
   <p class="standard-lead4">เลือกมาตรฐานดาวเพื่อแสดงดาวและเลขดาวประจำราศีในวงกลมวงในสุด พร้อมแสดงชุดข้อมูลครบตามทะเบียนที่มีอยู่ ข้อมูลที่ไม่มีรายการในทะเบียนจะแสดงเป็น “—” โดยไม่เดาข้อมูลเพิ่ม</p>
   <div class="standard-sign-grid4" id="planetaryStandardSignGrid4"></div>
+  <section id="rajaChokInterpretation4" class="raja-chok-interpretation4" hidden aria-live="polite"><h3>คำอธิบายราชาโชคตามดาว</h3><p class="raja-chok-note4">ความหมายตามตำราที่ผู้ใช้ให้ไว้ ใช้ประกอบการอ่าน ไม่ใช่ข้อยืนยันผลลัพธ์ในชีวิตจริง</p><div id="rajaChokInterpretationList4" class="raja-chok-list4"></div></section>
   <p class="reference-note" id="planetStandardNote4">สถานะข้อมูล: DISCOVERY · รอตรวจสอบแหล่งอ้างอิงก่อนถือเป็นมาตรฐานสากลหรือใช้ทำนายอัตโนมัติ</p>
 </section>
 <script>
 /* Index4-only standards selector and innermost-wheel numerals. Display-only; no astronomy formulas changed. */
 window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","อุจ","นิจ","ราชาโชค","มหาจักร","จุลจักร","อุจจาภิมุข","เทวีโชค"],"signs":["เมษ","พฤษภ","มิถุน","กรกฎ","สิงห์","กันย์","ตุล","พิจิก","ธนู","มกร","กุมภ์","มีน"],"mappings":{"เกษตร":{"สิงห์":{"planet":"อาทิตย์","number":"๑"},"กรกฎ":{"planet":"จันทร์","number":"๒"},"เมษ":{"planet":"อังคาร","number":"๓"},"พิจิก":{"planet":"อังคาร","number":"๓"},"มิถุน":{"planet":"พุธ","number":"๔"},"กันย์":{"planet":"พุธ","number":"๔"},"ธนู":{"planet":"พฤหัสบดี","number":"๕"},"มีน":{"planet":"พฤหัสบดี","number":"๕"},"พฤษภ":{"planet":"ศุกร์","number":"๖"},"ตุล":{"planet":"ศุกร์","number":"๖"},"มกร":{"planet":"เสาร์","number":"๗"},"กุมภ์":{"planet":"ราหู","number":"๘"}},"ประ":{"กุมภ์":{"planet":"อาทิตย์","number":"๑"},"มกร":{"planet":"จันทร์","number":"๒"},"ตุล":{"planet":"อังคาร","number":"๓"},"พฤษภ":{"planet":"อังคาร","number":"๓"},"ธนู":{"planet":"พุธ","number":"๔"},"มีน":{"planet":"พุธ","number":"๔"},"มิถุน":{"planet":"พฤหัสบดี","number":"๕"},"กันย์":{"planet":"พฤหัสบดี","number":"๕"},"พิจิก":{"planet":"ศุกร์","number":"๖"},"เมษ":{"planet":"ศุกร์","number":"๖"},"กรกฎ":{"planet":"เสาร์","number":"๗"},"สิงห์":{"planet":"ราหู","number":"๘"}},"อุจ":{"เมษ":{"planet":"อาทิตย์","number":"๑"},"พฤษภ":{"planet":"จันทร์","number":"๒"},"มกร":{"planet":"อังคาร","number":"๓"},"กันย์":{"planet":"พุธ","number":"๔"},"กรกฎ":{"planet":"พฤหัสบดี","number":"๕"},"มีน":{"planet":"ศุกร์","number":"๖"},"ตุล":{"planet":"เสาร์","number":"๗"},"พิจิก":{"planet":"ราหู","number":"๘"}},"นิจ":{"ตุล":{"planet":"อาทิตย์","number":"๑"},"พิจิก":{"planet":"จันทร์","number":"๒"},"กรกฎ":{"planet":"อังคาร","number":"๓"},"มีน":{"planet":"พุธ","number":"๔"},"มกร":{"planet":"พฤหัสบดี","number":"๕"},"กันย์":{"planet":"ศุกร์","number":"๖"},"เมษ":{"planet":"เสาร์","number":"๗"},"พฤษภ":{"planet":"ราหู","number":"๘"}},"ราชาโชค":{"มิถุน":{"planet":"อาทิตย์","number":"๑"},"กันย์":{"planet":"จันทร์","number":"๒"},"พฤษภ":{"planet":"อังคาร","number":"๓"},"สิงห์":{"planet":"พุธ","number":"๔"},"เมษ":{"planet":"พฤหัสบดี","number":"๕"},"กรกฎ":{"planet":"ศุกร์","number":"๖"},"พิจิก":{"planet":"เสาร์","number":"๗"},"ตุล":{"planet":"ราหู","number":"๘"}},"มหาจักร":{"กรกฎ":{"planet":"อาทิตย์","number":"๑"},"เมษ":{"planet":"จันทร์","number":"๒"},"กันย์":{"planet":"อังคาร","number":"๓"},"สิงห์":{"planet":"พุธ","number":"๔"},"พิจิก":{"planet":"พฤหัสบดี","number":"๕"},"ธนู":{"planet":"ศุกร์","number":"๖"},"พฤษภ":{"planet":"เสาร์","number":"๗"},"มกร":{"planet":"ราหู","number":"๘"}},"จุลจักร":{"มกร":{"planet":"อาทิตย์","number":"๑"},"ตุล":{"planet":"จันทร์","number":"๒"},"มีน":{"planet":"อังคาร","number":"๓"},"กุมภ์":{"planet":"พุธ","number":"๔"},"พฤษภ":{"planet":"พฤหัสบดี","number":"๕"},"มิถุน":{"planet":"ศุกร์","number":"๖"},"พิจิก":{"planet":"เสาร์","number":"๗"},"กรกฎ":{"planet":"ราหู","number":"๘"}},"อุจจาภิมุข":{"พฤษภ":{"planet":"อาทิตย์","number":"๑"},"มิถุน":{"planet":"จันทร์","number":"๒"},"กุมภ์":{"planet":"อังคาร","number":"๓"},"ตุล":{"planet":"พุธ","number":"๔"},"สิงห์":{"planet":"พฤหัสบดี","number":"๕"},"เมษ":{"planet":"ศุกร์","number":"๖"},"พิจิก":{"planet":"เสาร์","number":"๗"},"ธนู":{"planet":"ราหู","number":"๘"}},"เทวีโชค":{"ธนู":{"planet":"อาทิตย์","number":"๑"},"มีน":{"planet":"จันทร์","number":"๒"},"พิจิก":{"planet":"อังคาร","number":"๓"},"กุมภ์":{"planet":"พุธ","number":"๔"},"ตุล":{"planet":"พฤหัสบดี","number":"๕"},"มกร":{"planet":"ศุกร์","number":"๖"},"พฤษภ":{"planet":"เสาร์","number":"๗"},"เมษ":{"planet":"ราหู","number":"๘"}}},"planetNumbers":{"อาทิตย์":"๑","จันทร์":"๒","อังคาร":"๓","พุธ":"๔","พฤหัสบดี":"๕","ศุกร์":"๖","เสาร์":"๗","ราหู":"๘"}};
+window.HORA_RAJA_CHOK_INTERPRETATIONS4 = {
+  "อาทิตย์": "มีอานุภาพมาก เป็นที่รักและยอมรับของคนทั่วไป",
+  "จันทร์": "ได้คู่ครองหรือผู้ใหญ่ที่เป็นสตรีคอยให้ความเมตตาและสูงศักดิ์",
+  "อังคาร": "ได้มิตรสหายที่ดีและคอยเป็นที่พึ่งพา",
+  "พุธ": "มีสติปัญญาเฉียบแหลม เจรจาพาทีมีเสน่ห์อ่อนหวานน่าฟัง",
+  "พฤหัสบดี": "ชีวิตมีความสุขร่มเย็น ผู้ใหญ่รักใคร่เอ็นดูและคอยชุบเลี้ยง",
+  "ศุกร์": "อุดมสมบูรณ์ด้วยทรัพย์สินเงินทอง ทำงานราชการหรือกิจการใดก็เจริญก้าวหน้า",
+  "เสาร์": "เหมาะกับการรับราชการทหารหรือฝ่ายปกครอง มีความมั่นคงและอายุยืน",
+  "ราหู": "จะอุดมสมบูรณ์ด้วยโภคทรัพย์และเงินทองมากกว่าญาติพี่น้อง"
+};
 (()=>{
  const data=window.HORA_PLANET_STANDARDS4;
  const selector=document.getElementById("planetStandardSelect4");
@@ -974,6 +994,25 @@ window.HORA_PLANET_STANDARDS4 = {"categories":["เกษตร","ประ","�
    const numEl=document.createElement("div");numEl.className="standard-label4";numEl.textContent="เลขดาว: "+(item?item.number:"—");
    article.append(signEl,planetEl,labelEl,numEl);grid.appendChild(article);
   });
+  const rajaPanel=document.getElementById("rajaChokInterpretation4");
+  const rajaList=document.getElementById("rajaChokInterpretationList4");
+  if(rajaPanel && rajaList){
+   const isRajaChok=category==="ราชาโชค";
+   rajaPanel.hidden=!isRajaChok;
+   rajaList.replaceChildren();
+   if(isRajaChok){
+    data.signs.forEach(sign=>{
+     const item=data.mappings[category]?.[sign];
+     if(!item)return;
+     const meaning=window.HORA_RAJA_CHOK_INTERPRETATIONS4?.[item.planet];
+     if(!meaning)return;
+     const row=document.createElement("article");row.className="raja-chok-item4";
+     const title=document.createElement("strong");title.textContent=item.number+" "+item.planet+" · "+sign;
+     const desc=document.createElement("p");desc.textContent=meaning;
+     row.append(title,desc);rajaList.appendChild(row);
+    });
+   }
+  }
  }
  function drawWheel(){
   const svg=document.querySelector("#wheel svg");
