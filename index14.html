@@ -93,6 +93,7 @@ import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from '
 
 const SIGNS=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
 const PLANET_NUM={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+const thaiDigits=value=>String(value??'').replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
 const mod=(n,m)=>((n%m)+m)%m;
@@ -165,7 +166,7 @@ function renderPeriodOptions(){
 function getWeights(){return {conj:Number($('wConj').value)||0,opp:Number($('wOpp').value)||0,yog:Number($('wYog').value)||0,trine:Number($('wTrine').value)||0,square:Number($('wSquare').value)||0,standard:Number($('wStandard').value)||0};}
 function buildAnalysis(chart){
  const eligible=chart.planets.filter(p=>!p.excluded),excluded=chart.planets.filter(p=>p.excluded),weight=getWeights(),sources=[],relations=[];
- const addSource=(number,score,type,detail,planet='')=>{if(number!==''&&number!==undefined&&number!==null)sources.push({number:String(number),score:Number(score)||0,type,detail,planet});};
+ const addSource=(number,score,type,detail,planet='')=>{if(number!==''&&number!==undefined&&number!==null)sources.push({number:thaiDigits(number),score:Number(score)||0,type,detail,planet});};
  const signOffset=(from,to)=>mod(to-from,12);
  // คะแนนมาตรฐาน: หนึ่งคะแนนต่อหนึ่งมาตรฐานที่ผ่านเกณฑ์และไม่ใช่ประ/นิจ
  eligible.forEach(p=>p.dignity.filter(d=>d!=='ประ'&&d!=='นิจ').forEach(d=>addSource(p.number,weight.standard,'มาตรฐานดาว',p.name+' · '+d,p.name)));
