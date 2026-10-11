@@ -293,15 +293,24 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
  const natalSigns=new Set([natalAscSign,...natal.planets.map(p=>signIndex(p.longitude))]);
  if([2,4,8,10].every(s=>natalSigns.has(s)))criteria.push('ดวงโลงผี (ดวงเดิม: ผ่านเกณฑ์ตำแหน่ง)');
  const hanumanSigns=[(natalAscSign+11)%12,natalAscSign,(natalAscSign+1)%12];
- const natalPositions=[{number:'ล',longitude:natal.asc},...natal.planets.map(p=>({number:nums[p.name],longitude:p.longitude}))];
+ const natalPositions=[{name:'ลัคนา',number:'ล',longitude:natal.asc},...natal.planets.map(p=>({name:p.name,number:nums[p.name],longitude:p.longitude}))];
  if(natalPositions.filter(p=>hanumanSigns.includes(signIndex(p.longitude))).length>=5)criteria.push('ดวงสามเหลี่ยม/หนุมาน (ดวงเดิม: ผ่านเกณฑ์จำนวนตำแหน่ง)');
- const gap=(a,b)=>(signIndex(b.longitude)-signIndex(a.longitude)+12)%12;
  const relNames={'0':'กุม/ทับ','2':'โยคหน้า','10':'โยคหลัง','3':'จตุโกณ','9':'จตุโกณ','4':'ตรีโกณ','8':'ตรีโกณ','6':'เล็ง'};
- const found=new Set();
+ const related=[];
  for(const tp of transit.planets)for(const np of [...natal.planets,{name:'ลัคนา',longitude:natal.asc}]){
-  const g=gap(np,tp);if(relNames[g])found.add(relNames[g]);
+  const gap=(signIndex(tp.longitude)-signIndex(np.longitude)+12)%12;
+  if(relNames[String(gap)])related.push({label:relNames[String(gap)],pair:'ดาวจร '+tp.name+' – ดาวเดิม '+np.name});
  }
- if(found.size)criteria.push('สัมพันธ์ดาวจร–ดาวเดิม: '+[...found].join(', '));
+ const grouped={};
+ for(const item of related)(grouped[item.label]??=[]).push(item.pair);
+ for(const label of Object.keys(grouped)){
+  const pairs=[...new Set(grouped[label])];
+  criteria.push(label+': '+pairs.join(', '));
+ }
+ criteria.push('ดอกอุตพิต: รอสูตรยืนยัน');
+ criteria.push('นำผล/นำพล: รอสูตรยืนยัน');
+ criteria.push('ตามผล/ขับพล: รอสูตรยืนยัน');
+ criteria.push('ดอกพิกุล: โครงแบบ A ยังรอยืนยันเงื่อนไขครบ');
  if(!criteria.length)criteria.push('ไม่พบเกณฑ์ที่ยืนยันได้ในช่วงนี้');
  return {standards,criteria,ascSign:signObj(transit.asc).name};
 };
