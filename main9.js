@@ -337,7 +337,7 @@ function render(natal,transit){
  const age=elapsedAge(b.date,f.date);
  const locationBirth=(bDist==='พระนคร'?'เขตพระนคร':bDist)+' จ.'+bProv+' (UTC+07:00) '+formatCoords(lat,lon);
  const locationTransit=(fDist==='พระนคร'?'เขตพระนคร':fDist)+' จ.'+fProv+' (UTC+07:00) '+formatCoords(flat,flon);
- $('birthDetails').innerHTML='<div class="section-title birth-details-title"><h2>รายละเอียดกำเนิด</h2><span class="badge">ข้อมูลจากการคำนวณ HORA</span></div><div class="birth-details-group">'+
+ const birthDetailsEl=$('birthDetails');if(birthDetailsEl)birthDetailsEl.innerHTML='<div class="section-title birth-details-title"><h2>รายละเอียดกำเนิด</h2><span class="badge">ข้อมูลจากการคำนวณ HORA</span></div><div class="birth-details-group">'+
  '<div class="birth-details-line birth-primary">ระบุชื่อวันเกิด'+safeText(civilDate(b.date,b.time))+'</div>'+
  '<div class="birth-details-line birth-lunar">จันทรคติ '+safeText(lunarText(b.date,birthLunar,b.time))+'</div>'+
  '<div class="birth-details-line birth-location">'+safeText(locationBirth)+'</div>'+
