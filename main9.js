@@ -289,15 +289,11 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
  }
  const criteria=[];
  const signIndex=lon=>Math.floor((((Number(lon)%360)+360)%360)/30);
- const natalAscSign=signIndex(natal.asc);
- const natalSigns=new Set([natalAscSign,...natal.planets.map(p=>signIndex(p.longitude))]);
- if([2,4,8,10].every(s=>natalSigns.has(s)))criteria.push('ดวงโลงผี (ดวงเดิม: ผ่านเกณฑ์ตำแหน่ง)');
- const hanumanSigns=[(natalAscSign+11)%12,natalAscSign,(natalAscSign+1)%12];
- const natalPositions=[{name:'ลัคนา',number:'ล',longitude:natal.asc},...natal.planets.map(p=>({name:p.name,number:nums[p.name],longitude:p.longitude}))];
- if(natalPositions.filter(p=>hanumanSigns.includes(signIndex(p.longitude))).length>=5)criteria.push('ดวงสามเหลี่ยม/หนุมาน (ดวงเดิม: ผ่านเกณฑ์จำนวนตำแหน่ง)');
+ // Time-segment comparisons must not include the natal ascendant.
+ // Transit planets may still be compared with natal planets as reference points.
  const relNames={'0':'กุม/ทับ','2':'โยคหน้า','10':'โยคหลัง','3':'จตุโกณ','9':'จตุโกณ','4':'ตรีโกณ','8':'ตรีโกณ','6':'เล็ง'};
  const related=[];
- for(const tp of transit.planets)for(const np of [...natal.planets,{name:'ลัคนา',longitude:natal.asc}]){
+ for(const tp of transit.planets)for(const np of natal.planets){
   const gap=(signIndex(tp.longitude)-signIndex(np.longitude)+12)%12;
   if(relNames[String(gap)])related.push({label:relNames[String(gap)],pair:'ดาวจร '+tp.name+' – ดาวเดิม '+np.name});
  }
