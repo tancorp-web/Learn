@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HORA · วงกลมนวางค์ 9</title>
+<style>
+:root{color-scheme:light;--ink:#17233d;--muted:#68758c;--paper:#f4f6fb;--line:#dfe5f0;--navy:#172746;--gold:#d5a94f;--violet:#6258d9;--green:#16835d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#e7ebff 0,transparent 45%),var(--paper);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+.container{width:min(1200px,calc(100% - 28px));margin:auto}.hero{background:linear-gradient(135deg,#101a31,#28395e);color:#fff;padding:28px 0;text-align:center}.hero h1{margin:0 0 6px;font-size:clamp(23px,4vw,34px)}.hero p{margin:0;color:#dce4f6}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:18px 0;box-shadow:0 8px 24px #1b2c5010}.panel h2{font-size:19px;margin:0 0 12px}.hint{color:var(--muted);font-size:13px}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:10px 15px;font-weight:700;cursor:pointer;background:var(--navy);color:white}.btn.secondary{background:#edf0f8;color:var(--ink);border:1px solid var(--line)}.btn.green{background:var(--green)}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;padding:8px;border-bottom:1px solid #edf0f6}th{font-size:13px;color:var(--muted);font-weight:700}input,select{width:100%;min-width:70px;padding:9px;border:1px solid #d5ddec;border-radius:8px;background:#fff;color:var(--ink);font:inherit}td button{padding:6px 9px;border:0;border-radius:7px;background:#fbe9e9;color:#a22;cursor:pointer}.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:18px;align-items:start}.chartbox{width:100%;max-width:720px;margin:auto}.chartbox svg{display:block;width:100%;height:auto}.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted)}.legend span{display:inline-flex;gap:6px;align-items:center}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.result{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfcff}.result strong{display:block;font-size:16px}.result small{color:var(--muted)}.result .value{font-weight:700;color:#4b43bd;margin-top:4px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:12px 0 30px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.panel{padding:13px}.container{width:min(100% - 18px,1200px)}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="container"><h1>วงกลมนวางค์ 9 · HORA Astrology</h1><p>นำตำแหน่งดาวเดิมหรือดาวจรมาแปลงเป็นนวางค์ แล้วแสดงตำแหน่งบนวงกลม</p></div></header>
+<main class="container">
+<section class="panel">
+<h2>1. ป้อนตำแหน่งดาว</h2>
+<p class="hint">กรอกตำแหน่งราศีและองศาของดาวตามผลคำนวณที่มีอยู่ หน้านี้คำนวณนวางค์เพื่อแสดงผลเท่านั้น ไม่แก้สูตรดาวใน HORA และไม่ดึงข้อมูลจากหน้าอื่น</p>
+<div class="toolbar"><button class="btn" id="add">＋ เพิ่มดาว</button><button class="btn secondary" id="demo">ใส่ตัวอย่าง</button><button class="btn green" id="calc">คำนวณและวาดวงกลม</button></div>
+<div class="table-wrap" style="margin-top:12px"><table><thead><tr><th>ประเภท</th><th>ดาว</th><th>ราศีเดิม</th><th>องศา</th><th>ลิปดา</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+<section class="layout">
+<div class="panel"><h2>2. วงกลมนวางค์</h2><p class="hint">วงกลมแบ่ง 12 ราศี และแต่ละราศีแบ่งเป็น 9 ช่วง ช่วงละ 3°20′ รวม 108 ช่องย่อย ดาวจะแสดงตามองศาจริงในราศีเดิม</p><div class="chartbox"><svg id="wheel" viewBox="0 0 640 640" role="img" aria-label="วงกลมนวางค์ 12 ราศี แบ่งราศีละ 9 ช่อง"></svg></div><div class="legend"><span><i class="dot" style="background:#6258d9"></i>ดาวเดิม</span><span><i class="dot" style="background:#16835d"></i>ดาวจร</span><span>เลข 1–9 ในแต่ละราศี = ลำดับนวางค์ในราศีนั้น</span></div></div>
+<div class="panel"><h2>3. ผลนวางค์ของดาว</h2><p class="hint">ลำดับนวางค์นับจากองศาในราศีเดิม ส่วนราศีนวางค์เริ่มนับตามหลักราศีจร–สถิร–อุภยราศี</p><div id="results" class="results"><p class="hint">กด “คำนวณและวาดวงกลม” เพื่อแสดงผล</p></div></div>
+</section>
+<section class="panel"><h2>หลักการคำนวณที่ใช้</h2><ul><li>ราศีหนึ่งมี 30° แบ่งเป็น 9 นวางค์ นวางค์ละ 3°20′</li><li>ราศีจร (เมษ กรกฎ ตุล มกร) เริ่มนวางค์แรกจากราศีเดิม</li><li>ราศีสถิร (พฤษภ สิงห์ พิจิก กุมภ์) เริ่มจากราศีที่ 9 นับจากราศีเดิม</li><li>ราศีอุภย (เมถุน กันย์ ธนู มีน) เริ่มจากราศีที่ 5 นับจากราศีเดิม</li><li>เลขดาวประจำราศีใช้เกณฑ์ดาวเจ้าเรือนแบบดั้งเดิม: อาทิตย์ ๑, จันทร์ ๒, อังคาร ๓, พุธ ๔, พฤหัสบดี ๕, ศุกร์ ๖, เสาร์ ๗</li></ul><p class="hint">หมายเหตุ: ราหู/เกตุไม่ได้ใช้เป็นดาวเจ้าเรือนในตารางนี้ หากระบบ HORA ของคุณกำหนดเกณฑ์ดาวประจำราศีต่างออกไป ให้ยืนยันก่อนเชื่อมเข้ากับข้อมูลหลัก</p></section>
+</main>
+<footer class="footer">ระบบของ โหรธนนทร · HORA Astrology · หน้าทดลองแยกไฟล์ ไม่กระทบ index เดิม</footer>
+<script>
+const SIGNS=['เมษ','พฤษภ','เมถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+const SIGN_LORD=[3,6,4,2,1,4,6,3,5,7,7,5];
+const SIGN_TYPE=['movable','fixed','dual','movable','fixed','dual','movable','fixed','dual','movable','fixed','dual'];
+const THAI_NUM=['๐','๑','๒','๓','๔','๕','๖','๗','๘','๙'];
+const PLANETS=['ลัคนา','อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู','เนปจูน','พลูโต'];
+let serial=0;
+function thai(n){return String(n).replace(/\d/g,d=>THAI_NUM[+d])}
+function addRow(data={}){serial++;const tr=document.createElement('tr');tr.innerHTML='<td><select class="kind"><option value="birth">ดาวเดิม</option><option value="transit">ดาวจร</option></select></td><td><select class="planet">'+PLANETS.map((p,i)=>'<option value="'+i+'">'+p+' ('+thai(i===0?0:i)+')</option>').join('')+'</select></td><td><select class="sign">'+SIGNS.map((s,i)=>'<option value="'+i+'">'+s+'</option>').join('')+'</select></td><td><input class="deg" type="number" min="0" max="29" step="1" value="0" aria-label="องศา"></td><td><input class="min" type="number" min="0" max="59" step="1" value="0" aria-label="ลิปดา"></td><td><button type="button" aria-label="ลบแถว">ลบ</button></td>';tr.querySelector('.kind').value=data.kind||'birth';tr.querySelector('.planet').value=data.planet??2;tr.querySelector('.sign').value=data.sign??0;tr.querySelector('.deg').value=data.deg??0;tr.querySelector('.min').value=data.min??0;tr.querySelector('button').onclick=()=>{tr.remove()};document.getElementById('rows').appendChild(tr)}
+function navamsa(sign,deg,min){const within=deg+min/60;const part=Math.min(8,Math.floor(within/(30/9)));const start=SIGN_TYPE[sign]==='movable'?sign:SIGN_TYPE[sign]==='fixed'?(sign+8)%12:(sign+4)%12;return {part:part+1,sign:(start+part)%12,within}}
+function polar(cx,cy,r,a){const rad=(a-90)*Math.PI/180;return [cx+r*Math.cos(rad),cy+r*Math.sin(rad)]}
+function pathSector(cx,cy,r1,r2,a1,a2){const p1=polar(cx,cy,r2,a1),p2=polar(cx,cy,r2,a2),p3=polar(cx,cy,r1,a2),p4=polar(cx,cy,r1,a1);return 'M '+p1.join(' ')+' A '+r2+' '+r2+' 0 0 1 '+p2.join(' ')+' L '+p3.join(' ')+' A '+r1+' '+r1+' 0 0 0 '+p4.join(' ')+' Z'}
+function draw(items){const svg=document.getElementById('wheel');svg.innerHTML='';const ns='http://www.w3.org/2000/svg';function el(tag,attrs={},txt){const e=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));if(txt!==undefined)e.textContent=txt;svg.appendChild(e);return e}
+const cx=320,cy=320,outer=286,inner=125,signOuter=220,signInner=174;
+el('circle',{cx,cy,r:outer+1,fill:'#fff',stroke:'#233453','stroke-width':2});
+for(let s=0;s<12;s++){for(let p=0;p<9;p++){const a1=s*30+p*(30/9),a2=a1+30/9;el('path',{d:pathSector(cx,cy,inner,outer,a1,a2),fill:p%2?'#f7f8fc':'#eef1f9',stroke:'#aeb9ce','stroke-width':.65});const mid=(a1+a2)/2,[x,y]=polar(cx,cy,(inner+outer)/2,mid);el('text',{x,y,'font-size':11,'font-weight':700,'text-anchor':'middle','dominant-baseline':'middle',fill:'#64718a'},String(p+1));}
+const a1=s*30,a2=a1+30;el('path',{d:pathSector(cx,cy,signInner,signOuter,a1,a2),fill:s%2?'#e9edfa':'#dfe6f7',stroke:'#7f8eac','stroke-width':1.1});const [sx,sy]=polar(cx,cy,(signInner+signOuter)/2,a1+15);el('text',{x:sx,y:sy,'font-size':13,'font-weight':800,'text-anchor':'middle','dominant-baseline':'middle',fill:'#263859'},SIGNS[s]);}
+el('circle',{cx,cy,r:inner,fill:'#fff',stroke:'#7f8eac','stroke-width':1.2});el('text',{x:cx,y:cy-14,'text-anchor':'middle','font-size':20,'font-weight':800,fill:'#172746'},'นวางค์ 9');el('text',{x:cx,y:cy+12,'text-anchor':'middle','font-size':12,fill:'#68758c'},'ตำแหน่งดาวจริง');el('text',{x:cx,y:cy+32,'text-anchor':'middle','font-size':11,fill:'#68758c'},'ราศีละ 9 ช่อง');
+items.forEach((it,index)=>{const total=it.sign*30+it.deg+it.min/60;const a=total;const [x,y]=polar(cx,cy,inner-15,a);const color=it.kind==='transit'?'#16835d':'#6258d9';el('circle',{cx:x,cy:y,r:11,fill:color,stroke:'#fff','stroke-width':2});el('text',{x,y:y+.5,'text-anchor':'middle','dominant-baseline':'middle','font-size':9,'font-weight':800,fill:'#fff'},it.short);const [tx,ty]=polar(cx,cy,inner-35,a);el('text',{x:tx,y:ty,'text-anchor':'middle','dominant-baseline':'middle','font-size':10,'font-weight':700,fill:color},it.nav.part);});
+}
+function compute(){const rows=[...document.querySelectorAll('#rows tr')];const items=rows.map((tr)=>{const kind=tr.querySelector('.kind').value,planet=+tr.querySelector('.planet').value,sign=+tr.querySelector('.sign').value,deg=Math.max(0,Math.min(29,+tr.querySelector('.deg').value||0)),min=Math.max(0,Math.min(59,+tr.querySelector('.min').value||0));const nav=navamsa(sign,deg,min);return {kind,planet,sign,deg,min,nav,short:planet===0?'ล':thai(planet),name:PLANETS[planet]}});draw(items);const root=document.getElementById('results');root.innerHTML='';items.forEach(it=>{const card=document.createElement('div');card.className='result';const lord=SIGN_LORD[it.nav.sign];card.innerHTML='<strong>'+it.name+' · '+(it.kind==='transit'?'ดาวจร':'ดาวเดิม')+'</strong><small>ตำแหน่งเดิม: '+SIGNS[it.sign]+' '+String(it.deg).padStart(2,'0')+'° '+String(it.min).padStart(2,'0')+'′</small><div class="value">นวางค์ที่ '+it.nav.part+' · ราศี'+SIGNS[it.nav.sign]+'</div><small>ดาวเจ้าเรือนราศีนวางค์: เลข '+thai(lord)+'</small>';root.appendChild(card)})}
+document.getElementById('add').onclick=()=>addRow();document.getElementById('calc').onclick=compute;document.getElementById('demo').onclick=()=>{document.getElementById('rows').innerHTML='';serial=0;addRow({kind:'birth',planet:1,sign:0,deg:15,min:20});addRow({kind:'birth',planet:2,sign:8,deg:6,min:32});addRow({kind:'transit',planet:3,sign:6,deg:4,min:45});compute()};
+addRow({kind:'birth',planet:1,sign:0,deg:15,min:20});addRow({kind:'transit',planet:3,sign:6,deg:4,min:45});compute();
+</script>
+</body></html>
