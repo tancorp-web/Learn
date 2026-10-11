@@ -325,6 +325,7 @@
   <p class="criteria7-lead">ระบบอ่านตำแหน่งกำเนิดจากตาราง “ดาวกำเนิดจริง · ดาวจรจริง” ด้านบน แล้วเทียบกับคลังเกณฑ์ที่บันทึกในโปรเจค แยกตามราศีและภพจากลัคนา แสดงทั้งเงื่อนไขที่ตรง/ไม่ตรงและรายการที่ยังไม่มีสูตรยืนยัน โดยไม่เปลี่ยนสูตรคำนวณดาวหรือสร้างคำทำนายอัตโนมัติ</p>
   <div id="criteria7Status" aria-live="polite">กำลังรอตารางตำแหน่งดาวกำเนิด…</div>
   <div id="criteria7Summary" class="criteria7-summary"></div>
+  <div id="hanumanCriteriaResult" class="criteria7-details" aria-live="polite"><h3>ดวงหนุมาน / ดวงสามเหลี่ยม</h3><p>รอข้อมูลดวงกำเนิดเพื่อประเมิน 3 ราศีรอบลัคนา</p></div>
   <h3>1. ดาวกำเนิดอยู่ราศีใด — เกณฑ์ที่สัมพันธ์กับราศี/ภพนั้น</h3>
   <div id="criteria7SignGrid" class="criteria7-grid"></div>
   <div class="criteria7-details">
@@ -341,7 +342,7 @@
     <p class="criteria7-muted">รายการที่สถานะ DISCOVERY / NEEDS_SOURCE / SOURCE_VARIANT / REFERENCE_PROVISIONAL จะแสดงเพื่อให้ตรวจสอบเท่านั้น ไม่ถือว่าเป็นสูตรที่ยืนยันหรือเปิดใช้งานแล้ว</p>
     <div id="criteria7Catalog"></div>
   </div>
-  <p class="criteria7-muted">ข้อจำกัด: ภพในรายงานนี้นับราศีเต็มจากลัคนากำเนิดเพื่อเทียบคลังเกณฑ์เท่านั้น เกณฑ์ที่ยังขาดนิยามจะแสดงว่า “ยังตรวจยืนยันไม่ได้” ไม่เดาเงื่อนไขให้ครบ; สำหรับรูปแบบการกระจายดาวตามแนวที่กำหนดในโปรเจค จะไม่นับเกตุ (๙) และมฤตยู (๐) เป็นดาวตัวนับ</p>
+  <p class="criteria7-muted">ข้อจำกัด: ภพในรายงานนี้นับราศีเต็มจากลัคนากำเนิดเพื่อเทียบคลังเกณฑ์เท่านั้น; ตัวตรวจดวงหนุมานเป็นข้อยกเว้นที่นับดาวเดิม ๐–๙ รวมลัคนาเดิมใน 3 ราศีรอบลัคนา ส่วนเกณฑ์อื่นให้ยึดกติกาการนับของแต่ละเกณฑ์แยกกัน</p>
 </section>
 </section>
 
@@ -1170,7 +1171,7 @@ window.HORA_RAJA_CHOK_INTERPRETATIONS4 = {
 
 
 <script type="module">
-import { compareSpecialCriteria, SPECIAL_CRITERIA_SIGN_ORDER, getWholeSignHouse } from './js/astrology/special-criteria-comparison.js?v=20261011-natal-criteria';
+import { compareSpecialCriteria, SPECIAL_CRITERIA_SIGN_ORDER, getWholeSignHouse } from './js/astrology/special-criteria-comparison.js?v=20261011-hanuman-1';
 import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-natal-criteria';
 (()=>{
  const $=id=>document.getElementById(id);
@@ -1207,6 +1208,22 @@ import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-na
    /* For distribution-pattern checks, follow the project decision to exclude Ketu (9) and Uranus (0). */
    const comparisonPositions=allPositions.filter(p=>p.planet!=='เกตุ'&&p.planet!=='มฤตยู');
    const report=compareSpecialCriteria({ascendantSign:data.ascendantSign,planetPositions:comparisonPositions});
+   /* Hanuman is a user-confirmed natal-only rule: count planets 0–9 plus natal ascendant across 12th/1st/2nd houses. Do not reuse the generic distribution filter above. */
+   const hanumanPlanets=data.planets.filter(p=>['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'].includes(p.planet));
+   const ascIndex=SPECIAL_CRITERIA_SIGN_ORDER.indexOf(data.ascendantSign);
+   const hanumanSigns=[SPECIAL_CRITERIA_SIGN_ORDER[(ascIndex+11)%12],data.ascendantSign,SPECIAL_CRITERIA_SIGN_ORDER[(ascIndex+1)%12]];
+   const hanumanOccupants=hanumanPlanets.filter(p=>hanumanSigns.includes(p.sign));
+   const hanumanCount=hanumanOccupants.length+1; // natal ascendant counts as one position
+   const hanumanPass=hanumanCount>=5;
+   const hanumanDetails=$('hanumanCriteriaResult');
+   if(hanumanDetails){
+    const byHanumanSign=hanumanSigns.map(sign=>{
+     const occupants=hanumanOccupants.filter(p=>p.sign===sign).map(p=>p.planet+' '+p.degree);
+     if(sign===data.ascendantSign)occupants.push('ลัคนาเดิม');
+     return '<div class="criteria7-card"><h4>'+esc(sign)+' · ภพ '+esc(getWholeSignHouse(data.ascendantSign,sign))+'</h4><p>'+(occupants.length?occupants.map(esc).join(' · '):'ไม่มีดาวเดิม')+'</p></div>';
+    }).join('');
+    hanumanDetails.innerHTML='<h3>ดวงหนุมาน / ดวงสามเหลี่ยม</h3><p><strong>ราศีที่ตรวจ:</strong> '+hanumanSigns.map(esc).join(' – ')+'</p><p><strong>จำนวนที่นับได้:</strong> '+hanumanCount+' ตำแหน่ง (ดาวเดิม ๐–๙ '+hanumanOccupants.length+' ดวง + ลัคนาเดิม 1 ตำแหน่ง)</p><p><strong>ผลตรวจ:</strong> '+(hanumanPass?'เข้าเกณฑ์ — ครบอย่างน้อย 5 ตำแหน่ง':'ยังไม่เข้าเกณฑ์ — ต้องมีอย่างน้อย 5 ตำแหน่ง')+'</p><div class="criteria7-grid">'+byHanumanSign+'</div><p class="criteria7-muted">ใช้เฉพาะดาวเดิมและลัคนาเดิม; นับมฤตยู (๐) และเกตุ (๙) ด้วย ไม่ใช้ดาวจรหรือลัคนาจร</p>';
+   }
    const bySign=new Map();
    for(const p of data.planets){if(!bySign.has(p.sign))bySign.set(p.sign,[]);bySign.get(p.sign).push(p);}
    const houseCount=new Map();
