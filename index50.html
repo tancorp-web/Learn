@@ -640,7 +640,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main50.js?v=20261011-zodiac-boundary-leaders-1"></script>
+<script type="module" src="./main50.js?v=20261011-marker-spacing-bangkok-reset-2"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
@@ -1799,7 +1799,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  }
  let latestChartData=null;
  window.addEventListener('hora50:chart-calculated',e=>{latestChartData=e.detail||null;log('CHART DATA CACHED FOR NAVAMSA',{keys:Object.keys(latestChartData||{}),natalCount:latestChartData?.natal?.planets?.length??null,transitCount:latestChartData?.transit?.planets?.length??null});const status=document.getElementById('navamsaRunStatus50');if(status)status.textContent='รับข้อมูลดวงหลักแล้ว · กด “คำนวณนวางค์” เพื่อวาดวงแยก';});
- document.getElementById('navamsaRun50')?.addEventListener('click',()=>{const status=document.getElementById('navamsaRunStatus50');const results=document.getElementById('navamsaResults50');if(!latestChartData){log('NAVAMSA BUTTON BLOCKED: NO CHART DATA');if(status)status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดาวเดิม + ดาวจร” ก่อน';if(results)results.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดวงหลักก่อน';return;}const btn=document.getElementById('navamsaRun50');btn.disabled=true;btn.textContent='กำลังวาดนวางค์…';log('NAVAMSA BUTTON CLICKED');try{draw(latestChartData);if(status)status.textContent='วาดวงนวางค์เสร็จแล้ว · ใช้ข้อมูลดวงหลักชุดล่าสุด';log('NAVAMSA DRAW COMPLETE')}catch(err){log('DRAW ERROR',{name:err?.name,message:err?.message,stack:err?.stack||''});console.error('[HORA][NAVAMSA50]',err);if(results)results.textContent='วาดวงกลมนวางค์ไม่สำเร็จ: '+(err?.message||err);if(status)status.textContent='วาดนวางค์ไม่สำเร็จ กรุณาดู LOG ด้านบน'}finally{btn.disabled=false;btn.textContent='คำนวณนวางค์';}});
+ document.getElementById('navamsaRun50')?.addEventListener('click',()=>{const status=document.getElementById('navamsaRunStatus50');const results=document.getElementById('navamsaResults50');if(!latestChartData){log('NAVAMSA BUTTON BLOCKED: NO CHART DATA');if(status)status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดาวเดิม + ดาวจร” ก่อน';if(results)results.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดวงหลักก่อน';return;}const btn=document.getElementById('navamsaRun50');if(btn.dataset.calculating==='1')return;btn.dataset.calculating='1';btn.disabled=true;btn.classList.add('is-calculating');btn.setAttribute('aria-busy','true');btn.textContent='กำลังคำนวณนวางค์…';log('NAVAMSA BUTTON CLICKED');setTimeout(()=>{try{draw(latestChartData);if(status)status.textContent='คำนวณและวาดวงนวางค์เสร็จแล้ว · ใช้ข้อมูลดวงหลักชุดล่าสุด';log('NAVAMSA DRAW COMPLETE')}catch(err){log('DRAW ERROR',{name:err?.name,message:err?.message,stack:err?.stack||''});console.error('[HORA][NAVAMSA50]',err);if(results)results.textContent='วาดวงกลมนวางค์ไม่สำเร็จ: '+(err?.message||err);if(status)status.textContent='วาดนวางค์ไม่สำเร็จ กรุณาดู LOG ด้านบน'}finally{btn.dataset.calculating='0';btn.disabled=false;btn.classList.remove('is-calculating');btn.removeAttribute('aria-busy');btn.textContent='คำนวณนวางค์';}},35);});
 })();
 
 </script>
