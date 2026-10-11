@@ -553,7 +553,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main9.js?v=20261011-transit-asc-only-time-title-1"></script>
+<script type="module" src="./main9.js?v=20261011-transit-only-no-natal-2"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
@@ -1016,10 +1016,10 @@ async function renderSegmentCriteria(boundaries,dateParts,dateLabel,clock,runId)
      startTime,endTime,longitude:Number(lon.toFixed(5)),
      numbers:(analysis?.numbers||[]).map(x=>({planet:x.planet,number:String(x.number)}))
     });
-    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td><td>'+criteria+'</td></tr>');
+    rows.push('<tr><td>'+escapeHtml(signNames[Number(item.sign)]||'—')+'</td><td>'+dayLabel(startDate)+' '+startTime+' น.</td><td>'+dayLabel(endDate)+' '+endTime+' น.</td><td>'+escapeHtml(numbers)+'</td><td>'+standards+'</td></tr>');
    }
    if(runId!==boundaryRun)return;
-   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจร</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th><th>เกณฑ์/ความสัมพันธ์ที่ตรวจพบ</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">เลขดาวจรใช้ mapping ที่มีอยู่ใน HORA: อาทิตย์ ๑, จันทร์ ๒, อังคาร ๓, พุธ ๔, พฤหัสบดี ๕, ศุกร์ ๖, เสาร์ ๗, ราหู ๘, เกตุ ๙, มฤตยู ๐. คำนวณตำแหน่งดาวจรใหม่ ณ เวลาเริ่มช่วง โดยไม่ใช้ลัคนาเดิมเป็นตัวแบ่งช่วง</p><p class="reference-note">ผลมาตรฐานและความสัมพันธ์คำนวณจากดวงจรใหม่ ณ เวลาเริ่มช่วง โดยใช้สูตรเดิมของ HORA; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป. เกณฑ์ที่ยังแยกสูตรไม่ครบจะไม่ตัดสินผ่าน/ไม่ผ่านจนกว่าจะยืนยันสูตร</p>';
+   target.innerHTML='<table class="reference-table"><thead><tr><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขดาวจรที่เข้าเกณฑ์มาตรฐาน</th><th>มาตรฐานดาวจร ณ เวลาเริ่มช่วง</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><p class="reference-note">เลขดาวจรใช้ mapping ที่มีอยู่ใน HORA: อาทิตย์ ๑, จันทร์ ๒, อังคาร ๓, พุธ ๔, พฤหัสบดี ๕, ศุกร์ ๖, เสาร์ ๗, ราหู ๘, เกตุ ๙, มฤตยู ๐. คำนวณจากวัน เวลา และพิกัดจร ณ เวลาเริ่มแต่ละช่วงเท่านั้น ไม่ใช้ข้อมูลดวงกำเนิดหรือเทียบดาวเดิม; ช่วงสุดท้ายอาจสิ้นสุดในวันถัดไป</p>';
    saveSegmentNumberHistory12(segmentRecords);
    renderNumberFrequencySummary12();
   }
