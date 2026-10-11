@@ -1528,10 +1528,14 @@ import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-na
      return '<tr><td>'+esc(p.planet)+'</td><td>'+esc(p.sign)+' '+esc(p.degree)+'</td><td>'+esc(house)+'</td><td>'+(tags.length?tags.map(t=>chip(t)).join(' '):'—')+'</td><td>'+(same.length?same.map(esc).join(', '):'—')+'</td><td>'+(related.length?related.map(esc).join('<br>'):'—')+'</td></tr>';
    }).join('');
    $('criteria7Relations').innerHTML='<table class="criteria7-table"><thead><tr><th>ดาวกำเนิด</th><th>ราศี/องศา</th><th>ภพจากลัคนา</th><th>เกณฑ์ภพ/ความสัมพันธ์กับลัคนา</th><th>ดาวร่วมราศี (กุมโดยราศี)</th><th>ดาวที่สัมพันธ์ตามการนับราศี</th></tr></thead><tbody>'+relationRows+'</tbody></table>';
-   const catalog=(report.allCataloguedCriteria||[]).map(c=>{
-     const ev=(report.criteria||[]).find(x=>x.id===c.id)||{};
-     const conditions=(c.conditions||[]).map(x=>x.description).join(' · ');
-     const alias   // ไม่ประมวลผล report.allCataloguedCriteria: ปิดรายการคลังเกณฑ์พิเศษทั้งหมดเพื่อประหยัดเวลาโหลดbserver(()=>render()).observe(body,{childList:true,subtree:true,characterData:true});}
+   // ไม่ประมวลผล report.allCataloguedCriteria: ปิดรายการคลังเกณฑ์พิเศษทั้งหมดเพื่อประหยัดเวลาโหลด
+  }catch(error){
+   status.textContent='แสดงผลเกณฑ์ไม่สำเร็จ: '+String(error?.message||error);
+   console.error('[HORA][NATAL CRITERIA]',error);
+  }
+ }
+ const body=$('natalStarDetailsBody');
+ if(body){new MutationObserver(()=>render()).observe(body,{childList:true,subtree:true,characterData:true);}
  document.addEventListener('DOMContentLoaded',render);
  setTimeout(render,700);setTimeout(render,1800);
 })();
