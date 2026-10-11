@@ -373,6 +373,14 @@ body,main.container,.container{
 <div class="field"><label>วัน</label><select id="fDay"></select></div><div class="field"><label>เดือน</label><select id="fMonth"></select></div><div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="fYear"></select></div><div class="field"><label>ชั่วโมง</label><select id="fHour"></select></div><div class="field"><label>นาที</label><select id="fMinute"></select></div>
 <div class="field span-2"><label>จังหวัด</label><select id="fProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="fDistrict"></select></div><div class="field"><label>ละติจูด</label><input id="fLat" type="number" step="0.000001"></div><div class="field"><label>ลองจิจูด</label><input id="fLon" type="number" step="0.000001"></div><div class="field span-6"><label>สถานที่</label><input id="fPlace" type="text"></div>
 </div><div class="calc-row"><button id="calc" type="button">คำนวณดาวเดิม + ดาวจร</button><span id="msg">พร้อมคำนวณ</span></div>
+<div id="horaDiag12" style="margin:12px 0;padding:12px;border:1px solid #cbd5e1;border-radius:10px;background:#f8fafc;color:#0f172a">
+ <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><strong>บันทึกตรวจข้อผิดพลาด (Log)</strong><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" id="horaDiagCopy12">ก็อปปี้ Log</button><button type="button" id="horaDiagClear12">ล้าง Log</button></div></div>
+ <p style="margin:6px 0;font-size:13px">กดคำนวณอีกครั้ง แล้วกด “ก็อปปี้ Log” เพื่อส่งข้อความและตำแหน่งข้อผิดพลาดให้ตรวจสอบ</p>
+ <textarea id="horaDiagText12" readonly rows="7" style="display:block;width:100%;box-sizing:border-box;margin-top:8px;padding:8px;font:12px/1.5 monospace;white-space:pre-wrap" aria-label="Log สำหรับส่งตรวจสอบ"></textarea><span id="horaDiagStatus12" role="status" style="font-size:13px"></span>
+</div>
+<script>
+(()=>{const box=()=>document.getElementById('horaDiagText12'),status=()=>document.getElementById('horaDiagStatus12'),stamp=()=>new Date().toISOString();const add=(label,detail)=>{const el=box();if(!el)return;let value=detail;try{if(typeof detail!=='string')value=JSON.stringify(detail,(k,v)=>v instanceof Error?{name:v.name,message:v.message,stack:v.stack}:v,2)}catch(e){value=String(detail)}el.value+=(el.value?'\\n':'')+'['+stamp()+'] '+label+(value?'\\n'+value:'');el.scrollTop=el.scrollHeight};window.__HORA_DIAG12={add};add('INFO','Log ready. URL: '+location.href+'\\nUser agent: '+navigator.userAgent);window.addEventListener('error',e=>add('WINDOW ERROR',{message:e.message,filename:e.filename,lineno:e.lineno,colno:e.colno,stack:e.error?.stack||''}));window.addEventListener('unhandledrejection',e=>add('UNHANDLED REJECTION',e.reason?.stack||e.reason?.message||String(e.reason)));document.addEventListener('click',e=>{if(e.target?.closest?.('#calc'))add('ACTION','กดปุ่มคำนวณดาวเดิม + ดาวจร')},true);document.getElementById('horaDiagCopy12')?.addEventListener('click',async()=>{const el=box();if(!el)return;try{await navigator.clipboard.writeText(el.value);status().textContent='คัดลอก Log แล้ว'}catch(e){el.focus();el.select();try{document.execCommand('copy');status().textContent='สั่งคัดลอกแล้ว หากไม่สำเร็จให้เลือกข้อความแล้วคัดลอกเอง'}catch(_){status().textContent='คัดลอกอัตโนมัติไม่ได้ กรุณาเลือกข้อความในช่องแล้วคัดลอก'}}});document.getElementById('horaDiagClear12')?.addEventListener('click',()=>{if(box())box().value='';add('INFO','Log cleared');status().textContent='ล้าง Log แล้ว'})})();
+</script>
 <div class="panel" id="transitOnlyResults12" aria-live="polite"><h2>ผลคำนวณดาวจรตามวันและเวลา</h2><p>เลือกวัน เวลา และสถานที่กำเนิดกับข้อมูลดาวจร แล้วกดคำนวณเพื่อแสดงวงกลมจักรราศี ตารางดาวเดิม ดาวจร และฟังก์ชันวิเคราะห์ที่มีอยู่</p><div id="transitOnlyTable12"><p>ยังไม่มีผลคำนวณ</p></div></div>
 </div>
 <div class="panel" id="birthDetails" aria-live="polite"></div>
@@ -542,7 +550,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main9.js?v=20261011-birthdetails-guard-3"></script>
+<script type="module" src="./main9.js?v=20261011-diagnostic-copy-log-1"></script>
 
 <script type="module">
 /* index3-only: Sun ingress display. Keep calculations isolated from main.js formulas. */
