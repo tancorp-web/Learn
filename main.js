@@ -232,7 +232,7 @@ function renderNumericAstrologySummary(natal,transit){
  const ascIndex=signs.indexOf(ascSign);
  const natalSigns=new Set([ascSign,...natal.planets.map(p=>signOf(p))]);
  const specialRows=[];
- const addSpecial=(group,c,n='')=>specialRows.push({group,c,n,t:''});
+ const addSpecial=(group,c,n='-')=>specialRows.push({group,c,n:n||'-',t:''});
  const numsInSigns=(wanted,includeAsc=false)=>{
   const selected=n.filter(p=>wanted.includes(p.sign)&& (includeAsc||p.number!=='ล')).map(p=>p.number);
   return [...new Set(selected)].join(' · ');
