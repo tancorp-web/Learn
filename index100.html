@@ -573,7 +573,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-role-summary"></script>
+<script type="module" src="./main51.js?v=20261012-wheel-controls-fix"></script>
 
 
 
@@ -715,7 +715,11 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
  }
  const showAllTransitZodiacTimes5=$('showAllTransitZodiacTimes5');
  if(showAllTransitZodiacTimes5){
-  const syncAllTransitZodiacTimesVisibility5=()=>panel?.classList.toggle('hide-all-transit-zodiac-times5',!showAllTransitZodiacTimes5.checked);
+  const syncAllTransitZodiacTimesVisibility5=()=>{
+   panel?.classList.toggle('hide-all-transit-zodiac-times5',!showAllTransitZodiacTimes5.checked);
+   if(showAllTransitZodiacTimes5.checked){const svg=$('wheel')?.querySelector('svg');if(svg)renderBoundaryTimes(svg);}
+   else $('wheel')?.querySelector('#ascendantBoundaryTimes3')?.remove();
+  };
   showAllTransitZodiacTimes5.addEventListener('change',syncAllTransitZodiacTimesVisibility5);
   syncAllTransitZodiacTimesVisibility5();
  }
@@ -918,7 +922,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  }
  if(wheel){
   let pending=false;
-  const run=()=>{pending=false;const svg=wheel?.querySelector('svg');if(svg)enhanceAscendant(svg);};
+  const run=()=>{pending=false;const svg=wheel?.querySelector('svg');if(svg){enhanceAscendant(svg);if($('showAllTransitZodiacTimes5')?.checked)renderBoundaryTimes(svg);}};
   const schedule=()=>{if(!pending){pending=true;setTimeout(run,0);}};
   // คำนวณเวลาเข้า 0° หลังวงจักรราศีถูกวาดใหม่เท่านั้น ไม่คำนวณหนักทุกครั้งที่เปลี่ยนช่องเวลา
   const observer=new MutationObserver(schedule);
