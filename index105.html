@@ -1056,6 +1056,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
  const planetByNumber={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
+ let latestChartData=null;
+ window.addEventListener('hora50:chart-calculated',event=>{latestChartData=event.detail||null;});
  const pause=()=>new Promise(resolve=>setTimeout(resolve,0));
  const stampFromInputs=prefix=>{
   const day=Number($(prefix+'Day')?.value),month=Number($(prefix+'Month')?.value),beYear=Number($(prefix+'Year')?.value);
@@ -1124,7 +1126,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   else if(wheel)wheel.insertAdjacentElement('afterend',panel);
  }
  const showMessage=message=>{panel.hidden=false;panel.textContent=message;};
- const showResults=({planet,kind,sign,entry,exit,longitude})=>{
+ const showResults=({planet,kind,sign,entry,exit,longitude,currentLon})=>{
   panel.hidden=false;
   panel.innerHTML='';
   const title=document.createElement('div');title.className='pss-title';
@@ -1137,6 +1139,25 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const v=document.createElement('div');v.className='pss-date';v.textContent=value||'ไม่พบภายในช่วงค้นหา';
    card.append(l,v);grid.appendChild(card);
   };
+  // รายละเอียดตำแหน่งดาวเดิมใช้ลองจิจูด HORA และลัคนาจากผลคำนวณดวงหลักที่แสดงอยู่
+  if(kind==='natal'){
+   const lon=((Number(currentLon)%360)+360)%360;
+   const signIndex=Math.floor(lon/30),within=lon%30;
+   const degree=Math.floor(within),minute=Math.floor((within-degree)*60);
+   const asc=Number(latestChartData?.natal?.asc);
+   const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+   const house=Number.isFinite(asc)?((signIndex-Math.floor((((asc%360)+360)%360)/30)+12)%12)+1:null;
+   const navaPart=Math.min(8,Math.floor(within/(30/9)));
+   const navaStart=signIndex%3===0?signIndex:signIndex%3===1?(signIndex+8)%12:(signIndex+4)%12;
+   const navaSign=signs[(navaStart+navaPart)%12];
+   const triPart=Math.min(2,Math.floor(within/10));
+   const triSign=signs[(signIndex+triPart*4)%12];
+   add('ราศีที่ดาวอยู่',signs[signIndex]);
+   add('ภพที่อยู่',house?('ภพที่ '+house+' · '+houseNames[house-1]):'ไม่พบลัคนาดวงเดิม');
+   add('องศา/ลิปดา',String(degree).padStart(2,'0')+'° '+String(minute).padStart(2,'0')+'′');
+   add('นวางค์','นวางค์ที่ '+(navaPart+1)+' · ราศี'+navaSign);
+   add('ตรียางค์','ตรียางค์ที่ '+(triPart+1)+' · ราศี'+triSign);
+  }
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
   panel.appendChild(grid);
@@ -1172,7 +1193,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
     findBoundary({start,planet,longitude,targetSign,direction:1,step})
    ]);
    if(id!==requestId)return;
-   showResults({planet,kind,sign,entry,exit,longitude});
+   showResults({planet,kind,sign,entry,exit,longitude,currentLon});
   }catch(error){
    if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
    console.error('[HORA][SIGN STAY][index9]',error);
