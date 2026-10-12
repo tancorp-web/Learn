@@ -1174,6 +1174,19 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const role=readThaksaRole(thaksaRoot,planet);
    add(kind==='natal'?'ทักษาเดิม':'ทักษาจร',role||( ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'].includes(planet)?'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษา':'ดาวดวงนี้ไม่มีช่องทักษาในผัง 8 ดาว'));
   }
+  if(kind!=='natal'){
+   const lon=((Number(currentLon)%360)+360)%360;
+   const signIndex=Math.floor(lon/30),within=lon%30,degree=Math.floor(within);
+   const minute=Math.floor((within-degree)*60);
+   let dignity=[];
+   try{dignity=getPlanetaryDignities(planet,signs[signIndex],degree,minute,((within-degree)*60-minute)*60)||[];}catch(error){console.warn('[HORA][INDEX105][DIGNITY]',error);}
+   const confirmed=[...new Set(dignity)].filter(Boolean);
+   add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'ไม่มีเกณฑ์ยืนยันสำหรับตำแหน่งนี้');
+   const root=$('thaksaTransit51');
+   const cell=[...(root?.querySelectorAll('.thaksa51-cell')||[])].find(el=>el.querySelector('b')?.textContent.trim()===planet);
+   const role=cell?.querySelector('.thaksa51-role')?.textContent.trim();
+   add('ทักษาจร',role||(['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'].includes(planet)?'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาจร':'ดาวดวงนี้ไม่มีช่องทักษาในผัง 8 ดาว'));
+  }
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
   panel.appendChild(grid);
