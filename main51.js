@@ -238,7 +238,7 @@ function renderNumericAstrologySummary(natal,transit){
  const body=$('planetDignityNumberSummaryBody8'),table=$('planetDignityNumberTable8');
  if(!body||!table)return;
  const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
- const standards=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ','อนุเกษตร'];
+ const standards=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','มหาจักร','จุลจักร','เทวีโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ','อนุเกษตร'];
  const relations=['กุม','ทับ','เล็ง','โยคหน้า','โยคหลัง','ตรีโกณ','จตุโกณ','ฉาก'];
  const signOf=p=>signObj(p.longitude).name, esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const points=(chart,includeAsc)=>[...(includeAsc?[{name:'ลัคนา',number:'ล',sign:signObj(chart.asc).name,longitude:chart.asc}]:[]),...chart.planets.map(p=>({name:p.name,number:nums[p.name],sign:signOf(p),longitude:p.longitude}))].filter(p=>p.number);
@@ -301,7 +301,7 @@ function renderNumericAstrologySummary(natal,transit){
  addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','');
  addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ราคาโชค','');
  rows.push(...specialRows);
- const displayRows=rows.filter(r=>!(r.group==='คลังชื่อเกณฑ์ที่ต้องแยกสูตร'&&String(r.c||'').trim()==='ราชาโชค'));
+ const displayRows=rows;
  let group='';body.innerHTML=displayRows.map(r=>{const g=r.group!==group?'<tr class="criteria7-group-row"><th colspan="3">'+esc(r.group)+'</th></tr>':'';group=r.group;return g+'<tr><td>'+esc(r.c)+'</td><td>'+esc(r.n)+'</td><td>'+esc(r.t)+'</td></tr>'}).join('');
  const head=table.querySelector('thead');if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
  const lead=$('planetDignityNumberSummary8')?.querySelector('.criteria7-lead');if(lead)lead.textContent='สร้างตารางจากวัตถุผลคำนวณโดยตรง จึงไม่ต้องอ่านย้อนจาก HTML. เลขเดี่ยวคือดาวที่เข้าเกณฑ์; ๓–๖ คือคู่ดาวเดิม; ๓→๖ คือดาวจรเทียบดาวเดิม. กุม/ทับ/เล็ง/โยค/ตรีโกณ/จตุโกณคำนวณจากราศีตามชุดกฎของโปรเจค ส่วนฉากต้องกำหนดออร์บองศา. ดอกพิกุลแสดงเพียงโครงตำแหน่งแบบ A ซึ่งยังมีเงื่อนไขบางส่วนที่ต้องยืนยัน.';
