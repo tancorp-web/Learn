@@ -1144,7 +1144,8 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const lon=((Number(currentLon)%360)+360)%360;
    const signIndex=Math.floor(lon/30),within=lon%30;
    const degree=Math.floor(within),minute=Math.floor((within-degree)*60);
-   const asc=Number(latestChartData?.natal?.asc);
+   const ascValue=latestChartData?.natal?.asc;
+   const asc=ascValue==null?NaN:Number(ascValue);
    const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
    const house=Number.isFinite(asc)?((signIndex-Math.floor((((asc%360)+360)%360)/30)+12)%12)+1:null;
    const navaPart=Math.min(8,Math.floor(within/(30/9)));
