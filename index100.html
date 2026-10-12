@@ -551,6 +551,15 @@ main.container h3::after{
   <p style="font-size:12px;color:#6c7890;margin-bottom:0">แสดง 6 ประเภทแยกแถวชัดเจน: ดาวเดิม, ดาวจร, นวางค์เดิม, นวางค์จร, ตรียางค์เดิม และตรียางค์จร โดยไม่ใช้เกตุและมฤตยูในตารางหรือการหาทักษา</p>
 </section>
 
+<section id="thaksaRoleSummary100" class="panel">
+  <div class="section-title"><h2>สรุปดาวเฉพาะทักษา · เดช / ศรี / กาลกิณี</h2><span class="badge">6 ชุดสำหรับวิเคราะห์เลขมงคล</span></div>
+  <p style="color:#596781;margin-top:0">ดึงเฉพาะดาวที่เป็นเดช ศรี หรือกาลกิณีของแต่ละชุด แยกชุดเดิมและจรตามผลคำนวณ โดยไม่รวมเกตุและมฤตยู</p>
+  <div class="table-wrap"><table id="thaksaRoleSummaryTable100" style="min-width:680px">
+    <thead><tr><th>ชุดข้อมูล</th><th>เดช</th><th>ศรี</th><th>กาลกิณี</th></tr></thead>
+    <tbody id="thaksaRoleSummaryRows100"><tr><td colspan="4">รอผลคำนวณดวงหลัก</td></tr></tbody>
+  </table></div>
+</section>
+
 </main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
 <script>
 (()=>{const fill=(id,arr,s)=>{const e=document.getElementById(id);if(!e)return;e.innerHTML=arr.map(x=>'<option value="'+x.v+'">'+x.t+'</option>').join('');if(s!==undefined)e.value=String(s)};const y=[];for(let be=2400;be<=2600;be++)y.push({v:be,t:'พ.ศ. '+be+' / ค.ศ. '+(be-543)});fill('bYear',y,2534);fill('fYear',y,2569);fill('bDay',Array.from({length:31},(_,i)=>({v:i+1,t:String(i+1).padStart(2,'0')})),14);fill('fDay',Array.from({length:31},(_,i)=>({v:i+1,t:String(i+1).padStart(2,'0')})),8);const m=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'].map((t,i)=>({v:i+1,t:t+' ('+(i+1)+')'}));fill('bMonth',m,10);fill('fMonth',m,10);fill('bHour',Array.from({length:24},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),1);fill('fHour',Array.from({length:24},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),12);fill('bMinute',Array.from({length:60},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),5);fill('fMinute',Array.from({length:60},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),0)})();
@@ -564,7 +573,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-simple-thaksa-labels"></script>
+<script type="module" src="./main51.js?v=20261012-role-summary"></script>
 
 
 
@@ -1485,6 +1494,41 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    }
    return rows;
  }
+ function renderRoleSummary(natalByName,transitByName,birthMap,transitMap,names){
+   const body=$('thaksaRoleSummaryRows100');
+   if(!body)return;
+   const groups=[
+    {label:'ดาวเดิม',source:'birth',division:null,map:birthMap,items:natalByName},
+    {label:'ดาวจร',source:'transit',division:null,map:transitMap,items:transitByName},
+    {label:'นวางค์เดิม',source:'birth',division:'nav',map:birthMap,items:natalByName},
+    {label:'นวางค์จร',source:'transit',division:'nav',map:transitMap,items:transitByName},
+    {label:'ตรียางค์เดิม',source:'birth',division:'tri',map:birthMap,items:natalByName},
+    {label:'ตรียางค์จร',source:'transit',division:'tri',map:transitMap,items:transitByName}
+   ];
+   const wanted=['เดช','ศรี','กาลกิณี'],found=Object.fromEntries(groups.map(g=>[g.label,Object.fromEntries(wanted.map(r=>[r,[]]))]));
+   for(const g of groups){
+    for(const name of names){
+     if(excludedThaksaPlanets100.has(name))continue;
+     const item=g.items.get(name);
+     if(!item||!Number.isFinite(Number(item.longitude)))continue;
+     let rep=name;
+     if(g.division==='nav')rep=lordOfSign(nav(Number(item.longitude)).sign);
+     if(g.division==='tri')rep=lordOfSign(tri(Number(item.longitude)).sign);
+     if(!rep||rep==='—'||excludedThaksaPlanets100.has(rep))continue;
+     const role=g.map[rep];
+     if(wanted.includes(role)){
+      const num=pnums[rep]===undefined?'':pnums[rep]===null?' (ล.)':' ('+String(pnums[rep])+' / '+thaiNum(pnums[rep])+')';
+      found[g.label][role].push(rep+num);
+     }
+    }
+   }
+   body.replaceChildren();
+   for(const g of groups){
+    const tr=document.createElement('tr');
+    [g.label,...wanted.map(role=>found[g.label][role].length?[...new Set(found[g.label][role])].join(', '):'—')].forEach(v=>tr.appendChild(td(v)));
+    body.appendChild(tr);
+   }
+ }
  function render(){
    const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');
    if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}
@@ -1495,6 +1539,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const natalByName=new Map((natal.planets||[]).map(p=>[p.name,p]));
    const transitByName=new Map((transit.planets||[]).map(p=>[p.name,p]));
    const names=[...new Set([...(natal.planets||[]).map(p=>p.name),...(transit.planets||[]).map(p=>p.name)])].filter(name=>!excludedThaksaPlanets100.has(name));
+   renderRoleSummary(natalByName,transitByName,bm,tm,names);
    body.replaceChildren();
    for(const name of names){
     const rows=thaksaRowsForPlanet(name,natalByName.get(name),transitByName.get(name),bm,tm);
