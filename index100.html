@@ -573,7 +573,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-wheel-time-fix3"></script>
+<script type="module" src="./main51.js?v=20261012-wheel-time-fix4"></script>
 
 
 
@@ -717,7 +717,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
  if(showAllTransitZodiacTimes5){
   const syncAllTransitZodiacTimesVisibility5=()=>{
    panel?.classList.toggle('hide-all-transit-zodiac-times5',!showAllTransitZodiacTimes5.checked);
-   if(showAllTransitZodiacTimes5.checked){const svg=$('wheel')?.querySelector('svg');if(svg)renderBoundaryTimes(svg);}
+   if(showAllTransitZodiacTimes5.checked){const svg=$('wheel')?.querySelector('svg');if(svg)window.renderBoundaryTimes100?.(svg);}
    else $('wheel')?.querySelector('#ascendantBoundaryTimes3')?.remove();
   };
   showAllTransitZodiacTimes5.addEventListener('change',syncAllTransitZodiacTimesVisibility5);
@@ -895,6 +895,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    textNode.textContent=clock(item.minutes)+' น.';
   });
  }
+ window.renderBoundaryTimes100=renderBoundaryTimes;
  function enhanceAscendant(svg){
   if(!svg)return;
   svg.setAttribute('viewBox','-150 -150 1020 1020');
