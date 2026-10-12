@@ -1144,6 +1144,17 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const v=document.createElement('div');v.className='pss-date';v.textContent=value||'ไม่พบภายในช่วงค้นหา';
    card.append(l,v);grid.appendChild(card);
   };
+  // อ่านทักษาเดิมและทักษาจรจากผังที่คำนวณไว้แล้ว ไม่คำนวณสูตรซ้ำในแผงรายละเอียด
+  const readThaksaRole=(rootId,planetName)=>{
+   const root=$(rootId);if(!root)return null;
+   const cell=[...root.querySelectorAll('.thaksa51-cell')].find(el=>el.querySelector('b')?.textContent.trim()===planetName);
+   const role=cell?.querySelector('.thaksa51-role')?.textContent.trim();
+   return role||null;
+  };
+  const oldRole=readThaksaRole('thaksaOld51',planet);
+  const transitRole=readThaksaRole('thaksaTransit51',planet);
+  const hasThaksa=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'].includes(planet);
+  const thaksaValue=(oldRole||'—')+'/'+(transitRole||'—');
   // รายละเอียดตำแหน่งดาวเดิมใช้ลองจิจูด HORA และลัคนาจากผลคำนวณดวงหลักที่แสดงอยู่
   if(kind==='natal'){
    const lon=((Number(currentLon)%360)+360)%360;
@@ -1170,15 +1181,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const marker=markers.find(el=>el.getAttribute('data-planet')===planet&&Math.abs((((Number(el.getAttribute('data-longitude'))-target)+540)%360)-180)<0.02);
    const confirmed=(marker?.getAttribute('data-planet-standards102')||'').split('|').filter(Boolean);
    add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'');
-   const readThaksaRole=(rootId,planetName)=>{
-    const root=$(rootId);if(!root)return null;
-    const cell=[...root.querySelectorAll('.thaksa51-cell')].find(el=>el.querySelector('b')?.textContent.trim()===planetName);
-    const role=cell?.querySelector('.thaksa51-role')?.textContent.trim();
-    return role||null;
-   };
-   const thaksaRoot=kind==='natal'?'thaksaOld51':'thaksaTransit51';
-   const role=readThaksaRole(thaksaRoot,planet);
-   add(kind==='natal'?'ทักษาเดิม':'ทักษาจร',role||( ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'].includes(planet)?'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษา':'ดาวดวงนี้ไม่มีช่องทักษาในผัง 8 ดาว'));
+
   }
   if(kind!=='natal'){
    const lon=((Number(currentLon)%360)+360)%360;
@@ -1191,11 +1194,9 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const marker=markers.find(el=>el.getAttribute('data-planet')===planet&&Math.abs((((Number(el.getAttribute('data-longitude'))-target)+540)%360)-180)<0.02);
    const confirmed=(marker?.getAttribute('data-planet-standards102')||'').split('|').filter(Boolean);
    add('มาตรฐานดาว',confirmed.join(' · '));
-   const root=$('thaksaTransit51');
-   const cell=[...(root?.querySelectorAll('.thaksa51-cell')||[])].find(el=>el.querySelector('b')?.textContent.trim()===planet);
-   const role=cell?.querySelector('.thaksa51-role')?.textContent.trim();
-   add('ทักษาจร',role||(['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'].includes(planet)?'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาจร':'ดาวดวงนี้ไม่มีช่องทักษาในผัง 8 ดาว'));
+
   }
+  add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'ดาวดวงนี้ไม่มีช่องทักษาในผัง 8 ดาว');
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
   panel.appendChild(grid);
