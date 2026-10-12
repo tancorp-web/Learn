@@ -1353,7 +1353,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const cell=row.cells?.[3];
    if(!cell)return;
    const value=cell.textContent.trim();
-   if(!/^\\d{1,2}$/.test(value))return;
+   if(!/^\d{1,2}$/.test(value))return;
    const n=Number(value);
    if(n>=1&&n<=12) {
     cell.textContent=n+'.'+houseNames[n-1];
