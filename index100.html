@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>HORA v8.9.3 · index100 · วิเคราะห์ดาวรายดวงและทักษา</title>
+<style>
+:root{color-scheme:light;--ink:#17233d;--muted:#6c7890;--paper:#f4f6fb;--line:#e1e6f0;--navy:#14213d;--gold:#d5a94f;--violet:#6258d9;--shadow:0 12px 34px rgba(24,39,75,.08)}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:86px}body{margin:0;background:radial-gradient(ellipse at 50% -12%,#e6eaff 0,transparent 45%),var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}.container{width:min(1200px,calc(100% - 36px));margin-inline:auto}.hero{position:relative;overflow:hidden;text-align:center;padding:44px 0 35px;background:linear-gradient(135deg,#101a31,#202f52 58%,#394779);color:#fff}.hero:before,.hero:after{content:"";position:absolute;border:1px solid #ffffff20;border-radius:50%;pointer-events:none}.hero:before{width:360px;height:360px;left:-130px;top:-245px}.hero:after{width:300px;height:300px;right:-100px;bottom:-230px}.hero .container{position:relative;z-index:1}.hero h1{margin:0;font-size:clamp(27px,4vw,42px);font-weight:800;letter-spacing:-.035em;line-height:1.2}.hero p{margin:10px 0 17px;color:#d9e1f5;font-size:15px}.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid #e6d19a;border-radius:999px;color:#775516;background:#fff6df;font-size:12px;font-weight:750}.hero .badge{color:#ffdf91;background:#ffffff12;border-color:#ffdf9180}.sticky-nav{position:sticky;top:0;z-index:100;background:#fffffff0;backdrop-filter:blur(16px);border-bottom:1px solid #d7deeb;box-shadow:0 4px 18px #18274b0d}.nav-inner{width:min(1200px,calc(100% - 28px));margin:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;padding:10px 0}.menu-btn{min-height:43px;border:1px solid transparent;background:transparent;color:#52617c;padding:10px 12px;border-radius:12px;cursor:pointer;font:inherit;font-size:13px;font-weight:750;transition:background .18s,color .18s,border-color .18s}.menu-btn:hover{background:#f0f2fb;color:var(--navy);border-color:#e1e5f3}.menu-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 5px 13px #14213d2e}main.container{padding-top:10px}.panel{min-width:0;background:#fff;border:1px solid var(--line);border-radius:18px;margin:18px 0;padding:clamp(16px,2.3vw,25px);box-shadow:var(--shadow)}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.section-title h2,.menu-panel>h2{margin:0;color:var(--navy);font-size:clamp(18px,2vw,22px);font-weight:800;letter-spacing:-.02em}.section-title h2:before{content:"";display:inline-block;width:4px;height:1.05em;margin-right:10px;vertical-align:-.12em;border-radius:9px;background:var(--gold)}.form-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:14px 12px}.field{display:flex;min-width:0;flex-direction:column;gap:6px}.field label{font-size:12px;color:#596781;font-weight:700}.field label small{font-size:11px;color:#8b95a8;font-weight:500}.field input,.field select{width:100%;min-width:0;min-height:43px;border:1px solid #d7deeb;border-radius:11px;background:#fbfcff;color:var(--ink);padding:10px 11px;font:inherit;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s,background .18s}.field input:hover,.field select:hover{border-color:#b8c3dc;background:#fff}.field input:focus,.field select:focus{border-color:var(--violet);background:#fff;box-shadow:0 0 0 3px #6258d922}.field select{cursor:pointer}.span-2{grid-column:span 2}.span-6{grid-column:span 6}.calc-row{margin-top:20px;padding-top:16px;border-top:1px solid #edf0f6;display:flex;align-items:center;gap:13px;flex-wrap:wrap}#calc,#navamsaRun50{min-height:46px;border:0;border-radius:12px;padding:12px 22px;background:linear-gradient(135deg,#6b5ce7,#4b49b9);color:#fff;cursor:pointer;font:inherit;font-weight:800;box-shadow:0 7px 16px #534cc33d;transition:transform .18s,box-shadow .18s,filter .18s}#calc:hover,#navamsaRun50:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 10px 22px #534cc34d}#calc:active,#navamsaRun50:active{transform:translateY(2px) scale(.985);filter:brightness(.92);box-shadow:0 2px 6px #534cc34d}#calc.is-calculating,#navamsaRun50.is-calculating{background:linear-gradient(135deg,#3f3b9f,#292765);box-shadow:inset 0 2px 5px #17153d80,0 2px 5px #534cc322;transform:translateY(1px);cursor:progress;filter:saturate(.85)}#calc.is-calculating:before,#navamsaRun50.is-calculating:before{content:"◌";display:inline-block;margin-right:8px;animation:calc-spin .8s linear infinite}@keyframes calc-spin{to{transform:rotate(360deg)}}#calc:disabled,#navamsaRun50:disabled{opacity:.9}.reset-form-button50{min-height:46px;border:1px solid #cbd5e1;border-radius:12px;padding:10px 15px;background:#f8fafc;color:#243653;cursor:pointer;font:inherit;font-weight:750;transition:background .18s,border-color .18s,transform .18s}.reset-form-button50:hover{background:#eef2ff;border-color:#a5b4fc}.reset-form-button50:active{transform:translateY(2px)}.reset-form-button50.reset-done50{background:#e5f6ed;border-color:#86cda9;color:#17633c}#msg{font-size:13px;color:var(--muted)}.wheel-wrap{width:100%;max-width:900px;margin:0 auto;display:grid;place-items:center;overflow:hidden}.wheel-wrap svg,#wheel svg{display:block;width:100%;height:auto;max-width:900px}#birthDetails,#starDetails,#compare{scroll-margin-top:90px}.table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px;background:#fff}th,td{padding:11px 12px;border-bottom:1px solid #e9edf5;text-align:left;vertical-align:top}th{position:sticky;top:0;z-index:1;font-size:12px;line-height:1.4;white-space:nowrap;background:#f2f5fb;color:#40506f;font-weight:800}td{font-size:13px}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#f8faff}.pass{color:#16845b;font-weight:800}.fail{color:#c43d58;font-weight:800}.pending{color:#9a6a00;font-weight:800}.menu-panel{display:none}.menu-panel.show{display:block;animation:panel-in .2s ease-out}@keyframes panel-in{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}.formula-card,.golden-card,.status-card{border:1px solid #2d3b5c;background:linear-gradient(145deg,#111b32,#1b2946);border-radius:14px;padding:17px;margin:14px 0;color:#e9eefb;box-shadow:0 8px 20px #14213d1a}.formula-card h3,.golden-card h3,.status-card h3{margin:0 0 10px;color:#ffdf91;font-size:15px}.formula-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;color:#d7e0f5;font-size:12px}.log-actions button:hover{background:#f2f5fb;border-color:#b8c3dc}.log-actions button:active{transform:translateY(1px)}#logStatus{font-size:12px;color:var(--muted)}footer{text-align:center;padding:28px 0 42px;color:#7c879b;font-size:12px}button:focus-visible{outline:3px solid #6258d959;outline-offset:2px}::selection{background:#e2dcff;color:#25204e}@media(max-width:900px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.span-2,.span-6{grid-column:span 1}.panel{border-radius:15px}}@media(max-width:600px){.container{width:calc(100% - 18px)}.hero{padding:30px 0 25px}.hero h1{font-size:27px}.hero p{font-size:13px}.hero .badge{max-width:100%;font-size:10px;line-height:1.5}.nav-inner{width:calc(100% - 16px);grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:8px 0}.menu-btn{min-height:41px;padding:9px 7px;font-size:12px}.panel{margin:12px 0;padding:15px}.section-title{align-items:flex-start;margin-bottom:15px}.section-title h2,.menu-panel>h2{font-size:18px}.section-title .badge{flex-shrink:0;font-size:10px;padding:5px 8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 9px}.span-2,.span-6{grid-column:span 2}.field input,.field select{min-height:42px;padding:9px;font-size:14px}.calc-row{align-items:stretch;flex-direction:column}.calc-row #calc{width:100%}.calc-row #msg{text-align:center}.wheel-wrap{margin-inline:-3px;width:calc(100% + 6px)}th,td{padding:9px 10px}.formula-card,.golden-card,.status-card{padding:14px}.formula-code{font-size:11px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* index3.html only: next solar sign-boundary time */
+.sun-ingress-panel3{margin-top:20px;padding:20px clamp(16px,3vw,28px);border:1px solid #e8c778;border-left:6px solid #d97706;border-radius:15px;background:linear-gradient(135deg,#fff9e8,#fffdf7);color:#17233d;box-shadow:0 8px 22px #8b64101a}
+.sun-ingress-heading3{font-weight:900;font-size:clamp(19px,2.5vw,24px);line-height:1.35;margin-bottom:12px;color:#6b4300}
+#sunIngressResult3{font-size:clamp(18px,2.2vw,21px);line-height:1.8;font-weight:800}
+#sunIngressResult3>div:nth-child(2){font-size:clamp(22px,3vw,28px)!important;line-height:1.5;margin:4px 0;color:#14213d}
+#sunIngressResult3>div:nth-child(3){font-size:clamp(14px,1.7vw,16px)!important;line-height:1.7;margin-top:6px}
+.sun-ingress-note3{margin-top:9px;font-size:14px;color:#596781;line-height:1.7}
+#birthDetails .sun-ingress-panel3{margin-top:24px}
+/* Keep all birth details and solar-ingress information grouped, dark, and easy to read. */
+#birthDetails .birth-details-summary,
+#birthDetails .sun-ingress-panel3,
+#birthDetails .sun-ingress-heading3,
+#birthDetails #sunIngressResult3,
+#birthDetails #sunIngressResult3 > div,
+#birthDetails .sun-ingress-note3{
+  box-sizing:border-box!important;
+  font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif!important;
+  font-size:20px!important;
+  font-weight:600!important;
+  line-height:1.75!important;
+  color:#111827!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+#birthDetails .birth-details-summary,
+#birthDetails .sun-ingress-panel3{
+  display:block;
+  width:100%;
+  padding:14px 16px;
+  background:#f8fafc!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:10px;
+  box-shadow:none!important;
+}
+#birthDetails .sun-ingress-panel3{margin-top:10px;border-left:1px solid #cbd5e1!important}
+#birthDetails .sun-ingress-heading3{margin-bottom:8px}
+#birthDetails #sunIngressResult3 > div{margin:0!important}
+#birthDetails .sun-ingress-note3{margin-top:8px!important}
+@media(max-width:600px){
+  #birthDetails .birth-details-summary,
+  #birthDetails .sun-ingress-panel3,
+  #birthDetails .sun-ingress-heading3,
+  #birthDetails #sunIngressResult3,
+  #birthDetails #sunIngressResult3 > div,
+  #birthDetails .sun-ingress-note3{
+    font-size:18px!important;
+    line-height:1.7!important;
+  }
+  #birthDetails .birth-details-summary,
+  #birthDetails .sun-ingress-panel3{padding:12px}
+}
+
+/* index3.html only: full-wheel Drekkana, Navamsa and continuous Nakshatra overlay */
+#wheelPanel2{max-width:none}
+#wheelPanel2 .wheel-tools{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:-4px 0 12px}
+#wheelPanel2 .wheel-tools button{border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#17233d;padding:8px 13px;min-height:38px;font:inherit;font-weight:750;cursor:pointer}
+#wheelPanel2 .wheel-tools button:hover{background:#edf2ff}
+#wheelPanel2 #wheelZoomLabel2{min-width:48px;text-align:center;font-size:13px;font-weight:800;color:#334155}
+#wheelWrap2{max-width:none;width:100%;margin:0 auto;display:block;overflow:visible;overscroll-behavior:auto;max-height:none;touch-action:pan-y pinch-zoom}
+#wheelPanel2 #wheel{width:100%;min-width:0}
+#wheelPanel2 #wheel svg{display:block;width:100%!important;height:auto;max-width:none!important;background:#fff}
+#wheelPanel2 #wheel svg .nava-number2{font-family:system-ui,Tahoma,sans-serif;font-size:11px;font-weight:900;fill:#111827;paint-order:stroke;stroke:#fff;stroke-width:2.4px;stroke-linejoin:round}
+#wheelPanel2 #wheel svg .nava-tick2{stroke:#64748b;stroke-width:.8;opacity:.85}
+#wheelPanel2 #wheel svg .drek-tick2{stroke:#b45309;stroke-width:1.5;opacity:.95}
+#wheelPanel2 #wheel svg .triyang-boundary-line5{stroke:#b7791f;stroke-width:2;opacity:.9;pointer-events:none}
+#wheelPanel2 #wheel svg .triyang-poison-icon5{pointer-events:none;overflow:visible}
+#wheelPanel2 #wheel svg .triyang-poison-number5{fill:#c62828!important}
+#wheelPanel2 #wheel svg .nak-boundary2{stroke:#7c3aed;stroke-width:1.6;opacity:.95}
+#wheelPanel2 #wheel svg .nak-name2{font-family:system-ui,Tahoma,sans-serif;font-size:12px;font-weight:850;fill:#7c2d12;paint-order:stroke;stroke:#fff;stroke-width:2.6px;stroke-linejoin:round}
+#wheelPanel2.hide-nak-name5 #wheel svg .nak-name2,#wheelPanel2.hide-nak-name5 #wheel svg .nak-boundary2{display:none!important}
+#wheelPanel2.hide-triyang5 #wheel svg .triyang-ruler-number2,#wheelPanel2.hide-triyang5 #wheel svg .triyang-boundary-line5,#wheelPanel2.hide-triyang5 #wheel svg .triyang-separator5,#wheelPanel2.hide-triyang5 #wheel svg .drek-tick2,#wheelPanel2.hide-triyang5 #wheel svg .triyang-poison-icon5{display:none!important}
+#wheelPanel2.hide-nava5 #wheel svg .nava-number2,#wheelPanel2.hide-nava5 #wheel svg .nava-tick2{display:none!important}
+#wheelPanel2:not(.show-nak-types5) #wheel svg .nak-type2{display:none!important}
+#wheelPanel2 .visibility-toggle5{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#17233d;font-weight:700;line-height:1.25;cursor:pointer;box-sizing:border-box}
+#wheelPanel2 .visibility-toggle5 input{flex:0 0 auto;width:18px;height:18px;margin:0;accent-color:#2563eb;cursor:pointer}
+#wheelPanel2 #planetStandardPickerBar4{max-width:760px!important;gap:8px!important;justify-content:flex-start!important;box-shadow:0 2px 8px rgba(15,23,42,.04)}
+#wheelPanel2 .standard-picker-group4{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-left:auto;padding-left:12px;border-left:1px solid #cbd5e1}
+#wheelPanel2 #planetStandardSelect4{min-height:38px;min-width:160px;max-width:100%;padding:8px 11px;border:1px solid #94a3b8;border-radius:9px;background:#f8fafc;color:#17233d;font:inherit;font-weight:750;box-sizing:border-box}
+@media(max-width:640px){#wheelPanel2 #planetStandardPickerBar4{justify-content:center!important;padding:10px!important}#wheelPanel2 .standard-picker-group4{width:100%;margin:4px 0 0;padding:10px 0 0;border-left:0;border-top:1px solid #cbd5e1}#wheelPanel2 #planetStandardSelect4{flex:1 1 160px}}
+#wheelPanel2.hide-planet-standard5 #planetStandardLabel5,#wheelPanel2.hide-planet-standard5 #planetStandardSelect4,#wheelPanel2.hide-planet-standard5 #wheel svg #planetStandardNumbersIndex4{display:none!important}
+#wheelPanel2.hide-house-names5 #wheel svg .house-name-label5{display:none!important}
+#wheelPanel2.hide-zodiac-names5 #wheel svg .zodiac-sign-label5{display:none!important}
+#wheelPanel2 #transitAscTime3{display:none!important}
+#wheelPanel2.hide-all-transit-zodiac-times5 #wheel svg .transit-zodiac-all-time5{display:none!important}
+#wheelPanel2 #wheel svg .nak-type2{font-family:system-ui,Tahoma,sans-serif;font-size:10px;font-weight:800;fill:#1d4ed8;paint-order:stroke;stroke:#fff;stroke-width:2.5px;stroke-linejoin:round}
+#wheelPanel2 .nakshatra-legend2{margin-top:12px;border-top:1px solid #e2e8f0;padding-top:10px}
+#wheelPanel2 .nakshatra-legend2 summary{cursor:pointer;font-weight:800;color:#243653;padding:6px 0}
+#wheelPanel2 .nakshatra-legend2 table{min-width:0;width:100%}
+#wheelPanel2 .nakshatra-legend2 th,#wheelPanel2 .nakshatra-legend2 td{padding:7px 9px;font-size:13px}
+#wheelPanel2 .drekkana-legend2{margin-top:10px;border-top:1px solid #e2e8f0;padding-top:10px}
+#wheelPanel2 .drekkana-legend2 summary{cursor:pointer;font-weight:800;color:#243653;padding:6px 0}
+#wheelPanel2 .drekkana-legend2 table{min-width:0;width:100%}
+#wheelPanel2 .drekkana-legend2 th,#wheelPanel2 .drekkana-legend2 td{padding:7px 9px;font-size:13px}
+#wheelPanel2:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:10px 12px;border:0;border-radius:0;overflow:hidden;background:#f4f6fb;display:flex;flex-direction:column}
+#wheelPanel2:fullscreen .section-title{margin-bottom:8px}
+#wheelPanel2:fullscreen .wheel-tools{flex:0 0 auto;margin:0 0 8px}
+#wheelPanel2:fullscreen #wheelWrap2{flex:1 1 auto;min-height:0;max-height:none;width:100%;overflow:auto}
+#wheelPanel2:fullscreen #wheel{width:var(--wheel-zoom2,100%);min-width:var(--wheel-zoom2,100%)}
+#wheelPanel2:fullscreen #wheel svg{width:100%!important;max-width:none!important}
+#wheelPanel2:fullscreen .nakshatra-legend2{display:none}
+#wheelPanel2.wheel-fallback-full2{position:fixed;inset:0;z-index:99999;background:#f4f6fb;margin:0;padding:10px;overflow:auto}
+@media(max-width:640px){#wheelPanel2{padding:10px}#wheelPanel2 .wheel-tools button{padding:7px 10px}#wheelPanel2 #wheel svg .nak-name2{font-size:11px}#wheelPanel2 #wheel svg .nak-type2{font-size:9px}#wheelPanel2 #wheel svg .nava-number2{font-size:10px}}
+
+
+/* Extended HORA reference panels: explanatory data only; no calculation hooks */
+.reference-panel{margin:14px 0;padding:16px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.reference-panel h2{margin:0 0 10px;font-size:19px;color:var(--navy)}
+.reference-panel h3{margin:14px 0 7px;font-size:16px;color:var(--navy)}
+.reference-panel p{margin:7px 0}
+.reference-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.reference-card{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcff;min-width:0}
+.reference-card h3{margin:0 0 6px}
+.reference-note{font-size:13px;color:var(--muted)}
+.reference-table-wrap{width:100%;overflow-x:auto;margin:8px 0 12px}
+.reference-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+.reference-table th,.reference-table td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+.reference-table th{background:#f0f3fa;color:var(--navy);white-space:nowrap}
+.reference-table code{white-space:normal;overflow-wrap:anywhere}
+.reference-panel details{border-top:1px solid var(--line);padding:10px 0}
+.reference-panel details:first-of-type{margin-top:8px}
+.reference-panel summary{font-weight:750;color:var(--navy);cursor:pointer}
+.reference-links{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px}
+.reference-links a{color:#344fb5;text-decoration:underline;overflow-wrap:anywhere}
+.reference-status{display:inline-block;border-radius:5px;background:#f0f3fa;padding:2px 7px;font-size:12px;font-weight:700}
+.reference-status.warn{background:#fff2d9;color:#815600}
+.reference-status.good{background:#e5f6ed;color:#17633c}
+@media(max-width:600px){.reference-panel{padding:12px}.reference-panel h2{font-size:17px}.reference-table{font-size:12px}}
+
+
+/* index4: reusable planetary-standard dataset panel */
+.planet-standard4{margin:18px 0;padding:clamp(16px,2.3vw,25px);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.planet-standard4 h2{margin:0 0 8px;color:var(--navy);font-size:clamp(18px,2vw,22px)}
+.planet-standard4 .standard-lead4{color:var(--muted);margin:0 0 14px}
+.standard-sign-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.standard-sign4{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fbfcff;min-width:0}
+.standard-sign4 .sign-name4{font-size:17px;font-weight:850;color:var(--navy);margin-bottom:7px}
+.standard-sign4 .planet-name4{font-size:20px;line-height:1.35;font-weight:850;color:#14213d}
+.standard-sign4 .standard-label4{font-size:14px;line-height:1.5;color:#52617c;margin-top:6px}
+.standard-status4{display:inline-block;border:1px solid #ead7a6;background:#fff6df;color:#775516;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:800}
+@media(max-width:720px){.standard-sign-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:380px){.standard-sign-grid4{grid-template-columns:1fr}}
+.raja-chok-interpretation4{margin-top:16px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fbfcff}
+.raja-chok-interpretation4[hidden]{display:none!important}
+.raja-chok-interpretation4 h3{margin:0 0 6px;color:var(--navy);font-size:17px}
+.raja-chok-note4{margin:0 0 10px;color:var(--muted);font-size:13px}
+.raja-chok-list4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.raja-chok-item4{min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+.raja-chok-item4 strong{display:block;color:var(--navy);font-size:14px;margin-bottom:5px}
+.raja-chok-item4 p{margin:0;color:#3d4b63;font-size:13px;line-height:1.55}
+@media(max-width:600px){.raja-chok-list4{grid-template-columns:1fr}}
+
+
+/* index7: natal criteria comparison — display/reference only */
+
+
+#starDetails .star-real-table{width:100%;min-width:1120px;border-collapse:collapse}
+#starDetails .star-real-table th,#starDetails .star-real-table td{border:1px solid var(--line);padding:8px;vertical-align:top;text-align:left;line-height:1.5}
+#starDetails .star-real-table th{background:#f2f5fb;white-space:nowrap}
+#starDetails .star-real-table td:first-child{font-weight:800;white-space:nowrap}
+#starDetails .star-criteria-chip{display:inline-block;margin:2px 3px 2px 0;padding:3px 7px;border-radius:6px;background:#edf1fb;color:#34456b;font-size:12px}
+#starDetails .star-criteria-chip.good{background:#e5f6ed;color:#17633c}
+#starDetails .star-criteria-chip.warn{background:#fff2d9;color:#815600}
+#starDetails .star-criteria-note{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+
+
+/* Unified birth details: one left-aligned group, consistent text size and contrast. */
+#birthDetails .birth-details-title{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:2px!important;
+  margin:0 0 10px!important;
+}
+#birthDetails .birth-details-title h2{
+  margin:0!important;
+  font-size:20px!important;
+  line-height:1.7!important;
+  font-weight:700!important;
+  color:#111827!important;
+}
+#birthDetails .birth-details-title h2:before{height:1em!important;margin-right:8px!important}
+#birthDetails .birth-details-title .badge{
+  display:block!important;
+  max-width:100%!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#111827!important;
+  font-size:20px!important;
+  line-height:1.7!important;
+  font-weight:600!important;
+  white-space:normal!important;
+}
+#birthDetails .birth-details-group{
+  width:100%;
+  padding:14px 16px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#f8fafc;
+  color:#111827;
+}
+#birthDetails .birth-details-summary,
+#birthDetails .sun-ingress-panel3{
+  width:100%;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#birthDetails .sun-ingress-panel3{margin-top:10px!important;padding-top:10px!important;border-top:1px solid #cbd5e1!important}
+#birthDetails .birth-details-summary,
+#birthDetails .sun-ingress-heading3,
+#birthDetails #sunIngressResult3,
+#birthDetails #sunIngressResult3 > div,
+#birthDetails .sun-ingress-note3{
+  font-size:20px!important;
+  font-weight:600!important;
+  line-height:1.7!important;
+  color:#111827!important;
+  text-align:left!important;
+}
+#birthDetails .sun-ingress-heading3{margin:0 0 4px!important}
+#birthDetails #sunIngressResult3 > div:nth-child(2),
+#birthDetails #sunIngressResult3 > div:nth-child(3){font-size:20px!important;line-height:1.7!important}
+#birthDetails .sun-ingress-note3{margin-top:4px!important}
+@media(max-width:600px){
+  #birthDetails .birth-details-group{padding:12px!important}
+  #birthDetails .birth-details-title h2,
+  #birthDetails .birth-details-title .badge,
+  #birthDetails .birth-details-summary,
+  #birthDetails .sun-ingress-heading3,
+  #birthDetails #sunIngressResult3,
+  #birthDetails #sunIngressResult3 > div,
+  #birthDetails .sun-ingress-note3{font-size:18px!important;line-height:1.7!important}
+}
+
+
+/* Full birth/transit details in the requested HORA reading order. */
+#birthDetails .birth-details-title{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:2px!important;margin:0 0 8px!important}
+#birthDetails .birth-details-title h2{font-size:20px!important;line-height:1.65!important;color:#111827!important;margin:0!important}
+#birthDetails .birth-details-title h2:before{height:1em!important;margin-right:8px!important}
+#birthDetails .birth-details-title .badge{display:block!important;border:0!important;border-radius:0!important;padding:0!important;background:transparent!important;color:#111827!important;font-size:18px!important;line-height:1.6!important;white-space:normal!important}
+#birthDetails .birth-details-group{width:100%;padding:14px 16px;border:1px solid #cbd5e1;border-radius:10px;background:#f8fafc;color:#111827}
+#birthDetails .birth-details-line{font-size:18px!important;font-weight:550!important;line-height:1.75!important;color:#111827!important;overflow-wrap:anywhere}
+#birthDetails .birth-details-line+.birth-details-line{margin-top:4px}
+#birthDetails .birth-primary{font-weight:750!important}
+#birthDetails .birth-lunar{font-weight:600!important}
+#birthDetails .birth-asc{margin-top:8px!important}
+#birthDetails .sun-ingress-panel3{margin-top:10px!important;padding-top:10px!important;border-top:1px solid #cbd5e1!important;border-left:0!important;border-right:0!important;border-bottom:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+#birthDetails .sun-ingress-heading3,#birthDetails #sunIngressResult3,#birthDetails #sunIngressResult3>div,#birthDetails .sun-ingress-note3{font-size:18px!important;line-height:1.7!important;text-align:left!important;color:#111827!important}
+#birthDetails .transit-details-title{margin-top:18px!important}
+@media(max-width:600px){#birthDetails .birth-details-group{padding:12px!important}#birthDetails .birth-details-line{font-size:16px!important;line-height:1.75!important}#birthDetails .birth-details-title h2{font-size:19px!important}#birthDetails .birth-details-title .badge{font-size:16px!important}#birthDetails .sun-ingress-heading3,#birthDetails #sunIngressResult3,#birthDetails #sunIngressResult3>div,#birthDetails .sun-ingress-note3{font-size:16px!important}}
+
+
+/* index9: stable, hierarchical numbering for every visible section heading.
+   CSS counters also apply to headings inserted later by the calculation renderer. */
+main.container{counter-reset: hora9-section hora9-detail}
+main.container h2{counter-increment:hora9-section;counter-reset:hora9-subsection}
+main.container h2::after{
+  content:" 〔หมวด " counter(hora9-section,decimal-leading-zero) "〕";
+  display:inline-block;margin-left:8px;padding:2px 7px;border:1px solid #d8deeb;border-radius:7px;
+  color:#52617c;background:#f5f7fc;font-size:.58em;font-weight:800;letter-spacing:0;vertical-align:middle;white-space:nowrap
+}
+main.container h3{counter-increment:hora9-subsection}
+main.container h3::after{
+  content:" 〔" counter(hora9-section,decimal-leading-zero) "." counter(hora9-subsection,decimal-leading-zero) "〕";
+  display:inline-block;margin-left:7px;padding:1px 6px;border:1px solid #e1e6f0;border-radius:6px;
+  color:#65718a;background:#f8f9fd;font-size:.68em;font-weight:750;letter-spacing:0;vertical-align:middle;white-space:nowrap
+}
+@media(max-width:600px){
+  main.container h2::after{margin-left:5px;padding:2px 5px;font-size:.56em}
+  main.container h3::after{margin-left:4px;padding:1px 4px;font-size:.64em}
+}
+
+</style>
+
+<style id="displayPickerStyle9">
+#displayPicker9{position:relative;padding:13px 16px;margin:12px 0;background:#fff;border:1px solid #d9e1ef;border-radius:14px}
+#displayPicker9 summary{cursor:pointer;list-style:revert;color:#17233d;line-height:1.6}
+#displayPicker9 summary strong{font-size:15px}
+#displayPickerCount9{display:inline-block;margin-left:6px;color:#64748b;font-size:12px;font-weight:650}
+#displayPicker9 .display-picker-note9{margin:10px 0;color:#64748b;font-size:12px;line-height:1.6}
+#displayPicker9 .display-picker-actions9{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+#displayPicker9 .display-picker-actions9 button{border:1px solid #cbd5e1;border-radius:9px;padding:8px 11px;background:#f8fafc;color:#17233d;font:inherit;font-size:12px;font-weight:750;cursor:pointer}
+#displayPicker9 .display-picker-actions9 button:hover{background:#edf2ff}
+#displayPicker9 .display-picker-list9{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+#displayPicker9 .display-picker-item9{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border:1px solid #e1e7f1;border-radius:9px;background:#fbfcff;min-width:0;font-size:13px;line-height:1.45;cursor:pointer}
+#displayPicker9 .display-picker-item9:has(input:checked){border-color:#a9b8ef;background:#f3f5ff}
+#displayPicker9 .display-picker-item9 input{flex:0 0 auto;width:17px;height:17px;margin:2px 0 0;accent-color:#4f46e5}
+#displayPicker9 .display-picker-item9 span{overflow-wrap:anywhere}
+#displayPicker9 .display-picker-item9 em{display:block;color:#64748b;font-size:11px;font-style:normal;margin-top:2px}
+@media(max-width:600px){#displayPicker9{padding:12px}#displayPicker9 .display-picker-list9{grid-template-columns:1fr}#displayPicker9 .display-picker-actions9 button{flex:1 1 auto}}
+</style>
+
+</head><body>
+<header class="hero"><div class="container"><h1>HORA v8.9.3 - Thai Suriyayat Master · index11</h1><p>เครื่องคำนวณโหราศาสตร์ไทยสุริยยาตร์</p><span class="badge">BUILD index11 · ENGINE v8.9.3 · TRANSIT TIME FEATURE + KNOWLEDGE LIBRARY</span></div></header>
+<div class="container" style="padding-top:12px"> <details id="navamsaLogPanel50" open style="margin:12px 0;padding:12px;border:1px solid #d5dbea;border-radius:10px;background:#f8fafc">
+  <summary style="font-weight:800;cursor:pointer">LOG ตรวจสอบวงกลมนวางค์</summary>
+  <button type="button" id="navamsaLogCopy50" style="margin:8px 0;padding:9px 13px;border:0;border-radius:8px;background:#243b64;color:#fff;font-weight:800">คัดลอก LOG</button>
+  <p id="navamsaLogStatus50" class="criteria7-muted">เริ่มบันทึก…</p>
+  <textarea id="navamsaLogText50" readonly style="box-sizing:border-box;width:100%;min-height:180px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#172033;font:12px/1.5 monospace"></textarea>
+ </details>
+</div>
+<script>
+(()=> {
+ const area=()=>document.getElementById('navamsaLogText50');
+ const status=()=>document.getElementById('navamsaLogStatus50');
+ const lines=[];
+ const add=(label,detail)=>{
+  let info='';try{info=detail===undefined?'': ' | '+(typeof detail==='string'?detail:JSON.stringify(detail))}catch(_){info=' | '+String(detail)}
+  lines.push('['+new Date().toISOString()+'] '+label+info);if(lines.length>250)lines.shift();
+  if(area())area().value=lines.join(String.fromCharCode(10));
+  if(status())status().textContent='LOG '+lines.length+' รายการ · ล่าสุด: '+label;
+ };
+ window.__NAV50LOG={add,lines};
+ window.addEventListener('error',e=>add('WINDOW ERROR',{message:e.message,source:e.filename,line:e.lineno,column:e.colno,stack:e.error?.stack||''}));
+ window.addEventListener('hora50:chart-calculated',e=>add('CHART EVENT OBSERVED',{detailKeys:Object.keys(e.detail||{}),natalAsc:e.detail?.natal?.asc??null,transitAsc:e.detail?.transit?.asc??null,natalPlanets:e.detail?.natal?.planets?.length??null,transitPlanets:e.detail?.transit?.planets?.length??null}));
+ window.addEventListener('DOMContentLoaded',()=>{const btn=document.getElementById('calc')||document.getElementById('calcBtn')||document.querySelector('button[type=submit]');if(btn)btn.addEventListener('click',()=>add('CALCULATE BUTTON CLICKED',{id:btn.id,text:btn.textContent.trim()}),true);});
+ window.addEventListener('unhandledrejection',e=>add('PROMISE ERROR',{reason:e.reason?.stack||e.reason?.message||String(e.reason)}));
+ document.addEventListener('DOMContentLoaded',()=>add('DOM READY',{page:location.pathname,navamsaRoot:!!document.getElementById('navamsaWheel50'),results:!!document.getElementById('navamsaResults50'),userAgent:navigator.userAgent}));
+ document.getElementById('navamsaLogCopy50')?.addEventListener('click',async()=>{
+  try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(lines.join(String.fromCharCode(10)));else{area().focus();area().select();if(!document.execCommand('copy'))throw new Error('copy failed')}if(status())status().textContent='คัดลอก LOG แล้ว · ส่งกลับมาในแชตได้เลย'}
+  catch(err){area().focus();area().select();if(status())status().textContent='คัดลอกอัตโนมัติไม่ได้ กรุณากดค้างในช่องแล้วเลือกคัดลอก';add('COPY ERROR',err.message||String(err))}
+ });
+ add('DIAGNOSTICS READY',{scripts:document.scripts.length});
+})();
+</script>
+
+
+<section id="displayPicker9" class="panel" aria-label="เลือกหมวดแสดงผล">
+  <details id="displayPickerDetails9">
+    <summary><strong>เลือกหมวดตารางและรายละเอียดที่ต้องการแสดง</strong> <span id="displayPickerCount9">กำลังเตรียมรายการ…</span></summary>
+    <p class="display-picker-note9">ติ๊กเลือกได้หลายหมวด ส่วนที่ไม่เลือกจะถูกซ่อนจากหน้าเว็บเท่านั้น ไม่ลบข้อมูลหรือเปลี่ยนสูตรคำนวณ</p>
+    <div class="display-picker-actions9">
+      <button type="button" id="displayPickerAll9">เลือกทั้งหมด</button>
+      <button type="button" id="displayPickerNone9">ซ่อนหมวดที่เลือกได้ทั้งหมด</button>
+      <button type="button" id="displayPickerReset9">คืนค่าเริ่มต้น</button>
+    </div>
+    <div id="displayPickerList9" class="display-picker-list9"><p>กำลังเตรียมรายการหมวด…</p></div>
+  </details>
+</section>
+
+<main class="container"><section id="calculatePanel" class="menu-panel show">
+<div class="panel"><div class="section-title"><h2>ข้อมูลกำเนิด</h2><span class="badge">Birth Data</span></div><div class="form-grid">
+<div class="field span-2"><label>ชื่อ-สกุล</label><input id="bPlace" type="text" value="ไม่ระบุชื่อ"></div>
+<div class="field"><label>วัน</label><select id="bDay"></select></div><div class="field"><label>เดือน</label><select id="bMonth"></select></div>
+<div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="bYear"></select></div>
+<div class="field"><label>เวลา ชั่วโมง</label><select id="bHour"></select></div><div class="field"><label>เวลา นาที</label><select id="bMinute"></select></div>
+<div class="field span-2"><label>สถานที่เกิด / จังหวัด</label><select id="bProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="bDistrict"></select></div>
+<div class="field"><label>ละติจูด</label><input id="bLat" type="number" step="0.000001" value="13.752555"></div><div class="field"><label>ลองจิจูด</label><input id="bLon" type="number" step="0.000001" value="100.494066"></div>
+</div><div class="calc-row"><button id="resetBirthBangkokNow51" type="button" class="reset-form-button50">ตั้งวันเกิดเป็นเวลาปัจจุบัน · พระนคร</button></div></div>
+<div class="panel"><div class="section-title"><h2>เวลาทำนาย</h2><span class="badge">Transit</span></div><div class="form-grid">
+<div class="field"><label>วัน</label><select id="fDay"></select></div><div class="field"><label>เดือน</label><select id="fMonth"></select></div><div class="field span-2"><label>ปี พ.ศ. / ค.ศ. <small>(เลือกจากรายการ)</small></label><select id="fYear"></select></div><div class="field"><label>ชั่วโมง</label><select id="fHour"></select></div><div class="field"><label>นาที</label><select id="fMinute"></select></div>
+<div class="field span-2"><label>จังหวัด</label><select id="fProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="fDistrict"></select></div><div class="field"><label>ละติจูด</label><input id="fLat" type="number" step="0.000001"></div><div class="field"><label>ลองจิจูด</label><input id="fLon" type="number" step="0.000001"></div><div class="field span-6"><label>สถานที่</label><input id="fPlace" type="text"></div>
+</div><div class="calc-row"><button id="calc" type="button">คำนวณดวง</button><button id="resetTransitBangkokNow51" type="button" class="reset-form-button50">ตั้งวันจรเป็นเวลาปัจจุบัน · พระนคร</button><span id="msg">พร้อมคำนวณ</span></div>
+</div>
+<div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details><details class="drekkana-legend2"><summary>ตรียางค์ครบ 36 ส่วน (ราศีละ 3 ตรียางค์)</summary><div id="drekkanaLegend2"></div></details></div>
+<section class="panel" id="navamsaPanel50">
+ <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="navamsaRun50" class="navamsa-calc-button" disabled>รอข้อมูลดวงหลัก</button><span class="badge">Navamsa 108 divisions</span></div><p id="navamsaRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณนวางค์” เพื่อวาดวงแยกต่างหาก</p>
+ <p class="criteria7-muted">วงนวางค์สองชั้น: วงด้านในแสดงดาวและลัคนาเดิม วงด้านนอกแสดงดาวและลัคนาจร โดยเดินเลขนวางค์ตามธาตุและวางเลขดาวลงในราศีปลายทาง</p>
+
+ <div class="wheel-wrap" id="navamsaWheelWrap50"><div id="navamsaWheel50" style="width:100%"></div></div>
+ <div class="reference-grid" id="navamsaResults50" style="margin-top:14px"><p class="criteria7-muted">รอข้อมูลดวงหลัก · กดปุ่ม “คำนวณนวางค์” หลังคำนวณดาวเดิม + ดาวจรแล้ว</p></div>
+ <p class="criteria7-muted">วงในสีม่วง = นวางค์เดิม · วงนอกสีเขียว = นวางค์จร · ชื่อราศีแสดงครบ 12 ราศี · เลขเล็กข้างดาว = เลขนวางค์ · @ = ลัคนา</p>
+</section>
+
+
+
+<section class="panel" id="triyangPanel50">
+ <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมตรียางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="triyangRun50" class="navamsa-calc-button" disabled>รอข้อมูลดวงหลัก</button><span class="badge">ตรียางค์ 36 ส่วน</span></div>
+ <p id="triyangRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณตรียางค์” เพื่อวาดวงแยกต่างหาก</p>
+ <p class="criteria7-muted">แบ่งราศีละ 3 ส่วน ส่วนละ 10°: ส่วนที่ 1 ลงราศีที่ 1, ส่วนที่ 2 ลงราศีที่ 5, ส่วนที่ 3 ลงราศีที่ 9 (นับราศีต้นทางเป็น 1) วงในสีม่วง = ดาวเดิม วงนอกสีเขียว = ดาวจร เลขในวงกลมคือดาวที่คำนวณได้ และเลขเล็กข้างดาวคือเลขเกษตรของราศีปลายทาง</p>
+ <div class="wheel-wrap" id="triyangWheelWrap50"><div id="triyangWheel50" style="width:100%"></div></div>
+ <div class="reference-grid" id="triyangResults50" style="margin-top:14px"><p class="criteria7-muted">รอข้อมูลดวงหลัก · กดปุ่ม “คำนวณตรียางค์” หลังคำนวณดาวเดิม + ดาวจรแล้ว</p></div>
+</section>
+<style>
+#triyangPanel50 .tri50-svg{display:block;width:100%;height:auto;max-width:900px;margin:auto;background:#fff}
+#triyangPanel50 .tri50-card{border:1px solid #dfe5f0;border-radius:11px;padding:10px;background:#fbfcff;min-width:0}
+#triyangPanel50 .tri50-card strong{display:block;color:#172746;margin-bottom:4px}
+#triyangPanel50 .tri50-card small{display:block;color:#68758c;line-height:1.65}
+#triyangPanel50 .tri50-card .tri50-em{color:#4b43bd;font-weight:800}
+#triyangPanel50 .tri50-calc-button{min-height:46px}
+</style>
+
+
+
+<style>
+#triyangRun50,#navamsaRun50,#thaksaRun51{min-height:46px;border:0;border-radius:12px;padding:12px 22px;background:linear-gradient(135deg,#6b5ce7,#4b49b9);color:#fff;cursor:pointer;font:inherit;font-weight:800;box-shadow:0 7px 16px #534cc33d;transition:transform .18s,box-shadow .18s,filter .18s}
+#triyangRun50:hover,#navamsaRun50:hover,#thaksaRun51:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 10px 22px #534cc34d}
+#triyangRun50:active,#navamsaRun50:active,#thaksaRun51:active{transform:translateY(2px) scale(.985);filter:brightness(.92);box-shadow:0 2px 6px #534cc34d}
+#triyangRun50:focus-visible,#navamsaRun50:focus-visible,#thaksaRun51:focus-visible{outline:3px solid #6258d959;outline-offset:2px}
+</style>
+
+<section class="panel" id="thaksaPanel51">
+ <div class="section-title" style="flex-wrap:wrap">
+  <h2>ตารางทักษาเดิม · ตารางทักษาจร</h2>
+  <button type="button" id="thaksaRun51" class="navamsa-calc-button">คำนวณทักษา</button>
+  <span class="badge">ผัง 3 × 3</span>
+ </div>
+ <p id="thaksaRunStatus51" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณทักษา” เพื่อแสดงผังทักษาเดิมและทักษาจร</p>
+ <div class="thaksa51-summary" id="thaksaSummary51">ผังทักษาเดิมใช้วันเกิดและเวลาเกิด (ก่อน 06:00 น. นับวันก่อนหน้า) ส่วนทักษาจรใช้เกณฑ์อายุย่างตามวันที่ทำนาย</div>
+ <div class="thaksa51-grids">
+  <div class="thaksa51-card"><h3>ผังทักษาเดิม</h3><div id="thaksaOld51" class="thaksa51-square" aria-label="ผังทักษาเดิม"></div></div>
+  <div class="thaksa51-card"><h3>ผังทักษาจร</h3><div id="thaksaTransit51" class="thaksa51-square" aria-label="ผังทักษาจร"></div></div>
+ </div>
+</section>
+<style>
+#thaksaPanel51 .thaksa51-summary{font-size:13px;color:#53617a;background:#f8faff;border:1px solid #e1e6f0;border-radius:10px;padding:10px 12px;margin:10px 0 14px;line-height:1.65}
+#thaksaPanel51 .thaksa51-grids{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#thaksaPanel51 .thaksa51-card{border:1px solid #e1e6f0;border-radius:12px;background:#fff;padding:12px;min-width:0}
+#thaksaPanel51 .thaksa51-card h3{font-size:15px;font-weight:900;margin:0 0 8px;color:#172746}
+#thaksaPanel51 .thaksa51-square{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;max-width:420px;width:100%;margin:5px auto;aspect-ratio:1;padding:4px;border:2px solid #334779;border-radius:10px}
+#thaksaPanel51 .thaksa51-square.transit{border:0}
+#thaksaPanel51 .thaksa51-cell{border:1px solid #dfe5f0;border-radius:7px;background:#f9faff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3px;min-width:0;gap:4px}
+#thaksaPanel51 .thaksa51-cell b{font-size:clamp(12px,1.7vw,16px);font-weight:950}
+#thaksaPanel51 .thaksa51-role{display:inline-block;font-size:clamp(10px,1.25vw,12px);font-weight:900;color:#27334b;padding:2px 5px;border:1px solid transparent;border-radius:6px;line-height:1.25}
+#thaksaPanel51 .thaksa51-cell.sun{background:#ffbcbc}
+#thaksaPanel51 .thaksa51-cell.moon{background:#fff4b8}
+#thaksaPanel51 .thaksa51-cell.mars{background:#ffe0ec}
+#thaksaPanel51 .thaksa51-cell.mercury{background:#dff5d8}
+#thaksaPanel51 .thaksa51-cell.jupiter{background:#ffe6cc}
+#thaksaPanel51 .thaksa51-cell.venus{background:#dcecff}
+#thaksaPanel51 .thaksa51-cell.saturn{background:#e9e0ff}
+#thaksaPanel51 .thaksa51-cell.rahu{background:#dedede}
+#thaksaPanel51 .thaksa51-cell.center{background:#fff3d3}
+#thaksaPanel51 .thaksa51-cell.empty{visibility:hidden}
+#thaksaPanel51 .thaksa51-cell.highlight{outline:3px solid #d5a94f;outline-offset:-3px}
+#thaksaPanel51 .thaksa51-role.role-sri{background:rgba(255,255,255,.88);color:#086b2b;font-weight:1000;padding:2px 6px}
+#thaksaPanel51 .thaksa51-role.role-kal{background:rgba(255,255,255,.9);color:#a74600;font-weight:1000;padding:2px 6px}
+@media(max-width:650px){#thaksaPanel51 .thaksa51-grids{grid-template-columns:1fr}#thaksaPanel51 .thaksa51-square{max-width:360px;width:100%}#thaksaPanel51 .thaksa51-cell b{font-size:16px}#thaksaPanel51 .thaksa51-role{font-size:12px}}
+</style>
+<script>
+(function(){
+ const root=document.getElementById('thaksaPanel51'); if(!root||root.dataset.bound==='1')return;root.dataset.bound='1';
+ const roles=['บริวาร','อายุ','เดช','ศรี','มูละ','อุตสาหะ','มนตรี','กาลกิณี'];
+ const planets=['อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
+ const slots=[0,1,2,7,'center',3,6,5,4];
+ const path=['อาทิตย์','จุดกลาง','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
+ const weekdayPlanet=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+ const weekdayThai=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+ const status=document.getElementById('thaksaRunStatus51'),summary=document.getElementById('thaksaSummary51'),run=document.getElementById('thaksaRun51');
+ let chartReady=false;
+ const val=id=>document.getElementById(id)?.value??'';
+ const pad=n=>String(n).padStart(2,'0');
+ function getDate(prefix){const d=Number(val(prefix+'Day')),m=Number(val(prefix+'Month')),y=Number(val(prefix+'Year'));if(!d||!m||!y||m<1||m>12)return null;const ad=y-543,lastDay=new Date(ad,m,0).getDate();if(d<1||d>lastDay)return null;return {d,m,y,ad,date:new Date(ad,m-1,d,12)}}
+ function getTime(prefix){const h=val(prefix+'Hour'),m=val(prefix+'Minute');if(h===''||m==='')return null;return {h:Number(h),m:Number(m)}}
+ function birthPlanet(date,time){let dow=date.date.getDay();const beforeSix=time.h<6;const wedNight=(dow===3&&time.h>=18)||(dow===4&&beforeSix);if(beforeSix){const prev=new Date(date.ad,date.m-1,date.d-1,12);dow=prev.getDay()}return {planet:wedNight?'ราหู':weekdayPlanet[dow],dow,beforeSix,wedNight}}
+ function ageData(b,t){let years=t.y-b.y;if(t.m<b.m||(t.m===b.m&&t.d<b.d))years--;let months=t.m-b.m;if(t.d<b.d)months--;if(months<0)months+=12;let days=t.d-b.d;if(days<0)days+=new Date(t.ad,t.m-1,0).getDate();return {years:Math.max(0,years),months,days,ageYang:Math.max(1,years+1)}}
+ function digitalRoot(n){while(n>9)n=String(n).split('').reduce((a,c)=>a+Number(c),0);return n}
+ function transitPlanet(start,ageYang){const count=digitalRoot(ageYang);let i=path.indexOf(start);if(i<0)i=0;let found;for(let n=0;n<count;n++)found=path[(i+n)%path.length];if(found==='จุดกลาง')found='พฤหัสบดี';return {planet:found,count}}
+ function draw(id,start,highlight,isTransit){const target=document.getElementById(id);target.innerHTML='';target.classList.toggle('transit',isTransit);const roleByPlanet={};let idx=planets.indexOf(start);if(idx<0)idx=0;for(let i=0;i<8;i++)roleByPlanet[planets[(idx+i)%8]]=roles[i];const color={'อาทิตย์':'sun','จันทร์':'moon','อังคาร':'mars','พุธ':'mercury','พฤหัสบดี':'jupiter','ศุกร์':'venus','เสาร์':'saturn','ราหู':'rahu'};slots.forEach(slot=>{const el=document.createElement('div');if(slot==='center'){el.className='thaksa51-cell center';el.setAttribute('aria-label','ตากลาง')}else{const p=planets[slot],role=roleByPlanet[p];el.className='thaksa51-cell '+(color[p]||'')+(p===highlight?' highlight':'');const name=document.createElement('b');name.textContent=p;const r=document.createElement('span');r.className='thaksa51-role';if(role==='ศรี')r.classList.add('role-sri');if(role==='กาลกิณี')r.classList.add('role-kal');r.textContent=role+(isTransit?'จร':'');el.append(name,r)}target.appendChild(el)})}
+ function calculate(){if(!chartReady){status.textContent='กรุณากด “คำนวณดวง” ก่อน แล้วจึงคำนวณทักษา';return}const bd=getDate('b'),bt=getTime('b'),fd=getDate('f');if(!bd||!bt||!fd){status.textContent='ข้อมูลวันเกิดหรือวันทำนายไม่ครบ กรุณาตรวจสอบช่องวัน เดือน ปี และเวลา';return}const b=birthPlanet(bd,bt),age=ageData(bd,fd),t=transitPlanet(b.planet,age.ageYang);draw('thaksaOld51',b.planet,'',false);draw('thaksaTransit51',t.planet,t.planet,true);const weekday=weekdayThai[b.dow];summary.innerHTML='<strong>บริวารเดิม:</strong> ดาว'+b.planet+' · <strong>บริวารจร:</strong> ดาว'+t.planet+'จร · <strong>อายุย่าง:</strong> '+age.ageYang+' ปี · <strong>วันเกิดที่ใช้:</strong> '+weekday+(b.beforeSix?' (เกิดก่อน 06:00 น. จึงนับวันก่อนหน้า)':'');status.textContent='คำนวณทักษาเรียบร้อย · ใช้วันเกิด/เวลาที่กรอก และวันทำนายปัจจุบันจากแบบฟอร์มหลัก'}
+ run.addEventListener('click',calculate);
+ window.addEventListener('hora50:chart-calculated',()=>{chartReady=true;status.textContent='ดวงหลักคำนวณแล้ว · กด “คำนวณทักษา” เพื่อแสดงผังทักษาเดิมและทักษาจร'});
+})();
+</script>
+
+
+<style>
+#navamsaPanel50 .nav50-svg{display:block;width:100%;height:auto;max-width:900px;margin:auto;background:#fff}
+#navamsaPanel50 .nav50-card{border:1px solid #dfe5f0;border-radius:11px;padding:10px;background:#fbfcff;min-width:0}
+#navamsaPanel50 .nav50-card strong{display:block;color:#172746;margin-bottom:4px}
+#navamsaPanel50 .nav50-card small{display:block;color:#68758c;line-height:1.65}
+#navamsaPanel50 .nav50-card .nav50-em{color:#4b43bd;font-weight:800}
+</style>
+
+
+
+<div id="starDetails" class="panel">
+  <div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">แยกตาราง · เกณฑ์รายดวง</span></div>
+  <p class="criteria7-lead">แยกข้อมูลเป็นสองตารางเพื่อดูได้ชัดว่าดาวแต่ละดวงอยู่ราศี/ภพใด มีมาตรฐานหรือเกณฑ์พื้นฐานอะไร และสัมพันธ์กับดาวใดบ้าง</p>
+  <p class="criteria7-muted">คอลัมน์ “มาตรฐานดาว” ใช้เกณฑ์ที่ยืนยันแล้วใน HORA แสดงผลตามราศีและองศาจริงของดาว ได้แก่ เกษตร ประ อุจจาวิลาส อุจจ์ นิจ ราชาโชค มหาจักร จุลจักร อุจจาภิมุข เทวีโชค มหาอุจจ์ มหานิจ และมูลตรีโกณตามเงื่อนไขที่บันทึกไว้; เกณฑ์ที่มีเพียงข้อมูลอ้างอิงแต่ยังไม่ยืนยันจะแสดงป้าย “อ้างอิง·รอยืนยัน” แยกจากผลยืนยัน และจะไม่เดาเกณฑ์ให้ราหู เกตุ หรือมฤตยู</p>
+  <h3>ตารางที่ 1 · ดาวกำเนิดจริง</h3>
+  <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศี</th><th>องศา</th><th>ภพจากลัคนากำเนิด</th><th>ตำแหน่งตามภพ</th><th>มาตรฐานดาว</th><th>นวางค์</th><th>ตรียางค์</th><th>ฤกษ์</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="natalStarDetailsBody"></tbody></table></div>
+  <h3 style="margin-top:22px">ตารางที่ 2 · ดาวจรจริง</h3>
+  <p class="criteria7-muted">ภพดาวจรนับจากลัคนากำเนิด เพื่อให้เห็นว่าดาวจรผ่านภพใดในดวงกำเนิด ส่วนลัคนาจรแสดงภพของตัวเอง</p>
+  <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศีจร</th><th>องศาจร</th><th>ภพจรจากลัคนากำเนิด</th><th>ตำแหน่งตามภพจร</th><th>มาตรฐานดาวจร</th><th>นวางค์จร</th><th>ตรียางค์จร</th><th>ฤกษ์จร</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="transitStarDetailsBody"></tbody></table></div>
+</div>
+<section id="planetDignityNumberSummary8" class="panel">
+  <div class="section-title"><h2>ตารางใหม่ · สรุปมาตรฐานดาวเป็นเลขดาวเดิมและดาวจร</h2><span class="badge">รวมตารางเดียว · แสดงเป็นตัวเลข</span></div>
+  <p class="criteria7-lead">รวบรวมเลขดาวที่เข้าเกณฑ์แต่ละประเภทจากตำแหน่งและองศาที่คำนวณได้ แยกคอลัมน์ดาวเดิมกับดาวจรในตารางเดียวกัน เลขที่มีเครื่องหมาย * เป็นข้อมูลอ้างอิงที่ยังรอยืนยัน ไม่ใช่เกณฑ์ที่ยืนยันแล้ว</p>
+  <div class="table-wrap"><table class="criteria7-table" id="planetDignityNumberTable8">
+    <thead><tr><th>มาตรฐานดาว</th><th>ดาวเดิม (เลขดาว)</th><th>ดาวจร (เลขดาว)</th></tr></thead>
+    <tbody id="planetDignityNumberSummaryBody8"><tr><td colspan="3">รอผลคำนวณตำแหน่งดาว…</td></tr></tbody>
+  </table></div>
+</section>
+<section id="thaksaPairing51" class="panel">
+  <div class="section-title"><h2>ตารางใหม่ · จับคู่ทักษาดาวเดิม–ดาวจร</h2><span class="badge">6 รูปแบบ · 8 ประเภททักษา</span></div>
+  <p class="criteria7-lead">จับคู่ดาวดวงเดียวกันระหว่างดวงกำเนิดกับดวงจร แล้วอ่านประเภททักษาของแต่ละฝั่งแยกกัน “ทักษาเดิม” ใช้วันเกิด และ “ทักษาจร” ใช้วันของวันที่จรเลือกไว้ สำหรับนวางค์และตรียางค์ ใช้ดาวเจ้าเรือนของราศีวางค์นั้นเป็นตัวอ่านทักษา</p>
+  <div class="table-wrap"><table class="criteria7-table" id="thaksaPairingTable51">
+    <thead><tr><th>รูปแบบการอ่าน</th><th>ดาวเดิม / ตัวแทน</th><th>ทักษาของดาวเดิม</th><th>ดาวจร / ตัวแทน</th><th>ทักษาของดาวจร</th></tr></thead>
+    <tbody id="thaksaPairingBody51"><tr><td colspan="5">รอผลคำนวณตำแหน่งดาว…</td></tr></tbody>
+  </table></div>
+</section>
+<div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
+
+
+
+<section class="reference-panel" id="goldenCases2">
+  <h2>Golden Case และจุดอ้างอิงสำหรับตรวจสอบ</h2>
+  <p>ค่าด้านล่างเป็นข้อมูลอ้างอิงที่บันทึกไว้ในโครงการ ใช้เทียบผลเพื่อหาความคลาดเคลื่อน ไม่ควรนำค่าที่คาดหวังไปแทนผลคำนวณของวันอื่น</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>รายการ</th><th>วัน เวลา</th><th>สถานที่/พิกัดอ้างอิง</th><th>ค่าดาวอ้างอิงที่บันทึก</th></tr></thead><tbody>
+    <tr><td>Golden Case #1</td><td>14 ต.ค. 2534 (1991), 01:05</td><td>ขอนแก่น, 16.4322°N, 102.8236°E</td><td>ลัคนา 25°58′ กรกฎ; อาทิตย์ 25°38′ กันย์; จันทร์ 06°27′ ธนู; อังคาร 04°45′ ตุล; พุธ 10°25′ ตุล; พฤหัสบดี 14°05′ สิงห์; ศุกร์ 11°37′ สิงห์; เสาร์ 01°32′ มกร; ราหู 19°37′ ธนู; เกตุ 28°26′ สิงห์; มฤตยู 12°31′ ธนู</td></tr>
+    <tr><td>Golden Case #2</td><td>14 ต.ค. 2518 (1975), 01:05</td><td>กรุงเทพมหานคร, 13.752555°N, 100.494066°E</td><td>ลัคนา 23°51′ กรกฎ; อาทิตย์ 25°48′ กันย์; จันทร์ 15°34′ มกร; อังคาร 08°13′ มิถุน; พุธ 08°39′ กันย์; พฤหัสบดี 27°12′ มีน; ศุกร์ 14°28′ สิงห์; เสาร์ 05°28′ กรกฎ</td></tr>
+    <tr><td>จุดอ้างอิงเกตุ</td><td>14 ธ.ค. 2534 (1991), 01:05</td><td>ขอนแก่น, ใช้พิกัดเดียวกับเคสปี 2534</td><td>เกตุ 26°06′ กรกฎ; ระยะจากวันเริ่มเดือน 8/8 ที่บันทึกไว้ 155 วัน</td></tr>
+  </tbody></table></div>
+  <div class="reference-card"><h3>การอ่านผลเทียบ</h3><p>ผลเทียบควรแสดงตำแหน่งที่คำนวณได้ ตำแหน่งอ้างอิง ส่วนต่างเชิงมุม และ PASS/FAIL แยกเป็นรายดาว โดยคำนึงถึงการวนผ่าน 0°/360° ไม่ใช้การลบองศาแบบเส้นตรงอย่างเดียว</p><p class="reference-note">Golden Case เป็นชุดทดสอบ ไม่ใช่แหล่งข้อมูลที่ควรใช้แทนสูตรทั่วไปหรือปรับผลวันอื่นให้ตรงโดยอัตโนมัติ</p></div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="panel" id="planetThaksaAnalysis100">
+  <div class="section-title"><h2>วิเคราะห์ดาวรายดวง · จักรราศี / นวางค์ / ตรียางค์ / ทักษา</h2><span class="badge">index100 · ทดลองแยกจากมาสเตอร์</span></div>
+  <p style="color:#596781;margin-top:0">ตารางนี้อ่านข้อมูลจากผลคำนวณดวงหลักของหน้านี้ ไม่แก้ไขสูตรหรือข้อมูลต้นทาง แสดงดาวเดิมและดาวจรแยกเป็นรายดวง พร้อมตำแหน่งราศี ภพ นวางค์ ตรียางค์ และบทบาททักษา</p>
+  <div class="calc-row" style="margin-top:0;padding-top:0;border-top:0">
+    <button type="button" id="runPlanetThaksaAnalysis100">สร้างตารางวิเคราะห์ดาว</button>
+    <span id="planetThaksaStatus100" role="status">กรุณาคำนวณดวงหลักก่อน แล้วกดสร้างตาราง</span>
+  </div>
+  <div class="table-wrap" style="margin-top:14px">
+    <table id="planetThaksaTable100" style="min-width:1500px">
+      <thead><tr>
+        <th>ประเภท</th><th>ดาว</th><th>จักรราศี / องศา</th><th>ภพ</th>
+        <th>นวางค์</th><th>ภพนวางค์</th><th>ตรียางค์</th><th>ภพตรียางค์</th>
+        <th>ทักษาเดิม</th><th>ทักษาจร</th><th>ทักษาเดิมนวางค์</th><th>ทักษาจรนวางค์</th>
+        <th>ทักษาเดิมตรียางค์</th><th>ทักษาจรตรียางค์</th>
+      </tr></thead>
+      <tbody id="planetThaksaRows100"><tr><td colspan="14">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
+    </table>
+  </div>
+  <p style="font-size:12px;color:#6c7890;margin-bottom:0">หมายเหตุ: การจับคู่ทักษาแสดงตามผังทักษาเดิม/ทักษาจรที่หน้า index51 ใช้อยู่ เพื่อการตรวจสอบเบื้องต้น ส่วนกฎเฉพาะของภพนวางค์ ภพตรียางค์ และการนำกำลังเดช/ศรีไปคิดเลขมงคล จะยังไม่ตีความแทนโดยอัตโนมัติจนกว่าจะยืนยันเกณฑ์ครบถ้วน</p>
+</section>
+
+</main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
+<script>
+(()=>{const fill=(id,arr,s)=>{const e=document.getElementById(id);if(!e)return;e.innerHTML=arr.map(x=>'<option value="'+x.v+'">'+x.t+'</option>').join('');if(s!==undefined)e.value=String(s)};const y=[];for(let be=2400;be<=2600;be++)y.push({v:be,t:'พ.ศ. '+be+' / ค.ศ. '+(be-543)});fill('bYear',y,2534);fill('fYear',y,2569);fill('bDay',Array.from({length:31},(_,i)=>({v:i+1,t:String(i+1).padStart(2,'0')})),14);fill('fDay',Array.from({length:31},(_,i)=>({v:i+1,t:String(i+1).padStart(2,'0')})),8);const m=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'].map((t,i)=>({v:i+1,t:t+' ('+(i+1)+')'}));fill('bMonth',m,10);fill('fMonth',m,10);fill('bHour',Array.from({length:24},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),1);fill('fHour',Array.from({length:24},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),12);fill('bMinute',Array.from({length:60},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),5);fill('fMinute',Array.from({length:60},(_,i)=>({v:i,t:String(i).padStart(2,'0')})),0)})();
+</script>
+
+<div id="bootDiagnostic" role="status" style="position:relative;z-index:9999;padding:12px 16px;background:#fff3cd;color:#664d03;border-bottom:2px solid #ffecb5;text-align:center;font:600 14px/1.5 system-ui,sans-serif">HORA: กำลังเริ่มระบบคำนวณ...</div>
+<script>
+(()=>{const el=document.getElementById("bootDiagnostic");if(!el)return;
+window.addEventListener("error",e=>{el.hidden=false;const detail=e.message||e.type||"JavaScript error";el.textContent="HORA โหลด JavaScript ผิดพลาด: "+detail+(e.filename?" · "+e.filename:"");});
+window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reason;el.textContent="HORA JavaScript error: "+String(r&&r.message||r||"Promise rejected");});
+setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
+})();
+</script>
+<script type="module" src="./main51.js?v=20261012-thaksa-pairing-6modes"></script>
+
+
+
+<script>
+/* NAKSHATRA_FULL_RING: additional labels live only in index3.html; main.js and index.html remain unchanged. */
+(()=> {
+ const $=id=>document.getElementById(id);
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const nak=['อัศวินี','ภรณี','กฤติกา','โรหิณี','มฤคศิร','อารทรา','ปุนัพสุ','ปุษยะ','อาศเลษะ','มาฆะ','บุรพผลคุนี','อุตตรผลคุนี','หัสตะ','จิตรา','สวาติ','วิศาขา','อนุราธา','เชษฐา','มูละ','บุรพาษาฒ','อุตตราษาฒ','ศรวณะ','ธนิษฐา','ศตภิษัช','บุรพภัทรบท','อุตรภัทรบท','เรวดี'];
+ const types=['ทลิทโท','มหัทธโน','โจโร','ภูมิปาโล','เทศาตรี','เทวี','เพชฌฆาต','ราชา','สมโณ'];
+ const navaByElement={fire:[3,4,2,1,4,6,3,5,7],water:[2,4,6,3,5,7,8,5,3],air:[6,3,5,7,8,5,3,6,4],earth:[7,8,5,3,6,4,2,1,4]};
+ const elements=['fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
+ const NS='http://www.w3.org/2000/svg',C=360;
+ const xy=(lon,r)=>{const a=(-lon-75)*Math.PI/180;return{x:C+r*Math.cos(a),y:C+r*Math.sin(a)}};
+ const add=(svg,tag,attrs,txt)=>{const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,String(v)));if(txt!==undefined)n.textContent=txt;svg.appendChild(n);return n};
+ function augment(svg){
+  if(!svg||svg.dataset.nakshatraFullRing==='1')return;
+  svg.dataset.nakshatraFullRing='1';
+  svg.setAttribute('viewBox','-85 -85 890 890');
+  svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขดาวเจ้าเรือนตรียางค์ตามตรียางค์จักร ตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
+  svg.style.width='100%';svg.style.maxWidth='none';
+  const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','เลขดาวครองตรียางค์ในวงจักรราศี ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
+  /* ตรียางค์: 3 ช่วงต่อราศี ช่วงละ 10 องศา */
+  for(let d=0;d<36;d++){
+   const lon=d*10,p=xy(lon,371),q=xy(lon,360);
+   add(g,'line',{x1:q.x,y1:q.y,x2:p.x,y2:p.y,class:'drek-tick2'});
+  }
+  /* เส้นแบ่งตรียางค์: ขีดแนวรัศมีทุก 10 องศา ให้เห็นช่วงละ 10 องศาชัดขึ้น */
+  for(let d=0;d<36;d++){
+   const p=xy(d*10,228),q=xy(d*10,263);
+   add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'triyang-boundary-line5'});
+  }
+  /* สัญลักษณ์เพชรสีทองคั่นขอบเขตตรียางค์ทุก 10 องศา ช่วยแยก 3 ช่วงต่อราศีให้เห็นชัด */
+  for(let d=0;d<36;d++){
+   const p=xy(d*10,358),z=3.8;
+   add(g,"path",{d:`M ${p.x} ${p.y-z} L ${p.x+z} ${p.y} L ${p.x} ${p.y+z} L ${p.x-z} ${p.y} Z`,fill:"#d97706",stroke:"#fff","stroke-width":1.2,class:"triyang-separator5"});
+  }
+  /* ดาวครองตรียางค์ตามธาตุ: ใช้ลำดับ ปฐม / ทุติย / ตติย ตามองศาในราศี */
+  /* ไฟ = 3,1,5 · ดิน = 6,4,7 · ลม = 4,6,8 (ตัวเลือกตามตำรา: ตติยลมอาจใช้ 7) · น้ำ = 2,3,5 */
+  const triyangLordsByElement={fire:[3,1,5],earth:[6,4,7],air:[4,6,8],water:[2,3,5]};
+  /* พิษตรียางค์ — ตารางเบื้องต้นที่ผู้ใช้อนุมัติให้ทดลองแสดงผล:
+     นาค: ปฐมในเมษ/กันย์/ธนู/มีน · ครุฑ: ทุติยในพฤษภ/สิงห์/ตุล/กุมภ์
+     สุนัข: ตติยในมิถุน/กรกฎ/พิจิก/มกร. ยังเป็นเกณฑ์เบื้องต้น ไม่ใช่การยืนยันตำราสากล */
+  const poisonBySegment={
+   naga:{decan:0,signs:[0,5,8,11],label:'นาค'},
+   garuda:{decan:1,signs:[1,4,6,10],label:'ครุฑ'},
+   dog:{decan:2,signs:[2,3,7,9],label:'สุนัข'}
+  };
+  function addPoisonLabel(parent,type,x,y){
+   const label=poisonBySegment[type].label;
+   add(parent,'text',{
+    x,y:y+3.5,'text-anchor':'middle',
+    'font-size':9,'font-weight':900,fill:'#c62828',
+    stroke:'#fff','stroke-width':2.4,'paint-order':'stroke',
+    class:'triyang-poison-label5 triyang-poison-'+type,
+    'aria-label':label
+   },label);
+  }
+  for(let s=0;s<12;s++){
+   const seq=triyangLordsByElement[elements[s]];
+   for(let j=0;j<3;j++){
+    const lon=s*30+j*10+5,p=xy(lon,245);
+    const poisonType=Object.keys(poisonBySegment).find(type=>poisonBySegment[type].decan===j&&poisonBySegment[type].signs.includes(s));
+    add(g,'text',{
+     x:p.x,y:p.y+3.5,'text-anchor':'middle',
+     'font-size':13,'font-weight':900,fill:poisonType?'#c62828':'#14213d',
+     stroke:'#fff','stroke-width':2.8,'paint-order':'stroke',
+     class:'triyang-ruler-number2'+(poisonType?' triyang-poison-number5':'')
+    },seq[j]);
+    if(poisonType){
+     /* แสดงชื่อชนิดพิษเป็นข้อความสีแดง แทนรูปสัญลักษณ์ และวางเข้าด้านในวงล้อ */
+     const labelPos=xy(lon,222);
+     addPoisonLabel(g,poisonType,labelPos.x,labelPos.y);
+    }
+   }
+  }
+  /* นวางค์: 9 ช่วงต่อราศี ช่วงละ 3°20′ */
+  for(let s=0;s<12;s++){
+   const seq=navaByElement[elements[s]];
+   for(let j=0;j<9;j++){
+    const lon=s*30+(j+.5)*(30/9),p=xy(lon,374),tick1=xy(s*30+j*(30/9),360),tick2=xy(s*30+j*(30/9),366);
+    add(g,'line',{x1:tick1.x,y1:tick1.y,x2:tick2.x,y2:tick2.y,class:'nava-tick2'});
+    add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nava-number2'},seq[j]);
+   }
+  }
+  /* ขอบเขตฤกษ์ทุก 13°20′ อยู่ขอบนอกเพื่อให้เห็นช่วงที่คร่อมราศี */
+  for(let i=0;i<27;i++){
+   const lon=i*(360/27),p=xy(lon,402),q=xy(lon,394);
+   add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'nak-boundary2'});
+  }
+  for(let i=0;i<27;i++){
+   const lon=i*(360/27)+(180/27),p=xy(lon,408),q=xy(lon,438);
+   add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nak-name2'},(i+1)+'. '+nak[i]);
+   add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'},types[i%9]);
+  }
+ }
+ const wheel=$('wheel');
+ if(wheel){
+  const scan=()=>{const svg=wheel.querySelector('svg');if(svg)augment(svg)};
+  new MutationObserver(scan).observe(wheel,{childList:true,subtree:true});
+  scan();
+ }
+ const panel=$('wheelPanel2'),wrap=$('wheelWrap2'),fullscreen=$('wheelFullscreen2');
+ const showNakNames5=$('showNakNames5');
+ if(showNakNames5){
+  const syncNakNameVisibility5=()=>panel?.classList.toggle('hide-nak-name5',!showNakNames5.checked);
+  showNakNames5.addEventListener('change',syncNakNameVisibility5);
+  syncNakNameVisibility5();
+ }
+ const showTriyangNames5=$('showTriyangNames5');
+ if(showTriyangNames5){
+  const syncTriyangVisibility5=()=>panel?.classList.toggle('hide-triyang5',!showTriyangNames5.checked);
+  showTriyangNames5.addEventListener('change',syncTriyangVisibility5);
+  syncTriyangVisibility5();
+ }
+ const showNavaNames5=$('showNavaNames5');
+ if(showNavaNames5){
+  const syncNavaVisibility5=()=>panel?.classList.toggle('hide-nava5',!showNavaNames5.checked);
+  showNavaNames5.addEventListener('change',syncNavaVisibility5);
+  syncNavaVisibility5();
+ }
+ const showPlanetStandard5=$('showPlanetStandard5');
+ if(showPlanetStandard5){
+  const syncPlanetStandardVisibility5=()=>panel?.classList.toggle('hide-planet-standard5',!showPlanetStandard5.checked);
+  showPlanetStandard5.addEventListener('change',syncPlanetStandardVisibility5);
+  syncPlanetStandardVisibility5();
+ }
+ const showHouseNames5=$('showHouseNames5');
+ if(showHouseNames5){
+  const syncHouseNamesVisibility5=()=>panel?.classList.toggle('hide-house-names5',!showHouseNames5.checked);
+  showHouseNames5.addEventListener('change',syncHouseNamesVisibility5);
+  syncHouseNamesVisibility5();
+ }
+ const showZodiacNames5=$('showZodiacNames5');
+ if(showZodiacNames5){
+  const syncZodiacNamesVisibility5=()=>panel?.classList.toggle('hide-zodiac-names5',!showZodiacNames5.checked);
+  showZodiacNames5.addEventListener('change',syncZodiacNamesVisibility5);
+  syncZodiacNamesVisibility5();
+ }
+ const showAllTransitZodiacTimes5=$('showAllTransitZodiacTimes5');
+ if(showAllTransitZodiacTimes5){
+  const syncAllTransitZodiacTimesVisibility5=()=>panel?.classList.toggle('hide-all-transit-zodiac-times5',!showAllTransitZodiacTimes5.checked);
+  showAllTransitZodiacTimes5.addEventListener('change',syncAllTransitZodiacTimesVisibility5);
+  syncAllTransitZodiacTimesVisibility5();
+ }
+ // Tag the labels produced by main.js without changing its calculation or drawing logic.
+ const labelWheelNames5=()=>{
+  const svg=$('wheel')?.querySelector('svg');if(!svg)return;
+  const signs5=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+  const houses5=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+  svg.querySelectorAll('text').forEach(t=>{
+   const v=t.textContent.trim();
+   if(signs5.includes(v))t.classList.add('zodiac-sign-label5');
+   if(houses5.includes(v))t.classList.add('house-name-label5');
+  });
+ };
+ const wheelNameObserver5=new MutationObserver(labelWheelNames5);
+ if($('wheel'))wheelNameObserver5.observe($('wheel'),{childList:true,subtree:true});
+ labelWheelNames5();
+ const showNakTypes5=$('showNakTypes5');
+ if(showNakTypes5){
+  const syncNakTypesVisibility5=()=>panel?.classList.toggle('show-nak-types5',showNakTypes5.checked);
+  showNakTypes5.addEventListener('change',syncNakTypesVisibility5);
+  syncNakTypesVisibility5();
+ }
+ let zoom=1;
+ function applyZoom(){
+  const svg=$('wheel')?.querySelector('svg');if(!svg)return;
+  const pct=Math.round(zoom*100);
+  $('wheelZoomLabel2').textContent=pct+'%';
+  $('wheel').style.width=pct+'%';
+  $('wheel').style.minWidth=pct>100?pct+'%':'0';
+ }
+ $('wheelZoomIn2').addEventListener('click',()=>{zoom=Math.min(2.5,Math.round((zoom+.15)*100)/100);applyZoom()});
+ $('wheelZoomOut2').addEventListener('click',()=>{zoom=Math.max(.55,Math.round((zoom-.15)*100)/100);applyZoom()});
+ $('wheelZoomReset2').addEventListener('click',()=>{zoom=1;applyZoom();wrap.scrollTo({top:0,left:0,behavior:'smooth'})});
+ const refreshPageNoCache5=$('refreshPageNoCache5');
+ if(refreshPageNoCache5)refreshPageNoCache5.addEventListener('click',()=>{
+  const freshUrl=new URL(window.location.href);
+  freshUrl.searchParams.set('refresh',String(Date.now()));
+  window.location.replace(freshUrl.toString());
+ });
+ fullscreen.addEventListener('click',async()=>{
+  try{
+   if(!document.fullscreenElement){if(panel.requestFullscreen)await panel.requestFullscreen();else panel.classList.toggle('wheel-fallback-full2');}
+   else await document.exitFullscreen();
+  }catch(e){panel.classList.toggle('wheel-fallback-full2');}
+  fullscreen.textContent=document.fullscreenElement?'⤢ ออกจากเต็มจอ':'⛶ เต็มจอ';
+  applyZoom();
+ });
+ document.addEventListener('fullscreenchange',()=>{fullscreen.textContent=document.fullscreenElement?'⤢ ออกจากเต็มจอ':'⛶ เต็มจอ';applyZoom()});
+ const legend=$('nakshatraLegend2');
+ if(legend){
+  let h='<div class="table-wrap"><table><thead><tr><th>เลข</th><th>ชื่อฤกษ์</th><th>ประเภทฤกษ์</th><th>ช่วงองศาจักรราศี</th></tr></thead><tbody>';
+  for(let i=0;i<27;i++){
+   const a=i*(360/27),b=(i+1)*(360/27);
+   const fmt=x=>{const d=Math.floor(x),m=Math.round((x-d)*60);return d+'°'+String(m).padStart(2,'0')+'′'};
+   h+='<tr><td>'+(i+1)+'</td><td>'+nak[i]+'</td><td>'+types[i%9]+'</td><td>'+fmt(a)+'–'+fmt(b)+'</td></tr>';
+  }
+  legend.innerHTML=h+'</tbody></table></div>';
+ }
+ const dlegend=$('drekkanaLegend2');
+ if(dlegend){
+  const localFmt=x=>{const total=Math.round(x*60),d=Math.floor(total/60),m=total%60;return String(d).padStart(2,'0')+'°'+String(m).padStart(2,'0')+'′'};
+  const elementNames={fire:'ไฟ',earth:'ดิน',air:'ลม',water:'น้ำ'};
+  const planetNames={1:'อาทิตย์',2:'จันทร์',3:'อังคาร',4:'พุธ',5:'พฤหัสบดี',6:'ศุกร์',7:'เสาร์',8:'ราหู'};
+  const drekLordsByElement={fire:[3,1,5],earth:[6,4,7],air:[4,6,8],water:[2,3,5]};
+  let h='<div class="table-wrap"><table><thead><tr><th>ราศี</th><th>ธาตุ</th><th>ตรียางค์</th><th>องศาในราศี</th><th>เลขดาวครอง</th><th>ดาวครองตรียางค์</th></tr></thead><tbody>';
+  for(let s=0;s<12;s++){
+   const element=elements[s],seq=drekLordsByElement[element];
+   for(let j=0;j<3;j++){
+    h+='<tr><td>'+signs[s]+'</td><td>'+elementNames[element]+'</td><td>'+['ปฐม','ทุติย','ตติย'][j]+'</td><td>'+localFmt(j*10)+'–'+localFmt((j+1)*10)+'</td><td>'+seq[j]+'</td><td>'+planetNames[seq[j]]+'</td></tr>';
+   }
+  }
+  dlegend.innerHTML=h+'</tbody></table></div>';
+ }
+})();
+</script>
+
+
+<script type="module">
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
+/* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
+(()=>{
+ const wheel=document.getElementById('wheel');
+ const C=360, RING=292;
+ const COLORS={natal:'#dc2626',transit:'#07834b'};
+ const pad=n=>String(n).padStart(2,'0');
+ function timeOf(prefix){
+  const hh=document.getElementById(prefix+'Hour')?.value,mm=document.getElementById(prefix+'Minute')?.value;
+  if(hh==null||hh===''||mm==null||mm==='')return '--:--';
+  return pad(Number(hh))+':'+pad(Number(mm));
+ }
+ function svgEl(svg,tag,attrs){
+  const node=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,String(v)));
+  svg.appendChild(node);return node;
+ }
+ const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ let boundaryCacheKey='',boundaryCache=[];
+ let boundaryRun=0;
+ async function getBoundaryTimes(){
+  const dateDay=document.getElementById('fDay')?.value;
+  const dateMonth=document.getElementById('fMonth')?.value;
+  const dateYear=document.getElementById('fYear')?.value;
+  const hh=document.getElementById('fHour')?.value,mm=document.getElementById('fMinute')?.value;
+  const lon=Number(document.getElementById('fLon')?.value);
+  if(!dateDay||!dateMonth||!dateYear||hh==null||hh===''||mm==null||mm===''||!Number.isFinite(lon))return [];
+  const date=String(Number(dateYear)-543)+'-'+pad(Number(dateMonth))+'-'+pad(Number(dateDay));
+  const time=pad(Number(hh))+':'+pad(Number(mm));
+  const key=[date,time,lon].join('|');
+  if(key===boundaryCacheKey)return boundaryCache;
+  const engine=await calculateSuriyayatra({date,time,longitude:lon});
+  const sun=engine?.planets?.find(p=>p.name==='อาทิตย์');
+  if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ASC_BOUNDARY_SUN_INVALID');
+  const correction=Number(engine.metadata?.localTimeCorrectionMinutes);
+  let result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude:lon,localTimeCorrectionMinutes:correction});
+  const asClock=minutes=>{const v=((Math.round(Number(minutes))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60);};
+  for(let pass=0;pass<2;pass++){
+   result=await Promise.all(result.map(async item=>{
+    const atEngine=await calculateSuriyayatra({date,time:asClock(item.minutes),longitude:lon});
+    const atSun=atEngine?.planets?.find(p=>p.name==='อาทิตย์');
+    if(!atSun||!Number.isFinite(Number(atSun.longitude)))return item;
+    const atCorrection=Number(atEngine.metadata?.localTimeCorrectionMinutes);
+    const refined=calculateAscendantBoundaryTimes({sunLongitude:Number(atSun.longitude),longitude:lon,localTimeCorrectionMinutes:Number.isFinite(atCorrection)?atCorrection:correction});
+    return refined.find(v=>Number(v.sign)===Number(item.sign))||item;
+   }));
+  }
+  boundaryCacheKey=key;boundaryCache=result;
+  console.log('[HORA][ASC 0 DEGREE TIMES]',{date,time,longitude:lon,sunLongitude:Number(sun.longitude),times:result});
+  return result;
+ }
+ function formatThaiDate(dateStr){
+  const parts=dateStr.split('-').map(Number);
+  const months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  return pad(parts[2])+' '+months[parts[1]-1]+' '+String(parts[0]+543);
+ }
+ async function renderBoundaryTimes(svg){
+  const runId=++boundaryRun;
+  svg?.querySelector('#ascendantBoundaryTimes3')?.remove();
+  const table=document.getElementById('ascendantBoundaryTimesTable3');
+  if(table)table.innerHTML='<p>กำลังคำนวณเวลาเข้า 0° ของทั้ง 12 ราศี…</p>';
+  let boundaries;
+  try{boundaries=await getBoundaryTimes();}
+  catch(err){
+   console.error('[HORA][ASC 0 DEGREE TIMES] ERROR',err);
+   if(table)table.innerHTML='<p role="alert">คำนวณเวลาเข้า 0° ไม่สำเร็จ กรุณาตรวจวันที่และสถานที่จร แล้วกดคำนวณใหม่</p>';
+   return;
+  }
+  if(runId!==boundaryRun)return;
+  const dateParts=[Number(document.getElementById('fYear')?.value)-543,Number(document.getElementById('fMonth')?.value),Number(document.getElementById('fDay')?.value)];
+  const dateStr=String(dateParts[0])+'-'+pad(dateParts[1])+'-'+pad(dateParts[2]);
+  const dateLabel=formatThaiDate(dateStr);
+  const clock=n=>{const v=((Math.round(Number(n))%1440)+1440)%1440;return pad(Math.floor(v/60))+':'+pad(v%60);};
+  if(table){
+   const rows=boundaries.slice().sort((a,b)=>Number(a.sign)-Number(b.sign)).map(item=>'<tr><td>0° '+signNames[Number(item.sign)]+'</td><td>'+dateLabel+'</td><td>'+clock(item.minutes)+' น.</td></tr>').join('');
+   table.innerHTML='<table class="reference-table"><thead><tr><th>จุดเข้าเส้นราศี</th><th>วันที่เข้า (พ.ศ.)</th><th>เวลาไทย</th></tr></thead><tbody>'+rows+'</tbody></table><p class="reference-note">อ้างอิงวันที่จรและพิกัดสถานที่จรที่เลือกในแบบฟอร์ม</p>';
+  }
+  if(!svg||!svg.isConnected)return;
+  const layer=svgEl(svg,'g',{id:'ascendantBoundaryTimes3','font-family':'system-ui, sans-serif','pointer-events':'none'});
+  const ascAngles=[];
+  svg.querySelectorAll('line[stroke="#dc2626"],line[stroke="#07834b"]').forEach(line=>{
+   const x1=Number(line.getAttribute('x1')),y1=Number(line.getAttribute('y1'));
+   const x2=Number(line.getAttribute('x2')),y2=Number(line.getAttribute('y2'));
+   const r1=Math.hypot(x1-C,y1-C),r2=Math.hypot(x2-C,y2-C);
+   if(r1>75&&r1<115&&(r2>250||line.dataset.navaExtended==='1'))ascAngles.push(Math.atan2(y2-C,x2-C));
+  });
+  boundaries.forEach(item=>{
+   const sign=Number(item.sign);
+   if(!Number.isInteger(sign)||sign<0||sign>11||!Number.isFinite(Number(item.minutes)))return;
+   const a=(-(sign*30-15)-90)*Math.PI/180;
+   const ring={x:C+RING*Math.cos(a),y:C+RING*Math.sin(a)};
+   const nearAsc=ascAngles.some(aa=>Math.abs(Math.atan2(Math.sin(a-aa),Math.cos(a-aa)))<0.16);
+   // Put all 12 transit times in a dedicated outer lane, beyond the navamsa-name ring.
+   // Alternate each label slightly around its sign boundary so text does not sit on a radial divider.
+   const labelR=468;
+   const labelA=a+(sign%2===0?0.04:-0.04);
+   const x=C+labelR*Math.cos(labelA),y=C+labelR*Math.sin(labelA);
+   // Text only: no colored box, strip, dot, or leader line; white halo keeps it readable.
+   const textNode=svgEl(layer,'text',{x,y:y+4,'text-anchor':'middle','font-size':11.5,'font-weight':800,fill:'#075e3b','paint-order':'stroke','stroke':'#fff','stroke-width':3.2,'stroke-linejoin':'round',class:'transit-zodiac-all-time5'});
+   textNode.textContent=clock(item.minutes)+' น.';
+  });
+ }
+ function enhanceAscendant(svg){
+  if(!svg)return;
+  svg.setAttribute('viewBox','-150 -150 1020 1020');
+  // Keep @เกิด/@จร labels and appended times as one color-coded text; no boxes or duplicate time labels.
+  svg.querySelector('#ascendantTimeLabels3')?.remove();
+  svg.querySelectorAll('text').forEach(t=>{
+   const label=t.textContent.trim();
+   if(label.startsWith('@เกิด')){
+    t.setAttribute('font-size','13');t.setAttribute('font-weight','900');t.setAttribute('text-anchor','middle');
+    t.setAttribute('fill','#dc2626');t.setAttribute('stroke','#fff');t.setAttribute('stroke-width','3');t.setAttribute('paint-order','stroke');t.setAttribute('stroke-linejoin','round');
+    const tag=t.previousElementSibling;if(tag&&tag.tagName.toLowerCase()==='rect')tag.remove();
+   }else if(label.startsWith('@จร')){
+    t.setAttribute('font-size','13');t.setAttribute('font-weight','900');t.setAttribute('text-anchor','middle');
+    t.setAttribute('fill','#07834b');t.setAttribute('stroke','#fff');t.setAttribute('stroke-width','3');t.setAttribute('paint-order','stroke');t.setAttribute('stroke-linejoin','round');
+    const tag=t.previousElementSibling;if(tag&&tag.tagName.toLowerCase()==='rect')tag.remove();
+   }
+  });
+ }
+ if(wheel){
+  let pending=false;
+  const run=()=>{pending=false;const svg=wheel?.querySelector('svg');if(svg)enhanceAscendant(svg);};
+  const schedule=()=>{if(!pending){pending=true;setTimeout(run,0);}};
+  // คำนวณเวลาเข้า 0° หลังวงจักรราศีถูกวาดใหม่เท่านั้น ไม่คำนวณหนักทุกครั้งที่เปลี่ยนช่องเวลา
+  const observer=new MutationObserver(schedule);
+  observer.observe(wheel,{childList:true});
+ }
+})();</script>
+
+
+
+
+
+
+
+
+
+
+
+<style>
+#planetSignStayPanel8{margin:14px 0;padding:16px;border:1px solid #cbd5e1;border-radius:14px;background:#f8fafc;color:#17233d;line-height:1.7}
+#planetSignStayPanel8[hidden]{display:none!important}
+#planetSignStayPanel8 .pss-title{font-size:18px;font-weight:850;margin-bottom:8px}
+#planetSignStayPanel8 .pss-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
+#planetSignStayPanel8 .pss-item{background:#fff;border:1px solid #dbe3ef;border-radius:10px;padding:12px}
+#planetSignStayPanel8 .pss-label{font-size:12px;color:#64748b;font-weight:750}
+#planetSignStayPanel8 .pss-date{font-size:16px;font-weight:850;color:#14213d}
+#planetSignStayPanel8 .pss-note{font-size:12px;color:#64748b;margin-top:8px}
+#wheel svg g:has(circle[fill="#7250bd"]),#wheel svg g:has(circle[fill="#07834b"]){cursor:pointer}
+#wheel svg g:has(circle[fill="#7250bd"]):hover circle,#wheel svg g:has(circle[fill="#07834b"]):hover circle{stroke:#f59e0b;stroke-width:4}
+</style>
+<script type="module">
+/* index8 only: show the sign-ingress and sign-egress times for the clicked natal/transit planet. */
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+(()=>{
+ const $=id=>document.getElementById(id);
+ const wheel=$('wheel');
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ const planetByNumber={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
+ const pause=()=>new Promise(resolve=>setTimeout(resolve,0));
+ const stampFromInputs=prefix=>{
+  const day=Number($(prefix+'Day')?.value),month=Number($(prefix+'Month')?.value),beYear=Number($(prefix+'Year')?.value);
+  const hour=Number($(prefix+'Hour')?.value),minute=Number($(prefix+'Minute')?.value);
+  if(!day||!month||!beYear||!Number.isInteger(hour)||!Number.isInteger(minute))throw new Error('กรุณากรอกวันเดือนปีและเวลาให้ครบก่อน');
+  const year=beYear-543;
+  if(year<1||month<1||month>12||day<1||day>31||hour<0||hour>23||minute<0||minute>59)throw new Error('วันหรือเวลาไม่ถูกต้อง');
+  const stamp=Date.UTC(year,month-1,day,hour,minute);
+  const check=new Date(stamp);
+  if(check.getUTCFullYear()!==year||check.getUTCMonth()!==month-1||check.getUTCDate()!==day)throw new Error('วันที่ที่เลือกไม่ถูกต้อง');
+  return stamp;
+ };
+ const localDateTime=stamp=>{
+  const d=new Date(stamp),p=n=>String(n).padStart(2,'0');
+  return p(d.getUTCDate())+' '+months[d.getUTCMonth()]+' พ.ศ. '+(d.getUTCFullYear()+543)+' เวลา '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+' น.';
+ };
+ const planetLongitude=(stamp,planet,longitude)=>{
+  const d=new Date(stamp),p=n=>String(n).padStart(2,'0');
+  const date=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate());
+  const time=p(d.getUTCHours())+':'+p(d.getUTCMinutes());
+  const result=calculateSuriyayatra({date,time,longitude,includeMotion:false});
+  const item=result?.planets?.find(x=>x.name===planet);
+  const lon=Number(item?.longitude);
+  if(!Number.isFinite(lon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
+  return ((lon%360)+360)%360;
+ };
+ const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
+ const stepFor=planet=>planet==='จันทร์'?6*3600000:
+   planet==='อาทิตย์'?12*3600000:
+   ['พุธ','ศุกร์','อังคาร'].includes(planet)?86400000:
+   ['พฤหัสบดี','เสาร์','ราหู','เกตุ'].includes(planet)?3*86400000:10*86400000;
+ const findBoundary=async({start,planet,longitude,targetSign,direction,step})=>{
+  const maxSpan=5*366*86400000;
+  let inside=start;
+  for(let elapsed=step,tries=0;elapsed<=maxSpan;elapsed+=step,tries++){
+   const probe=start+direction*elapsed;
+   const idx=signIndex(probe,planet,longitude);
+   if(idx!==targetSign){
+    let low=Math.min(probe,inside),high=Math.max(probe,inside);
+    // Refine the crossing to one-minute resolution. The output is local Thai wall-clock time.
+    while(high-low>60000){
+     const mid=low+Math.floor((high-low)/120000)*60000;
+     if(mid<=low){high=low+60000;break;}
+     const isTarget=signIndex(mid,planet,longitude)===targetSign;
+     if(direction<0){if(isTarget)high=mid;else low=mid;}
+     else{if(isTarget)low=mid;else high=mid;}
+     if((high-low)>60000)await pause();
+    }
+    return high;
+   }
+   inside=probe;
+   if(tries%12===0)await pause();
+  }
+  return null;
+ };
+ let panel=$('planetSignStayPanel8');
+ if(!panel){
+  panel=document.createElement('section');
+  panel.id='planetSignStayPanel8';
+  panel.hidden=true;
+  panel.setAttribute('aria-live','polite');
+  const wrap=$('wheelWrap2');
+  if(wrap)wrap.insertAdjacentElement('afterend',panel);
+  else if(wheel)wheel.insertAdjacentElement('afterend',panel);
+ }
+ const showMessage=message=>{panel.hidden=false;panel.textContent=message;};
+ const showResults=({planet,kind,sign,entry,exit,longitude})=>{
+  panel.hidden=false;
+  panel.innerHTML='';
+  const title=document.createElement('div');title.className='pss-title';
+  title.textContent=planet+' · '+(kind==='natal'?'ดาวเดิม (ดวงกำเนิด)':'ดาวจร')+' · ราศี'+sign;
+  panel.appendChild(title);
+  const grid=document.createElement('div');grid.className='pss-grid';
+  const add=(label,value)=>{
+   const card=document.createElement('div');card.className='pss-item';
+   const l=document.createElement('div');l.className='pss-label';l.textContent=label;
+   const v=document.createElement('div');v.className='pss-date';v.textContent=value||'ไม่พบภายในช่วงค้นหา';
+   card.append(l,v);grid.appendChild(card);
+  };
+  add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
+  add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
+  panel.appendChild(grid);
+  const note=document.createElement('div');note.className='pss-note';
+  note.textContent='คำนวณจากสูตรตำแหน่งดาว HORA และลองจิจูดของสถานที่ที่เลือก · เวลาไทย · ค่าที่แสดงเป็น พ.ศ. · หากดาวพักร์ อาจมีการกลับเข้าราศีเดิมอีกครั้งในภายหลัง';
+  panel.appendChild(note);
+ };
+ let requestId=0;
+ if(wheel)wheel.addEventListener('click',async event=>{
+  const group=event.target?.closest?.('g');
+  const circle=group?.querySelector?.('circle');
+  const text=group?.querySelector?.('text');
+  if(!circle||!text)return;
+  const fill=(circle.getAttribute('fill')||'').toLowerCase();
+  const kind=fill==='#7250bd'?'natal':fill==='#07834b'?'transit':null;
+  if(!kind)return;
+  const numeral=(text.textContent||'').trim().replace('+','');
+  const planet=planetByNumber[numeral];
+  if(!planet)return;
+  const id=++requestId;
+  try{
+   const prefix=kind==='natal'?'b':'f';
+   const start=stampFromInputs(prefix);
+   const longitude=Number($(prefix+'Lon')?.value);
+   if(!Number.isFinite(longitude))throw new Error('ไม่พบลองจิจูดของสถานที่');
+   const currentLon=planetLongitude(start,planet,longitude);
+   const targetSign=Math.floor(currentLon/30);
+   const sign=signs[targetSign];
+   showMessage('กำลังค้นหาวันและเวลาที่ดาว'+planet+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
+   const step=stepFor(planet);
+   const [entry,exit]=await Promise.all([
+    findBoundary({start,planet,longitude,targetSign,direction:-1,step}),
+    findBoundary({start,planet,longitude,targetSign,direction:1,step})
+   ]);
+   if(id!==requestId)return;
+   showResults({planet,kind,sign,entry,exit,longitude});
+  }catch(error){
+   if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
+   console.error('[HORA][SIGN STAY][index9]',error);
+  }
+ });
+})();
+
+/* Numeric summary is rendered directly from calculated chart objects in main.js. */
+
+</script>
+
+
+<script>
+/* index9: user-selectable display categories. Hiding a category never deletes its data or changes calculations. */
+(function(){
+  const init=()=>{
+    const root=document.getElementById('displayPicker9');
+    const list=document.getElementById('displayPickerList9');
+    const count=document.getElementById('displayPickerCount9');
+    if(!root||!list||root.dataset.ready==='1')return;
+    root.dataset.ready='1';
+    const excludedTitles=new Set(['ข้อมูลกำเนิด','เวลาทำนาย']);
+    const headings=[...document.querySelectorAll('main.container h2')].filter(h=>!root.contains(h));
+    const groups=new Map();
+    headings.forEach(h=>{
+      const title=(h.textContent||'').replace(/〔หมวด\s*\d+〕/g,'').replace(/\s+/g,' ').trim();
+      const owner=h.closest('.panel, .reference-panel, .planet-standard4, .menu-panel');
+      if(!owner||owner===root||excludedTitles.has(title))return;
+      if(owner.closest('#calculatePanel')&&excludedTitles.has(title))return;
+      if(!groups.has(owner))groups.set(owner,{owner,headings:[]});
+      groups.get(owner).headings.push(title||'หมวดไม่มีชื่อ');
+    });
+    const entries=[...groups.values()].filter(g=>!g.owner.contains(root));
+    list.innerHTML='';
+    if(!entries.length){
+      list.innerHTML='<p>ยังไม่พบหมวดแสดงผลให้เลือก</p>';
+      count.textContent='';
+      return;
+    }
+    entries.forEach((entry,index)=>{
+      const id='displayPickerCheck9_'+index;
+      const label=document.createElement('label');
+      label.className='display-picker-item9';
+      const input=document.createElement('input');
+      input.type='checkbox';input.id=id;input.checked=true;
+      const text=document.createElement('span');
+      const primary=entry.headings[0];
+      text.appendChild(document.createTextNode(primary));
+      if(entry.headings.length>1){
+        const sub=document.createElement('em');
+        sub.textContent='รวม '+entry.headings.length+' หัวข้อในส่วนนี้';
+        text.appendChild(sub);
+      }
+      input.addEventListener('change',()=>{
+        entry.owner.style.display=input.checked?'':'none';
+        window.dispatchEvent(new Event('resize'));
+        updateCount();
+      });
+      label.append(input,text);
+      list.appendChild(label);
+      entry.input=input;
+    });
+    function updateCount(){
+      const shown=entries.filter(e=>e.input.checked).length;
+      count.textContent='แสดง '+shown+' จาก '+entries.length+' หมวด';
+    }
+    document.getElementById('displayPickerAll9')?.addEventListener('click',()=>{
+      entries.forEach(e=>{e.input.checked=true;e.owner.style.display='';});
+      window.dispatchEvent(new Event('resize'));updateCount();
+    });
+    document.getElementById('displayPickerNone9')?.addEventListener('click',()=>{
+      entries.forEach(e=>{e.input.checked=false;e.owner.style.display='none';});
+      window.dispatchEvent(new Event('resize'));updateCount();
+    });
+    document.getElementById('displayPickerReset9')?.addEventListener('click',()=>{
+      entries.forEach(e=>{e.input.checked=true;e.owner.style.display='';});
+      window.dispatchEvent(new Event('resize'));updateCount();
+    });
+    updateCount();
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+  setTimeout(init,900);
+})();
+</script>
+
+
+<script>
+/* index50 only: concentric Navamsa circles. Calculation rules are documented in docs/NAVAMSA_RULES.md. */
+(()=> {
+ const log=(label,detail)=>window.__NAV50LOG?.add(label,detail);
+ log('NAVAMSA SCRIPT STARTED');
+ const NS='http://www.w3.org/2000/svg';
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const signLords=['๓','๖','๔','๒','๑','๔','๖','๓','๕','๗','๘','๕'];
+ const planetNums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'@'};
+ const elementOfSign=['fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
+ const elementSequences={fire:'364214635',earth:'785364214',air:'635785364',water:'214635785'};
+ const elementStart={fire:0,earth:9,air:6,water:3};
+ const lordNames={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ'};
+ const fmt=(n)=>String(n).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ function navOf(lon){
+   const n=((Number(lon)%360)+360)%360,sourceSign=Math.floor(n/30),within=n%30;
+   const part=Math.min(8,Math.floor(within/(30/9))),number=part+1;
+   const el=elementOfSign[sourceSign],sequence=elementSequences[el],navNumber=sequence[number-1];
+   const navSign=(elementStart[el]+part)%12,withinPart=within-part*(30/9);
+   return {number,navNumber,element:el,signIndex:navSign,sign:signs[navSign],lordNum:signLords[navSign],longitude:navSign*30+withinPart*9};
+ }
+ function polar(cx,cy,r,lon){const a=(-lon-75)*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]}
+ function node(tag,attrs,text){const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));if(text!==undefined)e.textContent=text;return e}
+ function ringSector(cx,cy,rOuter,rInner,startLon,endLon){
+   const [x1,y1]=polar(cx,cy,rOuter,startLon),[x2,y2]=polar(cx,cy,rOuter,endLon),[x3,y3]=polar(cx,cy,rInner,endLon),[x4,y4]=polar(cx,cy,rInner,startLon);
+   return 'M '+x1+' '+y1+' A '+rOuter+' '+rOuter+' 0 0 0 '+x2+' '+y2+' L '+x3+' '+y3+' A '+rInner+' '+rInner+' 0 0 1 '+x4+' '+y4+' Z';
+ }
+ function draw(data){
+   log('DRAW START',{keys:Object.keys(data||{}),natalCount:data?.natal?.planets?.length??null,transitCount:data?.transit?.planets?.length??null,natalAsc:data?.natal?.asc??null,transitAsc:data?.transit?.asc??null});
+   const root=document.getElementById('navamsaWheel50');if(!root){log('DRAW FAIL: ROOT NOT FOUND');return;}
+   const natal=(data.natal?.planets||[]).map(p=>({...p,kind:'birth'}));
+   const transit=(data.transit?.planets||[]).map(p=>({...p,kind:'transit'}));
+   if(Number.isFinite(Number(data.natal?.asc)))natal.push({name:'ลัคนา',longitude:Number(data.natal.asc),kind:'birth',isAsc:true});
+   if(Number.isFinite(Number(data.transit?.asc)))transit.push({name:'ลัคนา',longitude:Number(data.transit.asc),kind:'transit',isAsc:true});
+   log('INPUT NORMALIZED',{natal:natal.length,transit:transit.length});
+   const ascLord={birth:Number.isFinite(Number(data.natal?.asc))?navOf(Number(data.natal.asc)).lordNum:null,transit:Number.isFinite(Number(data.transit?.asc))?navOf(Number(data.transit.asc)).lordNum:null};
+   const all=[...natal,...transit].filter(p=>Number.isFinite(Number(p.longitude))).map(p=>({...p,nav:navOf(p.longitude),tanuLord:ascLord[p.kind]===(planetNums[p.name]||null)}));
+   log('POSITIONS BUILT',{valid:all.length,invalid:[...natal,...transit].filter(p=>!Number.isFinite(Number(p.longitude))).map(p=>({name:p.name,longitude:p.longitude}))});
+   const svg=node('svg',{class:'nav50-svg',viewBox:'0 0 760 760',role:'img','aria-label':'วงนวางค์สองชั้น วงในคือนวางค์เดิม วงนอกคือนวางค์จร แสดงชื่อราศีและเลขดาวที่เดินตามธาตุ'});
+   const cx=380,cy=380;
+   svg.appendChild(node('circle',{cx,cy,r:348,fill:'#fff',stroke:'#233453','stroke-width':2}));
+   // Outer ring = transit Navamsa. Inner ring = natal Navamsa.
+   const rings=[
+     {key:'transit',label:'นวางค์จร',outer:348,inner:252,labelR:320,markerR:278,fillA:'#e3f4ed',fillB:'#f1faf6',color:'#16835d',items:all.filter(p=>p.kind==='transit')},
+     {key:'birth',label:'นวางค์เดิม',outer:238,inner:142,labelR:211,markerR:172,fillA:'#eceaff',fillB:'#f7f6ff',color:'#6258d9',items:all.filter(p=>p.kind==='birth')}
+   ];
+   rings.forEach(ring=>{
+     for(let s=0;s<12;s++){
+       svg.appendChild(node('path',{d:ringSector(cx,cy,ring.outer,ring.inner,s*30,(s+1)*30),fill:s%2?ring.fillB:ring.fillA,stroke:'#8c99b2','stroke-width':1.1}));
+       // วงเดิมสีม่วงไม่แสดงชื่อราศี เพื่อให้เห็นตำแหน่งดาวชัดเจน
+     }
+     svg.appendChild(node('circle',{cx,cy,r:ring.outer,fill:'none',stroke:'#344563','stroke-width':1.5}));
+     svg.appendChild(node('circle',{cx,cy,r:ring.inner,fill:'none',stroke:'#8795b0','stroke-width':1.2}));
+     const labelY=ring.key==='transit'?cy-ring.outer+19:cy-ring.outer+19;
+     svg.appendChild(node('text',{x:cx,y:labelY,'text-anchor':'middle','font-size':13,'font-weight':900,fill:ring.color,'paint-order':'stroke',stroke:'#fff','stroke-width':3},ring.label));
+     const placed=[];
+     ring.items.forEach(p=>{
+       const angle=((Number(p.nav.longitude)%360)+360)%360;
+       const [ax,ay]=polar(cx,cy,ring.markerR,angle); // exact calculated position, never moved
+       const within=angle%30,distToBoundary=Math.min(within,30-within);
+       const nearBoundary=distToBoundary<=5;
+       // Search nearby angles and radii until the visible purple/green markers no longer collide.
+       // This changes drawing positions only; the true calculated anchor and longitude remain untouched.
+       const markerSize=p.tanuLord?17:(p.isAsc?15:13);
+       // ห้ามเลื่อนดาวตามมุม เพราะอาจทำให้ marker ไปอยู่คนละราศี/ตรียางค์จากตำแหน่งจริง
+       // แยกดาวที่ชนกันด้วยรัศมีเท่านั้น โดยคงมุมจริงไว้เสมอ
+       const radialOffsets=[0,18,-18,30,-30,42,-42,50,-50];
+       let mx=ax,my=ay,displayAngle=angle,radius=ring.markerR,found=false,bestScore=Infinity;
+       for(const ro of radialOffsets){
+         const candidateR=ring.markerR+ro;
+         if(candidateR<ring.inner+markerSize+2||candidateR>ring.outer-markerSize-2)continue;
+         const [x,y]=polar(cx,cy,candidateR,angle);
+         const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
+         if(collision===0){mx=x;my=y;radius=candidateR;found=true;break;}
+         if(collision<bestScore){bestScore=collision;mx=x;my=y;radius=candidateR;}
+       }
+       placed.push({x:mx,y:my,size:markerSize});
+       const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-navamsha-sign':p.nav.sign,'data-navamsa-number':p.nav.number,'data-navamsa-digit':p.nav.navNumber});
+       // When close to a sign boundary or another marker, show the exact anchor and connect it to the offset marker.
+       if(nearBoundary||Math.hypot(mx-ax,my-ay)>1){
+         g.appendChild(node('line',{x1:ax,y1:ay,x2:mx,y2:my,stroke:ring.color,'stroke-width':1.25,'stroke-linecap':'round',opacity:0.98}));
+         g.appendChild(node('circle',{cx:ax,cy:ay,r:3.2,fill:ring.color,stroke:'#fff','stroke-width':1}));
+       }
+       g.appendChild(node('circle',{cx:mx,cy:my,r:p.tanuLord?17:(p.isAsc?15:13),fill:ring.color,stroke:'#fff','stroke-width':2}));
+       g.appendChild(node('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':p.tanuLord?10.5:12,'font-weight':900,fill:'#fff'},(planetNums[p.name]||'•')+(p.tanuLord?'+':'')));
+       const [nx,ny]=polar(cx,cy,radius+(ring.key==='transit'?19:18),angle);
+       g.appendChild(node('text',{x:nx,y:ny+3,'text-anchor':'middle','font-size':11,'font-weight':900,fill:ring.color,'paint-order':'stroke',stroke:'#fff','stroke-width':2.5},p.nav.navNumber));
+       const title=node('title',{},(p.kind==='transit'?'จร ':'เดิม ')+p.name+(p.tanuLord?' + ตนุนวางค์':'')+' · นวางค์ที่ '+p.nav.number+' · เลขนวางค์ '+p.nav.navNumber+' · ราศี'+p.nav.sign+' · ตำแหน่งจริง '+angle.toFixed(4)+'°');
+       g.appendChild(title);svg.appendChild(g);
+     });
+   });
+   svg.appendChild(node('circle',{cx,cy,r:132,fill:'#fff',stroke:'#8795b0','stroke-width':1.3}));
+   svg.appendChild(node('text',{x:cx,y:cy-26,'text-anchor':'middle','font-size':24,'font-weight':900,fill:'#172746'},'นวางค์'));
+   svg.appendChild(node('text',{x:cx,y:cy+2,'text-anchor':'middle','font-size':13,'font-weight':850,fill:'#6258d9'},'ด้านใน · เดิม'));
+   svg.appendChild(node('text',{x:cx,y:cy+23,'text-anchor':'middle','font-size':13,'font-weight':850,fill:'#16835d'},'ด้านนอก · จร'));
+   svg.appendChild(node('text',{x:cx,y:cy+45,'text-anchor':'middle','font-size':11,fill:'#68758c'},'เลขเล็ก = เลขนวางค์'));
+   root.replaceChildren(svg);
+   log('SVG DRAW COMPLETE',{children:svg.children.length,markers:svg.querySelectorAll('g[data-planet]').length});
+   const results=document.getElementById('navamsaResults50');if(!results){log('DRAW FAIL: RESULTS ROOT NOT FOUND');return;}results.innerHTML='';
+   all.forEach(p=>{
+     const sourceSign=Math.floor((((Number(p.longitude)%360)+360)%360)/30);
+     const within=((Number(p.longitude)%30)+30)%30,deg=Math.floor(within),min=Math.floor((within-deg)*60);
+     const lordNum=signLords[p.nav.signIndex],lordName=lordNames[lordNum]||'ตามเกณฑ์ราศี';
+     const card=document.createElement('article');card.className='nav50-card';
+     const title=document.createElement('strong');title.textContent=(p.kind==='transit'?'จร ':'เดิม ')+(planetNums[p.name]||'')+' '+p.name;card.appendChild(title);
+     const line1=document.createElement('small');line1.textContent='ตำแหน่งเดิม: '+signs[sourceSign]+' '+fmt(deg)+'° '+fmt(min)+'′';card.appendChild(line1);
+     const line2=document.createElement('small');line2.className='nav50-em';line2.textContent='นวางค์ที่ '+fmt(p.nav.number)+' · เลขนวางค์ '+fmt(p.nav.navNumber)+' · ลงราศี'+p.nav.sign;card.appendChild(line2);
+     const line3=document.createElement('small');line3.textContent='เกษตรของราศีปลายทาง: '+lordNum+(lordName?' ('+lordName+')':'');card.appendChild(line3);
+     results.appendChild(card);
+   });
+ }
+ let latestChartData=null;
+ document.getElementById('calc')?.addEventListener('click',()=>{latestChartData=null;const b=document.getElementById('navamsaRun50');if(b){b.disabled=true;b.textContent='รอข้อมูลดวงใหม่…';}});
+ window.addEventListener('hora50:chart-calculated',e=>{latestChartData=e.detail||null;const readyBtn=document.getElementById('navamsaRun50');if(readyBtn){readyBtn.disabled=false;readyBtn.textContent='คำนวณนวางค์';}log('CHART DATA CACHED FOR NAVAMSA',{keys:Object.keys(latestChartData||{}),natalCount:latestChartData?.natal?.planets?.length??null,transitCount:latestChartData?.transit?.planets?.length??null});const status=document.getElementById('navamsaRunStatus50');if(status)status.textContent='รับข้อมูลดวงหลักแล้ว · กด “คำนวณนวางค์” เพื่อวาดวงแยก';});
+ document.getElementById('navamsaRun50')?.addEventListener('click',()=>{const status=document.getElementById('navamsaRunStatus50');const results=document.getElementById('navamsaResults50');if(!latestChartData){log('NAVAMSA BUTTON BLOCKED: NO CHART DATA');if(status)status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดาวเดิม + ดาวจร” ก่อน';if(results)results.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดวงหลักก่อน';return;}const btn=document.getElementById('navamsaRun50');if(btn.dataset.calculating==='1')return;btn.dataset.calculating='1';btn.disabled=true;btn.classList.add('is-calculating');btn.setAttribute('aria-busy','true');btn.textContent='กำลังคำนวณนวางค์…';log('NAVAMSA BUTTON CLICKED');setTimeout(()=>{try{draw(latestChartData);if(status)status.textContent='คำนวณและวาดวงนวางค์เสร็จแล้ว · ใช้ข้อมูลดวงหลักชุดล่าสุด';log('NAVAMSA DRAW COMPLETE')}catch(err){log('DRAW ERROR',{name:err?.name,message:err?.message,stack:err?.stack||''});console.error('[HORA][NAVAMSA50]',err);if(results)results.textContent='วาดวงกลมนวางค์ไม่สำเร็จ: '+(err?.message||err);if(status)status.textContent='วาดนวางค์ไม่สำเร็จ กรุณาดู LOG ด้านบน'}finally{btn.dataset.calculating='0';btn.disabled=false;btn.classList.remove('is-calculating');btn.removeAttribute('aria-busy');btn.textContent='คำนวณนวางค์';}},35);});
+})();
+
+
+/* index50 only: separate Triyang wheel; uses cached calculated chart data and does not alter planetary formulas. */
+(()=>{
+ const log=(label,detail)=>window.__NAV50LOG?.add(label,detail);
+ const NS='http://www.w3.org/2000/svg';
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const signLords=['๓','๖','๔','๒','๑','๔','๖','๓','๕','๗','๘','๕'];
+ const planetNums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'@'};
+ const fmt=n=>String(n).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ const node=(tag,attrs,text)=>{const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));if(text!==undefined)e.textContent=text;return e;};
+ const polar=(cx,cy,r,lon)=>{const a=(-lon-75)*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+ const sector=(cx,cy,ro,ri,start,end)=>{const [x1,y1]=polar(cx,cy,ro,start),[x2,y2]=polar(cx,cy,ro,end),[x3,y3]=polar(cx,cy,ri,end),[x4,y4]=polar(cx,cy,ri,start);return 'M '+x1+' '+y1+' A '+ro+' '+ro+' 0 0 0 '+x2+' '+y2+' L '+x3+' '+y3+' A '+ri+' '+ri+' 0 0 1 '+x4+' '+y4+' Z';};
+ function triOf(lon){
+   const n=((Number(lon)%360)+360)%360,sourceSign=Math.floor(n/30),within=n%30;
+   const part=Math.min(2,Math.floor(within/10)),destSign=(sourceSign+[0,4,8][part])%12;
+   const withinPart=within-part*10;
+   return {part:part+1,sourceSign,signIndex:destSign,sign:signs[destSign],lordNum:signLords[destSign],longitude:destSign*30+withinPart*3,degreeInPart:withinPart};
+ }
+ function draw(data){
+   const root=document.getElementById('triyangWheel50'),results=document.getElementById('triyangResults50');
+   if(!root||!results)throw new Error('ไม่พบพื้นที่วงกลมตรียางค์');
+   const natal=(data.natal?.planets||[]).map(p=>({...p,kind:'birth'}));
+   const transit=(data.transit?.planets||[]).map(p=>({...p,kind:'transit'}));
+   if(Number.isFinite(Number(data.natal?.asc)))natal.push({name:'ลัคนา',longitude:Number(data.natal.asc),kind:'birth',isAsc:true});
+   if(Number.isFinite(Number(data.transit?.asc)))transit.push({name:'ลัคนา',longitude:Number(data.transit.asc),kind:'transit',isAsc:true});
+   const ascLord={birth:Number.isFinite(Number(data.natal?.asc))?triOf(Number(data.natal.asc)).lordNum:null,transit:Number.isFinite(Number(data.transit?.asc))?triOf(Number(data.transit.asc)).lordNum:null};
+   const all=[...natal,...transit].filter(p=>Number.isFinite(Number(p.longitude))).map(p=>({...p,tri:triOf(p.longitude),tanuLord:ascLord[p.kind]===(planetNums[p.name]||null)}));
+   const svg=node('svg',{class:'tri50-svg',viewBox:'0 0 760 760',role:'img','aria-label':'วงกลมตรียางค์ ดาวเดิมด้านใน ดาวจรด้านนอก ใช้การนับราศี 1 5 9'});
+   const cx=380,cy=380;
+   svg.appendChild(node('circle',{cx,cy,r:348,fill:'#fff',stroke:'#233453','stroke-width':2}));
+   const rings=[
+    {key:'transit',label:'ตรียางค์จร',outer:348,inner:252,labelR:320,markerR:278,fillA:'#e3f4ed',fillB:'#f1faf6',color:'#16835d',items:all.filter(p=>p.kind==='transit')},
+    {key:'birth',label:'ตรียางค์เดิม',outer:238,inner:142,labelR:211,markerR:190,fillA:'#eceaff',fillB:'#f7f6ff',color:'#6258d9',items:all.filter(p=>p.kind==='birth')}
+   ];
+   rings.forEach(ring=>{
+    for(let si=0;si<12;si++){
+     svg.appendChild(node('path',{d:sector(cx,cy,ring.outer,ring.inner,si*30,(si+1)*30),fill:si%2?ring.fillB:ring.fillA,stroke:'#8c99b2','stroke-width':1.1}));
+     // ซ่อนทั้งชื่อราศีและเลขเกษตรประจำช่องในวงตรียางค์ เพื่อให้เห็นตำแหน่งดาวชัดเจน
+    }
+    svg.appendChild(node('circle',{cx,cy,r:ring.outer,fill:'none',stroke:'#344563','stroke-width':1.5}));
+    svg.appendChild(node('circle',{cx,cy,r:ring.inner,fill:'none',stroke:'#8795b0','stroke-width':1.2}));
+    svg.appendChild(node('text',{x:cx,y:cy-ring.outer+19,'text-anchor':'middle','font-size':13,'font-weight':900,fill:ring.color,'paint-order':'stroke',stroke:'#fff','stroke-width':3},ring.label));
+    const placed=[];
+    ring.items.forEach(p=>{
+     const angle=((Number(p.tri.longitude)%360)+360)%360;
+     const [ax,ay]=polar(cx,cy,ring.markerR,angle);
+     const within=angle%30,nearBoundary=Math.min(within,30-within)<=5;
+     // Search nearby angles and radii until the visible purple/green markers no longer collide.
+     // This changes drawing positions only; the true calculated anchor and longitude remain untouched.
+     const markerSize=p.tanuLord?17:(p.isAsc?15:13);
+     const radialOffsets=[0,15,-15,30,-30,42,-42];
+     let mx=ax,my=ay,radius=ring.markerR,found=false,bestScore=Infinity;
+     // ห้ามเลื่อนดาวตามมุมเด็ดขาด เพราะเส้นชี้จะทำให้ดูเหมือนดาวอยู่คนละราศี
+     // แยกดาวที่ทับกันด้วยรัศมีเท่านั้น โดยรักษามุมจริงของดาวไว้
+     for(const ro of radialOffsets){
+      const candidateR=ring.markerR+ro;
+      if(candidateR<ring.inner+markerSize+2||candidateR>ring.outer-markerSize-2)continue;
+      const [x,y]=polar(cx,cy,candidateR,angle);
+      const collision=placed.reduce((sum,q)=>sum+Math.max(0,q.size+markerSize+4-Math.hypot(q.x-x,q.y-y)),0);
+      if(collision===0){mx=x;my=y;radius=candidateR;found=true;break;}
+      if(collision<bestScore){bestScore=collision;mx=x;my=y;radius=candidateR;}
+     }
+     placed.push({x:mx,y:my,size:markerSize});
+     const g=node('g',{'data-kind':p.kind,'data-planet':p.name,'data-triyang-sign':p.tri.sign,'data-triyang-part':p.tri.part});
+     if(nearBoundary||Math.hypot(mx-ax,my-ay)>1){g.appendChild(node('line',{x1:ax,y1:ay,x2:mx,y2:my,stroke:ring.color,'stroke-width':1.25,'stroke-linecap':'round'}));g.appendChild(node('circle',{cx:ax,cy:ay,r:1.8,fill:ring.color,stroke:'#fff','stroke-width':.7,'data-true-anchor':'true'}));}
+     g.appendChild(node('circle',{cx:mx,cy:my,r:p.tanuLord?17:(p.isAsc?15:13),fill:ring.color,stroke:'#fff','stroke-width':2}));
+     g.appendChild(node('text',{x:mx,y:my+4,'text-anchor':'middle','font-size':p.tanuLord?10.5:12,'font-weight':900,fill:'#fff'},(planetNums[p.name]||'•')+(p.tanuLord?'+':'')));
+     const [nx,ny]=polar(cx,cy,radius+(ring.key==='transit'?19:18),angle);
+     g.appendChild(node('text',{x:nx,y:ny+3,'text-anchor':'middle','font-size':11,'font-weight':900,fill:ring.color,'paint-order':'stroke',stroke:'#fff','stroke-width':2.5},p.tri.lordNum));
+     g.appendChild(node('title',{},(p.kind==='transit'?'จร ':'เดิม ')+p.name+(p.tanuLord?' + ตนุตรียางค์':'')+' · ตรียางค์ส่วนที่ '+p.tri.part+' · ลงราศี'+p.tri.sign+' · เกษตรเลข '+p.tri.lordNum));
+     svg.appendChild(g);
+    });
+   });
+   svg.appendChild(node('circle',{cx,cy,r:132,fill:'#fff',stroke:'#8795b0','stroke-width':1.3}));
+   svg.appendChild(node('text',{x:cx,y:cy-26,'text-anchor':'middle','font-size':24,'font-weight':900,fill:'#172746'},'ตรียางค์'));
+   svg.appendChild(node('text',{x:cx,y:cy+2,'text-anchor':'middle','font-size':13,'font-weight':850,fill:'#6258d9'},'ด้านใน · เดิม'));
+   svg.appendChild(node('text',{x:cx,y:cy+23,'text-anchor':'middle','font-size':13,'font-weight':850,fill:'#16835d'},'ด้านนอก · จร'));
+   svg.appendChild(node('text',{x:cx,y:cy+45,'text-anchor':'middle','font-size':11,fill:'#68758c'},'เลขเล็ก = เกษตรราศีปลายทาง'));
+   root.replaceChildren(svg);
+   results.innerHTML='';
+   all.forEach(p=>{
+    const sourceSign=Math.floor((((Number(p.longitude)%360)+360)%360)/30),n=((Number(p.longitude)%360)+360)%360,within=n%30,deg=Math.floor(within),min=Math.floor((within-deg)*60);
+    const card=document.createElement('article');card.className='tri50-card';
+    const title=document.createElement('strong');title.textContent=(p.kind==='transit'?'จร ':'เดิม ')+(planetNums[p.name]||'')+' '+p.name+(p.tanuLord?' +':'');card.appendChild(title);
+    const line1=document.createElement('small');line1.textContent='ตำแหน่งจริง: ราศี'+signs[sourceSign]+' '+fmt(deg)+'° '+fmt(min)+'′';card.appendChild(line1);
+    const line2=document.createElement('small');line2.className='tri50-em';line2.textContent='ตรียางค์ส่วนที่ '+p.tri.part+' · ลงราศี'+p.tri.sign;card.appendChild(line2);
+    const line3=document.createElement('small');line3.textContent='เกษตรราศีปลายทาง: '+p.tri.lordNum;card.appendChild(line3);
+    results.appendChild(card);
+   });
+   log('TRIYANG DRAW COMPLETE',{markers:svg.querySelectorAll('g[data-planet]').length});
+ }
+ let latestChartData=null;
+ document.getElementById('calc')?.addEventListener('click',()=>{latestChartData=null;const b=document.getElementById('triyangRun50');if(b){b.disabled=true;b.textContent='รอข้อมูลดวงใหม่…';}});
+ window.addEventListener('hora50:chart-calculated',e=>{latestChartData=e.detail||null;const readyBtn=document.getElementById('triyangRun50');if(readyBtn){readyBtn.disabled=false;readyBtn.textContent='คำนวณตรียางค์';}const status=document.getElementById('triyangRunStatus50');if(status)status.textContent='รับข้อมูลดวงหลักแล้ว · กด “คำนวณตรียางค์” เพื่อวาดวงแยก';});
+ document.getElementById('triyangRun50')?.addEventListener('click',()=>{
+  const status=document.getElementById('triyangRunStatus50'),results=document.getElementById('triyangResults50'),btn=document.getElementById('triyangRun50');
+  if(!latestChartData){if(status)status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดาวเดิม + ดาวจรก่อน';if(results)results.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณาคำนวณดวงหลักก่อน';return;}
+  if(btn.dataset.calculating==='1')return;btn.dataset.calculating='1';btn.disabled=true;btn.classList.add('is-calculating');btn.setAttribute('aria-busy','true');btn.textContent='กำลังคำนวณตรียางค์…';
+  setTimeout(()=>{try{draw(latestChartData);if(status)status.textContent='คำนวณและวาดวงกลมตรียางค์เสร็จแล้ว · ใช้ข้อมูลดวงหลักชุดล่าสุด';}catch(err){console.error('[HORA][TRIYANG50]',err);if(results)results.textContent='วาดวงกลมตรียางค์ไม่สำเร็จ: '+(err?.message||err);if(status)status.textContent='วาดตรียางค์ไม่สำเร็จ กรุณาตรวจสอบ LOG';}finally{btn.dataset.calculating='0';btn.disabled=false;btn.classList.remove('is-calculating');btn.removeAttribute('aria-busy');btn.textContent='คำนวณตรียางค์';}},35);
+ });
+})();
+
+</script>
+<script>
+/* index51 only: section 7.01 — show house number and Thai house name from natal ascendant. */
+(()=>{
+ const body=document.getElementById('natalStarDetailsBody');
+ if(!body)return;
+ const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+ const decorate=()=>{
+  body.querySelectorAll('tr').forEach(row=>{
+   const cell=row.cells?.[3];
+   if(!cell)return;
+   const value=cell.textContent.trim();
+   if(!/^\d{1,2}$/.test(value))return;
+   const n=Number(value);
+   if(n>=1&&n<=12) {
+    cell.textContent=n+'.'+houseNames[n-1];
+    cell.setAttribute('data-house-name-7-01','1');
+   }
+  });
+ };
+ new MutationObserver(decorate).observe(body,{childList:true,subtree:true});
+ decorate();
+})();
+</script>
+<script>
+/* index51 only: section 7.02 — show natal-house number and Thai house name for transit planets. */
+(()=>{
+ const body=document.getElementById('transitStarDetailsBody');
+ if(!body)return;
+ const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+ const decorate=()=>{
+  body.querySelectorAll('tr').forEach(row=>{
+   const cell=row.cells?.[3];
+   if(!cell)return;
+   const value=cell.textContent.trim();
+   if(!/^\d{1,2}$/.test(value))return;
+   const n=Number(value);
+   if(n>=1&&n<=12) {
+    cell.textContent=n+'.'+houseNames[n-1];
+    cell.setAttribute('data-house-name-7-02','1');
+   }
+  });
+ };
+ new MutationObserver(decorate).observe(body,{childList:true,subtree:true});
+ decorate();
+})();
+</script>
+
+<script id="planetThaksaAnalysisScript100">
+(()=> {
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ let latest=null;
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const planets=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'];
+ const roles=['บริวาร','อายุ','เดช','ศรี','มูละ','อุตสาหะ','มนตรี','กาลี'];
+ const pnums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'ล.'};
+ const elementSigns={0:[0,4,8],1:[1,5,9],2:[2,6,10],3:[3,7,11]};
+ const signElement=[0,1,2,3,0,1,2,3,0,1,2,3];
+ const thaksaOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
+ function safe(v){return String(v??'—')}
+ function norm(v){return ((Number(v)%360)+360)%360}
+ function signOf(lon){return Math.floor(norm(lon)/30)}
+ function degText(lon){const x=norm(lon)%30,d=Math.floor(x),m=Math.floor((x-d)*60);return d+'° '+String(m).padStart(2,'0')+'′'}
+ function nav(lon){const s=signOf(lon),inside=norm(lon)%30,n=Math.min(8,Math.floor(inside/(30/9)));return {sign:(s*9+n)%12,num:n+1}}
+ function tri(lon){const s=signOf(lon),inside=norm(lon)%30,part=Math.min(2,Math.floor(inside/10)),seq=elementSigns[signElement[s]];return {sign:seq[part],part:part+1}}
+ function house(lon,asc){if(!Number.isFinite(Number(lon))||!Number.isFinite(Number(asc)))return '—';return ((signOf(lon)-signOf(asc)+12)%12)+1}
+ function thaksaMap(start){const idx=thaksaOrder.indexOf(start);if(idx<0)return {};const out={};for(let i=0;i<8;i++)out[thaksaOrder[(idx+i)%8]]=roles[i];return out}
+ function activeBirthPlanet(){const d=Number($('bDay')?.value),m=Number($('bMonth')?.value),y=Number($('bYear')?.value),h=Number($('bHour')?.value);if(!d||!m||!y||!Number.isFinite(h))return null;let date=new Date(y-543,m-1,d,12);let dow=date.getDay();if(h<6){date.setDate(date.getDate()-1);dow=date.getDay()}const weekday=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];if((dow===3&&h>=18)||(dow===4&&h<6))return 'ราหู';return weekday[dow]}
+ function ageYang(){const vals=['bDay','bMonth','bYear','fDay','fMonth','fYear'].map(id=>Number($(id)?.value));if(vals.some(v=>!v))return null;const [bd,bm,by,fd,fm,fy]=vals;let age=fy-by;if(fm<bm||(fm===bm&&fd<bd))age--;return Math.max(1,age+1)}
+ function transitStart(){const birth=activeBirthPlanet(),age=ageYang();if(!birth||!age)return null;const path=['อาทิตย์','จุดกลาง','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];let idx=path.indexOf(birth);if(idx<0)idx=0;const count=String(age).split('').reduce((a,c)=>a+Number(c),0);let found=birth;for(let i=0;i<count;i++)found=path[(idx+i)%path.length];return found==='จุดกลาง'?'พฤหัสบดี':found}
+ function td(text){const e=document.createElement('td');e.textContent=text;return e}
+ function rowHtml(p,kind,asc,birthMap,transitMap){const lon=Number(p.longitude);if(!Number.isFinite(lon))return null;const si=signOf(lon),n=nav(lon),t=tri(lon),ns=n.sign,ts=t.sign;const navCenter=ns*30+((norm(lon)%30)*9%30);const triCenter=ts*30+((norm(lon)%30)*3%30);const role=(map,sign)=>map[sign]||'—';const tr=document.createElement('tr');[
+ kind,pnums[p.name]?pnums[p.name]+' '+p.name:p.name,
+ signs[si]+' '+degText(lon),String(house(lon,asc)),
+ 'นวางค์ '+n.num+' · '+signs[ns],String(house(navCenter,asc)),
+ 'ตรียางค์ '+t.part+' · '+signs[ts],String(house(triCenter,asc)),
+ role(birthMap,p.name),role(transitMap,p.name),
+ role(birthMap,p.name)+' (นวางค์ '+signs[ns]+')',role(transitMap,p.name)+' (นวางค์ '+signs[ns]+')',
+ role(birthMap,p.name)+' (ตรียางค์ '+signs[ts]+')',role(transitMap,p.name)+' (ตรียางค์ '+signs[ts]+')'
+].forEach(v=>tr.appendChild(td(v)));return tr}
+ function render(){const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}const natal=latest.natal||{},transit=latest.transit||{};const bStart=activeBirthPlanet(),tStart=transitStart();if(!bStart||!tStart){status.textContent='กรุณาตรวจสอบวันเกิดและวันจรให้ครบ แล้วคำนวณดวงใหม่';return}const bm=thaksaMap(bStart),tm=thaksaMap(tStart);body.replaceChildren();const datasets=[...(natal.planets||[]).map(p=>({p,kind:'ดาวเดิม',asc:natal.asc})),...(transit.planets||[]).map(p=>({p,kind:'ดาวจร',asc:natal.asc}))];for(const item of datasets){const tr=rowHtml(item.p,item.kind,item.asc,bm,tm);if(tr)body.appendChild(tr)}if(!body.children.length)body.innerHTML='<tr><td colspan="14">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');}
+ window.addEventListener('hora50:chart-calculated',e=>{latest=e.detail||null;$('planetThaksaStatus100').textContent='รับข้อมูลดวงแล้ว · กด “สร้างตารางวิเคราะห์ดาว”'});
+ $('runPlanetThaksaAnalysis100')?.addEventListener('click',render);
+})();
+</script>
+
+</body></html>
