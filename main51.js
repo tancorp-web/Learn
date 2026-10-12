@@ -380,8 +380,8 @@ function renderThaksaPairing51(natal,transit){
    if(!Number.isFinite(nx)||!Number.isFinite(tx))continue;
    const nv=f.kind==='planet'?name:f.kind==='navamsa'?navamsaOf(nx).lord:drekkanaOf(nx).lord;
    const tv=f.kind==='planet'?name:f.kind==='navamsa'?navamsaOf(tx).lord:drekkanaOf(tx).lord;
-   const nl=f.kind==='planet'?(num[nv]||'')+' '+nv:labelOf(nv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
-   const tl=f.kind==='planet'?(num[tv]||'')+' '+tv:labelOf(tv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
+   const nl=f.kind==='planet'?(num[nv]||'')+' '+nv:name+' → '+labelOf(nv)+' · '+(f.kind==='navamsa'?'ดาวเจ้าเรือนนวางค์':'ดาวเจ้าเรือนตรียางค์');
+   const tl=f.kind==='planet'?(num[tv]||'')+' '+tv:name+' → '+labelOf(tv)+' · '+(f.kind==='navamsa'?'ดาวเจ้าเรือนนวางค์':'ดาวเจ้าเรือนตรียางค์');
    rows.push('<tr><td>'+f.label+'</td><td>'+nl+'</td><td>'+lookup(f.map,nv)+'</td><td>'+tl+'</td><td>'+lookup(f.map,tv)+'</td></tr>');
   }
  }
