@@ -1180,7 +1180,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const target=((Number(lon)%360)+360)%360;
    const marker=markers.find(el=>el.getAttribute('data-planet')===planet&&Math.abs((((Number(el.getAttribute('data-longitude'))-target)+540)%360)-180)<0.02);
    const confirmed=(marker?.getAttribute('data-planet-standards102')||'').split('|').filter(Boolean);
-   add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'');
+   add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'-');
 
   }
   if(kind!=='natal'){
@@ -1193,7 +1193,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const target=((Number(lon)%360)+360)%360;
    const marker=markers.find(el=>el.getAttribute('data-planet')===planet&&Math.abs((((Number(el.getAttribute('data-longitude'))-target)+540)%360)-180)<0.02);
    const confirmed=(marker?.getAttribute('data-planet-standards102')||'').split('|').filter(Boolean);
-   add('มาตรฐานดาว',confirmed.join(' · '));
+   add('มาตรฐานดาว',confirmed.join(' · ')||'-');
 
   }
   add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'-');
