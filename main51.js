@@ -351,7 +351,9 @@ window.__HORA9_ANALYZE_SEGMENT = async function({date,time,longitude}){
   }
  }
  for(const [name,items] of Object.entries(relGroups))relations.push(name+': '+items.join(', '));
- return {standards,criteria:[],numbers,relations,relationNumbers,ascSign};
+ const positions=transit.planets.map(p=>({name:p.name,longitude:Number(p.longitude)}));
+ positions.push({name:'ลัคนาจร',longitude:Number(transit.asc)});
+ return {standards,criteria:[],numbers,relations,relationNumbers,ascSign,positions};
 };
 function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degrees=Math.floor(absolute),minutesFloat=(absolute-degrees)*60,minutes=Math.floor(minutesFloat),seconds=Math.round((minutesFloat-minutes)*60),direction=isLatitude?(value<0?'S':'N'):(value<0?'W':'E');return degrees+'°'+direction+String(minutes).padStart(2,'0')+"'"+String(seconds).padStart(2,'0')+"''";}
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
