@@ -301,7 +301,8 @@ function renderNumericAstrologySummary(natal,transit){
  addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ดวงจันทร์เสี้ยว/มาลัยโยค/อัฒจักร','');
  addSpecial('คลังชื่อเกณฑ์ที่ต้องแยกสูตร','ราคาโชค','');
  rows.push(...specialRows);
- let group='';body.innerHTML=rows.map(r=>{const g=r.group!==group?'<tr class="criteria7-group-row"><th colspan="3">'+esc(r.group)+'</th></tr>':'';group=r.group;return g+'<tr><td>'+esc(r.c)+'</td><td>'+esc(r.n)+'</td><td>'+esc(r.t)+'</td></tr>'}).join('');
+ const displayRows=rows.filter(r=>!(r.group==='คลังชื่อเกณฑ์ที่ต้องแยกสูตร'&&String(r.c||'').trim()==='ราชาโชค'));
+ let group='';body.innerHTML=displayRows.map(r=>{const g=r.group!==group?'<tr class="criteria7-group-row"><th colspan="3">'+esc(r.group)+'</th></tr>':'';group=r.group;return g+'<tr><td>'+esc(r.c)+'</td><td>'+esc(r.n)+'</td><td>'+esc(r.t)+'</td></tr>'}).join('');
  const head=table.querySelector('thead');if(head)head.innerHTML='<tr><th>มาตรฐาน / ความสัมพันธ์ / เกณฑ์พิเศษ</th><th>ดาวเดิม (เลขดาว/คู่ดาว)</th><th>ดาวจรเทียบดาวเดิม (เลขดาว)</th></tr>';
  const lead=$('planetDignityNumberSummary8')?.querySelector('.criteria7-lead');if(lead)lead.textContent='สร้างตารางจากวัตถุผลคำนวณโดยตรง จึงไม่ต้องอ่านย้อนจาก HTML. เลขเดี่ยวคือดาวที่เข้าเกณฑ์; ๓–๖ คือคู่ดาวเดิม; ๓→๖ คือดาวจรเทียบดาวเดิม. กุม/ทับ/เล็ง/โยค/ตรีโกณ/จตุโกณคำนวณจากราศีตามชุดกฎของโปรเจค ส่วนฉากต้องกำหนดออร์บองศา. ดอกพิกุลแสดงเพียงโครงตำแหน่งแบบ A ซึ่งยังมีเงื่อนไขบางส่วนที่ต้องยืนยัน.';
 }
