@@ -2086,7 +2086,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  function countValues(values){
   const counts=new Map();
   values.forEach(item=>{const key=String(item);counts.set(key,(counts.get(key)||0)+1);});
-  const numericKey=value=>{const translated=String(value).replace(/[๐-๙]/g,ch=>String('๐๑๒๓๔๕๖๗๘๙'.indexOf(ch)));return /^\\d+$/.test(translated)?Number(translated):Number.POSITIVE_INFINITY;};
+  const numericKey=value=>{const translated=String(value).replace(/[๐-๙]/g,ch=>String('๐๑๒๓๔๕๖๗๘๙'.indexOf(ch)));return /^\d+$/.test(translated)?Number(translated):Number.POSITIVE_INFINITY;};
   return [...counts.entries()].filter(([,count])=>count>1).sort((a,b)=>numericKey(a[0])-numericKey(b[0])||String(a[0]).localeCompare(String(b[0]),'th'));
  }
  function renderResult(selected,segments){
