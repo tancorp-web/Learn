@@ -1186,7 +1186,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const target=((Number(lon)%360)+360)%360;
    const marker=markers.find(el=>el.getAttribute('data-planet')===planet&&Math.abs((((Number(el.getAttribute('data-longitude'))-target)+540)%360)-180)<0.02);
    const confirmed=(marker?.getAttribute('data-planet-standards102')||'').split('|').filter(Boolean);
-   add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'ยังอ่านมาตรฐานจากวงกลมดาวไม่ได้ กรุณารอให้วงกลมแสดงวงขอบมาตรฐาน');
+   add('มาตรฐานดาว',confirmed.join(' · '));
    const root=$('thaksaTransit51');
    const cell=[...(root?.querySelectorAll('.thaksa51-cell')||[])].find(el=>el.querySelector('b')?.textContent.trim()===planet);
    const role=cell?.querySelector('.thaksa51-role')?.textContent.trim();
