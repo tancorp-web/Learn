@@ -2145,7 +2145,10 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const analyzer=await waitForAnalyzer();
    const boundaries=await getBoundaries(date,time,longitude);
    if(boundaries.length!==12)throw new Error('จำนวนขอบเขตราศีไม่ครบ 12 จุด');
-   const ordered=boundaries.map(x=>({...x,minutes:mod(Number(x.minutes),1440)})).sort((a,b)=>a.minutes-b.minutes);
+   const ordered=boundaries.map(x=>({...x,sign:Number(x.sign),minutes:mod(Number(x.minutes),1440)})).sort((a,b)=>a.minutes-b.minutes);
+   if(ordered.some(x=>!Number.isInteger(x.sign)||x.sign<0||x.sign>11||!Number.isFinite(x.minutes)))throw new Error('ข้อมูลขอบเขตมีราศีหรือเวลาไม่ถูกต้อง');
+   if(new Set(ordered.map(x=>x.sign)).size!==12)throw new Error('ข้อมูลขอบเขตมีราศีซ้ำหรือขาดหาย');
+   if(ordered.some((x,i)=>i>0&&Math.abs(x.minutes-ordered[i-1].minutes)<0.01))throw new Error('พบเวลาเปลี่ยนราศีซ้ำกัน จึงหยุดเพื่อป้องกันช่วงเวลาทับซ้อน');
    const segments=[];
    for(let i=0;i<ordered.length;i++){
     const current=ordered[i],next=ordered[(i+1)%ordered.length];
