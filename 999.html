@@ -2137,7 +2137,10 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    if(!Number.isFinite(longitude)||longitude < -180||longitude > 180)throw new Error('ลองจิจูดของสถานที่ไม่ถูกต้อง');
    const year=Number(beYear)-543;
    if(!Number.isInteger(year)||year<1)throw new Error('ปี พ.ศ. ไม่ถูกต้อง');
-   const date=year+'-'+pad(Number(month))+'-'+pad(Number(day));
+   const numericDay=Number(day),numericMonth=Number(month);
+   const calendarCheck=new Date(Date.UTC(year,numericMonth-1,numericDay));
+   if(!Number.isInteger(numericDay)||!Number.isInteger(numericMonth)||numericMonth<1||numericMonth>12||calendarCheck.getUTCFullYear()!==year||calendarCheck.getUTCMonth()!==numericMonth-1||calendarCheck.getUTCDate()!==numericDay)throw new Error('วันที่เลือกไม่มีอยู่จริงในปฏิทิน กรุณาตรวจวัน เดือน และปี');
+   const date=year+'-'+pad(numericMonth)+'-'+pad(numericDay);
    const time=pad(Number(hour))+':'+pad(Number(minute));
    const analyzer=await waitForAnalyzer();
    const boundaries=await getBoundaries(date,time,longitude);
