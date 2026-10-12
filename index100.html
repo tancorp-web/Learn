@@ -1494,10 +1494,6 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    body.replaceChildren();
    for(const name of names){
     const rows=thaksaRowsForPlanet(name,natalByName.get(name),transitByName.get(name),bm,tm);
-    if(!rows.length)continue;
-    const first=rows.shift();
-    first.cells[0].rowSpan=rows.length+1;
-    body.appendChild(first);
     for(const row of rows)body.appendChild(row);
    }
    if(!body.children.length)body.innerHTML='<tr><td colspan="7">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';
