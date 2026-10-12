@@ -1437,17 +1437,17 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  function degText(lon){const x=norm(lon)%30,d=Math.floor(x),m=Math.floor((x-d)*60);return d+'° '+String(m).padStart(2,'0')+'′'}
  function nav(lon){const s=signOf(lon),inside=norm(lon)%30,n=Math.min(8,Math.floor(inside/(30/9)));return {sign:(s*9+n)%12,num:n+1}}
  function tri(lon){const s=signOf(lon),inside=norm(lon)%30,part=Math.min(2,Math.floor(inside/10)),seq=elementSigns[signElement[s]];return {sign:seq[part],part:part+1}}
- function house(lon,asc){if(!Number.isFinite(Number(lon))||!Number.isFinite(Number(asc)))return '—';return ((signOf(lon)-signOf(asc)+12)%12)+1} function houseFromSigns(posSign,ascSign){if(!Number.isFinite(Number(posSign))||!Number.isFinite(Number(ascSign)))return '—';return ((Number(posSign)-Number(ascSign)+12)%12)+1}
+ function house(lon,asc){if(!Number.isFinite(Number(lon))||!Number.isFinite(Number(asc)))return '—';return ((signOf(lon)-signOf(asc)+12)%12)+1} function houseFromSigns(posSign,ascSign){if(!Number.isFinite(Number(posSign))||!Number.isFinite(Number(ascSign)))return '—';return ((Number(posSign)-Number(ascSign)+12)%12)+1} function houseFromSigns(posSign,ascSign){if(!Number.isFinite(Number(posSign))||!Number.isFinite(Number(ascSign)))return '—';return ((Number(posSign)-Number(ascSign)+12)%12)+1}
  function thaksaMap(start){const idx=thaksaOrder.indexOf(start);if(idx<0)return {};const out={};for(let i=0;i<8;i++)out[thaksaOrder[(idx+i)%8]]=roles[i];return out}
  function activeBirthPlanet(){const d=Number($('bDay')?.value),m=Number($('bMonth')?.value),y=Number($('bYear')?.value),h=Number($('bHour')?.value);if(!d||!m||!y||!Number.isFinite(h))return null;let date=new Date(y-543,m-1,d,12);let dow=date.getDay();if(h<6){date.setDate(date.getDate()-1);dow=date.getDay()}const weekday=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];if((dow===3&&h>=18)||(dow===4&&h<6))return 'ราหู';return weekday[dow]}
  function ageYang(){const vals=['bDay','bMonth','bYear','fDay','fMonth','fYear'].map(id=>Number($(id)?.value));if(vals.some(v=>!v))return null;const [bd,bm,by,fd,fm,fy]=vals;let age=fy-by;if(fm<bm||(fm===bm&&fd<bd))age--;return Math.max(1,age+1)}
  function transitStart(){const birth=activeBirthPlanet(),age=ageYang();if(!birth||!age)return null;const path=['อาทิตย์','จุดกลาง','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];let idx=path.indexOf(birth);if(idx<0)idx=0;const count=String(age).split('').reduce((a,c)=>a+Number(c),0);let found=birth;for(let i=0;i<count;i++)found=path[(idx+i)%path.length];return found==='จุดกลาง'?'พฤหัสบดี':found}
  function td(text){const e=document.createElement('td');e.textContent=text;return e}
- function rowHtml(p,kind,asc,birthMap,transitMap){const lon=Number(p.longitude);if(!Number.isFinite(lon))return null;const si=signOf(lon),n=nav(lon),t=tri(lon),ns=n.sign,ts=t.sign;const navCenter=ns*30+((norm(lon)%30)*9%30);const triCenter=ts*30+((norm(lon)%30)*3%30);const role=(map,sign)=>map[sign]||'—';const tr=document.createElement('tr');[
+ function rowHtml(p,kind,asc,birthMap,transitMap){const lon=Number(p.longitude);if(!Number.isFinite(lon))return null;const si=signOf(lon),n=nav(lon),t=tri(lon),ns=n.sign,ts=t.sign;const navAsc=nav(asc),triAsc=tri(asc);const role=(map,sign)=>map[sign]||'—';const tr=document.createElement('tr');[
  kind,pnums[p.name]?pnums[p.name]+' '+p.name:p.name,
  signs[si]+' '+degText(lon),String(house(lon,asc)),
- 'นวางค์ '+n.num+' · '+signs[ns],String(house(navCenter,asc)),
- 'ตรียางค์ '+t.part+' · '+signs[ts],String(house(triCenter,asc)),
+ 'นวางค์ '+n.num+' · '+signs[ns],String(houseFromSigns(ns,navAsc.sign)),
+ 'ตรียางค์ '+t.part+' · '+signs[ts],String(houseFromSigns(ts,triAsc.sign)),
  role(birthMap,p.name),role(transitMap,p.name),
  role(birthMap,p.name)+' (นวางค์ '+signs[ns]+')',role(transitMap,p.name)+' (นวางค์ '+signs[ns]+')',
  role(birthMap,p.name)+' (ตรียางค์ '+signs[ts]+')',role(transitMap,p.name)+' (ตรียางค์ '+signs[ts]+')'
