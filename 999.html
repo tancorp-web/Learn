@@ -2156,6 +2156,26 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   }
   const duplicates=countValues(planetCodeOccurrences);
   const positionDuplicates=countValues(positionOccurrences);
+  const navamsaOccurrences=[],triyangOccurrences=[];
+  const elementOfSign=['fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
+  const elementSequences={fire:'364214635',earth:'785364214',air:'635785364',water:'214635785'};
+  const signLords=['๓','๖','๔','๒','๑','๔','๖','๓','๕','๗','๘','๕'];
+  for(const segment of segments){
+   for(const p of segment.analysis.positions||[]){
+    const lon=Number(p.longitude);
+    if(!Number.isFinite(lon))continue;
+    const normalized=mod(lon,360),sourceSign=Math.floor(normalized/30),within=normalized%30;
+    const navPart=Math.min(8,Math.floor(within/(30/9)));
+    const navNumber=elementSequences[elementOfSign[sourceSign]][navPart];
+    if(navNumber)navamsaOccurrences.push(navNumber);
+    const triPart=Math.min(2,Math.floor(within/10));
+    const triSign=(sourceSign+[0,4,8][triPart])%12;
+    const triNumber=signLords[triSign];
+    if(triNumber)triyangOccurrences.push(triNumber);
+   }
+  }
+  const navamsaDuplicates=countValues(navamsaOccurrences);
+  const triyangDuplicates=countValues(triyangOccurrences);
   const standards=[...new Set(segments.flatMap(s=>s.analysis.standards||[]))];
   const relations=[...new Set(segments.flatMap(s=>s.analysis.relations||[]))];
   root.hidden=false;
@@ -2165,7 +2185,9 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<div class="ss-stat"><span>เลขดาวที่พบในผลวิเคราะห์</span><strong>'+planetCodeOccurrences.length+'</strong></div>'+
    '<div class="ss-stat"><span>เลขดาวที่ซ้ำ</span><strong>'+duplicates.length+'</strong></div></div>'+
    '<h3>เลขดาวที่พบซ้ำ</h3><div class="ss-duplicates">'+(duplicates.length?duplicates.map(([n,count])=>'<span class="ss-chip">เลข '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบเลขดาวซ้ำในผลที่เลือก</span>')+'</div>'+
-   '<h3>แผนภูมิวงกลมเลขซ้ำ</h3>'+pieChartMarkup(duplicates)+
+   '<h3>แผนภูมิวงกลมเลขซ้ำภาพรวม</h3>'+pieChartMarkup(duplicates)+
+   '<h3>แผนภูมิวงกลมเลขนวางค์ซ้ำ</h3><p class="criteria7-muted">นับเฉพาะเลขนวางค์จากตำแหน่งดาวจรและลัคนาจรในช่วงราศีที่เลือก ไม่รวมเลขดาวมาตรฐานหรือเลขความสัมพันธ์</p><div class="ss-duplicates">'+(navamsaDuplicates.length?navamsaDuplicates.map(([n,count])=>'<span class="ss-chip">เลขนวางค์ '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบเลขนวางค์ซ้ำ</span>')+'</div>'+pieChartMarkup(navamsaDuplicates)+
+   '<h3>แผนภูมิวงกลมเลขตรียางค์ซ้ำ</h3><p class="criteria7-muted">นับเฉพาะเลขตรียางค์จากตำแหน่งดาวจรและลัคนาจรในช่วงราศีที่เลือก ไม่รวมเลขดาวมาตรฐานหรือเลขความสัมพันธ์</p><div class="ss-duplicates">'+(triyangDuplicates.length?triyangDuplicates.map(([n,count])=>'<span class="ss-chip">เลขตรียางค์ '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบเลขตรียางค์ซ้ำ</span>')+'</div>'+pieChartMarkup(triyangDuplicates)+
    '<h3>ตำแหน่งนับความสัมพันธ์ที่พบซ้ำ</h3><div class="ss-duplicates">'+(positionDuplicates.length?positionDuplicates.map(([n,count])=>'<span class="ss-chip">ตำแหน่ง '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบตำแหน่งนับซ้ำ</span>')+'</div>'+
    '<h3>ตารางที่ 1: ความสัมพันธ์ดาวโดยใช้ลัคนาเดิม</h3>'+natalRelationshipTableMarkup()+
    '<h3>ตารางที่ 2: ความสัมพันธ์ดาวโดยใช้ลัคนาจรตามช่วงเวลา</h3><p class="criteria7-muted">คำนวณจากดาวจรและลัคนาจร ณ กึ่งกลางแต่ละช่วง และแสดงเวลาเข้าราศี/ออกราศีของช่วงนั้นโดยตรง ไม่ปะปนกับตารางลัคนาเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
