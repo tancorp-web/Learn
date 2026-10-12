@@ -573,7 +573,58 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-wheel-time-fix4"></script>
+<script type="module" src="./main51.js?v=20261012-wheel-standard-overlay1"></script>
+<script type="module">
+/* INDEX100: selected planetary-standard overlay, isolated from the chart calculation engine. */
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261011-confirmed-standards-runtime';
+(()=>{
+ const $=id=>document.getElementById(id);
+ const panel=$('wheelPanel2'), wheel=$('wheel');
+ const picker=$('planetStandardSelect4'), toggle=$('showPlanetStandard5');
+ if(!panel||!wheel||!picker)return;
+ const aliases={'อุจ':'อุจจ์'};
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ function render(){
+  const svg=wheel.querySelector('svg'); if(!svg)return;
+  svg.querySelector('#planetStandardNumbersIndex4')?.remove();
+  if(toggle&&!toggle.checked)return;
+  const selected=aliases[picker.value]||picker.value;
+  const NS='http://www.w3.org/2000/svg';
+  const layer=document.createElementNS(NS,'g');
+  layer.setAttribute('id','planetStandardNumbersIndex4');
+  layer.setAttribute('aria-label','มาตรฐานดาวที่เลือก: '+picker.value);
+  svg.querySelectorAll('g[data-planet-marker="true"]').forEach(marker=>{
+   const planet=marker.getAttribute('data-planet');
+   const lon=Number(marker.getAttribute('data-longitude'));
+   if(!planet||!Number.isFinite(lon))return;
+   const norm=((lon%360)+360)%360, sign=signs[Math.floor(norm/30)];
+   const within=norm%30, degree=Math.floor(within), minute=Math.floor((within-degree)*60), second=Math.round((((within-degree)*60)-minute)*60);
+   const standards=getPlanetaryDignities(planet,sign,degree,minute,second);
+   if(!standards.includes(selected))return;
+   const circle=marker.querySelector('circle');
+   if(!circle)return;
+   const x=Number(circle.getAttribute('cx')), y=Number(circle.getAttribute('cy'));
+   if(!Number.isFinite(x)||!Number.isFinite(y))return;
+   const label=document.createElementNS(NS,'text');
+   label.setAttribute('x',String(x+14)); label.setAttribute('y',String(y-10));
+   label.setAttribute('text-anchor','start'); label.setAttribute('font-size','11');
+   label.setAttribute('font-weight','900'); label.setAttribute('fill','#7c2d12');
+   label.setAttribute('stroke','#fff'); label.setAttribute('stroke-width','3.2');
+   label.setAttribute('paint-order','stroke'); label.setAttribute('stroke-linejoin','round');
+   label.setAttribute('pointer-events','none');
+   label.textContent=picker.value;
+   layer.appendChild(label);
+  });
+  svg.appendChild(layer);
+ }
+ const schedule=()=>requestAnimationFrame(render);
+ picker.addEventListener('change',schedule);
+ toggle?.addEventListener('change',schedule);
+ new MutationObserver(schedule).observe(wheel,{childList:true,subtree:true});
+ schedule();
+})();
+</script>
+
 
 
 
