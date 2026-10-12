@@ -1219,16 +1219,14 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  };
  let requestId=0;
  if(wheel)wheel.addEventListener('click',async event=>{
-  const group=event.target?.closest?.('g');
-  const circle=group?.querySelector?.('circle');
-  const text=group?.querySelector?.('text');
-  if(!circle||!text)return;
-  const fill=(circle.getAttribute('fill')||'').toLowerCase();
-  const kind=fill==='#7250bd'?'natal':fill==='#07834b'?'transit':null;
-  if(!kind)return;
-  const numeral=(text.textContent||'').trim().replace('+','');
-  const planet=planetByNumber[numeral];
-  if(!planet)return;
+  // index106-only: read identity from the exact marker group emitted by main51.js.
+  // Do not infer planet/type from nested SVG groups, text labels, or colors.
+  const group=event.target?.closest?.('g[data-planet-marker="true"]');
+  if(!group||!wheel.contains(group))return;
+  const planet=(group.getAttribute('data-planet')||'').trim();
+  const markerKind=(group.getAttribute('data-kind')||'').trim();
+  const kind=markerKind==='natal'?'natal':markerKind==='transit'?'transit':null;
+  if(!planet||!kind)return;
   const id=++requestId;
   try{
    const prefix=kind==='natal'?'b':'f';
