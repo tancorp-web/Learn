@@ -898,6 +898,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data
 
 <script type="module">
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261011-confirmed-standards-runtime';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
@@ -1044,7 +1045,11 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 #planetSignStayPanel8 .pss-item{background:#fff;border:1px solid #dbe3ef;border-radius:10px;padding:12px}
 #planetSignStayPanel8 .pss-label{font-size:12px;color:#64748b;font-weight:750}
 #planetSignStayPanel8 .pss-date{font-size:16px;font-weight:850;color:#14213d}
-#planetSignStayPanel8 .pss-note{font-size:12px;color:#64748b;margin-top:8px}
+#planetSignStayPanel8 .pss-date-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:10px;margin:12px 0 16px}
+.pss-date-block{border:1px solid #dbe3ef;border-radius:10px;background:#fff;padding:11px 12px;min-width:0}
+.pss-date-heading{font-weight:900;color:#172746;margin-bottom:7px;font-size:14px}
+.pss-date-line{font-size:13px;line-height:1.7;color:#334155;overflow-wrap:anywhere}
+.pss-note{font-size:12px;color:#64748b;margin-top:8px}
 #wheel svg g:has(circle[fill="#7250bd"]),#wheel svg g:has(circle[fill="#07834b"]){cursor:pointer}
 #wheel svg g:has(circle[fill="#7250bd"]):hover circle,#wheel svg g:has(circle[fill="#07834b"]):hover circle{stroke:#f59e0b;stroke-width:4}
 </style>
@@ -1127,12 +1132,25 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   else if(wheel)wheel.insertAdjacentElement('afterend',panel);
  }
  const showMessage=message=>{panel.hidden=false;panel.textContent=message;};
+ const thaiWeekdays=['วันอาทิตย์','วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์'];
+ const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ const thaiDigits=value=>String(value).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ const zodiacAnimals=['ชวด','ฉลู','ขาล','เถาะ','มะโรง','มะเส็ง','มะเมีย','มะแม','วอก','ระกา','จอ','กุน'];
+ const lunarMonths={1:'เดือนอ้าย',2:'เดือนยี่',3:'เดือนสาม',4:'เดือนสี่',5:'เดือนห้า',6:'เดือนหก',7:'เดือนเจ็ด',8:'เดือนแปด',88:'เดือนแปดหลัง (๘๘)',9:'เดือนเก้า',10:'เดือนสิบ',11:'เดือนสิบเอ็ด',12:'เดือนสิบสอง'};
+ const dateFromInputs=prefix=>{const day=Number($(prefix+'Day')?.value),month=Number($(prefix+'Month')?.value),beYear=Number($(prefix+'Year')?.value),hour=Number($(prefix+'Hour')?.value),minute=Number($(prefix+'Minute')?.value);return{date:(beYear-543)+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0'),time:String(hour).padStart(2,'0')+':'+String(minute).padStart(2,'0'),day,month,year:beYear-543,hour,minute};};
+ const civilDateText=info=>{const d=new Date(Date.UTC(info.year,info.month-1,info.day));return thaiWeekdays[d.getUTCDay()]+'ที่ '+info.day+' '+thaiMonths[info.month-1]+' พ.ศ.'+(info.year+543)+'/ค.ศ.'+info.year+' เวลา '+String(info.hour).padStart(2,'0')+':'+String(info.minute).padStart(2,'0')+'น.';};
+ const lunarDateText=info=>{const lunar=calculateThaiLunarDate(info.year,info.month,info.day);const waning=lunar.day>15,day=waning?lunar.day-15:lunar.day,phase=waning?'แรม':'ขึ้น';const weekday=thaiWeekdays[new Date(Date.UTC(info.year,info.month-1,info.day)).getUTCDay()];return weekday+' '+phase+' '+thaiDigits(day)+' ค่ำ '+(lunarMonths[lunar.month]||('เดือน '+lunar.month))+' ปี'+zodiacAnimals[((lunar.chulaSakarat+10)%12)]+' จ.ศ.'+lunar.chulaSakarat+(lunar.isAdhikamas?' อธิกมาส':'');};
+ const dms=(value,isLat)=>{const abs=Math.abs(Number(value));let deg=Math.floor(abs),minsFloat=(abs-deg)*60,min=Math.floor(minsFloat),sec=Math.round((minsFloat-min)*60);if(sec===60){sec=0;min++;}if(min===60){min=0;deg++;}return deg+'°'+String(min).padStart(2,'0')+"'"+String(sec).padStart(2,'0")+"''";};
+ const locationText=prefix=>{const province=$(prefix+'Province')?.selectedOptions?.[0]?.textContent?.trim()||'',district=$(prefix+'District')?.selectedOptions?.[0]?.textContent?.trim()||'',lat=Number($(prefix+'Lat')?.value),lon=Number($(prefix+'Lon')?.value);return(district?district+' ':'')+'จ.'+province+' (UTC+07:00) ละติจูด '+lat.toFixed(6)+'° ('+dms(lat,true)+(lat<0?'S':'N')+') ลองจิจูด '+lon.toFixed(6)+'° ('+dms(lon,false)+(lon<0?'W':'E')+')';};
+ const elapsedAge=(birth,at)=>{let years=at.year-birth.year,months=at.month-birth.month,days=at.day-birth.day;if(days<0){months--;days+=new Date(Date.UTC(at.year,at.month-1,0)).getUTCDate();}if(months<0){years--;months+=12;}return{years,months,days};};
+ const appendDateBlock=(parent,heading,info,prefix,age)=>{const block=document.createElement('section');block.className='pss-date-block';const h=document.createElement('div');h.className='pss-date-heading';h.textContent=heading;block.appendChild(h);const lines=[civilDateText(info),'จันทรคติ '+lunarDateText(info),locationText(prefix)];if(age)lines.push('อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(info.year+544)+')');lines.forEach(value=>{const line=document.createElement('div');line.className='pss-date-line';line.textContent=value;block.appendChild(line);});parent.appendChild(block);};
  const showResults=({planet,kind,sign,entry,exit,longitude,currentLon})=>{
   panel.hidden=false;
   panel.innerHTML='';
   const title=document.createElement('div');title.className='pss-title';
   title.textContent=planet+' · '+(kind==='natal'?'ดาวเดิม (ดวงกำเนิด)':'ดาวจร')+' · ราศี'+sign;
   panel.appendChild(title);
+  try{const birth=dateFromInputs('b'),transit=dateFromInputs('f');const birthBlock=document.createElement('div');birthBlock.className='pss-date-summary';appendDateBlock(birthBlock,'วันเกิด',birth,'b',null);appendDateBlock(birthBlock,'วันจร',transit,'f',elapsedAge(birth,transit));panel.appendChild(birthBlock);}catch(dateError){const warning=document.createElement('div');warning.className='pss-note';warning.textContent='ไม่สามารถอ่านรายละเอียดวันเกิด/วันจรจากแบบฟอร์มได้: '+String(dateError?.message||dateError);panel.appendChild(warning);}
   const grid=document.createElement('div');grid.className='pss-grid';
   const add=(label,value)=>{
    const card=document.createElement('div');card.className='pss-item';
