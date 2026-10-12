@@ -1444,7 +1444,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  function transitStart(){const birth=activeBirthPlanet(),age=ageYang();if(!birth||!age)return null;const path=['อาทิตย์','จุดกลาง','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];let idx=path.indexOf(birth);if(idx<0)idx=0;const count=String(age).split('').reduce((a,c)=>a+Number(c),0);let found=birth;for(let i=0;i<count;i++)found=path[(idx+i)%path.length];return found==='จุดกลาง'?'พฤหัสบดี':found}
  function td(text){const e=document.createElement('td');e.textContent=text;return e}
  function rowHtml(p,kind,asc,birthMap,transitMap){const lon=Number(p.longitude);if(!Number.isFinite(lon))return null;const si=signOf(lon),n=nav(lon),t=tri(lon),ns=n.sign,ts=t.sign;const navAsc=nav(asc),triAsc=tri(asc);const role=(map,sign)=>map[sign]||'—';const tr=document.createElement('tr');[
- kind,pnums[p.name]?pnums[p.name]+' '+p.name:p.name,
+ kind,p.name,pnums[p.name]===undefined?'—':(pnums[p.name]===null?'ล.':String(pnums[p.name])+' ('+thaiNum(pnums[p.name])+')'),
  signs[si]+' '+degText(lon),String(house(lon,asc)),
  'นวางค์ '+n.num+' · '+signs[ns],String(houseFromSigns(ns,navAsc.sign)),
  'ตรียางค์ '+t.part+' · '+signs[ts],String(houseFromSigns(ts,triAsc.sign)),
