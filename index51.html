@@ -1342,4 +1342,27 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 })();
 
 </script>
+<script>
+/* index51 only: section 7.01 — show house number and Thai house name from natal ascendant. */
+(()=>{
+ const body=document.getElementById('natalStarDetailsBody');
+ if(!body)return;
+ const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+ const decorate=()=>{
+  body.querySelectorAll('tr').forEach(row=>{
+   const cell=row.cells?.[3];
+   if(!cell)return;
+   const value=cell.textContent.trim();
+   if(!/^\\d{1,2}$/.test(value))return;
+   const n=Number(value);
+   if(n>=1&&n<=12) {
+    cell.textContent=n+'.'+houseNames[n-1];
+    cell.setAttribute('data-house-name-7-01','1');
+   }
+  });
+ };
+ new MutationObserver(decorate).observe(body,{childList:true,subtree:true});
+ decorate();
+})();
+</script>
 </body></html>
