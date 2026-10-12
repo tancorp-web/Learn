@@ -365,31 +365,27 @@ function renderThaksaPairing51(natal,transit){
  const longitudeOf=(chart,name)=>name==='ลัคนา'?chart.asc:byName(chart,name)?.longitude;
  const planetNames=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
  const formats=[
-  {label:'ดาวเดิม × ดาวจร · อ่านทักษาเดิม',getN:name=>name,getT:name=>name,kind:'planet'},
-  {label:'ดาวเดิม × ดาวจร · อ่านทักษาจร',getN:name=>name,getT:name=>name,kind:'planet'},
-  {label:'นวางค์เดิม × นวางค์จร · อ่านทักษาเดิม',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},kind:'navamsa'},
-  {label:'นวางค์เดิม × นวางค์จร · อ่านทักษาจร',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},kind:'navamsa'},
-  {label:'ตรียางค์เดิม × ตรียางค์จร · อ่านทักษาเดิม',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},kind:'drekkana'},
-  {label:'ตรียางค์เดิม × ตรียางค์จร · อ่านทักษาจร',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},kind:'drekkana'}
+  {label:'ดาวเดิม × ดาวจร · ทักษาเดิม',kind:'planet',map:natal.thaksa},
+  {label:'ดาวเดิม × ดาวจร · ทักษาจร',kind:'planet',map:transit.thaksa},
+  {label:'นวางค์เดิม × นวางค์จร · ทักษาเดิม',kind:'navamsa',map:natal.thaksa},
+  {label:'นวางค์เดิม × นวางค์จร · ทักษาจร',kind:'navamsa',map:transit.thaksa},
+  {label:'ตรียางค์เดิม × ตรียางค์จร · ทักษาเดิม',kind:'drekkana',map:natal.thaksa},
+  {label:'ตรียางค์เดิม × ตรียางค์จร · ทักษาจร',kind:'drekkana',map:transit.thaksa}
  ];
  const labelOf=value=>value?(num[value]?num[value]+' '+value:value):'—';
  const rows=[];
- for(let i=0;i<formats.length;i++){
-  const f=formats[i],map=(i%2===0)?(i<2?natal.thaksa:natal.thaksa):(i<2?transit.thaksa:transit.thaksa);
-  const natalMap=(i%2===0)?natal.thaksa:transit.thaksa;
-  const transitMap=(i%2===0)?natal.thaksa:transit.thaksa;
+ for(const f of formats){
   for(const name of planetNames){
-   const nv=f.getN(name),tv=f.getT(name);
-   if(!nv||!tv)continue;
-   const nBirth=lookup(natal.thaksa,nv),tBirth=lookup(natal.thaksa,tv);
-   const nTransit=lookup(transit.thaksa,nv),tTransit=lookup(transit.thaksa,tv);
-   const nl=f.kind==='planet'?name:labelOf(nv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
-   const tl=f.kind==='planet'?name:labelOf(tv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
-   const useBirth=Math.floor(i/2)%2===0;
-   rows.push('<tr><td>'+f.label+'</td><td>'+nl+'</td><td>'+(useBirth?nBirth:nTransit)+'</td><td>'+tl+'</td><td>'+(useBirth?tBirth:tTransit)+'</td><td>'+nTransit+'</td><td>'+tTransit+'</td></tr>');
+   const nx=longitudeOf(natal,name),tx=longitudeOf(transit,name);
+   if(!Number.isFinite(nx)||!Number.isFinite(tx))continue;
+   const nv=f.kind==='planet'?name:f.kind==='navamsa'?navamsaOf(nx).lord:drekkanaOf(nx).lord;
+   const tv=f.kind==='planet'?name:f.kind==='navamsa'?navamsaOf(tx).lord:drekkanaOf(tx).lord;
+   const nl=f.kind==='planet'?(num[nv]||'')+' '+nv:labelOf(nv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
+   const tl=f.kind==='planet'?(num[tv]||'')+' '+tv:labelOf(tv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
+   rows.push('<tr><td>'+f.label+'</td><td>'+nl+'</td><td>'+lookup(f.map,nv)+'</td><td>'+tl+'</td><td>'+lookup(f.map,tv)+'</td></tr>');
   }
  }
- body.innerHTML=rows.length?rows.join(''):'<tr><td colspan="7">ไม่พบข้อมูลดาวสำหรับจับคู่</td></tr>';
+ body.innerHTML=rows.length?rows.join(''):'<tr><td colspan="5">ไม่พบข้อมูลดาวสำหรับจับคู่</td></tr>';
 }
 function render(natal,transit){
  const b=getInput('b'),f=getInput('f');
