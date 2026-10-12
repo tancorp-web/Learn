@@ -548,7 +548,7 @@ main.container h3::after{
       <tbody id="planetThaksaRows100"><tr><td colspan="7">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
     </table>
   </div>
-  <p style="font-size:12px;color:#6c7890;margin-bottom:0">อ่านแยก 6 ประเภทต่อดาว: ดาวเดิม, ดาวจร, เจ้าเรือนนวางค์เดิม, เจ้าเรือนนวางค์จร, เจ้าเรือนตรียางค์เดิม และเจ้าเรือนตรียางค์จร โดยแยกแถวเดิมและจรออกจากกันอย่างชัดเจน: นวางค์เดิม / นวางค์จร และตรียางค์เดิม / ตรียางค์จร ใช้สีเส้นคั่นช่วยแยกกลุ่ม และตัวแทนราศีย่อยใช้ดาวเจ้าเรือนตามสูตรที่ยืนยันแล้วใน index51</p>
+  <p style="font-size:12px;color:#6c7890;margin-bottom:0">อ่านแยก 6 ประเภทต่อดาว: ดาวเดิม, ดาวจร, เจ้าเรือนนวางค์เดิม, เจ้าเรือนนวางค์จร, เจ้าเรือนตรียางค์เดิม และเจ้าเรือนตรียางค์จร โดยไม่ใช้เกตุและมฤตยูในตารางหรือการหาทักษา โดยแยกแถวเดิมและจรออกจากกันอย่างชัดเจน: นวางค์เดิม / นวางค์จร และตรียางค์เดิม / ตรียางค์จร ใช้สีเส้นคั่นช่วยแยกกลุ่ม และตัวแทนราศีย่อยใช้ดาวเจ้าเรือนตามสูตรที่ยืนยันแล้วใน index51</p>
 </section>
 
 </main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
@@ -564,7 +564,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-thaksa-split-natal-transit"></script>
+<script type="module" src="./main51.js?v=20261012-thaksa-exclude-ketu-uranus"></script>
 
 
 
@@ -1452,8 +1452,10 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  function transitStart(){const birth=activeBirthPlanet(),age=ageYang();return birth&&age?transitPlanet(birth,age):null}
  function td(text){const e=document.createElement('td');e.textContent=text;return e}
  const lordPlanetByNumber={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
- function lordOfSign(signIndex){return lordPlanetByNumber[signLords[Number(signIndex)]]||'—'}
+ const excludedThaksaPlanets100=new Set(['เกตุ','มฤตยู']);
+ function lordOfSign(signIndex){const lord=lordPlanetByNumber[signLords[Number(signIndex)]]||'—';return excludedThaksaPlanets100.has(lord)?'—':lord}
  function thaksaRowsForPlanet(name,natalItem,transitItem,birthMap,transitMap){
+   if(excludedThaksaPlanets100.has(name))return [];
    const specs=[
     {label:'ดาวเดิม',item:natalItem,representative:name,source:'birth'},
     {label:'ดาวจร',item:transitItem,representative:name,source:'transit'},
@@ -1476,8 +1478,9 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
     }
     const row=document.createElement('tr');
     row.className=spec.division==='nav'?(spec.source==='birth'?'kind-nav-natal':'kind-nav-transit'):spec.division==='tri'?(spec.source==='birth'?'kind-tri-natal':'kind-tri-transit'):(spec.source==='birth'?'kind-natal':'kind-transit');
-    const num=pnums[rep]===undefined?'—':(pnums[rep]===null?'ล.':String(pnums[rep])+' ('+thaiNum(pnums[rep])+')');
-    [name,spec.label,rep||'—',num,where,birthMap[rep]||'—',transitMap[rep]||'—'].forEach(v=>row.appendChild(td(v)));
+    const excludedRep=excludedThaksaPlanets100.has(rep);
+    const num=excludedRep||pnums[rep]===undefined?'—':(pnums[rep]===null?'ล.':String(pnums[rep])+' ('+thaiNum(pnums[rep])+')');
+    [name,spec.label,excludedRep?'—':(rep||'—'),num,where,birthMap[rep]||'—',transitMap[rep]||'—'].forEach(v=>row.appendChild(td(v)));
     rows.push(row);
    }
    return rows;
@@ -1491,7 +1494,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const bm=thaksaMap(bStart),tm=thaksaMap(tStart);
    const natalByName=new Map((natal.planets||[]).map(p=>[p.name,p]));
    const transitByName=new Map((transit.planets||[]).map(p=>[p.name,p]));
-   const names=[...new Set([...(natal.planets||[]).map(p=>p.name),...(transit.planets||[]).map(p=>p.name)])];
+   const names=[...new Set([...(natal.planets||[]).map(p=>p.name),...(transit.planets||[]).map(p=>p.name)])].filter(name=>!excludedThaksaPlanets100.has(name));
    body.replaceChildren();
    for(const name of names){
     const rows=thaksaRowsForPlanet(name,natalByName.get(name),transitByName.get(name),bm,tm);
