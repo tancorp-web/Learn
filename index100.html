@@ -542,12 +542,12 @@ main.container h3::after{
   <div class="table-wrap" style="margin-top:14px">
     <table id="planetThaksaTable100" style="min-width:1500px">
       <thead><tr>
-        <th>ประเภท</th><th>ดาว</th><th>จักรราศี / องศา</th><th>ภพ</th>
+        <th>ประเภท</th><th>ดาว</th><th>เลขดาว</th><th>จักรราศี / องศา</th><th>ภพ</th>
         <th>นวางค์</th><th>ภพนวางค์</th><th>ตรียางค์</th><th>ภพตรียางค์</th>
         <th>ทักษาเดิม</th><th>ทักษาจร</th><th>ทักษาเดิมนวางค์</th><th>ทักษาจรนวางค์</th>
         <th>ทักษาเดิมตรียางค์</th><th>ทักษาจรตรียางค์</th>
       </tr></thead>
-      <tbody id="planetThaksaRows100"><tr><td colspan="14">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
+      <tbody id="planetThaksaRows100"><tr><td colspan="15">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
     </table>
   </div>
   <p style="font-size:12px;color:#6c7890;margin-bottom:0">หมายเหตุ: การจับคู่ทักษาแสดงตามผังทักษาเดิม/ทักษาจรที่หน้า index51 ใช้อยู่ เพื่อการตรวจสอบเบื้องต้น ส่วนกฎเฉพาะของภพนวางค์ ภพตรียางค์ และการนำกำลังเดช/ศรีไปคิดเลขมงคล จะยังไม่ตีความแทนโดยอัตโนมัติจนกว่าจะยืนยันเกณฑ์ครบถ้วน</p>
@@ -1427,7 +1427,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const planets=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'];
  const roles=['บริวาร','อายุ','เดช','ศรี','มูละ','อุตสาหะ','มนตรี','กาลี'];
- const pnums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'ล.'};
+ const pnums={'อาทิตย์':1,'จันทร์':2,'อังคาร':3,'พุธ':4,'พฤหัสบดี':5,'ศุกร์':6,'เสาร์':7,'ราหู':8,'เกตุ':9,'มฤตยู':0,'ลัคนา':null}; const thaiDigits='๐๑๒๓๔๕๖๗๘๙'; function thaiNum(n){return n===null||n===undefined?'—':String(n).replace(/[0-9]/g,d=>thaiDigits[Number(d)])}
  const elementSigns={0:[0,4,8],1:[1,5,9],2:[2,6,10],3:[3,7,11]};
  const signElement=[0,1,2,3,0,1,2,3,0,1,2,3];
  const thaksaOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
@@ -1452,7 +1452,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  role(birthMap,p.name)+' (นวางค์ '+signs[ns]+')',role(transitMap,p.name)+' (นวางค์ '+signs[ns]+')',
  role(birthMap,p.name)+' (ตรียางค์ '+signs[ts]+')',role(transitMap,p.name)+' (ตรียางค์ '+signs[ts]+')'
 ].forEach(v=>tr.appendChild(td(v)));return tr}
- function render(){const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}const natal=latest.natal||{},transit=latest.transit||{};const bStart=activeBirthPlanet(),tStart=transitStart();if(!bStart||!tStart){status.textContent='กรุณาตรวจสอบวันเกิดและวันจรให้ครบ แล้วคำนวณดวงใหม่';return}const bm=thaksaMap(bStart),tm=thaksaMap(tStart);body.replaceChildren();const datasets=[...(natal.planets||[]).map(p=>({p,kind:'ดาวเดิม',asc:natal.asc})),...(transit.planets||[]).map(p=>({p,kind:'ดาวจร',asc:transit.asc??natal.asc}))];for(const item of datasets){const tr=rowHtml(item.p,item.kind,item.asc,bm,tm);if(tr)body.appendChild(tr)}if(!body.children.length)body.innerHTML='<tr><td colspan="14">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');}
+ function render(){const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}const natal=latest.natal||{},transit=latest.transit||{};const bStart=activeBirthPlanet(),tStart=transitStart();if(!bStart||!tStart){status.textContent='กรุณาตรวจสอบวันเกิดและวันจรให้ครบ แล้วคำนวณดวงใหม่';return}const bm=thaksaMap(bStart),tm=thaksaMap(tStart);body.replaceChildren();const datasets=[...(natal.planets||[]).map(p=>({p,kind:'ดาวเดิม',asc:natal.asc})),...(transit.planets||[]).map(p=>({p,kind:'ดาวจร',asc:transit.asc??natal.asc}))];for(const item of datasets){const tr=rowHtml(item.p,item.kind,item.asc,bm,tm);if(tr)body.appendChild(tr)}if(!body.children.length)body.innerHTML='<tr><td colspan="15">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');}
  window.addEventListener('hora50:chart-calculated',e=>{latest=e.detail||null;$('planetThaksaStatus100').textContent='รับข้อมูลดวงแล้ว · กด “สร้างตารางวิเคราะห์ดาว”'});
  $('runPlanetThaksaAnalysis100')?.addEventListener('click',render);
 })();
