@@ -898,6 +898,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data
 
 <script type="module">
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261011-confirmed-standards-runtime';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
 (()=>{
@@ -1158,6 +1159,20 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    add('องศา/ลิปดา',String(degree).padStart(2,'0')+'° '+String(minute).padStart(2,'0')+'′');
    add('นวางค์','นวางค์ที่ '+(navaPart+1)+' · ราศี'+navaSign);
    add('ตรียางค์','ตรียางค์ที่ '+(triPart+1)+' · ราศี'+triSign);
+   // ใช้ชุดมาตรฐานดาวของ HORA ที่ยืนยันไว้แล้ว ไม่สร้างเกณฑ์คำนวณใหม่
+   let dignity=[];
+   try{dignity=getPlanetaryDignities(planet,signs[signIndex],degree,minute,((within-degree)*60-minute)*60)||[];}catch(error){console.warn('[HORA][INDEX105][DIGNITY]',error);}
+   const confirmed=[...new Set(dignity)].filter(Boolean);
+   add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'ไม่มีเกณฑ์ยืนยันสำหรับตำแหน่งนี้');
+   const readThaksaRole=(rootId,planetName)=>{
+    const root=$(rootId);if(!root)return null;
+    const cell=[...root.querySelectorAll('.thaksa51-cell')].find(el=>el.querySelector('b')?.textContent.trim()===planetName);
+    const role=cell?.querySelector('.thaksa51-role')?.textContent.trim();
+    return role||null;
+   };
+   const thaksaRoot=kind==='natal'?'thaksaOld51':'thaksaTransit51';
+   const role=readThaksaRole(thaksaRoot,planet);
+   add(kind==='natal'?'ทักษาเดิม':'ทักษาจร',role||( ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'].includes(planet)?'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษา':'ดาวดวงนี้ไม่มีช่องทักษาในผัง 8 ดาว'));
   }
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
