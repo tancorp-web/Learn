@@ -601,9 +601,9 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data
  const picker=document.getElementById('planetStandardSelect4');
  const toggle=document.getElementById('showPlanetStandard5');
  if(!wheel||!picker)return;
- const aliases={'อุจ':'อุจจ์'};
- const standardColors={'เกษตร':'#C69224','ประ':'#0F766E','อุจ':'#2878C8','อุจจ์':'#2878C8','นิจ':'#64748B','ราชาโชค':'#8054B8','มหาจักร':'#D97736','จุลจักร':'#0891B2','อุจจาภิมุข':'#BE185D','เทวีโชค':'#15803D'};
- const standardColorNames={'เกษตร':'สีทอง','ประ':'สีเขียวอมฟ้า','อุจ':'สีน้ำเงิน','อุจจ์':'สีน้ำเงิน','นิจ':'สีเทา','ราชาโชค':'สีม่วง','มหาจักร':'สีส้ม','จุลจักร':'สีฟ้าอมเขียว','อุจจาภิมุข':'สีชมพูเข้ม','เทวีโชค':'สีเขียว'};
+ const aliases={'อุจ':'อุจจ์','อุจจาวิลาศ':'อุจจาวิลาศ'};
+ const standardColors={'เกษตร':'#C69224','ประ':'#0F766E','อุจ':'#2878C8','อุจจ์':'#2878C8','อุจจาวิลาศ':'#2878C8','นิจ':'#64748B','ราชาโชค':'#8054B8','มหาจักร':'#D97736','จุลจักร':'#0891B2','อุจจาภิมุข':'#BE185D','เทวีโชค':'#15803D'};
+ const standardColorNames={'เกษตร':'สีทอง','ประ':'สีเขียวอมฟ้า','อุจ':'สีน้ำเงิน','อุจจ์':'สีน้ำเงิน','อุจจาวิลาศ':'สีน้ำเงิน','นิจ':'สีเทา','ราชาโชค':'สีม่วง','มหาจักร':'สีส้ม','จุลจักร':'สีฟ้าอมเขียว','อุจจาภิมุข':'สีชมพูเข้ม','เทวีโชค':'สีเขียว'};
  const colorKey=document.getElementById('planetStandardColorKey4');
  function updateColorKey(){if(!colorKey)return;const name=aliases[picker.value]||picker.value;const color=standardColors[name]||'#C69224';colorKey.style.setProperty('--std-color',color);colorKey.querySelector('.standard-color-dot4')?.style.setProperty('--std-color',color);const label=colorKey.querySelector('.standard-color-name4');if(label)label.textContent=name+' · '+(standardColorNames[name]||'สีประจำมาตรฐาน');}
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
