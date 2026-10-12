@@ -495,6 +495,38 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
 <div class="field span-2"><label>จังหวัด</label><select id="fProvince"></select></div><div class="field span-2"><label>เขต / อำเภอ</label><select id="fDistrict"></select></div><div class="field"><label>ละติจูด</label><input id="fLat" type="number" step="0.000001"></div><div class="field"><label>ลองจิจูด</label><input id="fLon" type="number" step="0.000001"></div><div class="field span-6"><label>สถานที่</label><input id="fPlace" type="text"></div>
 </div><div class="calc-row"><button id="calc" type="button">คำนวณทุกอย่าง</button><button id="resetTransitBangkokNow51" type="button" class="reset-form-button50">ตั้งวันจรเป็นเวลาปัจจุบัน · พระนคร</button><span id="msg">พร้อมคำนวณ</span></div>
 </div>
+
+<style id="selectedSignNumberAnalysis999">
+#selectedSignAnalysis999{border:1px solid #d7deeb;background:#fff}
+#selectedSignAnalysis999 .ss-grid{display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:10px;align-items:end}
+#selectedSignAnalysis999 select,#selectedSignAnalysis999 button{min-height:42px;border:1px solid #b9c5d8;border-radius:9px;padding:9px 12px;font:inherit;background:#fff;color:#17233d}
+#selectedSignAnalysis999 button{background:#172b4d;color:#fff;font-weight:800;cursor:pointer}
+#selectedSignAnalysis999 button:disabled{opacity:.6;cursor:wait}
+#selectedSignAnalysis999 .ss-status{margin:10px 0;color:#526078;font-size:13px}
+#selectedSignAnalysis999 .ss-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0}
+#selectedSignAnalysis999 .ss-stat{border:1px solid #e1e6f0;border-radius:9px;padding:10px;background:#f8faff}
+#selectedSignAnalysis999 .ss-stat strong{display:block;font-size:20px;color:#172b4d}
+#selectedSignAnalysis999 .ss-table-wrap{overflow:auto;max-width:100%}
+#selectedSignAnalysis999 table{width:100%;border-collapse:collapse;font-size:13px}
+#selectedSignAnalysis999 th,#selectedSignAnalysis999 td{padding:8px;border-bottom:1px solid #e1e6f0;text-align:left;vertical-align:top}
+#selectedSignAnalysis999 th{background:#f3f6fb;white-space:nowrap}
+#selectedSignAnalysis999 .ss-duplicates{display:flex;gap:7px;flex-wrap:wrap}
+#selectedSignAnalysis999 .ss-chip{display:inline-flex;border:1px solid #d7deeb;border-radius:8px;padding:5px 8px;background:#f8faff;font-weight:800}
+@media(max-width:520px){#selectedSignAnalysis999 .ss-grid{grid-template-columns:1fr}#selectedSignAnalysis999 .ss-grid button{width:100%}}
+</style>
+<section class="panel" id="selectedSignAnalysis999">
+ <div class="section-title"><h2>วิเคราะห์เลขซ้ำตามลัคนาจร</h2><span class="badge">999 · ทดลอง</span></div>
+ <p class="criteria7-muted">คำนวณเฉพาะเมื่อกดปุ่ม โดยแบ่งช่วงจากเวลาเปลี่ยนราศี แล้วตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง ผลจะแสดงเฉพาะช่วงที่ตรงกับราศีที่เลือก</p>
+ <div class="ss-grid">
+  <div class="field"><label for="selectedSign999">ราศีลัคนาจรที่ต้องการวิเคราะห์</label><select id="selectedSign999">
+   <option value="เมษ" selected>เมษ</option><option value="พฤษภ">พฤษภ</option><option value="มิถุน">มิถุน</option><option value="กรกฎ">กรกฎ</option><option value="สิงห์">สิงห์</option><option value="กันย์">กันย์</option><option value="ตุล">ตุล</option><option value="พิจิก">พิจิก</option><option value="ธนู">ธนู</option><option value="มกร">มกร</option><option value="กุมภ์">กุมภ์</option><option value="มีน">มีน</option>
+  </select></div>
+  <button type="button" id="runSelectedSign999">วิเคราะห์ราศีที่เลือก</button>
+ </div>
+ <p id="selectedSignStatus999" class="ss-status" aria-live="polite">พร้อมทำงาน · ยังไม่มีการคำนวณ</p>
+ <div id="selectedSignResults999" hidden></div>
+</section>
+
 <div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="อุจจาวิลาศ">อุจจาวิลาศ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select><span id="planetStandardColorKey4" class="standard-color-key4" aria-live="polite"><span class="standard-color-dot4"></span><span class="standard-color-name4">เกษตร · สีทอง</span></span><details class="standard-color-legend4"><summary>คำอธิบายสีมาตรฐาน</summary><div class="standard-color-grid4"><span><i style="--std-color:#C69224"></i>เกษตร</span><span><i style="--std-color:#0F766E"></i>ประ</span><span><i style="--std-color:#2878C8"></i>อุจจ์</span><span><i style="--std-color:#64748B"></i>นิจ</span><span><i style="--std-color:#8054B8"></i>ราชาโชค</span><span><i style="--std-color:#D97736"></i>มหาจักร</span><span><i style="--std-color:#0891B2"></i>จุลจักร</span><span><i style="--std-color:#BE185D"></i>อุจจาภิมุข</span><span><i style="--std-color:#15803D"></i>เทวีโชค</span></div></details></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details></div>
 <section class="panel" id="navamsaPanel50">
  <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="navamsaRun50" class="navamsa-calc-button" disabled>รอข้อมูลดวงหลัก</button><span class="badge">Navamsa 108 divisions</span></div><p id="navamsaRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณนวางค์” เพื่อวาดวงแยกต่างหาก</p>
@@ -2000,6 +2032,146 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', removeTarget, {once:true});
   }
+})();
+</script>
+
+
+<script type="module" id="selectedSignAnalysisLogic999">
+/* 999.html only. Uses the existing Suriyayatra engine, existing ascendant-boundary helper,
+   and read-only main51 analyzer. It does not change any planetary formula. */
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
+(()=>{
+ const $=id=>document.getElementById(id);
+ const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const planetDigits={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+ const pad=n=>String(n).padStart(2,'0');
+ const mod=(n,m)=>((n%m)+m)%m;
+ const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const dateAtOffset=(date,offsetDays)=>{
+  const [y,m,d]=date.split('-').map(Number),dt=new Date(Date.UTC(y,m-1,d+offsetDays));
+  return dt.getUTCFullYear()+'-'+pad(dt.getUTCMonth()+1)+'-'+pad(dt.getUTCDate());
+ };
+ const formatThaiDate=date=>{
+  const [y,m,d]=date.split('-').map(Number);
+  return pad(d)+'/'+pad(m)+'/'+(y+543);
+ };
+ const clock=minutes=>{const v=mod(Math.round(minutes),1440);return pad(Math.floor(v/60))+':'+pad(v%60);};
+ const dateTimeLabel=(date,minutes)=>formatThaiDate(dateAtOffset(date,Math.floor(minutes/1440)))+' '+clock(minutes)+' น.';
+ async function getBoundaries(date,time,longitude){
+  const engine=await calculateSuriyayatra({date,time,longitude});
+  const sun=engine?.planets?.find(p=>p.name==='อาทิตย์');
+  if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ไม่พบลองจิจูดอาทิตย์สำหรับหาเวลาเปลี่ยนราศี');
+  const correction=Number(engine.metadata?.localTimeCorrectionMinutes);
+  let result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude,localTimeCorrectionMinutes:correction});
+  for(let pass=0;pass<2;pass++){
+   result=await Promise.all(result.map(async item=>{
+    const boundaryDayOffset=Math.floor(Math.round(Number(item.minutes))/1440);
+    const at=await calculateSuriyayatra({date:dateAtOffset(date,boundaryDayOffset),time:clock(item.minutes),longitude});
+    const atSun=at?.planets?.find(p=>p.name==='อาทิตย์');
+    if(!atSun||!Number.isFinite(Number(atSun.longitude)))return item;
+    const atCorrection=Number(at.metadata?.localTimeCorrectionMinutes);
+    const refined=calculateAscendantBoundaryTimes({sunLongitude:Number(atSun.longitude),longitude,localTimeCorrectionMinutes:Number.isFinite(atCorrection)?atCorrection:correction});
+    return refined.find(v=>Number(v.sign)===Number(item.sign))||item;
+   }));
+  }
+  return result;
+ }
+ async function waitForAnalyzer(){
+  for(let i=0;i<100;i++){
+   if(typeof window.__HORA9_ANALYZE_SEGMENT==='function')return window.__HORA9_ANALYZE_SEGMENT;
+   await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  throw new Error('ยังไม่พบตัววิเคราะห์จาก main51.js กรุณารอหน้าเว็บโหลดเสร็จแล้วลองอีกครั้ง');
+ }
+ function countValues(values){
+  const counts=new Map();
+  values.forEach(item=>{const key=String(item);counts.set(key,(counts.get(key)||0)+1);});
+  const numericKey=value=>{const translated=String(value).replace(/[๐-๙]/g,ch=>String('๐๑๒๓๔๕๖๗๘๙'.indexOf(ch)));return /^\d+$/.test(translated)?Number(translated):Number.POSITIVE_INFINITY;};
+  return [...counts.entries()].filter(([,count])=>count>1).sort((a,b)=>numericKey(a[0])-numericKey(b[0])||String(a[0]).localeCompare(String(b[0]),'th'));
+ }
+ function renderResult(selected,segments){
+  const root=$('selectedSignResults999');
+  const planetCodeOccurrences=[],positionOccurrences=[];
+  for(const segment of segments){
+   const a=segment.analysis;
+   (a.numbers||[]).forEach(item=>planetCodeOccurrences.push(item.number));
+   (a.relationNumbers||[]).forEach(item=>{
+    const from=planetDigits[item.from],to=planetDigits[item.to];
+    if(from)planetCodeOccurrences.push(from);
+    if(to)planetCodeOccurrences.push(to);
+    if(Number.isFinite(Number(item.countedPosition)))positionOccurrences.push(Number(item.countedPosition));
+   });
+  }
+  const duplicates=countValues(planetCodeOccurrences);
+  const positionDuplicates=countValues(positionOccurrences);
+  const standards=[...new Set(segments.flatMap(s=>s.analysis.standards||[]))];
+  const relations=[...new Set(segments.flatMap(s=>s.analysis.relations||[]))];
+  root.hidden=false;
+  root.innerHTML='<div class="ss-summary">'+
+   '<div class="ss-stat"><span>ราศีที่เลือก</span><strong>'+escapeHtml(selected)+'</strong></div>'+
+   '<div class="ss-stat"><span>ช่วงเวลาที่ตรงกัน</span><strong>'+segments.length+'</strong></div>'+
+   '<div class="ss-stat"><span>เลขดาวที่พบในผลวิเคราะห์</span><strong>'+planetCodeOccurrences.length+'</strong></div>'+
+   '<div class="ss-stat"><span>เลขดาวที่ซ้ำ</span><strong>'+duplicates.length+'</strong></div></div>'+
+   '<h3>เลขดาวที่พบซ้ำ</h3><div class="ss-duplicates">'+(duplicates.length?duplicates.map(([n,count])=>'<span class="ss-chip">เลข '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบเลขดาวซ้ำในผลที่เลือก</span>')+'</div>'+
+   '<h3>ตำแหน่งนับความสัมพันธ์ที่พบซ้ำ</h3><div class="ss-duplicates">'+(positionDuplicates.length?positionDuplicates.map(([n,count])=>'<span class="ss-chip">ตำแหน่ง '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบตำแหน่งนับซ้ำ</span>')+'</div>'+
+   '<h3>ช่วงเวลาที่ผ่านตัวกรอง</h3><div class="ss-table-wrap"><table><thead><tr><th>ช่วง</th><th>ลัคนาจรจริง</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาว</th><th>ความสัมพันธ์</th></tr></thead><tbody>'+
+   (segments.length?segments.map(s=>{
+    const localCounts=countValues([...(s.analysis.numbers||[]).map(x=>x.number),...(s.analysis.relationNumbers||[]).flatMap(x=>[planetDigits[x.from],planetDigits[x.to]].filter(Boolean))]);
+    return '<tr><td>'+escapeHtml(dateTimeLabel(s.date,s.start))+' – '+escapeHtml(dateTimeLabel(s.date,s.end))+'</td><td>'+escapeHtml(s.analysis.ascSign)+'</td><td>'+(localCounts.length?localCounts.map(([n,count])=>escapeHtml(n)+' × '+count).join(', '):'—')+'</td><td>'+escapeHtml((s.analysis.standards||[]).join(' · ')||'—')+'</td><td>'+escapeHtml((s.analysis.relations||[]).join(' · ')||'—')+'</td></tr>';
+   }).join(''):'<tr><td colspan="5">ไม่พบช่วงเวลาที่ลัคนาจรตรงกับราศีที่เลือก</td></tr>')+
+   '</tbody></table></div>'+
+   '<details><summary>รายละเอียดเลขดาวและความสัมพันธ์ทั้งหมด</summary><p><strong>มาตรฐานดาว</strong><br>'+escapeHtml(standards.join(' · ')||'ไม่มี')+'</p><p><strong>ความสัมพันธ์</strong><br>'+escapeHtml(relations.join(' · ')||'ไม่มี')+'</p></details>'+
+   '<p class="criteria7-muted">นับเลขดาวและตำแหน่งความสัมพันธ์แยกกัน ไม่รวมเลขตำแหน่ง 1–12 เข้ากับรหัสเลขดาว ๐–๙ เพื่อไม่ให้ความหมายปะปน</p>';
+ }
+ async function run(){
+  const button=$('runSelectedSign999'),status=$('selectedSignStatus999');
+  if(button.disabled)return;
+  button.disabled=true;
+  const selected=$('selectedSign999').value;
+  try{
+   status.textContent='กำลังเตรียมข้อมูลและคำนวณเวลาเปลี่ยนราศี…';
+   const day=$('fDay')?.value,month=$('fMonth')?.value,beYear=$('fYear')?.value;
+   const hour=$('fHour')?.value,minute=$('fMinute')?.value,longitude=Number($('fLon')?.value);
+   if(!day||!month||!beYear||hour===''||hour==null||minute===''||minute==null)throw new Error('กรุณากรอกวันและเวลาทำนายให้ครบ');
+   const numericHour=Number(hour),numericMinute=Number(minute);
+   if(!Number.isInteger(numericHour)||numericHour<0||numericHour>23||!Number.isInteger(numericMinute)||numericMinute<0||numericMinute>59)throw new Error('เวลาไม่ถูกต้อง กรุณาเลือกชั่วโมง 00–23 และนาที 00–59');
+   if(!Number.isFinite(longitude)||longitude < -180||longitude > 180)throw new Error('ลองจิจูดของสถานที่ไม่ถูกต้อง');
+   const year=Number(beYear)-543;
+   if(!Number.isInteger(year)||year<1)throw new Error('ปี พ.ศ. ไม่ถูกต้อง');
+   const numericDay=Number(day),numericMonth=Number(month);
+   const calendarCheck=new Date(Date.UTC(year,numericMonth-1,numericDay));
+   if(!Number.isInteger(numericDay)||!Number.isInteger(numericMonth)||numericMonth<1||numericMonth>12||calendarCheck.getUTCFullYear()!==year||calendarCheck.getUTCMonth()!==numericMonth-1||calendarCheck.getUTCDate()!==numericDay)throw new Error('วันที่เลือกไม่มีอยู่จริงในปฏิทิน กรุณาตรวจวัน เดือน และปี');
+   const date=year+'-'+pad(numericMonth)+'-'+pad(numericDay);
+   const time=pad(Number(hour))+':'+pad(Number(minute));
+   const analyzer=await waitForAnalyzer();
+   const boundaries=await getBoundaries(date,time,longitude);
+   if(boundaries.length!==12)throw new Error('จำนวนขอบเขตราศีไม่ครบ 12 จุด');
+   const ordered=boundaries.map(x=>({...x,sign:Number(x.sign),minutes:mod(Number(x.minutes),1440)})).sort((a,b)=>a.minutes-b.minutes);
+   if(ordered.some(x=>!Number.isInteger(x.sign)||x.sign<0||x.sign>11||!Number.isFinite(x.minutes)))throw new Error('ข้อมูลขอบเขตมีราศีหรือเวลาไม่ถูกต้อง');
+   if(new Set(ordered.map(x=>x.sign)).size!==12)throw new Error('ข้อมูลขอบเขตมีราศีซ้ำหรือขาดหาย');
+   if(ordered.some((x,i)=>i>0&&Math.abs(x.minutes-ordered[i-1].minutes)<0.01))throw new Error('พบเวลาเปลี่ยนราศีซ้ำกัน จึงหยุดเพื่อป้องกันช่วงเวลาทับซ้อน');
+   const segments=[];
+   for(let i=0;i<ordered.length;i++){
+    const current=ordered[i],next=ordered[(i+1)%ordered.length];
+    const start=current.minutes,end=next.minutes+(i===ordered.length-1?1440:0);
+    if(!(end>start))throw new Error('ขอบเขตช่วงเวลาไม่เรียงต่อเนื่อง');
+    const midpoint=(start+end)/2,midDate=dateAtOffset(date,Math.floor(midpoint/1440)),midTime=clock(midpoint);
+    status.textContent='ตรวจลัคนาจรจริง '+(i+1)+'/12 ช่วง…';
+    const analysis=await analyzer({date:midDate,time:midTime,longitude});
+    if(!analysis||!signNames.includes(analysis.ascSign))throw new Error('ผลลัคนาจรจริงไม่ถูกต้องในช่วง '+(i+1));
+    const expectedSign=signNames[Number(current.sign)];
+    if(!expectedSign||analysis.ascSign!==expectedSign)throw new Error('ตรวจสอบไม่ผ่านช่วง '+(i+1)+' เวลา '+dateTimeLabel(date,midpoint)+': สูตรขอบเขตระบุ '+(expectedSign||'ไม่ทราบราศี')+' แต่ตัวคำนวณลัคนาจรจริงได้ '+analysis.ascSign+' จึงหยุดแสดงผลเพื่อป้องกันข้อมูลคลาดเคลื่อน');
+    if(analysis.ascSign===selected)segments.push({date,start,end,analysis});
+   }
+   renderResult(selected,segments);
+   status.textContent='เสร็จแล้ว · ตรวจลัคนาจรจริงครบ 12 ช่วง · แสดงเฉพาะ '+selected+' · ไม่เปลี่ยนสูตรดาว';
+  }catch(error){
+   status.textContent='คำนวณไม่สำเร็จ: '+String(error?.message||error);
+   console.error('[999][SELECTED SIGN ANALYSIS]',error);
+  }finally{button.disabled=false;}
+ }
+ $('runSelectedSign999')?.addEventListener('click',run);
 })();
 </script>
 
