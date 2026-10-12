@@ -2134,6 +2134,8 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const day=$('fDay')?.value,month=$('fMonth')?.value,beYear=$('fYear')?.value;
    const hour=$('fHour')?.value,minute=$('fMinute')?.value,longitude=Number($('fLon')?.value);
    if(!day||!month||!beYear||hour===''||hour==null||minute===''||minute==null)throw new Error('กรุณากรอกวันและเวลาทำนายให้ครบ');
+   const numericHour=Number(hour),numericMinute=Number(minute);
+   if(!Number.isInteger(numericHour)||numericHour<0||numericHour>23||!Number.isInteger(numericMinute)||numericMinute<0||numericMinute>59)throw new Error('เวลาไม่ถูกต้อง กรุณาเลือกชั่วโมง 00–23 และนาที 00–59');
    if(!Number.isFinite(longitude)||longitude < -180||longitude > 180)throw new Error('ลองจิจูดของสถานที่ไม่ถูกต้อง');
    const year=Number(beYear)-543;
    if(!Number.isInteger(year)||year<1)throw new Error('ปี พ.ศ. ไม่ถูกต้อง');
