@@ -495,7 +495,7 @@ main.container h3::after{
 </section>
 <section id="thaksaPairing51" class="panel">
   <div class="section-title"><h2>ตารางใหม่ · จับคู่ทักษาดาวเดิม–ดาวจร</h2><span class="badge">6 รูปแบบ · 8 ประเภททักษา</span></div>
-  <p class="criteria7-lead">จับคู่ดาวดวงเดียวกันระหว่างดวงกำเนิดกับดวงจร แล้วอ่านประเภททักษาของแต่ละฝั่งแยกกัน “ทักษาเดิม” ใช้วันเกิด และ “ทักษาจร” ใช้วันของวันที่จรเลือกไว้ สำหรับนวางค์และตรียางค์ ใช้ดาวเจ้าเรือนของราศีวางค์นั้นเป็นตัวอ่านทักษา</p>
+  <p class="criteria7-lead">จับคู่ดาวดวงเดียวกันระหว่างดวงกำเนิดกับดวงจร แล้วอ่านประเภททักษาของแต่ละฝั่งแยกกัน “ทักษาเดิม” ใช้วันเกิด และ “ทักษาจร” ใช้วันของวันที่จรเลือกไว้ </p>
   <div class="table-wrap"><table class="criteria7-table" id="thaksaPairingTable51">
     <thead><tr><th>รูปแบบการอ่าน</th><th>ดาวเดิม / ตัวแทน</th><th>ทักษาของดาวเดิม</th><th>ดาวจร / ตัวแทน</th><th>ทักษาของดาวจร</th></tr></thead>
     <tbody id="thaksaPairingBody51"><tr><td colspan="5">รอผลคำนวณตำแหน่งดาว…</td></tr></tbody>
@@ -548,7 +548,7 @@ main.container h3::after{
       <tbody id="planetThaksaRows100"><tr><td colspan="7">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
     </table>
   </div>
-  <p style="font-size:12px;color:#6c7890;margin-bottom:0">อ่านแยก 6 ประเภทต่อดาว: ดาวเดิม, ดาวจร, เจ้าเรือนนวางค์เดิม, เจ้าเรือนนวางค์จร, เจ้าเรือนตรียางค์เดิม และเจ้าเรือนตรียางค์จร โดยไม่ใช้เกตุและมฤตยูในตารางหรือการหาทักษา โดยแยกแถวเดิมและจรออกจากกันอย่างชัดเจน: นวางค์เดิม / นวางค์จร และตรียางค์เดิม / ตรียางค์จร ใช้สีเส้นคั่นช่วยแยกกลุ่ม และตัวแทนราศีย่อยใช้ดาวเจ้าเรือนตามสูตรที่ยืนยันแล้วใน index51</p>
+  <p style="font-size:12px;color:#6c7890;margin-bottom:0">แสดง 6 ประเภทแยกแถวชัดเจน: ดาวเดิม, ดาวจร, นวางค์เดิม, นวางค์จร, ตรียางค์เดิม และตรียางค์จร โดยไม่ใช้เกตุและมฤตยูในตารางหรือการหาทักษา</p>
 </section>
 
 </main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
@@ -564,7 +564,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-one-click-all"></script>
+<script type="module" src="./main51.js?v=20261012-simple-thaksa-labels"></script>
 
 
 
@@ -1459,7 +1459,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const specs=[
     {label:'ดาวเดิม',item:natalItem,representative:name,source:'birth'},
     {label:'ดาวจร',item:transitItem,representative:name,source:'transit'},
-    {label:'นวางค์ดาวเดิม',item:natalItem,representative:null,division:'nav',source:'birth'},
+    {label:'นวางค์เดิม',item:natalItem,representative:null,division:'nav',source:'birth'},
     {label:'นวางค์จร',item:transitItem,representative:null,division:'nav',source:'transit'},
     {label:'ตรียางค์เดิม',item:natalItem,representative:null,division:'tri',source:'birth'},
     {label:'ตรียางค์จร',item:transitItem,representative:null,division:'tri',source:'transit'}
@@ -1471,10 +1471,10 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
     let rep=spec.representative,where=signs[signIndex]+' '+degText(lon);
     if(spec.division==='nav'){
       const v=nav(lon);rep=lordOfSign(v.sign);
-      where='นวางค์ '+v.num+' · '+signs[v.sign]+' · เจ้าเรือน '+rep;
+      where='นวางค์ '+v.num+' · '+signs[v.sign];
     }else if(spec.division==='tri'){
       const v=tri(lon);rep=lordOfSign(v.sign);
-      where='ตรียางค์ '+v.part+' · '+signs[v.sign]+' · เจ้าเรือน '+rep;
+      where='ตรียางค์ '+v.part+' · '+signs[v.sign];
     }
     const row=document.createElement('tr');
     row.className=spec.division==='nav'?(spec.source==='birth'?'kind-nav-natal':'kind-nav-transit'):spec.division==='tri'?(spec.source==='birth'?'kind-tri-natal':'kind-tri-transit'):(spec.source==='birth'?'kind-natal':'kind-transit');
@@ -1501,7 +1501,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
     for(const row of rows)body.appendChild(row);
    }
    if(!body.children.length)body.innerHTML='<tr><td colspan="7">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';
-   status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · อ่านดาวจริงและดาวเจ้าเรือนนวางค์/ตรียางค์แยกกัน · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');
+   status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · แยกดาวเดิม/ดาวจร นวางค์เดิม/จร และตรียางค์เดิม/จร · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');
  }
  window.addEventListener('hora50:chart-calculated',e=>{latest=e.detail||null;$('planetThaksaStatus100').textContent='รับข้อมูลดวงแล้ว · กด “สร้างตารางวิเคราะห์ดาว”'});
  $('runPlanetThaksaAnalysis100')?.addEventListener('click',render);
