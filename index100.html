@@ -1043,10 +1043,12 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
   return ((lon%360)+360)%360;
  };
  const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
- const stepFor=planet=>planet==='จันทร์'?6*3600000:
-   planet==='อาทิตย์'?12*3600000:
-   ['พุธ','ศุกร์','อังคาร'].includes(planet)?86400000:
-   ['พฤหัสบดี','เสาร์','ราหู','เกตุ'].includes(planet)?3*86400000:10*86400000;
+ // ใช้เครื่องคำนวณตำแหน่งเดียวกับ index51; ลดช่วงสุ่มตรวจเพื่อไม่ให้พลาดจุดเปลี่ยน
+ // โดยเฉพาะดาวพักร์ที่อาจกลับข้ามขอบราศีระหว่างช่วงตรวจที่ห่างเกินไป
+ const stepFor=planet=>planet==='จันทร์'?3600000:
+   planet==='อาทิตย์'?6*3600000:
+   ['พุธ','ศุกร์','อังคาร'].includes(planet)?6*3600000:
+   ['พฤหัสบดี','เสาร์','ราหู','เกตุ'].includes(planet)?12*3600000:24*3600000;
  const findBoundary=async({start,planet,longitude,targetSign,direction,step})=>{
   const maxSpan=5*366*86400000;
   let inside=start;
