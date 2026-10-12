@@ -1152,7 +1152,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
    const navaStart=signIndex%3===0?signIndex:signIndex%3===1?(signIndex+8)%12:(signIndex+4)%12;
    const navaSign=signs[(navaStart+navaPart)%12];
    const triPart=Math.min(2,Math.floor(within/10));
-   const triSign=signs[(signIndex+triPart*4)%12];
+   const triSign=signs[(signIndex+[0,5,9][triPart])%12];
    add('ราศีที่ดาวอยู่',signs[signIndex]);
    add('ภพที่อยู่',house?('ภพที่ '+house+' · '+houseNames[house-1]):'ไม่พบลัคนาดวงเดิม');
    add('องศา/ลิปดา',String(degree).padStart(2,'0')+'° '+String(minute).padStart(2,'0')+'′');
