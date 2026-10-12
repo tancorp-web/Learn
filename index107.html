@@ -1826,7 +1826,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    if(!body.children.length)body.innerHTML='<tr><td colspan="7">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';
    status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · แยกดาวเดิม/ดาวจร นวางค์เดิม/จร และตรียางค์เดิม/จร · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');
  }
- window.addEventListener('hora50:chart-calculated',e=>{latest=e.detail||null;$('planetThaksaStatus100').textContent='รับข้อมูลดวงแล้ว · กด “สร้างตารางวิเคราะห์ดาว”'});
+ window.addEventListener('hora50:chart-calculated',e=>{latest=e.detail||null;try{render();}catch(error){const status=$('planetThaksaStatus100');if(status)status.textContent='ได้รับผลดวงหลักแล้ว แต่สร้างหมวด 14 ไม่สำเร็จ: '+(error?.message||error);console.error('[HORA][CATEGORY14]',error);}});
  $('runPlanetThaksaAnalysis100')?.addEventListener('click',render);
 })();
 </script>
