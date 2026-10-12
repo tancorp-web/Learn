@@ -1541,10 +1541,6 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
        try{button.click();done++;}catch(error){setStatus(statusId,'คำนวณไม่สำเร็จ: '+(error?.message||error));}
      }
      setStatus('msg','ส่งคำสั่งคำนวณครบทุกส่วนแล้ว · ดวงหลัก / ทักษา / นวางค์ / ตรียางค์ / ตารางทักษารายดาว');
-     setStatus('thaksaRunStatus51','คำนวณทักษาเดิมและทักษาจรอัตโนมัติจากปุ่มหลักแล้ว');
-     setStatus('navamsaRunStatus50','กำลังวาดวงนวางค์จากข้อมูลดวงชุดล่าสุด…');
-     setStatus('triyangRunStatus50','กำลังวาดวงตรียางค์จากข้อมูลดวงชุดล่าสุด…');
-     setStatus('planetThaksaStatus100','กำลังสร้างตารางวิเคราะห์ดาวและทักษาอัตโนมัติ…');
    },100);
  };
  // The main chart engine announces its completed natal/transit data here.
