@@ -1722,4 +1722,82 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 })();
 </script>
 
+
+<script type="module">
+/* INDEX101_PLANET_DIGNITY_RINGS101
+   ตรวจมาตรฐานจากลองจิจูดจริงของดาวเดิม/ดาวจรแยกกัน และเพิ่มวงขอบสีโดยไม่แก้สูตรคำนวณ */
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261011-confirmed-standards-runtime';
+(()=>{
+ const wheel=document.getElementById('wheel');
+ if(!wheel)return;
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const colors={
+  'เกษตร':'#C69224',
+  'ประ':'#0F766E',
+  'อุจ':'#2878C8',
+  'อุจจ์':'#2878C8',
+  'อุจจาวิลาส':'#2878C8',
+  'มหาอุจจ์':'#2878C8',
+  'นิจ':'#64748B',
+  'มหานิจ':'#64748B',
+  'ราชาโชค':'#8054B8',
+  'มหาจักร':'#D97736',
+  'จุลจักร':'#0891B2',
+  'อุจจาภิมุข':'#BE185D',
+  'เทวีโชค':'#15803D',
+  'มูลตรีโกณ':'#C69224',
+  'อนุเกษตร':'#C69224'
+ };
+ const NS='http://www.w3.org/2000/svg';
+ const normalizedLongitude=value=>((Number(value)%360)+360)%360;
+ function positionParts(longitude){
+  const normalized=normalizedLongitude(longitude);
+  const signIndex=Math.floor(normalized/30);
+  const inSign=normalized-signIndex*30;
+  const degree=Math.floor(inSign);
+  const minuteFloat=(inSign-degree)*60;
+  const minute=Math.floor(minuteFloat);
+  const second=(minuteFloat-minute)*60;
+  return {sign:signs[signIndex],degree,minute,second};
+ }
+ function render(){
+  const svg=wheel.querySelector('svg');
+  if(!svg)return;
+  svg.querySelectorAll('g[data-planet-marker="true"]').forEach(group=>{
+   group.querySelectorAll('[data-dignity-ring101="true"]').forEach(node=>node.remove());
+   const markerCircle=[...group.querySelectorAll('circle')].filter(circle=>!circle.hasAttribute('data-true-anchor')).pop();
+   if(!markerCircle)return;
+   const planet=group.getAttribute('data-planet');
+   const longitude=Number(group.getAttribute('data-longitude'));
+   if(!planet||!Number.isFinite(longitude))return;
+   /* คืนขอบดาวทุกดวงให้เป็นปกติก่อน โดยเฉพาะอาทิตย์กำเนิดที่เดิมใช้ขอบสีทอง */
+   markerCircle.setAttribute('r','12');
+   markerCircle.setAttribute('stroke','#fff');
+   markerCircle.setAttribute('stroke-width','2');
+   const position=positionParts(longitude);
+   const standards=getPlanetaryDignities(planet,position.sign,position.degree,position.minute,position.second);
+   const matched=[...new Set(standards)].filter(category=>colors[category]);
+   group.setAttribute('data-planet-standards',matched.join('|'));
+   matched.forEach((category,index)=>{
+    const ring=document.createElementNS(NS,'circle');
+    ring.setAttribute('cx',markerCircle.getAttribute('cx'));
+    ring.setAttribute('cy',markerCircle.getAttribute('cy'));
+    ring.setAttribute('r',String(15.5+index*3.2));
+    ring.setAttribute('fill','none');
+    ring.setAttribute('stroke',colors[category]);
+    ring.setAttribute('stroke-width','2.4');
+    ring.setAttribute('pointer-events','none');
+    ring.setAttribute('data-dignity-ring101','true');
+    ring.setAttribute('data-standard-category',category);
+    ring.setAttribute('aria-label','มาตรฐานดาว '+category);
+    group.appendChild(ring);
+   });
+  });
+ }
+ const schedule=()=>requestAnimationFrame(render);
+ new MutationObserver(schedule).observe(wheel,{childList:true});
+ schedule();
+})();
+</script>
+
 </body></html>
