@@ -2066,7 +2066,8 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   let result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude,localTimeCorrectionMinutes:correction});
   for(let pass=0;pass<2;pass++){
    result=await Promise.all(result.map(async item=>{
-    const at=await calculateSuriyayatra({date,time:clock(item.minutes),longitude});
+    const boundaryDayOffset=Math.floor(Math.round(Number(item.minutes))/1440);
+    const at=await calculateSuriyayatra({date:dateAtOffset(date,boundaryDayOffset),time:clock(item.minutes),longitude});
     const atSun=at?.planets?.find(p=>p.name==='อาทิตย์');
     if(!atSun||!Number.isFinite(Number(atSun.longitude)))return item;
     const atCorrection=Number(at.metadata?.localTimeCorrectionMinutes);
