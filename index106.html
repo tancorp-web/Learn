@@ -1196,7 +1196,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    add('มาตรฐานดาว',confirmed.join(' · '));
 
   }
-  add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'ดาวดวงนี้ไม่มีช่องทักษาในผัง 8 ดาว');
+  add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'-');
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
   panel.appendChild(grid);
