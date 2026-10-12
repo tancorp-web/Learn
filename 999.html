@@ -2227,6 +2227,29 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    if(ordered.some(x=>!Number.isInteger(x.sign)||x.sign<0||x.sign>11||!Number.isFinite(x.minutes)))throw new Error('ข้อมูลขอบเขตมีราศีหรือเวลาไม่ถูกต้อง');
    if(new Set(ordered.map(x=>x.sign)).size!==12)throw new Error('ข้อมูลขอบเขตมีราศีซ้ำหรือขาดหาย');
    if(ordered.some((x,i)=>i>0&&Math.abs(x.minutes-ordered[i-1].minutes)<0.01))throw new Error('พบเวลาเปลี่ยนราศีซ้ำกัน จึงหยุดเพื่อป้องกันช่วงเวลาทับซ้อน');
+   // หมวด 3 เท่านั้น: แสดงเวลาเข้าราศีและออกราศีในตัวเลือกแต่ละราศีของดรอปดาวน์
+   // ใช้ขอบเขตชุดเดียวกับที่ผ่านการตรวจสอบแล้ว และรองรับช่วงข้ามเที่ยงคืน
+   const signSelect=$('selectedSign999');
+   if(signSelect){
+    const bySign=new Map();
+    for(let i=0;i<ordered.length;i++){
+     const current=ordered[i],next=ordered[(i+1)%ordered.length];
+     const start=current.minutes,end=next.minutes+(i===ordered.length-1?1440:0);
+     const startDate=dateAtOffset(date,Math.floor(start/1440));
+     const endDate=dateAtOffset(date,Math.floor(end/1440));
+     bySign.set(signNames[current.sign],{
+      startLabel:formatThaiDate(startDate)+' '+clock(start),
+      endLabel:formatThaiDate(endDate)+' '+clock(end)
+     });
+    }
+    [...signSelect.options].forEach(option=>{
+     if(!option.dataset.baseLabel)option.dataset.baseLabel=option.textContent.trim();
+     const range=bySign.get(option.value);
+     option.textContent=range
+      ? option.dataset.baseLabel+' · เข้า '+range.startLabel+' · ออก '+range.endLabel
+      : option.dataset.baseLabel;
+    });
+   }
    const segments=[];
    for(let i=0;i<ordered.length;i++){
     const current=ordered[i],next=ordered[(i+1)%ordered.length];
