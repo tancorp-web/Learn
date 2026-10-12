@@ -2155,6 +2155,8 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
     status.textContent='ตรวจลัคนาจรจริง '+(i+1)+'/12 ช่วง…';
     const analysis=await analyzer({date:midDate,time:midTime,longitude});
     if(!analysis||!signNames.includes(analysis.ascSign))throw new Error('ผลลัคนาจรจริงไม่ถูกต้องในช่วง '+(i+1));
+    const expectedSign=signNames[Number(current.sign)];
+    if(!expectedSign||analysis.ascSign!==expectedSign)throw new Error('ตรวจสอบไม่ผ่านช่วง '+(i+1)+' เวลา '+dateTimeLabel(date,midpoint)+': สูตรขอบเขตระบุ '+(expectedSign||'ไม่ทราบราศี')+' แต่ตัวคำนวณลัคนาจรจริงได้ '+analysis.ascSign+' จึงหยุดแสดงผลเพื่อป้องกันข้อมูลคลาดเคลื่อน');
     if(analysis.ascSign===selected)segments.push({date,start,end,analysis});
    }
    renderResult(selected,segments);
