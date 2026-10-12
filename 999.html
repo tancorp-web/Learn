@@ -512,7 +512,16 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
 #selectedSignAnalysis999 th{background:#f3f6fb;white-space:nowrap}
 #selectedSignAnalysis999 .ss-duplicates{display:flex;gap:7px;flex-wrap:wrap}
 #selectedSignAnalysis999 .ss-chip{display:inline-flex;border:1px solid #d7deeb;border-radius:8px;padding:5px 8px;background:#f8faff;font-weight:800}
-@media(max-width:520px){#selectedSignAnalysis999 .ss-grid{grid-template-columns:1fr}#selectedSignAnalysis999 .ss-grid button{width:100%}}
+#selectedSignAnalysis999 .ss-time-range{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;min-width:220px}
+#selectedSignAnalysis999 .ss-time{border:1px solid #dbe3f0;border-radius:8px;padding:8px;background:#f8faff}
+#selectedSignAnalysis999 .ss-time small{display:block;color:#64748b;font-size:11px;font-weight:700}
+#selectedSignAnalysis999 .ss-time strong{display:block;color:#172b4d;font-size:15px;white-space:nowrap}
+#selectedSignAnalysis999 .ss-chart{display:grid;grid-template-columns:minmax(170px,240px) minmax(180px,1fr);gap:18px;align-items:center;margin:12px 0 20px;padding:14px;border:1px solid #e1e6f0;border-radius:12px;background:#fbfcff}
+#selectedSignAnalysis999 .ss-chart svg{display:block;width:100%;height:auto;max-width:240px;margin:auto}
+#selectedSignAnalysis999 .ss-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:7px}
+#selectedSignAnalysis999 .ss-legend-item{display:flex;align-items:center;gap:7px;border:1px solid #e1e6f0;border-radius:8px;padding:7px;background:#fff;font-size:13px}
+#selectedSignAnalysis999 .ss-swatch{width:12px;height:12px;flex:0 0 12px;border-radius:3px}
+@media(max-width:520px){#selectedSignAnalysis999 .ss-grid{grid-template-columns:1fr}#selectedSignAnalysis999 .ss-grid button{width:100%}#selectedSignAnalysis999 .ss-chart{grid-template-columns:1fr}}
 </style>
 <section class="panel" id="selectedSignAnalysis999">
  <div class="section-title"><h2>วิเคราะห์เลขซ้ำตามลัคนาจร</h2><span class="badge">999 · ทดลอง</span></div>
@@ -2090,6 +2099,24 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const numericKey=value=>{const translated=String(value).replace(/[๐-๙]/g,ch=>String('๐๑๒๓๔๕๖๗๘๙'.indexOf(ch)));return /^\d+$/.test(translated)?Number(translated):Number.POSITIVE_INFINITY;};
   return [...counts.entries()].filter(([,count])=>count>1).sort((a,b)=>numericKey(a[0])-numericKey(b[0])||String(a[0]).localeCompare(String(b[0]),'th'));
  }
+ function pieChartMarkup(duplicates){
+  if(!duplicates.length)return '<p class="criteria7-muted">ยังไม่มีเลขที่ซ้ำพอสำหรับพล็อตกราฟ</p>';
+  const colors=['#4f46e5','#0891b2','#16a34a','#d97706','#db2777','#7c3aed','#0f766e','#dc2626','#64748b','#a16207'];
+  const total=duplicates.reduce((sum,item)=>sum+item[1],0);
+  let angle=-Math.PI/2;
+  const slices=duplicates.map(([number,count],index)=>{
+   const sweep=count/total*Math.PI*2, end=angle+sweep, color=colors[index%colors.length];
+   let path='';
+   if(sweep>=Math.PI*2-1e-6)path='<circle cx="100" cy="100" r="78" fill="'+color+'"/>';
+   else{
+    const x1=100+78*Math.cos(angle),y1=100+78*Math.sin(angle),x2=100+78*Math.cos(end),y2=100+78*Math.sin(end);
+    path='<path d="M 100 100 L '+x1.toFixed(3)+' '+y1.toFixed(3)+' A 78 78 0 '+(sweep>Math.PI?1:0)+' 1 '+x2.toFixed(3)+' '+y2.toFixed(3)+' Z" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>';
+   }
+   angle=end;
+   return {number,count,color,path};
+  });
+  return '<div class="ss-chart"><svg viewBox="0 0 200 200" role="img" aria-label="แผนภูมิวงกลมสัดส่วนความถี่ของเลขดาวที่ซ้ำ">'+slices.map(x=>x.path).join('')+'<circle cx="100" cy="100" r="42" fill="#fff"/><text x="100" y="95" text-anchor="middle" font-size="11" fill="#64748b">เลขซ้ำ</text><text x="100" y="115" text-anchor="middle" font-size="20" font-weight="800" fill="#172b4d">'+duplicates.length+'</text></svg><div><strong>สัดส่วนความถี่เลขดาวที่ซ้ำ</strong><p class="criteria7-muted">คำนวณจากจำนวนครั้งที่รหัสเลขดาวปรากฏในผลวิเคราะห์ของช่วงราศีที่เลือก</p><div class="ss-legend">'+slices.map(x=>'<div class="ss-legend-item"><span class="ss-swatch" style="background:'+x.color+'"></span><span>เลข '+escapeHtml(x.number)+' · '+x.count+' ครั้ง ('+(x.count/total*100).toFixed(1)+'%)</span></div>').join('')+'</div></div></div>';
+ }
  function renderResult(selected,segments){
   const root=$('selectedSignResults999');
   const planetCodeOccurrences=[],positionOccurrences=[];
@@ -2114,12 +2141,14 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<div class="ss-stat"><span>เลขดาวที่พบในผลวิเคราะห์</span><strong>'+planetCodeOccurrences.length+'</strong></div>'+
    '<div class="ss-stat"><span>เลขดาวที่ซ้ำ</span><strong>'+duplicates.length+'</strong></div></div>'+
    '<h3>เลขดาวที่พบซ้ำ</h3><div class="ss-duplicates">'+(duplicates.length?duplicates.map(([n,count])=>'<span class="ss-chip">เลข '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบเลขดาวซ้ำในผลที่เลือก</span>')+'</div>'+
+   '<h3>แผนภูมิวงกลมเลขซ้ำ</h3>'+pieChartMarkup(duplicates)+
    '<h3>ตำแหน่งนับความสัมพันธ์ที่พบซ้ำ</h3><div class="ss-duplicates">'+(positionDuplicates.length?positionDuplicates.map(([n,count])=>'<span class="ss-chip">ตำแหน่ง '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบตำแหน่งนับซ้ำ</span>')+'</div>'+
-   '<h3>ช่วงเวลาที่ผ่านตัวกรอง</h3><div class="ss-table-wrap"><table><thead><tr><th>ช่วง</th><th>ลัคนาจรจริง</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาว</th><th>ความสัมพันธ์</th></tr></thead><tbody>'+
+   '<h3>ช่วงเวลาที่ผ่านตัวกรอง</h3><p class="criteria7-muted">เวลาเข้าและออกเป็นเวลาท้องถิ่นตามข้อมูลสถานที่จรที่เลือก · ช่วงสิ้นสุดคือเวลาเข้าราศีถัดไป</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาว</th><th>ความสัมพันธ์</th></tr></thead><tbody>'+
    (segments.length?segments.map(s=>{
     const localCounts=countValues([...(s.analysis.numbers||[]).map(x=>x.number),...(s.analysis.relationNumbers||[]).flatMap(x=>[planetDigits[x.from],planetDigits[x.to]].filter(Boolean))]);
-    return '<tr><td>'+escapeHtml(dateTimeLabel(s.date,s.start))+' – '+escapeHtml(dateTimeLabel(s.date,s.end))+'</td><td>'+escapeHtml(s.analysis.ascSign)+'</td><td>'+(localCounts.length?localCounts.map(([n,count])=>escapeHtml(n)+' × '+count).join(', '):'—')+'</td><td>'+escapeHtml((s.analysis.standards||[]).join(' · ')||'—')+'</td><td>'+escapeHtml((s.analysis.relations||[]).join(' · ')||'—')+'</td></tr>';
-   }).join(''):'<tr><td colspan="5">ไม่พบช่วงเวลาที่ลัคนาจรตรงกับราศีที่เลือก</td></tr>')+
+    const startDate=dateAtOffset(s.date,Math.floor(s.start/1440)),endDate=dateAtOffset(s.date,Math.floor(s.end/1440));
+    return '<tr><td>'+escapeHtml(s.analysis.ascSign)+'</td><td>'+escapeHtml(formatThaiDate(startDate))+'</td><td><strong>'+escapeHtml(clock(s.start))+' น.</strong></td><td>'+escapeHtml(formatThaiDate(endDate))+'</td><td><strong>'+escapeHtml(clock(s.end))+' น.</strong></td><td>'+(localCounts.length?localCounts.map(([n,count])=>escapeHtml(n)+' × '+count).join(', '):'—')+'</td><td>'+escapeHtml((s.analysis.standards||[]).join(' · ')||'—')+'</td><td>'+escapeHtml((s.analysis.relations||[]).join(' · ')||'—')+'</td></tr>';
+   }).join(''):'<tr><td colspan="8">ไม่พบช่วงเวลาที่ลัคนาจรตรงกับราศีที่เลือก</td></tr>')+
    '</tbody></table></div>'+
    '<details><summary>รายละเอียดเลขดาวและความสัมพันธ์ทั้งหมด</summary><p><strong>มาตรฐานดาว</strong><br>'+escapeHtml(standards.join(' · ')||'ไม่มี')+'</p><p><strong>ความสัมพันธ์</strong><br>'+escapeHtml(relations.join(' · ')||'ไม่มี')+'</p></details>'+
    '<p class="criteria7-muted">นับเลขดาวและตำแหน่งความสัมพันธ์แยกกัน ไม่รวมเลขตำแหน่ง 1–12 เข้ากับรหัสเลขดาว ๐–๙ เพื่อไม่ให้ความหมายปะปน</p>';
