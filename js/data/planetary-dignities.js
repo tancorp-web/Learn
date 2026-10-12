@@ -863,8 +863,13 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
 ].map(rule => Object.freeze(rule)));
 
 export function getPlanetaryDignityReferences(planetName, signName) {
+  // ราชาโชคใช้ CONFIRMED_PLANETARY_STANDARDS เป็นแหล่งกฎเดียว
+  // ไม่แสดง mapping เก่าที่ขัดกันเป็นป้ายอ้างอิง·รอยืนยัน
+  const confirmedRajaChok = CONFIRMED_PLANETARY_STANDARDS
+    .sign_based_rules?.["ราชาโชค"]?.[planetName];
   return PLANETARY_DIGNITY_REFERENCE_RULES
     .filter(rule => rule.planet === planetName && rule.sign === signName)
+    .filter(rule => !(rule.category === "ราชาโชค" && Array.isArray(confirmedRajaChok)))
     .map(rule => rule.category)
     .filter((category, index, all) => all.indexOf(category) === index);
 }
