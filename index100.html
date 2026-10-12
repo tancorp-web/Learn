@@ -620,7 +620,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
  const schedule=()=>requestAnimationFrame(render);
  picker.addEventListener('change',schedule);
  toggle?.addEventListener('change',schedule);
- new MutationObserver(schedule).observe(wheel,{childList:true,subtree:true});
+ new MutationObserver(schedule).observe(wheel,{childList:true});
  schedule();
 })();
 </script>
