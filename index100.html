@@ -540,17 +540,15 @@ main.container h3::after{
     <span id="planetThaksaStatus100" role="status">กรุณาคำนวณดวงหลักก่อน แล้วกดสร้างตาราง</span>
   </div>
   <div class="table-wrap" style="margin-top:14px">
-    <table id="planetThaksaTable100" style="min-width:1500px">
+    <table id="planetThaksaTable100" style="min-width:950px">
       <thead><tr>
-        <th>ประเภท</th><th>ดาว</th><th>เลขดาว</th><th>จักรราศี / องศา</th><th>ภพ</th>
-        <th>นวางค์</th><th>ภพนวางค์</th><th>ตรียางค์</th><th>ภพตรียางค์</th>
-        <th>ทักษาเดิม</th><th>ทักษาจร</th><th>ทักษาเดิมนวางค์</th><th>ทักษาจรนวางค์</th>
-        <th>ทักษาเดิมตรียางค์</th><th>ทักษาจรตรียางค์</th>
+        <th>ดาวหลักที่อ่าน</th><th>ประเภทตำแหน่ง</th><th>ดาว / ตัวแทน</th><th>เลขดาว</th>
+        <th>ราศีที่สถิต / ราศีย่อย</th><th>ทักษาเดิม</th><th>ทักษาจร</th>
       </tr></thead>
-      <tbody id="planetThaksaRows100"><tr><td colspan="15">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
+      <tbody id="planetThaksaRows100"><tr><td colspan="7">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
     </table>
   </div>
-  <p style="font-size:12px;color:#6c7890;margin-bottom:0">หมายเหตุ: สูตรทักษา นวางค์ และตรียางค์อ้างอิง index51 เพื่อการตรวจสอบเบื้องต้น ช่องทักษานวางค์/ตรียางค์จะแสดง — เพราะ index51 ไม่มีสูตรเฉพาะสำหรับคำนวณบทบาททักษาจากราศีย่อย จึงไม่สร้างค่าขึ้นเอง</p>
+  <p style="font-size:12px;color:#6c7890;margin-bottom:0">อ่านแยก 6 ประเภทต่อดาว: ดาวเดิม, ดาวจร, เจ้าเรือนนวางค์เดิม, เจ้าเรือนนวางค์จร, เจ้าเรือนตรียางค์เดิม และเจ้าเรือนตรียางค์จร โดยตัวแทนราศีย่อยใช้ดาวเจ้าเรือนตามรายการราศีของ index100 ซึ่งคัดจากสูตรที่ยืนยันแล้วใน index51</p>
 </section>
 
 </main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
@@ -1453,16 +1451,58 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  function ageYang(){const b=getDate('b'),t=getDate('f');return b&&t?ageData(b,t).ageYang:null}
  function transitStart(){const birth=activeBirthPlanet(),age=ageYang();return birth&&age?transitPlanet(birth,age):null}
  function td(text){const e=document.createElement('td');e.textContent=text;return e}
- function rowHtml(p,kind,asc,birthMap,transitMap){const lon=Number(p.longitude);if(!Number.isFinite(lon))return null;const si=signOf(lon),n=nav(lon),t=tri(lon),ns=n.sign,ts=t.sign;const navAsc=nav(asc),triAsc=tri(asc);const role=(map,planet)=>map[planet]||'—';const tr=document.createElement('tr');[
- kind,p.name,pnums[p.name]===undefined?'—':(pnums[p.name]===null?'ล.':String(pnums[p.name])+' ('+thaiNum(pnums[p.name])+')'),
- signs[si]+' '+degText(lon),String(house(lon,asc)),
- 'นวางค์ '+n.num+' · '+signs[ns],String(houseFromSigns(ns,navAsc.sign)),
- 'ตรียางค์ '+t.part+' · '+signs[ts],String(houseFromSigns(ts,triAsc.sign)),
- role(birthMap,p.name),role(transitMap,p.name),
- '— (ไม่มีสูตรนี้ใน index51)', '— (ไม่มีสูตรนี้ใน index51)',
- '— (ไม่มีสูตรนี้ใน index51)', '— (ไม่มีสูตรนี้ใน index51)'
-].forEach(v=>tr.appendChild(td(v)));return tr}
- function render(){const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}const natal=latest.natal||{},transit=latest.transit||{};const bStart=activeBirthPlanet(),tStart=transitStart();if(!bStart||!tStart){status.textContent='กรุณาตรวจสอบวันเกิด เวลาเกิด และวันทำนายให้ครบ แล้วคำนวณดวงใหม่';return}const bm=thaksaMap(bStart),tm=thaksaMap(tStart);body.replaceChildren();const datasets=[...(natal.planets||[]).map(p=>({p,kind:'ดาวเดิม',asc:natal.asc})),...(transit.planets||[]).map(p=>({p,kind:'ดาวจร',asc:natal.asc}))];for(const item of datasets){const tr=rowHtml(item.p,item.kind,item.asc,bm,tm);if(tr)body.appendChild(tr)}if(!body.children.length)body.innerHTML='<tr><td colspan="15">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · สูตรทักษาและนวางค์/ตรียางค์ยึด index51 · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');}
+ const lordPlanetByNumber={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
+ function lordOfSign(signIndex){return lordPlanetByNumber[signLords[Number(signIndex)]]||'—'}
+ function thaksaRowsForPlanet(name,natalItem,transitItem,birthMap,transitMap){
+   const specs=[
+    {label:'ดาวเดิม',item:natalItem,representative:name,source:'birth'},
+    {label:'ดาวจร',item:transitItem,representative:name,source:'transit'},
+    {label:'นวางค์ดาวเดิม',item:natalItem,representative:null,division:'nav',source:'birth'},
+    {label:'นวางค์จร',item:transitItem,representative:null,division:'nav',source:'transit'},
+    {label:'ตรียางค์เดิม',item:natalItem,representative:null,division:'tri',source:'birth'},
+    {label:'ตรียางค์จร',item:transitItem,representative:null,division:'tri',source:'transit'}
+   ];
+   const rows=[];
+   for(const spec of specs){
+    if(!spec.item||!Number.isFinite(Number(spec.item.longitude)))continue;
+    const lon=Number(spec.item.longitude),signIndex=signOf(lon);
+    let rep=spec.representative,where=signs[signIndex]+' '+degText(lon);
+    if(spec.division==='nav'){
+      const v=nav(lon);rep=lordOfSign(v.sign);
+      where='นวางค์ '+v.num+' · '+signs[v.sign]+' · เจ้าเรือน '+rep;
+    }else if(spec.division==='tri'){
+      const v=tri(lon);rep=lordOfSign(v.sign);
+      where='ตรียางค์ '+v.part+' · '+signs[v.sign]+' · เจ้าเรือน '+rep;
+    }
+    const row=document.createElement('tr');
+    const num=pnums[rep]===undefined?'—':(pnums[rep]===null?'ล.':String(pnums[rep])+' ('+thaiNum(pnums[rep])+')');
+    [name,spec.label,rep||'—',num,where,birthMap[rep]||'—',transitMap[rep]||'—'].forEach(v=>row.appendChild(td(v)));
+    rows.push(row);
+   }
+   return rows;
+ }
+ function render(){
+   const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');
+   if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}
+   const natal=latest.natal||{},transit=latest.transit||{};
+   const bStart=activeBirthPlanet(),tStart=transitStart();
+   if(!bStart||!tStart){status.textContent='กรุณาตรวจสอบวันเกิด เวลาเกิด และวันทำนายให้ครบ แล้วคำนวณดวงใหม่';return}
+   const bm=thaksaMap(bStart),tm=thaksaMap(tStart);
+   const natalByName=new Map((natal.planets||[]).map(p=>[p.name,p]));
+   const transitByName=new Map((transit.planets||[]).map(p=>[p.name,p]));
+   const names=[...new Set([...(natal.planets||[]).map(p=>p.name),...(transit.planets||[]).map(p=>p.name)])];
+   body.replaceChildren();
+   for(const name of names){
+    const rows=thaksaRowsForPlanet(name,natalByName.get(name),transitByName.get(name),bm,tm);
+    if(!rows.length)continue;
+    const first=rows.shift();
+    first.cells[0].rowSpan=rows.length+1;
+    body.appendChild(first);
+    for(const row of rows)body.appendChild(row);
+   }
+   if(!body.children.length)body.innerHTML='<tr><td colspan="7">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';
+   status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · อ่านดาวจริงและดาวเจ้าเรือนนวางค์/ตรียางค์แยกกัน · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');
+ }
  window.addEventListener('hora50:chart-calculated',e=>{latest=e.detail||null;$('planetThaksaStatus100').textContent='รับข้อมูลดวงแล้ว · กด “สร้างตารางวิเคราะห์ดาว”'});
  $('runPlanetThaksaAnalysis100')?.addEventListener('click',render);
 })();
