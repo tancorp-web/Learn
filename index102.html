@@ -90,7 +90,13 @@
 #wheelPanel2 .standard-color-grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:7px;padding:4px 0 2px}
 #wheelPanel2 .standard-color-grid4 span{display:flex;align-items:center;gap:7px;white-space:nowrap}
 #wheelPanel2 .standard-color-grid4 i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--std-color);flex:0 0 auto}
-@media(max-width:640px){#wheelPanel2 .standard-color-key4{white-space:normal}#wheelPanel2 .standard-color-legend4{width:100%}}
+/* ใช้คำอธิบายสีมาตรฐานชุดเดียวกันกับวงนวางค์และวงตรียางค์ด้วย */
+#navamsaPanel50 .standard-color-legend4,#triyangPanel50 .standard-color-legend4{display:block;width:100%;flex-basis:100%;font-size:12px;color:#475569;margin:8px 0}
+#navamsaPanel50 .standard-color-legend4 summary,#triyangPanel50 .standard-color-legend4 summary{cursor:pointer;font-weight:800;padding:7px 0}
+#navamsaPanel50 .standard-color-grid4,#triyangPanel50 .standard-color-grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:7px;padding:4px 0 2px}
+#navamsaPanel50 .standard-color-grid4 span,#triyangPanel50 .standard-color-grid4 span{display:flex;align-items:center;gap:7px;white-space:nowrap}
+#navamsaPanel50 .standard-color-grid4 i,#triyangPanel50 .standard-color-grid4 i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--std-color);border:1px solid #ffffff;box-shadow:0 0 0 1px var(--std-color);flex:0 0 auto}
+@media(max-width:640px){#wheelPanel2 .standard-color-key4{white-space:normal}#wheelPanel2 .standard-color-legend4,#navamsaPanel50 .standard-color-legend4,#triyangPanel50 .standard-color-legend4{width:100%}}
 #wheelPanel2.hide-planet-standard5 #planetStandardLabel5,#wheelPanel2.hide-planet-standard5 #planetStandardSelect4,#wheelPanel2.hide-planet-standard5 #wheel svg #planetStandardNumbersIndex4{display:none!important}
 #wheelPanel2.hide-house-names5 #wheel svg .house-name-label5{display:none!important}
 #wheelPanel2.hide-zodiac-names5 #wheel svg .zodiac-sign-label5{display:none!important}
