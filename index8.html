@@ -1306,7 +1306,7 @@ import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-na
      return '<tr><td>'+esc(p.planet)+'</td><td>'+esc(p.sign)+' '+esc(p.degree)+'</td><td>'+esc(house)+'</td><td>'+(tags.length?tags.map(t=>chip(t)).join(' '):'—')+'</td><td>'+(same.length?same.map(esc).join(', '):'—')+'</td><td>'+(related.length?related.map(esc).join('<br>'):'—')+'</td></tr>';
    }).join('');
    $('criteria7Relations').innerHTML='<table class="criteria7-table"><thead><tr><th>ดาวกำเนิด</th><th>ราศี/องศา</th><th>ภพจากลัคนา</th><th>เกณฑ์ภพ/ความสัมพันธ์กับลัคนา</th><th>ดาวร่วมราศี (กุมโดยราศี)</th><th>ดาวที่สัมพันธ์ตามการนับราศี</th></tr></thead><tbody>'+relationRows+'</tbody></table>';
-   const catalog=(report.allCataloguedCriteria||[]).map(c=>{
+   const catalog=(report.allCataloguedCriteria||[]).filter(c=>c.name!=='ราชาโชค').map(c=>{
      const ev=(report.criteria||[]).find(x=>x.id===c.id)||{};
      const conditions=(c.conditions||[]).map(x=>x.description).join(' · ');
      const aliases=(c.aliases||[]).length?'<p><strong>ชื่อเรียกอื่น:</strong> '+esc(c.aliases.join(' / '))+'</p>':'';
@@ -1319,7 +1319,7 @@ import { getSignRelations } from './js/data/planetary-relations.js?v=20261011-na
      const evalText=ev.resultType?'<p><strong>ผลตรวจ:</strong> '+esc(resultLabel(ev.resultType))+' — '+esc(ev.evaluationNote||'')+'</p>':'';
      return '<article class="criteria7-card"><h3>'+esc(c.name)+'</h3>'+chip(labelStatus(c.status),'warn')+chip(c.execution||'REFERENCE_ONLY')+aliases+planets+req+houses+cond+(c.detail?'<p>'+esc(c.detail)+'</p>':'')+(notes?'<ul>'+notes+'</ul>':'')+evidence+evalText+'</article>';
    }).join('');
-   $('criteria7Catalog').innerHTML='<p>รวม '+(report.allCataloguedCriteria||[]).length+' รายการที่ยังไม่ถูกรวมเป็นชื่อซ้ำในคลังเกณฑ์พิเศษ (แสดงสถานะและรายละเอียดตามฐานข้อมูลปัจจุบัน)</p><div class="criteria7-grid">'+catalog+'</div>';
+   $('criteria7Catalog').innerHTML='<p>รวม '+(report.allCataloguedCriteria||[]).filter(c=>c.name!=='ราชาโชค').length+' รายการที่ยังไม่ถูกรวมเป็นชื่อซ้ำในคลังเกณฑ์พิเศษ (แสดงสถานะและรายละเอียดตามฐานข้อมูลปัจจุบัน)</p><div class="criteria7-grid">'+catalog+'</div>';
   }catch(error){
    status.textContent='แสดงผลเกณฑ์ไม่สำเร็จ: '+String(error?.message||error);
    console.error('[HORA][NATAL CRITERIA]',error);
