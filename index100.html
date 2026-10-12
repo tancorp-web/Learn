@@ -550,7 +550,7 @@ main.container h3::after{
       <tbody id="planetThaksaRows100"><tr><td colspan="15">ยังไม่มีข้อมูล · คำนวณดวงหลักก่อน</td></tr></tbody>
     </table>
   </div>
-  <p style="font-size:12px;color:#6c7890;margin-bottom:0">หมายเหตุ: การจับคู่ทักษาแสดงตามผังทักษาเดิม/ทักษาจรที่หน้า index51 ใช้อยู่ เพื่อการตรวจสอบเบื้องต้น ส่วนกฎเฉพาะของภพนวางค์ ภพตรียางค์ และการนำกำลังเดช/ศรีไปคิดเลขมงคล จะยังไม่ตีความแทนโดยอัตโนมัติจนกว่าจะยืนยันเกณฑ์ครบถ้วน</p>
+  <p style="font-size:12px;color:#6c7890;margin-bottom:0">หมายเหตุ: สูตรทักษา นวางค์ และตรียางค์อ้างอิง index51 เพื่อการตรวจสอบเบื้องต้น ช่องทักษานวางค์/ตรียางค์จะแสดง — เพราะ index51 ไม่มีสูตรเฉพาะสำหรับคำนวณบทบาททักษาจากราศีย่อย จึงไม่สร้างค่าขึ้นเอง</p>
 </section>
 
 </main><footer>HORA v8.6.9 · Thai Suriyayat</footer>
@@ -1426,33 +1426,43 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
  let latest=null;
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const planets=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'];
- const roles=['บริวาร','อายุ','เดช','ศรี','มูละ','อุตสาหะ','มนตรี','กาลี'];
+ const roles=['บริวาร','อายุ','เดช','ศรี','มูละ','อุตสาหะ','มนตรี','กาลกิณี'];
  const pnums={'อาทิตย์':1,'จันทร์':2,'อังคาร':3,'พุธ':4,'พฤหัสบดี':5,'ศุกร์':6,'เสาร์':7,'ราหู':8,'เกตุ':9,'มฤตยู':0,'ลัคนา':null}; const thaiDigits='๐๑๒๓๔๕๖๗๘๙'; function thaiNum(n){return n===null||n===undefined?'—':String(n).replace(/[0-9]/g,d=>thaiDigits[Number(d)])}
- const elementSigns={0:[0,4,8],1:[1,5,9],2:[2,6,10],3:[3,7,11]};
- const signElement=[0,1,2,3,0,1,2,3,0,1,2,3];
+ const elementOfSign=['fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
+ const elementSequences={fire:'364214635',earth:'785364214',air:'635785364',water:'214635785'};
+ const elementStart={fire:0,earth:9,air:6,water:3};
+ const signLords=['๓','๖','๔','๒','๑','๔','๖','๓','๕','๗','๘','๕'];
  const thaksaOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
  function safe(v){return String(v??'—')}
  function norm(v){return ((Number(v)%360)+360)%360}
  function signOf(lon){return Math.floor(norm(lon)/30)}
  function degText(lon){const x=norm(lon)%30,d=Math.floor(x),m=Math.floor((x-d)*60);return d+'° '+String(m).padStart(2,'0')+'′'}
- function nav(lon){const s=signOf(lon),inside=norm(lon)%30,n=Math.min(8,Math.floor(inside/(30/9)));return {sign:(s*9+n)%12,num:n+1}}
- function tri(lon){const s=signOf(lon),inside=norm(lon)%30,part=Math.min(2,Math.floor(inside/10)),seq=elementSigns[signElement[s]];return {sign:seq[part],part:part+1}}
+ function nav(lon){const n=norm(lon),sourceSign=Math.floor(n/30),within=n%30,part=Math.min(8,Math.floor(within/(30/9))),el=elementOfSign[sourceSign];return {sign:(elementStart[el]+part)%12,num:part+1,navNumber:elementSequences[el][part]}}
+ function tri(lon){const n=norm(lon),sourceSign=Math.floor(n/30),within=n%30,part=Math.min(2,Math.floor(within/10)),destSign=(sourceSign+[0,4,8][part])%12;return {sign:destSign,part:part+1, lordNum:signLords[destSign]}}
  function house(lon,asc){if(!Number.isFinite(Number(lon))||!Number.isFinite(Number(asc)))return '—';return ((signOf(lon)-signOf(asc)+12)%12)+1} function houseFromSigns(posSign,ascSign){if(!Number.isFinite(Number(posSign))||!Number.isFinite(Number(ascSign)))return '—';return ((Number(posSign)-Number(ascSign)+12)%12)+1} function houseFromSigns(posSign,ascSign){if(!Number.isFinite(Number(posSign))||!Number.isFinite(Number(ascSign)))return '—';return ((Number(posSign)-Number(ascSign)+12)%12)+1}
  function thaksaMap(start){const idx=thaksaOrder.indexOf(start);if(idx<0)return {};const out={};for(let i=0;i<8;i++)out[thaksaOrder[(idx+i)%8]]=roles[i];return out}
- function activeBirthPlanet(){const d=Number($('bDay')?.value),m=Number($('bMonth')?.value),y=Number($('bYear')?.value),h=Number($('bHour')?.value);if(!d||!m||!y||!Number.isFinite(h))return null;let date=new Date(y-543,m-1,d,12);let dow=date.getDay();if(h<6){date.setDate(date.getDate()-1);dow=date.getDay()}const weekday=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];if((dow===3&&h>=18)||(dow===4&&h<6))return 'ราหู';return weekday[dow]}
- function ageYang(){const vals=['bDay','bMonth','bYear','fDay','fMonth','fYear'].map(id=>Number($(id)?.value));if(vals.some(v=>!v))return null;const [bd,bm,by,fd,fm,fy]=vals;let age=fy-by;if(fm<bm||(fm===bm&&fd<bd))age--;return Math.max(1,age+1)}
- function transitStart(){const birth=activeBirthPlanet(),age=ageYang();if(!birth||!age)return null;const path=['อาทิตย์','จุดกลาง','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];let idx=path.indexOf(birth);if(idx<0)idx=0;const count=String(age).split('').reduce((a,c)=>a+Number(c),0);let found=birth;for(let i=0;i<count;i++)found=path[(idx+i)%path.length];return found==='จุดกลาง'?'พฤหัสบดี':found}
+ const weekdayPlanet=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+ const path=['อาทิตย์','จุดกลาง','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
+ function getDate(prefix){const d=Number($(`${prefix}Day`)?.value),m=Number($(`${prefix}Month`)?.value),y=Number($(`${prefix}Year`)?.value);if(!d||!m||!y||m<1||m>12)return null;const ad=y-543,lastDay=new Date(ad,m,0).getDate();if(d<1||d>lastDay)return null;return {d,m,y,ad,date:new Date(ad,m-1,d,12)}}
+ function getTime(prefix){const h=$(`${prefix}Hour`)?.value,m=$(`${prefix}Minute`)?.value;if(h==null||h===''||m==null||m==='')return null;return {h:Number(h),m:Number(m)}}
+ function birthPlanet(date,time){let dow=date.date.getDay();const beforeSix=time.h<6;const wedNight=(dow===3&&time.h>=18)||(dow===4&&beforeSix);if(beforeSix){const prev=new Date(date.ad,date.m-1,date.d-1,12);dow=prev.getDay()}return {planet:wedNight?'ราหู':weekdayPlanet[dow],dow,beforeSix,wedNight}}
+ function ageData(b,t){let years=t.y-b.y;if(t.m<b.m||(t.m===b.m&&t.d<b.d))years--;return {years:Math.max(0,years),ageYang:Math.max(1,years+1)}}
+ function digitalRoot(n){while(n>9)n=String(n).split('').reduce((a,c)=>a+Number(c),0);return n}
+ function transitPlanet(start,ageYang){const count=digitalRoot(ageYang);let i=path.indexOf(start);if(i<0)i=0;let found;for(let n=0;n<count;n++)found=path[(i+n)%path.length];if(found==='จุดกลาง')found='พฤหัสบดี';return found}
+ function activeBirthPlanet(){const d=getDate('b'),t=getTime('b');return d&&t?birthPlanet(d,t).planet:null}
+ function ageYang(){const b=getDate('b'),t=getDate('f');return b&&t?ageData(b,t).ageYang:null}
+ function transitStart(){const birth=activeBirthPlanet(),age=ageYang();return birth&&age?transitPlanet(birth,age):null}
  function td(text){const e=document.createElement('td');e.textContent=text;return e}
- function rowHtml(p,kind,asc,birthMap,transitMap){const lon=Number(p.longitude);if(!Number.isFinite(lon))return null;const si=signOf(lon),n=nav(lon),t=tri(lon),ns=n.sign,ts=t.sign;const navAsc=nav(asc),triAsc=tri(asc);const role=(map,sign)=>map[sign]||'—';const tr=document.createElement('tr');[
+ function rowHtml(p,kind,asc,birthMap,transitMap){const lon=Number(p.longitude);if(!Number.isFinite(lon))return null;const si=signOf(lon),n=nav(lon),t=tri(lon),ns=n.sign,ts=t.sign;const navAsc=nav(asc),triAsc=tri(asc);const role=(map,planet)=>map[planet]||'—';const tr=document.createElement('tr');[
  kind,p.name,pnums[p.name]===undefined?'—':(pnums[p.name]===null?'ล.':String(pnums[p.name])+' ('+thaiNum(pnums[p.name])+')'),
  signs[si]+' '+degText(lon),String(house(lon,asc)),
  'นวางค์ '+n.num+' · '+signs[ns],String(houseFromSigns(ns,navAsc.sign)),
  'ตรียางค์ '+t.part+' · '+signs[ts],String(houseFromSigns(ts,triAsc.sign)),
  role(birthMap,p.name),role(transitMap,p.name),
- role(birthMap,p.name)+' (นวางค์ '+signs[ns]+')',role(transitMap,p.name)+' (นวางค์ '+signs[ns]+')',
- role(birthMap,p.name)+' (ตรียางค์ '+signs[ts]+')',role(transitMap,p.name)+' (ตรียางค์ '+signs[ts]+')'
+ '— (ไม่มีสูตรนี้ใน index51)', '— (ไม่มีสูตรนี้ใน index51)',
+ '— (ไม่มีสูตรนี้ใน index51)', '— (ไม่มีสูตรนี้ใน index51)'
 ].forEach(v=>tr.appendChild(td(v)));return tr}
- function render(){const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}const natal=latest.natal||{},transit=latest.transit||{};const bStart=activeBirthPlanet(),tStart=transitStart();if(!bStart||!tStart){status.textContent='กรุณาตรวจสอบวันเกิดและวันจรให้ครบ แล้วคำนวณดวงใหม่';return}const bm=thaksaMap(bStart),tm=thaksaMap(tStart);body.replaceChildren();const datasets=[...(natal.planets||[]).map(p=>({p,kind:'ดาวเดิม',asc:natal.asc})),...(transit.planets||[]).map(p=>({p,kind:'ดาวจร',asc:transit.asc??natal.asc}))];for(const item of datasets){const tr=rowHtml(item.p,item.kind,item.asc,bm,tm);if(tr)body.appendChild(tr)}if(!body.children.length)body.innerHTML='<tr><td colspan="15">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');}
+ function render(){const status=$('planetThaksaStatus100'),body=$('planetThaksaRows100');if(!latest){status.textContent='ยังไม่มีข้อมูลดวงหลัก กรุณากด “คำนวณดวง” ก่อน';return}const natal=latest.natal||{},transit=latest.transit||{};const bStart=activeBirthPlanet(),tStart=transitStart();if(!bStart||!tStart){status.textContent='กรุณาตรวจสอบวันเกิด เวลาเกิด และวันทำนายให้ครบ แล้วคำนวณดวงใหม่';return}const bm=thaksaMap(bStart),tm=thaksaMap(tStart);body.replaceChildren();const datasets=[...(natal.planets||[]).map(p=>({p,kind:'ดาวเดิม',asc:natal.asc})),...(transit.planets||[]).map(p=>({p,kind:'ดาวจร',asc:natal.asc}))];for(const item of datasets){const tr=rowHtml(item.p,item.kind,item.asc,bm,tm);if(tr)body.appendChild(tr)}if(!body.children.length)body.innerHTML='<tr><td colspan="15">ไม่พบข้อมูลตำแหน่งดาวที่ใช้สร้างตาราง</td></tr>';status.textContent='สร้างตารางแล้ว · '+body.children.length+' แถว · สูตรทักษาและนวางค์/ตรียางค์ยึด index51 · ทักษาเดิมเริ่มจาก '+bStart+' · ทักษาจรเริ่มจาก '+tStart+' · อายุย่าง '+(ageYang()??'—');}
  window.addEventListener('hora50:chart-calculated',e=>{latest=e.detail||null;$('planetThaksaStatus100').textContent='รับข้อมูลดวงแล้ว · กด “สร้างตารางวิเคราะห์ดาว”'});
  $('runPlanetThaksaAnalysis100')?.addEventListener('click',render);
 })();
