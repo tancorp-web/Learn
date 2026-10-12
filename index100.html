@@ -608,6 +608,9 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
   layer.setAttribute('aria-label','วงกลมมาตรฐานดาวครบ 12 ราศี: '+picker.value);
   layer.setAttribute('pointer-events','none');
   signs.forEach((sign,i)=>{
+   const values=[...numbersBySign[i]];
+   /* Only show a standard circle when at least one planet matches the selected standard. */
+   if(values.length===0)return;
    /* The circle is anchored to the sign's fixed midpoint, never to a displaced planet marker. */
    const p=point(i*30+15,136);
    const group=document.createElementNS(NS,'g');
@@ -618,10 +621,9 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
    group.appendChild(circle);
    const label=document.createElementNS(NS,'text');
    label.setAttribute('x',p.x.toFixed(2));label.setAttribute('y',(p.y+3.8).toFixed(2));
-   label.setAttribute('text-anchor','middle');label.setAttribute('font-size','10.5');label.setAttribute('font-weight','900');label.setAttribute('fill','#78350f');
-   const values=[...numbersBySign[i]];
+   label.setAttribute('text-anchor','middle');label.setAttribute('font-size',values.length>1?'9.5':'10.5');label.setAttribute('font-weight','900');label.setAttribute('fill','#78350f');
    label.textContent=values.join('');
-   label.setAttribute('aria-label',sign+': '+(values.join(' ')||'ไม่มีดาวเข้าเกณฑ์'));
+   label.setAttribute('aria-label',sign+': '+values.join(' '));
    group.appendChild(label);
    layer.appendChild(group);
   });
