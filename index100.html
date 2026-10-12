@@ -577,7 +577,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
 <script type="module">
 /* INDEX100: fixed 12-sign planetary-standard ring. Every zodiac sign gets a circle,
    while matching natal/transit planet numbers are placed inside their sign's circle. */
-import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261011-confirmed-standards-runtime';
+import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data/planetary-dignities.js?v=20261012-standard-sign-map';
 (()=>{
  const wheel=document.getElementById('wheel');
  const picker=document.getElementById('planetStandardSelect4');
@@ -588,30 +588,40 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
  const planetNumbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
  const NS='http://www.w3.org/2000/svg', CENTER=360;
  const point=(lon,r)=>{const a=(-(lon-15)-90)*Math.PI/180;return{x:CENTER+r*Math.cos(a),y:CENTER+r*Math.sin(a)}};
+ function planetsForStandard(selected){
+  const planetsBySign=signs.map(()=>[]);
+  if(selected==='เกษตร'){
+   Object.entries(PLANETARY_DIGNITY_DATA).forEach(([planet,data])=>{
+    (data.domicileSigns||[]).forEach(sign=>{
+     const i=signs.indexOf(sign);
+     if(i>=0&&planetNumbers[planet])planetsBySign[i].push(planet);
+    });
+   });
+   return planetsBySign;
+  }
+  const rules=CONFIRMED_PLANETARY_STANDARDS.sign_based_rules?.[selected]||{};
+  Object.entries(rules).forEach(([planet,planetSigns])=>{
+   (planetSigns||[]).forEach(sign=>{
+    const i=signs.indexOf(sign);
+    if(i>=0&&planetNumbers[planet])planetsBySign[i].push(planet);
+   });
+  });
+  return planetsBySign;
+ }
  function render(){
   const svg=wheel.querySelector('svg'); if(!svg)return;
   svg.querySelector('#planetStandardNumbersIndex4')?.remove();
   if(toggle&&!toggle.checked)return;
   const selected=aliases[picker.value]||picker.value;
-  const numbersBySign=signs.map(()=>new Set());
-  svg.querySelectorAll('g[data-planet-marker="true"]').forEach(marker=>{
-   const planet=marker.getAttribute('data-planet');
-   const lon=Number(marker.getAttribute('data-longitude'));
-   if(!planet||!Number.isFinite(lon)||!planetNumbers[planet])return;
-   const norm=((lon%360)+360)%360, signIndex=Math.floor(norm/30);
-   const within=norm%30, degree=Math.floor(within), minute=Math.floor((within-degree)*60), second=Math.round((((within-degree)*60)-minute)*60);
-   if(getPlanetaryDignities(planet,signs[signIndex],degree,minute,second).includes(selected))
-    numbersBySign[signIndex].add(planetNumbers[planet]);
-  });
+  const planetsBySign=planetsForStandard(selected);
   const layer=document.createElementNS(NS,'g');
   layer.setAttribute('id','planetStandardNumbersIndex4');
-  layer.setAttribute('aria-label','วงกลมมาตรฐานดาวครบ 12 ราศี: '+picker.value);
+  layer.setAttribute('aria-label','วงกลมมาตรฐานดาวตามตารางราศี: '+picker.value);
   layer.setAttribute('pointer-events','none');
   signs.forEach((sign,i)=>{
-   const values=[...numbersBySign[i]];
-   /* Only show a standard circle when at least one planet matches the selected standard. */
+   const values=[...new Set(planetsBySign[i].map(planet=>planetNumbers[planet]).filter(Boolean))];
+   /* The standard map is independent of natal/transit planet positions. Empty signs get no circle. */
    if(values.length===0)return;
-   /* The circle is anchored to the sign's fixed midpoint, never to a displaced planet marker. */
    const p=point(i*30+15,136);
    const group=document.createElementNS(NS,'g');
    group.setAttribute('data-standard-sign',sign);
