@@ -356,6 +356,41 @@ function formatDMS(value,isLatitude){const absolute=Math.abs(Number(value)),degr
 function ascSummary(asc){const s=signObj(asc);return 'ลัคนา '+formatInSign(asc)+' '+s.name+' ('+formatFull(asc)+')';}
 function cancelDeferredQA(){if(window.__HORA_QA_TIMER){clearTimeout(window.__HORA_QA_TIMER);window.__HORA_QA_TIMER=null;}if(window.__HORA_QA_IDLE&&typeof window.cancelIdleCallback==='function'){window.cancelIdleCallback(window.__HORA_QA_IDLE);window.__HORA_QA_IDLE=null;}}
 function scheduleDeferredQA(natal){cancelDeferredQA();window.__HORA_QA_TIMER=setTimeout(()=>{window.__HORA_QA_TIMER=null;const run=()=>{window.__HORA_QA_IDLE=null;try{renderQA(natal)}catch(err){showRuntimeError(err)}};if(typeof window.requestIdleCallback==='function'){window.__HORA_QA_IDLE=window.requestIdleCallback(run,{timeout:3500});}else{window.__HORA_QA_TIMER=setTimeout(run,900);}},1500);}
+function renderThaksaPairing51(natal,transit){
+ const body=$('thaksaPairingBody51');if(!body)return;
+ const categories=['บริวาร','อายุ','เดช','ศรี','มูลละ','อุตสาหะ','มนตรี','กาลกิณี'];
+ const num={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+ const lookup=(map,planet)=>categories.find(k=>map&&map[k]===planet)||'—';
+ const byName=(chart,name)=>chart.planets.find(p=>p.name===name);
+ const longitudeOf=(chart,name)=>name==='ลัคนา'?chart.asc:byName(chart,name)?.longitude;
+ const planetNames=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
+ const formats=[
+  {label:'ดาวเดิม × ดาวจร · อ่านทักษาเดิม',getN:name=>name,getT:name=>name,kind:'planet'},
+  {label:'ดาวเดิม × ดาวจร · อ่านทักษาจร',getN:name=>name,getT:name=>name,kind:'planet'},
+  {label:'นวางค์เดิม × นวางค์จร · อ่านทักษาเดิม',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},kind:'navamsa'},
+  {label:'นวางค์เดิม × นวางค์จร · อ่านทักษาจร',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?navamsaOf(x).lord:null;},kind:'navamsa'},
+  {label:'ตรียางค์เดิม × ตรียางค์จร · อ่านทักษาเดิม',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},kind:'drekkana'},
+  {label:'ตรียางค์เดิม × ตรียางค์จร · อ่านทักษาจร',getN:name=>{const x=longitudeOf(natal,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},getT:name=>{const x=longitudeOf(transit,name);return Number.isFinite(x)?drekkanaOf(x).lord:null;},kind:'drekkana'}
+ ];
+ const labelOf=value=>value?(num[value]?num[value]+' '+value:value):'—';
+ const rows=[];
+ for(let i=0;i<formats.length;i++){
+  const f=formats[i],map=(i%2===0)?(i<2?natal.thaksa:natal.thaksa):(i<2?transit.thaksa:transit.thaksa);
+  const natalMap=(i%2===0)?natal.thaksa:transit.thaksa;
+  const transitMap=(i%2===0)?natal.thaksa:transit.thaksa;
+  for(const name of planetNames){
+   const nv=f.getN(name),tv=f.getT(name);
+   if(!nv||!tv)continue;
+   const nBirth=lookup(natal.thaksa,nv),tBirth=lookup(natal.thaksa,tv);
+   const nTransit=lookup(transit.thaksa,nv),tTransit=lookup(transit.thaksa,tv);
+   const nl=f.kind==='planet'?name:labelOf(nv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
+   const tl=f.kind==='planet'?name:labelOf(tv)+' · '+(f.kind==='navamsa'?'นวางค์':'ตรียางค์');
+   const useBirth=Math.floor(i/2)%2===0;
+   rows.push('<tr><td>'+f.label+'</td><td>'+nl+'</td><td>'+(useBirth?nBirth:nTransit)+'</td><td>'+tl+'</td><td>'+(useBirth?tBirth:tTransit)+'</td><td>'+nTransit+'</td><td>'+tTransit+'</td></tr>');
+  }
+ }
+ body.innerHTML=rows.length?rows.join(''):'<tr><td colspan="7">ไม่พบข้อมูลดาวสำหรับจับคู่</td></tr>';
+}
 function render(natal,transit){
  const b=getInput('b'),f=getInput('f');
  const bProv=$('bProvince').selectedOptions[0]?.text||'',bDist=$('bDistrict').value||'';
@@ -392,7 +427,7 @@ function render(natal,transit){
  '<div class="birth-details-line birth-lunar">จันทรคติ '+safeText(lunarText(f.date,transitLunar,f.time))+'</div>'+
  '<div class="birth-details-line birth-location">'+safeText(locationTransit)+'</div>'+
  '<div class="birth-details-line birth-age">อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(Number(f.date.slice(0,4))+544)+')</div></div>';
- renderWheel(natal,transit,tanuSesha);renderStarDetails(natal,transit,tanuSesha);renderNumericAstrologySummary(natal,transit);scheduleDeferredQA(natal);console.log('[HORA][TABLE] ดาวกำเนิด ดาวจร และตารางเลขเกณฑ์ rendered')
+ renderWheel(natal,transit,tanuSesha);renderStarDetails(natal,transit,tanuSesha);renderNumericAstrologySummary(natal,transit);renderThaksaPairing51(natal,transit);scheduleDeferredQA(natal);console.log('[HORA][TABLE] ดาวกำเนิด ดาวจร และตารางเลขเกณฑ์ rendered')
   window.dispatchEvent(new CustomEvent('hora50:chart-calculated',{detail:{natal,transit}}));
 }
 function showRuntimeError(err){const detail=err instanceof Error?{name:err.name,message:err.message,stack:err.stack}:err;try{window.__HORA_DIAG12?.add('HORA RUNTIME ERROR',detail)}catch(logErr){console.warn('[HORA][DIAG LOG ERROR]',logErr)}const msg=$('msg');if(msg)msg.innerHTML='<div class="fail">❌ FAIL — '+String(detail?.message||detail)+'</div>';console.error('[HORA][ERROR DETAIL]',detail)}
