@@ -573,10 +573,10 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-wheel-standard-overlay2"></script>
+<script type="module" src="./main51.js?v=20261012-wheel-standard-ring12"></script>
 <script type="module">
-/* INDEX100: selected planetary-standard badges, isolated from the chart calculation engine.
-   Match index51 planet marker conventions: a circle containing the Thai planet number. */
+/* INDEX100: fixed 12-sign planetary-standard ring. Every zodiac sign gets a circle,
+   while matching natal/transit planet numbers are placed inside their sign's circle. */
 import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261011-confirmed-standards-runtime';
 (()=>{
  const wheel=document.getElementById('wheel');
@@ -586,39 +586,44 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
  const aliases={'อุจ':'อุจจ์'};
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const planetNumbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
- const NS='http://www.w3.org/2000/svg';
+ const NS='http://www.w3.org/2000/svg', CENTER=360;
+ const point=(lon,r)=>{const a=(-(lon-15)-90)*Math.PI/180;return{x:CENTER+r*Math.cos(a),y:CENTER+r*Math.sin(a)}};
  function render(){
   const svg=wheel.querySelector('svg'); if(!svg)return;
   svg.querySelector('#planetStandardNumbersIndex4')?.remove();
   if(toggle&&!toggle.checked)return;
   const selected=aliases[picker.value]||picker.value;
-  const layer=document.createElementNS(NS,'g');
-  layer.setAttribute('id','planetStandardNumbersIndex4');
-  layer.setAttribute('aria-label','เลขดาวในวงกลมสำหรับมาตรฐาน: '+picker.value);
-  layer.setAttribute('pointer-events','none');
+  const numbersBySign=signs.map(()=>new Set());
   svg.querySelectorAll('g[data-planet-marker="true"]').forEach(marker=>{
    const planet=marker.getAttribute('data-planet');
    const lon=Number(marker.getAttribute('data-longitude'));
    if(!planet||!Number.isFinite(lon)||!planetNumbers[planet])return;
-   const norm=((lon%360)+360)%360, sign=signs[Math.floor(norm/30)];
+   const norm=((lon%360)+360)%360, signIndex=Math.floor(norm/30);
    const within=norm%30, degree=Math.floor(within), minute=Math.floor((within-degree)*60), second=Math.round((((within-degree)*60)-minute)*60);
-   if(!getPlanetaryDignities(planet,sign,degree,minute,second).includes(selected))return;
-   const sourceCircle=marker.querySelector('circle');
-   if(!sourceCircle)return;
-   const x=Number(sourceCircle.getAttribute('cx')), y=Number(sourceCircle.getAttribute('cy'));
-   if(!Number.isFinite(x)||!Number.isFinite(y))return;
-   /* A small separate numbered circle marks the selected standard; do not alter the original planet marker. */
-   const bx=x+16, by=y-16;
-   const badge=document.createElementNS(NS,'circle');
-   badge.setAttribute('cx',String(bx)); badge.setAttribute('cy',String(by)); badge.setAttribute('r','9.5');
-   badge.setAttribute('fill','#fff7df'); badge.setAttribute('stroke','#92400e'); badge.setAttribute('stroke-width','1.8');
-   layer.appendChild(badge);
-   const number=document.createElementNS(NS,'text');
-   number.setAttribute('x',String(bx)); number.setAttribute('y',String(by+3.6));
-   number.setAttribute('text-anchor','middle'); number.setAttribute('font-size','10.5');
-   number.setAttribute('font-weight','900'); number.setAttribute('fill','#78350f');
-   number.textContent=planetNumbers[planet];
-   layer.appendChild(number);
+   if(getPlanetaryDignities(planet,signs[signIndex],degree,minute,second).includes(selected))
+    numbersBySign[signIndex].add(planetNumbers[planet]);
+  });
+  const layer=document.createElementNS(NS,'g');
+  layer.setAttribute('id','planetStandardNumbersIndex4');
+  layer.setAttribute('aria-label','วงกลมมาตรฐานดาวครบ 12 ราศี: '+picker.value);
+  layer.setAttribute('pointer-events','none');
+  signs.forEach((sign,i)=>{
+   /* The circle is anchored to the sign's fixed midpoint, never to a displaced planet marker. */
+   const p=point(i*30+15,136);
+   const group=document.createElementNS(NS,'g');
+   group.setAttribute('data-standard-sign',sign);
+   const circle=document.createElementNS(NS,'circle');
+   circle.setAttribute('cx',p.x.toFixed(2));circle.setAttribute('cy',p.y.toFixed(2));circle.setAttribute('r','13');
+   circle.setAttribute('fill','#fff7df');circle.setAttribute('stroke','#92400e');circle.setAttribute('stroke-width','1.7');
+   group.appendChild(circle);
+   const label=document.createElementNS(NS,'text');
+   label.setAttribute('x',p.x.toFixed(2));label.setAttribute('y',(p.y+3.8).toFixed(2));
+   label.setAttribute('text-anchor','middle');label.setAttribute('font-size','10.5');label.setAttribute('font-weight','900');label.setAttribute('fill','#78350f');
+   const values=[...numbersBySign[i]];
+   label.textContent=values.join('');
+   label.setAttribute('aria-label',sign+': '+(values.join(' ')||'ไม่มีดาวเข้าเกณฑ์'));
+   group.appendChild(label);
+   layer.appendChild(group);
   });
   svg.appendChild(layer);
  }
