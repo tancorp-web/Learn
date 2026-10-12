@@ -982,6 +982,9 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   // คำนวณเวลาเข้า 0° หลังวงจักรราศีถูกวาดใหม่เท่านั้น ไม่คำนวณหนักทุกครั้งที่เปลี่ยนช่องเวลา
   const observer=new MutationObserver(schedule);
   observer.observe(wheel,{childList:true});
+  // Ensure the 12 transit-zodiac times render even when the wheel SVG already exists
+  // before this observer is attached (no later mutation is guaranteed).
+  schedule();
  }
 })();</script>
 
