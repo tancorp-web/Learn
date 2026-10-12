@@ -1300,8 +1300,9 @@ export function getConfirmedPlanetaryStandards(planetName, signName, degreeInSig
 export function getPlanetaryDignities(planetName, signName, degreeInSign = null, minuteInSign = 0, secondInSign = 0) {
   const data = PLANETARY_DIGNITY_DATA[planetName];
   const result = getConfirmedPlanetaryStandards(planetName, signName, degreeInSign, minuteInSign, secondInSign);
-  // เกษตรคงใช้ข้อมูล runtime เดิม; ไม่อนุมานเกษตรของราหู/เกตุ/มฤตยู
+  // เกณฑ์ที่ผู้ใช้ยืนยัน: เกษตรและอุจจ์ตรวจจากราศี; ไม่อนุมานให้ราหู/เกตุ/มฤตยู
   if (data && data.domicileSigns.includes(signName)) result.push('เกษตร');
+  if (data && data.exaltation && data.exaltation.sign === signName) result.push('อุจจ์');
   return [...new Set(result)];
 }
 
