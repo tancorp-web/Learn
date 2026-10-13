@@ -19,7 +19,7 @@
  *   ควรยืนยันกับตำราเฉพาะของโครงการก่อนนำไปคำนวณคะแนนหรือคำทำนาย
  */
 
-export const DIGNITY_DATA_VERSION = '1.2.1-rahu-aquarius-confirmed';
+export const DIGNITY_DATA_VERSION = '1.2.2-rahu-aquarius-only';
 
 export const ZODIAC_SIGNS = Object.freeze([
   { index: 0, name: 'เมษ', english: 'Aries', element: 'ไฟ' },
@@ -110,7 +110,7 @@ export const PLANETARY_DIGNITY_DATA = Object.freeze({
     planet: 'เสาร์',
     planetNumber: '๗',
     system: 'classical-seven',
-    domicileSigns: ['มกร', 'กุมภ์'],
+    domicileSigns: ['มกร'],
     exaltation: { sign: 'ตุล', signIndex: 6, degreeInSign: 20 },
     debilitation: { sign: 'เมษ', signIndex: 0, degreeInSign: 20 },
     moolatrikona: { sign: 'กุมภ์', signIndex: 10, fromDegree: 0, toDegreeExclusive: 20 },
