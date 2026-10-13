@@ -2114,7 +2114,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const rows=items.map(item=>{
    const split=String(item).split(':');
    const left=(split.shift()||'').trim(),standard=split.join(':').trim()||'—';
-   const match=left.match(/^([๐-๙0-9]+)\\s+(.+)$/);
+   const match=left.match(/^([๐-๙0-9]+)\s+(.+)$/);
    return '<tr><td>'+escapeHtml(match?match[1]:'—')+'</td><td>'+escapeHtml(match?match[2]:left)+'</td><td>'+escapeHtml(standard)+'</td></tr>';
   });
   return '<div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ดาวจร</th><th>มาตรฐานที่ได้</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
