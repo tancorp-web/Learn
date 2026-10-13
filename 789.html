@@ -527,8 +527,10 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
  <div class="section-title"><h2>วิเคราะห์เลขซ้ำตามลัคนาจร</h2><span class="badge">999 · ทดลอง</span></div>
  <p class="criteria7-muted">คำนวณเฉพาะเมื่อกดปุ่ม โดยแบ่งช่วงจากเวลาเปลี่ยนราศี แล้วตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง ผลจะแสดงเฉพาะช่วงที่ตรงกับราศีที่เลือก</p>
  <div class="ss-grid">
-  <div class="field"><label>ช่วงการคำนวณ</label><div class="criteria7-muted">ทั้งวัน 00:00–24:00 น. · ตรวจรอยต่อเข้า–ออกครบทุกลัคนา</div></div>
-  <button type="button" id="runSelectedSign999">คำนวณครบทั้งวัน</button>
+  <div class="field"><label for="selectedSign999">ราศีลัคนาจรที่ต้องการวิเคราะห์</label><select id="selectedSign999">
+   <option value="เมษ" selected>เมษ</option><option value="พฤษภ">พฤษภ</option><option value="มิถุน">มิถุน</option><option value="กรกฎ">กรกฎ</option><option value="สิงห์">สิงห์</option><option value="กันย์">กันย์</option><option value="ตุล">ตุล</option><option value="พิจิก">พิจิก</option><option value="ธนู">ธนู</option><option value="มกร">มกร</option><option value="กุมภ์">กุมภ์</option><option value="มีน">มีน</option>
+  </select></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" id="runSelectedSign999">วิเคราะห์ราศีที่เลือก</button><button type="button" id="runAllSigns999">แสดงผลทุกช่วงราศีตลอดวัน</button></div>
  </div>
  <p id="selectedSignStatus999" class="ss-status" aria-live="polite">พร้อมทำงาน · ยังไม่มีการคำนวณ</p>
  <div id="selectedSignResults999" hidden></div>
@@ -2196,11 +2198,13 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<details><summary>รายละเอียดความสัมพันธ์ดาวจรในช่วงเวลาที่เลือก</summary><p><strong>มาตรฐานดาวจร</strong><br>'+escapeHtml(standards.join(' · ')||'ไม่มี')+'</p><p><strong>ความสัมพันธ์ตามลัคนาจร</strong><br>'+escapeHtml(relations.join(' · ')||'ไม่มี')+'</p></details>'+
    '<p class="criteria7-muted">นับเลขดาวและตำแหน่งความสัมพันธ์แยกกัน ไม่รวมเลขตำแหน่ง 1–12 เข้ากับรหัสเลขดาว ๐–๙ เพื่อไม่ให้ความหมายปะปน</p>';
  }
- async function run(){
-  const button=$('runSelectedSign999'),status=$('selectedSignStatus999');
+ async function run(showAll=false){
+  const button=$(showAll?'runAllSigns999':'runSelectedSign999'),status=$('selectedSignStatus999');
   if(button.disabled)return;
   button.disabled=true;
-  const selected='ครบทั้งวัน';
+  const selected=showAll?'ครบทั้งวัน':$('selectedSign999').value;
+  const allButton=$('runAllSigns999'),selectedButton=$('runSelectedSign999');
+  allButton.disabled=true;selectedButton.disabled=true;
   try{
    status.textContent='กำลังเตรียมข้อมูลและคำนวณเวลาเปลี่ยนราศี…';
    const day=$('fDay')?.value,month=$('fMonth')?.value,beYear=$('fYear')?.value;
@@ -2223,6 +2227,29 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    if(ordered.some(x=>!Number.isInteger(x.sign)||x.sign<0||x.sign>11||!Number.isFinite(x.minutes)))throw new Error('ข้อมูลขอบเขตมีราศีหรือเวลาไม่ถูกต้อง');
    if(new Set(ordered.map(x=>x.sign)).size!==12)throw new Error('ข้อมูลขอบเขตมีราศีซ้ำหรือขาดหาย');
    if(ordered.some((x,i)=>i>0&&Math.abs(x.minutes-ordered[i-1].minutes)<0.01))throw new Error('พบเวลาเปลี่ยนราศีซ้ำกัน จึงหยุดเพื่อป้องกันช่วงเวลาทับซ้อน');
+   // หมวด 3 เท่านั้น: แสดงเวลาเข้าราศีและออกราศีในตัวเลือกแต่ละราศีของดรอปดาวน์
+   // ใช้ขอบเขตชุดเดียวกับที่ผ่านการตรวจสอบแล้ว และรองรับช่วงข้ามเที่ยงคืน
+   const signSelect=$('selectedSign999');
+   if(signSelect){
+    const bySign=new Map();
+    for(let i=0;i<ordered.length;i++){
+     const current=ordered[i],next=ordered[(i+1)%ordered.length];
+     const start=current.minutes,end=next.minutes+(i===ordered.length-1?1440:0);
+     const startDate=dateAtOffset(date,Math.floor(start/1440));
+     const endDate=dateAtOffset(date,Math.floor(end/1440));
+     bySign.set(signNames[current.sign],{
+      startLabel:formatThaiDate(startDate)+' '+clock(start),
+      endLabel:formatThaiDate(endDate)+' '+clock(end)
+     });
+    }
+    [...signSelect.options].forEach(option=>{
+     if(!option.dataset.baseLabel)option.dataset.baseLabel=option.textContent.trim();
+     const range=bySign.get(option.value);
+     option.textContent=range
+      ? option.dataset.baseLabel+' · เข้า '+range.startLabel+' · ออก '+range.endLabel
+      : option.dataset.baseLabel;
+    });
+   }
    // ครอบคลุมทั้งวันจริง: เที่ยงคืนถึงรอยต่อแรก, ทุกช่วงระหว่างรอยต่อ, และรอยต่อสุดท้ายถึง 24:00
    // ป้าย sign ของขอบเขตหมายถึงราศีที่เริ่มต้น ณ เวลารอยต่อนั้น
    const daySegments=[{minutes:0,sign:ordered[ordered.length-1].sign},...ordered];
@@ -2240,14 +2267,18 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
     if(!expectedSign||analysis.ascSign!==expectedSign)throw new Error('ตรวจสอบไม่ผ่านช่วง '+(i+1)+' เวลา '+dateTimeLabel(date,midpoint)+': สูตรขอบเขตระบุ '+(expectedSign||'ไม่ทราบราศี')+' แต่ตัวคำนวณลัคนาจรจริงได้ '+analysis.ascSign+' จึงหยุดแสดงผลเพื่อป้องกันข้อมูลคลาดเคลื่อน');
     segments.push({date,start,end,analysis});
    }
-   renderResult(selected,segments);
-   status.textContent='เสร็จแล้ว · ตรวจลัคนาจรจริงครบทั้งวัน 00:00–24:00 น. · ตรวจสอบ '+segments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว';
+   const displayedSegments=showAll?segments:segments.filter(segment=>segment.analysis.ascSign===selected);
+   renderResult(selected,displayedSegments);
+   status.textContent=showAll
+    ? 'เสร็จแล้ว · แสดงผลทุกช่วงราศีตลอดวัน 00:00–24:00 น. · ตรวจสอบ '+segments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว'
+    : 'เสร็จแล้ว · แสดงผลเฉพาะราศี '+selected+' · พบ '+displayedSegments.length+' ช่วง · ตรวจรอยต่อครบทั้งวัน · ไม่เปลี่ยนสูตรดาว';
   }catch(error){
    status.textContent='คำนวณไม่สำเร็จ: '+String(error?.message||error);
    console.error('[999][SELECTED SIGN ANALYSIS]',error);
-  }finally{button.disabled=false;}
+  }finally{$('runAllSigns999').disabled=false;$('runSelectedSign999').disabled=false;}
  }
- $('runSelectedSign999')?.addEventListener('click',run);
+ $('runSelectedSign999')?.addEventListener('click',()=>run(false));
+ $('runAllSigns999')?.addEventListener('click',()=>run(true));
 })();
 </script>
 
