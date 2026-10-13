@@ -578,15 +578,11 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
   <div class="field"><label for="selectedSign999">ราศีลัคนาจรที่ต้องการวิเคราะห์</label><select id="selectedSign999">
    <option value="เมษ" selected>เมษ</option><option value="พฤษภ">พฤษภ</option><option value="มิถุน">มิถุน</option><option value="กรกฎ">กรกฎ</option><option value="สิงห์">สิงห์</option><option value="กันย์">กันย์</option><option value="ตุล">ตุล</option><option value="พิจิก">พิจิก</option><option value="ธนู">ธนู</option><option value="มกร">มกร</option><option value="กุมภ์">กุมภ์</option><option value="มีน">มีน</option>
   </select></div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" id="runSelectedSign999">วิเคราะห์ราศีที่เลือก</button><button type="button" id="runAllSigns999">แสดงผลทุกช่วงราศีตลอดวัน</button></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" id="runSelectedSign999">วิเคราะห์ราศีที่เลือก</button></div>
  </div>
  <p id="selectedSignStatus999" class="ss-status" aria-live="polite">พร้อมทำงาน · ยังไม่มีการคำนวณ</p>
  <h3 class="ss-output-heading">ผลวิเคราะห์เฉพาะราศีที่เลือก</h3>
  <div id="selectedSignResults999" hidden></div>
- <h3 class="ss-output-heading">ผลวิเคราะห์ตลอดทั้งวัน</h3>
- <div id="allDayResults999" hidden></div>
- <h3 class="ss-output-heading">เปรียบเทียบผลช่วงที่เลือกกับทั้งวัน</h3>
- <div id="compareResults999" hidden></div>
 </section>
 
 <div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="อุจจาวิลาศ">อุจจาวิลาศ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select><span id="planetStandardColorKey4" class="standard-color-key4" aria-live="polite"><span class="standard-color-dot4"></span><span class="standard-color-name4">เกษตร · สีทอง</span></span><details class="standard-color-legend4"><summary>คำอธิบายสีมาตรฐาน</summary><div class="standard-color-grid4"><span><i style="--std-color:#C69224"></i>เกษตร</span><span><i style="--std-color:#0F766E"></i>ประ</span><span><i style="--std-color:#2878C8"></i>อุจจ์</span><span><i style="--std-color:#64748B"></i>นิจ</span><span><i style="--std-color:#8054B8"></i>ราชาโชค</span><span><i style="--std-color:#D97736"></i>มหาจักร</span><span><i style="--std-color:#0891B2"></i>จุลจักร</span><span><i style="--std-color:#BE185D"></i>อุจจาภิมุข</span><span><i style="--std-color:#15803D"></i>เทวีโชค</span></div></details></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details></div>
@@ -2435,26 +2431,12 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   }
   return {ranges:segments.length,occurrences:planetCodes.length,duplicateKinds:countValues(planetCodes).length,duplicatePositions:countValues(positions).length,standards:new Set(segments.flatMap(s=>s.analysis?.standards||[])).size,relations:new Set(segments.flatMap(s=>s.analysis?.relations||[])).size};
  }
- function renderComparison(selected,selectedSegments,allSegments){
-  const root=$('compareResults999');
-  root.hidden=false;
-  const rows=allSegments.map((segment,index)=>{
-   const a=segment.analysis||{},stats=summarizeForComparison([segment]);
-   const startDate=dateAtOffset(segment.date,Math.floor(segment.start/1440));
-   const endDate=dateAtOffset(segment.date,Math.floor(segment.end/1440));
-   const selectedMark=a.ascSign===selected?' · ราศีที่เลือก':'';
-   return '<tr'+(a.ascSign===selected?' style="background:#f5f3ff"':'')+'><td>'+(index+1)+'</td><td>'+escapeHtml(a.ascSign||'ไม่ทราบราศี')+escapeHtml(selectedMark)+'</td><td>'+escapeHtml(formatThaiDate(startDate))+' '+escapeHtml(clock(segment.start))+'</td><td>'+escapeHtml(formatThaiDate(endDate))+' '+escapeHtml(clock(segment.end))+'</td><td><details class="ss-compare-407"><summary>แสดงผลเลข</summary>'+digitCombinationMarkup(a)+'</details></td></tr>';
-  });
-  root.innerHTML='<p class="ss-compare-note">เปรียบเทียบผลของทั้ง 12 ช่วงแบบแยกแถว แต่ละแถวคำนวณจากช่วงนั้นเพียงช่วงเดียว ไม่มีแถวผลรวมทั้งวันและไม่มีการนำเลขข้ามช่วงมานับรวม</p><div class="ss-table-wrap"><table class="ss-compare-table"><thead><tr><th>ช่วง</th><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>เลขเด่นและชุดเลข 4.07</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div><p class="ss-compare-note">เลขซ้ำและตำแหน่งซ้ำแยกคำนวณภายในแต่ละช่วงเท่านั้น ไม่รวมผลข้ามช่วงเวลา</p>';
- }
-
- async function run(showAll=false){
-  const button=$(showAll?'runAllSigns999':'runSelectedSign999'),status=$('selectedSignStatus999');
+ async function run(){
+  const button=$('runSelectedSign999'),status=$('selectedSignStatus999');
   if(button.disabled)return;
   button.disabled=true;
   const selected=$('selectedSign999').value;
-  const allButton=$('runAllSigns999'),selectedButton=$('runSelectedSign999');
-  allButton.disabled=true;selectedButton.disabled=true;
+  button.disabled=true;
   try{
    status.textContent='กำลังเตรียมข้อมูลและคำนวณเวลาเปลี่ยนราศี…';
    const day=$('fDay')?.value,month=$('fMonth')?.value,beYear=$('fYear')?.value;
@@ -2518,20 +2500,14 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
     segments.push({date,start,end,analysis});
    }
    const selectedSegments=segments.filter(segment=>segment.analysis.ascSign===selected);
-   const displayedSegments=showAll?segments:selectedSegments;
-   if(showAll){$("selectedSignResults999").hidden=true;renderResult("allDayResults999","ครบทั้งวัน",segments,true);}
-   else{$("allDayResults999").hidden=true;renderResult("selectedSignResults999",selected,displayedSegments,false);}
-   renderComparison(selected,selectedSegments,segments);
-   status.textContent=showAll
-    ? 'เสร็จแล้ว · แสดงผลทุกช่วงราศีตลอดวัน 00:00–24:00 น. · ตรวจสอบ '+segments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว'
-    : 'เสร็จแล้ว · แสดงเฉพาะราศี '+selected+' ในส่วนผลช่วงเวลา และแสดงตารางเปรียบเทียบกับทั้งวันแยกต่างหาก · พบ '+displayedSegments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว';
+   renderResult("selectedSignResults999",selected,selectedSegments,false);
+   status.textContent='เสร็จแล้ว · แสดงเฉพาะราศี '+selected+' · พบ '+selectedSegments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว';
   }catch(error){
    status.textContent='คำนวณไม่สำเร็จ: '+String(error?.message||error);
    console.error('[999][SELECTED SIGN ANALYSIS]',error);
-  }finally{$('runAllSigns999').disabled=false;$('runSelectedSign999').disabled=false;}
+  }finally{$('runSelectedSign999').disabled=false;}
  }
- $('runSelectedSign999')?.addEventListener('click',()=>run(false));
- $('runAllSigns999')?.addEventListener('click',()=>run(true));
+ $('runSelectedSign999')?.addEventListener('click',()=>run());
 })();
 </script>
 
