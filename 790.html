@@ -542,6 +542,13 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
 <style id="selectedSignNumberAnalysis999">
 #selectedSignAnalysis999{border:1px solid #d7deeb;background:#fff}
 #selectedSignAnalysis999 .ss-grid{display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:10px;align-items:end}
+#selectedSignAnalysis999 .ss-source-box{margin:12px 0;padding:12px;border:1px solid #cbd5e1;border-radius:10px;background:#f8fafc;color:#334155}
+#selectedSignAnalysis999 .ss-source-box>strong{display:block;color:#172b4d;margin-bottom:5px}
+#selectedSignAnalysis999 .ss-source-box p{margin:5px 0;font-size:13px;line-height:1.55}
+#selectedSignAnalysis999 .ss-calendar-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}
+#selectedSignAnalysis999 .ss-calendar-row label{font-weight:700}
+#selectedSignAnalysis999 #selectedSignCalendar999{min-height:40px;border:1px solid #b9c5d8;border-radius:8px;padding:7px 10px;font:inherit;background:#fff;color:#17233d}
+#selectedSignAnalysis999 .ss-calendar-hint{color:#64748b}
 #selectedSignAnalysis999 select,#selectedSignAnalysis999 button{min-height:42px;border:1px solid #b9c5d8;border-radius:9px;padding:9px 12px;font:inherit;background:#fff;color:#17233d}
 #selectedSignAnalysis999 button{background:#172b4d;color:#fff;font-weight:800;cursor:pointer}
 #selectedSignAnalysis999 button:disabled{opacity:.6;cursor:wait}
@@ -571,6 +578,7 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
 <section class="panel" id="selectedSignAnalysis999">
  <div class="section-title"><h2>วิเคราะห์เลขซ้ำตามลัคนาจร</h2><span class="badge">999 · ทดลอง</span></div>
  <p class="criteria7-muted">คำนวณเฉพาะเมื่อกดปุ่ม โดยแบ่งช่วงจากเวลาเปลี่ยนราศี แล้วตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง ผลจะแสดงเฉพาะช่วงที่ตรงกับราศีที่เลือก</p>
+ <div class="ss-source-box" aria-live="polite"><strong>ข้อมูลตั้งต้นจากหมวด 2 · เวลาทำนาย</strong><p id="selectedSignSourceSummary999">กำลังอ่านวัน เวลา และสถานที่จรจากหมวด 2…</p><div class="ss-calendar-row"><label for="selectedSignCalendar999">หรือเลือกวันจรจากปฏิทิน</label><input id="selectedSignCalendar999" type="date" aria-describedby="selectedSignCalendarHint999"></div><p id="selectedSignCalendarHint999" class="ss-calendar-hint">เมื่อเลือกวัน ระบบจะปรับวัน เดือน ปีในหมวด 2 ให้ตรงกัน โดยใช้เวลาและสถานที่เดิมจากหมวด 2</p></div>
  <div class="ss-grid">
   <div class="field"><label for="selectedSign999">ราศีลัคนาจรที่ต้องการวิเคราะห์</label><select id="selectedSign999">
    <option value="เมษ" selected>เมษ</option><option value="พฤษภ">พฤษภ</option><option value="มิถุน">มิถุน</option><option value="กรกฎ">กรกฎ</option><option value="สิงห์">สิงห์</option><option value="กันย์">กันย์</option><option value="ตุล">ตุล</option><option value="พิจิก">พิจิก</option><option value="ธนู">ธนู</option><option value="มกร">มกร</option><option value="กุมภ์">กุมภ์</option><option value="มีน">มีน</option>
@@ -2505,6 +2513,44 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   }finally{$('runSelectedSign999').disabled=false;}
  }
  $('runSelectedSign999')?.addEventListener('click',()=>run());
+})();
+</script>
+<script id="selectedSignSharedTransitDate999">
+(()=>{
+ const $=id=>document.getElementById(id);
+ const ids=['fDay','fMonth','fYear','fHour','fMinute','fProvince','fDistrict','fLat','fLon','fPlace'];
+ const datePicker=$('selectedSignCalendar999'),summary=$('selectedSignSourceSummary999');
+ const pad=n=>String(n).padStart(2,'0');
+ function selectedText(id){const el=$(id);return el?.selectedOptions?.[0]?.textContent?.trim()||el?.value||'—';}
+ function currentIsoDate(){
+  const d=Number($('fDay')?.value),m=Number($('fMonth')?.value),be=Number($('fYear')?.value),y=be-543;
+  if(!Number.isInteger(d)||!Number.isInteger(m)||!Number.isInteger(y)||y<1)return '';
+  const date=new Date(Date.UTC(y,m-1,d));
+  if(date.getUTCFullYear()!==y||date.getUTCMonth()!==m-1||date.getUTCDate()!==d)return '';
+  return y+'-'+pad(m)+'-'+pad(d);
+ }
+ function syncCalendar(){if(datePicker)datePicker.value=currentIsoDate();}
+ function updateSummary(){
+  if(!summary)return;
+  const date=currentIsoDate(),day=date?date.split('-').reverse().join('/'):'วัน/เดือน/ปีไม่ครบ';
+  const time=pad(Number($('fHour')?.value||0))+':'+pad(Number($('fMinute')?.value||0))+' น.';
+  const province=selectedText('fProvince'),district=selectedText('fDistrict');
+  const place=$('fPlace')?.value?.trim();
+  const lat=$('fLat')?.value,lon=$('fLon')?.value;
+  summary.textContent='วันจร '+day+' · เวลา '+time+' · '+province+(district&&district!=='—'?' / '+district:'')+(place?' · '+place:'')+' · พิกัด '+(lat||'—')+', '+(lon||'—')+' (ดึงจากหมวด 2)';
+ }
+ function syncDateToCategory2(){
+  if(!datePicker?.value)return;
+  const [y,m,d]=datePicker.value.split('-').map(Number),be=y+543;
+  const fields=[['fDay',d],['fMonth',m],['fYear',be]];
+  for(const [id,value] of fields){const el=$(id);if(!el||![...el.options].some(option=>Number(option.value)===value)){if(summary)summary.textContent='วันที่ในปฏิทินอยู่นอกช่วงปีที่หมวด 2 รองรับ จึงยังไม่ได้เปลี่ยนข้อมูล';return;}}
+  for(const [id,value] of fields){$(id).value=String(value);$(id).dispatchEvent(new Event('change',{bubbles:true}));}
+  updateSummary();
+ }
+ ids.forEach(id=>{const el=$(id);if(!el)return;el.addEventListener('change',()=>{syncCalendar();updateSummary();});el.addEventListener('input',updateSummary);});
+ datePicker?.addEventListener('change',syncDateToCategory2);
+ ['fProvince','fDistrict'].forEach(id=>{const el=$(id);if(el)new MutationObserver(()=>{syncCalendar();updateSummary();}).observe(el,{childList:true,subtree:true});});
+ syncCalendar();updateSummary();
 })();
 </script>
 
