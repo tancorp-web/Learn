@@ -503,6 +503,11 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
 #selectedSignAnalysis999 button{background:#172b4d;color:#fff;font-weight:800;cursor:pointer}
 #selectedSignAnalysis999 button:disabled{opacity:.6;cursor:wait}
 #selectedSignAnalysis999 .ss-status{margin:10px 0;color:#526078;font-size:13px}
+#selectedSignAnalysis999 .ss-output-heading{margin:22px 0 8px;padding-top:14px;border-top:1px solid #e1e6f0;color:#172b4d;font-size:17px}
+#selectedSignAnalysis999 #compareResults999 .ss-compare-note{font-size:13px;color:#526078;margin:6px 0 12px}
+#selectedSignAnalysis999 #compareResults999 .ss-table-wrap{margin:10px 0 14px}
+#selectedSignAnalysis999 #compareResults999 .ss-compare-table td:first-child{font-weight:800;background:#f8faff}
+#selectedSignAnalysis999 #allDayResults999,#selectedSignAnalysis999 #selectedSignResults999{margin-bottom:16px}
 #selectedSignAnalysis999 .ss-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0}
 #selectedSignAnalysis999 .ss-stat{border:1px solid #e1e6f0;border-radius:9px;padding:10px;background:#f8faff}
 #selectedSignAnalysis999 .ss-stat strong{display:block;font-size:20px;color:#172b4d}
@@ -533,7 +538,12 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
   <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" id="runSelectedSign999">วิเคราะห์ราศีที่เลือก</button><button type="button" id="runAllSigns999">แสดงผลทุกช่วงราศีตลอดวัน</button></div>
  </div>
  <p id="selectedSignStatus999" class="ss-status" aria-live="polite">พร้อมทำงาน · ยังไม่มีการคำนวณ</p>
+ <h3 class="ss-output-heading">ผลวิเคราะห์เฉพาะราศีที่เลือก</h3>
  <div id="selectedSignResults999" hidden></div>
+ <h3 class="ss-output-heading">ผลวิเคราะห์ตลอดทั้งวัน</h3>
+ <div id="allDayResults999" hidden></div>
+ <h3 class="ss-output-heading">เปรียบเทียบผลช่วงที่เลือกกับทั้งวัน</h3>
+ <div id="compareResults999" hidden></div>
 </section>
 
 <div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="อุจจาวิลาศ">อุจจาวิลาศ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option></select><span id="planetStandardColorKey4" class="standard-color-key4" aria-live="polite"><span class="standard-color-dot4"></span><span class="standard-color-name4">เกษตร · สีทอง</span></span><details class="standard-color-legend4"><summary>คำอธิบายสีมาตรฐาน</summary><div class="standard-color-grid4"><span><i style="--std-color:#C69224"></i>เกษตร</span><span><i style="--std-color:#0F766E"></i>ประ</span><span><i style="--std-color:#2878C8"></i>อุจจ์</span><span><i style="--std-color:#64748B"></i>นิจ</span><span><i style="--std-color:#8054B8"></i>ราชาโชค</span><span><i style="--std-color:#D97736"></i>มหาจักร</span><span><i style="--std-color:#0891B2"></i>จุลจักร</span><span><i style="--std-color:#BE185D"></i>อุจจาภิมุข</span><span><i style="--std-color:#15803D"></i>เทวีโชค</span></div></details></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details></div>
@@ -2141,8 +2151,8 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   if(!relations.length)return '<p class="criteria7-muted">ยังไม่พบแถวความสัมพันธ์ดาวเดิมในผลคำนวณหลัก กรุณากด “คำนวณทุกอย่าง” ก่อนวิเคราะห์</p>';
   return '<p class="criteria7-muted">ตารางนี้อ่านค่าความสัมพันธ์จากผลดวงเดิมที่คำนวณไว้ โดยยึดลัคนาเดิม ไม่ใช้ลัคนาจรแทน</p><div class="ss-table-wrap"><table><thead><tr><th>ประเภทความสัมพันธ์</th><th>ดาวเดิม / คู่ดาวเดิม (รวมลัคนาเดิมตามสูตรหลัก)</th></tr></thead><tbody>'+relations.join('')+'</tbody></table></div>';
  }
- function renderResult(selected,segments){
-  const root=$('selectedSignResults999');
+ function renderResult(rootId,selected,segments,showAll){
+  const root=$(rootId);
   const planetCodeOccurrences=[],positionOccurrences=[];
   for(const segment of segments){
    const a=segment.analysis;
@@ -2180,7 +2190,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const relations=[...new Set(segments.flatMap(s=>s.analysis.relations||[]))];
   root.hidden=false;
   root.innerHTML='<div class="ss-summary">'+
-   '<div class="ss-stat"><span>ช่วงการคำนวณ</span><strong>ครบทั้งวัน</strong></div>'+
+   '<div class="ss-stat"><span>ขอบเขตผลวิเคราะห์</span><strong>'+(showAll?'ตลอดทั้งวัน':'ราศี '+escapeHtml(selected))+'</strong></div>'+
    '<div class="ss-stat"><span>ช่วงเวลาที่ตรงกัน</span><strong>'+segments.length+'</strong></div>'+
    '<div class="ss-stat"><span>เลขดาวที่พบในผลวิเคราะห์</span><strong>'+planetCodeOccurrences.length+'</strong></div>'+
    '<div class="ss-stat"><span>เลขดาวที่ซ้ำ</span><strong>'+duplicates.length+'</strong></div></div>'+
@@ -2188,21 +2198,43 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<h3>แผนภูมิวงกลมเลขซ้ำภาพรวม</h3>'+pieChartMarkup(duplicates)+
    '<h3>ตำแหน่งนับความสัมพันธ์ที่พบซ้ำ</h3><div class="ss-duplicates">'+(positionDuplicates.length?positionDuplicates.map(([n,count])=>'<span class="ss-chip">ตำแหน่ง '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบตำแหน่งนับซ้ำ</span>')+'</div>'+
    '<h3>ตารางที่ 1: ความสัมพันธ์ดาวโดยใช้ลัคนาเดิม</h3>'+natalRelationshipTableMarkup()+
-   '<h3>ตารางที่ 2: ความสัมพันธ์ดาวโดยใช้ลัคนาจรตามช่วงเวลาตลอดทั้งวัน</h3><p class="criteria7-muted">คำนวณครบตั้งแต่ 00:00–24:00 น. รวมช่วงก่อนรอยต่อแรกและหลังรอยต่อสุดท้าย ตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง และแสดงเวลาเข้า/ออกโดยไม่ปะปนกับตารางลัคนาเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
+   '<h3>ตาราง: ความสัมพันธ์ดาวตามลัคนาจร · '+(showAll?'ตลอดทั้งวัน':'เฉพาะราศี '+escapeHtml(selected))+'</h3><p class="criteria7-muted">'+(showAll?'แสดงทุกช่วงตั้งแต่ 00:00–24:00 น. รวมช่วงก่อนรอยต่อแรกและหลังรอยต่อสุดท้าย':'แสดงเฉพาะช่วงเวลาที่ลัคนาจรอยู่ในราศี '+escapeHtml(selected))+' ตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง และแยกผลนี้ออกจากตารางความสัมพันธ์ดาวเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
    (segments.length?segments.map(s=>{
     const localCounts=countValues([...(s.analysis.numbers||[]).map(x=>x.number),...(s.analysis.relationNumbers||[]).flatMap(x=>[planetDigits[x.from],planetDigits[x.to]].filter(Boolean))]);
     const startDate=dateAtOffset(s.date,Math.floor(s.start/1440)),endDate=dateAtOffset(s.date,Math.floor(s.end/1440));
     return '<tr><td>'+escapeHtml(s.analysis.ascSign)+'</td><td>'+escapeHtml(formatThaiDate(startDate))+'</td><td><strong>'+escapeHtml(clock(s.start))+' น.</strong></td><td>'+escapeHtml(formatThaiDate(endDate))+'</td><td><strong>'+escapeHtml(clock(s.end))+' น.</strong></td><td>'+(localCounts.length?localCounts.map(([n,count])=>escapeHtml(n)+' × '+count).join(', '):'—')+'</td><td>'+escapeHtml((s.analysis.standards||[]).join(' · ')||'—')+'</td><td>'+escapeHtml((s.analysis.relations||[]).join(' · ')||'—')+'</td></tr>';
-   }).join(''):'<tr><td colspan="8">ไม่พบช่วงเวลาที่ลัคนาจรตรงกับราศีที่เลือก</td></tr>')+
+   }).join(''):'<tr><td colspan="8">'+(showAll?'ไม่พบช่วงเวลาสำหรับทั้งวัน':'ไม่พบช่วงเวลาที่ลัคนาจรอยู่ในราศี '+escapeHtml(selected))+'</td></tr>')+
    '</tbody></table></div>'+
    '<details><summary>รายละเอียดความสัมพันธ์ดาวจรในช่วงเวลาที่เลือก</summary><p><strong>มาตรฐานดาวจร</strong><br>'+escapeHtml(standards.join(' · ')||'ไม่มี')+'</p><p><strong>ความสัมพันธ์ตามลัคนาจร</strong><br>'+escapeHtml(relations.join(' · ')||'ไม่มี')+'</p></details>'+
    '<p class="criteria7-muted">นับเลขดาวและตำแหน่งความสัมพันธ์แยกกัน ไม่รวมเลขตำแหน่ง 1–12 เข้ากับรหัสเลขดาว ๐–๙ เพื่อไม่ให้ความหมายปะปน</p>';
  }
+
+ function summarizeForComparison(segments){
+  const planetCodes=[],positions=[];
+  for(const segment of segments){
+   const a=segment.analysis||{};
+   (a.numbers||[]).forEach(item=>planetCodes.push(item.number));
+   (a.relationNumbers||[]).forEach(item=>{
+    const from=planetDigits[item.from],to=planetDigits[item.to];
+    if(from)planetCodes.push(from);
+    if(to)planetCodes.push(to);
+    if(Number.isFinite(Number(item.countedPosition)))positions.push(Number(item.countedPosition));
+   });
+  }
+  return {ranges:segments.length,occurrences:planetCodes.length,duplicateKinds:countValues(planetCodes).length,duplicatePositions:countValues(positions).length,standards:new Set(segments.flatMap(s=>s.analysis?.standards||[])).size,relations:new Set(segments.flatMap(s=>s.analysis?.relations||[])).size};
+ }
+ function renderComparison(selected,selectedSegments,allSegments){
+  const root=$('compareResults999'),a=summarizeForComparison(selectedSegments),b=summarizeForComparison(allSegments);
+  const rows=[['จำนวนช่วงเวลา',a.ranges,b.ranges],['จำนวนรายการรหัสเลขดาวที่นำมานับ',a.occurrences,b.occurrences],['จำนวนชนิดเลขดาวที่พบซ้ำ',a.duplicateKinds,b.duplicateKinds],['จำนวนตำแหน่งความสัมพันธ์ที่พบซ้ำ',a.duplicatePositions,b.duplicatePositions],['จำนวนมาตรฐานดาวที่พบ',a.standards,b.standards],['จำนวนความสัมพันธ์ดาวที่พบ',a.relations,b.relations]];
+  root.hidden=false;
+  root.innerHTML='<p class="ss-compare-note">เปรียบเทียบจากข้อมูลวันและสถานที่ชุดเดียวกัน · ฝั่ง “ช่วงที่เลือก” คือราศี '+escapeHtml(selected)+' เท่านั้น ส่วน “ทั้งวัน” รวมทุกช่วง 00:00–24:00 น. ตัวเลขเป็นจำนวนรายการที่พบ ไม่ใช่คะแนนคุณภาพ</p><div class="ss-table-wrap"><table class="ss-compare-table"><thead><tr><th>ตัวชี้วัด</th><th>ช่วงที่เลือก · '+escapeHtml(selected)+'</th><th>รวมทั้งวัน</th><th>ผลต่าง (ทั้งวัน − ช่วงที่เลือก)</th></tr></thead><tbody>'+rows.map(row=>'<tr><td>'+escapeHtml(row[0])+'</td><td>'+row[1]+'</td><td>'+row[2]+'</td><td>'+(row[2]-row[1])+'</td></tr>').join('')+'</tbody></table></div><p class="ss-compare-note">หมายเหตุ: จำนวนเลขซ้ำและตำแหน่งซ้ำคำนวณแยกจากกันตามประเภทเดิม ไม่เอาเลขตำแหน่ง 1–12 มาปะปนกับรหัสเลขดาว ๐–๙</p>';
+ }
+
  async function run(showAll=false){
   const button=$(showAll?'runAllSigns999':'runSelectedSign999'),status=$('selectedSignStatus999');
   if(button.disabled)return;
   button.disabled=true;
-  const selected=showAll?'ครบทั้งวัน':$('selectedSign999').value;
+  const selected=$('selectedSign999').value;
   const allButton=$('runAllSigns999'),selectedButton=$('runSelectedSign999');
   allButton.disabled=true;selectedButton.disabled=true;
   try{
@@ -2267,11 +2299,14 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
     if(!expectedSign||analysis.ascSign!==expectedSign)throw new Error('ตรวจสอบไม่ผ่านช่วง '+(i+1)+' เวลา '+dateTimeLabel(date,midpoint)+': สูตรขอบเขตระบุ '+(expectedSign||'ไม่ทราบราศี')+' แต่ตัวคำนวณลัคนาจรจริงได้ '+analysis.ascSign+' จึงหยุดแสดงผลเพื่อป้องกันข้อมูลคลาดเคลื่อน');
     segments.push({date,start,end,analysis});
    }
-   const displayedSegments=showAll?segments:segments.filter(segment=>segment.analysis.ascSign===selected);
-   renderResult(selected,displayedSegments);
+   const selectedSegments=segments.filter(segment=>segment.analysis.ascSign===selected);
+   const displayedSegments=showAll?segments:selectedSegments;
+   if(showAll){$("selectedSignResults999").hidden=true;renderResult("allDayResults999","ครบทั้งวัน",segments,true);}
+   else{$("allDayResults999").hidden=true;renderResult("selectedSignResults999",selected,displayedSegments,false);}
+   renderComparison(selected,selectedSegments,segments);
    status.textContent=showAll
     ? 'เสร็จแล้ว · แสดงผลทุกช่วงราศีตลอดวัน 00:00–24:00 น. · ตรวจสอบ '+segments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว'
-    : 'เสร็จแล้ว · แสดงผลเฉพาะราศี '+selected+' · พบ '+displayedSegments.length+' ช่วง · ตรวจรอยต่อครบทั้งวัน · ไม่เปลี่ยนสูตรดาว';
+    : 'เสร็จแล้ว · แสดงเฉพาะราศี '+selected+' ในส่วนผลช่วงเวลา และแสดงตารางเปรียบเทียบกับทั้งวันแยกต่างหาก · พบ '+displayedSegments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว';
   }catch(error){
    status.textContent='คำนวณไม่สำเร็จ: '+String(error?.message||error);
    console.error('[999][SELECTED SIGN ANALYSIS]',error);
