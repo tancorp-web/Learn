@@ -2260,38 +2260,63 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
  }
  function digitCombinationMarkup(a){
   const digitsOrder='๐๑๒๓๔๕๖๗๘๙';
-  const occurrences=[];
+  const occurrences=[],standardPlanets=new Set(),relationPlanets=new Set();
+  let standardOccurrenceCount=0,relationOccurrenceCount=0;
   (a.standards||[]).forEach(entry=>{
    const item=entry&&typeof entry==='object'&&'item' in entry?entry.item:entry;
    const raw=String(item??''),split=raw.split(':'),left=(split.shift()||'').trim(),right=split.join(':').trim();
    const match=left.match(/^([๐-๙0-9]+)\s+(.+)$/);
    if(!match)return;
    const digit=match[1].replace(/[0-9]/g,ch=>'๐๑๒๓๔๕๖๗๘๙'[Number(ch)]);
+   const planet=match[2].trim();
+   standardPlanets.add(planet);
    const criteria=right?right.split(/[、,，]/).map(x=>x.trim()).filter(Boolean):[];
-   criteria.forEach(()=>occurrences.push(digit));
+   criteria.forEach(()=>{occurrences.push(digit);standardOccurrenceCount++;});
   });
   (a.relationNumbers||[]).forEach(item=>{
    const digit=planetDigits[item.to];
-   if(digit)occurrences.push(digit);
+   if(!digit)return;
+   occurrences.push(digit);
+   relationOccurrenceCount++;
+   relationPlanets.add(item.to);
   });
+  const uniquePlanets=new Set([...standardPlanets,...relationPlanets]);
   const digitRank=value=>digitsOrder.indexOf(String(value));
+  const canonicalKey=values=>values.slice().sort((x,y)=>digitRank(x)-digitRank(y)).join('–');
   const digitCounts=new Map();
   occurrences.forEach(digit=>digitCounts.set(digit,(digitCounts.get(digit)||0)+1));
-  const repeated=[...digitCounts.entries()]
-   .filter(([,count])=>count>1)
-   .sort((x,y)=>y[1]-x[1]||digitRank(x[0])-digitRank(y[0]))
-   .slice(0,12);
-  if(!repeated.length)return '<section class="ss-digit-combinations" style="margin-top:10px;padding-top:10px;border-top:1px solid #e1e6f0"><h5>4.07 · เลขซ้ำ 12 อันดับแรก</h5><p class="criteria7-muted">ช่วงนี้ไม่พบเลขที่ซ้ำ</p></section>';
-  const rows=repeated.map((row,index)=>{
-   const rank=index+1;
-   const emphasis=rank===1
-    ? 'background:#fff0c2;color:#713f12;font-weight:800;'
-    : rank<=3
-     ? 'background:#fef3c7;color:#78350f;font-weight:750;'
-     : '';
-   return '<tr'+(emphasis?' style="'+emphasis+'"':'')+'><td>'+rank+'</td><td><span style="display:inline-block;min-width:2.2em;text-align:center;font-size:'+(rank===1?'1.35em':rank<=3?'1.15em':'1em')+';font-weight:'+(rank<=3?'800':'600')+'">'+escapeHtml(row[0])+'</span></td><td>'+row[1]+'</td></tr>';
-  }).join('');
-  return '<section class="ss-digit-combinations" style="margin-top:10px;padding-top:10px;border-top:1px solid #e1e6f0"><h5>4.07 · เลขซ้ำ 12 อันดับแรก</h5><div class="ss-table-wrap"><table><thead><tr><th>อันดับ</th><th>เลข</th><th>จำนวนครั้ง</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
+  const pairCounts=new Map(),tripleCounts=new Map();
+  for(let i=0;i<occurrences.length;i++){
+   for(let j=i+1;j<occurrences.length;j++){
+    const key=canonicalKey([occurrences[i],occurrences[j]]);
+    pairCounts.set(key,(pairCounts.get(key)||0)+1);
+    for(let k=j+1;k<occurrences.length;k++){
+     const group=[occurrences[i],occurrences[j],occurrences[k]];
+     const counts=new Map();
+     group.forEach(d=>counts.set(d,(counts.get(d)||0)+1));
+     if([...counts.values()].some(count=>count>2))continue;
+     const tripleKey=canonicalKey(group);
+     tripleCounts.set(tripleKey,(tripleCounts.get(tripleKey)||0)+1);
+    }
+   }
+  }
+  const renderRanked=(counts,label)=> {
+   const rows=[...counts.entries()]
+    .filter(([,count])=>count>1)
+    .sort((x,y)=>y[1]-x[1]||(()=>{
+     const ax=x[0].split('–').map(digitRank),bx=y[0].split('–').map(digitRank);
+     for(let i=0;i<Math.min(ax.length,bx.length);i++){if(ax[i]!==bx[i])return ax[i]-bx[i];}
+     return ax.length-bx.length;
+    })())
+    .slice(0,12);
+   if(!rows.length)return '<p class="criteria7-muted">ไม่พบ'+label+'ที่ซ้ำในช่วงนี้</p>';
+   return '<div class="ss-table-wrap"><table><thead><tr><th>อันดับ</th><th>ชุดเลข</th><th>จำนวนชุดที่จับได้</th></tr></thead><tbody>'+rows.map((row,index)=>{
+    const rank=index+1;
+    const style=rank===1?'background:#fff0c2;color:#713f12;font-weight:800;':rank<=3?'background:#fef3c7;color:#78350f;font-weight:750;':'';
+    return '<tr'+(style?' style="'+style+'"':'')+'><td>'+rank+'</td><td><strong>'+escapeHtml(row[0])+'</strong></td><td>'+row[1]+'</td></tr>';
+   }).join('')+'</tbody></table></div>';
+  };
+  return '<section class="ss-digit-combinations" style="margin-top:14px;padding-top:12px;border-top:1px solid #e1e6f0"><h5>4.07 · เลขซ้ำและชุดเลข · เฉพาะช่วงนี้</h5><p><strong>จำนวนครั้งที่เข้าเกณฑ์มาตรฐาน:</strong> '+standardOccurrenceCount+' · <strong>จำนวนครั้งจากความสัมพันธ์:</strong> '+relationOccurrenceCount+' · <strong>ดาวไม่ซ้ำกัน:</strong> '+uniquePlanets.size+' ดวง · <strong>รายการเลขทั้งหมด:</strong> '+occurrences.length+' ครั้ง</p><h6>เลขเดี่ยวที่ซ้ำ · สูงสุด 12 อันดับ</h6>'+renderRanked(digitCounts,'เลขเดี่ยว')+'<h6>คู่เลขที่ซ้ำ · สูงสุด 12 ชุด</h6>'+renderRanked(pairCounts,'คู่เลข')+'<h6>ชุดเลข 3 ตัวที่ซ้ำ · สูงสุด 12 ชุด</h6>'+renderRanked(tripleCounts,'ชุดเลข 3 ตัว')+'</section>';
  }
  function renderSingleResult(rootId,selected,segments,showAll){
   const root=$(rootId);
