@@ -2145,6 +2145,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   const positions=segment?.analysis?.positions||[];
   const zodiac=signNames;
   const classical=[['อาทิตย์','๑'],['จันทร์','๒'],['อังคาร','๓'],['พุธ','๔'],['พฤหัสบดี','๕'],['ศุกร์','๖'],['เสาร์','๗']];
+  const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','เสาร์','พฤหัสบดี'];
   const asc=positions.find(p=>p.name==='ลัคนาจร');
   const fail=reason=>({ok:false,reason});
   const signIndex=longitude=>{
@@ -2152,7 +2153,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
    return Number.isFinite(n)?Math.floor((((n%360)+360)%360)/30):null;
   };
   if(!asc||signIndex(asc.longitude)===null)return fail('ไม่พบองศาลัคนาจร');
-  const ascSign=signIndex(asc.longitude),ascLordRecord=getRashiLordBySign(zodiac[ascSign]),ascLord=ascLordRecord?.planet;
+  const ascSign=signIndex(asc.longitude),ascLord=signLords[ascSign];
   if(!ascLord)return fail('ไม่พบเจ้าเรือนราศี'+zodiac[ascSign]+'ในข้อมูลมาตรฐานกลาง');
   const byName=name=>positions.find(p=>p.name===name);
   const firstLordPosition=byName(ascLord);
@@ -2160,7 +2161,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   if(firstLordSign===null)return fail('ไม่พบตำแหน่งดาวจรของเจ้าเรือนลัคนาจร ('+ascLord+')');
   if(firstLordSign===ascSign){const lordNumber=planetDigits[ascLord];if(!lordNumber)return fail('ไม่พบเลขประจำดาวตนุลัคน์ '+ascLord);return {ok:true,number:lordNumber,planet:ascLord,ascSign:zodiac[ascSign],ascLord,firstLordSign:zodiac[firstLordSign],firstCount:null,secondCount:null,product:null,remainder:null,exception:true,source:'เจ้าเรือนลัคนาจร '+ascLord+' สถิตในราศีเกษตรของตัวเอง ('+zodiac[ascSign]+') จึงกำหนดตนุเศษจรเป็น '+ascLord+' (เลข '+lordNumber+') โดยไม่ใช้สูตรคูณหาร 7'};}
   const firstCount=((firstLordSign-ascSign+12)%12)+1;
-  const secondLordRecord=getRashiLordBySign(zodiac[firstLordSign]),secondLord=secondLordRecord?.planet;
+  const secondLord=signLords[firstLordSign];
   if(!secondLord)return fail('ไม่พบเจ้าเรือนราศี'+zodiac[firstLordSign]+'ในข้อมูลมาตรฐานกลาง');
   const secondLordPosition=byName(secondLord);
   const secondLordSign=signIndex(secondLordPosition?.longitude);
