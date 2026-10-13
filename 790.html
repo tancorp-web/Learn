@@ -2107,10 +2107,10 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const rows=items.map(item=>{
    const number=planetDigits[item.to]||'—';
    const planet=String(item.to||'—');
-   const sign=String(item.toSign||'');
-   return '<tr><td>'+escapeHtml(number)+'</td><td>'+escapeHtml(planet)+(sign?' (ราศี'+escapeHtml(sign)+')':'')+'</td><td>'+escapeHtml(item.relation||'—')+'</td></tr>';
+   const sign=String(item.toSign||'—');
+   return '<tr><td>'+escapeHtml(number)+'</td><td>'+escapeHtml(planet)+'</td><td>'+escapeHtml(sign)+'</td><td>'+escapeHtml(item.relation||'—')+'</td></tr>';
   });
-  return '<div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ดาวจรและราศี</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
+  return '<div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ดาวจร</th><th>ราศีที่สถิต</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
  }
  function renderSingleResult(rootId,selected,segments,showAll){
   const root=$(rootId);
