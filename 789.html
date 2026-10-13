@@ -2151,7 +2151,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   if(!relations.length)return '<p class="criteria7-muted">ยังไม่พบแถวความสัมพันธ์ดาวเดิมในผลคำนวณหลัก กรุณากด “คำนวณทุกอย่าง” ก่อนวิเคราะห์</p>';
   return '<p class="criteria7-muted">ตารางนี้อ่านค่าความสัมพันธ์จากผลดวงเดิมที่คำนวณไว้ โดยยึดลัคนาเดิม ไม่ใช้ลัคนาจรแทน</p><div class="ss-table-wrap"><table><thead><tr><th>ประเภทความสัมพันธ์</th><th>ดาวเดิม / คู่ดาวเดิม (รวมลัคนาเดิมตามสูตรหลัก)</th></tr></thead><tbody>'+relations.join('')+'</tbody></table></div>';
  }
- function renderResult(rootId,selected,segments,showAll){
+ function renderSingleResult(rootId,selected,segments,showAll){
   const root=$(rootId);
   const planetCodeOccurrences=[],positionOccurrences=[];
   for(const segment of segments){
@@ -2218,6 +2218,23 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<p class="criteria7-muted">นับเลขดาวและตำแหน่งความสัมพันธ์แยกกัน ไม่รวมเลขตำแหน่ง 1–12 เข้ากับรหัสเลขดาว ๐–๙ เพื่อไม่ให้ความหมายปะปน</p>';
  }
 
+
+ function renderResult(rootId,selected,segments,showAll){
+  if(!showAll){
+   renderSingleResult(rootId,selected,segments,false);
+   return;
+  }
+  const root=$(rootId);
+  root.hidden=false;
+  root.innerHTML='<h3>ผลวิเคราะห์แยกทีละช่วงเวลา · ทั้ง 12 ช่วง</h3><p class="criteria7-muted">แต่ละช่วงใช้รูปแบบเดียวกับผลเฉพาะช่วงเวลา คำนวณและแสดงผลแยกกัน ไม่มีการรวมเลขซ้ำ มาตรฐานดาว หรือความสัมพันธ์ข้ามช่วง</p>'+segments.map((segment,index)=>{
+   const sign=segment.analysis?.ascSign||'ไม่ทราบราศี';
+   return '<section style="border:1px solid #dbe3ef;border-radius:12px;padding:14px;margin:14px 0;background:#f8fafc"><h3 style="margin:0 0 10px">ช่วงที่ '+(index+1)+' · '+escapeHtml(sign)+'</h3><div id="allDayPeriod999_'+index+'"></div></section>';
+  }).join('');
+  segments.forEach((segment,index)=>{
+   renderSingleResult('allDayPeriod999_'+index,segment.analysis?.ascSign||'ไม่ทราบราศี',[segment],false);
+  });
+ }
+
  function summarizeForComparison(segments){
   const planetCodes=[],positions=[];
   for(const segment of segments){
@@ -2233,10 +2250,16 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   return {ranges:segments.length,occurrences:planetCodes.length,duplicateKinds:countValues(planetCodes).length,duplicatePositions:countValues(positions).length,standards:new Set(segments.flatMap(s=>s.analysis?.standards||[])).size,relations:new Set(segments.flatMap(s=>s.analysis?.relations||[])).size};
  }
  function renderComparison(selected,selectedSegments,allSegments){
-  const root=$('compareResults999'),a=summarizeForComparison(selectedSegments),b=summarizeForComparison(allSegments);
-  const rows=[['จำนวนช่วงเวลา',a.ranges,b.ranges],['จำนวนรายการรหัสเลขดาวที่นำมานับ',a.occurrences,b.occurrences],['จำนวนชนิดเลขดาวที่พบซ้ำ',a.duplicateKinds,b.duplicateKinds],['จำนวนตำแหน่งความสัมพันธ์ที่พบซ้ำ',a.duplicatePositions,b.duplicatePositions],['จำนวนมาตรฐานดาวที่พบ',a.standards,b.standards],['จำนวนความสัมพันธ์ดาวที่พบ',a.relations,b.relations]];
+  const root=$('compareResults999');
   root.hidden=false;
-  root.innerHTML='<p class="ss-compare-note">เปรียบเทียบจากข้อมูลวันและสถานที่ชุดเดียวกัน · ฝั่ง “ช่วงที่เลือก” คือราศี '+escapeHtml(selected)+' เท่านั้น ส่วน “ทั้งวัน” รวมทุกช่วง 00:00–24:00 น. ตัวเลขเป็นจำนวนรายการที่พบ ไม่ใช่คะแนนคุณภาพ</p><div class="ss-table-wrap"><table class="ss-compare-table"><thead><tr><th>ตัวชี้วัด</th><th>ช่วงที่เลือก · '+escapeHtml(selected)+'</th><th>รวมทั้งวัน</th><th>ผลต่าง (ทั้งวัน − ช่วงที่เลือก)</th></tr></thead><tbody>'+rows.map(row=>'<tr><td>'+escapeHtml(row[0])+'</td><td>'+row[1]+'</td><td>'+row[2]+'</td><td>'+(row[2]-row[1])+'</td></tr>').join('')+'</tbody></table></div><p class="ss-compare-note">หมายเหตุ: จำนวนเลขซ้ำและตำแหน่งซ้ำคำนวณแยกจากกันตามประเภทเดิม ไม่เอาเลขตำแหน่ง 1–12 มาปะปนกับรหัสเลขดาว ๐–๙</p>';
+  const rows=allSegments.map((segment,index)=>{
+   const a=segment.analysis||{},stats=summarizeForComparison([segment]);
+   const startDate=dateAtOffset(segment.date,Math.floor(segment.start/1440));
+   const endDate=dateAtOffset(segment.date,Math.floor(segment.end/1440));
+   const selectedMark=a.ascSign===selected?' · ราศีที่เลือก':'';
+   return '<tr'+(a.ascSign===selected?' style="background:#f5f3ff"':'')+'><td>'+(index+1)+'</td><td>'+escapeHtml(a.ascSign||'ไม่ทราบราศี')+escapeHtml(selectedMark)+'</td><td>'+escapeHtml(formatThaiDate(startDate))+' '+escapeHtml(clock(segment.start))+'</td><td>'+escapeHtml(formatThaiDate(endDate))+' '+escapeHtml(clock(segment.end))+'</td><td>'+stats.occurrences+'</td><td>'+stats.duplicateKinds+'</td><td>'+stats.duplicatePositions+'</td><td>'+stats.standards+'</td><td>'+stats.relations+'</td></tr>';
+  });
+  root.innerHTML='<p class="ss-compare-note">เปรียบเทียบผลของทั้ง 12 ช่วงแบบแยกแถว แต่ละแถวคำนวณจากช่วงนั้นเพียงช่วงเดียว ไม่มีแถวผลรวมทั้งวันและไม่มีการนำเลขข้ามช่วงมานับรวม</p><div class="ss-table-wrap"><table class="ss-compare-table"><thead><tr><th>ช่วง</th><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รายการเลขดาว/คู่เลข</th><th>ชนิดเลขที่ซ้ำในช่วง</th><th>ตำแหน่งซ้ำในช่วง</th><th>มาตรฐานดาว</th><th>ความสัมพันธ์ดาว</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div><p class="ss-compare-note">เลขซ้ำและตำแหน่งซ้ำแยกคำนวณภายในแต่ละช่วงเท่านั้น ไม่รวมผลข้ามช่วงเวลา</p>';
  }
 
  async function run(showAll=false){
