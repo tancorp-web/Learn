@@ -703,7 +703,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261012-wheel-standard-ring12"></script>
+<script type="module" src="./main51.js?v=20261013-tanu-sesha-domicile-exception"></script>
 <script type="module">
 /* INDEX101: color-coded 12-sign planetary-standard ring. Every zodiac sign gets a circle,
    while matching natal/transit planet numbers are placed inside their sign's circle. */
@@ -2140,7 +2140,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
  }
  // สูตรตนุเศษจรแยกจากตนุลัคนาจร: ใช้ลัคนาจรและตำแหน่งดาวจรของช่วงนั้น
  // กติกา F-009 คงเดิม: นับรวมต้นทางและปลายทาง; เจ้าเรือนลัคนาอยู่ราศีเดียวกับลัคนา = อาทิตย์;
- // ผลหารลงตัว = เสาร์ (เลข ๗). ไม่แก้โมดูลสูตรดวงเดิมหรือ main51.js
+ // ผลหารลงตัว = เสาร์ (เลข ๗). กฎนี้แยกจากสูตรคำนวณตำแหน่งดาว
  function tanuSeshaTransit(segment){
   const positions=segment?.analysis?.positions||[];
   const zodiac=signNames;
