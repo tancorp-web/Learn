@@ -1986,6 +1986,9 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  const $=id=>document.getElementById(id);
  const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const planetDigits={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+ // กฎเจ้าเรือนสำหรับตนุลัคนาจร/ตนุเศษจรในหน้านี้: กุมภ์ใช้ราหู (๘) ตามกฎที่ยืนยันไว้
+ // แยกจาก SIGN_LORDS ใน main51.js ซึ่งใช้กับนวางค์/ตรียางค์และไม่ควรถูกเปลี่ยนตามกฎนี้
+ const RASHI_LORD_BY_SIGN=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','ราหู','พฤหัสบดี'];
  const pad=n=>String(n).padStart(2,'0');
  const mod=(n,m)=>((n%m)+m)%m;
  const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -2114,26 +2117,18 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  }
  function tanuAscendantMarkup(segment){
   const analysis=segment?.analysis||{};
-  const zodiac=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
-  const lords=[
-   {number:'๓',name:'อังคาร'},{number:'๖',name:'ศุกร์'},{number:'๔',name:'พุธ'},
-   {number:'๒',name:'จันทร์'},{number:'๑',name:'อาทิตย์'},{number:'๔',name:'พุธ'},
-   {number:'๖',name:'ศุกร์'},{number:'๓',name:'อังคาร'},{number:'๕',name:'พฤหัสบดี'},
-   {number:'๗',name:'เสาร์'},{number:'๘',name:'ราหู'},{number:'๕',name:'พฤหัสบดี'}
-  ];
   const asc=(analysis.positions||[]).find(p=>p.name==='ลัคนาจร');
   if(!asc||!Number.isFinite(Number(asc.longitude)))return '<p><strong>ตนุลัคนาจร:</strong> คำนวณไม่ได้ — ไม่พบองศาลัคนาจร</p>';
   const index=Math.floor((((Number(asc.longitude)%360)+360)%360)/30);
-  const sign=zodiac[index],lord=lords[index];
-  return '<p><strong>ตนุลัคนาจร:</strong> เลข '+lord.number+' · ดาว'+lord.name+' (เกษตรของราศี'+sign+')</p>';
+  const sign=signNames[index],lordName=RASHI_LORD_BY_SIGN[index],lordNumber=planetDigits[lordName]||'—';
+  return '<p><strong>ตนุลัคนาจร:</strong> เลข '+lordNumber+' · ดาว'+lordName+' (เกษตรของราศี'+sign+')</p>';
  }
  // สูตรตนุเศษจรแยกจากตนุลัคนาจร: ใช้ลัคนาจรและตำแหน่งดาวจรของช่วงนั้น
  // กติกา F-009 คงเดิม: นับรวมต้นทางและปลายทาง; เจ้าเรือนลัคนาอยู่ราศีเดียวกับลัคนา = อาทิตย์;
  // ผลหารลงตัว = เสาร์ (เลข ๗). ไม่แก้โมดูลสูตรดวงเดิมหรือ main51.js
  function tanuSeshaTransit(segment){
   const positions=segment?.analysis?.positions||[];
-  const zodiac=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
-  const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','ราหู','พฤหัสบดี'];
+  const zodiac=signNames;
   const classical=[['อาทิตย์','๑'],['จันทร์','๒'],['อังคาร','๓'],['พุธ','๔'],['พฤหัสบดี','๕'],['ศุกร์','๖'],['เสาร์','๗']];
   const asc=positions.find(p=>p.name==='ลัคนาจร');
   const fail=reason=>({ok:false,reason});
@@ -2142,14 +2137,14 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    return Number.isFinite(n)?Math.floor((((n%360)+360)%360)/30):null;
   };
   if(!asc||signIndex(asc.longitude)===null)return fail('ไม่พบองศาลัคนาจร');
-  const ascSign=signIndex(asc.longitude),ascLord=signLords[ascSign];
+  const ascSign=signIndex(asc.longitude),ascLord=RASHI_LORD_BY_SIGN[ascSign];
   const byName=name=>positions.find(p=>p.name===name);
   const firstLordPosition=byName(ascLord);
   const firstLordSign=signIndex(firstLordPosition?.longitude);
   if(firstLordSign===null)return fail('ไม่พบตำแหน่งดาวจรของเจ้าเรือนลัคนาจร ('+ascLord+')');
   if(firstLordSign===ascSign)return {ok:true,number:'๑',planet:'อาทิตย์',ascSign:zodiac[ascSign],ascLord,firstCount:null,secondCount:null,product:null,remainder:null,exception:true,source:'เจ้าเรือนลัคนาจร '+ascLord+' สถิตราศีลัคนาจรเดียวกัน จึงใช้ข้อยกเว้น F-009 = อาทิตย์ (เลข ๑)'};
   const firstCount=((firstLordSign-ascSign+12)%12)+1;
-  const secondLord=signLords[firstLordSign];
+  const secondLord=RASHI_LORD_BY_SIGN[firstLordSign];
   const secondLordPosition=byName(secondLord);
   const secondLordSign=signIndex(secondLordPosition?.longitude);
   if(secondLordSign===null)return fail('ไม่พบตำแหน่งดาวจรของเจ้าเรือนราศีที่ดาว '+ascLord+' สถิต ('+secondLord+')');
