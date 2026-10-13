@@ -6,7 +6,7 @@
  * ขอบเขต runtime:
  * - เกณฑ์ที่ผู้ใช้ยืนยันแล้วจากราศี องศาเฉพาะ และช่วงมูลตรีโกณ ถูกใช้แสดงในตารางดาวกำเนิด/ดาวจร
  * - เกณฑ์ที่ยังเป็นข้อมูลค้นคว้าแสดงแยกเป็นป้ายอ้างอิง·รอยืนยัน ไม่ปะปนกับผลยืนยัน
- * - ราหู: ใช้เกณฑ์ที่ผู้ใช้ยืนยันว่า ราหูอยู่ราศีกุมภ์เป็นเกษตร
+ * - ราหู: เกษตรราศีกุมภ์และนิจราศีพฤษภเป็นเกณฑ์ที่ผู้ใช้ยืนยันแล้ว
  * - เกตุและมฤตยู: ไม่อนุมานเกณฑ์เกษตร/อุจจ์/นิจจากราหู
  * - ประ, มหาจักร, ราชาโชค, เทวีโชค, จุลจักร และมาตรฐานอื่น ๆ ยังไม่เปิดใช้
  *   จนกว่าจะกำหนดตำรา/เงื่อนไขที่ HORA ยึดถืออย่างชัดเจน
@@ -19,7 +19,7 @@
  *   ควรยืนยันกับตำราเฉพาะของโครงการก่อนนำไปคำนวณคะแนนหรือคำทำนาย
  */
 
-export const DIGNITY_DATA_VERSION = '1.2.2-rahu-aquarius-only';
+export const DIGNITY_DATA_VERSION = '1.2.3-rahu-taurus-nicha';
 
 export const ZODIAC_SIGNS = Object.freeze([
   { index: 0, name: 'เมษ', english: 'Aries', element: 'ไฟ' },
@@ -123,10 +123,10 @@ export const PLANETARY_DIGNITY_DATA = Object.freeze({
     /* เจ้าเรือนกุมภ์สำหรับตรรกะตนุลัคนาจรแยกจากมาตรฐานเกษตรที่แสดงในตารางดาว */
     domicileSigns: [],
     exaltation: null,
-    debilitation: null,
+    debilitation: { sign: 'พฤษภ', signIndex: 1, degreeInSign: null },
     moolatrikona: null,
-    dignityPolicy: 'not-configured',
-    notes: 'แยกกฎเจ้าเรือนกุมภ์ของตนุลัคนาจรออกจากมาตรฐานดาวทั่วไป เพื่อไม่ให้เปลี่ยนตารางมาตรฐานอื่น'
+    dignityPolicy: 'user-confirmed-tradition-dependent',
+    notes: 'ผู้ใช้ยืนยันราหูนิจราศีพฤษภ; เกษตรราศีกุมภ์แยกจากกฎเจ้าเรือนกุมภ์ของตนุลัคนาจร'
   },
   เกตุ: {
     planet: 'เกตุ',
@@ -523,8 +523,8 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "planet": "ราหู",
     "sign": "พฤษภ",
     "category": "นิจ",
-    "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "status": "CONFIRMED_BY_USER",
+    "source": "Explicitly confirmed by the HORA project user: Rahu is debilitated in Taurus (ราศีพฤษภ)."
   },
   {
     "id": "DIGNITY-RACHA-CHOK-SUN-GEMINI",
@@ -1163,7 +1163,9 @@ export const CONFIRMED_PLANETARY_STANDARDS = Object.freeze({
       "เสาร์": [
         "เมษ"
       ],
-      "ราหู": [],
+      "ราหู": [
+        "พฤษภ"
+      ],
       "เกตุ": [],
       "มฤตยู": []
     }
