@@ -2133,7 +2133,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  function tanuSeshaTransit(segment){
   const positions=segment?.analysis?.positions||[];
   const zodiac=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
-  const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','เสาร์','พฤหัสบดี'];
+  const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','ราหู','พฤหัสบดี'];
   const classical=[['อาทิตย์','๑'],['จันทร์','๒'],['อังคาร','๓'],['พุธ','๔'],['พฤหัสบดี','๕'],['ศุกร์','๖'],['เสาร์','๗']];
   const asc=positions.find(p=>p.name==='ลัคนาจร');
   const fail=reason=>({ok:false,reason});
