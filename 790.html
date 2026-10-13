@@ -2286,4 +2286,46 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 })();
 </script>
 
+
+<script id="categoryOrder790">
+/* 790.html only: show categories 1, 2, 4, 3, 5, 6, 7 in that order.
+   Keep the calculation engine and all other files unchanged. */
+(function(){
+  const applyCategoryOrder = () => {
+    const main = document.querySelector('main.container');
+    const selected = document.getElementById('selectedSignAnalysis999');
+    const wheel = document.getElementById('wheelPanel2');
+    if (!main || !selected || !wheel) return;
+
+    /* Category 4 (zodiac wheel) must appear before category 3 (selected-sign analysis). */
+    selected.parentNode.insertBefore(wheel, selected);
+
+    const birthAndTransitPanels = [...document.querySelectorAll('#calculatePanel > .panel')].slice(0, 2);
+    const keep = new Set([
+      ...birthAndTransitPanels,
+      selected,
+      wheel,
+      document.getElementById('navamsaPanel50'),
+      document.getElementById('triyangPanel50'),
+      document.getElementById('thaksaPanel51')
+    ].filter(Boolean));
+
+    /* Hide all remaining category panels without deleting their markup or changing calculations. */
+    const headings = [...main.querySelectorAll('h2')];
+    const owners = new Set();
+    headings.forEach(h => {
+      const owner = h.closest('.panel, .reference-panel, .planet-standard4, .menu-panel');
+      if (owner && !keep.has(owner) && !owner.contains(document.getElementById('displayPicker9'))) {
+        owners.add(owner);
+      }
+    });
+    owners.forEach(owner => { owner.style.display = 'none'; });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyCategoryOrder, { once: true });
+  } else {
+    applyCategoryOrder();
+  }
+})();
+</script>
 </body></html>
