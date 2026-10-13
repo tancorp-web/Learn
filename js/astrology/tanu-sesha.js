@@ -1,6 +1,7 @@
 /**
  * ตนุเศษ — HORA project rule F-009.
- * Uses only the natal ascendant and natal planetary longitudes.
+ * Supports a chart's ascendant and planetary longitudes. If the ascendant lord
+ * is in its own domicile sign, that same lord is Tanu Sesha (special-case override).
  * The 7 classical planets are numbered 1..7: Sun, Moon, Mars, Mercury,
  * Jupiter, Venus, Saturn. A remainder of zero maps to Saturn (7).
  */
@@ -37,12 +38,12 @@ export function calculateTanuSesha({ ascendantLongitude, planets } = {}) {
   const ascLordSign = longitudeSign(ascLordPlanet?.longitude);
   if (ascLordSign === null) return null;
 
-  // Confirmed project convention: if the ascendant lord is in the ascendant sign,
-  // Tanu Sesha is the Sun (number 1), without applying the multiplication step.
+  // User-confirmed special case: if the ascendant lord is in its own domicile
+  // sign (the ascendant sign), Tanu Sesha is that same ascendant lord, not Sun.
   if (ascLordSign === ascSign) {
     return {
-      planetName: 'อาทิตย์',
-      planetNumber: 1,
+      planetName: ascendantLord,
+      planetNumber: PLANET_NUMBERS.get(ascendantLord),
       ascendantLord,
       firstCount: null,
       secondCount: null,
