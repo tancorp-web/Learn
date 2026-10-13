@@ -707,7 +707,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
 <script type="module">
 /* INDEX101: color-coded 12-sign planetary-standard ring. Every zodiac sign gets a circle,
    while matching natal/transit planet numbers are placed inside their sign's circle. */
-import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data/planetary-dignities.js?v=20261013-rahu-aquarius-only';
+import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data/planetary-dignities.js?v=20261013-central-rashi-lord';
 (()=>{
  const wheel=document.getElementById('wheel');
  const picker=document.getElementById('planetStandardSelect4');
@@ -997,7 +997,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-central-rashi-lord';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
-import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261013-rahu-aquarius-only';
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261013-central-rashi-lord';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
 (()=>{
@@ -1908,7 +1908,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
 <script type="module">
 /* INDEX102_PLANET_DIGNITY_RINGS102
    ใช้มาตรฐานจากตำแหน่งจริงของดาวเดิม/ดาวจร แล้วแสดงวงขอบสีบนวงจักรราศี นวางค์ และตรียางค์ */
-import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261013-rahu-aquarius-only';
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261013-central-rashi-lord';
 (()=>{
  const roots=[
   {id:'wheel',selector:'g[data-planet-marker="true"]',longitudeAttr:'data-longitude',kind:'rashi'},
