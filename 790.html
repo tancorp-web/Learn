@@ -413,7 +413,7 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
 
-</style>
+.ss-compare-407>summary{cursor:pointer;font-weight:750;color:#4b49b9;white-space:nowrap}.ss-compare-407[open]{min-width:280px}.ss-compare-407 .ss-digit-combinations{min-width:260px}.ss-compare-407 table{min-width:260px}</style>
 
 <style id="displayPickerStyle9">
 #displayPicker9{position:relative;padding:13px 16px;margin:12px 0;background:#fff;border:1px solid #d9e1ef;border-radius:14px}
@@ -2358,9 +2358,9 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
    const startDate=dateAtOffset(segment.date,Math.floor(segment.start/1440));
    const endDate=dateAtOffset(segment.date,Math.floor(segment.end/1440));
    const selectedMark=a.ascSign===selected?' · ราศีที่เลือก':'';
-   return '<tr'+(a.ascSign===selected?' style="background:#f5f3ff"':'')+'><td>'+(index+1)+'</td><td>'+escapeHtml(a.ascSign||'ไม่ทราบราศี')+escapeHtml(selectedMark)+'</td><td>'+escapeHtml(formatThaiDate(startDate))+' '+escapeHtml(clock(segment.start))+'</td><td>'+escapeHtml(formatThaiDate(endDate))+' '+escapeHtml(clock(segment.end))+'</td><td>'+stats.occurrences+'</td><td>'+stats.duplicateKinds+'</td><td>'+stats.duplicatePositions+'</td><td>'+stats.standards+'</td><td>'+stats.relations+'</td></tr>';
+   return '<tr'+(a.ascSign===selected?' style="background:#f5f3ff"':'')+'><td>'+(index+1)+'</td><td>'+escapeHtml(a.ascSign||'ไม่ทราบราศี')+escapeHtml(selectedMark)+'</td><td>'+escapeHtml(formatThaiDate(startDate))+' '+escapeHtml(clock(segment.start))+'</td><td>'+escapeHtml(formatThaiDate(endDate))+' '+escapeHtml(clock(segment.end))+'</td><td>'+stats.occurrences+'</td><td>'+stats.duplicateKinds+'</td><td>'+stats.duplicatePositions+'</td><td>'+stats.standards+'</td><td>'+stats.relations+'</td><td><details class="ss-compare-407"><summary>เปิดผล 4.07</summary>'+digitCombinationMarkup(a)+'</details></td></tr>';
   });
-  root.innerHTML='<p class="ss-compare-note">เปรียบเทียบผลของทั้ง 12 ช่วงแบบแยกแถว แต่ละแถวคำนวณจากช่วงนั้นเพียงช่วงเดียว ไม่มีแถวผลรวมทั้งวันและไม่มีการนำเลขข้ามช่วงมานับรวม</p><div class="ss-table-wrap"><table class="ss-compare-table"><thead><tr><th>ช่วง</th><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รายการเลขดาว/คู่เลข</th><th>ชนิดเลขที่ซ้ำในช่วง</th><th>ตำแหน่งซ้ำในช่วง</th><th>มาตรฐานดาว</th><th>ความสัมพันธ์ดาว</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div><p class="ss-compare-note">เลขซ้ำและตำแหน่งซ้ำแยกคำนวณภายในแต่ละช่วงเท่านั้น ไม่รวมผลข้ามช่วงเวลา</p>';
+  root.innerHTML='<p class="ss-compare-note">เปรียบเทียบผลของทั้ง 12 ช่วงแบบแยกแถว แต่ละแถวคำนวณจากช่วงนั้นเพียงช่วงเดียว ไม่มีแถวผลรวมทั้งวันและไม่มีการนำเลขข้ามช่วงมานับรวม</p><div class="ss-table-wrap"><table class="ss-compare-table"><thead><tr><th>ช่วง</th><th>ราศีลัคนาจร</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รายการเลขดาว/คู่เลข</th><th>ชนิดเลขที่ซ้ำในช่วง</th><th>ตำแหน่งซ้ำในช่วง</th><th>มาตรฐานดาว</th><th>ความสัมพันธ์ดาว</th><th>เลขเด่นและชุดเลข 4.07</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div><p class="ss-compare-note">เลขซ้ำและตำแหน่งซ้ำแยกคำนวณภายในแต่ละช่วงเท่านั้น ไม่รวมผลข้ามช่วงเวลา</p>';
  }
 
  async function run(showAll=false){
