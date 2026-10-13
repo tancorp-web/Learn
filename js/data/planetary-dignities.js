@@ -120,12 +120,13 @@ export const PLANETARY_DIGNITY_DATA = Object.freeze({
     planet: 'ราหู',
     planetNumber: '๘',
     system: 'tradition-dependent',
-    domicileSigns: ['กุมภ์'],
+    /* เจ้าเรือนกุมภ์สำหรับตรรกะตนุลัคนาจรแยกจากมาตรฐานเกษตรที่แสดงในตารางดาว */
+    domicileSigns: [],
     exaltation: null,
     debilitation: null,
     moolatrikona: null,
-    dignityPolicy: 'confirmed-by-user',
-    notes: 'ผู้ใช้ยืนยันเกณฑ์ HORA: ราหูเป็นเกษตรในราศีกุมภ์; ไม่อนุมานเกณฑ์นี้ให้เกตุ'
+    dignityPolicy: 'not-configured',
+    notes: 'แยกกฎเจ้าเรือนกุมภ์ของตนุลัคนาจรออกจากมาตรฐานดาวทั่วไป เพื่อไม่ให้เปลี่ยนตารางมาตรฐานอื่น'
   },
   เกตุ: {
     planet: 'เกตุ',
@@ -1317,9 +1318,27 @@ export function getPlanetaryDignityRecord(planetName) {
   return PLANETARY_DIGNITY_DATA[planetName] ?? null;
 }
 
-/** คืนดาวเจ้าเรือนราศีจากข้อมูลเกษตรกลางชุดเดียวกับที่ใช้แสดงมาตรฐานดาว */
+/**
+ * คืนดาวเจ้าเรือนสำหรับเครื่องมือตนุลัคนาจร/ตนุเศษจรเท่านั้น
+ * กฎนี้แยกจาก domicileSigns ที่ใช้แสดงมาตรฐานเกษตรของดาวจริง
+ * จึงไม่ทำให้ตารางมาตรฐานดาวส่วนอื่นเปลี่ยนตามการกำหนดเจ้าเรือน
+ */
+const RASHI_LORDS_FOR_TANU = Object.freeze({
+  'เมษ': 'อังคาร',
+  'พฤษภ': 'ศุกร์',
+  'มิถุน': 'พุธ',
+  'กรกฎ': 'จันทร์',
+  'สิงห์': 'อาทิตย์',
+  'กันย์': 'พุธ',
+  'ตุล': 'ศุกร์',
+  'พิจิก': 'อังคาร',
+  'ธนู': 'พฤหัสบดี',
+  'มกร': 'เสาร์',
+  'กุมภ์': 'ราหู',
+  'มีน': 'พฤหัสบดี'
+});
+
 export function getRashiLordBySign(signName) {
-  const matches = Object.values(PLANETARY_DIGNITY_DATA)
-    .filter(record => (record.domicileSigns || []).includes(signName));
-  return matches.length === 1 ? matches[0] : null;
+  const planetName = RASHI_LORDS_FOR_TANU[signName];
+  return planetName ? (PLANETARY_DIGNITY_DATA[planetName] ?? null) : null;
 }
