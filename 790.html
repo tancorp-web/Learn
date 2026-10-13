@@ -707,7 +707,7 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
 <script type="module">
 /* INDEX101: color-coded 12-sign planetary-standard ring. Every zodiac sign gets a circle,
    while matching natal/transit planet numbers are placed inside their sign's circle. */
-import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
+import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNITY_REFERENCE_RULES } from './js/data/planetary-dignities.js?v=20261013-rahu-ring-fix';
 (()=>{
  const wheel=document.getElementById('wheel');
  const picker=document.getElementById('planetStandardSelect4');
@@ -731,6 +731,11 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data
      if(i>=0&&planetNumbers[planet])planetsBySign[i].push(planet);
     });
    });
+   /* ราหู-กุมภ์เป็นเกษตรที่ผู้ใช้ยืนยันแล้ว แต่แยกเก็บใน reference rules
+      ไม่ได้ใส่ใน domicileSigns เพื่อไม่ให้ไปกระทบกฎเจ้าเรือนตนุลัคนาจร */
+   PLANETARY_DIGNITY_REFERENCE_RULES
+    .filter(rule=>rule.planet==='ราหู'&&rule.category==='เกษตร'&&rule.sign==='กุมภ์'&&rule.status==='CONFIRMED_BY_USER')
+    .forEach(rule=>{const i=signs.indexOf(rule.sign);if(i>=0)planetsBySign[i].push('ราหู');});
    return planetsBySign;
   }
   const rules=CONFIRMED_PLANETARY_STANDARDS.sign_based_rules?.[selected]||{};
@@ -740,6 +745,16 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA } from './js/data
     if(i>=0&&planetNumbers[planet])planetsBySign[i].push(planet);
    });
   });
+  /* วงกลมนี้แสดงมาตรฐานอ้างอิงด้วย: เพิ่มตำแหน่งราหูที่มีบันทึกไว้ในชุดอ้างอิง
+     อุจจาวิลาสใช้หลักที่ยืนยันแล้วว่าเลื่อนถอยจากราศีอุจจ์ 1 ราศี */
+  if(selected==='อุจจ์'||selected==='อุจจาวิลาส'){
+   const rahuExaltation=PLANETARY_DIGNITY_REFERENCE_RULES.find(rule=>rule.id==='DIGNITY-UCH-RAHU-SCORPIO'&&rule.planet==='ราหู');
+   if(rahuExaltation){
+    const exaltIndex=signs.indexOf(rahuExaltation.sign);
+    const targetIndex=selected==='อุจจาวิลาส'?(exaltIndex+11)%12:exaltIndex;
+    if(targetIndex>=0)planetsBySign[targetIndex].push('ราหู');
+   }
+  }
   return planetsBySign;
  }
  function render(){
