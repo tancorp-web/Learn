@@ -433,6 +433,80 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
 @media(max-width:600px){#displayPicker9{padding:12px}#displayPicker9 .display-picker-list9{grid-template-columns:1fr}#displayPicker9 .display-picker-actions9 button{flex:1 1 auto}}
 </style>
 
+
+<style id="790-ux-clarity">
+/* 790 UX: show expandable details as obvious interactive controls. */
+#displayPicker9{display:none!important}
+.panel details>summary,
+.reference-panel details>summary,
+#selectedSignAnalysis999 details>summary,
+#birthDetails details>summary,
+#starDetails details>summary,
+.ss-compare-407>summary,
+details.standard-color-legend4>summary{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  min-height:42px;padding:10px 12px;border:1px solid #b7c5e2;border-radius:10px;
+  background:#f2f5ff;color:#263b70;font-weight:800;line-height:1.45;
+  cursor:pointer;list-style:none;white-space:normal;
+  box-shadow:0 1px 2px rgba(20,33,61,.06);
+}
+.panel details>summary::-webkit-details-marker,
+.reference-panel details>summary::-webkit-details-marker,
+#selectedSignAnalysis999 details>summary::-webkit-details-marker,
+#birthDetails details>summary::-webkit-details-marker,
+#starDetails details>summary::-webkit-details-marker,
+.ss-compare-407>summary::-webkit-details-marker{display:none}
+.panel details>summary::after,
+.reference-panel details>summary::after,
+#selectedSignAnalysis999 details>summary::after,
+#birthDetails details>summary::after,
+#starDetails details>summary::after,
+.ss-compare-407>summary::after,
+details.standard-color-legend4>summary::after{
+  content:"＋ เปิด";flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  padding:4px 8px;border-radius:7px;background:#dfe7ff;color:#263b70;
+  font-size:11px;font-weight:900;white-space:nowrap;
+}
+.panel details[open]>summary,
+.reference-panel details[open]>summary,
+#selectedSignAnalysis999 details[open]>summary,
+#birthDetails details[open]>summary,
+#starDetails details[open]>summary,
+details.standard-color-legend4[open]>summary{background:#e8f7ef;border-color:#86cda9;color:#17633c}
+.panel details[open]>summary::after,
+.reference-panel details[open]>summary::after,
+#selectedSignAnalysis999 details[open]>summary::after,
+#birthDetails details[open]>summary::after,
+#starDetails details[open]>summary::after,
+details.standard-color-legend4[open]>summary::after{content:"− ปิด";background:#cceedd;color:#17633c}
+.ss-compare-407[open]>summary::after{content:"− ปิด"}
+.ss-compare-407>summary{min-width:118px;justify-content:center;background:#eeedff;border-color:#b9b3f4;color:#4037a8}
+.ss-compare-407>summary::after{content:"↗ ดูผล";background:#dcd9ff;color:#4037a8}
+.ss-compare-407[open]>summary::after{content:"− ปิด"}
+button.open-period-details999,
+#displayPicker9 button,
+#wheelPanel2 .wheel-tools button{
+  min-height:42px!important;border:1px solid #aebddd!important;border-radius:10px!important;
+  background:#edf2ff!important;color:#263b70!important;font-weight:800!important;
+  box-shadow:0 2px 5px rgba(20,33,61,.08);cursor:pointer
+}
+button.open-period-details999:hover,
+#wheelPanel2 .wheel-tools button:hover{background:#dfe7ff!important;border-color:#7d94cb!important}
+details>summary:focus-visible,button:focus-visible,a:focus-visible{
+  outline:3px solid #6258d9!important;outline-offset:3px
+}
+@media(max-width:600px){
+  .panel details>summary,.reference-panel details>summary,
+  #selectedSignAnalysis999 details>summary,#birthDetails details>summary,
+  #starDetails details>summary,.ss-compare-407>summary,
+  details.standard-color-legend4>summary{padding:10px;gap:7px}
+  .panel details>summary::after,.reference-panel details>summary::after,
+  #selectedSignAnalysis999 details>summary::after,#birthDetails details>summary::after,
+  #starDetails details>summary::after,.ss-compare-407>summary::after,
+  details.standard-color-legend4>summary::after{font-size:10px;padding:4px 6px}
+}
+</style>
+
 </head><body>
 <header class="hero"><div class="container"><h1>HORA Astrology</h1><p>ระบบโหราศาสตร์ไทยสุริยยาตร์ · วิเคราะห์ดวงกำเนิด ดาวจร ทักษา และตรียางค์</p><span class="badge">PREMIUM EDITION · ENGINE v8.9.3</span><div style="margin-top:14px"><a href="#selectedSignAnalysis999" style="display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:10px;background:#fff;color:#172b4d;text-decoration:none;font-weight:800;box-shadow:0 2px 8px #0002">↓ เปิดเครื่องมือวิเคราะห์เลขซ้ำตามลัคนาจร</a></div></div></header>
 
