@@ -297,9 +297,9 @@
       "category": "เกษตร",
       "planet": "rahu",
       "sign": "aquarius",
-      "status": "DISCOVERY",
-      "version": "1.0.0",
-      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "status": "CONFIRMED_BY_USER",
+      "version": "1.1.0",
+      "source_note": "Explicitly confirmed by the HORA project user: Rahu is domicile in Aquarius.",
       "conditions": {
         "planet": "rahu",
         "sign": "aquarius"
