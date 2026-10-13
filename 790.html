@@ -2192,7 +2192,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   (a.standards||[]).forEach(entry=>{
    const item=entry&&typeof entry==='object'&&'item' in entry?entry.item:entry;
    const raw=String(item??''),split=raw.split(':'),left=(split.shift()||'').trim(),right=split.join(':').trim();
-   const match=left.match(/^([๐-๙0-9]+)\\s+(.+)$/);
+   const match=left.match(/^([๐-๙0-9]+)\s+(.+)$/);
    if(!match)return;
    const digit=match[1].replace(/[0-9]/g,ch=>'๐๑๒๓๔๕๖๗๘๙'[Number(ch)]);
    const planet=match[2].trim();
@@ -2226,7 +2226,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
    }
   }
   const renderRanked=(counts,label)=> {
-   const rows=[...counts.entries()].sort((x,y)=>y[1]-x[1]||x[0].localeCompare(y[0],'th'));
+   const rows=[...counts.entries()].sort((x,y)=>y[1]-x[1]||(()=>{const a=x[0].split('–').map(digitRank),b=y[0].split('–').map(digitRank);for(let i=0;i<Math.min(a.length,b.length);i++){if(a[i]!==b[i])return a[i]-b[i];}return a.length-b.length;})());
    if(!rows.length)return '<p class="criteria7-muted">ยังมีข้อมูลไม่พอสำหรับสร้าง'+label+'</p>';
    return '<div class="ss-table-wrap"><table><thead><tr><th>อันดับ</th><th>ชุดเลข</th><th>จำนวนชุดที่จับได้</th></tr></thead><tbody>'+rows.map((row,index)=>'<tr><td>'+(index+1)+'</td><td><strong>'+escapeHtml(row[0])+'</strong></td><td>'+row[1]+'</td></tr>').join('')+'</tbody></table></div>';
   };
