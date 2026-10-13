@@ -2316,7 +2316,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    }
    // ครอบคลุมทั้งวันจริง: เที่ยงคืนถึงรอยต่อแรก, ทุกช่วงระหว่างรอยต่อ, และรอยต่อสุดท้ายถึง 24:00
    // ป้าย sign ของขอบเขตหมายถึงราศีที่เริ่มต้น ณ เวลารอยต่อนั้น
-   const daySegments=[{minutes:0,sign:ordered[ordered.length-1].sign},...ordered];
+   const daySegments=ordered.map((current,i)=>({minutes:current.minutes,sign:current.sign,endMinutes:i+1<ordered.length?ordered[i+1].minutes:ordered[0].minutes+1440}));
    const segments=[];
    for(let i=0;i<daySegments.length;i++){
     const current=daySegments[i];
