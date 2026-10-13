@@ -1316,3 +1316,10 @@ export function getPlanetaryDignities(planetName, signName, degreeInSign = null,
 export function getPlanetaryDignityRecord(planetName) {
   return PLANETARY_DIGNITY_DATA[planetName] ?? null;
 }
+
+/** คืนดาวเจ้าเรือนราศีจากข้อมูลเกษตรกลางชุดเดียวกับที่ใช้แสดงมาตรฐานดาว */
+export function getRashiLordBySign(signName) {
+  const matches = Object.values(PLANETARY_DIGNITY_DATA)
+    .filter(record => (record.domicileSigns || []).includes(signName));
+  return matches.length === 1 ? matches[0] : null;
+}
