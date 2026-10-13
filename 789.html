@@ -2321,7 +2321,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    for(let i=0;i<daySegments.length;i++){
     const current=daySegments[i];
     const start=current.minutes;
-    const end=i+1<daySegments.length?daySegments[i+1].minutes:1440;
+    const end=current.endMinutes;
     if(!(end>start))throw new Error('ขอบเขตช่วงเวลาไม่เรียงต่อเนื่อง');
     const midpoint=(start+end)/2,midDate=dateAtOffset(date,Math.floor(midpoint/1440)),midTime=clock(midpoint);
     status.textContent='ตรวจลัคนาจรจริง '+(i+1)+'/'+daySegments.length+' ช่วง…';
