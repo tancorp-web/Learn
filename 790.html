@@ -2120,7 +2120,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   if(!asc||!Number.isFinite(Number(asc.longitude)))return '<p><strong>ตนุลัคนาจร:</strong> คำนวณไม่ได้ — ไม่พบองศาลัคนาจร</p>';
   const index=Math.floor((((Number(asc.longitude)%360)+360)%360)/30);
   const sign=signNames[index],lordRecord=getRashiLordBySign(sign),lordName=lordRecord?.planet,lordNumber=planetDigits[lordName]||'—';
-  return '<p><strong>ตนุลัคนาจร:</strong> เลข '+lordNumber+' · ดาว'+lordName+' (เกษตรของราศี'+sign+')</p>';
+  return '<p><strong>ตนุลัคนาจร</strong></p><div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ราศี</th></tr></thead><tbody><tr><td><strong>'+escapeHtml(lordNumber)+'</strong></td><td>'+escapeHtml(sign)+'</td></tr></tbody></table></div>';
  }
  // สูตรตนุเศษจรแยกจากตนุลัคนาจร: ใช้ลัคนาจรและตำแหน่งดาวจรของช่วงนั้น
  // กติกา F-009 คงเดิม: นับรวมต้นทางและปลายทาง; เจ้าเรือนลัคนาอยู่ราศีเดียวกับลัคนา = อาทิตย์;
@@ -2157,7 +2157,10 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  function tanuSeshaTransitMarkup(segment){
   const r=tanuSeshaTransit(segment);
   if(!r.ok)return '<p><strong>ตนุเศษจร:</strong> คำนวณไม่ได้ — '+escapeHtml(r.reason)+'</p>';
-  return '<div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ชื่อดาว</th><th>ที่มาของค่า</th></tr></thead><tbody><tr><td><strong>'+escapeHtml(r.number)+'</strong></td><td>'+escapeHtml(r.planet)+'</td><td>'+escapeHtml(r.source)+'</td></tr></tbody></table></div>';
+  const position=(segment?.analysis?.positions||[]).find(p=>p.name===r.planet);
+  const lon=Number(position?.longitude);
+  const sign=Number.isFinite(lon)?signNames[Math.floor((((lon%360)+360)%360)/30)]:'—';
+  return '<p><strong>ตนุเศษจร</strong></p><div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ราศี</th></tr></thead><tbody><tr><td><strong>'+escapeHtml(r.number)+'</strong></td><td>'+escapeHtml(sign)+'</td></tr></tbody></table></div>';
  }
  function renderSingleResult(rootId,selected,segments,showAll){
   const root=$(rootId);
@@ -2222,7 +2225,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    }).join(''):'<tr><td colspan="6">'+(showAll?'ไม่พบช่วงเวลาสำหรับทั้งวัน':'ไม่พบช่วงเวลาที่ลัคนาจรอยู่ในราศี '+escapeHtml(selected))+'</td></tr>')+
    '</tbody></table></div>'+
    perSegmentMarkup+
-   '<details><summary>รายละเอียดผลวิเคราะห์ดาวจรในช่วงเวลาที่เลือก</summary><p><strong>ตนุลัคนาจรแยกตามช่วงเวลา</strong></p>'+segments.map((segment,index)=>'<div class="ss-period-card" style="border:1px solid #dbe3ef;border-radius:10px;padding:10px;margin:8px 0;background:#fff"><strong>ช่วงที่ '+(index+1)+' · '+escapeHtml(segment.analysis?.ascSign||'ไม่ทราบราศี')+'</strong>'+tanuAscendantMarkup(segment)+'<p><strong>ตนุเศษจร</strong></p>'+tanuSeshaTransitMarkup(segment)+'</div>').join('')+'<p><strong>มาตรฐานดาวจร</strong></p>'+standardsTableMarkup(segments.flatMap(s=>(s.analysis.standards||[]).map(item=>({item,positions:s.analysis.positions||[]}))))+'<p><strong>ความสัมพันธ์ตามลัคนาจร</strong></p>'+relationTableMarkup(segments.flatMap(s=>s.analysis.relationNumbers||[]))+'</details>'+
+   '<details><summary>รายละเอียดผลวิเคราะห์ดาวจรในช่วงเวลาที่เลือก</summary>'+segments.map(segment=>tanuAscendantMarkup(segment)+tanuSeshaTransitMarkup(segment)).join('')+'<p><strong>มาตรฐานดาวจร</strong></p>'+standardsTableMarkup(segments.flatMap(s=>(s.analysis.standards||[]).map(item=>({item,positions:s.analysis.positions||[]}))))+'<p><strong>ความสัมพันธ์ตามลัคนาจร</strong></p>'+relationTableMarkup(segments.flatMap(s=>s.analysis.relationNumbers||[]))+'</details>'+
    '<p class="criteria7-muted">นับเลขดาวและตำแหน่งความสัมพันธ์แยกกัน ไม่รวมเลขตำแหน่ง 1–12 เข้ากับรหัสเลขดาว ๐–๙ เพื่อไม่ให้ความหมายปะปน</p>';
  }
 
