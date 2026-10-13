@@ -2258,7 +2258,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   const sign=Number.isFinite(lon)?signNames[Math.floor((((lon%360)+360)%360)/30)]:'—';
   return '<p><strong>ตนุเศษจร</strong></p><div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ราศี</th></tr></thead><tbody><tr><td><strong>'+escapeHtml(r.number)+'</strong></td><td>'+escapeHtml(sign)+'</td></tr></tbody></table></div>';
  }
- function digitCombinationMarkup(a,heading='4.07 · เลขซ้ำและชุดเลข · เฉพาะช่วงนี้'){
+ function digitCombinationMarkup(a,heading='4.05 · เลขซ้ำและชุดเลข · เฉพาะช่วงนี้'){
   const digitsOrder='๐๑๒๓๔๕๖๗๘๙';
   const occurrences=[],standardPlanets=new Set(),relationPlanets=new Set();
   let standardOccurrenceCount=0,relationOccurrenceCount=0;
