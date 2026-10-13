@@ -436,7 +436,6 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
 
 <style id="790-ux-clarity">
 /* 790 UX: show expandable details as obvious interactive controls. */
-#displayPicker9{display:none!important}
 .panel details>summary,
 .reference-panel details>summary,
 #selectedSignAnalysis999 details>summary,
@@ -2526,8 +2525,8 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
 
 
 <script id="categoryOrder790">
-/* 790.html only: show categories 1, 2, 4, 3, 5, 6, 7 in that order.
-   Keep the calculation engine and all other files unchanged. */
+/* 790.html only: keep the calculation workspace and all category panels available by default.
+   Reorder the wheel only; never hide category panels on page load. */
 (function(){
   const applyCategoryOrder = () => {
     const main = document.querySelector('main.container');
@@ -2548,7 +2547,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
       document.getElementById('thaksaPanel51')
     ].filter(Boolean));
 
-    /* Hide all remaining category panels without deleting their markup or changing calculations. */
+    /* Keep all remaining category panels visible by default; no display-picker action is required. */
     const headings = [...main.querySelectorAll('h2')];
     const owners = new Set();
     headings.forEach(h => {
@@ -2557,7 +2556,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
         owners.add(owner);
       }
     });
-    owners.forEach(owner => { owner.style.display = 'none'; });
+    owners.forEach(owner => { owner.style.display = ''; });
   };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', applyCategoryOrder, { once: true });
