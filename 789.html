@@ -2226,9 +2226,11 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   }
   const root=$(rootId);
   root.hidden=false;
-  root.innerHTML='<h3>ผลวิเคราะห์แยกทีละช่วงเวลา · ทั้ง 12 ช่วง</h3><p class="criteria7-muted">แต่ละช่วงใช้รูปแบบเดียวกับผลเฉพาะช่วงเวลา คำนวณและแสดงผลแยกกัน ไม่มีการรวมเลขซ้ำ มาตรฐานดาว หรือความสัมพันธ์ข้ามช่วง</p>'+segments.map((segment,index)=>{
+  root.innerHTML='<h3>ผลวิเคราะห์แยกทีละช่วงเวลา · ทั้ง 12 ช่วง</h3><p class="criteria7-muted">แสดงหัวข้อครบทั้ง 12 ช่วงก่อน รายละเอียดของแต่ละช่วงเปิดดูแยกกันได้ แต่ละช่วงคำนวณจากช่วงเวลาของตัวเอง ไม่มีการรวมเลขซ้ำ มาตรฐานดาว หรือความสัมพันธ์ข้ามช่วง</p>'+segments.map((segment,index)=>{
    const sign=segment.analysis?.ascSign||'ไม่ทราบราศี';
-   return '<section style="border:1px solid #dbe3ef;border-radius:12px;padding:14px;margin:14px 0;background:#f8fafc"><h3 style="margin:0 0 10px">ช่วงที่ '+(index+1)+' · '+escapeHtml(sign)+'</h3><div id="allDayPeriod999_'+index+'"></div></section>';
+   const startDate=dateAtOffset(segment.date,Math.floor(segment.start/1440));
+   const endDate=dateAtOffset(segment.date,Math.floor(segment.end/1440));
+   return '<section class="ss-period-card" style="border:1px solid #dbe3ef;border-radius:12px;padding:12px;margin:12px 0;background:#fff"><h3 style="margin:0 0 8px">ช่วงที่ '+(index+1)+' · '+escapeHtml(sign)+'</h3><p><strong>เวลา:</strong> '+escapeHtml(formatThaiDate(startDate))+' '+escapeHtml(clock(segment.start))+' น. – '+escapeHtml(formatThaiDate(endDate))+' '+escapeHtml(clock(segment.end))+' น.</p><details><summary>เปิดรายละเอียดผลวิเคราะห์ช่วงที่ '+(index+1)+'</summary><div id="allDayPeriod999_'+index+'"></div></details></section>';
   }).join('');
   segments.forEach((segment,index)=>{
    renderSingleResult('allDayPeriod999_'+index,segment.analysis?.ascSign||'ไม่ทราบราศี',[segment],false);
