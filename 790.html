@@ -2210,6 +2210,8 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   const uniquePlanets=new Set([...standardPlanets,...relationPlanets]);
   const digitRank=value=>digitsOrder.indexOf(String(value));
   const canonicalKey=values=>values.slice().sort((x,y)=>digitRank(x)-digitRank(y)).join('–');
+  const digitCounts=new Map();
+  occurrences.forEach(digit=>digitCounts.set(digit,(digitCounts.get(digit)||0)+1));
   const pairCounts=new Map(),tripleCounts=new Map();
   for(let i=0;i<occurrences.length;i++){
    for(let j=i+1;j<occurrences.length;j++){
@@ -2230,7 +2232,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
    if(!rows.length)return '<p class="criteria7-muted">ยังมีข้อมูลไม่พอสำหรับสร้าง'+label+'</p>';
    return '<div class="ss-table-wrap"><table><thead><tr><th>อันดับ</th><th>ชุดเลข</th><th>จำนวนชุดที่จับได้</th></tr></thead><tbody>'+rows.map((row,index)=>'<tr><td>'+(index+1)+'</td><td><strong>'+escapeHtml(row[0])+'</strong></td><td>'+row[1]+'</td></tr>').join('')+'</tbody></table></div>';
   };
-  return '<section class="ss-digit-combinations" style="margin-top:14px;padding-top:12px;border-top:1px solid #e1e6f0"><h5>ความถี่เลขดาวและชุดเลข · เฉพาะช่วงนี้</h5><p><strong>จำนวนครั้งที่เข้าเกณฑ์มาตรฐาน:</strong> '+standardOccurrenceCount+' · <strong>จำนวนครั้งจากความสัมพันธ์:</strong> '+relationOccurrenceCount+' · <strong>ดาวไม่ซ้ำกัน:</strong> '+uniquePlanets.size+' ดวง · <strong>รายการเลขทั้งหมด:</strong> '+occurrences.length+' ครั้ง</p><p class="criteria7-muted">ความถี่คู่/ชุดสามนับจากทุกชุดผสมที่สร้างได้จากรายการเลขแต่ละครั้ง แล้วเรียงจากมากไปน้อย ไม่ใช่จำนวนครั้งที่เลขเรียงติดกันในต้นฉบับ ชุดสามที่มีเลขเดียวกัน 3 ครั้งถูกตัดออก</p><h6>จัดอันดับคู่เลข · '+pairCounts.size+' แบบ</h6>'+renderRanked(pairCounts,'คู่เลข')+'<h6>จัดอันดับชุดเลข 3 ตัว · '+tripleCounts.size+' แบบ</h6>'+renderRanked(tripleCounts,'ชุดเลข 3 ตัว')+'</section>';
+  return '<section class="ss-digit-combinations" style="margin-top:14px;padding-top:12px;border-top:1px solid #e1e6f0"><h5>4.07 · จัดอันดับเลขเด่นและชุดเลข · เฉพาะช่วงนี้</h5><p><strong>จำนวนครั้งที่เข้าเกณฑ์มาตรฐาน:</strong> '+standardOccurrenceCount+' · <strong>จำนวนครั้งจากความสัมพันธ์:</strong> '+relationOccurrenceCount+' · <strong>ดาวไม่ซ้ำกัน:</strong> '+uniquePlanets.size+' ดวง · <strong>รายการเลขทั้งหมด:</strong> '+occurrences.length+' ครั้ง</p><p class="criteria7-muted">เลขเด่นเรียงตามจำนวนครั้งที่เข้าเกณฑ์มาตรฐานและความสัมพันธ์จริงของช่วงนี้ ไม่รวมข้ามช่วงเวลา คู่/ชุดสามนับจากทุกชุดผสมที่สร้างได้จากรายการเลขแต่ละครั้ง ชุดสามที่มีเลขเดียวกัน 3 ครั้งถูกตัดออก</p><h6>จัดอันดับเลขดาวเดี่ยว · '+digitCounts.size+' เลข</h6>'+renderRanked(digitCounts,'เลขดาวเดี่ยว')+'<h6>จัดอันดับคู่เลข · '+pairCounts.size+' แบบ</h6>'+renderRanked(pairCounts,'คู่เลข')+'<h6>จัดอันดับชุดเลข 3 ตัว · '+tripleCounts.size+' แบบ</h6>'+renderRanked(tripleCounts,'ชุดเลข 3 ตัว')+'</section>';
  }
  function renderSingleResult(rootId,selected,segments,showAll){
   const root=$(rootId);
