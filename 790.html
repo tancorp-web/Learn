@@ -2085,30 +2085,6 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   });
   return '<div class="ss-chart"><svg viewBox="0 0 200 200" role="img" aria-label="แผนภูมิวงกลมสัดส่วนความถี่ของเลขดาวที่ซ้ำ">'+slices.map(x=>x.path).join('')+'<circle cx="100" cy="100" r="42" fill="#fff"/><text x="100" y="95" text-anchor="middle" font-size="11" fill="#64748b">เลขซ้ำ</text><text x="100" y="115" text-anchor="middle" font-size="20" font-weight="800" fill="#172b4d">'+duplicates.length+'</text></svg><div><strong>สัดส่วนความถี่เลขดาวที่ซ้ำ</strong><p class="criteria7-muted">คำนวณจากจำนวนครั้งที่รหัสเลขดาวปรากฏในผลวิเคราะห์ของช่วงราศีที่เลือก</p><div class="ss-legend">'+slices.map(x=>'<div class="ss-legend-item"><span class="ss-swatch" style="background:'+x.color+'"></span><span>เลข '+escapeHtml(x.number)+' · '+x.count+' ครั้ง ('+(x.count/total*100).toFixed(1)+'%)</span></div>').join('')+'</div></div></div>';
  }
- function natalRelationshipTableMarkup(){
-  // อ่านเฉพาะผลความสัมพันธ์ดาวเดิมจากตารางหลักที่ main51.js สร้างไว้
-  // ไม่คำนวณสูตรซ้ำและไม่แก้ไฟล์เครื่องคำนวณ
-  const source=$('planetDignityNumberTable8');
-  if(!source)return '<p class="criteria7-muted">ยังไม่พบตารางผลคำนวณดวงเดิม กรุณากดคำนวณดวงหลักก่อน แล้วจึงวิเคราะห์อีกครั้ง</p>';
-  const rows=[...source.querySelectorAll('tbody tr')];
-  let inRelations=false;
-  const relations=[];
-  for(const row of rows){
-   if(row.classList.contains('criteria7-group-row')){
-    const heading=row.textContent.trim();
-    if(inRelations)break;
-    inRelations=heading.includes('ความสัมพันธ์ดาว');
-    continue;
-   }
-   if(!inRelations)continue;
-   const cells=[...row.querySelectorAll('td')];
-   if(cells.length>=2){
-    relations.push('<tr><td>'+escapeHtml(cells[0].textContent.trim())+'</td><td>'+escapeHtml(cells[1].textContent.trim()||'—')+'</td></tr>');
-   }
-  }
-  if(!relations.length)return '<p class="criteria7-muted">ยังไม่พบแถวความสัมพันธ์ดาวเดิมในผลคำนวณหลัก กรุณากด “คำนวณทุกอย่าง” ก่อนวิเคราะห์</p>';
-  return '<p class="criteria7-muted">ตารางนี้อ่านค่าความสัมพันธ์จากผลดวงเดิมที่คำนวณไว้ โดยยึดลัคนาเดิม ไม่ใช้ลัคนาจรแทน</p><div class="ss-table-wrap"><table><thead><tr><th>ประเภทความสัมพันธ์</th><th>ดาวเดิม / คู่ดาวเดิม (รวมลัคนาเดิมตามสูตรหลัก)</th></tr></thead><tbody>'+relations.join('')+'</tbody></table></div>';
- }
  function standardsTableMarkup(items){
   if(!items||!items.length)return '<p class="criteria7-muted">ช่วงนี้ไม่มีดาวที่เข้าเกณฑ์มาตรฐานตามสูตร</p>';
   const rows=items.map(item=>{
@@ -2173,7 +2149,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<h3>เลขดาวที่พบซ้ำ</h3><div class="ss-duplicates">'+(duplicates.length?duplicates.map(([n,count])=>'<span class="ss-chip">เลข '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบเลขดาวซ้ำในผลที่เลือก</span>')+'</div>'+
    '<h3>แผนภูมิวงกลมเลขซ้ำภาพรวม</h3>'+pieChartMarkup(duplicates)+
    '<h3>ตำแหน่งนับความสัมพันธ์ที่พบซ้ำ</h3><div class="ss-duplicates">'+(positionDuplicates.length?positionDuplicates.map(([n,count])=>'<span class="ss-chip">ตำแหน่ง '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบตำแหน่งนับซ้ำ</span>')+'</div>'+
-   '<h3>ตารางที่ 1: ความสัมพันธ์ดาวโดยใช้ลัคนาเดิม</h3>'+natalRelationshipTableMarkup()+
+   
    '<h3>ตาราง: ความสัมพันธ์ดาวตามลัคนาจร · '+(showAll?'ตลอดทั้งวัน':'เฉพาะราศี '+escapeHtml(selected))+'</h3><p class="criteria7-muted">'+(showAll?'แสดงทุกช่วงตั้งแต่ 00:00–24:00 น. รวมช่วงก่อนรอยต่อแรกและหลังรอยต่อสุดท้าย':'แสดงเฉพาะช่วงเวลาที่ลัคนาจรอยู่ในราศี '+escapeHtml(selected))+' ตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง โดยถือราศีลัคนาจรเป็นจุดตั้งต้นในการตรวจความสัมพันธ์ทุกครั้ง และแยกผลนี้ออกจากตารางความสัมพันธ์ดาวเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
    (segments.length?segments.map(s=>{
     const localCounts=countValues([...(s.analysis.numbers||[]).map(x=>x.number),...(s.analysis.relationNumbers||[]).flatMap(x=>[planetDigits[x.from],planetDigits[x.to]].filter(Boolean))]);
