@@ -2261,7 +2261,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
  }
  function digitCombinationMarkup(a,heading='4.05 · เลขซ้ำและชุดเลข · เฉพาะช่วงนี้'){
   const digitsOrder='๐๑๒๓๔๕๖๗๘๙';
-  const occurrences=[],standardPlanets=new Set(),relationPlanets=new Set();
+  const occurrences=[],standardPlanets=new Set(),relationPlanets=new Set(),standardDigits=new Set(),relationPairs=[];
   let standardOccurrenceCount=0,relationOccurrenceCount=0;
   (a.standards||[]).forEach(entry=>{
    const item=entry&&typeof entry==='object'&&'item' in entry?entry.item:entry;
@@ -2271,12 +2271,14 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
    const digit=match[1].replace(/[0-9]/g,ch=>'๐๑๒๓๔๕๖๗๘๙'[Number(ch)]);
    const planet=match[2].trim();
    standardPlanets.add(planet);
+   standardDigits.add(digit);
    const criteria=right?right.split(/[、,，]/).map(x=>x.trim()).filter(Boolean):[];
    criteria.forEach(()=>{occurrences.push(digit);standardOccurrenceCount++;});
   });
   (a.relationNumbers||[]).forEach(item=>{
-   const digit=planetDigits[item.to];
+   const fromDigit=planetDigits[item.from],digit=planetDigits[item.to];
    if(!digit)return;
+   if(fromDigit)relationPairs.push([fromDigit,digit]);
    occurrences.push(digit);
    relationOccurrenceCount++;
    relationPlanets.add(item.to);
@@ -2301,23 +2303,44 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
     }
    }
   }
-  const renderRanked=(counts,label)=> {
+  const renderRanked=(counts,label,showCombinations=false)=> {
    const rows=[...counts.entries()]
-    .filter(([,count])=>count>1)
+    .filter(([,count])=>showCombinations||count>1)
     .sort((x,y)=>y[1]-x[1]||(()=>{
      const ax=x[0].split('–').map(digitRank),bx=y[0].split('–').map(digitRank);
      for(let i=0;i<Math.min(ax.length,bx.length);i++){if(ax[i]!==bx[i])return ax[i]-bx[i];}
      return ax.length-bx.length;
     })())
     .slice(0,12);
-   if(!rows.length)return '<p class="criteria7-muted">ไม่พบ'+label+'ที่ซ้ำในช่วงนี้</p>';
+   if(!rows.length)return '<p class="criteria7-muted">ไม่พบ'+label+'ที่ซ้ำในช่วงนี้ และไม่มีเลขเพียงพอสำหรับสร้างชุดผสม</p>';
    return '<div class="ss-table-wrap"><table><thead><tr><th>อันดับ</th><th>ชุดเลข</th><th>จำนวนชุดที่จับได้</th></tr></thead><tbody>'+rows.map((row,index)=>{
     const rank=index+1;
     const style=rank===1?'background:#fff0c2;color:#713f12;font-weight:800;':rank<=3?'background:#fef3c7;color:#78350f;font-weight:750;':'';
     return '<tr'+(style?' style="'+style+'"':'')+'><td>'+rank+'</td><td><strong>'+escapeHtml(row[0])+'</strong></td><td>'+row[1]+'</td></tr>';
    }).join('')+'</tbody></table></div>';
   };
-  return '<section class="ss-digit-combinations" style="margin-top:14px;padding-top:12px;border-top:1px solid #e1e6f0"><h5>'+escapeHtml(heading)+'</h5><p><strong>จำนวนครั้งที่เข้าเกณฑ์มาตรฐาน:</strong> '+standardOccurrenceCount+' · <strong>จำนวนครั้งจากความสัมพันธ์:</strong> '+relationOccurrenceCount+' · <strong>ดาวไม่ซ้ำกัน:</strong> '+uniquePlanets.size+' ดวง · <strong>รายการเลขทั้งหมด:</strong> '+occurrences.length+' ครั้ง</p><h6>เลขเดี่ยวที่ซ้ำ · สูงสุด 12 อันดับ</h6>'+renderRanked(digitCounts,'เลขเดี่ยว')+'<h6>คู่เลขที่ซ้ำ · สูงสุด 12 ชุด</h6>'+renderRanked(pairCounts,'คู่เลข')+'<h6>ชุดเลข 3 ตัวที่ซ้ำ · สูงสุด 12 ชุด</h6>'+renderRanked(tripleCounts,'ชุดเลข 3 ตัว')+'</section>';
+  // เมื่อไม่มีชุดซ้ำ ให้สร้างชุดผสมจากเลขมาตรฐานดาวที่พบ และคู่สัมพันธ์ โดยแยกป้ายกำกับไม่ให้สับสนกับเลขซ้ำจริง
+  const fallbackPairCounts=new Map(),fallbackTripleCounts=new Map();
+  const addCombo=(map,values)=>{const key=canonicalKey(values);map.set(key,1);};
+  const baseDigits=[...standardDigits].sort((x,y)=>digitRank(x)-digitRank(y));
+  for(let i=0;i<baseDigits.length;i++){
+   for(let j=i+1;j<baseDigits.length;j++)addCombo(fallbackPairCounts,[baseDigits[i],baseDigits[j]]);
+  }
+  relationPairs.forEach(pair=>addCombo(fallbackPairCounts,pair));
+  relationPairs.forEach(pair=>{
+   baseDigits.forEach(digit=>{
+    const group=[...pair,digit],freq=new Map();
+    group.forEach(d=>freq.set(d,(freq.get(d)||0)+1));
+    if([...freq.values()].some(count=>count>2))return;
+    addCombo(fallbackTripleCounts,group);
+   });
+  });
+  const repeatedDigits=[...digitCounts.values()].some(count=>count>1);
+  const repeatedPairs=[...pairCounts.values()].some(count=>count>1);
+  const repeatedTriples=[...tripleCounts.values()].some(count=>count>1);
+  const pairMarkup=repeatedPairs?renderRanked(pairCounts,'คู่เลข'):('<p class="criteria7-muted">ไม่มีคู่เลขซ้ำจริง · แสดงชุดผสมจากเลขมาตรฐานดาวและคู่สัมพันธ์แทน</p>'+renderRanked(fallbackPairCounts,'ชุดผสม 2 ตัว',true));
+  const tripleMarkup=repeatedTriples?renderRanked(tripleCounts,'ชุดเลข 3 ตัว'):('<p class="criteria7-muted">ไม่มีชุดเลข 3 ตัวซ้ำจริง · แสดงชุดผสมจากคู่สัมพันธ์ร่วมกับเลขมาตรฐานดาวแทน</p>'+renderRanked(fallbackTripleCounts,'ชุดผสม 3 ตัว',true));
+  return '<section class="ss-digit-combinations" style="margin-top:14px;padding-top:12px;border-top:1px solid #e1e6f0"><h5>'+escapeHtml(heading)+'</h5><p><strong>จำนวนครั้งที่เข้าเกณฑ์มาตรฐาน:</strong> '+standardOccurrenceCount+' · <strong>จำนวนครั้งจากความสัมพันธ์:</strong> '+relationOccurrenceCount+' · <strong>ดาวไม่ซ้ำกัน:</strong> '+uniquePlanets.size+' ดวง · <strong>รายการเลขทั้งหมด:</strong> '+occurrences.length+' ครั้ง</p><h6>เลขเดี่ยวที่ซ้ำ · สูงสุด 12 อันดับ</h6>'+renderRanked(digitCounts,'เลขเดี่ยว')+'<h6>คู่เลขที่ซ้ำหรือชุดผสม · สูงสุด 12 ชุด</h6>'+pairMarkup+'<h6>ชุดเลข 3 ตัวที่ซ้ำหรือชุดผสม · สูงสุด 12 ชุด</h6>'+tripleMarkup+'</section>';
  }
  function renderSingleResult(rootId,selected,segments,showAll){
   const root=$(rootId);
