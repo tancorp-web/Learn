@@ -527,10 +527,8 @@ footer{margin-top:36px;padding:25px 16px;text-align:center;background:#15233b;co
  <div class="section-title"><h2>วิเคราะห์เลขซ้ำตามลัคนาจร</h2><span class="badge">999 · ทดลอง</span></div>
  <p class="criteria7-muted">คำนวณเฉพาะเมื่อกดปุ่ม โดยแบ่งช่วงจากเวลาเปลี่ยนราศี แล้วตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง ผลจะแสดงเฉพาะช่วงที่ตรงกับราศีที่เลือก</p>
  <div class="ss-grid">
-  <div class="field"><label for="selectedSign999">ราศีลัคนาจรที่ต้องการวิเคราะห์</label><select id="selectedSign999">
-   <option value="เมษ" selected>เมษ</option><option value="พฤษภ">พฤษภ</option><option value="มิถุน">มิถุน</option><option value="กรกฎ">กรกฎ</option><option value="สิงห์">สิงห์</option><option value="กันย์">กันย์</option><option value="ตุล">ตุล</option><option value="พิจิก">พิจิก</option><option value="ธนู">ธนู</option><option value="มกร">มกร</option><option value="กุมภ์">กุมภ์</option><option value="มีน">มีน</option>
-  </select></div>
-  <button type="button" id="runSelectedSign999">วิเคราะห์ราศีที่เลือก</button>
+  <div class="field"><label>ช่วงการคำนวณ</label><div class="criteria7-muted">ทั้งวัน 00:00–24:00 น. · ตรวจรอยต่อเข้า–ออกครบทุกลัคนา</div></div>
+  <button type="button" id="runSelectedSign999">คำนวณครบทั้งวัน</button>
  </div>
  <p id="selectedSignStatus999" class="ss-status" aria-live="polite">พร้อมทำงาน · ยังไม่มีการคำนวณ</p>
  <div id="selectedSignResults999" hidden></div>
@@ -2180,7 +2178,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const relations=[...new Set(segments.flatMap(s=>s.analysis.relations||[]))];
   root.hidden=false;
   root.innerHTML='<div class="ss-summary">'+
-   '<div class="ss-stat"><span>ราศีที่เลือก</span><strong>'+escapeHtml(selected)+'</strong></div>'+
+   '<div class="ss-stat"><span>ช่วงการคำนวณ</span><strong>ครบทั้งวัน</strong></div>'+
    '<div class="ss-stat"><span>ช่วงเวลาที่ตรงกัน</span><strong>'+segments.length+'</strong></div>'+
    '<div class="ss-stat"><span>เลขดาวที่พบในผลวิเคราะห์</span><strong>'+planetCodeOccurrences.length+'</strong></div>'+
    '<div class="ss-stat"><span>เลขดาวที่ซ้ำ</span><strong>'+duplicates.length+'</strong></div></div>'+
@@ -2188,7 +2186,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<h3>แผนภูมิวงกลมเลขซ้ำภาพรวม</h3>'+pieChartMarkup(duplicates)+
    '<h3>ตำแหน่งนับความสัมพันธ์ที่พบซ้ำ</h3><div class="ss-duplicates">'+(positionDuplicates.length?positionDuplicates.map(([n,count])=>'<span class="ss-chip">ตำแหน่ง '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบตำแหน่งนับซ้ำ</span>')+'</div>'+
    '<h3>ตารางที่ 1: ความสัมพันธ์ดาวโดยใช้ลัคนาเดิม</h3>'+natalRelationshipTableMarkup()+
-   '<h3>ตารางที่ 2: ความสัมพันธ์ดาวโดยใช้ลัคนาจรตามช่วงเวลา</h3><p class="criteria7-muted">คำนวณจากดาวจรและลัคนาจร ณ กึ่งกลางแต่ละช่วง และแสดงเวลาเข้าราศี/ออกราศีของช่วงนั้นโดยตรง ไม่ปะปนกับตารางลัคนาเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
+   '<h3>ตารางที่ 2: ความสัมพันธ์ดาวโดยใช้ลัคนาจรตามช่วงเวลาตลอดทั้งวัน</h3><p class="criteria7-muted">คำนวณครบตั้งแต่ 00:00–24:00 น. รวมช่วงก่อนรอยต่อแรกและหลังรอยต่อสุดท้าย ตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง และแสดงเวลาเข้า/ออกโดยไม่ปะปนกับตารางลัคนาเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
    (segments.length?segments.map(s=>{
     const localCounts=countValues([...(s.analysis.numbers||[]).map(x=>x.number),...(s.analysis.relationNumbers||[]).flatMap(x=>[planetDigits[x.from],planetDigits[x.to]].filter(Boolean))]);
     const startDate=dateAtOffset(s.date,Math.floor(s.start/1440)),endDate=dateAtOffset(s.date,Math.floor(s.end/1440));
@@ -2202,7 +2200,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   const button=$('runSelectedSign999'),status=$('selectedSignStatus999');
   if(button.disabled)return;
   button.disabled=true;
-  const selected=$('selectedSign999').value;
+  const selected='ครบทั้งวัน';
   try{
    status.textContent='กำลังเตรียมข้อมูลและคำนวณเวลาเปลี่ยนราศี…';
    const day=$('fDay')?.value,month=$('fMonth')?.value,beYear=$('fYear')?.value;
@@ -2225,44 +2223,25 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    if(ordered.some(x=>!Number.isInteger(x.sign)||x.sign<0||x.sign>11||!Number.isFinite(x.minutes)))throw new Error('ข้อมูลขอบเขตมีราศีหรือเวลาไม่ถูกต้อง');
    if(new Set(ordered.map(x=>x.sign)).size!==12)throw new Error('ข้อมูลขอบเขตมีราศีซ้ำหรือขาดหาย');
    if(ordered.some((x,i)=>i>0&&Math.abs(x.minutes-ordered[i-1].minutes)<0.01))throw new Error('พบเวลาเปลี่ยนราศีซ้ำกัน จึงหยุดเพื่อป้องกันช่วงเวลาทับซ้อน');
-   // หมวด 3 เท่านั้น: แสดงเวลาเข้าราศีและออกราศีในตัวเลือกแต่ละราศีของดรอปดาวน์
-   // ใช้ขอบเขตชุดเดียวกับที่ผ่านการตรวจสอบแล้ว และรองรับช่วงข้ามเที่ยงคืน
-   const signSelect=$('selectedSign999');
-   if(signSelect){
-    const bySign=new Map();
-    for(let i=0;i<ordered.length;i++){
-     const current=ordered[i],next=ordered[(i+1)%ordered.length];
-     const start=current.minutes,end=next.minutes+(i===ordered.length-1?1440:0);
-     const startDate=dateAtOffset(date,Math.floor(start/1440));
-     const endDate=dateAtOffset(date,Math.floor(end/1440));
-     bySign.set(signNames[current.sign],{
-      startLabel:formatThaiDate(startDate)+' '+clock(start),
-      endLabel:formatThaiDate(endDate)+' '+clock(end)
-     });
-    }
-    [...signSelect.options].forEach(option=>{
-     if(!option.dataset.baseLabel)option.dataset.baseLabel=option.textContent.trim();
-     const range=bySign.get(option.value);
-     option.textContent=range
-      ? option.dataset.baseLabel+' · เข้า '+range.startLabel+' · ออก '+range.endLabel
-      : option.dataset.baseLabel;
-    });
-   }
+   // ครอบคลุมทั้งวันจริง: เที่ยงคืนถึงรอยต่อแรก, ทุกช่วงระหว่างรอยต่อ, และรอยต่อสุดท้ายถึง 24:00
+   // ป้าย sign ของขอบเขตหมายถึงราศีที่เริ่มต้น ณ เวลารอยต่อนั้น
+   const daySegments=[{minutes:0,sign:ordered[ordered.length-1].sign},...ordered];
    const segments=[];
-   for(let i=0;i<ordered.length;i++){
-    const current=ordered[i],next=ordered[(i+1)%ordered.length];
-    const start=current.minutes,end=next.minutes+(i===ordered.length-1?1440:0);
+   for(let i=0;i<daySegments.length;i++){
+    const current=daySegments[i];
+    const start=current.minutes;
+    const end=i+1<daySegments.length?daySegments[i+1].minutes:1440;
     if(!(end>start))throw new Error('ขอบเขตช่วงเวลาไม่เรียงต่อเนื่อง');
     const midpoint=(start+end)/2,midDate=dateAtOffset(date,Math.floor(midpoint/1440)),midTime=clock(midpoint);
-    status.textContent='ตรวจลัคนาจรจริง '+(i+1)+'/12 ช่วง…';
+    status.textContent='ตรวจลัคนาจรจริง '+(i+1)+'/'+daySegments.length+' ช่วง…';
     const analysis=await analyzer({date:midDate,time:midTime,longitude});
     if(!analysis||!signNames.includes(analysis.ascSign))throw new Error('ผลลัคนาจรจริงไม่ถูกต้องในช่วง '+(i+1));
     const expectedSign=signNames[Number(current.sign)];
     if(!expectedSign||analysis.ascSign!==expectedSign)throw new Error('ตรวจสอบไม่ผ่านช่วง '+(i+1)+' เวลา '+dateTimeLabel(date,midpoint)+': สูตรขอบเขตระบุ '+(expectedSign||'ไม่ทราบราศี')+' แต่ตัวคำนวณลัคนาจรจริงได้ '+analysis.ascSign+' จึงหยุดแสดงผลเพื่อป้องกันข้อมูลคลาดเคลื่อน');
-    if(analysis.ascSign===selected)segments.push({date,start,end,analysis});
+    segments.push({date,start,end,analysis});
    }
    renderResult(selected,segments);
-   status.textContent='เสร็จแล้ว · ตรวจลัคนาจรจริงครบ 12 ช่วง · แสดงเฉพาะ '+selected+' · ไม่เปลี่ยนสูตรดาว';
+   status.textContent='เสร็จแล้ว · ตรวจลัคนาจรจริงครบทั้งวัน 00:00–24:00 น. · ตรวจสอบ '+segments.length+' ช่วง · ไม่เปลี่ยนสูตรดาว';
   }catch(error){
    status.textContent='คำนวณไม่สำเร็จ: '+String(error?.message||error);
    console.error('[999][SELECTED SIGN ANALYSIS]',error);
