@@ -969,9 +969,9 @@
       "category": "นิจ",
       "planet": "rahu",
       "sign": "taurus",
-      "status": "DISCOVERY",
+      "status": "CONFIRMED_BY_USER",
       "version": "1.0.0",
-      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "source_note": "Explicitly confirmed by the HORA project user: Rahu is debilitated in Taurus (ราศีพฤษภ).",
       "conditions": {
         "planet": "rahu",
         "sign": "taurus"
@@ -983,7 +983,7 @@
             "sign": "taurus"
           },
           "expected_category": "นิจ",
-          "status": "needs-golden-test"
+          "status": "confirmed-by-user"
         }
       ]
     },
