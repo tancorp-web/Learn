@@ -2138,14 +2138,12 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
   const sign=signNames[index],lordRecord=getRashiLordBySign(sign),lordName=lordRecord?.planet,lordNumber=planetDigits[lordName]||'—';
   return '<p><strong>ตนุลัคนาจร</strong></p><div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ราศี</th></tr></thead><tbody><tr><td><strong>'+escapeHtml(lordNumber)+'</strong></td><td>'+escapeHtml(sign)+'</td></tr></tbody></table></div>';
  }
- // สูตรตนุเศษจรแยกจากตนุลัคนาจร: ใช้ลัคนาจรและตำแหน่งดาวจรของช่วงนั้น
- // กติกา F-009 คงเดิม: นับรวมต้นทางและปลายทาง; เจ้าเรือนลัคนาอยู่ราศีเดียวกับลัคนา = อาทิตย์;
- // ผลหารลงตัว = เสาร์ (เลข ๗). กฎนี้แยกจากสูตรคำนวณตำแหน่งดาว
+ // สูตรตนุเศษจรใช้ตำแหน่งดาวจรของช่วงนั้น และอ่านเจ้าเรือนจาก planetary-dignities.js
+ // กติกา F-009: นับรวมต้นทางและปลายทาง; หากเจ้าเรือนลัคนาจรสถิตในราศีลัคนาเอง ใช้เจ้าเรือนนั้นเป็นตนุเศษ
+ // ผลหารลงตัว = เสาร์ (เลข ๗); การจับคู่เลข ๑–๗ อ่านจาก planetDigits ที่มีอยู่ในหน้า
  function tanuSeshaTransit(segment){
   const positions=segment?.analysis?.positions||[];
   const zodiac=signNames;
-  const classical=[['อาทิตย์','๑'],['จันทร์','๒'],['อังคาร','๓'],['พุธ','๔'],['พฤหัสบดี','๕'],['ศุกร์','๖'],['เสาร์','๗']];
-  const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','เสาร์','พฤหัสบดี'];
   const asc=positions.find(p=>p.name==='ลัคนาจร');
   const fail=reason=>({ok:false,reason});
   const signIndex=longitude=>{
@@ -2153,23 +2151,31 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
    return Number.isFinite(n)?Math.floor((((n%360)+360)%360)/30):null;
   };
   if(!asc||signIndex(asc.longitude)===null)return fail('ไม่พบองศาลัคนาจร');
-  const ascSign=signIndex(asc.longitude),ascLord=signLords[ascSign];
+  const ascSign=signIndex(asc.longitude);
+  const ascLordRecord=getRashiLordBySign(zodiac[ascSign]);
+  const ascLord=ascLordRecord?.planet;
   if(!ascLord)return fail('ไม่พบเจ้าเรือนราศี'+zodiac[ascSign]+'ในข้อมูลมาตรฐานกลาง');
   const byName=name=>positions.find(p=>p.name===name);
   const firstLordPosition=byName(ascLord);
   const firstLordSign=signIndex(firstLordPosition?.longitude);
   if(firstLordSign===null)return fail('ไม่พบตำแหน่งดาวจรของเจ้าเรือนลัคนาจร ('+ascLord+')');
-  if(firstLordSign===ascSign){const lordNumber=planetDigits[ascLord];if(!lordNumber)return fail('ไม่พบเลขประจำดาวตนุลัคน์ '+ascLord);return {ok:true,number:lordNumber,planet:ascLord,ascSign:zodiac[ascSign],ascLord,firstLordSign:zodiac[firstLordSign],firstCount:null,secondCount:null,product:null,remainder:null,exception:true,source:'เจ้าเรือนลัคนาจร '+ascLord+' สถิตในราศีเกษตรของตัวเอง ('+zodiac[ascSign]+') จึงกำหนดตนุเศษจรเป็น '+ascLord+' (เลข '+lordNumber+') โดยไม่ใช้สูตรคูณหาร 7'};}
+  if(firstLordSign===ascSign){
+   const lordNumber=planetDigits[ascLord];
+   if(!lordNumber)return fail('ไม่พบเลขประจำดาวตนุลัคน์ '+ascLord);
+   return {ok:true,number:lordNumber,planet:ascLord,ascSign:zodiac[ascSign],ascLord,firstLordSign:zodiac[firstLordSign],firstCount:null,secondCount:null,product:null,remainder:null,exception:true,source:'เจ้าเรือนลัคนาจร '+ascLord+' สถิตในราศีเกษตรของตัวเอง ('+zodiac[ascSign]+') จึงกำหนดตนุเศษจรเป็น '+ascLord+' (เลข '+lordNumber+') โดยไม่ใช้สูตรคูณหาร 7'};
+  }
   const firstCount=((firstLordSign-ascSign+12)%12)+1;
-  const secondLord=signLords[firstLordSign];
+  const secondLordRecord=getRashiLordBySign(zodiac[firstLordSign]);
+  const secondLord=secondLordRecord?.planet;
   if(!secondLord)return fail('ไม่พบเจ้าเรือนราศี'+zodiac[firstLordSign]+'ในข้อมูลมาตรฐานกลาง');
   const secondLordPosition=byName(secondLord);
   const secondLordSign=signIndex(secondLordPosition?.longitude);
   if(secondLordSign===null)return fail('ไม่พบตำแหน่งดาวจรของเจ้าเรือนราศีที่ดาว '+ascLord+' สถิต ('+secondLord+')');
   const secondCount=((secondLordSign-firstLordSign+12)%12)+1;
   const product=firstCount*secondCount, remainder=product%7, number=remainder===0?7:remainder;
-  const planet=classical.find(item=>Number(item[1].replace(/[๐-๙]/g,d=>'๐๑๒๓๔๕๖๗๘๙'.indexOf(d)))===number)?.[0]||'—';
-  return {ok:true,number:String(number).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]),planet,ascSign:zodiac[ascSign],ascLord,firstLordSign:zodiac[firstLordSign],firstCount,secondLord,secondLordSign:zodiac[secondLordSign],secondCount,product,remainder,exception:false,source:'A = นับราศีจากลัคนาจร '+zodiac[ascSign]+' ถึงราศีที่เจ้าเรือน '+ascLord+' สถิต '+zodiac[firstLordSign]+' ได้ '+firstCount+'; B = นับจาก '+zodiac[firstLordSign]+' ถึงราศีที่เจ้าเรือนของราศีนั้น ('+secondLord+') สถิต '+zodiac[secondLordSign]+' ได้ '+secondCount+'; A × B = '+product+'; หาร 7 เศษ '+remainder+(remainder===0?' จัดเศษศูนย์เป็นเลข ๗ (เสาร์)':'')};
+  const numberText=String(number).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+  const planet=Object.entries(planetDigits).find(([,digit])=>digit===numberText)?.[0]||'—';
+  return {ok:true,number:numberText,planet,ascSign:zodiac[ascSign],ascLord,firstLordSign:zodiac[firstLordSign],firstCount,secondLord,secondLordSign:zodiac[secondLordSign],secondCount,product,remainder,exception:false,source:'A = นับราศีจากลัคนาจร '+zodiac[ascSign]+' ถึงราศีที่เจ้าเรือน '+ascLord+' สถิต '+zodiac[firstLordSign]+' ได้ '+firstCount+'; B = นับจาก '+zodiac[firstLordSign]+' ถึงราศีที่เจ้าเรือนของราศีนั้น ('+secondLord+') สถิต '+zodiac[secondLordSign]+' ได้ '+secondCount+'; A × B = '+product+'; หาร 7 เศษ '+remainder+(remainder===0?' จัดเศษศูนย์เป็นเลข ๗ (เสาร์)':'')};
  }
  function tanuSeshaTransitMarkup(segment){
   const r=tanuSeshaTransit(segment);
