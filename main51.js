@@ -1,6 +1,6 @@
 
 import { THAI_PROVINCE_COORDS } from './js/data/thai-provinces.js?v=20261009-77provinces';
-import { getPlanetaryDignities, getPlanetaryDignityReferences } from './js/data/planetary-dignities.js?v=20261013-rahu-aquarius-confirmed';
+import { getPlanetaryDignities, getPlanetaryDignityReferences } from './js/data/planetary-dignities.js?v=20261013-rahu-aquarius-only';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
