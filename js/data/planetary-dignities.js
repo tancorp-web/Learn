@@ -6,7 +6,8 @@
  * ขอบเขต runtime:
  * - เกณฑ์ที่ผู้ใช้ยืนยันแล้วจากราศี องศาเฉพาะ และช่วงมูลตรีโกณ ถูกใช้แสดงในตารางดาวกำเนิด/ดาวจร
  * - เกณฑ์ที่ยังเป็นข้อมูลค้นคว้าแสดงแยกเป็นป้ายอ้างอิง·รอยืนยัน ไม่ปะปนกับผลยืนยัน
- * - ราหู เกตุ มฤตยู: ไม่กำหนดเกษตร/อุจจ์/นิจในชุดนี้ เพราะหลักเกณฑ์แตกต่างกันตามตำรา
+ * - ราหู: ใช้เกณฑ์ที่ผู้ใช้ยืนยันว่า ราหูอยู่ราศีกุมภ์เป็นเกษตร
+ * - เกตุและมฤตยู: ไม่อนุมานเกณฑ์เกษตร/อุจจ์/นิจจากราหู
  * - ประ, มหาจักร, ราชาโชค, เทวีโชค, จุลจักร และมาตรฐานอื่น ๆ ยังไม่เปิดใช้
  *   จนกว่าจะกำหนดตำรา/เงื่อนไขที่ HORA ยึดถืออย่างชัดเจน
  *
@@ -18,7 +19,7 @@
  *   ควรยืนยันกับตำราเฉพาะของโครงการก่อนนำไปคำนวณคะแนนหรือคำทำนาย
  */
 
-export const DIGNITY_DATA_VERSION = '1.2.0-confirmed-standards-runtime';
+export const DIGNITY_DATA_VERSION = '1.2.1-rahu-aquarius-confirmed';
 
 export const ZODIAC_SIGNS = Object.freeze([
   { index: 0, name: 'เมษ', english: 'Aries', element: 'ไฟ' },
@@ -119,12 +120,12 @@ export const PLANETARY_DIGNITY_DATA = Object.freeze({
     planet: 'ราหู',
     planetNumber: '๘',
     system: 'tradition-dependent',
-    domicileSigns: [],
+    domicileSigns: ['กุมภ์'],
     exaltation: null,
     debilitation: null,
     moolatrikona: null,
-    dignityPolicy: 'not-configured',
-    notes: 'ห้ามอนุมานตำแหน่งเกษตร/อุจจ์/นิจจนกว่าจะเลือกสำนักและระบุหลักเกณฑ์'
+    dignityPolicy: 'confirmed-by-user',
+    notes: 'ผู้ใช้ยืนยันเกณฑ์ HORA: ราหูเป็นเกษตรในราศีกุมภ์; ไม่อนุมานเกณฑ์นี้ให้เกตุ'
   },
   เกตุ: {
     planet: 'เกตุ',
@@ -200,8 +201,8 @@ export const ADDITIONAL_DIGNITY_RULES = Object.freeze({
 
 /**
  * กฎจาก data/astrology/planetary_dignities.json ที่เชื่อมเข้ามาเพื่อแสดงในคอลัมน์
- * ข้อมูลชุดนี้ยังเป็น DISCOVERY จึงต้องติดป้ายรอยืนยันเสมอ ไม่ใช้เป็นผลยืนยัน
- * และไม่ปะปนกับผลมาตรฐาน runtime ที่เปิดใช้แล้ว
+ * กฎที่ยังเป็น DISCOVERY ต้องติดป้ายรอยืนยัน; กฎที่ผู้ใช้ยืนยันแล้วแสดงแยกตามสถานะ
+ * โดยไม่เปลี่ยนผลมาตรฐาน runtime ของกฎอื่น
  */
 export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
   {
@@ -297,8 +298,8 @@ export const PLANETARY_DIGNITY_REFERENCE_RULES = Object.freeze([
     "planet": "ราหู",
     "sign": "กุมภ์",
     "category": "เกษตร",
-    "status": "DISCOVERY",
-    "source": "Anonymized project reference; verify against an approved standard."
+    "status": "CONFIRMED_BY_USER",
+    "source": "Confirmed explicitly by the HORA project user; Rahu is domicile in Aquarius."
   },
   {
     "id": "DIGNITY-PRA-SUN-AQUARIUS",
