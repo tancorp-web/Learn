@@ -2020,7 +2020,43 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
  }
  async function waitForAnalyzer(){
   for(let i=0;i<100;i++){
-   if(typeof window.__HORA9_ANALYZE_SEGMENT==='function')return window.__HORA9_ANALYZE_SEGMENT;
+   if(typeof window.__HORA9_ANALYZE_SEGMENT==='function'){
+    const originalAnalyzer=window.__HORA9_ANALYZE_SEGMENT;
+    return async function analyzeWithTransitAscendantAsOrigin(args){
+     const result=await originalAnalyzer(args);
+     const zodiac=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+     const digits={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
+     const positions=result.positions||[];
+     const asc=positions.find(p=>p.name==='ลัคนาจร');
+     if(!asc||!Number.isFinite(Number(asc.longitude)))throw new Error('ไม่พบองศาลัคนาจรสำหรับตั้งต้นวิเคราะห์ความสัมพันธ์');
+     const ascIndex=Math.floor((((Number(asc.longitude)%360)+360)%360)/30);
+     const signOf=longitude=>zodiac[Math.floor((((Number(longitude)%360)+360)%360)/30)];
+     const occupied=new Set(positions.map(p=>signOf(p.longitude)));
+     const offset=(from,to)=>(zodiac.indexOf(to)-zodiac.indexOf(from)+12)%12;
+     const relationFor=o=>{
+      if(o===0)return 'กุม/ทับลัคนาจร';
+      if(o===2)return 'โยคหน้า';
+      if(o===10)return 'โยคหลัง';
+      if(o===6)return 'เล็ง';
+      const has=steps=>steps.every(step=>occupied.has(zodiac[(ascIndex+step)%12]));
+      if((o===4||o===8)&&has([0,4,8]))return 'ตรีโกณ';
+      if((o===3||o===9)&&has([0,3,6,9]))return 'จตุโกณ';
+      return null;
+     };
+     const relationNumbers=[];
+     const groups=new Map();
+     for(const p of positions){
+      if(p.name==='ลัคนาจร'||!(p.name in digits))continue;
+      const planetSign=signOf(p.longitude),o=offset(result.ascSign,planetSign),relation=relationFor(o);
+      if(!relation)continue;
+      relationNumbers.push({relation,from:'ลัคนาจร',to:p.name,offset:o,countedPosition:o+1,fromSign:result.ascSign,toSign:planetSign});
+      if(!groups.has(relation))groups.set(relation,[]);
+      groups.get(relation).push(digits[p.name]+' '+p.name+' (ราศี'+planetSign+')');
+     }
+     const relations=[...groups.entries()].map(([name,items])=>name+' (เริ่มจากลัคนาจร): '+items.join(', '));
+     return {...result,relations,relationNumbers};
+    };
+   }
    await new Promise(resolve=>setTimeout(resolve,100));
   }
   throw new Error('ยังไม่พบตัววิเคราะห์จาก main51.js กรุณารอหน้าเว็บโหลดเสร็จแล้วลองอีกครั้ง');
@@ -2073,6 +2109,16 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
   if(!relations.length)return '<p class="criteria7-muted">ยังไม่พบแถวความสัมพันธ์ดาวเดิมในผลคำนวณหลัก กรุณากด “คำนวณทุกอย่าง” ก่อนวิเคราะห์</p>';
   return '<p class="criteria7-muted">ตารางนี้อ่านค่าความสัมพันธ์จากผลดวงเดิมที่คำนวณไว้ โดยยึดลัคนาเดิม ไม่ใช้ลัคนาจรแทน</p><div class="ss-table-wrap"><table><thead><tr><th>ประเภทความสัมพันธ์</th><th>ดาวเดิม / คู่ดาวเดิม (รวมลัคนาเดิมตามสูตรหลัก)</th></tr></thead><tbody>'+relations.join('')+'</tbody></table></div>';
  }
+ function standardsTableMarkup(items){
+  if(!items||!items.length)return '<p class="criteria7-muted">ช่วงนี้ไม่มีดาวที่เข้าเกณฑ์มาตรฐานตามสูตร</p>';
+  const rows=items.map(item=>{
+   const split=String(item).split(':');
+   const left=(split.shift()||'').trim(),standard=split.join(':').trim()||'—';
+   const match=left.match(/^([๐-๙0-9]+)\\s+(.+)$/);
+   return '<tr><td>'+escapeHtml(match?match[1]:'—')+'</td><td>'+escapeHtml(match?match[2]:left)+'</td><td>'+escapeHtml(standard)+'</td></tr>';
+  });
+  return '<div class="ss-table-wrap"><table><thead><tr><th>เลขดาว</th><th>ดาวจร</th><th>มาตรฐานที่ได้</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
+ }
  function renderSingleResult(rootId,selected,segments,showAll){
   const root=$(rootId);
   const planetCodeOccurrences=[],positionOccurrences=[];
@@ -2116,7 +2162,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    const codes=countValues([...(a.numbers||[]).map(x=>x.number),...(a.relationNumbers||[]).flatMap(x=>[planetDigits[x.from],planetDigits[x.to]].filter(Boolean))]);
    const numberText=(a.numbers||[]).map(x=>escapeHtml(x.number)).join(' · ')||'ไม่มีรายการ';
    const relationNumberText=(a.relationNumbers||[]).map(x=>'('+escapeHtml(planetDigits[x.from]||x.from)+' → '+escapeHtml(planetDigits[x.to]||x.to)+(x.countedPosition!=null?' · ตำแหน่ง '+escapeHtml(x.countedPosition):'')+')').join(' · ')||'ไม่มีรายการ';
-   return '<article class="ss-period-card" style="border:1px solid #dbe3ef;border-radius:10px;padding:12px;margin:12px 0;background:#fff"><h4 style="margin:0 0 8px">ช่วงที่ '+(index+1)+' · '+escapeHtml(a.ascSign||'ไม่ทราบราศี')+'</h4><p><strong>เวลา:</strong> '+escapeHtml(formatThaiDate(startDate))+' '+escapeHtml(clock(segment.start))+' น. – '+escapeHtml(formatThaiDate(endDate))+' '+escapeHtml(clock(segment.end))+' น.</p><p><strong>เลขดาวที่พบในช่วงนี้:</strong> '+numberText+'</p><p><strong>เลขที่ซ้ำในช่วงนี้:</strong> '+(codes.length?codes.map(([n,count])=>escapeHtml(n)+' × '+count).join(' · '):'ไม่พบเลขซ้ำ')+'</p><p><strong>มาตรฐานดาวจรในช่วงนี้:</strong> '+escapeHtml((a.standards||[]).join(' · ')||'ไม่มี')+'</p><p><strong>ความสัมพันธ์ดาวในช่วงนี้:</strong> '+escapeHtml((a.relations||[]).join(' · ')||'ไม่มี')+'</p><p><strong>คู่เลขความสัมพันธ์ในช่วงนี้:</strong> '+relationNumberText+'</p></article>';
+   return '<article class="ss-period-card" style="border:1px solid #dbe3ef;border-radius:10px;padding:12px;margin:12px 0;background:#fff"><h4 style="margin:0 0 8px">ช่วงที่ '+(index+1)+' · '+escapeHtml(a.ascSign||'ไม่ทราบราศี')+'</h4><p><strong>เวลา:</strong> '+escapeHtml(formatThaiDate(startDate))+' '+escapeHtml(clock(segment.start))+' น. – '+escapeHtml(formatThaiDate(endDate))+' '+escapeHtml(clock(segment.end))+' น.</p><p><strong>เลขดาวที่พบในช่วงนี้:</strong> '+numberText+'</p><p><strong>เลขที่ซ้ำในช่วงนี้:</strong> '+(codes.length?codes.map(([n,count])=>escapeHtml(n)+' × '+count).join(' · '):'ไม่พบเลขซ้ำ')+'</p><h5>มาตรฐานดาวจรที่ได้เกณฑ์ในช่วงนี้</h5>'+standardsTableMarkup(a.standards||[])+'<h5>ความสัมพันธ์ดาวจร โดยตั้งลัคนาจรเป็นจุดเริ่มต้น</h5><p>'+escapeHtml((a.relations||[]).join(' · ')||'ไม่พบความสัมพันธ์ตามเกณฑ์')+'</p><p><strong>คู่เลขความสัมพันธ์ในช่วงนี้:</strong> '+relationNumberText+'</p></article>';
   }).join(''):'';
   root.hidden=false;
   root.innerHTML='<div class="ss-summary">'+
@@ -2128,7 +2174,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
    '<h3>แผนภูมิวงกลมเลขซ้ำภาพรวม</h3>'+pieChartMarkup(duplicates)+
    '<h3>ตำแหน่งนับความสัมพันธ์ที่พบซ้ำ</h3><div class="ss-duplicates">'+(positionDuplicates.length?positionDuplicates.map(([n,count])=>'<span class="ss-chip">ตำแหน่ง '+escapeHtml(n)+' × '+count+'</span>').join(''):'<span>ไม่พบตำแหน่งนับซ้ำ</span>')+'</div>'+
    '<h3>ตารางที่ 1: ความสัมพันธ์ดาวโดยใช้ลัคนาเดิม</h3>'+natalRelationshipTableMarkup()+
-   '<h3>ตาราง: ความสัมพันธ์ดาวตามลัคนาจร · '+(showAll?'ตลอดทั้งวัน':'เฉพาะราศี '+escapeHtml(selected))+'</h3><p class="criteria7-muted">'+(showAll?'แสดงทุกช่วงตั้งแต่ 00:00–24:00 น. รวมช่วงก่อนรอยต่อแรกและหลังรอยต่อสุดท้าย':'แสดงเฉพาะช่วงเวลาที่ลัคนาจรอยู่ในราศี '+escapeHtml(selected))+' ตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง และแยกผลนี้ออกจากตารางความสัมพันธ์ดาวเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
+   '<h3>ตาราง: ความสัมพันธ์ดาวตามลัคนาจร · '+(showAll?'ตลอดทั้งวัน':'เฉพาะราศี '+escapeHtml(selected))+'</h3><p class="criteria7-muted">'+(showAll?'แสดงทุกช่วงตั้งแต่ 00:00–24:00 น. รวมช่วงก่อนรอยต่อแรกและหลังรอยต่อสุดท้าย':'แสดงเฉพาะช่วงเวลาที่ลัคนาจรอยู่ในราศี '+escapeHtml(selected))+' ตรวจลัคนาจรจริง ณ กึ่งกลางแต่ละช่วง โดยถือราศีลัคนาจรเป็นจุดตั้งต้นในการตรวจความสัมพันธ์ทุกครั้ง และแยกผลนี้ออกจากตารางความสัมพันธ์ดาวเดิม</p><div class="ss-table-wrap"><table><thead><tr><th>ราศีลัคนาจร</th><th>วันที่เริ่มช่วง</th><th>เวลาเข้าราศี</th><th>วันที่สิ้นสุดช่วง</th><th>เวลาออกราศี</th><th>เลขซ้ำในช่วง</th><th>มาตรฐานดาวจร</th><th>ความสัมพันธ์ตามลัคนาจร</th></tr></thead><tbody>'+
    (segments.length?segments.map(s=>{
     const localCounts=countValues([...(s.analysis.numbers||[]).map(x=>x.number),...(s.analysis.relationNumbers||[]).flatMap(x=>[planetDigits[x.from],planetDigits[x.to]].filter(Boolean))]);
     const startDate=dateAtOffset(s.date,Math.floor(s.start/1440)),endDate=dateAtOffset(s.date,Math.floor(s.end/1440));
