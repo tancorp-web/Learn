@@ -4,7 +4,7 @@ import { getPlanetaryDignities, getPlanetaryDignityReferences } from './js/data/
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
-import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261011-tanu-sesha-1';
+import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu-sesha-domicile-exception';
 
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
