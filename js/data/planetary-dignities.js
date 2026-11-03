@@ -8,8 +8,8 @@
  * - เกณฑ์ที่ยังเป็นข้อมูลค้นคว้าแสดงแยกเป็นป้ายอ้างอิง·รอยืนยัน ไม่ปะปนกับผลยืนยัน
  * - ราหู: เกษตรราศีกุมภ์และนิจราศีพฤษภเป็นเกณฑ์ที่ผู้ใช้ยืนยันแล้ว
  * - เกตุและมฤตยู: ไม่อนุมานเกณฑ์เกษตร/อุจจ์/นิจจากราหู
- * - ประ, มหาจักร, ราชาโชค, เทวีโชค, จุลจักร และมาตรฐานอื่น ๆ ยังไม่เปิดใช้
- *   จนกว่าจะกำหนดตำรา/เงื่อนไขที่ HORA ยึดถืออย่างชัดเจน
+ * - ประและมาตรฐานที่ยืนยันจากตารางต้นฉบับ ใช้ตรวจจากราศีตาม sign_based_rules
+ * - เกษตรสลับเรือนตรวจเป็นความสัมพันธ์ของดาว 2 หรือ 3 ดวง แยกจากสถานะเกษตรรายดวง
  *
  * Coordinate convention:
  * - signIndex: เมษ=0, พฤษภ=1, มิถุน=2, กรกฎ=3, สิงห์=4, กันย์=5,
@@ -170,8 +170,8 @@ export const ADDITIONAL_DIGNITY_RULES = Object.freeze({
   },
   ประ: {
     id: 'detriment-or-system-specific',
-    description: 'ยังไม่เปิดใช้: ต้องยืนยันนิยามและตารางราศีจากตำราที่โครงการเลือก',
-    runtimeEnabled: false
+    description: 'ตรวจจากตารางราศีประใน CONFIRMED_PLANETARY_STANDARDS.sign_based_rules',
+    runtimeEnabled: true
   },
   มหาจักร: {
     id: 'mahachakra',
@@ -1344,6 +1344,96 @@ export function getPlanetaryDignities(planetName, signName, degreeInSign = null,
 export function getPlanetaryDignityRecord(planetName) {
   return PLANETARY_DIGNITY_DATA[planetName] ?? null;
 }
+/**
+ * ตรวจเกษตรสลับเรือน/ปริวรรตเกษตรจากตำแหน่งดาวจริงในชุดเดียวกัน
+ * - pair: A อยู่เรือนเกษตร B และ B อยู่เรือนเกษตร A
+ * - triple: A อยู่เรือนเกษตร B, B อยู่เรือนเกษตร C และ C อยู่เรือนเกษตร A
+ * ใช้ domicileSigns เป็นแหล่งเจ้าของเรือน จึงเคารพข้อยืนยันราหูเป็นเกษตรกุมภ์เพียงดวงเดียว
+ * รับ planets เป็น array ของ { name, sign: string | { name } }; ไม่คำนวณหรือแก้ลองจิจูด
+ */
+export function getParivartanaKasetRelations(planets = []) {
+  if (!Array.isArray(planets)) return [];
+
+  const signLord = new Map();
+  for (const [lordName, record] of Object.entries(PLANETARY_DIGNITY_DATA)) {
+    for (const sign of record?.domicileSigns || []) {
+      signLord.set(sign, lordName);
+    }
+  }
+
+  const positions = new Map();
+  for (const item of planets) {
+    const name = String(item?.name || '').trim();
+    const sign = typeof item?.sign === 'string'
+      ? item.sign
+      : String(item?.sign?.name || '').trim();
+    if (!name || !sign || !PLANETARY_DIGNITY_DATA[name]) continue;
+    positions.set(name, sign);
+  }
+
+  // ดาวแต่ละดวงมีเส้นทางออกได้หนึ่งเส้นตามราศีที่ตนสถิตอยู่
+  const edges = new Map();
+  for (const [planet, sign] of positions) {
+    const houseLord = signLord.get(sign);
+    if (houseLord && houseLord !== planet && positions.has(houseLord)) {
+      edges.set(planet, { planet, houseLord, sign });
+    }
+  }
+
+  const digit = Object.fromEntries(
+    Object.entries(PLANETARY_DIGNITY_DATA).map(([name, record]) => [name, record.planetNumber])
+  );
+  const result = [];
+  const seenPairs = new Set();
+  const seenTriples = new Set();
+
+  // ปริวรรตเกษตร 2 ดวง
+  for (const [planet, firstLeg] of edges) {
+    const secondLeg = edges.get(firstLeg.houseLord);
+    if (!secondLeg || secondLeg.houseLord !== planet) continue;
+    const key = [planet, firstLeg.houseLord].sort().join('|');
+    if (seenPairs.has(key)) continue;
+    seenPairs.add(key);
+    result.push({
+      type: 'pair',
+      planets: [planet, firstLeg.houseLord],
+      legs: [firstLeg, secondLeg].map(leg => ({
+        ...leg,
+        planetNumber: digit[leg.planet],
+        houseLordNumber: digit[leg.houseLord]
+      }))
+    });
+  }
+
+  // ปริวรรตเกษตร 3 ดวง; ตัดวงจรซ้ำที่เริ่มคนละจุดออก แต่คงทิศทางวงจร
+  const canonicalCycle = names => {
+    const rotations = names.map((_, index) => names.slice(index).concat(names.slice(0, index)));
+    return rotations.map(rotation => rotation.join('>')).sort()[0];
+  };
+  for (const [planet, firstLeg] of edges) {
+    const secondLeg = edges.get(firstLeg.houseLord);
+    if (!secondLeg) continue;
+    const thirdLeg = edges.get(secondLeg.houseLord);
+    if (!thirdLeg || thirdLeg.houseLord !== planet) continue;
+    const names = [planet, firstLeg.houseLord, secondLeg.houseLord];
+    if (new Set(names).size !== 3) continue;
+    const key = canonicalCycle(names);
+    if (seenTriples.has(key)) continue;
+    seenTriples.add(key);
+    result.push({
+      type: 'triple',
+      planets: names,
+      legs: [firstLeg, secondLeg, thirdLeg].map(leg => ({
+        ...leg,
+        planetNumber: digit[leg.planet],
+        houseLordNumber: digit[leg.houseLord]
+      }))
+    });
+  }
+
+  return result;
+}
+
 
 /**
  * คืนดาวเจ้าเรือนสำหรับเครื่องมือตนุลัคนาจร/ตนุเศษจรเท่านั้น
