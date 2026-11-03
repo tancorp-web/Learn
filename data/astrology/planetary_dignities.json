@@ -1,10 +1,10 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "title": "Thai astrology dignity lookup rules",
   "purpose": "Machine-readable draft rules for matching a planet's sign to dignity labels; house placement is sourced from the user's computed chart, not from this table.",
   "status": "SOURCE_WORKBOOK_WITH_USER_CONFIRMED_OVERRIDES",
   "system_id": "thai_reference_system_anonymized_01",
-  "source_note": "กฎ SOURCE_WORKBOOK ถอดจาก 69.xlsx ชีต คำนวณนาที; กฎ CONFIRMED_BY_USER เป็นข้อยืนยันภายหลังและมีสิทธิ์เหนือกว่า. ชุดนี้ไม่คำนวณตำแหน่งดาว ลัคนา หรือภพ.",
+  "source_note": "ทะเบียน SOURCE_WORKBOOK ครอบคลุมตารางมาตรฐาน 10 ดวงตาม 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; CONFIRMED_BY_USER เป็นข้อยืนยันภายหลังและมีสิทธิ์เหนือกว่าต้นฉบับ",
   "scope": {
     "lookup_inputs": [
       "planet",
@@ -2066,6 +2066,2142 @@
           "status": "source-workbook-regression"
         }
       ]
+    },
+    {
+      "rule_id": "WB69----------SUN-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "sun",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "เมษ"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------SUN-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "sun",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------SUN-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "sun",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "มิถุน"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------SUN-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "sun",
+      "sign": "cancer",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "กรกฎ"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------SUN-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "sun",
+      "sign": "leo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "สิงห์"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----SUN-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "sun",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "ตุล"
+          },
+          "expected_category": "นิจ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------SUN-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "sun",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "ธนู"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------SUN-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "sun",
+      "sign": "capricorn",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "มกร"
+          },
+          "expected_category": "จุลจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----SUN-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "sun",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "กุมภ์"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------SUN-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "sun",
+      "sign": "pisces",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "sun",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อาทิตย์",
+            "sign": "มีน"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MOON-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "moon",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "เมษ"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------MOON-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "moon",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "เมษ"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------MOON-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "moon",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------MOON-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "moon",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "มิถุน"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------MOON-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "moon",
+      "sign": "cancer",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "กรกฎ"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MOON-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "moon",
+      "sign": "virgo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "กันย์"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MOON-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "moon",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "ตุล"
+          },
+          "expected_category": "จุลจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----MOON-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "moon",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "พิจิก"
+          },
+          "expected_category": "นิจ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----MOON-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "moon",
+      "sign": "capricorn",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "มกร"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MOON-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "moon",
+      "sign": "pisces",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "moon",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "จันทร์",
+            "sign": "มีน"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------MARS-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mars",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "เมษ"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------MARS-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mars",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "พิจิก"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----MARS-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mars",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----MARS-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mars",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "ตุล"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MARS-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "mars",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----MARS-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "mars",
+      "sign": "cancer",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "กรกฎ"
+          },
+          "expected_category": "นิจ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MARS-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "mars",
+      "sign": "virgo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "กันย์"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MARS-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "mars",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "พิจิก"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------MARS-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "mars",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "ธนู"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------MARS-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "mars",
+      "sign": "capricorn",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "มกร"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------MARS-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "mars",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "กุมภ์"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MARS-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "mars",
+      "sign": "pisces",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mars",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "อังคาร",
+            "sign": "มีน"
+          },
+          "expected_category": "จุลจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------MERCURY-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mercury",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "มิถุน"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------MERCURY-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "mercury",
+      "sign": "virgo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "กันย์"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MERCURY-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "mercury",
+      "sign": "leo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "สิงห์"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------MERCURY-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "mercury",
+      "sign": "leo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "สิงห์"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------MERCURY-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "mercury",
+      "sign": "virgo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "กันย์"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------MERCURY-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "mercury",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "ตุล"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----MERCURY-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mercury",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "ธนู"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----MERCURY-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "mercury",
+      "sign": "pisces",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "มีน"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------MERCURY-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "mercury",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "mercury",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พุธ",
+            "sign": "กุมภ์"
+          },
+          "expected_category": "จุลจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------JUPITER-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "jupiter",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "เมษ"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------JUPITER-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "jupiter",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "จุลจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----JUPITER-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "jupiter",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "มิถุน"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----JUPITER-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "jupiter",
+      "sign": "virgo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "กันย์"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------JUPITER-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "jupiter",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "มิถุน"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------JUPITER-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "jupiter",
+      "sign": "cancer",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "กรกฎ"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------JUPITER-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "jupiter",
+      "sign": "leo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "สิงห์"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------JUPITER-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "jupiter",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "ตุล"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------JUPITER-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "jupiter",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "พิจิก"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------JUPITER-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "jupiter",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "ธนู"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------JUPITER-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "jupiter",
+      "sign": "pisces",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "มีน"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----JUPITER-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "jupiter",
+      "sign": "capricorn",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "jupiter",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "พฤหัสบดี",
+            "sign": "มกร"
+          },
+          "expected_category": "นิจ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----VENUS-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "venus",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "เมษ"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----VENUS-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "venus",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "พิจิก"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------VENUS-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "venus",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "เมษ"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------VENUS-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "venus",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------VENUS-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "venus",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "ตุล"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------VENUS-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "venus",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "มิถุน"
+          },
+          "expected_category": "จุลจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------VENUS-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "venus",
+      "sign": "cancer",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "กรกฎ"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----VENUS-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "venus",
+      "sign": "virgo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "กันย์"
+          },
+          "expected_category": "นิจ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------VENUS-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "venus",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "ธนู"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------VENUS-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "venus",
+      "sign": "capricorn",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "มกร"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------VENUS-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "venus",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "กุมภ์"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------VENUS-PISCES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "venus",
+      "sign": "pisces",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "venus",
+        "sign": "pisces"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ศุกร์",
+            "sign": "มีน"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----SATURN-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "saturn",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "เมษ"
+          },
+          "expected_category": "นิจ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------SATURN-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "saturn",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----SATURN-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "saturn",
+      "sign": "cancer",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "กรกฎ"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------SATURN-VIRGO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "saturn",
+      "sign": "virgo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "virgo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "กันย์"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------SATURN-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "saturn",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "ตุล"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------SATURN-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ราชาโชค",
+      "planet": "saturn",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "พิจิก"
+          },
+          "expected_category": "ราชาโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------SATURN-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "saturn",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "พิจิก"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------SATURN-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "saturn",
+      "sign": "capricorn",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "saturn",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เสาร์",
+            "sign": "มกร"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------RAHU-ARIES",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เทวีโชค",
+      "planet": "rahu",
+      "sign": "aries",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "aries"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "เมษ"
+          },
+          "expected_category": "เทวีโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----RAHU-TAURUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "นิจ",
+      "planet": "rahu",
+      "sign": "taurus",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "taurus"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "พฤษภ"
+          },
+          "expected_category": "นิจ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------RAHU-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ปกิณโชค",
+      "planet": "rahu",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "มิถุน"
+          },
+          "expected_category": "ปกิณโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------RAHU-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ปกิณโชค",
+      "planet": "rahu",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "ตุล"
+          },
+          "expected_category": "ปกิณโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------RAHU-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ปกิณโชค",
+      "planet": "rahu",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "กุมภ์"
+          },
+          "expected_category": "ปกิณโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------RAHU-CANCER",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "จุลจักร",
+      "planet": "rahu",
+      "sign": "cancer",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "cancer"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "กรกฎ"
+          },
+          "expected_category": "จุลจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-----RAHU-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ประ",
+      "planet": "rahu",
+      "sign": "leo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "สิงห์"
+          },
+          "expected_category": "ประ",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------RAHU-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "rahu",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "ตุล"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------RAHU-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "rahu",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "พิจิก"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69------------RAHU-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาภิมุข",
+      "planet": "rahu",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "ธนู"
+          },
+          "expected_category": "อุจจาภิมุข",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69---------RAHU-CAPRICORN",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาจักร",
+      "planet": "rahu",
+      "sign": "capricorn",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "capricorn"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "มกร"
+          },
+          "expected_category": "มหาจักร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69-------RAHU-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "เกษตร",
+      "planet": "rahu",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ราหู",
+            "sign": "กุมภ์"
+          },
+          "expected_category": "เกษตร",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------KETU-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เกตุ",
+            "sign": "มิถุน"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------KETU-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "leo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เกตุ",
+            "sign": "สิงห์"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------KETU-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เกตุ",
+            "sign": "ธนู"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "WB69----------KETU-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "เกตุ",
+            "sign": "กุมภ์"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
     }
   ],
   "cautions": [
@@ -2075,7 +4211,9 @@
     "No Uranus mapping is included in this initial lookup table.",
     "Do not use this DISCOVERY dataset as the sole authority for production chart interpretation.",
     "SOURCE_WORKBOOK records are active runtime rules transcribed from 69.xlsx / คำนวณนาที. They are distinct from later CONFIRMED_BY_USER overrides. Do not infer additional Rahu, Ketu, or Uranus rules.",
-    "The source sheet คำนวณนาที has no standards formula for Ketu or Uranus; keep both unassigned unless a separately approved source is supplied."
+    "The source sheet คำนวณนาที has no standards formula for Ketu or Uranus; keep both unassigned unless a separately approved source is supplied.",
+    "Saturn domicile in Aquarius appears in an older workbook/formula variant but is intentionally excluded: the latest user-confirmed HORA rule assigns Aquarius domicile to Rahu only.",
+    "Ketu Maha-Uch is explicitly listed in the source workbook at Gemini, Leo, Sagittarius, and Aquarius; Uranus has no listed standard."
   ],
   "example": {
     "chart_fact": {
