@@ -4,26 +4,65 @@ import { chromium } from 'playwright';
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const pageErrors = [];
+const consoleErrors = [];
+const failedRequests = [];
 
 page.on('pageerror', error => pageErrors.push(error.stack || error.message));
+page.on('console', message => {
+  if (message.type() === 'error') consoleErrors.push(message.text());
+});
+page.on('requestfailed', request => {
+  failedRequests.push(request.url() + ' :: ' + (request.failure()?.errorText || 'request failed'));
+});
 
 async function checkBoundarySearch(marker, planet, kind) {
-  await marker.click({ timeout: 30000 });
   const kindLabel = kind === 'natal' ? 'ดาวเดิม (ดวงกำเนิด)' : 'ดาวจร';
-  await page.waitForFunction(({ planet, kindLabel }) => {
-    const panel = document.getElementById('planetSignStayPanel8');
-    const title = panel?.querySelector('.pss-title')?.textContent || '';
-    const text = panel?.textContent || '';
-    return panel && !panel.hidden
-      && title.startsWith(planet + ' · ' + kindLabel + ' · ')
-      && text.includes('รายการเข้า–ออกย้อนหลัง 1 เดือน')
-      && text.includes('รายการเข้า–ออกล่วงหน้า 1 เดือน');
-  }, { planet, kindLabel }, { timeout: 180000 });
+  const expectedTitle = planet + ' · ' + kindLabel + ' · ';
+
+  await marker.click({ timeout: 30000 });
+
+  let outcome;
+  try {
+    const stateHandle = await page.waitForFunction(({ expectedTitle }) => {
+      const panel = document.getElementById('planetSignStayPanel8');
+      if (!panel || panel.hidden) return false;
+
+      const title = panel.querySelector('.pss-title')?.textContent || '';
+      const text = panel.textContent || '';
+      if (text.includes('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ:')) return 'error';
+      if (title.startsWith(expectedTitle)
+        && text.includes('รายการเข้า–ออกย้อนหลัง 1 เดือน')
+        && text.includes('รายการเข้า–ออกล่วงหน้า 1 เดือน')) return 'success';
+      return false;
+    }, { expectedTitle }, { timeout: 60000, polling: 250 });
+    outcome = await stateHandle.jsonValue();
+    await stateHandle.dispose();
+  } catch (error) {
+    const panelText = await page.locator('#planetSignStayPanel8').innerText().catch(() => '(อ่าน panel ไม่ได้)');
+    throw new Error(
+      'หมดเวลา 60 วินาที: ' + planet + ' (' + kindLabel + ') ไม่ได้ผลลัพธ์ค้นหาขอบเขตราศี'
+      + '\\nPanel ล่าสุด: ' + panelText
+      + '\\nPage errors: ' + pageErrors.join(' | ')
+      + '\\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
+      + '\\nFailed requests: ' + failedRequests.slice(-10).join(' | ')
+      + '\\nสาเหตุ wait: ' + error.message
+    );
+  }
 
   const panelText = await page.locator('#planetSignStayPanel8').innerText();
+  if (outcome === 'error') {
+    throw new Error(
+      'ระบบคำนวณแจ้งข้อผิดพลาดสำหรับ ' + planet + ' (' + kindLabel + '): '
+      + panelText
+      + '\\nPage errors: ' + pageErrors.join(' | ')
+      + '\\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
+    );
+  }
+
   assert.match(panelText, /วันและเวลาที่เข้าราศี/);
   assert.match(panelText, /วันและเวลาที่ออกราศี/);
-  assert.doesNotMatch(panelText, /คำนวณเวลาเข้าราศี\/ออกราศีไม่สำเร็จ/);
+  assert.doesNotMatch(panelText, /คำนวณเวลาเข้าราศี\\/ออกราศีไม่สำเร็จ/);
+  process.stdout.write('PASS boundary search: ' + planet + ' (' + kindLabel + ')\\n');
 }
 
 try {
@@ -61,7 +100,7 @@ try {
   }
 
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
-  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\n');
+  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\\n');
 } finally {
   await browser.close();
 }
