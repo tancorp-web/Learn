@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateSuriyayatra, calculateMonth88StartForRecheck } from '../../js/astronomy/suriyayatra-engine.js';
+import { calculateSuriyayatra } from '../../js/astronomy/suriyayatra-engine.js';
 
-function getKetu(date) {
+function getKetu(date, time) {
   const result = calculateSuriyayatra({
     date,
-    time: '01:05',
+    time,
     longitude: 102.8236,
     includeMotion: false
   });
@@ -15,74 +15,69 @@ function getKetu(date) {
   };
 }
 
-function roundedSignMinute(arcMinutes) {
-  const rounded = Math.round(arcMinutes);
-  const sign = Math.floor(rounded / 1800);
-  const rem = rounded % 1800;
-  return {
-    sign,
-    degree: Math.floor(rem / 60),
-    minute: rem % 60
-  };
+function signIndex(arcMinutes) {
+  return Math.floor(arcMinutes / 1800);
 }
 
-test('Ketu 679: 14 Oct 1991 uses the calculated 2534 month 88 start', () => {
-  const { planet, debug } = getKetu('1991-10-14');
-  assert.equal(debug.referenceDate, '1991-07-12');
-  assert.equal(debug.daysFromMonth88Start, 94);
-  const pos = roundedSignMinute(planet.arcMinutes);
-  assert.deepEqual(pos, { sign: 4, degree: 28, minute: 26 });
-});
-
-test('Ketu 679: 14 Dec 1991 uses the same calculated 2534 month 88 start', () => {
-  const { planet, debug } = getKetu('1991-12-14');
-  assert.equal(debug.referenceDate, '1991-07-12');
-  assert.equal(debug.daysFromMonth88Start, 155);
-  const pos = roundedSignMinute(planet.arcMinutes);
-  assert.deepEqual(pos, { sign: 3, degree: 26, minute: 6 });
-});
-
-test('Ketu 679: normal BE 2533 does not use an unverified month 8/8 anchor', () => {
-  const { debug } = getKetu('1990-10-14');
+test('Ketu uses Horakhun birth - 1 and the 679-day cycle, not a month 8/88 anchor', () => {
+  const { debug } = getKetu('2026-11-03', '16:27');
+  assert.equal(debug.mode, 'horakhun-679');
   assert.equal(debug.referenceDate, null);
-  assert.equal(debug.mode, 'original-679');
-  assert.equal(debug.daysFromMonth88Start, null);
+  assert.equal(debug.timeBasis, 'UTC+06:42');
+  assert.equal(debug.timeMinutes, 16 * 60 + 9);
+  assert.equal(debug.horakhunPrasong, debug.horakhunBirth - 1);
+  assert.equal(debug.remainder679, ((debug.horakhunPrasong - 344) % 679 + 679) % 679);
 });
 
-
-test('Ketu 679: the month 8/8 anchor date starts at 198°16′30″', () => {
-  const { planet, debug } = getKetu('1991-07-12');
-  assert.equal(debug.mode, 'month88-679');
-  assert.equal(debug.daysFromMonth88Start, 0);
-  assert.equal(debug.referenceDate, '1991-07-12');
-  assert.ok(Math.abs(planet.arcMinutes - (198 * 60 + 16.5)) < 1e-9);
+test('Ketu enters Libra at 14 Oct 2569 22:46 UTC+06:42 (23:04 UTC+07)', () => {
+  const before = getKetu('2026-10-14', '23:03');
+  const at = getKetu('2026-10-14', '23:04');
+  assert.equal(before.debug.timeMinutes, 22 * 60 + 45);
+  assert.equal(at.debug.timeMinutes, 22 * 60 + 46);
+  assert.equal(signIndex(before.planet.arcMinutes), 7); // Scorpio
+  assert.equal(signIndex(at.planet.arcMinutes), 6); // Libra
+  assert.equal(at.debug.meanArcMinutes, 9001);
+  assert.equal(at.planet.arcMinutes, 12599);
 });
 
-test('Ketu 679: a birth one day before month 8/8 keeps the original formula', () => {
-  const { debug } = getKetu('1991-07-11');
-  assert.equal(debug.mode, 'original-679');
+test('Ketu leaves Libra at 10 Dec 2569 12:46 UTC+06:42 (13:04 UTC+07)', () => {
+  const before = getKetu('2026-12-10', '13:03');
+  const at = getKetu('2026-12-10', '13:04');
+  assert.equal(before.debug.timeMinutes, 12 * 60 + 45);
+  assert.equal(at.debug.timeMinutes, 12 * 60 + 46);
+  assert.equal(signIndex(before.planet.arcMinutes), 6); // Libra
+  assert.equal(signIndex(at.planet.arcMinutes), 5); // Virgo
+  assert.equal(at.debug.meanArcMinutes, 10801);
+  assert.equal(at.planet.arcMinutes, 10799);
+});
+
+test('Ketu position changes within a day using the workbook fractional-day term', () => {
+  const morning = getKetu('2026-11-03', '08:00');
+  const evening = getKetu('2026-11-03', '20:00');
+  assert.ok(morning.planet.arcMinutes > evening.planet.arcMinutes);
+  assert.equal(evening.debug.timeMinutes - morning.debug.timeMinutes, 12 * 60);
+});
+
+test('1991 Golden Ketu values use the UTC+06:42 equivalent of the recorded 01:05 reference time', () => {
+  // 01:05 local-mean reference time is 01:23 Thai civil UTC+07.
+  const oct = getKetu('1991-10-14', '01:23');
+  const dec = getKetu('1991-12-14', '01:23');
+  assert.equal(oct.debug.timeMinutes, 65);
+  assert.equal(dec.debug.timeMinutes, 65);
+  assert.deepEqual(
+    [signIndex(oct.planet.arcMinutes), Math.floor((oct.planet.arcMinutes % 1800) / 60)],
+    [4, 26]
+  );
+  assert.deepEqual(
+    [signIndex(dec.planet.arcMinutes), Math.floor((dec.planet.arcMinutes % 1800) / 60)],
+    [3, 6]
+  );
+});
+
+test('BE 2518 (14 Oct 1975) remains on the Horakhun 679 cycle', () => {
+  const { planet, debug } = getKetu('1975-10-14', '01:05');
+  assert.equal(debug.mode, 'horakhun-679');
   assert.equal(debug.referenceDate, null);
-  assert.equal(debug.daysFromMonth88Start, null);
-  assert.equal(debug.calendarCorrectionDays, 0);
-});
-
-test('Ketu 679: a normal year does not inherit a previous month 8/8 anchor', () => {
-  const { debug } = getKetu('1992-10-14');
-  assert.equal(debug.isAdhikamas, false);
-  assert.equal(debug.mode, 'original-679');
-  assert.equal(debug.referenceDate, null);
-  assert.equal(debug.daysFromMonth88Start, null);
-});
-
-
-test('Ketu 679: BE 2518 (14 Oct 1975) keeps the legacy formula, not the newer calendar anchor', () => {
-  const { planet, debug } = getKetu('1975-10-14');
-  assert.equal(debug.mode, 'original-679');
-  assert.equal(debug.referenceDate, null);
-  assert.equal(debug.daysFromMonth88Start, null);
-  assert.equal(debug.calendarCorrectionDays, 0);
-  // The legacy 679-day result is near the saved Aries 06°53′ reference;
-  // check the raw angle so display-rounding does not conceal branch errors.
   assert.equal(Math.floor(planet.arcMinutes / 1800), 0);
   assert.ok(planet.arcMinutes > 6 * 60 + 52 && planet.arcMinutes < 6 * 60 + 55);
 });
