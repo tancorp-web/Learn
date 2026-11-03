@@ -28,12 +28,14 @@ jobs:
           qa/formula-tests/core.test.js
           qa/formula-tests/ketu-679-month88.test.js
           qa/formula-tests/planet-motion-status-34567.test.js
+          qa/formula-tests/sign-boundary-adaptive.test.js
           qa/formula-tests/suriyayatra-time-separation.test.js
           qa/formula-tests/suriyayatra-golden-regression.test.js
           qa/formula-tests/thai-lunar-backup-recheck.test.js
       - name: Check JavaScript module syntax
         run: |
           node --check js/astronomy/suriyayatra-engine.js
+          node --check js/astronomy/sign-boundary-search.js
           node --check main51.js
       - name: Install Playwright Chromium for browser smoke test
         run: |
