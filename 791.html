@@ -1087,7 +1087,7 @@ import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=202
 import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
-import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
 (()=>{
@@ -1247,7 +1247,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
-import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-parivartana-standards';
 (()=>{
  const $=id=>document.getElementById(id);
  const wheel=$('wheel');
@@ -1432,6 +1432,20 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
    add('มาตรฐานดาว',confirmedLabels.join(' · ')||'-');
 
   }
+  // ตรวจวงจรเกษตรสลับเรือนจากดาวทุกดวงในชุดเดียวกัน (กำเนิดหรือจร)
+  const chartPlanets=latestChartData?.[kind]?.planets||[];
+  const exchangeRelations=getParivartanaKasetRelations(chartPlanets)
+   .filter(relation=>relation.planets.includes(planet));
+  const exchangeLabels=exchangeRelations.map(relation=>{
+   const heading=relation.type==='pair'?'เกษตรสลับเรือน 2 ดวง':'ปริวรรตเกษตร 3 ดวง';
+   const legs=relation.legs.map(leg=>
+    leg.planetNumber+' '+leg.planet+
+    ' อยู่เรือนเกษตรของ '+leg.houseLordNumber+' '+leg.houseLord+
+    ' · ราศี'+leg.sign
+   ).join(' ; ');
+   return heading+' — '+legs;
+  });
+  add('เกษตรสลับเรือน',exchangeLabels.length?exchangeLabels.join(' | '):'-');
   add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'-');
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
