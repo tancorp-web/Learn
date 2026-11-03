@@ -28,7 +28,8 @@ function ketuFromHorakhunBirth(horakhunBirth) {
 
 test('Ketu integration diagnostic: source birth-atta retreat changes 679 result by 32 arcminutes', () => {
   // Source example 22 May 2557: Suratin=36 and Horakhun birth=502633.
-  // Weekday remainder=5 differs from published tithi=13, so Suratin retreats
+  // Weekday remainder=5 differs from both the published final tithi (13) and
+  // the tithi (23) derived from the printed atta inputs, so Suratin retreats
   // to 35 and Horakhun birth becomes 502632 before the Ketu calculation.
   const uncorrected = ketuFromHorakhunBirth(502633);
   const corrected = ketuFromHorakhunBirth(502632);
