@@ -5,7 +5,7 @@ const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const pageErrors = [];
 
-page.on('pageerror', error => pageErrors.push(error.message));
+page.on('pageerror', error => pageErrors.push(error.stack || error.message));
 
 try {
   await page.goto('http://127.0.0.1:8000/791.html', {
