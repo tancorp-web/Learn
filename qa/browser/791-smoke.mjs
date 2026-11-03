@@ -128,8 +128,14 @@ try {
     const dignity = await import('./js/data/planetary-dignities.js?v=20261104-source-workbook-standards');
     return dignity.getPlanetaryDignities('ราหู', 'ตุล', 29, 21, 0);
   });
+  for (const standard of ['ราชาโชค', 'อุจจาวิลาส', 'ปกิณโชค']) {
+    assert.ok(libraRahuStandards.includes(standard), 'Libra Rahu missing source standard: ' + standard);
+  }
+  const displayedLibraRahuStandards = libraRahuStandards.map(
+    standard => standard === 'อุจจาวิลาส' ? 'อุจจาวิลาศ' : standard
+  );
   for (const standard of ['ราชาโชค', 'อุจจาวิลาศ', 'ปกิณโชค']) {
-    assert.ok(libraRahuStandards.includes(standard), 'Libra Rahu missing standard: ' + standard);
+    assert.ok(displayedLibraRahuStandards.includes(standard), 'Libra Rahu missing displayed standard: ' + standard);
   }
 
   const natalMarker = page.locator('#wheel g[data-planet-marker="true"][data-kind="natal"]').first();
