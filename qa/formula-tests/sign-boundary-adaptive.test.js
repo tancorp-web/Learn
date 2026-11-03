@@ -64,3 +64,26 @@ test('adaptive station scan also finds the nearest reverse-time leave-and-return
   assert.deepEqual(events.map(item => item.type), ['เข้า', 'ออก']);
   assert.ok(events[0].stamp > events[1].stamp);
 });
+
+test('adaptive station scan detects a leave-and-return excursion hidden between twelve-hour samples', async () => {
+  const hour = 3_600_000;
+  const positionAt = stamp => {
+    const t = stamp / hour;
+    // The peak is between the 12-hour samples; both endpoints remain in sign 0.
+    return 29.7 + 0.4 * Math.max(0, 1 - ((t - 15) / 5) ** 2);
+  };
+  const events = await findSignBoundaryEvents({
+    start: 0,
+    planet: 'ดาวทดสอบ',
+    longitude: 0,
+    targetSign: 0,
+    direction: 1,
+    step: 12 * hour,
+    maxSpanMs: 24 * hour,
+    positionAt
+  });
+  assert.deepEqual(events.map(item => item.type), ['ออก', 'เข้า']);
+  assert.ok(events[0].stamp < 15 * hour);
+  assert.ok(events[1].stamp > 15 * hour);
+  assert.ok(events[1].stamp - events[0].stamp < 6 * hour);
+});
