@@ -1,49 +1,51 @@
-name: Deploy HORA Astrology
+name: HORA QA and Deploy
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "fix/**"]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  qa:
+    name: Formula regression suite
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node.js for formula QA
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Run full test suite (diagnostic)
+      - name: Run complete formula test suite
         run: npm test
-        continue-on-error: true
 
-      - name: Run required core, Ketu, and Thai lunar recheck tests
-        run: node --test qa/formula-tests/core.test.js qa/formula-tests/ketu-679-month88.test.js qa/formula-tests/thai-lunar-backup-recheck.test.js
-
+  deploy:
+    name: Deploy HORA Astrology
+    if: github.ref == 'refs/heads/main'
+    needs: qa
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
