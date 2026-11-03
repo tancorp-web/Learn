@@ -525,23 +525,23 @@ function ketuSuratinPrasongForBirth({ horakhun, thaloengHorakhun, tithiThaloengS
   };
 }
 
-function motionFor(name, date, time, longitude) {
+function motionFor(name, date, time, locationLongitude, currentPlanetLongitude) {
   if (name === 'ราหู' || name === 'เกตุ') return { state: MOTION_STATES.RETROGRADE, retrograde: true, speedArcminPerDay: null, meanSpeedArcminPerDay: null };
   if (name === 'อาทิตย์' || name === 'จันทร์') return { state: MOTION_STATES.DIRECT, retrograde: false, speedArcminPerDay: null, meanSpeedArcminPerDay: null };
-  const prev = calculateSuriyayatra({date: shiftCivilDate(date, -1), time, longitude, includeMotion:false});
+  const prev = calculateSuriyayatra({date: shiftCivilDate(date, -1), time, longitude: locationLongitude, includeMotion:false});
   const p = prev.planets.find(x => x.name === name);
   if (!p) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };
 
   // For planets 3–7, use today's Mahasumphus minus yesterday's Mahasumphus.
   // The daily delta is wrapped at 360° before applying the proven planet-specific limits.
   if (Object.prototype.hasOwnProperty.call(PLANET_MOTION_LIMITS_ARCMIN, name)) {
-    const delta = calculateDailyLongitudeDeltaArcmin(longitude, p.longitude);
+    const delta = calculateDailyLongitudeDeltaArcmin(currentPlanetLongitude, p.longitude);
     const state = classifyPlanetMotionStatus(name, delta);
     return { state, retrograde: state === MOTION_STATES.RETROGRADE, speedArcminPerDay: delta, meanSpeedArcminPerDay: null };
   }
 
   // Other bodies retain their existing centered-difference / mean-speed behavior.
-  const next = calculateSuriyayatra({date: shiftCivilDate(date, 1), time, longitude, includeMotion:false});
+  const next = calculateSuriyayatra({date: shiftCivilDate(date, 1), time, longitude: locationLongitude, includeMotion:false});
   const n = next.planets.find(x => x.name === name);
   if (!n) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };
   const speed = angularDeltaDegrees(n.longitude, p.longitude) * 60 / 2;
@@ -815,7 +815,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
 
   const calendar = ketuCalendar;
   const planets = Object.entries(arcs).map(([name, arc]) => {
-    const motion = includeMotion ? motionFor(name, date, time, longitude) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
+    const motion = includeMotion ? motionFor(name, date, time, longitude, arc / 60) : (['ราหู','เกตุ'].includes(name) ? {state:MOTION_STATES.RETROGRADE,retrograde:true} : {state:MOTION_STATES.DIRECT,retrograde:false});
     return {
       id:name, name, longitude:arc/60, arcMinutes:arc,
       retrograde:motion.retrograde, motionState:motion.state,
