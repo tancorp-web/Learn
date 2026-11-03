@@ -41,11 +41,11 @@ async function checkBoundarySearch(marker, planet, kind) {
     const panelText = await page.locator('#planetSignStayPanel8').innerText().catch(() => '(อ่าน panel ไม่ได้)');
     throw new Error(
       'หมดเวลา 60 วินาที: ' + planet + ' (' + kindLabel + ') ไม่ได้ผลลัพธ์ค้นหาขอบเขตราศี'
-      + '\\nPanel ล่าสุด: ' + panelText
-      + '\\nPage errors: ' + pageErrors.join(' | ')
-      + '\\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
-      + '\\nFailed requests: ' + failedRequests.slice(-10).join(' | ')
-      + '\\nสาเหตุ wait: ' + error.message
+      + '\nPanel ล่าสุด: ' + panelText
+      + '\nPage errors: ' + pageErrors.join(' | ')
+      + '\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
+      + '\nFailed requests: ' + failedRequests.slice(-10).join(' | ')
+      + '\nสาเหตุ wait: ' + error.message
     );
   }
 
@@ -54,15 +54,15 @@ async function checkBoundarySearch(marker, planet, kind) {
     throw new Error(
       'ระบบคำนวณแจ้งข้อผิดพลาดสำหรับ ' + planet + ' (' + kindLabel + '): '
       + panelText
-      + '\\nPage errors: ' + pageErrors.join(' | ')
-      + '\\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
+      + '\nPage errors: ' + pageErrors.join(' | ')
+      + '\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
     );
   }
 
   assert.match(panelText, /วันและเวลาที่เข้าราศี/);
   assert.match(panelText, /วันและเวลาที่ออกราศี/);
-  assert.doesNotMatch(panelText, /คำนวณเวลาเข้าราศี\\/ออกราศีไม่สำเร็จ/);
-  process.stdout.write('PASS boundary search: ' + planet + ' (' + kindLabel + ')\\n');
+  assert.equal(panelText.includes('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ'), false);
+  process.stdout.write('PASS boundary search: ' + planet + ' (' + kindLabel + ')\n');
 }
 
 try {
@@ -100,7 +100,7 @@ try {
   }
 
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
-  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\\n');
+  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\n');
 } finally {
   await browser.close();
 }
