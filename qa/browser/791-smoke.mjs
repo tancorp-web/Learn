@@ -121,7 +121,16 @@ try {
   }, null, { timeout: 120000 });
 
   const main51Src = await page.locator('script[src*="main51.js"]').getAttribute('src');
-  assert.match(main51Src || '', /20261103-utc0642-main51-01/);
+  assert.match(main51Src || '', /20261104-planetary-standards/);
+
+  // Verify the exact Libra Rahu standards used by the 791 detail panel.
+  const libraRahuStandards = await page.evaluate(async () => {
+    const dignity = await import('./js/data/planetary-dignities.js?v=20261104-source-workbook-standards');
+    return dignity.getPlanetaryDignities('ราหู', 'ตุล', 29, 21, 0);
+  });
+  for (const standard of ['ราชาโชค', 'อุจจาวิลาศ', 'ปกิณโชค']) {
+    assert.ok(libraRahuStandards.includes(standard), 'Libra Rahu missing standard: ' + standard);
+  }
 
   const natalMarker = page.locator('#wheel g[data-planet-marker="true"][data-kind="natal"]').first();
   await checkBoundarySearch(natalMarker, await natalMarker.getAttribute('data-planet'), 'natal');
