@@ -33,8 +33,8 @@ try {
   }, null, { timeout: 180000 });
 
   const panelText = await page.locator('#planetSignStayPanel8').innerText();
-  assert.match(panelText, /เวลาเข้าราศี/);
-  assert.match(panelText, /เวลาออกราศี/);
+  assert.match(panelText, /วันและเวลาที่เข้าราศี/);
+  assert.match(panelText, /วันและเวลาที่ออกราศี/);
   assert.doesNotMatch(panelText, /คำนวณเวลาเข้าราศี\/ออกราศีไม่สำเร็จ/);
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
 
