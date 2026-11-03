@@ -4,26 +4,99 @@ import { chromium } from 'playwright';
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const pageErrors = [];
+const consoleErrors = [];
+const failedRequests = [];
 
 page.on('pageerror', error => pageErrors.push(error.stack || error.message));
+page.on('console', message => {
+  if (message.type() === 'error') consoleErrors.push(message.text());
+});
+page.on('requestfailed', request => {
+  failedRequests.push(request.url() + ' :: ' + (request.failure()?.errorText || 'request failed'));
+});
+
+async function runTransitDateScenario(label, day, month, year) {
+  await page.locator('#fDay').selectOption(String(day));
+  await page.locator('#fMonth').selectOption(String(month));
+  await page.locator('#fYear').selectOption(String(year));
+  await page.locator('#fHour').selectOption('12');
+  await page.locator('#fMinute').selectOption('0');
+
+  await page.evaluate(() => {
+    window.__horaSmokeScenarioCalculated = false;
+    window.addEventListener('hora50:chart-calculated', () => {
+      window.__horaSmokeScenarioCalculated = true;
+    }, { once: true });
+  });
+  await page.locator('#calc').click();
+  await page.waitForFunction(() => window.__horaSmokeScenarioCalculated === true, null, {
+    timeout: 120000,
+    polling: 250
+  });
+
+  assert.equal(await page.locator('#fDay').inputValue(), String(day));
+  assert.equal(await page.locator('#fMonth').inputValue(), String(month));
+  assert.equal(await page.locator('#fYear').inputValue(), String(year));
+
+  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู', 'จันทร์'];
+  for (const planet of transitPlanets) {
+    const marker = page.locator(
+      '#wheel g[data-planet-marker="true"][data-kind="transit"][data-planet="' + planet + '"]'
+    ).first();
+    assert.ok(await marker.count(), label + ': missing transit marker for ' + planet);
+    await checkBoundarySearch(marker, planet, 'transit');
+  }
+  process.stdout.write('PASS date-boundary scenario: ' + label + ' (' + day + '/' + month + '/' + year + ' พ.ศ.)\\n');
+}
 
 async function checkBoundarySearch(marker, planet, kind) {
-  await marker.click({ timeout: 30000 });
   const kindLabel = kind === 'natal' ? 'ดาวเดิม (ดวงกำเนิด)' : 'ดาวจร';
-  await page.waitForFunction(({ planet, kindLabel }) => {
-    const panel = document.getElementById('planetSignStayPanel8');
-    const title = panel?.querySelector('.pss-title')?.textContent || '';
-    const text = panel?.textContent || '';
-    return panel && !panel.hidden
-      && title.startsWith(planet + ' · ' + kindLabel + ' · ')
-      && text.includes('รายการเข้า–ออกย้อนหลัง 5 ปี')
-      && text.includes('รายการเข้า–ออกล่วงหน้า 5 ปี');
-  }, { planet, kindLabel }, { timeout: 180000 });
+  const expectedTitle = planet + ' · ' + kindLabel + ' · ';
+
+  await marker.click({ timeout: 30000 });
+
+  let outcome;
+  try {
+    const stateHandle = await page.waitForFunction(({ expectedTitle }) => {
+      const panel = document.getElementById('planetSignStayPanel8');
+      if (!panel || panel.hidden) return false;
+
+      const title = panel.querySelector('.pss-title')?.textContent || '';
+      const text = panel.textContent || '';
+      if (text.includes('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ:')) return 'error';
+      if (title.startsWith(expectedTitle)
+        && text.includes('รายการเข้า–ออกย้อนหลัง 1 เดือน')
+        && text.includes('รายการเข้า–ออกล่วงหน้า 1 เดือน')) return 'success';
+      return false;
+    }, { expectedTitle }, { timeout: 60000, polling: 250 });
+    outcome = await stateHandle.jsonValue();
+    await stateHandle.dispose();
+  } catch (error) {
+    const panelText = await page.locator('#planetSignStayPanel8').innerText().catch(() => '(อ่าน panel ไม่ได้)');
+    throw new Error(
+      'หมดเวลา 60 วินาที: ' + planet + ' (' + kindLabel + ') ไม่ได้ผลลัพธ์ค้นหาขอบเขตราศี'
+      + '\nPanel ล่าสุด: ' + panelText
+      + '\nPage errors: ' + pageErrors.join(' | ')
+      + '\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
+      + '\nFailed requests: ' + failedRequests.slice(-10).join(' | ')
+      + '\nสาเหตุ wait: ' + error.message
+    );
+  }
 
   const panelText = await page.locator('#planetSignStayPanel8').innerText();
+  if (outcome === 'error') {
+    throw new Error(
+      'ระบบคำนวณแจ้งข้อผิดพลาดสำหรับ ' + planet + ' (' + kindLabel + '): '
+      + panelText
+      + '\nPage errors: ' + pageErrors.join(' | ')
+      + '\nConsole errors: ' + consoleErrors.slice(-10).join(' | ')
+    );
+  }
+
   assert.match(panelText, /วันและเวลาที่เข้าราศี/);
   assert.match(panelText, /วันและเวลาที่ออกราศี/);
-  assert.doesNotMatch(panelText, /คำนวณเวลาเข้าราศี\/ออกราศีไม่สำเร็จ/);
+  assert.equal(panelText.includes('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ'), false);
+  process.stdout.write('PASS boundary search: ' + planet + ' (' + kindLabel + ')\n');
 }
 
 try {
@@ -60,8 +133,13 @@ try {
     await checkBoundarySearch(marker, planet, 'transit');
   }
 
+  // Explicit year-boundary regression: the one-month search must cross Dec -> Jan.
+  await runTransitDateScenario('ข้ามธันวาคม–มกราคม', 31, 12, 2568);
+  // Thai solar-year / Thaloeng Sok period in พ.ศ. 2569.
+  await runTransitDateScenario('เถลิงศก พ.ศ. 2569', 13, 4, 2569);
+
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
-  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned five-year ingress/egress results without browser exceptions.\n');
+  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\n');
 } finally {
   await browser.close();
 }

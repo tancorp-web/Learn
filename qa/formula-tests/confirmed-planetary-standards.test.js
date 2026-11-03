@@ -30,5 +30,5 @@ test('unconfirmed planet rules are not invented', () => {
 });
 
 test('runtime dignity data version identifies confirmed standards integration', () => {
-  assert.equal(DIGNITY_DATA_VERSION, '1.2.0-confirmed-standards-runtime');
+  assert.equal(DIGNITY_DATA_VERSION, '1.2.3-rahu-taurus-nicha');
 });

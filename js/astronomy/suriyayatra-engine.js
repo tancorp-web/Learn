@@ -96,31 +96,46 @@ function findMonth88StartByLegacyTithiFormula(beYear) {
 }
 
 
+// Month-8/88 anchors are pure calendar results for a given Thai year.
+ // Cache them because planetary boundary searches may call the engine
+ // thousands of times across the same small set of years.
+const month88StartCache = new Map();
+
 function findMonth88StartForBeYear(beYear) {
+  if (month88StartCache.has(beYear)) return month88StartCache.get(beYear);
   const date = calculateClassicalMonth88Start(beYear);
-  if (!date) return null;
+  if (!date) {
+    month88StartCache.set(beYear, null);
+    return null;
+  }
   const [year, month, day] = date.split('-').map(Number);
-  return {
+  const result = {
     date,
     beYear,
     chulaSakarat: beYear - 1181,
     horakhun: civilJulianDay(year, month, day) - 1954167,
     isAdhikamas: true
   };
+  month88StartCache.set(beYear, result);
+  return result;
 }
 
 // Ketu must retain the legacy Suriyayatra tithi-boundary rule. The separate
 // classical-calendar QA helper remains independent and must not select
 // Ketu's formula branch, because historical classifications can differ.
+const ketuMonth88StartCache = new Map();
+
 function findKetuMonth88StartForBeYear(beYear) {
+  if (ketuMonth88StartCache.has(beYear)) return ketuMonth88StartCache.get(beYear);
   // Use an anchor only when both independent calendar calculations agree
   // that the year has an inserted month 8/88 and agree on its exact date.
   // If either calculation says "no anchor" or dates disagree, fall back to
   // the original Ketu formula rather than risk shifting the 679-day phase.
   const classical = findMonth88StartForBeYear(beYear);
   const legacy = findMonth88StartByLegacyTithiFormula(beYear);
-  if (!classical || !legacy || classical.date !== legacy.date) return null;
-  return classical;
+  const result = !classical || !legacy || classical.date !== legacy.date ? null : classical;
+  ketuMonth88StartCache.set(beYear, result);
+  return result;
 }
 
 /**

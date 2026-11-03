@@ -1084,7 +1084,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
 
 <script type="module">
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
-import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-adaptive-station-scan-01';
+import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
@@ -1244,6 +1244,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 </style>
 <script type="module">
 /* index8 only: show the sign-ingress and sign-egress times for the clicked natal/transit planet. */
+import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 (()=>{
@@ -1276,27 +1277,36 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   const time=p(d.getUTCHours())+':'+p(d.getUTCMinutes());
   return calculateSuriyayatra({date,time,longitude,includeMotion});
  };
+ // Each HORA calculation returns all planetary positions. Reuse that complete
+ // result across the seven marker searches at identical timestamps.
+ const positionCache=new Map();
+ const MAX_POSITION_CACHE=20000;
  const planetLongitude=(stamp,planet,longitude)=>{
-  const result=calculationAtStamp(stamp,longitude,false);
-  const item=result?.planets?.find(x=>x.name===planet);
+  const key=String(longitude)+'|'+String(stamp);
+  let positions=positionCache.get(key);
+  if(!positions){
+   positions=calculationAtStamp(stamp,longitude,false)?.planets;
+   if(!Array.isArray(positions))throw new Error('สูตร HORA ไม่คืนข้อมูลตำแหน่งดาว');
+   if(positionCache.size>=MAX_POSITION_CACHE)positionCache.delete(positionCache.keys().next().value);
+   positionCache.set(key,positions);
+  }
+  const item=positions.find(x=>x.name===planet);
   const lon=Number(item?.longitude);
   if(!Number.isFinite(lon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
   return ((lon%360)+360)%360;
  };
  const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
- // ใช้เครื่องคำนวณตำแหน่งเดียวกับ index51; ลดช่วงสุ่มตรวจเพื่อไม่ให้พลาดจุดเปลี่ยน
- // โดยเฉพาะดาวพักร์ที่อาจกลับข้ามขอบราศีระหว่างช่วงตรวจที่ห่างเกินไป
- const stepFor=planet=>
-   ['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู'].includes(planet)?6*3600000:
-   planet==='จันทร์'?3600000:
-   planet==='อาทิตย์'?6*3600000:12*3600000;
+ // Twelve-hour samples are used for the one-month history and forecast.
+ // The adaptive extremum search still refines every detected reversal to
+ // one-minute precision, including short leave-and-return sign excursions.
+ const stepFor=planet=>12*3600000;
 
  // Coarse six-hour sampling remains the fast path. Whenever sampled
  // longitude direction reverses, the helper refines that station neighborhood
  // to one-minute steps, catching short sign excursions hidden between samples.
  const findBoundaryEvents=options=>findSignBoundaryEvents({
   ...options,
-  maxSpanMs:5*366*86400000,
+  maxSpanMs:31*86400000,
   positionAt:planetLongitude,
   pause
  });
@@ -1399,11 +1409,11 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
   const eventText=items=>items.length?items.map(item=>(item.type==='เข้า'?'เข้า':'ออก')+' · '+localDateTime(item.stamp)).join(' | '):'ไม่พบเหตุการณ์ในช่วงค้นหา';
-  add('รายการเข้า–ออกย้อนหลัง 5 ปี',eventText([...eventsBefore].reverse()));
-  add('รายการเข้า–ออกล่วงหน้า 5 ปี',eventText(eventsAfter));
+  add('รายการเข้า–ออกย้อนหลัง 1 เดือน',eventText([...eventsBefore].reverse()));
+  add('รายการเข้า–ออกล่วงหน้า 1 เดือน',eventText(eventsAfter));
   panel.appendChild(grid);
   const note=document.createElement('div');note.className='pss-note';
-  note.textContent='คำนวณจาก Engine HORA ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · รายการเข้า–ออกตรวจย้อนหลังและล่วงหน้าอย่างละ 5 ปี';
+  note.textContent='คำนวณจาก Engine HORA ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · รายการเข้า–ออกตรวจย้อนหลังและล่วงหน้าอย่างละ 1 เดือน';
   panel.appendChild(note);
  };
  let requestId=0;
