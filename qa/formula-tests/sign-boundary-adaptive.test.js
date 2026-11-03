@@ -5,7 +5,9 @@ import { findSignBoundaryEvents } from '../../js/astronomy/sign-boundary-search.
 test('adaptive scan detects a short leave-and-return hidden between equal six-hour samples', async () => {
   const hour = 3_600_000;
   const start = 0;
+  let evaluations = 0;
   const positionAt = stamp => {
+    evaluations++;
     const t = stamp / hour;
     // A narrow prograde-then-retrograde excursion across 30°,
     // peaking at hour 9; all six-hour coarse samples stay below 30°.
@@ -25,6 +27,7 @@ test('adaptive scan detects a short leave-and-return hidden between equal six-ho
   assert.ok(events[0].stamp < 8 * hour);
   assert.ok(events[1].stamp > 8 * hour);
   assert.ok(events[1].stamp - events[0].stamp < 4 * hour);
+  assert.ok(evaluations < 100, 'station refinement must use bounded evaluations, not a minute-by-minute scan');
 });
 
 test('ordinary sign ingress and egress remain detected with coarse samples', async () => {
