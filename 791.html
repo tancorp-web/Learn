@@ -1439,7 +1439,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
   const exchangeLabels=exchangeRelations.map(relation=>{
    const heading=relation.type==='pair'?'เกษตรสลับเรือน 2 ดวง':'ปริวรรตเกษตร 3 ดวง';
    const legs=relation.legs.map(leg=>
-    '๙๙'.replace('๙๙',leg.planetNumber)+' '+leg.planet+
+    leg.planetNumber+' '+leg.planet+
     ' อยู่เรือนเกษตรของ '+leg.houseLordNumber+' '+leg.houseLord+
     ' · ราศี'+leg.sign
    ).join(' ; ');
