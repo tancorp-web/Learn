@@ -123,56 +123,52 @@ try {
   const main51Src = await page.locator('script[src*="main51.js"]').getAttribute('src');
   assert.match(main51Src || '', /20261104-planetary-standards/);
 
-  // Verify the exact Libra Rahu standards used by the 791 detail panel.
-  const libraRahuStandards = await page.evaluate(async () => {
+  // Verify shared runtime standards and Parivartana detection in the browser module scope.
+  const standardRegression = await page.evaluate(async () => {
     const dignity = await import('./js/data/planetary-dignities.js?v=20261104-parivartana-standards');
-    return dignity.getPlanetaryDignities('ราหู', 'ตุล', 29, 21, 0);
+    const libraRahuStandards = dignity.getPlanetaryDignities('ราหู', 'ตุล', 29, 21, 0);
+    const praCases = [
+      ['อาทิตย์', 'กุมภ์'], ['จันทร์', 'มกร'],
+      ['อังคาร', 'ตุล'], ['อังคาร', 'พฤษภ'],
+      ['พุธ', 'ธนู'], ['พุธ', 'มีน'],
+      ['พฤหัสบดี', 'มิถุน'], ['พฤหัสบดี', 'กันย์'],
+      ['ศุกร์', 'พิจิก'], ['ศุกร์', 'เมษ'],
+      ['เสาร์', 'กรกฎ'], ['ราหู', 'สิงห์']
+    ].map(([planet, sign]) => ({
+      planet, sign,
+      standards: dignity.getPlanetaryDignities(planet, sign)
+    }));
+    const pairExchange = dignity.getParivartanaKasetRelations([
+      { name: 'พฤหัสบดี', sign: { name: 'พฤษภ' } },
+      { name: 'ศุกร์', sign: 'ธนู' }
+    ]);
+    const tripleExchange = dignity.getParivartanaKasetRelations([
+      { name: 'พฤหัสบดี', sign: 'พฤษภ' },
+      { name: 'ศุกร์', sign: 'กุมภ์' },
+      { name: 'ราหู', sign: 'ธนู' }
+    ]);
+    return { libraRahuStandards, praCases, pairExchange, tripleExchange };
   });
   for (const standard of ['ราชาโชค', 'อุจจาวิลาส', 'ปกิณโชค']) {
-    assert.ok(libraRahuStandards.includes(standard), 'Libra Rahu missing source standard: ' + standard);
+    assert.ok(standardRegression.libraRahuStandards.includes(standard), 'Libra Rahu missing source standard: ' + standard);
   }
-  const displayedLibraRahuStandards = libraRahuStandards.map(
+  const displayedLibraRahuStandards = standardRegression.libraRahuStandards.map(
     standard => standard === 'อุจจาวิลาส' ? 'อุจจาวิลาศ' : standard
   );
   for (const standard of ['ราชาโชค', 'อุจจาวิลาศ', 'ปกิณโชค']) {
     assert.ok(displayedLibraRahuStandards.includes(standard), 'Libra Rahu missing displayed standard: ' + standard);
   }
-  // Confirm all configured ประ placements remain part of the active standard output.
-  const praCases = [
-    ['อาทิตย์', 'กุมภ์'], ['จันทร์', 'มกร'],
-    ['อังคาร', 'ตุล'], ['อังคาร', 'พฤษภ'],
-    ['พุธ', 'ธนู'], ['พุธ', 'มีน'],
-    ['พฤหัสบดี', 'มิถุน'], ['พฤหัสบดี', 'กันย์'],
-    ['ศุกร์', 'พิจิก'], ['ศุกร์', 'เมษ'],
-    ['เสาร์', 'กรกฎ'], ['ราหู', 'สิงห์']
-  ];
-  for (const [planet, sign] of praCases) {
-    assert.ok(
-      dignity.getPlanetaryDignities(planet, sign).includes('ประ'),
-      'Missing active ประ standard: ' + planet + ' in ' + sign
-    );
+  for (const item of standardRegression.praCases) {
+    assert.ok(item.standards.includes('ประ'), 'Missing active ประ standard: ' + item.planet + ' in ' + item.sign);
   }
-
-  // Two-planet exchange: Jupiter in Venus's Taurus, Venus in Jupiter's Sagittarius.
-  const pairExchange = dignity.getParivartanaKasetRelations([
-    { name: 'พฤหัสบดี', sign: { name: 'พฤษภ' } },
-    { name: 'ศุกร์', sign: 'ธนู' }
-  ]);
-  assert.ok(pairExchange.some(relation =>
+  assert.ok(standardRegression.pairExchange.some(relation =>
     relation.type === 'pair'
     && relation.planets.includes('พฤหัสบดี')
     && relation.planets.includes('ศุกร์')
     && relation.legs.some(leg => leg.planet === 'พฤหัสบดี' && leg.houseLord === 'ศุกร์' && leg.sign === 'พฤษภ')
     && relation.legs.some(leg => leg.planet === 'ศุกร์' && leg.houseLord === 'พฤหัสบดี' && leg.sign === 'ธนู')
   ), 'Two-planet Parivartana Kaset relation or occupied houses are missing');
-
-  // Three-planet cycle: Jupiter -> Venus -> Rahu -> Jupiter.
-  const tripleExchange = dignity.getParivartanaKasetRelations([
-    { name: 'พฤหัสบดี', sign: 'พฤษภ' },
-    { name: 'ศุกร์', sign: 'กุมภ์' },
-    { name: 'ราหู', sign: 'ธนู' }
-  ]);
-  assert.ok(tripleExchange.some(relation =>
+  assert.ok(standardRegression.tripleExchange.some(relation =>
     relation.type === 'triple'
     && relation.planets.length === 3
     && ['พฤหัสบดี', 'ศุกร์', 'ราหู'].every(planet => relation.planets.includes(planet))
@@ -180,7 +176,6 @@ try {
     && relation.legs.some(leg => leg.planet === 'ศุกร์' && leg.houseLord === 'ราหู' && leg.sign === 'กุมภ์')
     && relation.legs.some(leg => leg.planet === 'ราหู' && leg.houseLord === 'พฤหัสบดี' && leg.sign === 'ธนู')
   ), 'Three-planet Parivartana Kaset cycle or occupied houses are missing');
-
 
   const natalMarker = page.locator('#wheel g[data-planet-marker="true"][data-kind="natal"]').first();
   await checkBoundarySearch(natalMarker, await natalMarker.getAttribute('data-planet'), 'natal');
