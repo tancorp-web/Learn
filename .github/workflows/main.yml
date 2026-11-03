@@ -29,6 +29,7 @@ jobs:
           qa/formula-tests/ketu-679-month88.test.js
           qa/formula-tests/planet-motion-status-34567.test.js
           qa/formula-tests/suriyayatra-time-separation.test.js
+          qa/formula-tests/suriyayatra-golden-regression.test.js
           qa/formula-tests/thai-lunar-backup-recheck.test.js
       - name: Check JavaScript module syntax
         run: |
