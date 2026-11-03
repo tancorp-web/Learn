@@ -17,19 +17,11 @@ const MOD = (v, d) => {
 
 const SIGN_DURATIONS = [120,96,72,120,144,168,168,144,120,72,96,120];
 
-// Ketu 679-day cycle. The phase at the start of each inserted month 8/88
-// is the verified 198°16'30" reference phase. The start date itself is
-// calculated from the adhikamas calendar of the birth year; it is never
-// hard-coded to a single Gregorian date.
-const KETU_679_REFERENCE_ARCMIN = 198 * 60 + 16.5;
+// Classical Ketu: 679-day retrograde cycle.
+// The workbook's Horakhun-birth formula uses the fractional reference-day time:
+// TRUNC((MOD(HorakhunPrasong - 344, 679) + timeHours/24) * 21600/679).
 const KETU_679_CYCLE_DAYS = 679;
 const KETU_679_CYCLE_ARCMIN = 21600;
-
-function utcCivilDayDifference(dateA, dateB) {
-  const [ay,am,ad] = String(dateA).split('-').map(Number);
-  const [by,bm,bd] = String(dateB).split('-').map(Number);
-  return Math.round((Date.UTC(ay,am-1,ad) - Date.UTC(by,bm-1,bd)) / 86400000);
-}
 
 function findMonth88StartByLegacyTithiFormula(beYear) {
   const chulaSakarat = beYear - 1181;
@@ -125,96 +117,6 @@ function findMonth88StartForBeYear(beYear) {
 // Ketu's formula branch, because historical classifications can differ.
 const ketuMonth88StartCache = new Map();
 
-function findKetuMonth88StartForBeYear(beYear) {
-  if (ketuMonth88StartCache.has(beYear)) return ketuMonth88StartCache.get(beYear);
-  // Use an anchor only when both independent calendar calculations agree
-  // that the year has an inserted month 8/88 and agree on its exact date.
-  // If either calculation says "no anchor" or dates disagree, fall back to
-  // the original Ketu formula rather than risk shifting the 679-day phase.
-  const classical = findMonth88StartForBeYear(beYear);
-  const legacy = findMonth88StartByLegacyTithiFormula(beYear);
-  const result = !classical || !legacy || classical.date !== legacy.date ? null : classical;
-  ketuMonth88StartCache.set(beYear, result);
-  return result;
-}
-
-/**
- * QA-only public seam: expose HORA's own month-8/8 date calculation so
- * regression tests can compare it with the separate backup dataset.
- * This delegates to the existing formula; it does not read backup data.
- */
-export function calculateMonth88StartForRecheck(beYear) {
-  if (!Number.isInteger(beYear)) {
-    throw new TypeError('beYear must be an integer Buddhist Era year');
-  }
-  return findMonth88StartForBeYear(beYear)?.date ?? null;
-}
-
-/** QA-only diagnostic: expose the previous tithi-boundary candidate. */
-export function calculateLegacyMonth88StartForRecheck(beYear) {
-  if (!Number.isInteger(beYear)) {
-    throw new TypeError('beYear must be an integer Buddhist Era year');
-  }
-  return findMonth88StartByLegacyTithiFormula(beYear)?.date ?? null;
-}
-
-function latestMonth88StartOnOrBefore(date, beYear) {
-  // Use the month 88 belonging to the latest adhikamas year at or
-  // before the birth date. This keeps the rule date-driven and avoids
-  // carrying a fixed 1991 anchor into other years.
-  for (let candidateBeYear = beYear; candidateBeYear >= beYear - 20; candidateBeYear -= 1) {
-    const start = findMonth88StartForBeYear(candidateBeYear);
-    if (start && start.date <= date) return start;
-  }
-  throw new Error('MONTH88_START_NOT_FOUND_FOR_DATE');
-}
-
-function ketu679FromMonth88Start(date, beYear) {
-  // RULE:
-  // 1) Normal year -> keep the original Ketu formula. Do NOT count days
-  //    from a month-8/88 anchor.
-  // 2) Adhikamas year, but birth before month 8/88 -> original formula.
-  // 3) Adhikamas year, birth on/after month 8/88 -> count actual civil
-  //    days from that year's month 8/88 start over the 679-day cycle.
-  //
-  // This prevents a normal year from accidentally inheriting the previous
-  // year's month-8/88 anchor.
-  const [year] = String(date).split('-').map(Number);
-  const currentYearMonth88 = findKetuMonth88StartForBeYear(beYear);
-
-  const useMonth88Cycle =
-    currentYearMonth88 !== null &&
-    date >= currentYearMonth88.date;
-
-  if (!useMonth88Cycle) {
-    // Original formula: หรคุณประสงค์ = หรคุณกำเนิด - 1.
-    const horakhun = civilJulianDay(year, Number(String(date).split('-')[1]), Number(String(date).split('-')[2])) - 1954167;
-    const horakhunPrasong = horakhun - 1;
-    const remainder = MOD(horakhunPrasong - 344, KETU_679_CYCLE_DAYS);
-    const meanArc = remainder * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS;
-    return {
-      arcMinutes: MOD(KETU_679_CYCLE_ARCMIN - meanArc, KETU_679_CYCLE_ARCMIN),
-      month88: null,
-      mode: 'original-679',
-      daysFromMonth88Start: null,
-      correctionDays: 0
-    };
-  }
-
-  const daysFromMonth88Start = utcCivilDayDifference(date, currentYearMonth88.date);
-  const cycleDays = MOD(daysFromMonth88Start, KETU_679_CYCLE_DAYS);
-  return {
-    arcMinutes: MOD(
-      KETU_679_REFERENCE_ARCMIN
-        - cycleDays * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS,
-      KETU_679_CYCLE_ARCMIN
-    ),
-    month88: currentYearMonth88,
-    mode: 'month88-679',
-    daysFromMonth88Start,
-    correctionDays: 0
-  };
-}
 const SHADOW_TABLE = [0,244,427,488];
 const SUN_TABLE = [0,35,67,94,116,129,134];
 const MOON_TABLE = [0,77,148,209,256,286,296];
@@ -804,40 +706,45 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   const saturnMean = MOD(Math.trunc(epoch / 30) + Math.floor(epoch * 6 / 10000) + 11944, 21600);
   const uranusMean = MOD(Math.trunc(epoch / 84) + Math.floor(epoch / 7224) + 16277, 21600);
 
-  // Classical Thai Ketu: 679-day retrograde cycle anchored at the
-  // verified start of month 8/88. The birth date is counted directly from
-  // that start date; do not subtract 30 days again for adhikamas.
-  const ketuCalendar = calendarArithmetic(horakhun, chulaSakarat);
-  const ketu = ketu679FromMonth88Start(date, yearBe);
-  const ketuTrueArc = ketu.arcMinutes;
-  const ketuMonth88 = ketu.month88;
-  const ketuDaysFromMonth88 = ketu.daysFromMonth88Start;
-  const ketuCycleDays = ketu.mode === 'month88-679'
-    ? MOD(ketuDaysFromMonth88, KETU_679_CYCLE_DAYS)
-    : null;
+  // Classical Thai Ketu: Horakhun birth (Horakhun atta + Suratin atta),
+  // then Horakhun Prasong = Horakhun birth - 1. Use the normalized
+  // UTC+06:42 planetary clock and the workbook's fractional-day term.
+  // This is deliberately independent of the month 8/88 anchor.
+  const ketuCalendar = calendarArithmetic(planetaryHorakhun, planetaryChulaSakarat);
+  const ketuHorakhunBirth = planetaryHorakhun;
+  const ketuHorakhunPrasong = ketuHorakhunBirth - 1;
+  const ketuRemainder679 = MOD(ketuHorakhunPrasong - 344, KETU_679_CYCLE_DAYS);
+  const ketuFractionalDay = calculationTimeMinutes / 1440;
+  const ketuMeanArc = Math.trunc(
+    (ketuRemainder679 + ketuFractionalDay)
+      * KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS
+  );
+  const ketuTrueArc = MOD(KETU_679_CYCLE_ARCMIN - MOD(ketuMeanArc, KETU_679_CYCLE_ARCMIN), KETU_679_CYCLE_ARCMIN);
   const ketuSpeedArcminPerDay = KETU_679_CYCLE_ARCMIN / KETU_679_CYCLE_DAYS;
 
   const ketuDebug = {
-    mode: ketu.mode,
-    referenceDate: ketuMonth88 ? ketuMonth88.date : null,
+    mode: 'horakhun-679',
+    referenceDate: null,
     birthDate: date,
-    daysFromMonth88Start: ketuDaysFromMonth88,
-    cycleDays: ketuCycleDays,
+    horakhunBirth: ketuHorakhunBirth,
+    horakhunPrasong: ketuHorakhunPrasong,
+    remainder679: ketuRemainder679,
+    timeBasis: 'UTC+06:42',
+    timeMinutes: calculationTimeMinutes,
+    fractionalDay: ketuFractionalDay,
+    meanArcMinutes: ketuMeanArc,
     cycleLengthDays: KETU_679_CYCLE_DAYS,
     cycleLengthArcMinutes: KETU_679_CYCLE_ARCMIN,
     retrogradeArcMinutesPerDay: ketuSpeedArcminPerDay,
-    referenceArcMinutes: KETU_679_REFERENCE_ARCMIN,
     trueArcMinutes: ketuTrueArc,
     trueRasi: Math.floor(ketuTrueArc / 1800),
     trueDegree: Math.floor(MOD(ketuTrueArc, 1800) / 60),
     trueMinute: MOD(ketuTrueArc, 60),
     calendarCorrectionDays: 0,
-    calendarRule: ketu.mode === 'month88-679'
-      ? 'ปีอธิกมาสและเกิดตั้งแต่เดือน 88 → นับวันจริงจากวันเริ่มเดือน 88 → 679 วัน = 360°'
-      : 'ไม่ใช่ปีอธิกมาส หรือเกิดก่อนเดือน 88 → ใช้สูตรเกตุเดิม ไม่ใช้วันเริ่มเดือน 88',
+    calendarRule: 'หรคุณกำเนิด − 1 − 344; เพิ่มเศษเวลาฐาน UTC+06:42 ก่อนหารวงรอบ 679 วัน',
     isAdhikamas: ketuCalendar.isAdhikamas,
-    month88BeYear: ketuMonth88 ? ketuMonth88.beYear : null,
-    month88Horakhun: ketuMonth88 ? ketuMonth88.horakhun : null
+    month88BeYear: null,
+    month88Horakhun: null
   };
 
   const arcs = {
