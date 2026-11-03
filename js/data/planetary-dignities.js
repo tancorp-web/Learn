@@ -19,7 +19,7 @@
  *   ควรยืนยันกับตำราเฉพาะของโครงการก่อนนำไปคำนวณคะแนนหรือคำทำนาย
  */
 
-export const DIGNITY_DATA_VERSION = '1.2.3-rahu-taurus-nicha';
+export const DIGNITY_DATA_VERSION = '1.3.0-parivartana-pra';
 
 export const ZODIAC_SIGNS = Object.freeze([
   { index: 0, name: 'เมษ', english: 'Aries', element: 'ไฟ' },
@@ -171,6 +171,16 @@ export const ADDITIONAL_DIGNITY_RULES = Object.freeze({
   ประ: {
     id: 'detriment-or-system-specific',
     description: 'ตรวจจากตารางราศีประใน CONFIRMED_PLANETARY_STANDARDS.sign_based_rules',
+    runtimeEnabled: true
+  },
+  เกษตรสลับเรือน: {
+    id: 'parivartana-kaseta-pair',
+    description: 'ดาว 2 ดวงสถิตในเรือนเกษตรของกันและกัน',
+    runtimeEnabled: true
+  },
+  'ปริวรรตเกษตร 3 ดวง': {
+    id: 'parivartana-kaseta-triple',
+    description: 'ดาว 3 ดวงสถิตในเรือนเกษตรของกันและกันเป็นวงจร',
     runtimeEnabled: true
   },
   มหาจักร: {
