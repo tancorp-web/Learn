@@ -61,3 +61,15 @@ test('normal/pre-month-8/88 dates retain the original Ketu 679-day formula', () 
     );
   }
 });
+
+test('2010 month 8/88 result remains close to the independent Meemodel daily value', () => {
+  const debug = calculate('2010-10-14');
+  // Meemodel: 2010-10-14 Ketu = Gemini 8°48′ (68°48′).
+  // The current horakhun/344 formula differs by about 7.5′ consistently
+  // across the compared dates; preserve that known residual, do not hide it.
+  const referenceArcMinutes = 68 * 60 + 48;
+  const difference = Math.abs(debug.trueArcMinutes - referenceArcMinutes);
+  assert.ok(difference < 8.5, `expected known residual under 8.5′; got ${difference.toFixed(3)}′`);
+});
+
+test.todo('1991 Golden Case phase origin: dynamic anchor yields Leo 28°27′, while locked Golden target is Leo 28°26′; resolve the 1′ discrepancy before merge');
