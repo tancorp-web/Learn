@@ -15,6 +15,40 @@ page.on('requestfailed', request => {
   failedRequests.push(request.url() + ' :: ' + (request.failure()?.errorText || 'request failed'));
 });
 
+async function runTransitDateScenario(label, day, month, year) {
+  await page.locator('#fDay').selectOption(String(day));
+  await page.locator('#fMonth').selectOption(String(month));
+  await page.locator('#fYear').selectOption(String(year));
+  await page.locator('#fHour').selectOption('12');
+  await page.locator('#fMinute').selectOption('0');
+
+  await page.evaluate(() => {
+    window.__horaSmokeScenarioCalculated = false;
+    window.addEventListener('hora50:chart-calculated', () => {
+      window.__horaSmokeScenarioCalculated = true;
+    }, { once: true });
+  });
+  await page.locator('#calc').click();
+  await page.waitForFunction(() => window.__horaSmokeScenarioCalculated === true, null, {
+    timeout: 120000,
+    polling: 250
+  });
+
+  assert.equal(await page.locator('#fDay').inputValue(), String(day));
+  assert.equal(await page.locator('#fMonth').inputValue(), String(month));
+  assert.equal(await page.locator('#fYear').inputValue(), String(year));
+
+  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู', 'จันทร์'];
+  for (const planet of transitPlanets) {
+    const marker = page.locator(
+      '#wheel g[data-planet-marker="true"][data-kind="transit"][data-planet="' + planet + '"]'
+    ).first();
+    assert.ok(await marker.count(), label + ': missing transit marker for ' + planet);
+    await checkBoundarySearch(marker, planet, 'transit');
+  }
+  process.stdout.write('PASS date-boundary scenario: ' + label + ' (' + day + '/' + month + '/' + year + ' พ.ศ.)\\n');
+}
+
 async function checkBoundarySearch(marker, planet, kind) {
   const kindLabel = kind === 'natal' ? 'ดาวเดิม (ดวงกำเนิด)' : 'ดาวจร';
   const expectedTitle = planet + ' · ' + kindLabel + ' · ';
@@ -98,6 +132,11 @@ try {
     assert.ok(await marker.count(), 'missing transit marker for ' + planet);
     await checkBoundarySearch(marker, planet, 'transit');
   }
+
+  // Explicit year-boundary regression: the one-month search must cross Dec -> Jan.
+  await runTransitDateScenario('ข้ามธันวาคม–มกราคม', 31, 12, 2568);
+  // Thai solar-year / Thaloeng Sok period in พ.ศ. 2569.
+  await runTransitDateScenario('เถลิงศก พ.ศ. 2569', 13, 4, 2569);
 
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
   process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\n');
