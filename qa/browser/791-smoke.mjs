@@ -16,8 +16,8 @@ async function checkBoundarySearch(marker, planet, kind) {
     const text = panel?.textContent || '';
     return panel && !panel.hidden
       && title.startsWith(planet + ' · ' + kindLabel + ' · ')
-      && text.includes('รายการเข้า–ออกย้อนหลัง 5 ปี')
-      && text.includes('รายการเข้า–ออกล่วงหน้า 5 ปี');
+      && text.includes('รายการเข้า–ออกย้อนหลัง 1 เดือน')
+      && text.includes('รายการเข้า–ออกล่วงหน้า 1 เดือน');
   }, { planet, kindLabel }, { timeout: 180000 });
 
   const panelText = await page.locator('#planetSignStayPanel8').innerText();
@@ -61,7 +61,7 @@ try {
   }
 
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
-  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned five-year ingress/egress results without browser exceptions.\n');
+  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\n');
 } finally {
   await browser.close();
 }
