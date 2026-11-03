@@ -65,8 +65,10 @@ async function checkBoundarySearch(marker, planet, kind) {
       const text = panel.textContent || '';
       if (text.includes('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ:')) return 'error';
       if (title.startsWith(expectedTitle)
-        && text.includes('รายการเข้า–ออกย้อนหลัง 1 เดือน')
-        && text.includes('รายการเข้า–ออกล่วงหน้า 1 เดือน')) return 'success';
+        && text.includes('วันและเวลาที่เข้าราศี')
+        && text.includes('วันและเวลาที่ออกราศี')
+        && !text.includes('รายการเข้า–ออกย้อนหลัง 1 เดือน')
+        && !text.includes('รายการเข้า–ออกล่วงหน้า 1 เดือน')) return 'success';
       return false;
     }, { expectedTitle }, { timeout: 60000, polling: 250 });
     outcome = await stateHandle.jsonValue();
