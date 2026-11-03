@@ -1,6 +1,6 @@
 
 import { THAI_PROVINCE_COORDS } from './js/data/thai-provinces.js?v=20261009-77provinces';
-import { getPlanetaryDignities, getPlanetaryDignityReferences } from './js/data/planetary-dignities.js?v=20261013-rahu-taurus-nicha';
+import { getPlanetaryDignities, getPlanetaryDignityReferences } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
@@ -240,7 +240,7 @@ function renderNumericAstrologySummary(natal,transit){
  const body=$('planetDignityNumberSummaryBody8'),table=$('planetDignityNumberTable8');
  if(!body||!table)return;
  const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
- const standards=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ','อนุเกษตร'];
+ const standards=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','ปกิณโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ','อนุเกษตร'];
  const relations=['กุม','ทับ','เล็ง','โยคหน้า','โยคหลัง','ตรีโกณ','จตุโกณ','ฉาก'];
  const signOf=p=>signObj(p.longitude).name, esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const points=(chart,includeAsc)=>[...(includeAsc?[{name:'ลัคนา',number:'ล',sign:signObj(chart.asc).name,longitude:chart.asc}]:[]),...chart.planets.map(p=>({name:p.name,number:nums[p.name],sign:signOf(p),longitude:p.longitude}))].filter(p=>p.number);

@@ -120,13 +120,13 @@ export const PLANETARY_DIGNITY_DATA = Object.freeze({
     planet: 'ราหู',
     planetNumber: '๘',
     system: 'tradition-dependent',
-    /* เจ้าเรือนกุมภ์สำหรับตรรกะตนุลัคนาจรแยกจากมาตรฐานเกษตรที่แสดงในตารางดาว */
-    domicileSigns: [],
+    /* เกษตรกุมภ์เป็นมาตรฐานที่ผู้ใช้ยืนยัน; เจ้าเรือนตนุลัคนาจรแยกอยู่ใน RASHI_LORDS_FOR_TANU */
+    domicileSigns: ['กุมภ์'],
     exaltation: null,
     debilitation: { sign: 'พฤษภ', signIndex: 1, degreeInSign: null },
     moolatrikona: null,
     dignityPolicy: 'user-confirmed-tradition-dependent',
-    notes: 'ผู้ใช้ยืนยันราหูนิจราศีพฤษภ; เกษตรราศีกุมภ์แยกจากกฎเจ้าเรือนกุมภ์ของตนุลัคนาจร'
+    notes: 'ผู้ใช้ยืนยันราหูเกษตรกุมภ์และนิจพฤษภ; กฎเจ้าเรือนตนุลัคนาจรแยกอยู่ใน RASHI_LORDS_FOR_TANU'
   },
   เกตุ: {
     planet: 'เกตุ',
@@ -876,15 +876,16 @@ export function getPlanetaryDignityReferences(planetName, signName) {
     .filter((category, index, all) => all.indexOf(category) === index);
 }
 
-/** เกณฑ์มาตรฐานดาวที่ผู้ใช้ยืนยันแล้ว — ใช้เป็นกฎ runtime; ไม่คำนวณหรือแก้ตำแหน่งดาว */
+/** เกณฑ์ runtime จากตารางต้นฉบับ 69.xlsx ร่วมกับข้อยืนยันของผู้ใช้; ไม่คำนวณหรือแก้ตำแหน่งดาว */
 export const CONFIRMED_PLANETARY_STANDARDS = Object.freeze({
   "schema_version": "1.0.0",
   "title": "HORA confirmed planetary standards",
   "language": "th",
-  "status": "CONFIRMED_BY_USER",
-  "runtime_status": "REFERENCE_ONLY_NOT_YET_CONNECTED_TO_RUNTIME",
+  "status": "SOURCE_WORKBOOK_WITH_USER_CONFIRMED_OVERRIDES",
+  "runtime_status": "CONNECTED_TO_RUNTIME",
   "notes": [
-    "รายการนี้บันทึกเกณฑ์ที่ผู้ใช้ยืนยันแล้ว ห้ามเปลี่ยนสูตรคำนวณตำแหน่งดาว",
+    "กฎราศีและองศาที่ถอดจาก 69.xlsx ชีตคำนวณนาที ใช้เป็นข้อมูล runtime ตามคำสั่งผู้ใช้; ข้อยืนยันภายหลังมีสิทธิ์เหนือกว่าต้นฉบับ",
+    "ห้ามเปลี่ยนสูตรคำนวณตำแหน่งดาว ลัคนา หรือระบบสุริยยาตร์จากการแก้ชุดมาตรฐานนี้",
     "เครื่องหมาย - หมายถึงไม่มีเกณฑ์ที่ยืนยันไว้ในชุดนี้",
     "นิจทั่วไปตรวจจากราศีนิจ ไม่จำเป็นต้องตรงองศามหานิจ",
     "มหาอุจจ์และมหานิจมีองศาเฉพาะตามตาราง",
@@ -1111,8 +1112,32 @@ export const CONFIRMED_PLANETARY_STANDARDS = Object.freeze({
       "เสาร์": [
         "กันย์"
       ],
-      "ราหู": [],
+      "ราหู": ["ตุล"],
       "เกตุ": [],
+      "มฤตยู": []
+    },
+    "ปกิณโชค": {
+      "อาทิตย์": [],
+      "จันทร์": [],
+      "อังคาร": [],
+      "พุธ": [],
+      "พฤหัสบดี": [],
+      "ศุกร์": [],
+      "เสาร์": [],
+      "ราหู": ["มิถุน", "ตุล", "กุมภ์"],
+      "เกตุ": [],
+      "มฤตยู": []
+    },
+    "มหาอุจจ์": {
+      "อาทิตย์": [],
+      "จันทร์": [],
+      "อังคาร": [],
+      "พุธ": [],
+      "พฤหัสบดี": [],
+      "ศุกร์": [],
+      "เสาร์": [],
+      "ราหู": ["พิจิก"],
+      "เกตุ": ["มิถุน", "สิงห์", "ธนู", "กุมภ์"],
       "มฤตยู": []
     },
     "อุจจ์": {
@@ -1285,7 +1310,7 @@ export const CONFIRMED_PLANETARY_STANDARDS = Object.freeze({
 });
 
 /**
- * ตรวจสถานะตามเกณฑ์ที่ยืนยันแล้วจากราศีและองศาภายในราศี (0 <= degree < 30).
+ * ตรวจสถานะ runtime จากตารางต้นฉบับและกฎที่ผู้ใช้ยืนยัน จากราศีและองศาภายในราศี (0 <= degree < 30).
  * คืนทุกสถานะที่เข้าเงื่อนไข และไม่สร้างเกณฑ์ให้ดาว/สถานะที่ระบุเป็น null หรือไม่มีรายการ
  */
 export function getConfirmedPlanetaryStandards(planetName, signName, degreeInSign = null, minuteInSign = 0, secondInSign = 0) {
@@ -1309,7 +1334,7 @@ export function getConfirmedPlanetaryStandards(planetName, signName, degreeInSig
 export function getPlanetaryDignities(planetName, signName, degreeInSign = null, minuteInSign = 0, secondInSign = 0) {
   const data = PLANETARY_DIGNITY_DATA[planetName];
   const result = getConfirmedPlanetaryStandards(planetName, signName, degreeInSign, minuteInSign, secondInSign);
-  // เกณฑ์ที่ผู้ใช้ยืนยัน: เกษตรและอุจจ์ตรวจจากราศี; ไม่อนุมานให้ราหู/เกตุ/มฤตยู
+  // เกษตรและอุจจ์ตรวจจากข้อมูลดาว; ราหูเกษตรกุมภ์มาจากข้อมูลที่ผู้ใช้ยืนยัน ไม่อนุมานเกณฑ์ให้เกตุ/มฤตยู
   if (data && data.domicileSigns.includes(signName)) result.push('เกษตร');
   if (data && data.exaltation && data.exaltation.sign === signName) result.push('อุจจ์');
   return [...new Set(result)];
