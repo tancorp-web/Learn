@@ -857,7 +857,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.9.3-IDNUMBER-FIX',
+      engineVersion: 'v8.9.4-UTC0642-MOTION6',
       calculation: 'Horakhun -> classical mean Sun/Moon -> day-count Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
@@ -876,7 +876,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
       planetaryPowerArcMinutes,
       planetaryEpochArcMinutes: epoch,
       calendar,
-      motionModel: 'planets 3–7 use wrapped today-minus-yesterday Mahasumphus delta and planet-specific arcminute thresholds; other bodies retain centered 1-day angular speed and mean-speed comparison'
+      motionModel: 'Mars-Saturn and Uranus use wrapped daily longitude deltas; Mars-Saturn retain their established thresholds and Uranus uses its 0.7 arcminute/day mean-speed threshold; Sun/Moon are direct and Rahu/Ketu are retrograde'
     }
   };
 }
