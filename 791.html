@@ -1276,20 +1276,29 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   const time=p(d.getUTCHours())+':'+p(d.getUTCMinutes());
   return calculateSuriyayatra({date,time,longitude,includeMotion});
  };
+ // Each HORA calculation returns all planetary positions. Reuse that complete
+ // result across the seven marker searches at identical timestamps.
+ const positionCache=new Map();
+ const MAX_POSITION_CACHE=20000;
  const planetLongitude=(stamp,planet,longitude)=>{
-  const result=calculationAtStamp(stamp,longitude,false);
-  const item=result?.planets?.find(x=>x.name===planet);
+  const key=String(longitude)+'|'+String(stamp);
+  let positions=positionCache.get(key);
+  if(!positions){
+   positions=calculationAtStamp(stamp,longitude,false)?.planets;
+   if(!Array.isArray(positions))throw new Error('สูตร HORA ไม่คืนข้อมูลตำแหน่งดาว');
+   if(positionCache.size>=MAX_POSITION_CACHE)positionCache.delete(positionCache.keys().next().value);
+   positionCache.set(key,positions);
+  }
+  const item=positions.find(x=>x.name===planet);
   const lon=Number(item?.longitude);
   if(!Number.isFinite(lon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
   return ((lon%360)+360)%360;
  };
  const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
- // ใช้เครื่องคำนวณตำแหน่งเดียวกับ index51; ลดช่วงสุ่มตรวจเพื่อไม่ให้พลาดจุดเปลี่ยน
- // โดยเฉพาะดาวพักร์ที่อาจกลับข้ามขอบราศีระหว่างช่วงตรวจที่ห่างเกินไป
- const stepFor=planet=>
-   ['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู'].includes(planet)?6*3600000:
-   planet==='จันทร์'?3600000:
-   planet==='อาทิตย์'?6*3600000:12*3600000;
+ // Twelve-hour samples are used for the five-year history and forecast.
+ // The adaptive extremum search still refines every detected reversal to
+ // one-minute precision, including short leave-and-return sign excursions.
+ const stepFor=planet=>12*3600000;
 
  // Coarse six-hour sampling remains the fast path. Whenever sampled
  // longitude direction reverses, the helper refines that station neighborhood
