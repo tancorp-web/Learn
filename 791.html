@@ -1289,10 +1289,10 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    planet==='จันทร์'?3600000:
    planet==='อาทิตย์'?6*3600000:12*3600000;
 
- // Enumerate every crossing into/out of the selected sign over the full
- // five-year search window. A six-hour step is used for all six selected
- // planets; even the fastest of these cannot traverse a full 30° sign in
- // one sample, so a crossing cannot leave and re-enter between samples.
+ // Enumerate detected crossings into/out of the selected sign over the full
+ // five-year search window. Six-hour sampling bounds search cost and is much
+ // finer than a sign-wide transit for these planets. It is not a formal
+ // guarantee against an extremely brief leave-and-return around an exact station.
  const findBoundaryEvents=async({start,planet,longitude,targetSign,direction,step})=>{
   const maxSpan=5*366*86400000;
   const events=[];
