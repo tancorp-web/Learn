@@ -112,8 +112,10 @@ test('Ketu 679 intraday phase: Suriyayatra daily phase reproduces MyHora LMT ing
     arcAtLmtMidnight('2026-12-10'), 180 * 60
   );
 
-  assert.ok(Math.abs(ingressMinutes - (22 * 60 + 46)) <= 1,
-    'Expected 14 Oct 2569 22:46 UTC+06:42; calculated ' + ingressMinutes.toFixed(3) + ' minutes');
-  assert.ok(Math.abs(egressMinutes - (12 * 60 + 46)) <= 1,
-    'Expected 10 Dec 2569 12:46 UTC+06:42; calculated ' + egressMinutes.toFixed(3) + ' minutes');
+  assert.ok(
+    Math.abs(ingressMinutes - (22 * 60 + 46)) <= 1
+      && Math.abs(egressMinutes - (12 * 60 + 46)) <= 1,
+    'MyHora reference 14 Oct 22:46 / 10 Dec 12:46 UTC+06:42; HORA daily phase predicts '
+      + ingressMinutes.toFixed(3) + ' / ' + egressMinutes.toFixed(3) + ' minutes'
+  );
 });
