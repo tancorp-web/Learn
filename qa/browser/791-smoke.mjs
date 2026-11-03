@@ -40,10 +40,18 @@ try {
     return wheel && wheel.querySelectorAll('g[data-planet-marker="true"]').length > 0;
   }, null, { timeout: 90000 });
 
+  await page.waitForFunction(() => {
+    const layer = document.querySelector('#wheel svg #ascendantBoundaryTimes3');
+    return layer && layer.querySelectorAll('text.transit-zodiac-all-time5').length === 12;
+  }, null, { timeout: 120000 });
+
+  const main51Src = await page.locator('script[src*="main51.js"]').getAttribute('src');
+  assert.match(main51Src || '', /20261103-utc0642-main51-01/);
+
   const natalMarker = page.locator('#wheel g[data-planet-marker="true"][data-kind="natal"]').first();
   await checkBoundarySearch(natalMarker, await natalMarker.getAttribute('data-planet'), 'natal');
 
-  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู'];
+  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู', 'จันทร์'];
   for (const planet of transitPlanets) {
     const marker = page.locator(
       '#wheel g[data-planet-marker="true"][data-kind="transit"][data-planet="' + planet + '"]'
@@ -53,7 +61,7 @@ try {
   }
 
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
-  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six transit planets returned five-year ingress/egress results without browser exceptions.\n');
+  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned five-year ingress/egress results without browser exceptions.\n');
 } finally {
   await browser.close();
 }
