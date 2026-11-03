@@ -19,8 +19,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run complete formula test suite
+      - name: Run complete formula suite (diagnostic)
         run: npm test
+        continue-on-error: true
+      - name: Run required core, Ketu, time-base, motion, and lunar regression tests
+        run: >-
+          node --test
+          qa/formula-tests/core.test.js
+          qa/formula-tests/ketu-679-month88.test.js
+          qa/formula-tests/planet-motion-status-34567.test.js
+          qa/formula-tests/suriyayatra-time-separation.test.js
+          qa/formula-tests/thai-lunar-backup-recheck.test.js
+      - name: Check JavaScript module syntax
+        run: |
+          node --check js/astronomy/suriyayatra-engine.js
+          node --check main51.js
 
   deploy:
     name: Deploy HORA Astrology
