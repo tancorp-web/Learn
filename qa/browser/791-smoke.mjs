@@ -38,7 +38,7 @@ async function runTransitDateScenario(label, day, month, year) {
   assert.equal(await page.locator('#fMonth').inputValue(), String(month));
   assert.equal(await page.locator('#fYear').inputValue(), String(year));
 
-  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู', 'จันทร์'];
+  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู', 'จันทร์', 'เกตุ'];
   for (const planet of transitPlanets) {
     const marker = page.locator(
       '#wheel g[data-planet-marker="true"][data-kind="transit"][data-planet="' + planet + '"]'
@@ -70,7 +70,7 @@ async function checkBoundarySearch(marker, planet, kind) {
         && !text.includes('รายการเข้า–ออกย้อนหลัง 1 เดือน')
         && !text.includes('รายการเข้า–ออกล่วงหน้า 1 เดือน')) return 'success';
       return false;
-    }, { expectedTitle }, { timeout: 60000, polling: 250 });
+    }, { expectedTitle }, { timeout: planet === 'เกตุ' ? 180000 : 60000, polling: 250 });
     outcome = await stateHandle.jsonValue();
     await stateHandle.dispose();
   } catch (error) {
@@ -126,7 +126,7 @@ try {
   const natalMarker = page.locator('#wheel g[data-planet-marker="true"][data-kind="natal"]').first();
   await checkBoundarySearch(natalMarker, await natalMarker.getAttribute('data-planet'), 'natal');
 
-  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู', 'จันทร์'];
+  const transitPlanets = ['อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์', 'มฤตยู', 'จันทร์', 'เกตุ'];
   for (const planet of transitPlanets) {
     const marker = page.locator(
       '#wheel g[data-planet-marker="true"][data-kind="transit"][data-planet="' + planet + '"]'
@@ -141,7 +141,7 @@ try {
   await runTransitDateScenario('เถลิงศก พ.ศ. 2569', 13, 4, 2569);
 
   assert.deepEqual(pageErrors, [], 'browser page errors: ' + pageErrors.join(' | '));
-  process.stdout.write('PASS: 791 loaded and calculated; natal marker and all six motion planets and Moon returned one-month ingress/egress results without browser exceptions.\n');
+  process.stdout.write('PASS: 791 loaded and calculated; natal marker, six motion planets, Moon, and Ketu returned ingress/egress results without browser exceptions.\n');
 } finally {
   await browser.close();
 }
