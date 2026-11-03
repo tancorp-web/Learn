@@ -28,7 +28,7 @@ test('coffin pattern records the four stated signs and unspecified planet identi
   const rule = getThaiSpecialCriterionById('SPECIAL-COFFIN');
   assert.deepEqual(rule.requiredSigns, ['มิถุน', 'สิงห์', 'ธนู', 'กุมภ์']);
   assert.ok(rule.acceptedOccupants.includes('ลัคนาเดิม'));
-  assert.match(rule.planets, /ดาวใดก็ได้/);
+  assert.match(rule.planets, /ดาวเดิมดวงใดก็ได้/);
   assert.equal(rule.execution, 'REFERENCE_ONLY');
 });
 
