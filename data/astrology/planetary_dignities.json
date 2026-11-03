@@ -1,10 +1,10 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "title": "Thai astrology dignity lookup rules",
   "purpose": "Machine-readable draft rules for matching a planet's sign to dignity labels; house placement is sourced from the user's computed chart, not from this table.",
-  "status": "DISCOVERY",
+  "status": "SOURCE_WORKBOOK_WITH_USER_CONFIRMED_OVERRIDES",
   "system_id": "thai_reference_system_anonymized_01",
-  "source_note": "Paraphrased/anonymized project reference. Source identity intentionally omitted. Verify against an approved reference and golden test cases before production use.",
+  "source_note": "กฎ SOURCE_WORKBOOK ถอดจาก 69.xlsx ชีต คำนวณนาที; กฎ CONFIRMED_BY_USER เป็นข้อยืนยันภายหลังและมีสิทธิ์เหนือกว่า. ชุดนี้ไม่คำนวณตำแหน่งดาว ลัคนา หรือภพ.",
   "scope": {
     "lookup_inputs": [
       "planet",
@@ -1946,6 +1946,222 @@
           "status": "needs-golden-test"
         }
       ]
+    },
+    {
+      "rule_id": "DIGNITY-UCH-VILAS-RAHU-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "อุจจาวิลาส",
+      "planet": "rahu",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "libra"
+          },
+          "expected_category": "อุจจาวิลาส",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PAKIN-RAHU-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ปกิณโชค",
+      "planet": "rahu",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "gemini"
+          },
+          "expected_category": "ปกิณโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PAKIN-RAHU-LIBRA",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ปกิณโชค",
+      "planet": "rahu",
+      "sign": "libra",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "libra"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "libra"
+          },
+          "expected_category": "ปกิณโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-PAKIN-RAHU-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "ปกิณโชค",
+      "planet": "rahu",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "aquarius"
+          },
+          "expected_category": "ปกิณโชค",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-UCH-RAHU-SCORPIO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "rahu",
+      "sign": "scorpio",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "rahu",
+        "sign": "scorpio"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "rahu",
+            "sign": "scorpio"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-UCH-KETU-GEMINI",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "gemini",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "gemini"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ketu",
+            "sign": "gemini"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-UCH-KETU-LEO",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "leo",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "leo"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ketu",
+            "sign": "leo"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-UCH-KETU-SAGITTARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "sagittarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "sagittarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ketu",
+            "sign": "sagittarius"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
+    },
+    {
+      "rule_id": "DIGNITY-MAHA-UCH-KETU-AQUARIUS",
+      "system_id": "thai_reference_system_anonymized_01",
+      "category": "มหาอุจจ์",
+      "planet": "ketu",
+      "sign": "aquarius",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.1.0",
+      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
+      "conditions": {
+        "planet": "ketu",
+        "sign": "aquarius"
+      },
+      "tests": [
+        {
+          "input": {
+            "planet": "ketu",
+            "sign": "aquarius"
+          },
+          "expected_category": "มหาอุจจ์",
+          "status": "source-workbook-regression"
+        }
+      ]
     }
   ],
   "cautions": [
@@ -1953,7 +2169,8 @@
     "A rule match may return multiple labels; do not force a single label unless the selected system explicitly defines priority.",
     "No exact-degree boundaries are represented in this dataset.",
     "No Uranus mapping is included in this initial lookup table.",
-    "Do not use this DISCOVERY dataset as the sole authority for production chart interpretation."
+    "Do not use this DISCOVERY dataset as the sole authority for production chart interpretation.",
+    "SOURCE_WORKBOOK records are active runtime rules transcribed from 69.xlsx / คำนวณนาที. They are distinct from later CONFIRMED_BY_USER overrides. Do not infer additional Rahu, Ketu, or Uranus rules."
   ],
   "example": {
     "chart_fact": {
