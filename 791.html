@@ -1247,6 +1247,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 (()=>{
  const $=id=>document.getElementById(id);
  const wheel=$('wheel');
@@ -1399,6 +1400,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const lon=((Number(currentLon)%360)+360)%360;
    const signIndex=Math.floor(lon/30),within=lon%30;
    const degree=Math.floor(within),minute=Math.floor((within-degree)*60);
+   const second=Math.floor((((within-degree)*60)-minute)*60);
    const ascValue=latestChartData?.natal?.asc;
    const asc=ascValue==null?NaN:Number(ascValue);
    const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
@@ -1413,26 +1415,21 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    add('องศา/ลิปดา',String(degree).padStart(2,'0')+'° '+String(minute).padStart(2,'0')+'′');
    add('นวางค์','นวางค์ที่ '+(navaPart+1)+' · ราศี'+navaSign);
    add('ตรียางค์','ตรียางค์ที่ '+(triPart+1)+' · ราศี'+triSign);
-   // แหล่งยืนยันหลักคือวงกลมดาวที่ติดวงขอบมาตรฐานไว้แล้ว ไม่คำนวณมาตรฐานซ้ำในแผงรายละเอียด
-   const wheelRoot=$('wheel');
-   const markers=[...(wheelRoot?.querySelectorAll('g[data-planet-marker="true"][data-planet-standards102]')||[])];
-   const target=((Number(lon)%360)+360)%360;
-   const marker=markers.find(el=>el.getAttribute('data-planet')===planet&&Math.abs((((Number(el.getAttribute('data-longitude'))-target)+540)%360)-180)<0.02);
-   const confirmed=(marker?.getAttribute('data-planet-standards102')||'').split('|').filter(Boolean);
-   add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'-');
+   // คำนวณรายการมาตรฐานจากแหล่งข้อมูลกลางโดยตรง ไม่ผูกกับการวาด/ค้นหา SVG marker
+   const confirmed=getPlanetaryDignities(planet,signs[signIndex],degree,minute,second);
+   const confirmedLabels=confirmed.map(category=>category==='อุจจาวิลาส'?'อุจจาวิลาศ':category);
+   add('มาตรฐานดาว',confirmedLabels.length?confirmedLabels.join(' · '):'-');
 
   }
   if(kind!=='natal'){
    const lon=((Number(currentLon)%360)+360)%360;
    const signIndex=Math.floor(lon/30),within=lon%30,degree=Math.floor(within);
    const minute=Math.floor((within-degree)*60);
-   // อ่านผลที่วงกลมดาวแสดงไว้แล้ว เพื่อให้ข้อความตรงกับวงขอบมาตรฐาน
-   const wheelRoot=$('wheel');
-   const markers=[...(wheelRoot?.querySelectorAll('g[data-planet-marker="true"][data-planet-standards102]')||[])];
-   const target=((Number(lon)%360)+360)%360;
-   const marker=markers.find(el=>el.getAttribute('data-planet')===planet&&Math.abs((((Number(el.getAttribute('data-longitude'))-target)+540)%360)-180)<0.02);
-   const confirmed=(marker?.getAttribute('data-planet-standards102')||'').split('|').filter(Boolean);
-   add('มาตรฐานดาว',confirmed.join(' · ')||'-');
+   const second=Math.floor((((within-degree)*60)-minute)*60);
+   // ใช้ข้อมูลมาตรฐานกลางชุดเดียวกับวงกลม ไม่ขึ้นกับ SVG marker หรือสถานะการวาด
+   const confirmed=getPlanetaryDignities(planet,signs[signIndex],degree,minute,second);
+   const confirmedLabels=confirmed.map(category=>category==='อุจจาวิลาส'?'อุจจาวิลาศ':category);
+   add('มาตรฐานดาว',confirmedLabels.join(' · ')||'-');
 
   }
   add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'-');
