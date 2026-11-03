@@ -41,3 +41,23 @@ test('ordinary sign ingress and egress remain detected with coarse samples', asy
   });
   assert.deepEqual(events.map(item => item.type), ['ออก']);
 });
+
+test('adaptive station scan also finds the nearest reverse-time leave-and-return events', async () => {
+  const hour = 3_600_000;
+  const positionAt = stamp => {
+    const t = stamp / hour;
+    return 29.7 + 0.4 * Math.max(0, 1 - ((t - 8) / 3.5) ** 2);
+  };
+  const events = await findSignBoundaryEvents({
+    start: 18 * hour,
+    planet: 'ดาวทดสอบ',
+    longitude: 0,
+    targetSign: 0,
+    direction: -1,
+    step: 6 * hour,
+    maxSpanMs: 18 * hour,
+    positionAt
+  });
+  assert.deepEqual(events.map(item => item.type), ['เข้า', 'ออก']);
+  assert.ok(events[0].stamp > events[1].stamp);
+});
