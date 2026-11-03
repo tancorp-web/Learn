@@ -117,6 +117,26 @@ function findMonth88StartForBeYear(beYear) {
 // Ketu's formula branch, because historical classifications can differ.
 const ketuMonth88StartCache = new Map();
 
+/**
+ * QA-only public seam: expose HORA's own month-8/8 date calculation so
+ * regression tests can compare it with the separate backup dataset.
+ * This delegates to the existing formula; it does not read backup data.
+ */
+export function calculateMonth88StartForRecheck(beYear) {
+  if (!Number.isInteger(beYear)) {
+    throw new TypeError('beYear must be an integer Buddhist Era year');
+  }
+  return findMonth88StartForBeYear(beYear)?.date ?? null;
+}
+
+/** QA-only diagnostic: expose the previous tithi-boundary candidate. */
+export function calculateLegacyMonth88StartForRecheck(beYear) {
+  if (!Number.isInteger(beYear)) {
+    throw new TypeError('beYear must be an integer Buddhist Era year');
+  }
+  return findMonth88StartByLegacyTithiFormula(beYear)?.date ?? null;
+}
+
 const SHADOW_TABLE = [0,244,427,488];
 const SUN_TABLE = [0,35,67,94,116,129,134];
 const MOON_TABLE = [0,77,148,209,256,286,296];
