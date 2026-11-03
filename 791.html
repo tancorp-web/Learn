@@ -1296,17 +1296,27 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   return ((lon%360)+360)%360;
  };
  const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
- // Twelve-hour samples are used for the one-month history and forecast.
- // The adaptive extremum search still refines every detected reversal to
- // one-minute precision, including short leave-and-return sign excursions.
- const stepFor=planet=>12*3600000;
-
- // Coarse six-hour sampling remains the fast path. Whenever sampled
- // longitude direction reverses, the helper refines that station neighborhood
- // to one-minute steps, catching short sign excursions hidden between samples.
+ // Search horizons and sampling intervals are planet-specific. The position
+ // formula remains the existing Suriyayatra engine; only the event-search
+ // coverage changes. Longer-period planets receive wider horizons and coarser
+ // samples, while the helper still refines each detected boundary to one minute.
+ const DAY_MS=86400000;
+ const searchConfig={
+  'อาทิตย์':{maxSpanMs:120*DAY_MS,step:DAY_MS},
+  'จันทร์':{maxSpanMs:45*DAY_MS,step:6*3600000},
+  'อังคาร':{maxSpanMs:3*366*DAY_MS,step:DAY_MS},
+  'พุธ':{maxSpanMs:2*366*DAY_MS,step:DAY_MS},
+  'พฤหัสบดี':{maxSpanMs:5*366*DAY_MS,step:2*DAY_MS},
+  'ศุกร์':{maxSpanMs:3*366*DAY_MS,step:DAY_MS},
+  'เสาร์':{maxSpanMs:10*366*DAY_MS,step:3*DAY_MS},
+  'ราหู':{maxSpanMs:4*366*DAY_MS,step:DAY_MS},
+  'เกตุ':{maxSpanMs:4*366*DAY_MS,step:DAY_MS},
+  'มฤตยู':{maxSpanMs:30*366*DAY_MS,step:7*DAY_MS}
+ };
+ const stepFor=planet=>searchConfig[planet]?.step||12*3600000;
  const findBoundaryEvents=options=>findSignBoundaryEvents({
   ...options,
-  maxSpanMs:31*86400000,
+  maxSpanMs:searchConfig[options.planet]?.maxSpanMs||5*366*DAY_MS,
   positionAt:planetLongitude,
   pause
  });
@@ -1408,12 +1418,9 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'-');
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
-  const eventText=items=>items.length?items.map(item=>(item.type==='เข้า'?'เข้า':'ออก')+' · '+localDateTime(item.stamp)).join(' | '):'ไม่พบเหตุการณ์ในช่วงค้นหา';
-  add('รายการเข้า–ออกย้อนหลัง 1 เดือน',eventText([...eventsBefore].reverse()));
-  add('รายการเข้า–ออกล่วงหน้า 1 เดือน',eventText(eventsAfter));
   panel.appendChild(grid);
   const note=document.createElement('div');note.className='pss-note';
-  note.textContent='คำนวณจาก Engine HORA ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · รายการเข้า–ออกตรวจย้อนหลังและล่วงหน้าอย่างละ 1 เดือน';
+  note.textContent='คำนวณจาก Engine HORA สุริยยาตร์ไทย ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · กรอบค้นหาแยกตามคาบการเคลื่อนที่ของดาว';
   panel.appendChild(note);
  };
  let requestId=0;
