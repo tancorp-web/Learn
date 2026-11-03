@@ -1083,7 +1083,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
 
 
 <script type="module">
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-ketu-horakhun-679-intraday-01';
 import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
@@ -1357,11 +1357,15 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const v=document.createElement('div');v.className='pss-date';v.textContent=value||'ไม่พบภายในช่วงค้นหา';
    card.append(l,v);grid.appendChild(card);
   };
-  const motionState=motionItem?.motionState;
-  const motionSupported=['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู'].includes(planet);
-  const motionSpeed=Number(motionItem?.speedArcminPerDay);
-  add('สถานะการเคลื่อนที่',motionSupported?(motionState||'-'):'-');
-  add('ความเร็วการเคลื่อนที่',motionSupported&&Number.isFinite(motionSpeed)?motionSpeed.toFixed(2)+' ลิปดา/วัน':'-');
+  // Ketu is permanently retrograde by its classical 679-day rule;
+  // do not display a variable-motion status or placeholder dash for it.
+  if (planet !== 'เกตุ') {
+    const motionState=motionItem?.motionState;
+    const motionSupported=['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู'].includes(planet);
+    const motionSpeed=Number(motionItem?.speedArcminPerDay);
+    add('สถานะการเคลื่อนที่',motionSupported?(motionState||'-'):'-');
+    add('ความเร็วการเคลื่อนที่',motionSupported&&Number.isFinite(motionSpeed)?motionSpeed.toFixed(2)+' ลิปดา/วัน':'-');
+  }
   add('วันและเวลาที่ใช้คำนวณ',calculationStamp?localDateTime(calculationStamp):'-');
   // อ่านทักษาเดิมและทักษาจรจากผังที่คำนวณไว้แล้ว ไม่คำนวณสูตรซ้ำในแผงรายละเอียด
   const readThaksaRole=(rootId,planetName)=>{
