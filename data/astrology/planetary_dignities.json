@@ -2066,102 +2066,6 @@
           "status": "source-workbook-regression"
         }
       ]
-    },
-    {
-      "rule_id": "DIGNITY-MAHA-UCH-KETU-GEMINI",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "มหาอุจจ์",
-      "planet": "ketu",
-      "sign": "gemini",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.1.0",
-      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
-      "conditions": {
-        "planet": "ketu",
-        "sign": "gemini"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ketu",
-            "sign": "gemini"
-          },
-          "expected_category": "มหาอุจจ์",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
-      "rule_id": "DIGNITY-MAHA-UCH-KETU-LEO",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "มหาอุจจ์",
-      "planet": "ketu",
-      "sign": "leo",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.1.0",
-      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
-      "conditions": {
-        "planet": "ketu",
-        "sign": "leo"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ketu",
-            "sign": "leo"
-          },
-          "expected_category": "มหาอุจจ์",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
-      "rule_id": "DIGNITY-MAHA-UCH-KETU-SAGITTARIUS",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "มหาอุจจ์",
-      "planet": "ketu",
-      "sign": "sagittarius",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.1.0",
-      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
-      "conditions": {
-        "planet": "ketu",
-        "sign": "sagittarius"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ketu",
-            "sign": "sagittarius"
-          },
-          "expected_category": "มหาอุจจ์",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
-      "rule_id": "DIGNITY-MAHA-UCH-KETU-AQUARIUS",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "มหาอุจจ์",
-      "planet": "ketu",
-      "sign": "aquarius",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.1.0",
-      "source_note": "ถอดจากไฟล์ต้นฉบับ 69.xlsx ชีต คำนวณนาที; เปิดใช้ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
-      "conditions": {
-        "planet": "ketu",
-        "sign": "aquarius"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ketu",
-            "sign": "aquarius"
-          },
-          "expected_category": "มหาอุจจ์",
-          "status": "source-workbook-regression"
-        }
-      ]
     }
   ],
   "cautions": [
@@ -2170,7 +2074,8 @@
     "No exact-degree boundaries are represented in this dataset.",
     "No Uranus mapping is included in this initial lookup table.",
     "Do not use this DISCOVERY dataset as the sole authority for production chart interpretation.",
-    "SOURCE_WORKBOOK records are active runtime rules transcribed from 69.xlsx / คำนวณนาที. They are distinct from later CONFIRMED_BY_USER overrides. Do not infer additional Rahu, Ketu, or Uranus rules."
+    "SOURCE_WORKBOOK records are active runtime rules transcribed from 69.xlsx / คำนวณนาที. They are distinct from later CONFIRMED_BY_USER overrides. Do not infer additional Rahu, Ketu, or Uranus rules.",
+    "The source sheet คำนวณนาที has no standards formula for Ketu or Uranus; keep both unassigned unless a separately approved source is supplied."
   ],
   "example": {
     "chart_fact": {
