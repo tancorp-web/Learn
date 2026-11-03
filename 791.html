@@ -1090,6 +1090,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
 (()=>{
+ const $=id=>document.getElementById(id);
  const wheel=document.getElementById('wheel');
  const C=360, RING=292;
  const COLORS={natal:'#dc2626',transit:'#07834b'};
