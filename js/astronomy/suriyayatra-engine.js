@@ -374,11 +374,36 @@ function parseInput(date, time) {
   return {year,month,day,hour,minute};
 }
 
-const MOTION_MEAN_SPEED_ARCMIN_PER_DAY = { 'อังคาร': 31.4, 'พุธ': 245.4, 'พฤหัสบดี': 4.9, 'ศุกร์': 70.9, 'เสาร์': 2.0, 'มฤตยู': 0.7 };
+const MOTION_MEAN_SPEED_ARCMIN_PER_DAY = { 'มฤตยู': 0.7 };
 const MOTION_STATES = { DIRECT: 'ปกติ', RETROGRADE: 'พักร์', SLOW: 'มณฑ์', FAST: 'เสริด' };
+const PLANET_MOTION_LIMITS_ARCMIN = {
+  'อังคาร': [25, 39],
+  'พุธ': [35, 97],
+  'พฤหัสบดี': [5, 8],
+  'ศุกร์': [25, 72],
+  'เสาร์': [2, 5]
+};
 
 function angularDeltaDegrees(a, b) {
   return ((a - b + 180) % 360 + 360) % 360 - 180;
+}
+
+export function calculateDailyLongitudeDeltaArcmin(currentLongitude, previousLongitude) {
+  if (!Number.isFinite(currentLongitude) || !Number.isFinite(previousLongitude)) {
+    throw new TypeError('DAILY_LONGITUDE_INVALID');
+  }
+  return angularDeltaDegrees(currentLongitude, previousLongitude) * 60;
+}
+
+export function classifyPlanetMotionStatus(planet, deltaArcmin) {
+  const limits = PLANET_MOTION_LIMITS_ARCMIN[planet];
+  if (!limits) throw new RangeError('PLANET_MOTION_UNSUPPORTED');
+  if (!Number.isFinite(deltaArcmin)) throw new TypeError('PLANET_MOTION_DELTA_INVALID');
+  const [manda, sarit] = limits;
+  if (deltaArcmin < 0) return MOTION_STATES.RETROGRADE;
+  if (deltaArcmin < manda) return MOTION_STATES.SLOW;
+  if (deltaArcmin <= sarit) return MOTION_STATES.DIRECT;
+  return MOTION_STATES.FAST;
 }
 
 function shiftCivilDate(date, days) {
@@ -504,10 +529,21 @@ function motionFor(name, date, time, longitude) {
   if (name === 'ราหู' || name === 'เกตุ') return { state: MOTION_STATES.RETROGRADE, retrograde: true, speedArcminPerDay: null, meanSpeedArcminPerDay: null };
   if (name === 'อาทิตย์' || name === 'จันทร์') return { state: MOTION_STATES.DIRECT, retrograde: false, speedArcminPerDay: null, meanSpeedArcminPerDay: null };
   const prev = calculateSuriyayatra({date: shiftCivilDate(date, -1), time, longitude, includeMotion:false});
-  const next = calculateSuriyayatra({date: shiftCivilDate(date, 1), time, longitude, includeMotion:false});
   const p = prev.planets.find(x => x.name === name);
+  if (!p) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };
+
+  // For planets 3–7, use today's Mahasumphus minus yesterday's Mahasumphus.
+  // The daily delta is wrapped at 360° before applying the proven planet-specific limits.
+  if (Object.prototype.hasOwnProperty.call(PLANET_MOTION_LIMITS_ARCMIN, name)) {
+    const delta = calculateDailyLongitudeDeltaArcmin(longitude, p.longitude);
+    const state = classifyPlanetMotionStatus(name, delta);
+    return { state, retrograde: state === MOTION_STATES.RETROGRADE, speedArcminPerDay: delta, meanSpeedArcminPerDay: null };
+  }
+
+  // Other bodies retain their existing centered-difference / mean-speed behavior.
+  const next = calculateSuriyayatra({date: shiftCivilDate(date, 1), time, longitude, includeMotion:false});
   const n = next.planets.find(x => x.name === name);
-  if (!p || !n) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };
+  if (!n) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };
   const speed = angularDeltaDegrees(n.longitude, p.longitude) * 60 / 2;
   const meanSpeed = MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? 0;
   const epsilon = 0.02;
@@ -812,7 +848,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
       planetaryPowerArcMinutes,
       planetaryEpochArcMinutes: epoch,
       calendar,
-      motionModel: 'centered 1-day angular speed; retrograde if negative; mand slower than mean daily speed; serit faster than mean daily speed'
+      motionModel: 'planets 3–7 use wrapped today-minus-yesterday Mahasumphus delta and planet-specific arcminute thresholds; other bodies retain centered 1-day angular speed and mean-speed comparison'
     }
   };
 }
