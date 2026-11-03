@@ -16,11 +16,7 @@ function correctedSuratin(suratin, weekdayRemainder, tithi) {
   return weekdayRemainder !== tithi ? suratin - 1 : suratin;
 }
 
-test('source example 22 May 2557: calculate tithi from the stated atta inputs and retreat on mismatch', () => {
-  // Source values: Suratin=36, Horakhun birth=502633, weekday remainder=5,
-  // Avaman atta=137 and tithi atta=17. The printed final tithi is 13, but
-  // the displayed intermediate arithmetic appears to yield 23 (36+17=53,
-  // remainder 23); preserve this discrepancy rather than silently choosing.
+test('22 May 2557: weekday remainder and tithi differ, so Suratin retreats one day', () => {
   const source = {
     suratin: 36,
     horakhunBirth: 502633,
@@ -33,11 +29,24 @@ test('source example 22 May 2557: calculate tithi from the stated atta inputs an
   assert.equal(source.horakhunBirth % 7, source.weekdayRemainder);
   assert.equal(derived.avamanBirth, 533);
   assert.equal(derived.tithiBirth, 23);
-  assert.notEqual(source.weekdayRemainder, derived.tithiBirth);
+  // The source's printed final tithi=13 conflicts with its intermediate
+  // arithmetic, but both values differ from weekday remainder 5.
   assert.notEqual(source.weekdayRemainder, source.printedTithi);
+  assert.notEqual(source.weekdayRemainder, derived.tithiBirth);
   assert.equal(correctedSuratin(source.suratin, source.weekdayRemainder, derived.tithiBirth), 35);
 });
 
-test('matching weekday remainder and tithi does not retreat Suratin', () => {
-  assert.equal(correctedSuratin(36, 13, 13), 36);
+test('2 March 2557: matching weekday remainder and tithi leaves Suratin unchanged', () => {
+  const source = {
+    suratin: 320,
+    horakhunBirth: 502552,
+    weekdayRemainder: 1,
+    avamanAtta: 274,
+    tithiAtta: 6
+  };
+  const derived = birthTithi(source.suratin, source.avamanAtta, source.tithiAtta);
+  assert.equal(source.horakhunBirth % 7, source.weekdayRemainder);
+  assert.equal(derived.avamanBirth, 334);
+  assert.equal(derived.tithiBirth, 1);
+  assert.equal(correctedSuratin(source.suratin, source.weekdayRemainder, derived.tithiBirth), 320);
 });
