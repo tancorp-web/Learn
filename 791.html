@@ -1416,7 +1416,8 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    add('ตรียางค์','ตรียางค์ที่ '+(triPart+1)+' · ราศี'+triSign);
    // คำนวณรายการมาตรฐานจากแหล่งข้อมูลกลางโดยตรง ไม่ผูกกับการวาด/ค้นหา SVG marker
    const confirmed=getPlanetaryDignities(planet,signs[signIndex],degree,minute,second);
-   add('มาตรฐานดาว',confirmed.length?confirmed.join(' · '):'-');
+   const confirmedLabels=confirmed.map(category=>category==='อุจจาวิลาส'?'อุจจาวิลาศ':category);
+   add('มาตรฐานดาว',confirmedLabels.length?confirmedLabels.join(' · '):'-');
 
   }
   if(kind!=='natal'){
@@ -1426,7 +1427,8 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const second=Math.floor((((within-degree)*60)-minute)*60);
    // ใช้ข้อมูลมาตรฐานกลางชุดเดียวกับวงกลม ไม่ขึ้นกับ SVG marker หรือสถานะการวาด
    const confirmed=getPlanetaryDignities(planet,signs[signIndex],degree,minute,second);
-   add('มาตรฐานดาว',confirmed.join(' · ')||'-');
+   const confirmedLabels=confirmed.map(category=>category==='อุจจาวิลาส'?'อุจจาวิลาศ':category);
+   add('มาตรฐานดาว',confirmedLabels.join(' · ')||'-');
 
   }
   add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'-');
