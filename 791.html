@@ -1084,6 +1084,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
 
 <script type="module">
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
+import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-adaptive-station-scan-01';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
@@ -1290,41 +1291,15 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    planet==='จันทร์'?3600000:
    planet==='อาทิตย์'?6*3600000:12*3600000;
 
- // Enumerate detected crossings into/out of the selected sign over the full
- // five-year search window. Six-hour sampling bounds search cost and is much
- // finer than a sign-wide transit for these planets. It is not a formal
- // guarantee against an extremely brief leave-and-return around an exact station.
- const findBoundaryEvents=async({start,planet,longitude,targetSign,direction,step})=>{
-  const maxSpan=5*366*86400000;
-  const events=[];
-  let inside=start;
-  let insideIndex=targetSign;
-  for(let elapsed=step,tries=0;elapsed<=maxSpan;elapsed+=step,tries++){
-   const probe=start+direction*elapsed;
-   const idx=signIndex(probe,planet,longitude);
-   const low=direction<0?probe:inside;
-   const high=direction<0?inside:probe;
-   const lowIndex=direction<0?idx:insideIndex;
-   const highIndex=direction<0?insideIndex:idx;
-   const lowIsTarget=lowIndex===targetSign;
-   const highIsTarget=highIndex===targetSign;
-   if(lowIsTarget!==highIsTarget){
-    let lo=low,hi=high;
-    while(hi-lo>60000){
-     const mid=lo+Math.floor((hi-lo)/120000)*60000;
-     if(mid<=lo){hi=lo+60000;break;}
-     const midIsTarget=signIndex(mid,planet,longitude)===targetSign;
-     if(midIsTarget===lowIsTarget)lo=mid;else hi=mid;
-     if(hi-lo>60000)await pause();
-    }
-    events.push({stamp:hi,type:lowIsTarget?'ออก':'เข้า'});
-   }
-   inside=probe;
-   insideIndex=idx;
-   if(tries%12===0)await pause();
-  }
-  return events;
- };
+ // Coarse six-hour sampling remains the fast path. Whenever sampled
+ // longitude direction reverses, the helper refines that station neighborhood
+ // to one-minute steps, catching short sign excursions hidden between samples.
+ const findBoundaryEvents=options=>findSignBoundaryEvents({
+  ...options,
+  maxSpanMs:5*366*86400000,
+  positionAt:planetLongitude,
+  pause
+ });
  let panel=$('planetSignStayPanel8');
  if(!panel){
   panel=document.createElement('section');
