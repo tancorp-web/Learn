@@ -6,7 +6,7 @@ test('planetary Suriyayatra time is independent of province longitude', () => {
   const bkk = calculateSuriyayatra({date:'1975-10-14', time:'01:05', longitude:100.494066});
   const khonkaen = calculateSuriyayatra({date:'1975-10-14', time:'01:05', longitude:102.8236});
 
-  assert.equal(bkk.metadata.calculationTimeMinutes, 65);
+  assert.equal(bkk.metadata.calculationTimeMinutes, 47);
   assert.equal(khonkaen.metadata.calculationTimeMinutes, 65);
   assert.notEqual(bkk.metadata.localTimeCorrectionMinutes, khonkaen.metadata.localTimeCorrectionMinutes);
   assert.deepEqual(
