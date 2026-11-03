@@ -396,9 +396,17 @@ export function calculateDailyLongitudeDeltaArcmin(currentLongitude, previousLon
 }
 
 export function classifyPlanetMotionStatus(planet, deltaArcmin) {
+  if (!Number.isFinite(deltaArcmin)) throw new TypeError('PLANET_MOTION_DELTA_INVALID');
+  if (planet === 'มฤตยู') {
+    const meanSpeed = MOTION_MEAN_SPEED_ARCMIN_PER_DAY[planet];
+    const epsilon = 0.02;
+    if (deltaArcmin < -epsilon) return MOTION_STATES.RETROGRADE;
+    if (deltaArcmin < meanSpeed - epsilon) return MOTION_STATES.SLOW;
+    if (deltaArcmin <= meanSpeed + epsilon) return MOTION_STATES.DIRECT;
+    return MOTION_STATES.FAST;
+  }
   const limits = PLANET_MOTION_LIMITS_ARCMIN[planet];
   if (!limits) throw new RangeError('PLANET_MOTION_UNSUPPORTED');
-  if (!Number.isFinite(deltaArcmin)) throw new TypeError('PLANET_MOTION_DELTA_INVALID');
   const [manda, sarit] = limits;
   if (deltaArcmin < 0) return MOTION_STATES.RETROGRADE;
   if (deltaArcmin < manda) return MOTION_STATES.SLOW;
@@ -532,60 +540,77 @@ function motionFor(name, date, time, locationLongitude, currentPlanetLongitude) 
   const p = prev.planets.find(x => x.name === name);
   if (!p) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };
 
-  // For planets 3–7, use today's Mahasumphus minus yesterday's Mahasumphus.
-  // The daily delta is wrapped at 360° before applying the proven planet-specific limits.
-  if (Object.prototype.hasOwnProperty.call(PLANET_MOTION_LIMITS_ARCMIN, name)) {
+  // All six selected planets use the same wrapped today-minus-yesterday delta.
+  // Mars–Saturn retain their established limits; Uranus uses its existing mean
+  // speed (0.7′/day) with the same 0.02′/day tolerance used by the old model.
+  if (Object.prototype.hasOwnProperty.call(PLANET_MOTION_LIMITS_ARCMIN, name) || name === 'มฤตยู') {
     const delta = calculateDailyLongitudeDeltaArcmin(currentPlanetLongitude, p.longitude);
     const state = classifyPlanetMotionStatus(name, delta);
-    return { state, retrograde: state === MOTION_STATES.RETROGRADE, speedArcminPerDay: delta, meanSpeedArcminPerDay: null };
+    return {
+      state,
+      retrograde: state === MOTION_STATES.RETROGRADE,
+      speedArcminPerDay: delta,
+      meanSpeedArcminPerDay: MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null
+    };
   }
 
-  // Other bodies retain their existing centered-difference / mean-speed behavior.
   const next = calculateSuriyayatra({date: shiftCivilDate(date, 1), time, longitude: locationLongitude, includeMotion:false});
   const n = next.planets.find(x => x.name === name);
-  if (!n) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? null };
+  if (!n) return { state: MOTION_STATES.DIRECT, retrograde:false, speedArcminPerDay:null, meanSpeedArcminPerDay:null };
   const speed = angularDeltaDegrees(n.longitude, p.longitude) * 60 / 2;
-  const meanSpeed = MOTION_MEAN_SPEED_ARCMIN_PER_DAY[name] ?? 0;
   const epsilon = 0.02;
-  const state = speed < -epsilon ? MOTION_STATES.RETROGRADE : speed < meanSpeed ? MOTION_STATES.SLOW : MOTION_STATES.FAST;
-  return { state, retrograde: state === MOTION_STATES.RETROGRADE, speedArcminPerDay: speed, meanSpeedArcminPerDay: meanSpeed };
+  const state = speed < -epsilon ? MOTION_STATES.RETROGRADE : speed < epsilon ? MOTION_STATES.SLOW : MOTION_STATES.FAST;
+  return { state, retrograde: state === MOTION_STATES.RETROGRADE, speedArcminPerDay: speed, meanSpeedArcminPerDay:null };
 }
 
 export function calculateSuriyayatra({ date, time, longitude, includeMotion = true }) {
   const input = parseInput(date, time);
   const {year,month,day,hour,minute} = input;
   const timeMinutes = hour * 60 + minute;
-  // Horakhun / civil-day selection remains tied to the recorded civil date/time.
-  // Apply the province local-mean-time correction to the intraday Sun arithmetic.
-  // The Moon keeps its own independently corrected time path below; ascendant
-  // geometry remains in ascendant-geometry.js and consumes the resulting Sun.
-  // Golden values are QA references only and are never used as calculation inputs.
+  // Planetary positions use one fixed reference clock for every province:
+  // Thai civil UTC+07 input -> Bangkok local mean time UTC+06:42.
+  // Province longitude correction remains separate and is consumed only by
+  // ascendant geometry through metadata.localTimeCorrectionMinutes.
+  // Golden values are QA references only and are never calculation inputs.
   const correction = longitude === undefined ? 0 : localTimeCorrectionMinutes(longitude);
-  const calculationTimeMinutes = timeMinutes - correction;
-  const moonCalculationTimeMinutes = timeMinutes - correction;
+  const planetaryTimeOffsetMinutes = -18;
+  const rawPlanetaryTimeMinutes = timeMinutes + planetaryTimeOffsetMinutes;
+  const planetaryDayOffset = Math.floor(rawPlanetaryTimeMinutes / 1440);
+  const calculationTimeMinutes = MOD(rawPlanetaryTimeMinutes, 1440);
+  const moonCalculationTimeMinutes = calculationTimeMinutes;
 
-  // Horakhun is tied to the civil Gregorian date, not the browser timezone.
+  // Keep the civil-date values for the date-anchored Ketu/calendar path.
   const julianDayNumber = civilJulianDay(year, month, day);
   const horakhun = julianDayNumber - 1954167;
   const yearBe = year + 543;
-  const cs = yearBe - 1181;
-
-  const thaloeng = thaloengSokReference(cs);
+  const candidateCs = yearBe - 1181;
+  const candidateThaloeng = thaloengSokReference(candidateCs);
   const civilSeconds = timeMinutes * 60;
   const chulaSakarat =
-    horakhun < thaloeng.horakhun ||
-    (horakhun === thaloeng.horakhun && civilSeconds <= thaloeng.fractionalDaySeconds)
-      ? cs - 1 : cs;
+    horakhun < candidateThaloeng.horakhun ||
+    (horakhun === candidateThaloeng.horakhun && civilSeconds <= candidateThaloeng.fractionalDaySeconds)
+      ? candidateCs - 1 : candidateCs;
+
+  // Re-evaluate the active Chula Sakarat and Thaloeng Sok on the normalized
+  // UTC+06:42 planetary clock. This prevents mixing the previous CS with the
+  // next CS's Thaloeng Sok around the year boundary.
+  const planetaryHorakhun = horakhun + planetaryDayOffset;
+  const planetaryCivilSeconds = calculationTimeMinutes * 60;
+  const planetaryChulaSakarat =
+    planetaryHorakhun < candidateThaloeng.horakhun ||
+    (planetaryHorakhun === candidateThaloeng.horakhun && planetaryCivilSeconds <= candidateThaloeng.fractionalDaySeconds)
+      ? candidateCs - 1 : candidateCs;
+  const thaloeng = thaloengSokReference(planetaryChulaSakarat);
 
   const solarUnits = solarIntradayUnits(calculationTimeMinutes);
-  const solarCycleUnits = MOD((horakhun - 1) * 800 + solarUnits - 373, 292207);
+  const solarCycleUnits = MOD((planetaryHorakhun - 1) * 800 + solarUnits - 373, 292207);
 
   // Classical birth-day arithmetic:
   // Suratin birth = number of civil days counted after the Atta Thaloeng Sok day.
   // Kammachaphon birth = Suratin birth × 800 + Kammachaphon Atta + intraday units.
   // This is the quantity that is divided by 24350 for Madhyam Sun.
-  const attaKammachaphon = MOD(800 - MOD(cs * 292207 + 373, 800), 800);
-  const suratinBirth = horakhun - thaloeng.horakhun - 1;
+  const attaKammachaphon = MOD(800 - MOD(planetaryChulaSakarat * 292207 + 373, 800), 800);
+  const suratinBirth = planetaryHorakhun - thaloeng.horakhun - 1;
   const kammachaphonBirth = suratinBirth * 800 + attaKammachaphon + solarUnits;
   const remainder = MOD(kammachaphonBirth, 24350);
 
@@ -601,7 +626,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // (จ.ศ. - 610) × 12 ราศี + ราศี/องศา/ลิปดาของมัธยมรวิ.
   // When represented in arcminutes, one full zodiac = 12 × 30 × 60 = 21600.
   const planetaryPowerArcMinutes =
-    (chulaSakarat - 610) * 21600 + meanRavi;
+    (planetaryChulaSakarat - 610) * 21600 + meanRavi;
   const epoch = planetaryPowerArcMinutes;
 
   const sun = luminary(meanSun, meanSun - 4800, SUN_TABLE);
@@ -673,7 +698,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     thaloeng.horakhun - 621,
     3232
   );
-  const kammachRemainder = MOD(cs * 292207 + 373, 800);
+  const kammachRemainder = MOD(planetaryChulaSakarat * 292207 + 373, 800);
   // The classical birth-Uccabala step uses the complementary Kammach remainder
   // (the same 800-complement used by Kammachaphon), not the raw year remainder.
   const kammachFraction = attaKammachaphon / 800;
@@ -832,11 +857,14 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
     harakun: horakhun,
     planets,
     metadata: {
-      engineVersion: 'v8.9.3-IDNUMBER-FIX',
+      engineVersion: 'v8.9.4-UTC0642-MOTION6',
       calculation: 'Horakhun -> classical mean Sun/Moon -> day-count Madhyam Ucc -> Uccavises -> Plaken/Khan/Bhuj -> Chandra shadow -> named planet-specific Manat corrections -> Thai Suriyayatra sidereal positions',
       ayanamsa: null,
       source: 'Classical Suriyayatra integer arithmetic / interpolation model',
       localTimeCorrectionMinutes: correction,
+      planetaryTimeOffsetMinutes,
+      planetaryHorakhun,
+      planetaryChulaSakarat,
       moonDebug: { moonCalculationTimeMinutes, moonMeanSunArcMinutes: moonMeanSun, meanMoonArcMinutes: meanMoon, uccabalaThaloeng, uccabalaFromThaloeng, uccabalaBirth, meanUccabalaArcMinutes: meanUccabala, uccavisesArcMinutes: uccavises, uccavisesSign: uccavisesRasi, uccavisesDegree: uccavisesDegree, uccavisesMinute: uccavisesMinute, plakenArcMinutes: plaken, plakenRasi, plakenDegree, khan, bhujLipda, moonCorrectionMagnitude, moonCorrection, trueMoonArcMinutes: moon },
       ketuDebug,
       calculationTimeMinutes,
@@ -848,7 +876,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
       planetaryPowerArcMinutes,
       planetaryEpochArcMinutes: epoch,
       calendar,
-      motionModel: 'planets 3–7 use wrapped today-minus-yesterday Mahasumphus delta and planet-specific arcminute thresholds; other bodies retain centered 1-day angular speed and mean-speed comparison'
+      motionModel: 'Mars-Saturn and Uranus use wrapped daily longitude deltas; Mars-Saturn retain their established thresholds and Uranus uses its 0.7 arcminute/day mean-speed threshold; Sun/Moon are direct and Rahu/Ketu are retrograde'
     }
   };
 }

@@ -33,7 +33,14 @@ test('daily longitude delta wraps correctly across 360 degrees', () => {
 test('daily delta and classifier reject invalid input', () => {
   assert.throws(() => calculateDailyLongitudeDeltaArcmin(Number.NaN, 1), /DAILY_LONGITUDE_INVALID/);
   assert.throws(() => classifyPlanetMotionStatus('อังคาร', Number.NaN), /PLANET_MOTION_DELTA_INVALID/);
-  assert.throws(() => classifyPlanetMotionStatus('มฤตยู', 0.5), /PLANET_MOTION_UNSUPPORTED/);
+  assert.equal(classifyPlanetMotionStatus('มฤตยู', -0.021), 'พักร์');
+  assert.equal(classifyPlanetMotionStatus('มฤตยู', -0.02), 'มณฑ์');
+  assert.equal(classifyPlanetMotionStatus('มฤตยู', 0), 'มณฑ์');
+  assert.equal(classifyPlanetMotionStatus('มฤตยู', 0.679), 'มณฑ์');
+  assert.equal(classifyPlanetMotionStatus('มฤตยู', 0.68), 'ปกติ');
+  assert.equal(classifyPlanetMotionStatus('มฤตยู', 0.72), 'ปกติ');
+  assert.equal(classifyPlanetMotionStatus('มฤตยู', 0.721), 'เสริด');
+  assert.throws(() => classifyPlanetMotionStatus('เนปจูน', 0.5), /PLANET_MOTION_UNSUPPORTED/);
 });
 
 test('engine exposes the same today-minus-yesterday delta and status for planets 3–7', () => {
@@ -49,4 +56,20 @@ test('engine exposes the same today-minus-yesterday delta and status for planets
     assert.ok(Math.abs(now.speedArcminPerDay - expectedDelta) < 1e-9, planet + ' daily delta');
     assert.equal(now.motionState, classifyPlanetMotionStatus(planet, expectedDelta), planet + ' status');
   }
+});
+
+
+test('Uranus exposes its wrapped today-minus-yesterday delta and six-planet model metadata', () => {
+  const date = '2026-11-03';
+  const time = '12:00';
+  const longitude = 105;
+  const current = calculateSuriyayatra({ date, time, longitude });
+  const previous = calculateSuriyayatra({ date: '2026-11-02', time, longitude, includeMotion:false });
+  const now = current.planets.find(item => item.name === 'มฤตยู');
+  const yesterday = previous.planets.find(item => item.name === 'มฤตยู');
+  const expectedDelta = calculateDailyLongitudeDeltaArcmin(now.longitude, yesterday.longitude);
+  assert.ok(Math.abs(now.speedArcminPerDay - expectedDelta) < 1e-9);
+  assert.equal(now.motionState, classifyPlanetMotionStatus('มฤตยู', expectedDelta));
+  assert.equal(now.meanSpeedArcminPerDay, 0.7);
+  assert.match(current.metadata.motionModel, /Uranus/);
 });

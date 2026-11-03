@@ -507,7 +507,7 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
 </style>
 
 </head><body>
-<header class="hero"><div class="container"><h1>HORA Astrology</h1><p>ระบบโหราศาสตร์ไทยสุริยยาตร์ · วิเคราะห์ดวงกำเนิด ดาวจร ทักษา และตรียางค์</p><span class="badge">PREMIUM EDITION · ENGINE v8.9.3</span><div style="margin-top:14px"><a href="#selectedSignAnalysis999" style="display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:10px;background:#fff;color:#172b4d;text-decoration:none;font-weight:800;box-shadow:0 2px 8px #0002">↓ เปิดเครื่องมือวิเคราะห์เลขซ้ำตามลัคนาจร</a></div></div></header>
+<header class="hero"><div class="container"><h1>HORA Astrology</h1><p>ระบบโหราศาสตร์ไทยสุริยยาตร์ · วิเคราะห์ดวงกำเนิด ดาวจร ทักษา และตรียางค์</p><span class="badge">PREMIUM EDITION · ENGINE v8.9.4</span><div style="margin-top:14px"><a href="#selectedSignAnalysis999" style="display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:10px;background:#fff;color:#172b4d;text-decoration:none;font-weight:800;box-shadow:0 2px 8px #0002">↓ เปิดเครื่องมือวิเคราะห์เลขซ้ำตามลัคนาจร</a></div></div></header>
 
 
 
@@ -777,7 +777,7 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261013-tanu-sesha-domicile-exception"></script>
+<script type="module" src="./main51.js?v=20261103-utc0642-main51-01"></script>
 <script type="module">
 /* INDEX101: color-coded 12-sign planetary-standard ring. Every zodiac sign gets a circle,
    while matching natal/transit planet numbers are placed inside their sign's circle. */
@@ -1083,13 +1083,15 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
 
 
 <script type="module">
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
+import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-adaptive-station-scan-01';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
 (()=>{
+ const $=id=>document.getElementById(id);
  const wheel=document.getElementById('wheel');
  const C=360, RING=292;
  const COLORS={natal:'#dc2626',transit:'#07834b'};
@@ -1242,7 +1244,7 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 </style>
 <script type="module">
 /* index8 only: show the sign-ingress and sign-egress times for the clicked natal/transit planet. */
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 (()=>{
  const $=id=>document.getElementById(id);
@@ -1284,34 +1286,20 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
  const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
  // ใช้เครื่องคำนวณตำแหน่งเดียวกับ index51; ลดช่วงสุ่มตรวจเพื่อไม่ให้พลาดจุดเปลี่ยน
  // โดยเฉพาะดาวพักร์ที่อาจกลับข้ามขอบราศีระหว่างช่วงตรวจที่ห่างเกินไป
- const stepFor=planet=>planet==='จันทร์'?3600000:
-   planet==='อาทิตย์'?6*3600000:
-   ['พุธ','ศุกร์','อังคาร'].includes(planet)?6*3600000:
-   ['พฤหัสบดี','เสาร์','ราหู','เกตุ'].includes(planet)?12*3600000:24*3600000;
- const findBoundary=async({start,planet,longitude,targetSign,direction,step})=>{
-  const maxSpan=5*366*86400000;
-  let inside=start;
-  for(let elapsed=step,tries=0;elapsed<=maxSpan;elapsed+=step,tries++){
-   const probe=start+direction*elapsed;
-   const idx=signIndex(probe,planet,longitude);
-   if(idx!==targetSign){
-    let low=Math.min(probe,inside),high=Math.max(probe,inside);
-    // Refine the crossing to one-minute resolution. The output is local Thai wall-clock time.
-    while(high-low>60000){
-     const mid=low+Math.floor((high-low)/120000)*60000;
-     if(mid<=low){high=low+60000;break;}
-     const isTarget=signIndex(mid,planet,longitude)===targetSign;
-     if(direction<0){if(isTarget)high=mid;else low=mid;}
-     else{if(isTarget)low=mid;else high=mid;}
-     if((high-low)>60000)await pause();
-    }
-    return high;
-   }
-   inside=probe;
-   if(tries%12===0)await pause();
-  }
-  return null;
- };
+ const stepFor=planet=>
+   ['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู'].includes(planet)?6*3600000:
+   planet==='จันทร์'?3600000:
+   planet==='อาทิตย์'?6*3600000:12*3600000;
+
+ // Coarse six-hour sampling remains the fast path. Whenever sampled
+ // longitude direction reverses, the helper refines that station neighborhood
+ // to one-minute steps, catching short sign excursions hidden between samples.
+ const findBoundaryEvents=options=>findSignBoundaryEvents({
+  ...options,
+  maxSpanMs:5*366*86400000,
+  positionAt:planetLongitude,
+  pause
+ });
  let panel=$('planetSignStayPanel8');
  if(!panel){
   panel=document.createElement('section');
@@ -1335,7 +1323,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
  const locationText=prefix=>{const province=$(prefix+'Province')?.selectedOptions?.[0]?.textContent?.trim()||'',district=$(prefix+'District')?.selectedOptions?.[0]?.textContent?.trim()||'',lat=Number($(prefix+'Lat')?.value),lon=Number($(prefix+'Lon')?.value);return(district?district+' ':'')+'จ.'+province+' (UTC+07:00) ละติจูด '+lat.toFixed(6)+'° ('+dms(lat,true)+') ลองจิจูด '+lon.toFixed(6)+'° ('+dms(lon,false)+')';};
  const elapsedAge=(birth,at)=>{let years=at.year-birth.year,months=at.month-birth.month,days=at.day-birth.day;if(days<0){months--;days+=new Date(Date.UTC(at.year,at.month-1,0)).getUTCDate();}if(months<0){years--;months+=12;}return{years,months,days};};
  const appendDateBlock=(parent,heading,info,prefix,age)=>{const block=document.createElement('section');block.className='pss-date-block';const h=document.createElement('div');h.className='pss-date-heading';h.textContent=heading;block.appendChild(h);const lines=[civilDateText(info),'จันทรคติ '+lunarDateText(info),locationText(prefix)];if(age)lines.push('อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(info.year+544)+')');lines.forEach(value=>{const line=document.createElement('div');line.className='pss-date-line';line.textContent=value;block.appendChild(line);});parent.appendChild(block);};
- const showResults=({planet,kind,sign,entry,exit,longitude,currentLon,motionItem,calculationStamp})=>{
+ const showResults=({planet,kind,sign,entry,exit,eventsBefore=[],eventsAfter=[],longitude,currentLon,motionItem,calculationStamp})=>{
   panel.hidden=false;
   panel.innerHTML='';
   const title=document.createElement('div');title.className='pss-title';
@@ -1410,9 +1398,12 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   add('ทักษาเดิม/จร',hasThaksa?(oldRole&&transitRole?thaksaValue:oldRole||transitRole?thaksaValue:'กรุณากดคำนวณทุกอย่างก่อน เพื่อโหลดผังทักษาเดิม/จร'):'-');
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
+  const eventText=items=>items.length?items.map(item=>(item.type==='เข้า'?'เข้า':'ออก')+' · '+localDateTime(item.stamp)).join(' | '):'ไม่พบเหตุการณ์ในช่วงค้นหา';
+  add('รายการเข้า–ออกย้อนหลัง 5 ปี',eventText([...eventsBefore].reverse()));
+  add('รายการเข้า–ออกล่วงหน้า 5 ปี',eventText(eventsAfter));
   panel.appendChild(grid);
   const note=document.createElement('div');note.className='pss-note';
-  note.textContent='คำนวณจากสูตรตำแหน่งดาว HORA และลองจิจูดของสถานที่ที่เลือก · เวลาไทย · ค่าที่แสดงเป็น พ.ศ. · หากดาวพักร์ อาจมีการกลับเข้าราศีเดิมอีกครั้งในภายหลัง';
+  note.textContent='คำนวณจาก Engine HORA ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · รายการเข้า–ออกตรวจย้อนหลังและล่วงหน้าอย่างละ 5 ปี';
   panel.appendChild(note);
  };
  let requestId=0;
@@ -1439,12 +1430,14 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const sign=signs[targetSign];
    showMessage('กำลังค้นหาวันและเวลาที่ดาว'+planet+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
    const step=stepFor(planet);
-   const [entry,exit]=await Promise.all([
-    findBoundary({start,planet,longitude,targetSign,direction:-1,step}),
-    findBoundary({start,planet,longitude,targetSign,direction:1,step})
+   const [eventsBefore,eventsAfter]=await Promise.all([
+    findBoundaryEvents({start,planet,longitude,targetSign,direction:-1,step}),
+    findBoundaryEvents({start,planet,longitude,targetSign,direction:1,step})
    ]);
    if(id!==requestId)return;
-   showResults({planet,kind,sign,entry,exit,longitude,currentLon,motionItem:currentItem,calculationStamp:start});
+   const entry=eventsBefore.find(item=>item.type==='เข้า')?.stamp??null;
+   const exit=eventsAfter.find(item=>item.type==='ออก')?.stamp??null;
+   showResults({planet,kind,sign,entry,exit,eventsBefore,eventsAfter,longitude,currentLon,motionItem:currentItem,calculationStamp:start});
   }catch(error){
    if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
    console.error('[HORA][SIGN STAY][index9]',error);
@@ -2082,7 +2075,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202610
 <script type="module" id="selectedSignAnalysisLogic999">
 /* 999.html only. Uses the existing Suriyayatra engine, existing ascendant-boundary helper,
    and read-only main51 analyzer. It does not change any planetary formula. */
-import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261009-v8.9.3-build-20261009-03';
+import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-tanu-lord-isolated';
 (()=>{
