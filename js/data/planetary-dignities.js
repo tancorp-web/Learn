@@ -120,13 +120,13 @@ export const PLANETARY_DIGNITY_DATA = Object.freeze({
     planet: 'ราหู',
     planetNumber: '๘',
     system: 'tradition-dependent',
-    /* เจ้าเรือนกุมภ์สำหรับตรรกะตนุลัคนาจรแยกจากมาตรฐานเกษตรที่แสดงในตารางดาว */
-    domicileSigns: [],
+    /* เกษตรกุมภ์เป็นมาตรฐานที่ผู้ใช้ยืนยัน; เจ้าเรือนตนุลัคนาจรแยกอยู่ใน RASHI_LORDS_FOR_TANU */
+    domicileSigns: ['กุมภ์'],
     exaltation: null,
     debilitation: { sign: 'พฤษภ', signIndex: 1, degreeInSign: null },
     moolatrikona: null,
     dignityPolicy: 'user-confirmed-tradition-dependent',
-    notes: 'ผู้ใช้ยืนยันราหูนิจราศีพฤษภ; เกษตรราศีกุมภ์แยกจากกฎเจ้าเรือนกุมภ์ของตนุลัคนาจร'
+    notes: 'ผู้ใช้ยืนยันราหูเกษตรกุมภ์และนิจพฤษภ; กฎเจ้าเรือนตนุลัคนาจรแยกอยู่ใน RASHI_LORDS_FOR_TANU'
   },
   เกตุ: {
     planet: 'เกตุ',
@@ -1334,7 +1334,7 @@ export function getConfirmedPlanetaryStandards(planetName, signName, degreeInSig
 export function getPlanetaryDignities(planetName, signName, degreeInSign = null, minuteInSign = 0, secondInSign = 0) {
   const data = PLANETARY_DIGNITY_DATA[planetName];
   const result = getConfirmedPlanetaryStandards(planetName, signName, degreeInSign, minuteInSign, secondInSign);
-  // เกณฑ์ที่ผู้ใช้ยืนยัน: เกษตรและอุจจ์ตรวจจากราศี; ไม่อนุมานให้ราหู/เกตุ/มฤตยู
+  // เกษตรและอุจจ์ตรวจจากข้อมูลดาว; ราหูเกษตรกุมภ์มาจากข้อมูลที่ผู้ใช้ยืนยัน ไม่อนุมานเกณฑ์ให้เกตุ/มฤตยู
   if (data && data.domicileSigns.includes(signName)) result.push('เกษตร');
   if (data && data.exaltation && data.exaltation.sign === signName) result.push('อุจจ์');
   return [...new Set(result)];
