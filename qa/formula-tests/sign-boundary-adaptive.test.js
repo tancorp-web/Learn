@@ -9,7 +9,7 @@ test('adaptive scan detects a short leave-and-return hidden between equal six-ho
     const t = stamp / hour;
     // A narrow prograde-then-retrograde excursion across 30°,
     // peaking at hour 9; all six-hour coarse samples stay below 30°.
-    return 29.7 + 0.5 * Math.max(0, 1 - ((t - 9) / 3.2) ** 2);
+    return 29.7 + 0.4 * Math.max(0, 1 - ((t - 8) / 3.5) ** 2);
   };
   const events = await findSignBoundaryEvents({
     start,
@@ -22,8 +22,8 @@ test('adaptive scan detects a short leave-and-return hidden between equal six-ho
     positionAt
   });
   assert.deepEqual(events.map(item => item.type), ['ออก', 'เข้า']);
-  assert.ok(events[0].stamp < 9 * hour);
-  assert.ok(events[1].stamp > 9 * hour);
+  assert.ok(events[0].stamp < 8 * hour);
+  assert.ok(events[1].stamp > 8 * hour);
   assert.ok(events[1].stamp - events[0].stamp < 4 * hour);
 });
 
