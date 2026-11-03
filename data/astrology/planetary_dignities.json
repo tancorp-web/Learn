@@ -3868,78 +3868,6 @@
       ]
     },
     {
-      "rule_id": "WB69---------RAHU-GEMINI",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "ปกิณโชค",
-      "planet": "rahu",
-      "sign": "gemini",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.2.0",
-      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
-      "conditions": {
-        "planet": "rahu",
-        "sign": "gemini"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ราหู",
-            "sign": "มิถุน"
-          },
-          "expected_category": "ปกิณโชค",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
-      "rule_id": "WB69---------RAHU-LIBRA",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "ปกิณโชค",
-      "planet": "rahu",
-      "sign": "libra",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.2.0",
-      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
-      "conditions": {
-        "planet": "rahu",
-        "sign": "libra"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ราหู",
-            "sign": "ตุล"
-          },
-          "expected_category": "ปกิณโชค",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
-      "rule_id": "WB69---------RAHU-AQUARIUS",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "ปกิณโชค",
-      "planet": "rahu",
-      "sign": "aquarius",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.2.0",
-      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
-      "conditions": {
-        "planet": "rahu",
-        "sign": "aquarius"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ราหู",
-            "sign": "กุมภ์"
-          },
-          "expected_category": "ปกิณโชค",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
       "rule_id": "WB69---------RAHU-CANCER",
       "system_id": "thai_reference_system_anonymized_01",
       "category": "จุลจักร",
@@ -3983,54 +3911,6 @@
             "sign": "สิงห์"
           },
           "expected_category": "ประ",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
-      "rule_id": "WB69------------RAHU-LIBRA",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "อุจจาวิลาส",
-      "planet": "rahu",
-      "sign": "libra",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.2.0",
-      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
-      "conditions": {
-        "planet": "rahu",
-        "sign": "libra"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ราหู",
-            "sign": "ตุล"
-          },
-          "expected_category": "อุจจาวิลาส",
-          "status": "source-workbook-regression"
-        }
-      ]
-    },
-    {
-      "rule_id": "WB69----------RAHU-SCORPIO",
-      "system_id": "thai_reference_system_anonymized_01",
-      "category": "มหาอุจจ์",
-      "planet": "rahu",
-      "sign": "scorpio",
-      "status": "SOURCE_WORKBOOK",
-      "version": "1.2.0",
-      "source_note": "ถอดตามตารางที่ตรวจจาก 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; อ้างอิงรายการที่ผู้ใช้ยืนยันในคำสั่ง 2026-11-04",
-      "conditions": {
-        "planet": "rahu",
-        "sign": "scorpio"
-      },
-      "tests": [
-        {
-          "input": {
-            "planet": "ราหู",
-            "sign": "พิจิก"
-          },
-          "expected_category": "มหาอุจจ์",
           "status": "source-workbook-regression"
         }
       ]
