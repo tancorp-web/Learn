@@ -1268,11 +1268,14 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   const d=new Date(stamp),p=n=>String(n).padStart(2,'0');
   return p(d.getUTCDate())+' '+months[d.getUTCMonth()]+' พ.ศ. '+(d.getUTCFullYear()+543)+' เวลา '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+' น.';
  };
- const planetLongitude=(stamp,planet,longitude)=>{
+ const calculationAtStamp=(stamp,longitude,includeMotion=false)=>{
   const d=new Date(stamp),p=n=>String(n).padStart(2,'0');
   const date=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate());
   const time=p(d.getUTCHours())+':'+p(d.getUTCMinutes());
-  const result=calculateSuriyayatra({date,time,longitude,includeMotion:false});
+  return calculateSuriyayatra({date,time,longitude,includeMotion});
+ };
+ const planetLongitude=(stamp,planet,longitude)=>{
+  const result=calculationAtStamp(stamp,longitude,false);
   const item=result?.planets?.find(x=>x.name===planet);
   const lon=Number(item?.longitude);
   if(!Number.isFinite(lon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
@@ -1332,7 +1335,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
  const locationText=prefix=>{const province=$(prefix+'Province')?.selectedOptions?.[0]?.textContent?.trim()||'',district=$(prefix+'District')?.selectedOptions?.[0]?.textContent?.trim()||'',lat=Number($(prefix+'Lat')?.value),lon=Number($(prefix+'Lon')?.value);return(district?district+' ':'')+'จ.'+province+' (UTC+07:00) ละติจูด '+lat.toFixed(6)+'° ('+dms(lat,true)+') ลองจิจูด '+lon.toFixed(6)+'° ('+dms(lon,false)+')';};
  const elapsedAge=(birth,at)=>{let years=at.year-birth.year,months=at.month-birth.month,days=at.day-birth.day;if(days<0){months--;days+=new Date(Date.UTC(at.year,at.month-1,0)).getUTCDate();}if(months<0){years--;months+=12;}return{years,months,days};};
  const appendDateBlock=(parent,heading,info,prefix,age)=>{const block=document.createElement('section');block.className='pss-date-block';const h=document.createElement('div');h.className='pss-date-heading';h.textContent=heading;block.appendChild(h);const lines=[civilDateText(info),'จันทรคติ '+lunarDateText(info),locationText(prefix)];if(age)lines.push('อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(info.year+544)+')');lines.forEach(value=>{const line=document.createElement('div');line.className='pss-date-line';line.textContent=value;block.appendChild(line);});parent.appendChild(block);};
- const showResults=({planet,kind,sign,entry,exit,longitude,currentLon})=>{
+ const showResults=({planet,kind,sign,entry,exit,longitude,currentLon,motionItem,calculationStamp})=>{
   panel.hidden=false;
   panel.innerHTML='';
   const title=document.createElement('div');title.className='pss-title';
@@ -1346,6 +1349,12 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const v=document.createElement('div');v.className='pss-date';v.textContent=value||'ไม่พบภายในช่วงค้นหา';
    card.append(l,v);grid.appendChild(card);
   };
+  const motionState=motionItem?.motionState;
+  const motionSupported=['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู'].includes(planet);
+  const motionSpeed=Number(motionItem?.speedArcminPerDay);
+  add('สถานะการเคลื่อนที่',motionSupported?(motionState||'-'):'-');
+  add('ความเร็วการเคลื่อนที่',motionSupported&&Number.isFinite(motionSpeed)?motionSpeed.toFixed(2)+' ลิปดา/วัน':'-');
+  add('วันและเวลาที่ใช้คำนวณ',calculationStamp?localDateTime(calculationStamp):'-');
   // อ่านทักษาเดิมและทักษาจรจากผังที่คำนวณไว้แล้ว ไม่คำนวณสูตรซ้ำในแผงรายละเอียด
   const readThaksaRole=(rootId,planetName)=>{
    const root=$(rootId);if(!root)return null;
@@ -1422,8 +1431,11 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    const start=stampFromInputs(prefix);
    const longitude=Number($(prefix+'Lon')?.value);
    if(!Number.isFinite(longitude))throw new Error('ไม่พบลองจิจูดของสถานที่');
-   const currentLon=planetLongitude(start,planet,longitude);
-   const targetSign=Math.floor(currentLon/30);
+   const currentResult=calculationAtStamp(start,longitude,true);
+   const currentItem=currentResult?.planets?.find(x=>x.name===planet);
+   const currentLon=Number(currentItem?.longitude);
+   if(!Number.isFinite(currentLon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
+   const targetSign=Math.floor((((currentLon%360)+360)%360)/30);
    const sign=signs[targetSign];
    showMessage('กำลังค้นหาวันและเวลาที่ดาว'+planet+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
    const step=stepFor(planet);
@@ -1432,7 +1444,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
     findBoundary({start,planet,longitude,targetSign,direction:1,step})
    ]);
    if(id!==requestId)return;
-   showResults({planet,kind,sign,entry,exit,longitude,currentLon});
+   showResults({planet,kind,sign,entry,exit,longitude,currentLon,motionItem:currentItem,calculationStamp:start});
   }catch(error){
    if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
    console.error('[HORA][SIGN STAY][index9]',error);
@@ -2620,35 +2632,38 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261013-
 })();
 </script>
 
-<script id="791TransitMotionStatus">
-/* 791.html only: show the Engine's motionState beside transit planet numbers.
-   Do not recalculate motion here; preserve natal markers and all wheel geometry. */
+<script id="791NatalTransitMotionStatus">
+/* 791.html only: show Engine motionState on both natal and transit markers.
+   Motion is supplied by the Engine; this layer only renders the status suffix. */
 (()=>{
  const supportedPlanets=new Set(['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู']);
  const digitByPlanet={'อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','มฤตยู':'๐'};
  const suffixByState={'พักร์':'พ','มณฑ์':'ม','เสริต':'ส'};
- function updateTransitMotion(event){
+ function updatePlanetMotion(event){
   const detail=event?.detail;
-  const planets=detail?.transit?.planets;
   const wheel=document.getElementById('wheel');
   const svg=wheel?.querySelector('svg');
-  if(!Array.isArray(planets)||!svg)return;
-  const stateByPlanet=new Map(
-   planets.filter(p=>p&&supportedPlanets.has(p.name))
-    .map(p=>[p.name,p.motionState])
-  );
-  svg.querySelectorAll('g[data-planet-marker="true"][data-kind="transit"]').forEach(marker=>{
-   const name=marker.getAttribute('data-planet');
-   if(!supportedPlanets.has(name))return;
-   const state=stateByPlanet.get(name);
-   const suffix=suffixByState[state]||'';
-   const label=marker.querySelector('text');
-   if(!label)return;
-   label.textContent=(digitByPlanet[name]||'')+suffix;
-   label.setAttribute('aria-label','ดาว'+name+'จร'+(state&&suffix?' · '+state:' · ปกติ'));
+  if(!svg)return;
+  ['natal','transit'].forEach(kind=>{
+   const planets=detail?.[kind]?.planets;
+   if(!Array.isArray(planets))return;
+   const stateByPlanet=new Map(
+    planets.filter(p=>p&&supportedPlanets.has(p.name))
+     .map(p=>[p.name,p.motionState])
+   );
+   svg.querySelectorAll('g[data-planet-marker="true"][data-kind="'+kind+'"]').forEach(marker=>{
+    const name=marker.getAttribute('data-planet');
+    if(!supportedPlanets.has(name))return;
+    const state=stateByPlanet.get(name);
+    const suffix=suffixByState[state]||'';
+    const label=marker.querySelector('text');
+    if(!label)return;
+    label.textContent=(digitByPlanet[name]||'')+suffix;
+    label.setAttribute('aria-label','ดาว'+name+(kind==='natal'?'เดิม':'จร')+(state&&suffix?' · '+state:' · '+(state||'ไม่พบสถานะ')));
+   });
   });
  }
- window.addEventListener('hora50:chart-calculated',updateTransitMotion);
+ window.addEventListener('hora50:chart-calculated',updatePlanetMotion);
 })();
 </script>
 
