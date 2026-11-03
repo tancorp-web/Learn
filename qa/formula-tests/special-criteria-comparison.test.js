@@ -61,7 +61,7 @@ test('Padum reference rule matches only when all recorded planet-house condition
   assert.ok(incomplete.missingPlanets.includes('พฤหัสบดี'));
 });
 
-test('Ascendant alone does not satisfy unresolved coffin-pattern occupancy', () => {
+test('coffin-pattern occupancy counts the natal ascendant when accepted by the recorded rule', () => {
   const result = compareSpecialCriteria({
     ascendantSign: 'กุมภ์',
     planetPositions: [
@@ -71,9 +71,10 @@ test('Ascendant alone does not satisfy unresolved coffin-pattern occupancy', () 
     ]
   });
   const coffin = result.criteria.find(item => item.id === 'SPECIAL-COFFIN');
-  assert.equal(coffin.fullMatch, false);
-  assert.deepEqual(coffin.missingRequiredSigns, ['กุมภ์']);
-  assert.equal(coffin.ascendantOccupancyUnresolved, true);
+  assert.equal(coffin.fullMatch, true);
+  assert.deepEqual(coffin.missingRequiredSigns, []);
+  assert.equal(coffin.ascendantOccupancyUnresolved, false);
+  assert.equal(coffin.evaluatedAgainstReferenceOnly, true);
 });
 
 test('comparison never enables any rule and excludes merged duplicate entries', () => {
