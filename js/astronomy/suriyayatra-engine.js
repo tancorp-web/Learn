@@ -730,7 +730,7 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // then Horakhun Prasong = Horakhun birth - 1. Use the normalized
   // UTC+06:42 planetary clock and the workbook's fractional-day term.
   // This is deliberately independent of the month 8/88 anchor.
-  const ketuCalendar = calendarArithmetic(planetaryHorakhun, planetaryChulaSakarat);
+  const ketuCalendar = calendarArithmetic(horakhun, chulaSakarat);
   const ketuHorakhunBirth = planetaryHorakhun;
   const ketuHorakhunPrasong = ketuHorakhunBirth - 1;
   const ketuRemainder679 = MOD(ketuHorakhunPrasong - 344, KETU_679_CYCLE_DAYS);
