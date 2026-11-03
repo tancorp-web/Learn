@@ -65,12 +65,12 @@ test('1991 Golden Ketu values use the UTC+06:42 equivalent of the recorded 01:05
   assert.equal(oct.debug.timeMinutes, 65);
   assert.equal(dec.debug.timeMinutes, 65);
   assert.deepEqual(
-    [signIndex(oct.planet.arcMinutes), Math.floor((oct.planet.arcMinutes % 1800) / 60)],
-    [4, 26]
+    [signIndex(oct.planet.arcMinutes), Math.floor((oct.planet.arcMinutes % 1800) / 60), Math.floor(oct.planet.arcMinutes % 60)],
+    [4, 28, 26]
   );
   assert.deepEqual(
-    [signIndex(dec.planet.arcMinutes), Math.floor((dec.planet.arcMinutes % 1800) / 60)],
-    [3, 6]
+    [signIndex(dec.planet.arcMinutes), Math.floor((dec.planet.arcMinutes % 1800) / 60), Math.floor(dec.planet.arcMinutes % 60)],
+    [3, 26, 6]
   );
 });
 
