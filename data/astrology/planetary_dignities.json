@@ -1065,9 +1065,9 @@
       "category": "ราชาโชค",
       "planet": "mercury",
       "sign": "leo",
-      "status": "DISCOVERY",
-      "version": "1.0.0",
-      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ยืนยันตามตารางต้นฉบับ 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; ใช้เป็นกฎ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
       "conditions": {
         "planet": "mercury",
         "sign": "leo"
@@ -1075,11 +1075,11 @@
       "tests": [
         {
           "input": {
-            "planet": "mercury",
-            "sign": "leo"
+            "planet": "พุธ",
+            "sign": "สิงห์"
           },
           "expected_category": "ราชาโชค",
-          "status": "needs-golden-test"
+          "status": "source-workbook-regression"
         }
       ]
     },
@@ -1161,9 +1161,9 @@
       "category": "ราชาโชค",
       "planet": "rahu",
       "sign": "libra",
-      "status": "DISCOVERY",
-      "version": "1.0.0",
-      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ยืนยันตามตารางต้นฉบับ 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; ใช้เป็นกฎ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
       "conditions": {
         "planet": "rahu",
         "sign": "libra"
@@ -1171,11 +1171,11 @@
       "tests": [
         {
           "input": {
-            "planet": "rahu",
-            "sign": "libra"
+            "planet": "ราหู",
+            "sign": "ตุล"
           },
           "expected_category": "ราชาโชค",
-          "status": "needs-golden-test"
+          "status": "source-workbook-regression"
         }
       ]
     },
@@ -1521,9 +1521,9 @@
       "category": "จุลจักร",
       "planet": "saturn",
       "sign": "scorpio",
-      "status": "DISCOVERY",
-      "version": "1.0.0",
-      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ยืนยันตามตารางต้นฉบับ 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; ใช้เป็นกฎ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
       "conditions": {
         "planet": "saturn",
         "sign": "scorpio"
@@ -1531,11 +1531,11 @@
       "tests": [
         {
           "input": {
-            "planet": "saturn",
-            "sign": "scorpio"
+            "planet": "เสาร์",
+            "sign": "พิจิก"
           },
           "expected_category": "จุลจักร",
-          "status": "needs-golden-test"
+          "status": "source-workbook-regression"
         }
       ]
     },
@@ -1905,9 +1905,9 @@
       "category": "เทวีโชค",
       "planet": "saturn",
       "sign": "taurus",
-      "status": "DISCOVERY",
-      "version": "1.0.0",
-      "source_note": "Anonymized project reference; verify against an approved standard.",
+      "status": "SOURCE_WORKBOOK",
+      "version": "1.2.0",
+      "source_note": "ยืนยันตามตารางต้นฉบับ 69.xlsx ชีต คำนวณนาที และชีต ใบดวง; ใช้เป็นกฎ runtime ตามคำสั่งผู้ใช้ 2026-11-04",
       "conditions": {
         "planet": "saturn",
         "sign": "taurus"
@@ -1915,11 +1915,11 @@
       "tests": [
         {
           "input": {
-            "planet": "saturn",
-            "sign": "taurus"
+            "planet": "เสาร์",
+            "sign": "พฤษภ"
           },
           "expected_category": "เทวีโชค",
-          "status": "needs-golden-test"
+          "status": "source-workbook-regression"
         }
       ]
     },
