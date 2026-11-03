@@ -27,7 +27,7 @@ test('catalogue does not silently enable unverified astrology rules', () => {
 test('coffin pattern records the four stated signs and unspecified planet identities', () => {
   const rule = getThaiSpecialCriterionById('SPECIAL-COFFIN');
   assert.deepEqual(rule.requiredSigns, ['มิถุน', 'สิงห์', 'ธนู', 'กุมภ์']);
-  assert.ok(rule.acceptedOccupants.includes('ลัคนา'));
+  assert.ok(rule.acceptedOccupants.includes('ลัคนาเดิม'));
   assert.match(rule.planets, /ดาวใดก็ได้/);
   assert.equal(rule.execution, 'REFERENCE_ONLY');
 });
@@ -75,13 +75,14 @@ test('sign-based criteria are catalogued separately from house-based criteria', 
   assert.equal(kita.execution, 'REFERENCE_ONLY');
 });
 
-test('unverified names are preserved without invented planet formulas', () => {
+test('provisional reference names remain disabled and retain unresolved source caveats', () => {
   for (const id of ['SPECIAL-DOK-UTTAPHIT', 'SPECIAL-NAM-PHON', 'SPECIAL-TAM-PHON']) {
     const rule = getThaiSpecialCriterionById(id);
     assert.ok(rule);
-    assert.equal(rule.status, CRITERION_STATUS.NEEDS_SOURCE);
-    assert.equal(rule.execution, 'DISABLED');
-    assert.equal(rule.ruleType, null);
+    assert.equal(rule.status, CRITERION_STATUS.REFERENCE_PROVISIONAL);
+    assert.equal(rule.execution, 'REFERENCE_ONLY');
+    assert.ok(rule.ruleType);
+    assert.ok(Array.isArray(rule.notes) && rule.notes.length > 0);
   }
 });
 
