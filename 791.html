@@ -1277,20 +1277,40 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   const time=p(d.getUTCHours())+':'+p(d.getUTCMinutes());
   return calculateSuriyayatra({date,time,longitude,includeMotion});
  };
+ // Ketu alone is intraday-interpolated from the Engine's existing UTC+06:42
+ // clock metadata. The Engine's civil-date Ketu formula remains the base;
+ // planetaryHorakhun + calculationTimeMinutes reconstruct the exact signed
+ // fraction relative to that civil day, including 00:00–00:17 (negative).
+ const ketuLongitudeFromResult=result=>{
+  const item=result?.planets?.find(x=>x.name==='เกตุ');
+  const meta=result?.metadata,debug=meta?.ketuDebug;
+  const raw=Number(item?.longitude);
+  const dayOffset=Number(meta?.planetaryHorakhun)-Number(result?.harakun);
+  const calculationMinutes=Number(meta?.calculationTimeMinutes);
+  const speed=Number(debug?.retrogradeArcMinutesPerDay);
+  if(!Number.isFinite(raw)||!Number.isFinite(dayOffset)||
+     !Number.isFinite(calculationMinutes)||!Number.isFinite(speed)||speed<=0){
+   throw new Error('ข้อมูลเวลาอ้างอิงหรือความเร็วเกตุจาก Engine ไม่ครบ');
+  }
+  const fractionalDay=dayOffset+calculationMinutes/1440;
+  const arcMinutes=((raw*60-speed*fractionalDay)%21600+21600)%21600;
+  return arcMinutes/60;
+ };
  // Each HORA calculation returns all planetary positions. Reuse that complete
  // result across the seven marker searches at identical timestamps.
  const positionCache=new Map();
  const MAX_POSITION_CACHE=20000;
  const planetLongitude=(stamp,planet,longitude)=>{
   const key=String(longitude)+'|'+String(stamp);
-  let positions=positionCache.get(key);
-  if(!positions){
-   positions=calculationAtStamp(stamp,longitude,false)?.planets;
-   if(!Array.isArray(positions))throw new Error('สูตร HORA ไม่คืนข้อมูลตำแหน่งดาว');
+  let result=positionCache.get(key);
+  if(!result){
+   result=calculationAtStamp(stamp,longitude,false);
+   if(!Array.isArray(result?.planets))throw new Error('สูตร HORA ไม่คืนข้อมูลตำแหน่งดาว');
    if(positionCache.size>=MAX_POSITION_CACHE)positionCache.delete(positionCache.keys().next().value);
-   positionCache.set(key,positions);
+   positionCache.set(key,result);
   }
-  const item=positions.find(x=>x.name===planet);
+  if(planet==='เกตุ')return ketuLongitudeFromResult(result);
+  const item=result.planets.find(x=>x.name===planet);
   const lon=Number(item?.longitude);
   if(!Number.isFinite(lon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
   return ((lon%360)+360)%360;
@@ -1441,7 +1461,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
    if(!Number.isFinite(longitude))throw new Error('ไม่พบลองจิจูดของสถานที่');
    const currentResult=calculationAtStamp(start,longitude,true);
    const currentItem=currentResult?.planets?.find(x=>x.name===planet);
-   const currentLon=Number(currentItem?.longitude);
+   const currentLon=planetLongitude(start,planet,longitude);
    if(!Number.isFinite(currentLon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
    const targetSign=Math.floor((((currentLon%360)+360)%360)/30);
    const sign=signs[targetSign];
