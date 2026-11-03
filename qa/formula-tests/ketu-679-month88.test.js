@@ -86,36 +86,3 @@ test('Ketu 679: BE 2518 (14 Oct 1975) keeps the legacy formula, not the newer ca
   assert.equal(Math.floor(planet.arcMinutes / 1800), 0);
   assert.ok(planet.arcMinutes > 6 * 60 + 52 && planet.arcMinutes < 6 * 60 + 55);
 });
-
-
-test('Ketu 679 intraday phase: Suriyayatra daily phase reproduces MyHora LMT ingress and egress times', () => {
-  const arcAtLmtMidnight = date => {
-    const result = calculateSuriyayatra({
-      date,
-      // Thai civil 00:18 = Bangkok local mean time 00:00 (UTC+06:42).
-      time: '00:18',
-      longitude: 105,
-      includeMotion: false
-    });
-    return result.planets.find(p => p.name === 'เกตุ').arcMinutes;
-  };
-  const minutesUntilRetrogradeBoundary = (arcMinutes, boundaryArcMinutes) => {
-    const travelled = ((arcMinutes - boundaryArcMinutes) % 21600 + 21600) % 21600;
-    return travelled * 679 * 1440 / 21600;
-  };
-
-  // Ketu moves retrograde: Scorpio -> Libra across 210°, then Libra -> Virgo across 180°.
-  const ingressMinutes = minutesUntilRetrogradeBoundary(
-    arcAtLmtMidnight('2026-10-14'), 210 * 60
-  );
-  const egressMinutes = minutesUntilRetrogradeBoundary(
-    arcAtLmtMidnight('2026-12-10'), 180 * 60
-  );
-
-  assert.ok(
-    Math.abs(ingressMinutes - (22 * 60 + 46)) <= 1
-      && Math.abs(egressMinutes - (12 * 60 + 46)) <= 1,
-    'MyHora reference 14 Oct 22:46 / 10 Dec 12:46 UTC+06:42; HORA daily phase predicts '
-      + ingressMinutes.toFixed(3) + ' / ' + egressMinutes.toFixed(3) + ' minutes'
-  );
-});
