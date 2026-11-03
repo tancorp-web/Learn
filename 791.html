@@ -1295,7 +1295,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   return ((lon%360)+360)%360;
  };
  const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
- // Twelve-hour samples are used for the five-year history and forecast.
+ // Twelve-hour samples are used for the one-month history and forecast.
  // The adaptive extremum search still refines every detected reversal to
  // one-minute precision, including short leave-and-return sign excursions.
  const stepFor=planet=>12*3600000;
@@ -1305,7 +1305,7 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
  // to one-minute steps, catching short sign excursions hidden between samples.
  const findBoundaryEvents=options=>findSignBoundaryEvents({
   ...options,
-  maxSpanMs:5*366*86400000,
+  maxSpanMs:31*86400000,
   positionAt:planetLongitude,
   pause
  });
@@ -1408,11 +1408,11 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
   const eventText=items=>items.length?items.map(item=>(item.type==='เข้า'?'เข้า':'ออก')+' · '+localDateTime(item.stamp)).join(' | '):'ไม่พบเหตุการณ์ในช่วงค้นหา';
-  add('รายการเข้า–ออกย้อนหลัง 5 ปี',eventText([...eventsBefore].reverse()));
-  add('รายการเข้า–ออกล่วงหน้า 5 ปี',eventText(eventsAfter));
+  add('รายการเข้า–ออกย้อนหลัง 1 เดือน',eventText([...eventsBefore].reverse()));
+  add('รายการเข้า–ออกล่วงหน้า 1 เดือน',eventText(eventsAfter));
   panel.appendChild(grid);
   const note=document.createElement('div');note.className='pss-note';
-  note.textContent='คำนวณจาก Engine HORA ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · รายการเข้า–ออกตรวจย้อนหลังและล่วงหน้าอย่างละ 5 ปี';
+  note.textContent='คำนวณจาก Engine HORA ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · รายการเข้า–ออกตรวจย้อนหลังและล่วงหน้าอย่างละ 1 เดือน';
   panel.appendChild(note);
  };
  let requestId=0;
