@@ -240,7 +240,7 @@ function renderNumericAstrologySummary(natal,transit){
  const body=$('planetDignityNumberSummaryBody8'),table=$('planetDignityNumberTable8');
  if(!body||!table)return;
  const nums={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
- const standards=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','ปกิณโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ','อนุเกษตร'];
+ const standards=['เกษตร','ประ','อุจจาวิลาส','อุจจาภิมุข','อุจจ์','นิจ','ราชาโชค','มหาจักร','จุลจักร','เทวีโชค','ปกิณโชค','มหาอุจจ์','มหานิจ','มูลตรีโกณ'];
  const relations=['กุม','ทับ','เล็ง','โยคหน้า','โยคหลัง','ตรีโกณ','จตุโกณ','ฉาก'];
  const signOf=p=>signObj(p.longitude).name, esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const points=(chart,includeAsc)=>[...(includeAsc?[{name:'ลัคนา',number:'ล',sign:signObj(chart.asc).name,longitude:chart.asc}]:[]),...chart.planets.map(p=>({name:p.name,number:nums[p.name],sign:signOf(p),longitude:p.longitude}))].filter(p=>p.number);
@@ -260,7 +260,7 @@ function renderNumericAstrologySummary(natal,transit){
   return false;
  }).map(b=>transitMode?a.number+'→'+b.number:a.number+'–'+b.number)))].join(' · ')||'—';
  const rows=[];
- standards.forEach(c=>rows.push({group:'มาตรฐานดาว',c,n:c==='อนุเกษตร'?'ยังไม่มีสูตรที่ยืนยัน':dignity(nPlanets,c),t:c==='อนุเกษตร'?'ยังไม่มีสูตรที่ยืนยัน':dignity(tPlanets,c)}));
+ standards.forEach(c=>rows.push({group:'มาตรฐานดาว',c,n:dignity(nPlanets,c),t:dignity(tPlanets,c)}));
  relations.forEach(c=>rows.push({group:'ความสัมพันธ์ดาว',c,n:c==='ทับ'?'—':c==='ฉาก'?'ยังไม่เปิดใช้: ต้องกำหนดออร์บองศา':pairs(n,n,c),t:c==='ฉาก'?'ยังไม่เปิดใช้: ต้องกำหนดออร์บองศา':pairs(t,n,c,true)}));
  // เกษตรสลับเรือน/ปริวรรตเกษตรต้องตรวจเป็นวงจรจากดาวในผังเดียวกัน ไม่ใช่จับคู่จากความสัมพันธ์ตามระยะราศี
  const exchangeNumbers=(chart,type)=>getParivartanaKasetRelations(chart.planets.map(p=>({name:p.name,sign:p.sign?.name||p.sign})))
