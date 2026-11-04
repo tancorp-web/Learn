@@ -777,7 +777,31 @@ window.addEventListener("unhandledrejection",e=>{el.hidden=false;const r=e.reaso
 setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.indexOf("กำลังเริ่ม")>=0)el.textContent="HORA: JavaScript ยังไม่เริ่มทำงานภายใน 8 วินาที — ตรวจสอบ main.js และไฟล์ที่ import";}},8000);
 })();
 </script>
-<script type="module" src="./main51.js?v=20261104-planetary-standards-numeric-summary-remove-anukaset-04"></script>
+<script type="module" src="./main51.js?v=20261104-criteria-filter-791-only-01"></script>
+<script>
+/* 791-only display rule: hide ราชาโชค exclusively inside the separate-formula criteria group.
+   Keep main51.js data complete so other pages can display every criterion. */
+(()=>{
+ const table=document.getElementById('planetDignityNumberTable8');
+ const body=table?.querySelector('tbody');
+ if(!body)return;
+ const apply791CriteriaFilter=()=>{
+  let inTargetGroup=false;
+  for(const row of [...body.rows]){
+   const groupHeader=row.querySelector('th[colspan]');
+   if(groupHeader){
+    inTargetGroup=groupHeader.textContent.trim()==='คลังชื่อเกณฑ์ที่ต้องแยกสูตร';
+    continue;
+   }
+   if(inTargetGroup && row.cells[0]?.textContent.trim()==='ราชาโชค'){
+    row.remove();
+   }
+  }
+ };
+ apply791CriteriaFilter();
+ new MutationObserver(apply791CriteriaFilter).observe(body,{childList:true,subtree:true,characterData:true});
+})();
+</script>
 <script type="module">
 /* INDEX101: color-coded 12-sign planetary-standard ring. Every zodiac sign gets a circle,
    while matching natal/transit planet numbers are placed inside their sign's circle. */
