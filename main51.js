@@ -260,7 +260,7 @@ function renderNumericAstrologySummary(natal,transit){
   return false;
  }).map(b=>transitMode?a.number+'→'+b.number:a.number+'–'+b.number)))].join(' · ')||'—';
  const rows=[];
- standards.forEach(c=>rows.push({group:'มาตรฐานดาว',c,n:c==='อนุเกษตร'?'ยังไม่มีสูตรที่ยืนยัน':dignity(nPlanets,c),t:c==='อนุเกษตร'?'ยังไม่มีสูตรที่ยืนยัน':dignity(tPlanets,c)}));
+ standards.forEach(c=>rows.push({group:'มาตรฐานดาว',c,n:dignity(nPlanets,c),t:dignity(tPlanets,c)}));
  relations.forEach(c=>rows.push({group:'ความสัมพันธ์ดาว',c,n:c==='ทับ'?'—':c==='ฉาก'?'ยังไม่เปิดใช้: ต้องกำหนดออร์บองศา':pairs(n,n,c),t:c==='ฉาก'?'ยังไม่เปิดใช้: ต้องกำหนดออร์บองศา':pairs(t,n,c,true)}));
  // เกษตรสลับเรือน/ปริวรรตเกษตรต้องตรวจเป็นวงจรจากดาวในผังเดียวกัน ไม่ใช่จับคู่จากความสัมพันธ์ตามระยะราศี
  const exchangeNumbers=(chart,type)=>getParivartanaKasetRelations(chart.planets.map(p=>({name:p.name,sign:p.sign?.name||p.sign})))
