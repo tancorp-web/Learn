@@ -257,7 +257,7 @@ function calculateMeanRaviAtThaloeng(chulaSakarat, thaloeng) {
   // The epoch year increment is deferred until Madhyam Ravi completes
   // the final part of its current 360° cycle. Calculate that cycle's
   // starting phase at the first whole calculation minute after Thaloeng Sok.
-  const firstMinuteAfterThaloeng = Math.ceil(thaloeng.fractionalDaySeconds / 60);
+  const firstMinuteAfterThaloeng = Math.floor(thaloeng.fractionalDaySeconds / 60) + 1;
   const attaKammachaphon = MOD(
     800 - MOD(chulaSakarat * 292207 + 373, 800),
     800
