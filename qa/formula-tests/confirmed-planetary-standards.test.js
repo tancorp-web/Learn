@@ -29,6 +29,6 @@ test('unconfirmed planet rules are not invented', () => {
   assert.deepEqual(getConfirmedPlanetaryStandards('เกตุ', 'เมษ', 10, 0, 0), []);
 });
 
-test('runtime dignity data version identifies confirmed standards integration', () => {
-  assert.equal(DIGNITY_DATA_VERSION, '1.2.3-rahu-taurus-nicha');
+test('runtime dignity data version identifies the current parivartana/pra integration', () => {
+  assert.equal(DIGNITY_DATA_VERSION, '1.3.0-parivartana-pra');
 });
