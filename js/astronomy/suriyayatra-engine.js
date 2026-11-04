@@ -253,6 +253,28 @@ function solarIntradayUnits(timeMinutes) {
   return Math.floor(timeMinutes * 5 / 9);
 }
 
+function calculateMeanRaviAtThaloeng(chulaSakarat, thaloeng) {
+  // The epoch year increment is deferred until Madhyam Ravi completes
+  // the final part of its current 360° cycle. Calculate that cycle's
+  // starting phase at the first whole calculation minute after Thaloeng Sok.
+  const firstMinuteAfterThaloeng = Math.ceil(thaloeng.fractionalDaySeconds / 60);
+  const attaKammachaphon = MOD(
+    800 - MOD(chulaSakarat * 292207 + 373, 800),
+    800
+  );
+  const kammachaphonBirth =
+    -800 + attaKammachaphon + solarIntradayUnits(firstMinuteAfterThaloeng);
+  const remainder = MOD(kammachaphonBirth, 24350);
+  const meanSun = MOD(
+    Math.trunc(kammachaphonBirth / 24350) * 1800
+      + Math.trunc(remainder / 811) * 60
+      + Math.trunc(MOD(remainder, 811) / 14)
+      - 3,
+    21600
+  );
+  return MOD(meanSun - 23, 21600);
+}
+
 function meanLunarApogeeArcMinutes(dayIndex, timeMinutes) {
   return Math.floor((dayIndex * 1440 + timeMinutes) * 15 / 3232) + 2;
 }
@@ -640,8 +662,22 @@ export function calculateSuriyayatra({ date, time, longitude, includeMotion = tr
   // Classical "กำลังพระเคราะห์":
   // (จ.ศ. - 610) × 12 ราศี + ราศี/องศา/ลิปดาของมัธยมรวิ.
   // When represented in arcminutes, one full zodiac = 12 × 30 × 60 = 21600.
+  // The calendar Chula Sakarat changes at Thaloeng Sok, but the
+  // planetary-power cycle changes only when Madhyam Ravi completes its
+  // remaining arc and wraps through 0°. Keep the previous epoch year during
+  // that short rollover interval; otherwise the +1 CS and Ravi's later
+  // 360° wrap create two opposite 21,600' jumps.
+  const meanRaviAtThaloeng = calculateMeanRaviAtThaloeng(candidateCs, candidateThaloeng);
+  const daysFromThaloeng = planetaryHorakhun - candidateThaloeng.horakhun;
+  const deferEpochYearIncrement =
+    planetaryChulaSakarat === candidateCs &&
+    daysFromThaloeng >= 0 &&
+    daysFromThaloeng <= 2 &&
+    meanRavi >= meanRaviAtThaloeng;
+  const epochChulaSakarat =
+    planetaryChulaSakarat - (deferEpochYearIncrement ? 1 : 0);
   const planetaryPowerArcMinutes =
-    (planetaryChulaSakarat - 610) * 21600 + meanRavi;
+    (epochChulaSakarat - 610) * 21600 + meanRavi;
   const epoch = planetaryPowerArcMinutes;
 
   const sun = luminary(meanSun, meanSun - 4800, SUN_TABLE);
