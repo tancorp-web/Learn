@@ -1,6 +1,6 @@
 
 import { THAI_PROVINCE_COORDS } from './js/data/thai-provinces.js?v=20261009-77provinces';
-import { getPlanetaryDignities, getPlanetaryDignityReferences } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+import { getPlanetaryDignities, getPlanetaryDignityReferences, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { calculateSuriyayatraAscendant, calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
@@ -260,8 +260,15 @@ function renderNumericAstrologySummary(natal,transit){
   return false;
  }).map(b=>transitMode?a.number+'→'+b.number:a.number+'–'+b.number)))].join(' · ')||'—';
  const rows=[];
- standards.forEach(c=>rows.push({group:'มาตรฐานดาว',c,n:dignity(nPlanets,c),t:dignity(tPlanets,c)}));
- relations.forEach(c=>rows.push({group:'ความสัมพันธ์ดาว',c,n:c==='ทับ'?'—':pairs(n,n,c),t:c==='ฉาก'?'ต้องกำหนดออร์บองศาก่อน':pairs(t,n,c,true)}));
+ standards.forEach(c=>rows.push({group:'มาตรฐานดาว',c,n:c==='อนุเกษตร'?'ยังไม่มีสูตรที่ยืนยัน':dignity(nPlanets,c),t:c==='อนุเกษตร'?'ยังไม่มีสูตรที่ยืนยัน':dignity(tPlanets,c)}));
+ relations.forEach(c=>rows.push({group:'ความสัมพันธ์ดาว',c,n:c==='ทับ'?'—':c==='ฉาก'?'ยังไม่เปิดใช้: ต้องกำหนดออร์บองศา':pairs(n,n,c),t:c==='ฉาก'?'ยังไม่เปิดใช้: ต้องกำหนดออร์บองศา':pairs(t,n,c,true)}));
+ // เกษตรสลับเรือน/ปริวรรตเกษตรต้องตรวจเป็นวงจรจากดาวในผังเดียวกัน ไม่ใช่จับคู่จากความสัมพันธ์ตามระยะราศี
+ const exchangeNumbers=(chart,type)=>getParivartanaKasetRelations(chart.planets.map(p=>({name:p.name,sign:p.sign?.name||p.sign})))
+  .filter(item=>item.type===type)
+  .map(item=>item.planets.map(name=>nums[name]||'').filter(Boolean).join(type==='pair'?'–':'→'))
+  .filter(Boolean).join(' · ')||'—';
+ rows.push({group:'ความสัมพันธ์เกษตรสลับเรือน',c:'เกษตรสลับเรือน · 2 ดวง',n:exchangeNumbers(natal,'pair'),t:exchangeNumbers(transit,'pair')});
+ rows.push({group:'ความสัมพันธ์เกษตรสลับเรือน',c:'ปริวรรตเกษตร · 3 ดวง',n:exchangeNumbers(natal,'triple'),t:exchangeNumbers(transit,'triple')});
  const ascSign=signObj(natal.asc).name;
  const ascIndex=signs.indexOf(ascSign);
  const natalSigns=new Set([ascSign,...natal.planets.map(p=>signOf(p))]);
