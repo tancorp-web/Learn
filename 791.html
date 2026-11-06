@@ -2831,6 +2831,9 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
   out.innerHTML=html;
  }
  window.addEventListener('hora50:chart-calculated',event=>render(event?.detail?.natal));
+ const standardPanel=document.getElementById('wheelPanel2');
+ const criteriaPanel=document.getElementById(rootId);
+ if(standardPanel&&criteriaPanel)standardPanel.insertAdjacentElement('afterend',criteriaPanel);
 })();
 </script>
 
