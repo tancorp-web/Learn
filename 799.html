@@ -519,13 +519,13 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
 </style>
 
 <style id="page799-search-dropdown-style">
-.page799-search-wrap{position:relative;width:100%;min-width:0}
+.page799-search-wrap{position:relative;z-index:20;width:100%;min-width:0;pointer-events:auto;touch-action:manipulation}.page799-search-input{position:relative;z-index:21;display:block;pointer-events:auto;touch-action:manipulation}
 .page799-search-results{position:absolute;z-index:10050;top:calc(100% + 5px);left:0;right:0;max-height:260px;overflow-y:auto;background:#fff;border:1px solid #cbd5e1;border-radius:11px;box-shadow:0 12px 28px rgba(20,33,61,.18);padding:5px}
 .page799-search-results[hidden]{display:none!important}
 .page799-search-option{display:block;width:100%;min-height:40px;padding:9px 11px;border:0;border-radius:7px;background:#fff;color:#17233d;text-align:left;font:inherit;font-size:14px;cursor:pointer}
 .page799-search-option:hover,.page799-search-option.active{background:#edf1ff;color:#263c85}
 .page799-search-empty{padding:10px;color:#718096;font-size:13px}
-.page799-native-select{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.page799-native-select{display:none!important}
 </style>
 </head><body>
 <header class="hero"><div class="container"><h1>HORA Astrology</h1><p>ระบบโหราศาสตร์ไทยสุริยยาตร์ · วิเคราะห์ดวงกำเนิด ดาวจร ทักษา และตรียางค์</p><span class="badge">PREMIUM EDITION · PAGE 799 · ENGINE v8.9.4</span><div style="margin-top:14px"><a href="#selectedSignAnalysis999" style="display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:10px;background:#fff;color:#172b4d;text-decoration:none;font-weight:800;box-shadow:0 2px 8px #0002">↓ เปิดเครื่องมือวิเคราะห์เลขซ้ำตามลัคนาจร</a></div></div></header>
@@ -2820,7 +2820,7 @@ const wrap=document.createElement('div'),inp=document.createElement('input'),lis
 wrap.className='page799-search-wrap';inp.type='text';inp.className='page799-search-input';inp.autocomplete='off';inp.autocapitalize='off';inp.spellcheck=false;
 inp.placeholder=type==='year'?'พิมพ์ปี พ.ศ. เช่น 2534':'พิมพ์ชื่อจังหวัด เช่น ขอน';inp.setAttribute('aria-label',inp.placeholder);inp.setAttribute('role','combobox');inp.setAttribute('aria-expanded','false');inp.setAttribute('aria-autocomplete','list');
 list.className='page799-search-results';list.setAttribute('role','listbox');list.hidden=true;
-sel.before(wrap);wrap.append(inp,list);sel.classList.add('page799-native-select');
+sel.before(wrap);wrap.append(inp,list,sel);sel.classList.add('page799-native-select');
 let matches=[],active=-1;
 function label(o){return type==='year'?o.value:o.textContent.trim();}
 function syncFromSelect(){const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.setCustomValidity('');close();}
@@ -2845,7 +2845,7 @@ inp.addEventListener('change',()=>{const q=inp.value.trim().toLocaleLowerCase('t
 inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement))close();},120);});
 sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!inp.value.trim())render();}).observe(sel,{childList:true,subtree:true});syncFromSelect();
 }
-function init(){if($('displayPicker9')?.dataset.page799Ready)return;if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));}
+function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
