@@ -2821,11 +2821,11 @@ wrap.className='page799-search-wrap';inp.type='text';inp.className='page799-sear
 inp.placeholder=type==='year'?'พิมพ์ปี พ.ศ. เช่น 2534':'พิมพ์ชื่อจังหวัด เช่น ขอน';inp.setAttribute('aria-label',inp.placeholder);inp.setAttribute('role','combobox');inp.setAttribute('aria-expanded','false');inp.setAttribute('aria-autocomplete','list');
 list.className='page799-search-results';list.setAttribute('role','listbox');list.hidden=true;
 sel.before(wrap);wrap.append(inp,list,sel);sel.classList.add('page799-native-select');
-let matches=[],active=-1;
+let matches=[],active=-1,isTyping=false;
 function label(o){return type==='year'?o.value:o.textContent.trim();}
-function syncFromSelect(){const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.setCustomValidity('');close();}
+function syncFromSelect(){if(isTyping)return;const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.setCustomValidity('');close();}
 function close(){list.hidden=true;inp.setAttribute('aria-expanded','false');active=-1;}
-function choose(o){if(!o)return;sel.value=o.value;sel.dispatchEvent(new Event('change',{bubbles:true}));inp.value=label(o);inp.setCustomValidity('');close();}
+function choose(o){if(!o)return;isTyping=false;sel.value=o.value;sel.dispatchEvent(new Event('change',{bubbles:true}));inp.value=label(o);inp.setCustomValidity('');close();}
 function render(){
 const q=inp.value.trim().toLocaleLowerCase('th');list.replaceChildren();matches=[...sel.options].filter(o=>o.value!=='').filter(o=>!q||label(o).toLocaleLowerCase('th').includes(q)).slice(0,15);active=-1;
 if(!matches.length){const empty=document.createElement('div');empty.className='page799-search-empty';empty.textContent=q?'ไม่พบรายการที่ตรงกัน':'ไม่มีรายการให้เลือก';list.append(empty);}
@@ -2834,7 +2834,7 @@ list.hidden=false;inp.setAttribute('aria-expanded','true');
 }
 function markActive(next){const items=[...list.querySelectorAll('.page799-search-option')];if(!items.length)return;active=(next+items.length)%items.length;items.forEach((x,i)=>{x.classList.toggle('active',i===active);x.setAttribute('aria-selected',String(i===active));});items[active].scrollIntoView({block:'nearest'});}
 inp.addEventListener('focus',render);
-inp.addEventListener('input',()=>{sel.value='';inp.setCustomValidity('กรุณาเลือกรายการจากผลการค้นหา');render();});
+inp.addEventListener('input',()=>{isTyping=true;sel.value='';inp.setCustomValidity('');render();});
 inp.addEventListener('keydown',e=>{
 if(e.key==='ArrowDown'){e.preventDefault();if(list.hidden)render();markActive(active+1);}
 else if(e.key==='ArrowUp'){e.preventDefault();markActive(active<0?matches.length-1:active-1);}
@@ -2842,7 +2842,7 @@ else if(e.key==='Enter'){if(active>=0&&matches[active]){e.preventDefault();choos
 else if(e.key==='Escape')close();
 });
 inp.addEventListener('change',()=>{const q=inp.value.trim().toLocaleLowerCase('th');const exact=[...sel.options].find(o=>o.value!==''&&label(o).toLocaleLowerCase('th')===q);if(exact)choose(exact);});
-inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement))close();},120);});
+inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement)){close();isTyping=false;syncFromSelect();}},120);});
 sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!inp.value.trim())render();}).observe(sel,{childList:true,subtree:true});syncFromSelect();
 }
 function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);}
