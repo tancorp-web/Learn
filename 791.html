@@ -2809,33 +2809,25 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
    {name:'จันทร์',house:11},{name:'พฤหัสบดี',house:4},{name:'ศุกร์',house:3}
   ];
   const pathumHits=pathumFixed.map(x=>{const p=byName(chart,x.name);return p&&houseOf(p.longitude,asc)===x.house?x:null}).filter(Boolean);
-  const pathumComplete=pathumHits.length===3;
+  const pathumComplete=pathumHits.length>0;
   const ambhuPathumApplicable=type.key==='ambhu';
   const ambhuPathumNames=['จันทร์','พฤหัสบดี','ศุกร์'];
   const ambhuPathumHits=ambhuPathumApplicable?ambhuPathumNames.filter(name=>{const p=byName(chart,name);return p&&houseOf(p.longitude,asc)===4}):[];
-  const ambhuPathumComplete=ambhuPathumApplicable&&ambhuPathumHits.length===3;
+  const ambhuPathumComplete=ambhuPathumApplicable&&ambhuPathumHits.length>0;
   const typeKind=elementComplete?'pass':elementHits.length?'partial':'none';
   const typeLabel=elementComplete?'ครบชุดดาวตามตำรา':elementHits.length?'พบดาวเข้าเกณฑ์รายดวง':'ไม่พบดาวเข้าเกณฑ์';
   const udomKind=udomHits.length?'pass':'none';
-  const pathumKind=pathumComplete?'pass':pathumHits.length?'partial':'none';
-  const ambhuKind=!ambhuPathumApplicable?'none':ambhuPathumComplete?'pass':ambhuPathumHits.length?'partial':'none';
-  const ambhuLabel=!ambhuPathumApplicable?'ไม่ใช่ลัคนาอัมพุ':ambhuPathumComplete?'ครบชุด ๒-๕-๖ ในภพ ๔':ambhuPathumHits.length?'พบเพียงบางดวง':'ไม่พบชุดดาวในภพ ๔';
+  const pathumKind=pathumComplete?'pass':'none';
+  const ambhuKind=!ambhuPathumApplicable?'none':ambhuPathumComplete?'pass':'none';
+  const ambhuLabel=!ambhuPathumApplicable?'ไม่ใช้กับลัคนานี้':ambhuPathumComplete?'พบดาวเข้าเงื่อนไข '+ambhuPathumHits.length+' ดวง':'ไม่พบดาวเข้าเงื่อนไข';
   const auditRows=[];
-  function auditGroup(label,items){auditRows.push('<tr class="hc-audit-group"><td colspan="5">'+esc(label)+'</td></tr>');items.forEach(x=>{const p=byName(chart,x.name);const actual=p?houseOf(p.longitude,asc):null;const ok=!x.notApplicable&&(typeof x.test==='function'?!!(p&&x.test(actual)):!!(p&&actual===x.house));const target=x.target||('ภพ '+x.house);const result=x.notApplicable?'ไม่ใช้กับลัคนานี้':!p?'ไม่มีข้อมูลดาว':ok?'ผ่าน':'ไม่เข้าเงื่อนไข';const cls=x.notApplicable?'hc-audit-na':ok?'hc-audit-pass':p?'hc-audit-fail':'hc-audit-na';auditRows.push('<tr><td>'+esc(x.name)+' ('+esc(num[x.name]||'')+')</td><td>'+esc(target)+'</td><td>'+(actual?'ภพ '+actual:'-')+'</td><td class="'+cls+'">'+result+'</td><td>'+(x.note?esc(x.note):'-')+'</td></tr>')})}
+  function auditGroup(label,items){const passed=[];items.forEach(x=>{const p=byName(chart,x.name);const actual=p?houseOf(p.longitude,asc):null;const ok=!x.notApplicable&&!!p&&(typeof x.test==='function'?!!x.test(actual):actual===x.house);if(ok)passed.push({x,actual});});if(!passed.length)return;auditRows.push('<tr class="hc-audit-group"><td colspan="5">'+esc(label)+'</td></tr>');passed.forEach(({x,actual})=>{const target=x.target||('ภพ '+x.house);auditRows.push('<tr><td>'+esc(x.name)+' ('+esc(num[x.name]||'')+')</td><td>'+esc(target)+'</td><td>ภพ '+actual+'</td><td class="hc-audit-pass">ผ่าน</td><td>'+(x.note?esc(x.note):'-')+'</td></tr>')})}
   auditGroup('องค์เกณฑ์ · แนวชุดดาวครบองค์ · '+type.name,type.planets.map(name=>({name,house:type.house})));
   auditGroup('อุดมเกณฑ์ · '+type.name,udom.planets.map(name=>({name,target:udom.houses.map(h=>'ภพ '+h).join(' / ')+(udom.allowConjunctionAsc?' / กุมลัคนา':''),test:h=>udom.houses.includes(h)||(!!udom.allowConjunctionAsc&&h===1),note:udom.allowConjunctionAsc?'ภพ ๑ นับเมื่อกุมลัคนา':''})));
-  auditGroup('ปทุมเกณฑ์ · ตำแหน่ง ๑๑/๔/๓',pathumFixed);
-  auditGroup('ปทุมเกณฑ์ · แนวลัคนาอัมพุและดาว ๒-๕-๖ ภพ ๔',ambhuPathumNames.map(name=>({name,house:4,notApplicable:!ambhuPathumApplicable,note:ambhuPathumApplicable?'ตรวจเงื่อนไขลัคนาอัมพุ':''})));
-  const auditTable='<div class="hc-audit"><h3>ตารางตรวจเกณฑ์รายดาว</h3><p class="hc-audit-note">ตรวจตำแหน่งดาวกำเนิดเทียบกับภพเป้าหมายของแต่ละเกณฑ์ · ภพนับแบบราศีเต็มภพจากลัคนากำเนิด · “ไม่มีข้อมูลดาว” หมายถึงข้อมูลดาวไม่อยู่ในชุดคำนวณ ไม่ตีความว่าไม่ผ่าน</p><div class="table-wrap"><table><thead><tr><th>เกณฑ์ / ดาว</th><th>ภพเป้าหมาย</th><th>ภพจริง</th><th>ผลตรวจ</th><th>หมายเหตุ</th></tr></thead><tbody>'+auditRows.join('')+'</tbody></table></div></div>';
-  const html='<p class="hc-lead"><strong>ลัคนา:</strong> '+esc(ascSign)+' · <strong>ประเภท:</strong> '+esc(type.name)+' · <strong>นับภพ:</strong> ราศีเต็มภพจากลัคนา</p>'+
-   '<div class="hc-grid">'+
-   card('องค์เกณฑ์ · แนวชุดดาวครบองค์ ('+type.name+')','ดาวชุด '+type.planets.map(n=>num[n]).join(' ')+ ' ต้องอยู่ภพ '+type.house+' ครบชุด',typeKind,typeLabel,elementItems)+
-   card('อุดมเกณฑ์ · '+type.name,'ดาวชุด '+udom.planets.map(n=>num[n]).join(' ')+' เข้าเกณฑ์เมื่ออยู่ภพ '+udom.houses.join(', ')+(udom.allowConjunctionAsc?' หรือกุมลัคนา':''),udomKind,udomHits.length?'พบดาวเข้าอุดมเกณฑ์ '+udomHits.length+' ดวง':'ไม่พบดาวเข้าอุดมเกณฑ์',udomItems)+
-   card('ปทุมเกณฑ์ · ตำแหน่ง ๑๑/๔/๓','จันทร์ภพ ๑๑ · พฤหัสบดีภพ ๔ · ศุกร์ภพ ๓',pathumKind,pathumComplete?'ครบทั้ง ๓ ตำแหน่ง':pathumHits.length?'ตรง '+pathumHits.length+' จาก ๓ ตำแหน่ง':'ไม่ครบตำแหน่ง',pathumHits.map(x=>'ดาว'+x.name+' ('+num[x.name]+') อยู่ภพ '+x.house))+
-   card('ปทุมเกณฑ์ · อัมพุภพ ๔','แนวคำอธิบายอีกแบบ: ลัคนาอัมพุ และดาว ๒, ๕, ๖ อยู่ภพ ๔ ทั้งหมด',ambhuKind,ambhuLabel,ambhuPathumHits.map(n=>'ดาว'+n+' ('+num[n]+') อยู่ภพ ๔'))+
-   '</div>'+auditTable+
-   '<div class="hc-note"><strong>วิธีอ่านผล:</strong> องค์เกณฑ์ในส่วนนี้แสดงเฉพาะแนวชุดดาวครบองค์ตามตารางอ้างอิง; แนวประเภทลัคนาและคำเรียกเช่น นระเอกะ/จตุอัมพุ จะแยกไว้จนกว่าจะมีตารางเงื่อนไขครบถ้วน. อุดมนระใช้ภพ ๓, ๔, ๗, ๑๑ หรือกุมลัคนา. ปทุมเกณฑ์แสดงสองแนวแยกกัน. ผลนี้ตรวจเฉพาะดวงกำเนิด ไม่รวมดาวจร และไม่เปลี่ยนมาตรฐานดาว.</div>'+
-   '<div class="hc-sources">หลักฐานอ้างอิง: <a href="https://sunwasa.wordpress.com/2011/05/16/องค์เกณฑ์-อุดมเกณฑ์-และดาวฆาฏ/" target="_blank" rel="noopener">อ.วาสนา จันทภาษา</a> · <a href="https://vibhishana.com/library/kaen" target="_blank" rel="noopener">คลังเกณฑ์ลัคนา</a> · <a href="https://vibhishana.com/library/pathum" target="_blank" rel="noopener">ปทุมเกณฑ์</a></div>';
+  auditGroup('ปทุมเกณฑ์ · ตำแหน่ง ๑๑/๔/๓ · ผ่านเมื่อดาวดวงใดดวงหนึ่งเข้าเงื่อนไข',pathumFixed);
+  if(ambhuPathumApplicable)auditGroup('ปทุมเกณฑ์ · แนวลัคนาอัมพุ · ดาวดวงใดดวงหนึ่งภพ ๔',ambhuPathumNames.map(name=>({name,house:4,note:'ลัคนาอัมพุ'})));
+  const auditTable='<div class="hc-audit"><h3>ตารางเกณฑ์ลัคนาไทย · เงื่อนไขที่ผ่าน</h3><p class="hc-audit-note">แสดงเฉพาะดาวกำเนิดที่ผ่านเงื่อนไข · ภพนับแบบราศีเต็มภพจากลัคนากำเนิด</p>'+(auditRows.length?'<div class="table-wrap"><table><thead><tr><th>เกณฑ์ / ดาว</th><th>ภพเป้าหมาย</th><th>ภพจริง</th><th>ผลตรวจ</th><th>หมายเหตุ</th></tr></thead><tbody>'+auditRows.join('')+'</tbody></table></div>':'<p>ยังไม่มีดาวกำเนิดที่เข้าเงื่อนไขเกณฑ์ที่ตรวจ</p>')+'</div>';
+  const html='<p class="hc-lead"><strong>ลัคนา:</strong> '+esc(ascSign)+' · <strong>ประเภท:</strong> '+esc(type.name)+' · <strong>นับภพ:</strong> ราศีเต็มภพจากลัคนา</p>'+auditTable+'<div class="hc-sources">หลักฐานอ้างอิง: <a href="https://sunwasa.wordpress.com/2011/05/16/องค์เกณฑ์-อุดมเกณฑ์-และดาวฆาฏ/" target="_blank" rel="noopener">อ.วาสนา จันทภาษา</a> · <a href="https://vibhishana.com/library/kaen" target="_blank" rel="noopener">คลังเกณฑ์ลัคนา</a> · <a href="https://vibhishana.com/library/pathum" target="_blank" rel="noopener">ปทุมเกณฑ์</a></div>';
   out.innerHTML=html;
  }
  window.addEventListener('hora50:chart-calculated',event=>render(event?.detail?.natal));
