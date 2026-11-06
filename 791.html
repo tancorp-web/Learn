@@ -2748,6 +2748,17 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
 #horaThaiHouseCriteria791 .hc-note{margin-top:13px;padding:11px 12px;border-left:3px solid #c69b3c;background:#fffaf0;color:#5d4a22;font-size:12px;line-height:1.65}
 #horaThaiHouseCriteria791 .hc-sources{margin-top:10px;font-size:12px;color:#66748b}
 #horaThaiHouseCriteria791 .hc-sources a{color:#334e83;text-decoration:underline}
+#horaThaiHouseCriteria791 .hc-audit{margin-top:18px}
+#horaThaiHouseCriteria791 .hc-audit h3{margin:0 0 9px;color:#17233d;font-size:16px}
+#horaThaiHouseCriteria791 .hc-audit-note{margin:0 0 10px;color:#66748b;font-size:12px}
+#horaThaiHouseCriteria791 .hc-audit table{width:100%;min-width:680px;border-collapse:collapse;background:#fff}
+#horaThaiHouseCriteria791 .hc-audit th,#horaThaiHouseCriteria791 .hc-audit td{padding:9px 10px;border-bottom:1px solid #e7ebf3;text-align:left;vertical-align:top;font-size:12px}
+#horaThaiHouseCriteria791 .hc-audit th{background:#f2f5fb;color:#40506f;font-weight:800;white-space:nowrap}
+#horaThaiHouseCriteria791 .hc-audit tr:last-child td{border-bottom:0}
+#horaThaiHouseCriteria791 .hc-audit .hc-audit-pass{color:#17633c;font-weight:800}
+#horaThaiHouseCriteria791 .hc-audit .hc-audit-fail{color:#a33a4d;font-weight:800}
+#horaThaiHouseCriteria791 .hc-audit .hc-audit-na{color:#7b8495;font-weight:700}
+#horaThaiHouseCriteria791 .hc-audit .hc-audit-group td{background:#f8faff;font-weight:800;color:#27364f}
 @media(max-width:650px){#horaThaiHouseCriteria791 .hc-grid{grid-template-columns:1fr}}
 </style>
 <section id="horaThaiHouseCriteria791" class="panel" aria-live="polite">
@@ -2809,13 +2820,20 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
   const pathumKind=pathumComplete?'pass':pathumHits.length?'partial':'none';
   const ambhuKind=!ambhuPathumApplicable?'none':ambhuPathumComplete?'pass':ambhuPathumHits.length?'partial':'none';
   const ambhuLabel=!ambhuPathumApplicable?'ไม่ใช่ลัคนาอัมพุ':ambhuPathumComplete?'ครบชุด ๒-๕-๖ ในภพ ๔':ambhuPathumHits.length?'พบเพียงบางดวง':'ไม่พบชุดดาวในภพ ๔';
+  const auditRows=[];
+  function auditGroup(label,items){auditRows.push('<tr class="hc-audit-group"><td colspan="5">'+esc(label)+'</td></tr>');items.forEach(x=>{const p=byName(chart,x.name);const actual=p?houseOf(p.longitude,asc):null;const ok=!x.notApplicable&&(typeof x.test==='function'?!!(p&&x.test(actual)):!!(p&&actual===x.house));const target=x.target||('ภพ '+x.house);const result=x.notApplicable?'ไม่ใช้กับลัคนานี้':!p?'ไม่มีข้อมูลดาว':ok?'ผ่าน':'ไม่เข้าเงื่อนไข';const cls=x.notApplicable?'hc-audit-na':ok?'hc-audit-pass':p?'hc-audit-fail':'hc-audit-na';auditRows.push('<tr><td>'+esc(x.name)+' ('+esc(num[x.name]||'')+')</td><td>'+esc(target)+'</td><td>'+(actual?'ภพ '+actual:'-')+'</td><td class="'+cls+'">'+result+'</td><td>'+(x.note?esc(x.note):'-')+'</td></tr>')})}
+  auditGroup('องค์เกณฑ์ · แนวชุดดาวครบองค์ · '+type.name,type.planets.map(name=>({name,house:type.house})));
+  auditGroup('อุดมเกณฑ์ · '+type.name,udom.planets.map(name=>({name,target:udom.houses.map(h=>'ภพ '+h).join(' / ')+(udom.allowConjunctionAsc?' / กุมลัคนา':''),test:h=>udom.houses.includes(h)||(!!udom.allowConjunctionAsc&&h===1),note:udom.allowConjunctionAsc?'ภพ ๑ นับเมื่อกุมลัคนา':''})));
+  auditGroup('ปทุมเกณฑ์ · ตำแหน่ง ๑๑/๔/๓',pathumFixed);
+  auditGroup('ปทุมเกณฑ์ · แนวลัคนาอัมพุและดาว ๒-๕-๖ ภพ ๔',ambhuPathumNames.map(name=>({name,house:4,notApplicable:!ambhuPathumApplicable,note:ambhuPathumApplicable?'ตรวจเงื่อนไขลัคนาอัมพุ':''})));
+  const auditTable='<div class="hc-audit"><h3>ตารางตรวจเกณฑ์รายดาว</h3><p class="hc-audit-note">ตรวจตำแหน่งดาวกำเนิดเทียบกับภพเป้าหมายของแต่ละเกณฑ์ · ภพนับแบบราศีเต็มภพจากลัคนากำเนิด · “ไม่มีข้อมูลดาว” หมายถึงข้อมูลดาวไม่อยู่ในชุดคำนวณ ไม่ตีความว่าไม่ผ่าน</p><div class="table-wrap"><table><thead><tr><th>เกณฑ์ / ดาว</th><th>ภพเป้าหมาย</th><th>ภพจริง</th><th>ผลตรวจ</th><th>หมายเหตุ</th></tr></thead><tbody>'+auditRows.join('')+'</tbody></table></div></div>';
   const html='<p class="hc-lead"><strong>ลัคนา:</strong> '+esc(ascSign)+' · <strong>ประเภท:</strong> '+esc(type.name)+' · <strong>นับภพ:</strong> ราศีเต็มภพจากลัคนา</p>'+
    '<div class="hc-grid">'+
    card('องค์เกณฑ์ · แนวชุดดาวครบองค์ ('+type.name+')','ดาวชุด '+type.planets.map(n=>num[n]).join(' ')+ ' ต้องอยู่ภพ '+type.house+' ครบชุด',typeKind,typeLabel,elementItems)+
    card('อุดมเกณฑ์ · '+type.name,'ดาวชุด '+udom.planets.map(n=>num[n]).join(' ')+' เข้าเกณฑ์เมื่ออยู่ภพ '+udom.houses.join(', ')+(udom.allowConjunctionAsc?' หรือกุมลัคนา':''),udomKind,udomHits.length?'พบดาวเข้าอุดมเกณฑ์ '+udomHits.length+' ดวง':'ไม่พบดาวเข้าอุดมเกณฑ์',udomItems)+
    card('ปทุมเกณฑ์ · ตำแหน่ง ๑๑/๔/๓','จันทร์ภพ ๑๑ · พฤหัสบดีภพ ๔ · ศุกร์ภพ ๓',pathumKind,pathumComplete?'ครบทั้ง ๓ ตำแหน่ง':pathumHits.length?'ตรง '+pathumHits.length+' จาก ๓ ตำแหน่ง':'ไม่ครบตำแหน่ง',pathumHits.map(x=>'ดาว'+x.name+' ('+num[x.name]+') อยู่ภพ '+x.house))+
    card('ปทุมเกณฑ์ · อัมพุภพ ๔','แนวคำอธิบายอีกแบบ: ลัคนาอัมพุ และดาว ๒, ๕, ๖ อยู่ภพ ๔ ทั้งหมด',ambhuKind,ambhuLabel,ambhuPathumHits.map(n=>'ดาว'+n+' ('+num[n]+') อยู่ภพ ๔'))+
-   '</div>'+
+   '</div>'+auditTable+
    '<div class="hc-note"><strong>วิธีอ่านผล:</strong> องค์เกณฑ์ในส่วนนี้แสดงเฉพาะแนวชุดดาวครบองค์ตามตารางอ้างอิง; แนวประเภทลัคนาและคำเรียกเช่น นระเอกะ/จตุอัมพุ จะแยกไว้จนกว่าจะมีตารางเงื่อนไขครบถ้วน. อุดมนระใช้ภพ ๓, ๔, ๗, ๑๑ หรือกุมลัคนา. ปทุมเกณฑ์แสดงสองแนวแยกกัน. ผลนี้ตรวจเฉพาะดวงกำเนิด ไม่รวมดาวจร และไม่เปลี่ยนมาตรฐานดาว.</div>'+
    '<div class="hc-sources">หลักฐานอ้างอิง: <a href="https://sunwasa.wordpress.com/2011/05/16/องค์เกณฑ์-อุดมเกณฑ์-และดาวฆาฏ/" target="_blank" rel="noopener">อ.วาสนา จันทภาษา</a> · <a href="https://vibhishana.com/library/kaen" target="_blank" rel="noopener">คลังเกณฑ์ลัคนา</a> · <a href="https://vibhishana.com/library/pathum" target="_blank" rel="noopener">ปทุมเกณฑ์</a></div>';
   out.innerHTML=html;
