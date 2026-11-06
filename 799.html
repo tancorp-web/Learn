@@ -518,6 +518,15 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
 }
 </style>
 
+<style id="page799-search-dropdown-style">
+.page799-search-wrap{position:relative;width:100%;min-width:0}
+.page799-search-results{position:absolute;z-index:10050;top:calc(100% + 5px);left:0;right:0;max-height:260px;overflow-y:auto;background:#fff;border:1px solid #cbd5e1;border-radius:11px;box-shadow:0 12px 28px rgba(20,33,61,.18);padding:5px}
+.page799-search-results[hidden]{display:none!important}
+.page799-search-option{display:block;width:100%;min-height:40px;padding:9px 11px;border:0;border-radius:7px;background:#fff;color:#17233d;text-align:left;font:inherit;font-size:14px;cursor:pointer}
+.page799-search-option:hover,.page799-search-option.active{background:#edf1ff;color:#263c85}
+.page799-search-empty{padding:10px;color:#718096;font-size:13px}
+.page799-native-select{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+</style>
 </head><body>
 <header class="hero"><div class="container"><h1>HORA Astrology</h1><p>ระบบโหราศาสตร์ไทยสุริยยาตร์ · วิเคราะห์ดวงกำเนิด ดาวจร ทักษา และตรียางค์</p><span class="badge">PREMIUM EDITION · PAGE 799 · ENGINE v8.9.4</span><div style="margin-top:14px"><a href="#selectedSignAnalysis999" style="display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:10px;background:#fff;color:#172b4d;text-decoration:none;font-weight:800;box-shadow:0 2px 8px #0002">↓ เปิดเครื่องมือวิเคราะห์เลขซ้ำตามลัคนาจร</a></div></div></header>
 
@@ -2805,10 +2814,37 @@ function count(){const e=$('displayPickerCount9');if(e)e.textContent='แสด�
 function controls(){const list=$('displayPickerList9');if(!list)return;list.replaceChildren();state.order.forEach((k,i)=>{const d=byKey.get(k),row=document.createElement('div');row.className='display-picker-row799';const label=document.createElement('label');label.className='display-picker-item9';const cb=document.createElement('input');cb.type='checkbox';cb.checked=state.visible[k]!==false;const txt=document.createElement('span');txt.textContent=d.label;label.append(cb,txt);cb.onchange=()=>{state.visible[k]=cb.checked;apply();save();count();};const arrows=document.createElement('div');arrows.className='display-picker-order799';[['↑',-1],['↓',1]].forEach(([t,delta])=>{const b=document.createElement('button');b.type='button';b.textContent=t;b.disabled=i+delta<0||i+delta>=state.order.length;b.onclick=()=>{const j=i+delta;[state.order[i],state.order[j]]=[state.order[j],state.order[i]];apply();save();controls();};arrows.append(b);});row.append(label,arrows);list.append(row);});count();}
 function all(v){keys.forEach(k=>state.visible[k]=v);apply();save();controls();}
 function reset(){state={order:[...keys],visible:Object.fromEntries(keys.map(k=>[k,true])),collapsed:{}};apply();save();controls();}
-function search(id,type){const sel=$(id);if(!sel||sel.dataset.searchReady)return;sel.dataset.searchReady='1';const inp=document.createElement('input'),dl=document.createElement('datalist');inp.type='text';inp.className='page799-search-input';inp.autocomplete='off';inp.setAttribute('list','799-list-'+id);inp.placeholder=type==='year'?'พิมพ์ปี พ.ศ. เช่น 2534':'พิมพ์ชื่อจังหวัด เช่น ขอน';inp.setAttribute('aria-label',inp.placeholder);dl.id='799-list-'+id;sel.before(inp);inp.after(dl);sel.classList.add('page799-native-select');
-function options(){dl.replaceChildren();[...sel.options].filter(o=>o.value!=='').forEach(o=>{const x=document.createElement('option');x.value=type==='year'?o.value:o.textContent.trim();dl.append(x);});const o=sel.options[sel.selectedIndex];inp.value=o?(type==='year'?o.value:o.textContent.trim()):'';}
-function choose(){const q=inp.value.trim(),opts=[...sel.options].filter(o=>o.value!=='');const hit=opts.find(o=>(type==='year'?o.value:o.textContent.trim())===q);if(hit){sel.value=hit.value;sel.dispatchEvent(new Event('change',{bubbles:true}));inp.setCustomValidity('');}else if(q)inp.setCustomValidity('กรุณาเลือกค่าจากรายการที่แสดง');else{sel.value='';sel.dispatchEvent(new Event('change',{bubbles:true}));}}
-inp.addEventListener('input',()=>{const q=inp.value.trim(),exact=[...sel.options].some(o=>o.value!==''&&(type==='year'?o.value:o.textContent.trim())===q);if(!exact){sel.value='';sel.dispatchEvent(new Event('change',{bubbles:true}));}inp.setCustomValidity(q&&!exact?'กรุณาเลือกค่าจากรายการที่แสดง':'');});inp.addEventListener('change',choose);inp.addEventListener('keydown',e=>{if(e.key==='Enter'){choose();if(inp.validationMessage)e.preventDefault();}});sel.addEventListener('change',options);new MutationObserver(options).observe(sel,{childList:true,subtree:true});options();}
+function search(id,type){
+const sel=$(id);if(!sel||sel.dataset.searchReady)return;sel.dataset.searchReady='1';
+const wrap=document.createElement('div'),inp=document.createElement('input'),list=document.createElement('div');
+wrap.className='page799-search-wrap';inp.type='text';inp.className='page799-search-input';inp.autocomplete='off';inp.autocapitalize='off';inp.spellcheck=false;
+inp.placeholder=type==='year'?'พิมพ์ปี พ.ศ. เช่น 2534':'พิมพ์ชื่อจังหวัด เช่น ขอน';inp.setAttribute('aria-label',inp.placeholder);inp.setAttribute('role','combobox');inp.setAttribute('aria-expanded','false');inp.setAttribute('aria-autocomplete','list');
+list.className='page799-search-results';list.setAttribute('role','listbox');list.hidden=true;
+sel.before(wrap);wrap.append(inp,list);sel.classList.add('page799-native-select');
+let matches=[],active=-1;
+function label(o){return type==='year'?o.value:o.textContent.trim();}
+function syncFromSelect(){const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.setCustomValidity('');close();}
+function close(){list.hidden=true;inp.setAttribute('aria-expanded','false');active=-1;}
+function choose(o){if(!o)return;sel.value=o.value;sel.dispatchEvent(new Event('change',{bubbles:true}));inp.value=label(o);inp.setCustomValidity('');close();}
+function render(){
+const q=inp.value.trim().toLocaleLowerCase('th');list.replaceChildren();matches=[...sel.options].filter(o=>o.value!=='').filter(o=>!q||label(o).toLocaleLowerCase('th').includes(q)).slice(0,15);active=-1;
+if(!matches.length){const empty=document.createElement('div');empty.className='page799-search-empty';empty.textContent=q?'ไม่พบรายการที่ตรงกัน':'ไม่มีรายการให้เลือก';list.append(empty);}
+else matches.forEach((o,i)=>{const item=document.createElement('button');item.type='button';item.className='page799-search-option';item.textContent=label(o);item.setAttribute('role','option');item.setAttribute('aria-selected','false');item.addEventListener('mousedown',e=>e.preventDefault());item.addEventListener('click',()=>choose(o));list.append(item);});
+list.hidden=false;inp.setAttribute('aria-expanded','true');
+}
+function markActive(next){const items=[...list.querySelectorAll('.page799-search-option')];if(!items.length)return;active=(next+items.length)%items.length;items.forEach((x,i)=>{x.classList.toggle('active',i===active);x.setAttribute('aria-selected',String(i===active));});items[active].scrollIntoView({block:'nearest'});}
+inp.addEventListener('focus',render);
+inp.addEventListener('input',()=>{sel.value='';sel.dispatchEvent(new Event('change',{bubbles:true}));inp.setCustomValidity('กรุณาเลือกรายการจากผลการค้นหา');render();});
+inp.addEventListener('keydown',e=>{
+if(e.key==='ArrowDown'){e.preventDefault();if(list.hidden)render();markActive(active+1);}
+else if(e.key==='ArrowUp'){e.preventDefault();markActive(active<0?matches.length-1:active-1);}
+else if(e.key==='Enter'){if(active>=0&&matches[active]){e.preventDefault();choose(matches[active]);}else{const q=inp.value.trim().toLocaleLowerCase('th');const exact=matches.find(o=>label(o).toLocaleLowerCase('th')===q);if(exact){e.preventDefault();choose(exact);}else if(q)e.preventDefault();}}
+else if(e.key==='Escape')close();
+});
+inp.addEventListener('change',()=>{const q=inp.value.trim().toLocaleLowerCase('th');const exact=[...sel.options].find(o=>o.value!==''&&label(o).toLocaleLowerCase('th')===q);if(exact)choose(exact);});
+inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement))close();},120);});
+sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!inp.value.trim())render();}).observe(sel,{childList:true,subtree:true});syncFromSelect();
+}
 function init(){if($('displayPicker9')?.dataset.page799Ready)return;if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
