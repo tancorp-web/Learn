@@ -2767,7 +2767,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
   {key:'keeta',name:'กีฏะเกณฑ์',signs:[7],planets:['อังคาร','ราหู'],house:7}
  ];
  const udomRules={
-  nara:{planets:['พุธ','พฤหัสบดี','ศุกร์'],houses:[1,3,4,7,11]},
+  nara:{planets:['พุธ','พฤหัสบดี','ศุกร์'],houses:[3,4,7,11],allowConjunctionAsc:true},
   ambhu:{planets:['อังคาร','พฤหัสบดี','เสาร์','ราหู'],houses:[4,5,9]},
   keeta:{planets:['อังคาร','ราหู'],houses:[3,7,9,12]},
   paswa:{planets:['อาทิตย์','จันทร์','อังคาร','ศุกร์'],houses:[6,10]}
@@ -2792,7 +2792,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
   const elementComplete=type.planets.every(name=>{const p=byName(chart,name);return p&&houseOf(p.longitude,asc)===type.house});
   const elementItems=elementHits.map(x=>'ดาว'+x.name+' ('+num[x.name]+') อยู่ภพ '+x.house);
   const udom=udomRules[type.key];
-  const udomHits=udom.planets.map(name=>{const p=byName(chart,name);if(!p)return null;const h=houseOf(p.longitude,asc);return udom.houses.includes(h)?{name,house:h}:null}).filter(Boolean);
+  const udomHits=udom.planets.map(name=>{const p=byName(chart,name);if(!p)return null;const h=houseOf(p.longitude,asc);const conjunctionAsc=!!udom.allowConjunctionAsc&&h===1;return (udom.houses.includes(h)||conjunctionAsc)?{name,house:h,conjunctionAsc}:null}).filter(Boolean);
   const udomItems=udomHits.map(x=>'ดาว'+x.name+' ('+num[x.name]+') อยู่ภพ '+x.house);
   const pathumFixed=[
    {name:'จันทร์',house:11},{name:'พฤหัสบดี',house:4},{name:'ศุกร์',house:3}
@@ -2811,12 +2811,12 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
   const ambhuLabel=!ambhuPathumApplicable?'ไม่ใช่ลัคนาอัมพุ':ambhuPathumComplete?'ครบชุด ๒-๕-๖ ในภพ ๔':ambhuPathumHits.length?'พบเพียงบางดวง':'ไม่พบชุดดาวในภพ ๔';
   const html='<p class="hc-lead"><strong>ลัคนา:</strong> '+esc(ascSign)+' · <strong>ประเภท:</strong> '+esc(type.name)+' · <strong>นับภพ:</strong> ราศีเต็มภพจากลัคนา</p>'+
    '<div class="hc-grid">'+
-   card('องค์เกณฑ์ · '+type.name,'ดาวประจำประเภทลัคนา '+type.planets.map(n=>num[n]).join(' ')+ ' ต้องอยู่ภพ '+type.house,typeKind,typeLabel,elementItems)+
-   card('อุดมเกณฑ์ · '+type.name,'ดาวชุด '+udom.planets.map(n=>num[n]).join(' ')+' เข้าเกณฑ์เมื่ออยู่ภพ '+udom.houses.join(', '),udomKind,udomHits.length?'พบดาวเข้าอุดมเกณฑ์ '+udomHits.length+' ดวง':'ไม่พบดาวเข้าอุดมเกณฑ์',udomItems)+
+   card('องค์เกณฑ์ · แนวชุดดาวครบองค์ ('+type.name+')','ดาวชุด '+type.planets.map(n=>num[n]).join(' ')+ ' ต้องอยู่ภพ '+type.house+' ครบชุด',typeKind,typeLabel,elementItems)+
+   card('อุดมเกณฑ์ · '+type.name,'ดาวชุด '+udom.planets.map(n=>num[n]).join(' ')+' เข้าเกณฑ์เมื่ออยู่ภพ '+udom.houses.join(', ')+(udom.allowConjunctionAsc?' หรือกุมลัคนา':''),udomKind,udomHits.length?'พบดาวเข้าอุดมเกณฑ์ '+udomHits.length+' ดวง':'ไม่พบดาวเข้าอุดมเกณฑ์',udomItems)+
    card('ปทุมเกณฑ์ · ตำแหน่ง ๑๑/๔/๓','จันทร์ภพ ๑๑ · พฤหัสบดีภพ ๔ · ศุกร์ภพ ๓',pathumKind,pathumComplete?'ครบทั้ง ๓ ตำแหน่ง':pathumHits.length?'ตรง '+pathumHits.length+' จาก ๓ ตำแหน่ง':'ไม่ครบตำแหน่ง',pathumHits.map(x=>'ดาว'+x.name+' ('+num[x.name]+') อยู่ภพ '+x.house))+
    card('ปทุมเกณฑ์ · อัมพุภพ ๔','แนวคำอธิบายอีกแบบ: ลัคนาอัมพุ และดาว ๒, ๕, ๖ อยู่ภพ ๔ ทั้งหมด',ambhuKind,ambhuLabel,ambhuPathumHits.map(n=>'ดาว'+n+' ('+num[n]+') อยู่ภพ ๔'))+
    '</div>'+
-   '<div class="hc-note"><strong>วิธีอ่านผล:</strong> องค์เกณฑ์แสดงทั้งดาวที่เข้าเงื่อนไขรายดวงและสถานะครบชุด เพื่อไม่ปะปนคำอธิบายต่างสำนัก; ปทุมเกณฑ์แสดงสองเงื่อนไขแยกกัน เพราะแหล่งตำราที่ตรวจพบอธิบายไม่เหมือนกัน. ผลนี้ตรวจเฉพาะดวงกำเนิด ไม่รวมดาวจร ไม่เปลี่ยนมาตรฐานดาว และไม่ใช้เกตุ/มฤตยูในชุดเกณฑ์ที่แหล่งอ้างอิงนี้กำหนด.</div>'+
+   '<div class="hc-note"><strong>วิธีอ่านผล:</strong> องค์เกณฑ์ในส่วนนี้แสดงเฉพาะแนวชุดดาวครบองค์ตามตารางอ้างอิง; แนวประเภทลัคนาและคำเรียกเช่น นระเอกะ/จตุอัมพุ จะแยกไว้จนกว่าจะมีตารางเงื่อนไขครบถ้วน. อุดมนระใช้ภพ ๓, ๔, ๗, ๑๑ หรือกุมลัคนา. ปทุมเกณฑ์แสดงสองแนวแยกกัน. ผลนี้ตรวจเฉพาะดวงกำเนิด ไม่รวมดาวจร และไม่เปลี่ยนมาตรฐานดาว.</div>'+
    '<div class="hc-sources">หลักฐานอ้างอิง: <a href="https://sunwasa.wordpress.com/2011/05/16/องค์เกณฑ์-อุดมเกณฑ์-และดาวฆาฏ/" target="_blank" rel="noopener">อ.วาสนา จันทภาษา</a> · <a href="https://vibhishana.com/library/kaen" target="_blank" rel="noopener">คลังเกณฑ์ลัคนา</a> · <a href="https://vibhishana.com/library/pathum" target="_blank" rel="noopener">ปทุมเกณฑ์</a></div>';
   out.innerHTML=html;
  }
