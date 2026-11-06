@@ -729,7 +729,7 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
 </div>
 <section id="planetDignityNumberSummary8" class="panel">
   <div class="section-title"><h2>ตารางใหม่ · สรุปมาตรฐานดาวเป็นเลขดาวเดิมและดาวจร</h2><span class="badge">รวมตารางเดียว · แสดงเป็นตัวเลข</span></div>
-  <p class="criteria7-lead">รวบรวมเลขดาวที่เข้าเกณฑ์แต่ละประเภทจากตำแหน่งและองศาที่คำนวณได้ แยกคอลัมน์ดาวเดิมกับดาวจรในตารางเดียวกัน เลขที่มีเครื่องหมาย * เป็นข้อมูลอ้างอิงที่ยังรอยืนยัน ไม่ใช่เกณฑ์ที่ยืนยันแล้ว</p>
+  <p class="criteria7-lead">รวบรวมเลขดาวที่เข้าเกณฑ์แต่ละประเภทจากตำแหน่งและองศาที่คำนวณได้ แยกคอลัมน์ดาวเดิมกับดาวจรในตารางเดียวกัน </p>
   <div class="table-wrap"><table class="criteria7-table" id="planetDignityNumberTable8">
     <thead><tr><th>มาตรฐานดาว</th><th>ดาวเดิม (เลขดาว)</th><th>ดาวจร (เลขดาว)</th></tr></thead>
     <tbody id="planetDignityNumberSummaryBody8"><tr><td colspan="3">รอผลคำนวณตำแหน่งดาว…</td></tr></tbody>
@@ -743,7 +743,7 @@ details>summary:focus-visible,button:focus-visible,a:focus-visible{
     <tbody id="thaksaPairingBody51"><tr><td colspan="5">รอผลคำนวณตำแหน่งดาว…</td></tr></tbody>
   </table></div>
 </section>
-<div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2><span class="badge">Formula vs Reference</span></div></div>
+<div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2></div></div>
 
 
 
@@ -2767,7 +2767,7 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
   auditGroup('ปทุมเกณฑ์ · ตำแหน่ง ๑๑/๔/๓ · ผ่านเมื่อดาวดวงใดดวงหนึ่งเข้าเงื่อนไข',pathumFixed);
   if(ambhuPathumApplicable)auditGroup('ปทุมเกณฑ์ · แนวลัคนาอัมพุ · ดาวดวงใดดวงหนึ่งภพ ๔',ambhuPathumNames.map(name=>({name,house:4,note:'ลัคนาอัมพุ'})));
   const auditTable='<div class="hc-audit"><h3>ตารางเกณฑ์ลัคนาไทย · เงื่อนไขที่ผ่าน</h3><p class="hc-audit-note">แสดงเฉพาะดาวกำเนิดที่ผ่านเงื่อนไข · ภพนับแบบราศีเต็มภพจากลัคนากำเนิด</p>'+(auditRows.length?'<div class="table-wrap"><table><thead><tr><th>เกณฑ์ / ดาว</th><th>ภพเป้าหมาย</th><th>ภพจริง</th><th>ผลตรวจ</th><th>หมายเหตุ</th></tr></thead><tbody>'+auditRows.join('')+'</tbody></table></div>':'<p>ยังไม่มีดาวกำเนิดที่เข้าเงื่อนไขเกณฑ์ที่ตรวจ</p>')+'</div>';
-  const html='<p class="hc-lead"><strong>ลัคนา:</strong> '+esc(ascSign)+' · <strong>ประเภท:</strong> '+esc(type.name)+' · <strong>นับภพ:</strong> ราศีเต็มภพจากลัคนา</p>'+auditTable+'<div class="hc-sources">หลักฐานอ้างอิง: <a href="https://sunwasa.wordpress.com/2011/05/16/องค์เกณฑ์-อุดมเกณฑ์-และดาวฆาฏ/" target="_blank" rel="noopener">อ.วาสนา จันทภาษา</a> · <a href="https://vibhishana.com/library/kaen" target="_blank" rel="noopener">คลังเกณฑ์ลัคนา</a> · <a href="https://vibhishana.com/library/pathum" target="_blank" rel="noopener">ปทุมเกณฑ์</a></div>';
+  const html='<p class="hc-lead"><strong>ลัคนา:</strong> '+esc(ascSign)+' · <strong>ประเภท:</strong> '+esc(type.name)+' · <strong>นับภพ:</strong> ราศีเต็มภพจากลัคนา</p>'+auditTable;
   out.innerHTML=html;
  }
  window.addEventListener('hora50:chart-calculated',event=>render(event?.detail?.natal));
@@ -2777,174 +2777,42 @@ import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-
 })();
 </script>
 
+<style id="page799Enhancements">
+.page799-group{margin:14px 0;min-width:0}.page799-group>details{border:1px solid #dce3ef;border-radius:15px;background:#fff;box-shadow:0 5px 18px #18274b0d;overflow:hidden}.page799-group>details>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;background:#f4f6fb;color:#172b4d;font-weight:850;cursor:pointer;list-style:none}.page799-group>details>summary::-webkit-details-marker{display:none}.page799-group>details>summary:after{content:'＋ เปิด';font-size:11px;color:#334e83;background:#e3eafe;border-radius:7px;padding:4px 8px}.page799-group>details[open]>summary:after{content:'− ปิด';background:#dff3e8;color:#17633c}.page799-group-content{padding:1px 14px 12px}.page799-search-input{width:100%;min-height:43px;border:1px solid #d7deeb;border-radius:11px;background:#fbfcff;color:var(--ink);padding:10px 11px;font:inherit;font-size:14px}.page799-search-input:focus{outline:none;border-color:var(--violet);background:#fff;box-shadow:0 0 0 3px #6258d922}.page799-native-select{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+</style>
 <script id="page799DisplayManager">
-/* 799.html only: organize all nine page areas; display preferences never change calculations. */
-(function(){
- 'use strict';
- const STORAGE_KEY='hora799:display-layout:v1';
- const definitions=[
-  {key:'data',label:'ข้อมูลวันเดือนปีเกิดและสถานที่',selectors:['#calculatePanel']},
-  {key:'chart',label:'ดวงกำเนิด',selectors:['#wheelPanel2']},
-  {key:'standards',label:'มาตรฐานดาว',selectors:['#starDetails','#planetDignityNumberSummary8']},
-  {key:'criteria',label:'เกณฑ์ลัคนาไทย',selectors:['#horaThaiHouseCriteria791']},
-  {key:'thaksaNatal',label:'ตารางทักษาเดิม',selectors:['#thaksaPanel51']},
-  {key:'thaksaTransit',label:'ตารางทักษาจร',selectors:['#thaksaTransitPanel799']},
-  {key:'navamsa',label:'นวางค์',selectors:['#navamsaPanel50']},
-  {key:'triyang',label:'ตรียางค์',selectors:['#triyangPanel50']},
-  {key:'other',label:'ผลวิเคราะห์อื่น ๆ',selectors:['#selectedSignAnalysis999','#thaksaPairing51','#compare','#thaksaRoleSummary100']}
- ];
- const defaultOrder=definitions.map(x=>x.key);
- const definitionByKey=new Map(definitions.map(x=>[x.key,x]));
- const $=id=>document.getElementById(id);
- let state={order:[...defaultOrder],visible:Object.fromEntries(defaultOrder.map(k=>[k,true]))};
- let groups=new Map(),host=null;
-
- function splitThaksa(){
-  const panel=$('thaksaPanel51');
-  const grid=panel?.querySelector('.thaksa51-grids');
-  if(!panel||!grid||$('thaksaTransitPanel799'))return;
-  const cards=[...grid.children].filter(el=>el.classList.contains('thaksa51-card'));
-  if(cards.length<2)return;
-  const transitCard=cards[1];
-  grid.removeChild(transitCard);
-  grid.style.gridTemplateColumns='minmax(0,1fr)';
-  const title=panel.querySelector('.section-title h2');
-  if(title)title.textContent='ตารางทักษาเดิม';
-  const transitPanel=document.createElement('section');
-  transitPanel.id='thaksaTransitPanel799';
-  transitPanel.className='panel';
-  transitPanel.innerHTML='<div class="section-title" style="flex-wrap:wrap"><h2>ตารางทักษาจร</h2><button type="button" class="thaksa799-run">คำนวณทักษาจร</button><span class="badge">Transit Thaksa · ผัง 3 × 3</span></div><p class="criteria7-muted">ตารางนี้ใช้การคำนวณทักษาจรชุดเดียวกับตารางทักษาเดิม สามารถสั่งคำนวณจากปุ่มนี้ได้โดยไม่ต้องแสดงตารางทักษาเดิม</p>';
-  transitPanel.appendChild(transitCard);
-  transitPanel.querySelector('.thaksa799-run').addEventListener('click',()=> $('thaksaRun51')?.click());
-  panel.parentNode.insertBefore(transitPanel,panel.nextSibling);
- }
-
- function readSaved(){
-  try{
-   const raw=localStorage.getItem(STORAGE_KEY);
-   if(!raw)return;
-   const saved=JSON.parse(raw);
-   if(Array.isArray(saved?.order)){
-    const valid=saved.order.filter((key,index)=>definitionByKey.has(key)&&saved.order.indexOf(key)===index);
-    state.order=[...valid,...defaultOrder.filter(key=>!valid.includes(key))];
-   }
-   if(saved?.visible&&typeof saved.visible==='object'){
-    defaultOrder.forEach(key=>{state.visible[key]=saved.visible[key]!==false;});
-   }
-  }catch(error){console.warn('[HORA 799] ไม่สามารถอ่านค่าการแสดงผลที่บันทึกไว้',error);}
- }
- function save(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
-  catch(error){console.warn('[HORA 799] ไม่สามารถบันทึกค่าการแสดงผลในเบราว์เซอร์',error);}
- }
- function buildGroups(){
-  const main=document.querySelector('main.container');
-  if(!main)return false;
-  splitThaksa();
-  host=$('page799Content');
-  if(!host){
-   host=document.createElement('div');
-   host.id='page799Content';
-   main.appendChild(host);
-  }
-  definitions.forEach(def=>{
-   const wrapper=document.createElement('div');
-   wrapper.className='page799-group';
-   wrapper.dataset.page799Group=def.key;
-   groups.set(def.key,{definition:def,wrapper});
-   def.selectors.forEach(selector=>{
-    const node=document.querySelector(selector);
-    if(node)wrapper.appendChild(node);
-   });
-   host.appendChild(wrapper);
-  });
-  /* Any additional top-level analysis panels are retained under "ผลวิเคราะห์อื่น ๆ". */
-  const other=groups.get('other')?.wrapper;
-  [...main.children].forEach(node=>{
-   if(node===host||node.tagName==='STYLE'||node.tagName==='SCRIPT')return;
-   if(node.classList?.contains('panel')||node.matches?.('section.panel')){
-    if(![...groups.values()].some(g=>g.wrapper.contains(node)))other?.appendChild(node);
-   }
-  });
-  return true;
- }
- function apply(){
-  state.order.forEach(key=>{
-   const group=groups.get(key);
-   if(!group)return;
-   group.wrapper.hidden=state.visible[key]===false;
-   host.appendChild(group.wrapper);
-  });
-  window.dispatchEvent(new Event('resize'));
- }
- function updateCount(){
-  const count=$('displayPickerCount9');
-  if(!count)return;
-  const shown=defaultOrder.filter(key=>state.visible[key]!==false).length;
-  count.textContent='แสดง '+shown+' จาก 9 ส่วน';
- }
- function renderControls(){
-  const list=$('displayPickerList9');
-  if(!list)return;
-  list.replaceChildren();
-  state.order.forEach((key,index)=>{
-   const def=definitionByKey.get(key);
-   const row=document.createElement('div');
-   row.className='display-picker-row799';
-   const label=document.createElement('label');
-   label.className='display-picker-item9';
-   const input=document.createElement('input');
-   input.type='checkbox';
-   input.checked=state.visible[key]!==false;
-   input.setAttribute('aria-label','แสดง '+def.label);
-   const text=document.createElement('span');
-   text.textContent=def.label;
-   label.append(input,text);
-   input.addEventListener('change',()=>{
-    state.visible[key]=input.checked;
-    apply();save();updateCount();
-   });
-   const order=document.createElement('div');
-   order.className='display-picker-order799';
-   const up=document.createElement('button');
-   up.type='button';up.textContent='↑';up.title='เลื่อน '+def.label+' ขึ้น';up.setAttribute('aria-label',up.title);up.disabled=index===0;
-   up.addEventListener('click',()=>move(index,-1));
-   const down=document.createElement('button');
-   down.type='button';down.textContent='↓';down.title='เลื่อน '+def.label+' ลง';down.setAttribute('aria-label',down.title);down.disabled=index===state.order.length-1;
-   down.addEventListener('click',()=>move(index,1));
-   order.append(up,down);
-   row.append(label,order);
-   list.appendChild(row);
-  });
-  updateCount();
- }
- function move(index,delta){
-  const next=index+delta;
-  if(next<0||next>=state.order.length)return;
-  [state.order[index],state.order[next]]=[state.order[next],state.order[index]];
-  apply();save();renderControls();
- }
- function setAll(visible){
-  defaultOrder.forEach(key=>state.visible[key]=visible);
-  apply();save();renderControls();
- }
- function reset(){
-  state={order:[...defaultOrder],visible:Object.fromEntries(defaultOrder.map(key=>[key,true]))};
-  apply();save();renderControls();
- }
- function init(){
-  if($('displayPicker9')?.dataset.page799Ready==='1')return;
-  if(!buildGroups())return;
-  $('displayPicker9').dataset.page799Ready='1';
-  readSaved();
-  apply();
-  renderControls();
-  $('displayPickerAll9')?.addEventListener('click',()=>setAll(true));
-  $('displayPickerNone9')?.addEventListener('click',()=>setAll(false));
-  $('displayPickerReset9')?.addEventListener('click',reset);
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
- else init();
+(()=>{'use strict';
+const KEY='hora799:display-layout:v2',defs=[
+{key:'data',label:'ข้อมูลวันเดือนปีเกิดและสถานที่',selectors:['#calculatePanel','#birthDetails']},
+{key:'chart',label:'ดวงกำเนิด',selectors:['#wheelPanel2']},
+{key:'standards',label:'มาตรฐานดาว',selectors:['#starDetails','#planetDignityNumberSummary8']},
+{key:'criteria',label:'เกณฑ์ลัคนาไทย',selectors:['#horaThaiHouseCriteria791']},
+{key:'thaksaNatal',label:'ตารางทักษาเดิม',selectors:['#thaksaPanel51']},
+{key:'thaksaTransit',label:'ตารางทักษาจร',selectors:['#thaksaTransitPanel799']},
+{key:'navamsa',label:'นวางค์',selectors:['#navamsaPanel50']},
+{key:'triyang',label:'ตรียางค์',selectors:['#triyangPanel50']},
+{key:'other',label:'ผลวิเคราะห์อื่น ๆ',selectors:['#selectedSignAnalysis999','#thaksaPairing51','#compare','#thaksaRoleSummary100']}
+],keys=defs.map(x=>x.key),byKey=new Map(defs.map(x=>[x.key,x])), $=id=>document.getElementById(id);
+let state={order:[...keys],visible:Object.fromEntries(keys.map(k=>[k,true])),collapsed:{}},groups=new Map(),host;
+function splitThaksa(){const p=$('thaksaPanel51'),g=p?.querySelector('.thaksa51-grids');if(!p||!g||$('thaksaTransitPanel799'))return;const cards=[...g.children].filter(x=>x.classList.contains('thaksa51-card'));if(cards.length<2)return;g.removeChild(cards[1]);g.style.gridTemplateColumns='minmax(0,1fr)';const h=p.querySelector('.section-title h2');if(h)h.textContent='ตารางทักษาเดิม';const t=document.createElement('section');t.id='thaksaTransitPanel799';t.className='panel';t.innerHTML='<div class="section-title"><h2>ตารางทักษาจร</h2><button type="button" class="thaksa799-run">คำนวณทักษาจร</button></div>';t.append(cards[1]);t.querySelector('button').onclick=()=>$('thaksaRun51')?.click();p.after(t);}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){console.warn('[799] save layout',e);}}
+function add(node,key){const g=groups.get(key)||groups.get('other');if(g&&!g.content.contains(node))g.content.append(node);}
+function build(){const main=document.querySelector('main.container');if(!main)return false;splitThaksa();host=$('page799Content');if(!host){host=document.createElement('div');host.id='page799Content';main.append(host);}
+defs.forEach(d=>{const wrap=document.createElement('div');wrap.className='page799-group';const details=document.createElement('details');details.open=true;const summary=document.createElement('summary');summary.textContent=d.label;const content=document.createElement('div');content.className='page799-group-content';details.append(summary,content);wrap.append(details);host.append(wrap);groups.set(d.key,{wrap,details,content});details.addEventListener('toggle',()=>{state.collapsed[d.key]=!details.open;save();});});
+defs.forEach(d=>d.selectors.forEach(sel=>{const n=document.querySelector(sel);if(n)add(n,d.key);}));
+[...main.children].forEach(n=>{if(n!==host&&n.tagName!=='STYLE'&&n.tagName!=='SCRIPT'&&(n.matches?.('.panel,section.panel')||n.id==='birthDetails'))add(n,n.id==='birthDetails'?'data':'other');});
+new MutationObserver(rs=>rs.forEach(r=>r.addedNodes.forEach(n=>{if(n.nodeType===1&&n!==host&&n.tagName!=='STYLE'&&n.tagName!=='SCRIPT'&&n.matches?.('.panel,section.panel,#birthDetails'))add(n,n.id==='birthDetails'?'data':'other');}))).observe(main,{childList:true});return true;}
+function apply(){state.order.forEach(k=>{const g=groups.get(k);if(!g)return;g.wrap.hidden=state.visible[k]===false;g.details.open=state.collapsed[k]!==true;host.append(g.wrap);});window.dispatchEvent(new Event('resize'));}
+function count(){const e=$('displayPickerCount9');if(e)e.textContent='แสดง '+keys.filter(k=>state.visible[k]!==false).length+' จาก 9 ส่วน';}
+function controls(){const list=$('displayPickerList9');if(!list)return;list.replaceChildren();state.order.forEach((k,i)=>{const d=byKey.get(k),row=document.createElement('div');row.className='display-picker-row799';const label=document.createElement('label');label.className='display-picker-item9';const cb=document.createElement('input');cb.type='checkbox';cb.checked=state.visible[k]!==false;const txt=document.createElement('span');txt.textContent=d.label;label.append(cb,txt);cb.onchange=()=>{state.visible[k]=cb.checked;apply();save();count();};const arrows=document.createElement('div');arrows.className='display-picker-order799';[['↑',-1],['↓',1]].forEach(([t,delta])=>{const b=document.createElement('button');b.type='button';b.textContent=t;b.disabled=i+delta<0||i+delta>=state.order.length;b.onclick=()=>{const j=i+delta;[state.order[i],state.order[j]]=[state.order[j],state.order[i]];apply();save();controls();};arrows.append(b);});row.append(label,arrows);list.append(row);});count();}
+function all(v){keys.forEach(k=>state.visible[k]=v);apply();save();controls();}
+function reset(){state={order:[...keys],visible:Object.fromEntries(keys.map(k=>[k,true])),collapsed:{}};apply();save();controls();}
+function search(id,type){const sel=$(id);if(!sel||sel.dataset.searchReady)return;sel.dataset.searchReady='1';const inp=document.createElement('input'),dl=document.createElement('datalist');inp.type='text';inp.className='page799-search-input';inp.autocomplete='off';inp.setAttribute('list','799-list-'+id);inp.placeholder=type==='year'?'พิมพ์ปี พ.ศ. เช่น 2534':'พิมพ์ชื่อจังหวัด เช่น ขอน';inp.setAttribute('aria-label',inp.placeholder);dl.id='799-list-'+id;sel.before(inp);inp.after(dl);sel.classList.add('page799-native-select');
+function options(){dl.replaceChildren();[...sel.options].filter(o=>o.value!=='').forEach(o=>{const x=document.createElement('option');x.value=type==='year'?o.value:o.textContent.trim();dl.append(x);});const o=sel.options[sel.selectedIndex];inp.value=o?(type==='year'?o.value:o.textContent.trim()):'';}
+function choose(){const q=inp.value.trim(),opts=[...sel.options].filter(o=>o.value!=='');const hit=opts.find(o=>(type==='year'?o.value:o.textContent.trim())===q);if(hit){sel.value=hit.value;sel.dispatchEvent(new Event('change',{bubbles:true}));inp.setCustomValidity('');}else if(q)inp.setCustomValidity('กรุณาเลือกค่าจากรายการที่แสดง');else{sel.value='';sel.dispatchEvent(new Event('change',{bubbles:true}));}}
+inp.addEventListener('change',choose);inp.addEventListener('keydown',e=>{if(e.key==='Enter'){choose();if(inp.validationMessage)e.preventDefault();}});sel.addEventListener('change',options);new MutationObserver(options).observe(sel,{childList:true,subtree:true});options();}
+function init(){if($('displayPicker9')?.dataset.page799Ready)return;if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </body></html>
