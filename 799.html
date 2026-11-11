@@ -823,6 +823,49 @@ setTimeout(()=>{if(!window.__HORA_BOOT_OK){el.hidden=false;if(el.textContent.ind
  new MutationObserver(apply791CriteriaFilter).observe(body,{childList:true,subtree:true,characterData:true});
 })();
 </script>
+<script>
+/* 799-only: add Chandra Guru Surya variants to the existing natal special-criteria table.
+   This is a read-only check of calculated natal positions; it does not alter any formula. */
+(()=>{
+ const table=document.getElementById('planetDignityNumberTable8');
+ const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const nums={'อาทิตย์':'๑','จันทร์':'๒','พฤหัสบดี':'๕'};
+ const doorSigns=new Set(['เมษ','กรกฎ','ตุล','มกร']);
+ const norm=value=>((Number(value)%360)+360)%360;
+ const signOf=longitude=>signNames[Math.floor(norm(longitude)/30)];
+ const houseOf=(longitude,asc)=>((Math.floor(norm(longitude)/30)-Math.floor(norm(asc)/30)+12)%12)+1;
+ function addRows(chart){
+  const body=table?.querySelector('tbody');
+  if(!body||!chart||!Number.isFinite(Number(chart.asc))||!Array.isArray(chart.planets))return;
+  const required=['อาทิตย์','จันทร์','พฤหัสบดี'];
+  const points=required.map(name=>chart.planets.find(p=>p?.name===name&&Number.isFinite(Number(p.longitude))));
+  const complete=points.every(Boolean);
+  const inDoorways=complete&&points.every(p=>doorSigns.has(signOf(p.longitude)));
+  const clearOfDusthana=complete&&points.every(p=>![6,8,12].includes(houseOf(p.longitude,chart.asc)));
+  const digits=required.map(name=>nums[name]).join(' · ');
+  const variants=[
+   {label:'จันทร์คุรุสุริยา · แบบ A: ดาว ๑/๒/๕ อยู่ทวารราศีครบ และไม่อยู่ภพ ๖/๘/๑๒',pass:inDoorways&&clearOfDusthana},
+   {label:'จันทร์คุรุสุริยา · แบบ B: ดาว ๑/๒/๕ อยู่ทวารราศีครบ',pass:inDoorways}
+  ];
+  const rows=[...body.rows];
+  const groupIndex=rows.findIndex(row=>row.querySelector('th[colspan]')?.textContent.trim()==='เกณฑ์พิเศษที่มีโครงสูตรในคลัง');
+  if(groupIndex<0)return;
+  let insertBefore=null;
+  for(let i=groupIndex+1;i<rows.length;i++){
+   if(rows[i].querySelector('th[colspan]')){insertBefore=rows[i];break;}
+  }
+  variants.forEach(item=>{
+   const tr=document.createElement('tr');
+   const label=document.createElement('td');label.textContent=item.label;
+   const natal=document.createElement('td');natal.textContent=item.pass?digits:'—';
+   const transit=document.createElement('td');transit.textContent='—';
+   tr.append(label,natal,transit);
+   if(insertBefore)body.insertBefore(tr,insertBefore);else body.appendChild(tr);
+  });
+ }
+ window.addEventListener('hora50:chart-calculated',event=>addRows(event?.detail?.natal));
+})();
+</script>
 <script type="module">
 /* INDEX101: color-coded 12-sign planetary-standard ring. Every zodiac sign gets a circle,
    while matching natal/transit planet numbers are placed inside their sign's circle. */
