@@ -2047,6 +2047,35 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
    summaryValue.textContent='ราศี'+signs[selectedSignIndex]+' · '+(selectedHouse||'ไม่พบลัคนาดวงเดิม');
    summaryLine.append(summaryLabel,summaryValue);
    summary.appendChild(summaryLine);
+   // แสดงราศีเกษตรของดาวที่กดและแปลงเป็นภพจากลัคนาเดิม โดยใช้ชุดข้อมูลมาตรฐานกลาง
+   const addHistorySummaryLine=(label,value)=>{
+    const line=document.createElement('div');
+    const strong=document.createElement('strong');
+    strong.textContent=label+' ';
+    const span=document.createElement('span');
+    span.textContent=value;
+    line.append(strong,span);
+    summary.appendChild(line);
+   };
+   const domicileSigns=Array.isArray(PLANETARY_DIGNITY_DATA?.[planet]?.domicileSigns)
+    ?PLANETARY_DIGNITY_DATA[planet].domicileSigns.filter(value=>signs.includes(value)):[];
+   const domicileText=domicileSigns.length
+    ?domicileSigns.map(domicileSign=>{
+      const domicileIndex=signs.indexOf(domicileSign);
+      return 'ราศี'+domicileSign+' · '+resolveNatalHouseForSign(domicileIndex);
+     }).join(' / ')
+    :'ยังไม่มีการกำหนดเกษตรในชุดข้อมูลมาตรฐาน';
+   addHistorySummaryLine('เกษตรของ'+planet+' · ภพจากลัคนาเดิม:',domicileText);
+   const natalPlanet=Array.isArray(latestChartData?.natal?.planets)
+    ?latestChartData.natal.planets.find(item=>item?.name===planet):null;
+   const natalLongitude=Number(natalPlanet?.longitude);
+   const natalPositionText=natalPlanet&&Number.isFinite(natalLongitude)
+    ?(()=>{
+      const natalSignIndex=Math.floor((((natalLongitude%360)+360)%360)/30);
+      return 'ราศี'+signs[natalSignIndex]+' · '+resolveNatalHouseForSign(natalSignIndex);
+     })()
+    :'ไม่พบตำแหน่งดาวเดิมในข้อมูลดวงกำเนิด';
+   addHistorySummaryLine(planet+'เดิมในวันเกิด:',natalPositionText);
    history.appendChild(summary);
    const table=document.createElement('table');
    const thead=document.createElement('thead'),headRow=document.createElement('tr');
