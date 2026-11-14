@@ -3121,4 +3121,158 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 }
 </style>
 
+
+<style id="page911-form-wheel-refinement-v4">
+/* Form: give both panels enough width; use native lists for year and province. */
+#calculatePanel.show{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-items:start!important;
+  gap:14px!important;
+}
+#calculatePanel>.panel{min-width:0!important;width:100%!important}
+#calculatePanel .form-grid{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  grid-auto-flow:row!important;
+  align-items:end!important;
+  gap:10px 10px!important;
+}
+#calculatePanel .form-grid>.field{
+  grid-column:auto!important;grid-row:auto!important;
+  width:100%!important;min-width:0!important;margin:0!important;
+}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bPlace){grid-column:1/-1!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bMonth){grid-column:2!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bYear){grid-column:3/5!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bHour){grid-column:1!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bMinute){grid-column:2!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bLat){grid-column:3!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bLon){grid-column:4!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bProvince){grid-column:1/3!important;grid-row:4!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bDistrict){grid-column:3/5!important;grid-row:4!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fMonth){grid-column:2!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fYear){grid-column:3/5!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fHour){grid-column:1!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fMinute){grid-column:2!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fLat){grid-column:3!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fLon){grid-column:4!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fProvince){grid-column:1/3!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fDistrict){grid-column:3/5!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fPlace){grid-column:1/-1!important;grid-row:4!important}
+#calculatePanel .field{min-width:0!important;gap:4px!important}
+#calculatePanel .field label{
+  display:block!important;min-height:1.4em!important;
+  margin:0!important;line-height:1.35!important;
+  font-size:12px!important;font-weight:800!important;
+}
+#calculatePanel .field label small{display:none!important}
+#calculatePanel .field input,#calculatePanel .field select{
+  display:block!important;width:100%!important;min-width:0!important;
+  height:43px!important;min-height:43px!important;
+  margin:0!important;padding:8px 10px!important;
+  border:1px solid #cbd5e1!important;border-radius:9px!important;
+  background:#fff!important;color:#17233d!important;
+  font-size:14px!important;line-height:1.25!important;
+  box-sizing:border-box!important;
+}
+/* Replace the searchable text overlays with the original select controls. */
+#calculatePanel .page799-search-wrap{display:contents!important;position:static!important}
+#calculatePanel .page799-search-input,
+#calculatePanel .page799-search-results{display:none!important}
+#calculatePanel select.page799-native-select{
+  display:block!important;position:static!important;
+  width:100%!important;height:43px!important;min-height:43px!important;
+  margin:0!important;padding:8px 10px!important;
+  overflow:visible!important;clip:auto!important;clip-path:none!important;
+  white-space:normal!important;opacity:1!important;visibility:visible!important;
+  pointer-events:auto!important;border:1px solid #cbd5e1!important;
+  border-radius:9px!important;background:#fff!important;
+}
+#calculatePanel .calc-row{margin-top:12px!important;padding-top:10px!important}
+@media(max-width:1100px){
+  #calculatePanel.show{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+}
+@media(max-width:600px){
+  #calculatePanel .form-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px 9px!important;
+  }
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bPlace){grid-column:1/3!important;grid-row:1!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bMonth){grid-column:2!important;grid-row:2!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bYear){grid-column:1/3!important;grid-row:3!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bHour){grid-column:1!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bMinute){grid-column:2!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bProvince){grid-column:1!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bDistrict){grid-column:2!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bLat){grid-column:1!important;grid-row:6!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bLon){grid-column:2!important;grid-row:6!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fMonth){grid-column:2!important;grid-row:1!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fYear){grid-column:1/3!important;grid-row:2!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fHour){grid-column:1!important;grid-row:3!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fMinute){grid-column:2!important;grid-row:3!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fProvince){grid-column:1!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fDistrict){grid-column:2!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fLat){grid-column:1!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fLon){grid-column:2!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fPlace){grid-column:1/3!important;grid-row:6!important}
+  #calculatePanel .field label{font-size:11px!important}
+  #calculatePanel .field input,#calculatePanel .field select,
+  #calculatePanel select.page799-native-select{height:42px!important;min-height:42px!important;font-size:14px!important}
+}
+/* Zodiac wheel: stronger natal markers, restrained outer-ring typography. */
+#wheelPanel2 #wheelWrap2{
+  width:100%!important;max-width:100%!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+}
+#wheelPanel2 #wheel svg{display:block;width:100%!important;height:auto;max-width:none!important}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"][data-kind="natal"]{
+  transform:scale(1.22);transform-box:fill-box;transform-origin:center;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"][data-kind="natal"] text{
+  font-size:14px!important;font-weight:950!important;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"][data-kind="transit"] text{
+  font-size:12px!important;font-weight:900!important;
+}
+#wheelPanel2 #wheel svg .zodiac-sign-label5{
+  font-size:20px!important;font-weight:950!important;
+  paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;
+}
+#wheelPanel2 #wheel svg .house-name-label5{
+  font-size:12px!important;font-weight:850!important;
+  paint-order:stroke;stroke:#fff;stroke-width:2.5px;stroke-linejoin:round;
+}
+#wheelPanel2 #wheel svg .nava-number2{
+  font-size:14px!important;font-weight:900!important;
+  fill:#172033!important;stroke:#fff!important;stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-name2{
+  font-size:15px!important;font-weight:900!important;
+  fill:#7c2d12!important;stroke:#fff!important;stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-type2{
+  font-size:12px!important;font-weight:900!important;
+  fill:#1646a0!important;stroke:#fff!important;stroke-width:2.8px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .triyang-ruler-number2{
+  font-size:14px!important;font-weight:900!important;
+  stroke:#fff!important;stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .triyang-poison-label5{
+  font-size:11px!important;font-weight:900!important;
+}
+#wheelPanel2 #wheel svg .nava-tick2{stroke:#334155!important;stroke-width:1.2!important}
+#wheelPanel2 #wheel svg .nak-boundary2{stroke:#6841bd!important;stroke-width:1.7!important}
+@media(max-width:600px){
+  #wheelPanel2 #wheel{width:760px!important;min-width:760px!important;max-width:none!important}
+  #wheelPanel2 #wheel svg{width:760px!important;min-width:760px!important;max-width:none!important}
+}
+</style>
+
 </body></html>
