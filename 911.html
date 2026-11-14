@@ -1853,7 +1853,13 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   panel.hidden=false;
   panel.innerHTML='';
   const title=document.createElement('div');title.className='pss-title';
-  title.textContent=planet+' · '+(kind==='natal'?'ดาวเดิม (ดวงกำเนิด)':'ดาวจร')+' · ราศี'+sign;
+  const titleLon=((Number(currentLon)%360)+360)%360;
+  const titleWithin=titleLon%30;
+  const titleDegree=Math.floor(titleWithin);
+  const titleMinute=Math.floor((titleWithin-titleDegree)*60);
+  const titleSecond=Math.floor((((titleWithin-titleDegree)*60)-titleMinute)*60);
+  const titlePosition=String(titleDegree).padStart(2,'0')+'° '+String(titleMinute).padStart(2,'0')+'′ '+String(titleSecond).padStart(2,'0')+'″';
+  title.textContent=planet+' · '+(kind==='natal'?'ดาวเดิม (ดวงกำเนิด)':'ดาวจร')+' · ราศี'+sign+' '+titlePosition;
   panel.appendChild(title);
   try{const birth=dateFromInputs('b'),transit=dateFromInputs('f');const birthBlock=document.createElement('div');birthBlock.className='pss-date-summary';appendDateBlock(birthBlock,'วันเกิด',birth,'b',null);appendDateBlock(birthBlock,'วันจร',transit,'f',elapsedAge(birth,transit));panel.appendChild(birthBlock);}catch(dateError){const warning=document.createElement('div');warning.className='pss-note';warning.textContent='ไม่สามารถอ่านรายละเอียดวันเกิด/วันจรจากแบบฟอร์มได้: '+String(dateError?.message||dateError);panel.appendChild(warning);}
   const grid=document.createElement('div');grid.className='pss-grid';
