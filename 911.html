@@ -3980,6 +3980,23 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <style id="pss-marker-feedback-v1">
 /* Immediate visual acknowledgement while a planet's ingress history is being searched. */
+#wheel g[data-planet-marker="true"]{
+  cursor:pointer;
+  transition:scale .12s ease,filter .12s ease,opacity .12s ease;
+  transform-box:fill-box;
+  transform-origin:center;
+  touch-action:manipulation;
+}
+#wheel g[data-planet-marker="true"].pss-marker-pressed{
+  scale:.88;
+  filter:brightness(1.18) drop-shadow(0 0 5px rgba(79,70,229,.85)) drop-shadow(0 0 9px rgba(16,185,129,.55));
+}
+#wheel g[data-planet-marker="true"][data-kind="natal"].pss-marker-pressed{
+  filter:brightness(1.2) drop-shadow(0 0 7px rgba(124,58,237,.95));
+}
+#wheel g[data-planet-marker="true"][data-kind="transit"].pss-marker-pressed{
+  filter:brightness(1.2) drop-shadow(0 0 7px rgba(5,150,105,.95));
+}
 #wheel g.pss-marker-searching{
   transform-box:fill-box;
   transform-origin:center;
@@ -3996,6 +4013,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   to{transform:scale(1.09);opacity:.82}
 }
 @media(prefers-reduced-motion:reduce){
+  #wheel g[data-planet-marker="true"]{transition:none}
   #wheel g.pss-marker-searching{animation:none;filter:drop-shadow(0 0 7px rgba(217,145,24,.9))}
 }
 </style>
