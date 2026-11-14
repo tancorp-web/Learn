@@ -2020,7 +2020,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    history.appendChild(heading);
    const table=document.createElement('table');
    const thead=document.createElement('thead'),headRow=document.createElement('tr');
-   ['ช่วงเวลา','ราศี ณ เวลานั้น','ภพจากลัคนาเดิม','วัน เดือน ปี และเวลา'].forEach(label=>{
+   ['ชื่อภพ · นับจากลัคนาเดิม','ราศี ณ เวลานั้น','วัน เดือน ปี และเวลา'].forEach(label=>{
     const th=document.createElement('th');th.textContent=label;headRow.appendChild(th);
    });
    thead.appendChild(headRow);table.appendChild(thead);
@@ -2040,7 +2040,12 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    rows.forEach(item=>{
     const tr=document.createElement('tr');if(item.current)tr.className='pss-current';
     const rowSign=Number.isInteger(item.signIndex)?signs[item.signIndex]:'-';
-    [item.label,rowSign,Number.isInteger(item.signIndex)?houseForSign(item.signIndex):'-',item.stamp==null?'ไม่พบภายในช่วงค้นหา':localDateTime(item.stamp)].forEach(value=>{
+    const houseCell=document.createElement('td');
+    const houseStrong=document.createElement('strong');
+    houseStrong.className='pss-house-name';
+    houseStrong.textContent=Number.isInteger(item.signIndex)?houseForSign(item.signIndex):'-';
+    houseCell.appendChild(houseStrong);tr.appendChild(houseCell);
+    [rowSign,item.stamp==null?'ไม่พบภายในช่วงค้นหา':localDateTime(item.stamp)].forEach(value=>{
      const td=document.createElement('td');td.textContent=value;tr.appendChild(td);
     });
     tbody.appendChild(tr);
