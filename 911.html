@@ -896,7 +896,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
    const tanuSesha=ascValid?calculateTanuSesha({ascendantLongitude:natalAsc,planets:natalPlanets}):null;
    const exchangeFlags=chart=>{
     const result=new Map();
-    const relations=getParivartanaKasetRelations((Array.isArray(chart.planets)?chart.planets:[]).filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>({name:p.name,sign:parts(p.longitude).sign})));
+    const relations=getParivartanaKasetRelations((Array.isArray(chart?.planets)?chart.planets:[]).filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>({name:p.name,sign:parts(p.longitude).sign})));
     relations.forEach(relation=>{
      const label=relation.type==='pair'?'เกษตรสลับเรือน':relation.type==='triple'?'ปริวรรตเกษตร':null;
      if(!label)return;
@@ -907,7 +907,59 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
     });
     return result;
    };
+   const criteriaFlags=chart=>{
+    const result=new Map(planetOrder.map(name=>[name,[]]));
+    const add=(name,label)=>{
+     if(!result.has(name))return;
+     if(!result.get(name).includes(label))result.get(name).push(label);
+    };
+    const planets=Array.isArray(chart?.planets)?chart.planets:[];
+    const byName=new Map(planets.filter(p=>p?.name&&Number.isFinite(Number(p.longitude))).map(p=>[p.name,p]));
+    if(!Number.isFinite(Number(chart?.asc)))return result;
+    const ascIndex=parts(chart.asc).signIndex;
+    const house=name=>{
+     const p=byName.get(name);
+     return p?((parts(p.longitude).signIndex-ascIndex+12)%12)+1:null;
+    };
+    const signSet=new Set(planets.filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>parts(p.longitude).signIndex));
+    const complete=planetOrder.every(name=>byName.has(name));
+    const planetsInSigns=indices=>planetOrder.filter(name=>byName.has(name)&&indices.includes(parts(byName.get(name).longitude).signIndex));
+    const pikul=[0,2,4,6,8,10].map(offset=>(ascIndex+offset)%12);
+    if(complete&&pikul.every(index=>signSet.has(index)))planetsInSigns(pikul).forEach(name=>add(name,'ดอกพิกุล'));
+    const rahu=byName.get('ราหู');
+    if(rahu&&['มิถุน','ตุล','กุมภ์'].includes(parts(rahu.longitude).sign))add('ราหู','ปกิณกะโชค');
+    if(rahu&&house('ราหู')===3)add('ราหู','ปกิณกะโชค');
+    if(house('จันทร์')===11&&house('พฤหัสบดี')===4&&house('ศุกร์')===3){
+     ['จันทร์','พฤหัสบดี','ศุกร์'].forEach(name=>add(name,'ปทุมเกณฑ์'));
+    }
+    const coffin=[2,4,8,10];
+    if(complete&&coffin.every(index=>signSet.has(index)))planetsInSigns(coffin).forEach(name=>add(name,'ดวงโลงผี'));
+    const triangle=[(ascIndex+11)%12,ascIndex,(ascIndex+1)%12];
+    const trianglePoints=planets.filter(p=>p&&Number.isFinite(Number(p.longitude))&&triangle.includes(parts(p.longitude).signIndex));
+    if(Number.isFinite(Number(chart.asc))&&trianglePoints.length+1>=5)planetsInSigns(triangle).forEach(name=>add(name,'ดวงสามเหลี่ยม / หนุมาน'));
+    const typeRules=[
+     {signs:[0,1,4],planets:['อาทิตย์','จันทร์','อังคาร','พฤหัสบดี'],house:10},
+     {signs:[2,5,6,8,10],planets:['อาทิตย์','พฤหัสบดี','เสาร์'],house:1},
+     {signs:[3,9,11],planets:['จันทร์','พุธ','พฤหัสบดี','ศุกร์'],house:4},
+     {signs:[7],planets:['อังคาร','ราหู'],house:7}
+    ];
+    const type=typeRules.find(rule=>rule.signs.includes(ascIndex));
+    if(type&&type.planets.every(name=>house(name)===type.house))type.planets.forEach(name=>add(name,'องค์เกณฑ์'));
+    const udomRules=[
+     {planets:['พุธ','พฤหัสบดี','ศุกร์'],houses:[3,4,7,11],allowAsc:true,signs:[2,5,6,8,10]},
+     {planets:['อังคาร','พฤหัสบดี','เสาร์','ราหู'],houses:[4,5,9],signs:[3,9,11]},
+     {planets:['อังคาร','ราหู'],houses:[3,7,9,12],signs:[7]},
+     {planets:['อาทิตย์','จันทร์','อังคาร','ศุกร์'],houses:[6,10],signs:[0,1,4]}
+    ];
+    const udom=udomRules.find(rule=>rule.signs.includes(ascIndex));
+    if(udom)udom.planets.forEach(name=>{
+     const h=house(name);
+     if(udom.houses.includes(h)||(udom.allowAsc&&h===1))add(name,'อุดมเกณฑ์');
+    });
+    return result;
+   };
    const natalExchange=exchangeFlags(natal),transitExchange=exchangeFlags(transit);
+   const natalCriteria=criteriaFlags(natal),transitCriteria=criteriaFlags(transit);
    const ascCell=(longitude,ascIndex)=>{
     if(!Number.isFinite(Number(longitude)))return '<span class="ps911-pos">—</span>';
     const p=parts(longitude),houseIndex=Number.isInteger(ascIndex)?(p.signIndex-ascIndex+12)%12:null,context=[];
@@ -923,14 +975,14 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
    rows.push('<tr><td><strong>ลัคนา (ล)</strong></td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
    planetOrder.forEach(name=>{
     const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
-    const natalTags=[...nFlags],transitTags=[...tFlags];
+    const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[])];
+    const transitTags=[...(transitCriteria.get(name)||[]),...(transitExchange.get(name)||[])];
     if(b&&Number.isFinite(Number(b.longitude))&&name===lordName)natalTags.push('ตนุลัคน์');
     if(b&&Number.isFinite(Number(b.longitude))&&name===lordName&&kasetNatal)natalTags.push('ตนุเกษตร');
     if(b&&Number.isFinite(Number(b.longitude))&&tanuSesha?.planetName===name)natalTags.push('ตนุเศษ');
-    natalTags.push(...(natalExchange.get(name)||[]));
-    transitTags.push(...(transitExchange.get(name)||[]));
-    const flags=tagLine('เดิม',[...new Set(natalTags)])+tagLine('จร',[...new Set(transitTags)]);
-    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong></td><td>'+cell(name,b,ascValid?ascParts.signIndex:null)+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null)+'</td><td>'+(flags||'—')+'</td></tr>');
+    const nameTags=tagLine('เดิม',[...new Set(natalTags)])+tagLine('จร',[...new Set(transitTags)]);
+    const flags=tagLine('เดิม',[...new Set(nFlags)])+tagLine('จร',[...new Set(tFlags)]);
+    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null)+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null)+'</td><td>'+(flags||'—')+'</td></tr>');
    });
    tbody.innerHTML=rows.join('');
  };
