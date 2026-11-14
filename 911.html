@@ -1104,7 +1104,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
    add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'nak-boundary2'});
   }
   for(let i=0;i<27;i++){
-   const lon=i*(360/27)+(180/27),p=xy(lon,422),q=xy(lon,458);
+   const lon=i*(360/27)+(180/27),p=xy(lon,478),q=xy(lon,520);
    add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nak-name2'},(i+1)+'. '+nak[i]);
    add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'},types[i%9]);
   }
@@ -2918,7 +2918,8 @@ list.className='page799-search-results';list.setAttribute('role','listbox');list
 sel.before(wrap);wrap.append(inp,list,sel);sel.classList.add('page799-native-select');sel.style.setProperty('display','none','important');sel.setAttribute('aria-hidden','true');
 let matches=[],active=-1,isTyping=false;
 function label(o){return type==='year'?o.value:o.textContent.trim();}
-function syncFromSelect(){if(isTyping)return;const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.setCustomValidity('');close();}
+function syncFromSelect(force=false){if(isTyping&&!force)return;if(force)isTyping=false;const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.disabled=false;inp.readOnly=false;inp.tabIndex=0;inp.setCustomValidity('');close();}
+wrap.addEventListener('hora911:sync-search',()=>syncFromSelect(true));
 function close(){list.hidden=true;inp.setAttribute('aria-expanded','false');active=-1;}
 function choose(o){if(!o)return;isTyping=false;sel.value=o.value;sel.dispatchEvent(new Event('change',{bubbles:true}));inp.value=label(o);inp.setCustomValidity('');close();}
 function render(){
@@ -2928,7 +2929,8 @@ else matches.forEach((o,i)=>{const item=document.createElement('button');item.ty
 list.hidden=false;inp.setAttribute('aria-expanded','true');
 }
 function markActive(next){const items=[...list.querySelectorAll('.page799-search-option')];if(!items.length)return;active=(next+items.length)%items.length;items.forEach((x,i)=>{x.classList.toggle('active',i===active);x.setAttribute('aria-selected',String(i===active));});items[active].scrollIntoView({block:'nearest'});}
-inp.addEventListener('focus',render);
+inp.addEventListener('pointerdown',()=>{inp.disabled=false;inp.readOnly=false;inp.focus({preventScroll:true});},{passive:true});
+inp.addEventListener('focus',()=>{inp.disabled=false;inp.readOnly=false;render();});
 inp.addEventListener('input',()=>{isTyping=true;sel.value='';inp.setCustomValidity('');render();});
 inp.addEventListener('keydown',e=>{
 if(e.key==='ArrowDown'){e.preventDefault();if(list.hidden)render();markActive(active+1);}
@@ -3336,31 +3338,81 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <script id="page911-search-sync-v6">
 (()=> {
  const ids=['bYear','fYear','bProvince','fProvince'];
- function sync(id,force=false){
-  const sel=document.getElementById(id);
-  const wrap=sel?.closest('.page799-search-wrap');
-  const inp=wrap?.querySelector('.page799-search-input');
-  if(!sel||!inp)return;
-  if(!force&&document.activeElement===inp)return;
-  const opt=sel.options[sel.selectedIndex];
-  inp.value=opt&&opt.value!==''?(id.endsWith('Year')?opt.value:opt.textContent.trim()):'';
-  inp.disabled=false;inp.readOnly=false;inp.tabIndex=0;
-  inp.setCustomValidity('');
-  const list=wrap.querySelector('.page799-search-results');
-  if(list)list.hidden=true;
-  inp.setAttribute('aria-expanded','false');
-  inp.dataset.externalSync='1';
+ function sync(id){
+  const sel=document.getElementById(id),wrap=sel?.closest('.page799-search-wrap');
+  if(!sel||!wrap)return;
+  wrap.dispatchEvent(new Event('hora911:sync-search'));
  }
- function syncAll(force=false){ids.forEach(id=>sync(id,force));}
+ function syncAll(){ids.forEach(sync);}
  ['resetBirthBangkokNow51','resetTransitBangkokNow51'].forEach(id=>{
-  document.getElementById(id)?.addEventListener('click',()=>setTimeout(()=>syncAll(true),40));
+  document.getElementById(id)?.addEventListener('click',()=>setTimeout(syncAll,90));
  });
- document.addEventListener('change',e=>{
-  if(ids.includes(e.target?.id))setTimeout(()=>sync(e.target.id),0);
- });
- window.addEventListener('hora50:chart-calculated',()=>syncAll(false));
- document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>syncAll(true),80),{once:true});
- setTimeout(()=>syncAll(true),80);
+ document.addEventListener('change',e=>{if(ids.includes(e.target?.id))setTimeout(()=>sync(e.target.id),0);});
+ window.addEventListener('hora50:chart-calculated',syncAll);
+ setTimeout(syncAll,120);
+})();
+</script>
+
+
+<script id="page911-marker-spacing-v8">
+(()=>{'use strict';
+ const center=360,NS='http://www.w3.org/2000/svg';
+ const norm=v=>((v%360)+360)%360;
+ const point=(lon,r)=>{const a=(-lon-75)*Math.PI/180;return{x:center+r*Math.cos(a),y:center+r*Math.sin(a)}};
+ const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+ function layout(){
+  const svg=document.querySelector('#wheel svg');if(!svg)return;
+  svg.setAttribute('viewBox','-180 -180 1080 1080');
+  const natal=[...svg.querySelectorAll('g[data-planet-marker="true"][data-kind="natal"]')];
+  const placed=[];
+  natal.sort((a,b)=>Number(a.dataset.longitude)-Number(b.dataset.longitude));
+  natal.forEach(g=>{
+   const circle=g.querySelector('circle:not([data-true-anchor])'),label=g.querySelector('text');
+   if(!circle||!label)return;
+   const old={x:Number(circle.getAttribute('cx')),y:Number(circle.getAttribute('cy'))};
+   const radius=Math.hypot(old.x-center,old.y-center);
+   const lon=norm(Number(g.dataset.longitude));
+   const sign=Math.floor(lon/30);
+   const offsets=[0,-2,2,-4,4,-6,6,-8,8,-10,10,-12,12,-14,14];
+   let best=null,bestClear=-1;
+   for(const shift of offsets){
+    const candidateLon=norm(lon+shift);
+    if(Math.floor(candidateLon/30)!==sign)continue;
+    const q=point(candidateLon,radius);
+    const clear=placed.length?Math.min(...placed.map(p=>dist(p,q))):Infinity;
+    if(clear>bestClear){bestClear=clear;best=q;}
+    if(clear>=38){best=q;break;}
+   }
+   if(!best)best=old;
+   const anchor=point(lon,radius);
+   const lines=[...g.querySelectorAll('line')];
+   if(lines.length){lines.forEach(line=>{line.setAttribute('x1',anchor.x);line.setAttribute('y1',anchor.y);line.setAttribute('x2',best.x);line.setAttribute('y2',best.y);});}
+   else if(dist(anchor,best)>2){
+    const make=(stroke,width)=>{const line=document.createElementNS(NS,'line');line.setAttribute('x1',anchor.x);line.setAttribute('y1',anchor.y);line.setAttribute('x2',best.x);line.setAttribute('y2',best.y);line.setAttribute('stroke',stroke);line.setAttribute('stroke-width',width);line.setAttribute('stroke-linecap','round');g.insertBefore(line,circle);};
+    make('#fff',4);make('#7250bd',2);
+   }
+   circle.setAttribute('cx',best.x);circle.setAttribute('cy',best.y);circle.setAttribute('r','10');
+   label.setAttribute('x',best.x);label.setAttribute('y',best.y+3.5);label.setAttribute('font-size','11');
+   placed.push(best);
+  });
+  const transit=[...svg.querySelectorAll('g[data-planet-marker="true"][data-kind="transit"]')];
+  transit.forEach(g=>{
+   const circle=g.querySelector('circle:not([data-true-anchor])'),label=g.querySelector('text');
+   if(!circle||!label)return;
+   const old={x:Number(circle.getAttribute('cx')),y:Number(circle.getAttribute('cy'))};
+   const oldR=Math.hypot(old.x-center,old.y-center);
+   const lane=oldR<326?380:oldR<358?415:450;
+   const angle=Math.atan2(old.y-center,old.x-center);
+   const next={x:center+lane*Math.cos(angle),y:center+lane*Math.sin(angle)};
+   g.querySelectorAll('line').forEach(line=>{line.setAttribute('x2',next.x);line.setAttribute('y2',next.y);});
+   circle.setAttribute('cx',next.x);circle.setAttribute('cy',next.y);circle.setAttribute('r','11');
+   label.setAttribute('x',next.x);label.setAttribute('y',next.y+3.5);label.setAttribute('font-size','11');
+  });
+ }
+ window.addEventListener('hora50:chart-calculated',()=>requestAnimationFrame(()=>requestAnimationFrame(layout)));
+ const wheel=document.getElementById('wheel');
+ if(wheel)new MutationObserver(()=>requestAnimationFrame(layout)).observe(wheel,{childList:true,subtree:true});
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(layout,100),{once:true});else setTimeout(layout,100);
 })();
 </script>
 
