@@ -686,6 +686,7 @@ td,th{border-color:#e2e8f0!important}
 #planetSummary911 .ps911-table th:nth-child(4){width:29%}
 #planetSummary911 .ps911-pos{display:block;font-weight:800;color:#263653}
 #planetSummary911 .ps911-standard{display:block;margin-top:2px;color:#8a641c;font-size:11px}
+#planetSummary911 .ps911-motion{display:block;margin-top:2px;color:#475569;font-size:10.5px}
 #planetSummary911 .ps911-flag{display:inline-block;margin:1px 3px 1px 0;padding:2px 5px;border-radius:6px;background:#f1f5f9;color:#334155;font-size:10.5px;font-weight:750}
 #planetSummary911 .ps911-note{margin:8px 0 0;color:#64748b;font-size:10.5px;line-height:1.5}
 @media(max-width:600px){
@@ -695,6 +696,7 @@ td,th{border-color:#e2e8f0!important}
  #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:30%}
  #planetSummary911 .ps911-table th:nth-child(4){width:28%}
  #planetSummary911 .ps911-standard{font-size:9.5px}
+ #planetSummary911 .ps911-motion{font-size:9px}
  #planetSummary911 .ps911-flag{font-size:9px;padding:2px 4px}
  #planetSummary911 .ps911-note{font-size:9.5px}
 }
@@ -737,10 +739,12 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
  };
  const tbody=document.getElementById('planetSummary911Rows');
  if(!tbody)return;
- const cell=(name,item,kind,all)=>{
+ const motionPlanets=new Set(['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู']);
+ const cell=(name,item)=>{
   if(!item||!Number.isFinite(Number(item.longitude)))return '<span class="ps911-pos">—</span>';
   const label=position(item.longitude),std=standards(name,item.longitude);
-  return '<span class="ps911-pos">'+label+'</span><span class="ps911-standard">'+std+'</span>';
+  const motion=motionPlanets.has(name)?(item.motionState||'—'):'—';
+  return '<span class="ps911-pos">'+label+'</span><span class="ps911-standard">มาตรฐาน: '+std+'</span><span class="ps911-motion">เดินดาว: '+motion+'</span>';
  };
  const render=data=>{
   const natal=data?.natal?.planets||[],transit=data?.transit?.planets||[];
@@ -752,7 +756,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
    if(b)flags.push(...closeFlags(natal,{...b,kind:'natal'}));
    if(t)flags.push(...closeFlags(transit,{...t,kind:'transit'}));
    const unique=[...new Set(flags)];
-   return '<tr><td><strong>'+name+'</strong></td><td>'+cell(name,b,'natal',natal)+'</td><td>'+cell(name,t,'transit',transit)+'</td><td>'+ (unique.length?unique.map(x=>'<span class="ps911-flag">'+x+'</span>').join(''):'—')+'</td></tr>';
+   return '<tr><td><strong>'+name+'</strong></td><td>'+cell(name,b)+'</td><td>'+cell(name,t)+'</td><td>'+ (unique.length?unique.map(x=>'<span class="ps911-flag">'+x+'</span>').join(''):'—')+'</td></tr>';
   });
   tbody.innerHTML=rows.join('');
  };
