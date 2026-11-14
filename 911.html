@@ -3702,7 +3702,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    t.setAttribute('x',p.x.toFixed(2));t.setAttribute('y',p.y.toFixed(2));
    t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
    t.setAttribute('font-size','10.5');t.setAttribute('font-weight','850');
-   t.setAttribute('fill',i===0?'#b42318':'#7c4a12');
+   const elementColors=['#D94832','#9A743B','#278A78','#3478BD','#D94832','#9A743B','#278A78','#3478BD','#D94832','#9A743B','#278A78','#3478BD'];
+   t.setAttribute('fill',elementColors[i]);
    t.classList.add('zodiac-sign-label5');
   });
   // Keep each marker on its exact longitude ray. Resolve collisions by radius only.
