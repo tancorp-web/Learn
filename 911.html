@@ -2110,6 +2110,21 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  const clearMarkerSearching=target=>{
   if(target){target.classList.remove('pss-marker-searching');if(activeMarker===target)activeMarker=null;}
  };
+ // Press feedback for both natal (purple) and current transit (green) planet markers.
+ let activePressedMarker=null;
+ const clearPressedMarker=()=>{
+  if(activePressedMarker){activePressedMarker.classList.remove('pss-marker-pressed');activePressedMarker=null;}
+ };
+ document.addEventListener('pointerdown',event=>{
+  const marker=event.target?.closest?.('g[data-planet-marker="true"]');
+  if(!marker||!wheel||!wheel.contains(marker))return;
+  clearPressedMarker();
+  activePressedMarker=marker;
+  marker.classList.add('pss-marker-pressed');
+ },{passive:true});
+ document.addEventListener('pointerup',clearPressedMarker,{passive:true});
+ document.addEventListener('pointercancel',clearPressedMarker,{passive:true});
+ window.addEventListener('blur',clearPressedMarker);
  document.addEventListener('click',async event=>{
   // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
   const target=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
