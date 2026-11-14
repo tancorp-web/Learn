@@ -2025,40 +2025,19 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
    const heading=document.createElement('h3');heading.className='pss-history-title';
    heading.textContent='ประวัติและกำหนดการเดินเข้าราศี · '+planet+' จร';
    history.appendChild(heading);
-   // สรุปเรือนเกษตรของดาวจร และดาวเดิมที่สถิตในเรือนเกษตรเหล่านั้น
-   // ใช้เจ้าเรือนจากข้อมูลมาตรฐานกลาง และตำแหน่งดาวเดิมจากผลคำนวณ HORA ที่มีอยู่
+   // แสดงตำแหน่งของดาวจรที่ผู้ใช้กด โดยนับภพจากลัคนาดวงเดิม
    const summary=document.createElement('div');
    summary.className='pss-history-summary';
    summary.style.cssText='display:grid;gap:8px;margin:0 0 14px;padding:12px 14px;border:1px solid #dbe3f0;border-radius:12px;background:#f8faff;color:#243653;font-size:13px;line-height:1.65';
-   const natalAscRawForSummary=latestChartData?.natal?.asc;
-   const natalAscForSummary=natalAscRawForSummary==null?NaN:Number(natalAscRawForSummary);
-   const natalAscSignForSummary=Number.isFinite(natalAscForSummary)?Math.floor((((natalAscForSummary%360)+360)%360)/30):null;
-   const natalPlanetsForSummary=latestChartData?.natal?.planets||[];
-   const ownedSigns=(PLANETARY_DIGNITY_DATA[planet]?.domicileSigns||[]).map(name=>({name,index:signs.indexOf(name),lord:planet}))
-    .filter(item=>item.index>=0);
-   // ราหู-กุมภ์เป็นเกษตรตามกฎที่ผู้ใช้ยืนยันไว้ แสดงในสรุปนี้โดยไม่เปลี่ยนเจ้าเรือนกลาง
-   PLANETARY_DIGNITY_REFERENCE_RULES.filter(rule=>rule.planet===planet&&rule.category==='เกษตร'&&rule.status==='CONFIRMED_BY_USER')
-    .forEach(rule=>{
-     const index=signs.indexOf(rule.sign);
-     if(index>=0&&!ownedSigns.some(item=>item.index===index))ownedSigns.push({name:rule.sign,index,lord:planet});
-    });
-   const ownedHouseDetails=ownedSigns.map(item=>{
-    const house=natalAscSignForSummary===null?null:((item.index-natalAscSignForSummary+12)%12)+1;
-    const houseName=house?('ภพที่ '+house+' · '+['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'][house-1]):'ไม่พบลัคนาดวงเดิม';
-    const occupants=natalPlanetsForSummary.filter(p=>{
-     const value=Number(p?.longitude);
-     return Number.isFinite(value)&&Math.floor((((value%360)+360)%360)/30)===item.index;
-    }).map(p=>p.name).filter(Boolean);
-    return {sign:item.name,houseName,occupants};
-   });
-   const summaryLine=(label,value)=>{
-    const line=document.createElement('div');
-    const strong=document.createElement('strong');strong.textContent=label+' ';
-    const span=document.createElement('span');span.textContent=value;
-    line.append(strong,span);summary.appendChild(line);
-   };
-   summaryLine('เกษตรของดาวจร:',ownedHouseDetails.length?ownedHouseDetails.map(item=>'ราศี'+item.sign+' · '+item.houseName).join(' / '):'ไม่มีราศีเกษตรที่ระบุไว้ในข้อมูลมาตรฐานกลาง');
-   summaryLine('ดาวเดิมในภพเกษตร:',ownedHouseDetails.length?ownedHouseDetails.map(item=>'ราศี'+item.sign+' ('+item.houseName+') มี '+(item.occupants.length?item.occupants.join(' · '):'ไม่มีดาวเดิม')).join(' / '):'-');
+   const selectedSignIndex=Math.floor((((Number(currentLon)%360)+360)%360)/30);
+   const selectedHouse=houseForSign(selectedSignIndex);
+   const summaryLine=document.createElement('div');
+   const summaryLabel=document.createElement('strong');
+   summaryLabel.textContent='ตำแหน่งดาวจรที่เลือก: ';
+   const summaryValue=document.createElement('span');
+   summaryValue.textContent='ราศี'+signs[selectedSignIndex]+' · '+(selectedHouse||'ไม่พบลัคนาดวงเดิม');
+   summaryLine.append(summaryLabel,summaryValue);
+   summary.appendChild(summaryLine);
    history.appendChild(summary);
    const table=document.createElement('table');
    const thead=document.createElement('thead'),headRow=document.createElement('tr');
@@ -2110,20 +2089,46 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  const clearMarkerSearching=target=>{
   if(target){target.classList.remove('pss-marker-searching');if(activeMarker===target)activeMarker=null;}
  };
- // Press feedback for both natal (purple) and current transit (green) planet markers.
+ // Press feedback for natal and transit markers: add a visible SVG halo immediately on touch/mouse down.
  let activePressedMarker=null;
+ let activePressedHalo=null;
  const clearPressedMarker=()=>{
-  if(activePressedMarker){activePressedMarker.classList.remove('pss-marker-pressed');activePressedMarker=null;}
+  if(activePressedMarker)activePressedMarker.classList.remove('pss-marker-pressed');
+  if(activePressedHalo){activePressedHalo.remove();activePressedHalo=null;}
+  activePressedMarker=null;
  };
- document.addEventListener('pointerdown',event=>{
+ const pressMarker=event=>{
   const marker=event.target?.closest?.('g[data-planet-marker="true"]');
   if(!marker||!wheel||!wheel.contains(marker))return;
   clearPressedMarker();
   activePressedMarker=marker;
   marker.classList.add('pss-marker-pressed');
- },{passive:true});
- document.addEventListener('pointerup',clearPressedMarker,{passive:true});
- document.addEventListener('pointercancel',clearPressedMarker,{passive:true});
+  const color=marker.getAttribute('data-kind')==='natal'?'#8b5cf6':'#10a36b';
+  try{
+   const box=marker.getBBox();
+   if(box&&box.width>0&&box.height>0){
+    const halo=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    halo.setAttribute('cx',String(box.x+box.width/2));
+    halo.setAttribute('cy',String(box.y+box.height/2));
+    halo.setAttribute('r',String(Math.max(box.width,box.height)*.82+3));
+    halo.setAttribute('fill','none');
+    halo.setAttribute('stroke',color);
+    halo.setAttribute('stroke-width','3.5');
+    halo.setAttribute('opacity','1');
+    halo.setAttribute('pointer-events','none');
+    halo.style.filter='drop-shadow(0 0 5px '+color+')';
+    halo.classList.add('pss-marker-press-halo');
+    marker.appendChild(halo);
+    activePressedHalo=halo;
+   }
+  }catch(error){/* CSS highlight remains as a fallback if SVG geometry is unavailable. */}
+ };
+ wheel?.addEventListener('pointerdown',pressMarker,true);
+ wheel?.addEventListener('touchstart',pressMarker,{capture:true,passive:true});
+ document.addEventListener('pointerup',clearPressedMarker,true);
+ document.addEventListener('pointercancel',clearPressedMarker,true);
+ document.addEventListener('touchend',clearPressedMarker,true);
+ document.addEventListener('touchcancel',clearPressedMarker,true);
  window.addEventListener('blur',clearPressedMarker);
  document.addEventListener('click',async event=>{
   // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
@@ -4003,14 +4008,24 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   touch-action:manipulation;
 }
 #wheel g[data-planet-marker="true"].pss-marker-pressed{
-  scale:.88;
-  filter:brightness(1.18) drop-shadow(0 0 5px rgba(79,70,229,.85)) drop-shadow(0 0 9px rgba(16,185,129,.55));
+  scale:.78!important;
+  filter:brightness(1.3) drop-shadow(0 0 9px rgba(79,70,229,1)) drop-shadow(0 0 15px rgba(16,185,129,.8))!important;
 }
 #wheel g[data-planet-marker="true"][data-kind="natal"].pss-marker-pressed{
-  filter:brightness(1.2) drop-shadow(0 0 7px rgba(124,58,237,.95));
+  filter:brightness(1.35) drop-shadow(0 0 10px rgba(124,58,237,1))!important;
 }
 #wheel g[data-planet-marker="true"][data-kind="transit"].pss-marker-pressed{
-  filter:brightness(1.2) drop-shadow(0 0 7px rgba(5,150,105,.95));
+  filter:brightness(1.35) drop-shadow(0 0 10px rgba(5,150,105,1))!important;
+}
+#wheel g[data-planet-marker="true"].pss-marker-pressed>circle{
+  stroke:#fff!important;stroke-width:3.5px!important;
+}
+#wheel circle.pss-marker-press-halo{
+  animation:pssPressHalo .42s ease-out infinite alternate;
+}
+@keyframes pssPressHalo{
+  from{opacity:.65;stroke-width:2.5}
+  to{opacity:1;stroke-width:4.5}
 }
 #wheel g.pss-marker-searching{
   transform-box:fill-box;
