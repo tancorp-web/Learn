@@ -2023,6 +2023,34 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    const heading=document.createElement('h3');heading.className='pss-history-title';
    heading.textContent='ประวัติและกำหนดการเดินเข้าราศี · '+planet+' จร';
    history.appendChild(heading);
+   // สรุปเรือนเกษตรของดาวจร และดาวเดิมที่สถิตในเรือนเกษตรเหล่านั้น
+   // ใช้เจ้าเรือนจากข้อมูลมาตรฐานกลาง และตำแหน่งดาวเดิมจากผลคำนวณ HORA ที่มีอยู่
+   const summary=document.createElement('div');
+   summary.className='pss-history-summary';
+   summary.style.cssText='display:grid;gap:8px;margin:0 0 14px;padding:12px 14px;border:1px solid #dbe3f0;border-radius:12px;background:#f8faff;color:#243653;font-size:13px;line-height:1.65';
+   const natalAscForSummary=Number(latestChartData?.natal?.asc);
+   const natalAscSignForSummary=Number.isFinite(natalAscForSummary)?Math.floor((((natalAscForSummary%360)+360)%360)/30):null;
+   const natalPlanetsForSummary=latestChartData?.natal?.planets||[];
+   const ownedSigns=signNames.map((name,index)=>({name,index,lord:getRashiLordBySign(name)?.planet}))
+    .filter(item=>item.lord===planet);
+   const ownedHouseDetails=ownedSigns.map(item=>{
+    const house=natalAscSignForSummary===null?null:((item.index-natalAscSignForSummary+12)%12)+1;
+    const houseName=house?('ภพที่ '+house+' · '+['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'][house-1]):'ไม่พบลัคนาดวงเดิม';
+    const occupants=natalPlanetsForSummary.filter(p=>{
+     const value=Number(p?.longitude);
+     return Number.isFinite(value)&&Math.floor((((value%360)+360)%360)/30)===item.index;
+    }).map(p=>p.name).filter(Boolean);
+    return {sign:item.name,houseName,occupants};
+   });
+   const summaryLine=(label,value)=>{
+    const line=document.createElement('div');
+    const strong=document.createElement('strong');strong.textContent=label+' ';
+    const span=document.createElement('span');span.textContent=value;
+    line.append(strong,span);summary.appendChild(line);
+   };
+   summaryLine('เกษตรของดาวจร:',ownedHouseDetails.length?ownedHouseDetails.map(item=>'ราศี'+item.sign+' · '+item.houseName).join(' / '):'ไม่มีราศีเกษตรที่ระบุไว้ในข้อมูลมาตรฐานกลาง');
+   summaryLine('ดาวเดิมในภพเกษตร:',ownedHouseDetails.length?ownedHouseDetails.map(item=>'ราศี'+item.sign+' ('+item.houseName+') มี '+(item.occupants.length?item.occupants.join(' · '):'ไม่มีดาวเดิม')).join(' / '):'-');
+   history.appendChild(summary);
    const table=document.createElement('table');
    const thead=document.createElement('thead'),headRow=document.createElement('tr');
    ['ชื่อภพ · นับจากลัคนาเดิม','ราศี ณ เวลานั้น','วัน เดือน ปี และเวลา'].forEach(label=>{
