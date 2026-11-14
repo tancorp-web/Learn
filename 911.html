@@ -2034,7 +2034,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    })();
    const rows=[
     ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(ingressHistory.previous.length-index),signIndex:item.signIndex,stamp:item.stamp})),
-    {label:'ณ เวลาคำนวณ',signIndex:Math.floor((((Number(currentLon)%360)+360)%360)/30),stamp:ingressHistory.current?.stamp??null,current:true},
+    {label:'ราศีปัจจุบัน',signIndex:Math.floor((((Number(currentLon)%360)+360)%360)/30),stamp:ingressHistory.current?.stamp??null,current:true},
     ...ingressHistory.next.map((item,index)=>({label:'ล่วงหน้า '+(index+1),signIndex:item.signIndex,stamp:item.stamp}))
    ];
    rows.forEach(item=>{
