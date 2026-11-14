@@ -944,7 +944,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
      {signs:[7],planets:['อังคาร','ราหู'],house:7}
     ];
     const type=typeRules.find(rule=>rule.signs.includes(ascIndex));
-    if(type&&type.planets.every(name=>house(name)===type.house))type.planets.forEach(name=>add(name,'องค์เกณฑ์'));
+    if(type)type.planets.filter(name=>house(name)===type.house).forEach(name=>add(name,'องค์เกณฑ์'));
     const udomRules=[
      {planets:['พุธ','พฤหัสบดี','ศุกร์'],houses:[3,4,7,11],allowAsc:true,signs:[2,5,6,8,10]},
      {planets:['อังคาร','พฤหัสบดี','เสาร์','ราหู'],houses:[4,5,9],signs:[3,9,11]},
