@@ -3354,50 +3354,64 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </script>
 
 
-<script id="page911-marker-spacing-v9">
+<script id="page911-marker-spacing-v10">
 (()=>{'use strict';
  const C=360,NS='http://www.w3.org/2000/svg';
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const norm=v=>((v%360)+360)%360;
  const xy=(lon,r)=>{const a=(-lon-75)*Math.PI/180;return{x:C+r*Math.cos(a),y:C+r*Math.sin(a)}};
  const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+ const lanes=[118,140,162,184,206,228];
+ const shifts=[0,-2,2,-4,4,-6,6,-8,8,-10,10,-12,12,-15,15,-18,18];
  function layout(){
   const svg=document.querySelector('#wheel svg');if(!svg)return;
   svg.setAttribute('viewBox','-180 -180 1080 1080');
   svg.querySelectorAll('text').forEach(t=>{
    const i=signs.indexOf(t.textContent.trim());if(i<0)return;
    const p=xy(i*30+15,254);t.setAttribute('x',p.x);t.setAttribute('y',p.y+4);
-   t.setAttribute('font-size','12');t.setAttribute('font-weight','850');t.classList.add('zodiac-sign-label5');
+   t.setAttribute('font-size','14');t.setAttribute('font-weight','900');t.classList.add('zodiac-sign-label5');
   });
-  /* Keep every planet at its exact calculated longitude. Only radius changes. */
-  const groups=[...svg.querySelectorAll('g[data-planet-marker="true"]')];
-  const lanes=[122,140,158,176,194,212,230],placed=[];
-  groups.sort((a,b)=>norm(Number(a.dataset.longitude))-norm(Number(b.dataset.longitude)));
+  const groups=[...svg.querySelectorAll('g[data-planet-marker="true"]')],placed=[];
+  groups.sort((a,b)=>{
+   const ka=a.dataset.kind==='transit'?0:1,kb=b.dataset.kind==='transit'?0:1;
+   return ka-kb||norm(Number(a.dataset.longitude))-norm(Number(b.dataset.longitude));
+  });
   groups.forEach(g=>{
-   const lon=norm(Number(g.dataset.longitude));if(!Number.isFinite(lon))return;
-   const circle=g.querySelector('circle:not([data-true-anchor]):not([data-v9-anchor])');
+   const raw=Number(g.dataset.longitude);if(!Number.isFinite(raw))return;
+   const lon=norm(raw),signIndex=Math.floor(lon/30);
+   const circle=g.querySelector('circle:not([data-true-anchor]):not([data-v9-anchor]):not([data-v10-anchor])');
    const label=g.querySelector('text');if(!circle||!label)return;
-   const color=circle.getAttribute('fill')||'#7250bd';
-   let best=null,bestClear=-Infinity;
-   for(const lane of lanes){
-    const q=xy(lon,lane);
-    const clear=placed.length?Math.min(...placed.map(p=>dist(p,q))):Infinity;
-    if(clear>bestClear){bestClear=clear;best=q;}
-    if(clear>=19){best=q;break;}
+   const color=circle.getAttribute('fill')||(g.dataset.kind==='transit'?'#07834b':'#7250bd');
+   const preferred=xy(lon,g.dataset.kind==='transit'?206:158),candidates=[];
+   for(const lane of lanes)for(const shift of shifts){
+    const displayLon=norm(lon+shift);
+    if(Math.floor(displayLon/30)!==signIndex)continue;
+    const q=xy(displayLon,lane),clearance=placed.length?Math.min(...placed.map(p=>dist(p,q))):Infinity;
+    candidates.push({...q,lane,displayLon,clearance,cost:dist(preferred,q)});
    }
-   if(!best)best=xy(lon,lanes[0]);
-   g.querySelectorAll('line:not([data-v9-leader]),circle[data-true-anchor]').forEach(n=>n.remove());
-   let leader=g.querySelector('line[data-v9-leader]');
-   if(!leader){leader=document.createElementNS(NS,'line');leader.setAttribute('data-v9-leader','1');g.insertBefore(leader,circle);}
-   const anchor=xy(lon,274),tail=xy(lon,Math.min(274,Math.hypot(best.x-C,best.y-C)+10));
-   leader.setAttribute('x1',tail.x);leader.setAttribute('y1',tail.y);leader.setAttribute('x2',anchor.x);leader.setAttribute('y2',anchor.y);
-   leader.setAttribute('stroke',color);leader.setAttribute('stroke-width','1.8');leader.setAttribute('stroke-linecap','round');leader.setAttribute('opacity','.78');
-   let dot=g.querySelector('circle[data-v9-anchor]');
-   if(!dot){dot=document.createElementNS(NS,'circle');dot.setAttribute('data-v9-anchor','1');g.appendChild(dot);}
-   dot.setAttribute('cx',anchor.x);dot.setAttribute('cy',anchor.y);dot.setAttribute('r','3.6');dot.setAttribute('fill',color);dot.setAttribute('stroke','#fff');dot.setAttribute('stroke-width','1.4');
-   circle.setAttribute('cx',best.x);circle.setAttribute('cy',best.y);circle.setAttribute('r','8.8');
-   label.setAttribute('x',best.x);label.setAttribute('y',best.y+3.6);label.setAttribute('font-size','10.5');label.setAttribute('font-weight','950');
-   placed.push(best);
+   candidates.sort((a,b)=>a.cost-b.cost);
+   let marker=candidates.find(q=>q.clearance>=32);
+   if(!marker&&candidates.length)marker=candidates.slice().sort((a,b)=>b.clearance-a.clearance||a.cost-b.cost)[0];
+   if(!marker)marker=xy(lon,g.dataset.kind==='transit'?206:158);
+   placed.push({x:marker.x,y:marker.y});
+   g.querySelectorAll('line:not([data-v10-leader]):not([data-v10-halo])').forEach(n=>n.remove());
+   g.querySelectorAll('circle[data-true-anchor],circle[data-v9-anchor]').forEach(n=>n.remove());
+   let halo=g.querySelector('line[data-v10-halo]');
+   if(!halo){halo=document.createElementNS(NS,'line');halo.setAttribute('data-v10-halo','1');g.insertBefore(halo,circle);}
+   let leader=g.querySelector('line[data-v10-leader]');
+   if(!leader){leader=document.createElementNS(NS,'line');leader.setAttribute('data-v10-leader','1');g.insertBefore(leader,circle);}
+   const anchor=xy(lon,274),vx=anchor.x-marker.x,vy=anchor.y-marker.y,len=Math.max(1,Math.hypot(vx,vy));
+   const tail={x:marker.x+vx/len*14.5,y:marker.y+vy/len*14.5};
+   for(const line of [halo,leader]){
+    line.setAttribute('x1',tail.x);line.setAttribute('y1',tail.y);line.setAttribute('x2',anchor.x);line.setAttribute('y2',anchor.y);line.setAttribute('stroke-linecap','round');
+   }
+   halo.setAttribute('stroke','#fff');halo.setAttribute('stroke-width','5.5');halo.setAttribute('opacity','.95');
+   leader.setAttribute('stroke',color);leader.setAttribute('stroke-width','2.5');leader.setAttribute('opacity','.95');
+   let dot=g.querySelector('circle[data-v10-anchor]');
+   if(!dot){dot=document.createElementNS(NS,'circle');dot.setAttribute('data-v10-anchor','1');g.appendChild(dot);}
+   dot.setAttribute('cx',anchor.x);dot.setAttribute('cy',anchor.y);dot.setAttribute('r','4.8');dot.setAttribute('fill',color);dot.setAttribute('stroke','#fff');dot.setAttribute('stroke-width','1.8');
+   circle.setAttribute('cx',marker.x);circle.setAttribute('cy',marker.y);circle.setAttribute('r','13.5');circle.setAttribute('stroke','#fff');circle.setAttribute('stroke-width','2.2');
+   label.setAttribute('x',marker.x);label.setAttribute('y',marker.y+5.8);label.setAttribute('font-size','18');label.setAttribute('font-weight','950');label.setAttribute('fill','#fff');label.setAttribute('text-anchor','middle');label.setAttribute('paint-order','normal');
   });
  }
  let queued=false;
