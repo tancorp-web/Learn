@@ -908,7 +908,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
     return result;
    };
    const criteriaFlags=chart=>{
-    const result=new Map(planetOrder.map(name=>[name,[]]));
+    const result=new Map([['ลัคนา',[]],...planetOrder.map(name=>[name,[]])]);
     const add=(name,label)=>{
      if(!result.has(name))return;
      if(!result.get(name).includes(label))result.get(name).push(label);
@@ -921,6 +921,21 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
      const p=byName.get(name);
      return p?((parts(p.longitude).signIndex-ascIndex+12)%12)+1:null;
     };
+    const pointEntries=[
+     {name:'ลัคนา',longitude:Number(chart.asc)},
+     ...[...byName.entries()].map(([name,p])=>({name,longitude:Number(p.longitude)}))
+    ].filter(point=>Number.isFinite(point.longitude));
+    const occupiedSigns=new Set(pointEntries.map(point=>parts(point.longitude).signIndex));
+    const markPattern=(offsets,label)=>{
+     for(const anchorSign of occupiedSigns){
+      const targetSigns=offsets.map(offset=>(anchorSign+offset)%12);
+      if(!targetSigns.every(index=>occupiedSigns.has(index)))continue;
+      pointEntries.filter(point=>targetSigns.includes(parts(point.longitude).signIndex))
+       .forEach(point=>add(point.name,label));
+     }
+    };
+    markPattern([0,4,8],'ตรีโกณ');
+    markPattern([0,3,6,9],'จตุโกณ');
     const signSet=new Set(planets.filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>parts(p.longitude).signIndex));
     const complete=planetOrder.every(name=>byName.has(name));
     const planetsInSigns=indices=>planetOrder.filter(name=>byName.has(name)&&indices.includes(parts(byName.get(name).longitude).signIndex));
@@ -972,7 +987,8 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
     return '<small class="ps911-tag-row"><b>'+label+':</b> '+values.map(value=>'<span class="ps911-flag">'+esc(value)+'</span>').join('')+'</small>';
    };
    const rows=['<tr class="ps911-group"><th colspan="4">ลัคนาและดาวครบทุกดวง</th></tr>'];
-   rows.push('<tr><td><strong>ลัคนา (ล)</strong></td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
+   const natalAscTags=tagLine('เดิม',[...(natalCriteria.get('ลัคนา')||[])]),transitAscTags=tagLine('จร',[...(transitCriteria.get('ลัคนา')||[])]);
+   rows.push('<tr><td><strong>ลัคนา (ล)</strong>'+natalAscTags+transitAscTags+'</td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
    planetOrder.forEach(name=>{
     const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
     const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[])];
