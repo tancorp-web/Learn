@@ -2028,10 +2028,11 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
    const natalAsc=Number(latestChartData?.natal?.asc);
    const natalAscSign=Number.isFinite(natalAsc)?Math.floor((((natalAsc%360)+360)%360)/30):null;
    const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
-   const houseForSign=signIndex=>natalAscSign===null?'-':(()=>{
+   function houseForSign(signIndex){
+    if(natalAscSign===null)return '-';
     const house=((signIndex-natalAscSign+12)%12)+1;
     return 'ภพที่ '+house+' · '+houseNames[house-1];
-   })();
+   }
    // แสดงตำแหน่งของดาวจรที่ผู้ใช้กด โดยนับภพจากลัคนาดวงเดิม
    const summary=document.createElement('div');
    summary.className='pss-history-summary';
