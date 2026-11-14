@@ -1031,7 +1031,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
  function augment(svg){
   if(!svg||svg.dataset.nakshatraFullRing==='1')return;
   svg.dataset.nakshatraFullRing='1';
-  svg.setAttribute('viewBox','-85 -85 890 890');
+  svg.setAttribute('viewBox','-130 -130 980 980');
   svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขดาวเจ้าเรือนตรียางค์ตามตรียางค์จักร ตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
   svg.style.width='100%';svg.style.maxWidth='none';
   const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','เลขดาวครองตรียางค์ในวงจักรราศี ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
@@ -3327,7 +3327,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const ids=['bYear','fYear','bProvince','fProvince'];
  function sync(id){
   const sel=document.getElementById(id);
-  const wrap=sel?.previousElementSibling;
+  const wrap=sel?.closest('.page799-search-wrap');
   const inp=wrap?.querySelector('.page799-search-input');
   if(!sel||!inp)return;
   const opt=sel.options[sel.selectedIndex];
