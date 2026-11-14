@@ -2020,19 +2020,27 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    history.appendChild(heading);
    const table=document.createElement('table');
    const thead=document.createElement('thead'),headRow=document.createElement('tr');
-   ['ช่วงเวลา','ราศีที่เดินเข้า','วัน เดือน ปี และเวลา'].forEach(label=>{
+   ['ช่วงเวลา','ราศี ณ เวลานั้น','ภพจากลัคนาเดิม','วัน เดือน ปี และเวลา'].forEach(label=>{
     const th=document.createElement('th');th.textContent=label;headRow.appendChild(th);
    });
    thead.appendChild(headRow);table.appendChild(thead);
    const tbody=document.createElement('tbody');
+   const natalAsc=Number(latestChartData?.natal?.asc);
+   const natalAscSign=Number.isFinite(natalAsc)?Math.floor((((natalAsc%360)+360)%360)/30):null;
+   const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+   const houseForSign=signIndex=>natalAscSign===null?'-':(()=>{
+    const house=((signIndex-natalAscSign+12)%12)+1;
+    return 'ภพที่ '+house+' · '+houseNames[house-1];
+   })();
    const rows=[
-    ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(ingressHistory.previous.length-index),sign:signs[item.signIndex],stamp:item.stamp})),
-    {label:'ราศีปัจจุบัน',sign,stamp:ingressHistory.current?.stamp??null,current:true},
-    ...ingressHistory.next.map((item,index)=>({label:'ล่วงหน้า '+(index+1),sign:signs[item.signIndex],stamp:item.stamp}))
+    ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(ingressHistory.previous.length-index),signIndex:item.signIndex,stamp:item.stamp})),
+    {label:'ณ เวลาคำนวณ',signIndex:Math.floor((((Number(currentLon)%360)+360)%360)/30),stamp:ingressHistory.current?.stamp??null,current:true},
+    ...ingressHistory.next.map((item,index)=>({label:'ล่วงหน้า '+(index+1),signIndex:item.signIndex,stamp:item.stamp}))
    ];
    rows.forEach(item=>{
     const tr=document.createElement('tr');if(item.current)tr.className='pss-current';
-    [item.label,item.sign,item.stamp==null?'ไม่พบภายในช่วงค้นหา':localDateTime(item.stamp)].forEach(value=>{
+    const rowSign=Number.isInteger(item.signIndex)?signs[item.signIndex]:'-';
+    [item.label,rowSign,Number.isInteger(item.signIndex)?houseForSign(item.signIndex):'-',item.stamp==null?'ไม่พบภายในช่วงค้นหา':localDateTime(item.stamp)].forEach(value=>{
      const td=document.createElement('td');td.textContent=value;tr.appendChild(td);
     });
     tbody.appendChild(tr);
@@ -2040,7 +2048,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    table.appendChild(tbody);history.appendChild(table);panel.appendChild(history);
   }
   const note=document.createElement('div');note.className='pss-note';
-  note.textContent='คำนวณจาก Engine HORA สุริยยาตร์ไทย ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · กรอบค้นหาแยกตามคาบการเคลื่อนที่ของดาว';
+  note.textContent='คำนวณจาก Engine HORA สุริยยาตร์ไทย ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · ชื่อภพนับจากลัคนาดวงเดิม · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · กรอบค้นหาแยกตามคาบการเคลื่อนที่ของดาว';
   panel.appendChild(note);
  };
  let requestId=0;
