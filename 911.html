@@ -1727,6 +1727,13 @@ import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engin
 #wheel svg g[data-natal-ascendant-marker="true"],#wheel svg text.transit-zodiac-time5{cursor:pointer}
 #wheel svg g[data-natal-ascendant-marker="true"]:hover circle{stroke:#f59e0b;stroke-width:4}
 #wheel svg text.transit-zodiac-time5:hover{filter:drop-shadow(0 0 2px #f59e0b)}
+#planetSignStayPanel8 .pss-history{margin-top:18px;overflow-x:auto}
+#planetSignStayPanel8 .pss-history-title{font-size:16px;font-weight:900;color:#172746;margin:0 0 9px}
+#planetSignStayPanel8 .pss-history table{width:100%;min-width:420px;border-collapse:collapse;background:#fff;font-size:13px}
+#planetSignStayPanel8 .pss-history th,#planetSignStayPanel8 .pss-history td{padding:9px 10px;border-bottom:1px solid #e1e6f0;text-align:left;vertical-align:top}
+#planetSignStayPanel8 .pss-history th{background:#edf2fa;color:#40506f;white-space:nowrap}
+#planetSignStayPanel8 .pss-history tr.pss-current td{background:#fff7df;font-weight:850}
+#planetSignStayPanel8 .pss-history tr:last-child td{border-bottom:0}
 </style>
 <script type="module">
 /* index8 only: show the sign-ingress and sign-egress times for the clicked natal/transit planet. */
@@ -1861,10 +1868,31 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
  const stepFor=planet=>searchConfig[planet]?.step||12*3600000;
  const findBoundaryEvents=options=>findSignBoundaryEvents({
   ...options,
-  maxSpanMs:searchConfig[options.planet]?.maxSpanMs||5*366*DAY_MS,
+  maxSpanMs:options.maxSpanMs||searchConfig[options.planet]?.maxSpanMs||5*366*DAY_MS,
   positionAt:planetLongitude,
   pause
  });
+ // Collect actual ingress events across all twelve signs. Searching each target
+ // sign reuses the same cached HORA ephemeris samples and also preserves
+ // retrograde re-entries as separate chronological events.
+ const findPlanetIngressHistory=async({start,planet,longitude,targetSign,step})=>{
+  const horizon=(searchConfig[planet]?.maxSpanMs||5*366*DAY_MS)*2;
+  const targetSigns=Array.from({length:12},(_,index)=>index);
+  const [pastSets,futureSets]=await Promise.all([
+   Promise.all(targetSigns.map(sign=>findBoundaryEvents({start,planet,longitude,targetSign:sign,direction:-1,step,maxSpanMs:horizon}))),
+   Promise.all(targetSigns.map(sign=>findBoundaryEvents({start,planet,longitude,targetSign:sign,direction:1,step,maxSpanMs:horizon})))
+  ]);
+  const collectIngresses=sets=>sets.flatMap((events,signIndex)=>
+   events.filter(item=>item.type==='เข้า').map(item=>({...item,signIndex}))
+  );
+  const past=collectIngresses(pastSets).filter(item=>item.stamp<=start)
+   .sort((a,b)=>b.stamp-a.stamp);
+  const future=collectIngresses(futureSets).filter(item=>item.stamp>start)
+   .sort((a,b)=>a.stamp-b.stamp);
+  const current=past.find(item=>item.signIndex===targetSign)||null;
+  const previous=past.filter(item=>!current||item.stamp<current.stamp).slice(0,5);
+  return {previous:previous.reverse(),current,next:future.slice(0,5)};
+ };
  let panel=$('planetSignStayPanel8');
  if(!panel){
   panel=document.createElement('section');
@@ -1888,7 +1916,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
  const locationText=prefix=>{const province=$(prefix+'Province')?.selectedOptions?.[0]?.textContent?.trim()||'',district=$(prefix+'District')?.selectedOptions?.[0]?.textContent?.trim()||'',lat=Number($(prefix+'Lat')?.value),lon=Number($(prefix+'Lon')?.value);return(district?district+' ':'')+'จ.'+province+' (UTC+07:00) ละติจูด '+lat.toFixed(6)+'° ('+dms(lat,true)+') ลองจิจูด '+lon.toFixed(6)+'° ('+dms(lon,false)+')';};
  const elapsedAge=(birth,at)=>{let years=at.year-birth.year,months=at.month-birth.month,days=at.day-birth.day;if(days<0){months--;days+=new Date(Date.UTC(at.year,at.month-1,0)).getUTCDate();}if(months<0){years--;months+=12;}return{years,months,days};};
  const appendDateBlock=(parent,heading,info,prefix,age)=>{const block=document.createElement('section');block.className='pss-date-block';const h=document.createElement('div');h.className='pss-date-heading';h.textContent=heading;block.appendChild(h);const lines=[civilDateText(info),'จันทรคติ '+lunarDateText(info),locationText(prefix)];if(age)lines.push('อายุ '+age.years+' ปี '+age.months+' เดือน '+age.days+' วัน, อายุเต็ม/ราชการ '+age.years+' ปี, อายุย่าง/โหร '+(age.years+1)+' ปี ('+(info.year+544)+')');lines.forEach(value=>{const line=document.createElement('div');line.className='pss-date-line';line.textContent=value;block.appendChild(line);});parent.appendChild(block);};
- const showResults=({planet,kind,sign,entry,exit,eventsBefore=[],eventsAfter=[],longitude,currentLon,motionItem,calculationStamp})=>{
+ const showResults=({planet,kind,sign,entry,exit,eventsBefore=[],eventsAfter=[],longitude,currentLon,motionItem,calculationStamp,ingressHistory=null})=>{
   panel.hidden=false;
   panel.innerHTML='';
   const title=document.createElement('div');title.className='pss-title';
@@ -1985,6 +2013,32 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   add('วันและเวลาที่เข้าราศี'+sign,entry===null?null:localDateTime(entry));
   add('วันและเวลาที่ออกราศี'+sign,exit===null?null:localDateTime(exit));
   panel.appendChild(grid);
+  if(kind==='transit'&&ingressHistory){
+   const history=document.createElement('section');history.className='pss-history';
+   const heading=document.createElement('h3');heading.className='pss-history-title';
+   heading.textContent='ประวัติและกำหนดการเดินเข้าราศี · '+planet+' จร';
+   history.appendChild(heading);
+   const table=document.createElement('table');
+   const thead=document.createElement('thead'),headRow=document.createElement('tr');
+   ['ช่วงเวลา','ราศีที่เดินเข้า','วัน เดือน ปี และเวลา'].forEach(label=>{
+    const th=document.createElement('th');th.textContent=label;headRow.appendChild(th);
+   });
+   thead.appendChild(headRow);table.appendChild(thead);
+   const tbody=document.createElement('tbody');
+   const rows=[
+    ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(index+1),sign:signs[item.signIndex],stamp:item.stamp})),
+    {label:'ราศีปัจจุบัน',sign,stamp:ingressHistory.current?.stamp??null,current:true},
+    ...ingressHistory.next.map((item,index)=>({label:'ล่วงหน้า '+(index+1),sign:signs[item.signIndex],stamp:item.stamp}))
+   ];
+   rows.forEach(item=>{
+    const tr=document.createElement('tr');if(item.current)tr.className='pss-current';
+    [item.label,item.sign,item.stamp==null?'ไม่พบภายในช่วงค้นหา':localDateTime(item.stamp)].forEach(value=>{
+     const td=document.createElement('td');td.textContent=value;tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+   });
+   table.appendChild(tbody);history.appendChild(table);panel.appendChild(history);
+  }
   const note=document.createElement('div');note.className='pss-note';
   note.textContent='คำนวณจาก Engine HORA สุริยยาตร์ไทย ฐานเวลาอ้างอิง UTC+06:42 สำหรับตำแหน่งดาว · แสดงเวลาไทย UTC+07 · การแก้เวลาตามลองจิจูดจังหวัดใช้กับลัคนาเท่านั้น · กรอบค้นหาแยกตามคาบการเคลื่อนที่ของดาว';
   panel.appendChild(note);
@@ -2022,14 +2076,14 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    }else{
     showMessage('กำลังค้นหาวันและเวลาที่ดาว'+planet+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
     const step=stepFor(planet);
-    const [eventsBefore,eventsAfter]=await Promise.all([
-     findBoundaryEvents({start,planet,longitude,targetSign,direction:-1,step}),
+    const [ingressHistory,eventsAfter]=await Promise.all([
+     findPlanetIngressHistory({start,planet,longitude,targetSign,step}),
      findBoundaryEvents({start,planet,longitude,targetSign,direction:1,step})
     ]);
     if(id!==requestId)return;
-    const entry=eventsBefore.find(item=>item.type==='เข้า')?.stamp??null;
+    const entry=ingressHistory.current?.stamp??null;
     const exit=eventsAfter.find(item=>item.type==='ออก')?.stamp??null;
-    showResults({planet,kind,sign,entry,exit,eventsBefore,eventsAfter,longitude,currentLon,motionItem:currentItem,calculationStamp:start});
+    showResults({planet,kind,sign,entry,exit,eventsAfter,longitude,currentLon,motionItem:currentItem,calculationStamp:start,ingressHistory});
    }
   }catch(error){
    if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
