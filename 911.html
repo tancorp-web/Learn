@@ -3053,7 +3053,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   width:100%;min-width:0;margin:0!important;
 }
 #calculatePanel .form-grid:has(#bDay) #bPlace{grid-column:1/-1!important;grid-row:1}
-#calculatePanel .form-grid:has(#bDay) #bDay{grid-column:1!important;grid-row:2}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2}
 #calculatePanel .form-grid:has(#bDay) #bMonth{grid-column:2!important;grid-row:2}
 #calculatePanel .form-grid:has(#bDay) #bYear{grid-column:3/5!important;grid-row:2}
 #calculatePanel .form-grid:has(#bDay) #bHour{grid-column:1!important;grid-row:3}
@@ -3063,7 +3063,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #calculatePanel .form-grid:has(#bDay) #bProvince{grid-column:1/3!important;grid-row:4}
 #calculatePanel .form-grid:has(#bDay) #bDistrict{grid-column:3/5!important;grid-row:4}
 
-#calculatePanel .form-grid:has(#fDay) #fDay{grid-column:1!important;grid-row:1}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1}
 #calculatePanel .form-grid:has(#fDay) #fMonth{grid-column:2!important;grid-row:1}
 #calculatePanel .form-grid:has(#fDay) #fYear{grid-column:3/5!important;grid-row:1}
 #calculatePanel .form-grid:has(#fDay) #fHour{grid-column:1!important;grid-row:2}
@@ -3092,7 +3092,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     gap:9px 8px!important;
   }
   #calculatePanel .form-grid:has(#bDay) #bPlace{grid-column:1/3!important;grid-row:1}
-  #calculatePanel .form-grid:has(#bDay) #bDay{grid-column:1!important;grid-row:2}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2}
   #calculatePanel .form-grid:has(#bDay) #bMonth{grid-column:2!important;grid-row:2}
   #calculatePanel .form-grid:has(#bDay) #bYear{grid-column:1/3!important;grid-row:3}
   #calculatePanel .form-grid:has(#bDay) #bHour{grid-column:1!important;grid-row:4}
@@ -3102,7 +3102,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   #calculatePanel .form-grid:has(#bDay) #bLat{grid-column:1!important;grid-row:6}
   #calculatePanel .form-grid:has(#bDay) #bLon{grid-column:2!important;grid-row:6}
 
-  #calculatePanel .form-grid:has(#fDay) #fDay{grid-column:1!important;grid-row:1}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1}
   #calculatePanel .form-grid:has(#fDay) #fMonth{grid-column:2!important;grid-row:1}
   #calculatePanel .form-grid:has(#fDay) #fYear{grid-column:1/3!important;grid-row:2}
   #calculatePanel .form-grid:has(#fDay) #fHour{grid-column:1!important;grid-row:3}
