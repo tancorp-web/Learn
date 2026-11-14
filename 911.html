@@ -2025,6 +2025,13 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
    const heading=document.createElement('h3');heading.className='pss-history-title';
    heading.textContent='ประวัติและกำหนดการเดินเข้าราศี · '+planet+' จร';
    history.appendChild(heading);
+   const natalAsc=Number(latestChartData?.natal?.asc);
+   const natalAscSign=Number.isFinite(natalAsc)?Math.floor((((natalAsc%360)+360)%360)/30):null;
+   const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+   const houseForSign=signIndex=>natalAscSign===null?'-':(()=>{
+    const house=((signIndex-natalAscSign+12)%12)+1;
+    return 'ภพที่ '+house+' · '+houseNames[house-1];
+   })();
    // แสดงตำแหน่งของดาวจรที่ผู้ใช้กด โดยนับภพจากลัคนาดวงเดิม
    const summary=document.createElement('div');
    summary.className='pss-history-summary';
@@ -2046,13 +2053,6 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
    });
    thead.appendChild(headRow);table.appendChild(thead);
    const tbody=document.createElement('tbody');
-   const natalAsc=Number(latestChartData?.natal?.asc);
-   const natalAscSign=Number.isFinite(natalAsc)?Math.floor((((natalAsc%360)+360)%360)/30):null;
-   const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
-   const houseForSign=signIndex=>natalAscSign===null?'-':(()=>{
-    const house=((signIndex-natalAscSign+12)%12)+1;
-    return 'ภพที่ '+house+' · '+houseNames[house-1];
-   })();
    const rows=[
     ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(ingressHistory.previous.length-index),signIndex:item.signIndex,stamp:item.stamp})),
     {label:'ราศีปัจจุบัน',signIndex:Math.floor((((Number(currentLon)%360)+360)%360)/30),stamp:ingressHistory.current?.stamp??null,current:true},
