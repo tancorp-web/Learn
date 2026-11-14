@@ -1031,23 +1031,23 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
  function augment(svg){
   if(!svg||svg.dataset.nakshatraFullRing==='1')return;
   svg.dataset.nakshatraFullRing='1';
-  svg.setAttribute('viewBox','-85 -85 890 890');
+  svg.setAttribute('viewBox','-130 -130 980 980');
   svg.setAttribute('aria-label','วงจักรราศีพร้อมเลขดาวเจ้าเรือนตรียางค์ตามตรียางค์จักร ตรียางค์ 36 ส่วน นวางค์ 108 ส่วน และฤกษ์ 27 ช่วงต่อเนื่องตลอด 360 องศา');
   svg.style.width='100%';svg.style.maxWidth='none';
   const g=document.createElementNS(NS,'g');g.setAttribute('id','NAKSHATRA_FULL_RING');g.setAttribute('aria-label','เลขดาวครองตรียางค์ในวงจักรราศี ขีดตรียางค์ เลขนวางค์ ขอบเขตฤกษ์ และชื่อฤกษ์');svg.appendChild(g);
   /* ตรียางค์: 3 ช่วงต่อราศี ช่วงละ 10 องศา */
   for(let d=0;d<36;d++){
-   const lon=d*10,p=xy(lon,371),q=xy(lon,360);
+   const lon=d*10,p=xy(lon,412),q=xy(lon,402);
    add(g,'line',{x1:q.x,y1:q.y,x2:p.x,y2:p.y,class:'drek-tick2'});
   }
   /* เส้นแบ่งตรียางค์: ขีดแนวรัศมีทุก 10 องศา ให้เห็นช่วงละ 10 องศาชัดขึ้น */
   for(let d=0;d<36;d++){
-   const p=xy(d*10,228),q=xy(d*10,263);
+   const p=xy(d*10,296),q=xy(d*10,332);
    add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'triyang-boundary-line5'});
   }
   /* สัญลักษณ์เพชรสีทองคั่นขอบเขตตรียางค์ทุก 10 องศา ช่วยแยก 3 ช่วงต่อราศีให้เห็นชัด */
   for(let d=0;d<36;d++){
-   const p=xy(d*10,358),z=3.8;
+   const p=xy(d*10,300),z=3.8;
    add(g,"path",{d:`M ${p.x} ${p.y-z} L ${p.x+z} ${p.y} L ${p.x} ${p.y+z} L ${p.x-z} ${p.y} Z`,fill:"#d97706",stroke:"#fff","stroke-width":1.2,class:"triyang-separator5"});
   }
   /* ดาวครองตรียางค์ตามธาตุ: ใช้ลำดับ ปฐม / ทุติย / ตติย ตามองศาในราศี */
@@ -1074,7 +1074,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
   for(let s=0;s<12;s++){
    const seq=triyangLordsByElement[elements[s]];
    for(let j=0;j<3;j++){
-    const lon=s*30+j*10+5,p=xy(lon,245);
+    const lon=s*30+j*10+5,p=xy(lon,314);
     const poisonType=Object.keys(poisonBySegment).find(type=>poisonBySegment[type].decan===j&&poisonBySegment[type].signs.includes(s));
     add(g,'text',{
      x:p.x,y:p.y+3.5,'text-anchor':'middle',
@@ -1084,7 +1084,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
     },seq[j]);
     if(poisonType){
      /* แสดงชื่อชนิดพิษเป็นข้อความสีแดง แทนรูปสัญลักษณ์ และวางเข้าด้านในวงล้อ */
-     const labelPos=xy(lon,222);
+     const labelPos=xy(lon,348);
      addPoisonLabel(g,poisonType,labelPos.x,labelPos.y);
     }
    }
@@ -1093,18 +1093,18 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
   for(let s=0;s<12;s++){
    const seq=navaByElement[elements[s]];
    for(let j=0;j<9;j++){
-    const lon=s*30+(j+.5)*(30/9),p=xy(lon,374),tick1=xy(s*30+j*(30/9),360),tick2=xy(s*30+j*(30/9),366);
+    const lon=s*30+(j+.5)*(30/9),p=xy(lon,382),tick1=xy(s*30+j*(30/9),368),tick2=xy(s*30+j*(30/9),374);
     add(g,'line',{x1:tick1.x,y1:tick1.y,x2:tick2.x,y2:tick2.y,class:'nava-tick2'});
     add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nava-number2'},seq[j]);
    }
   }
   /* ขอบเขตฤกษ์ทุก 13°20′ อยู่ขอบนอกเพื่อให้เห็นช่วงที่คร่อมราศี */
   for(let i=0;i<27;i++){
-   const lon=i*(360/27),p=xy(lon,402),q=xy(lon,394);
+   const lon=i*(360/27),p=xy(lon,426),q=xy(lon,418);
    add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'nak-boundary2'});
   }
   for(let i=0;i<27;i++){
-   const lon=i*(360/27)+(180/27),p=xy(lon,408),q=xy(lon,438);
+   const lon=i*(360/27)+(180/27),p=xy(lon,478),q=xy(lon,520);
    add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nak-name2'},(i+1)+'. '+nak[i]);
    add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'},types[i%9]);
   }
@@ -2915,10 +2915,11 @@ const wrap=document.createElement('div'),inp=document.createElement('input'),lis
 wrap.className='page799-search-wrap';inp.type='text';inp.className='page799-search-input';inp.autocomplete='off';inp.autocapitalize='off';inp.spellcheck=false;
 inp.placeholder=type==='year'?'พิมพ์ปี พ.ศ. เช่น 2534':'พิมพ์ชื่อจังหวัด เช่น ขอน';inp.setAttribute('aria-label',inp.placeholder);inp.setAttribute('role','combobox');inp.setAttribute('aria-expanded','false');inp.setAttribute('aria-autocomplete','list');
 list.className='page799-search-results';list.setAttribute('role','listbox');list.hidden=true;
-sel.before(wrap);wrap.append(inp,list,sel);sel.classList.add('page799-native-select');
+sel.before(wrap);wrap.append(inp,list,sel);sel.classList.add('page799-native-select');sel.style.setProperty('display','none','important');sel.setAttribute('aria-hidden','true');
 let matches=[],active=-1,isTyping=false;
 function label(o){return type==='year'?o.value:o.textContent.trim();}
-function syncFromSelect(){if(isTyping)return;const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.setCustomValidity('');close();}
+function syncFromSelect(force=false){if(isTyping&&!force)return;if(force)isTyping=false;const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.disabled=false;inp.readOnly=false;inp.tabIndex=0;inp.setCustomValidity('');close();}
+wrap.addEventListener('hora911:sync-search',()=>syncFromSelect(true));
 function close(){list.hidden=true;inp.setAttribute('aria-expanded','false');active=-1;}
 function choose(o){if(!o)return;isTyping=false;sel.value=o.value;sel.dispatchEvent(new Event('change',{bubbles:true}));inp.value=label(o);inp.setCustomValidity('');close();}
 function render(){
@@ -2928,7 +2929,8 @@ else matches.forEach((o,i)=>{const item=document.createElement('button');item.ty
 list.hidden=false;inp.setAttribute('aria-expanded','true');
 }
 function markActive(next){const items=[...list.querySelectorAll('.page799-search-option')];if(!items.length)return;active=(next+items.length)%items.length;items.forEach((x,i)=>{x.classList.toggle('active',i===active);x.setAttribute('aria-selected',String(i===active));});items[active].scrollIntoView({block:'nearest'});}
-inp.addEventListener('focus',render);
+inp.addEventListener('pointerdown',()=>{inp.disabled=false;inp.readOnly=false;inp.focus({preventScroll:true});},{passive:true});
+inp.addEventListener('focus',()=>{inp.disabled=false;inp.readOnly=false;render();});
 inp.addEventListener('input',()=>{isTyping=true;sel.value='';inp.setCustomValidity('');render();});
 inp.addEventListener('keydown',e=>{
 if(e.key==='ArrowDown'){e.preventDefault();if(list.hidden)render();markActive(active+1);}
@@ -2938,10 +2940,508 @@ else if(e.key==='Escape')close();
 });
 inp.addEventListener('change',()=>{const q=inp.value.trim().toLocaleLowerCase('th');const exact=[...sel.options].find(o=>o.value!==''&&label(o).toLocaleLowerCase('th')===q);if(exact)choose(exact);});
 inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement)){close();isTyping=false;syncFromSelect();}},120);});
-sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!inp.value.trim())render();}).observe(sel,{childList:true,subtree:true});syncFromSelect();
+sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!isTyping){syncFromSelect();if(document.activeElement===inp)render();}}).observe(sel,{childList:true,subtree:true});syncFromSelect();
 }
 function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<style id="page911-form-wheel-layout-v2">
+/* 911 preview: compact, aligned birth/transit forms */
+#calculatePanel.show{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:start;
+  gap:14px;
+}
+#calculatePanel>.panel{min-width:0;margin:0;padding:clamp(12px,1.5vw,18px)}
+#calculatePanel>.panel .section-title{margin-bottom:12px}
+#calculatePanel .form-grid{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:9px 8px!important;
+}
+#calculatePanel .field{min-width:0;gap:4px}
+#calculatePanel .field label{
+  min-height:1.35em;margin:0!important;
+  color:#475569;font-size:12px!important;font-weight:800;line-height:1.35;
+}
+#calculatePanel .field input,
+#calculatePanel .field select{
+  width:100%;min-width:0;min-height:39px!important;height:39px;
+  padding:7px 8px!important;border:1px solid #cbd5e1!important;
+  border-radius:8px!important;background:#fff!important;
+  color:#17233d;font-size:14px!important;line-height:1.25;
+}
+#calculatePanel .field:has(#bPlace),
+#calculatePanel .field:has(#fPlace){grid-column:1/-1!important}
+#calculatePanel .calc-row{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:12px;padding-top:10px;
+}
+#calculatePanel .calc-row button{min-height:40px;padding:8px 12px;font-size:13px}
+#calculatePanel #calc{min-width:0;flex:1 1 150px;font-size:14px}
+#calculatePanel #msg{flex:1 1 100%;font-size:12px;line-height:1.4}
+#calculatePanel .section-title h2{font-size:18px}
+#calculatePanel .section-title .badge{font-size:10px;padding:4px 8px}
+
+/* On phones, preserve a four-column rhythm for date/time and coordinate fields.
+   The chart scrolls horizontally rather than shrinking its labels into illegibility. */
+#wheelPanel2 #wheelWrap2{
+  width:100%;max-width:100%;overflow-x:auto!important;overflow-y:hidden!important;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  scrollbar-width:thin;touch-action:pan-x pan-y pinch-zoom;
+}
+#wheelPanel2 #wheel{width:100%;min-width:0}
+#wheelPanel2 #wheel svg{display:block;width:100%!important;height:auto;max-width:none!important}
+#wheelPanel2 #wheel svg .nava-number2{
+  font-size:18px!important;font-weight:950!important;fill:#101827!important;
+  stroke:#fff!important;stroke-width:4px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-name2{
+  font-size:19px!important;font-weight:950!important;fill:#7c2d12!important;
+  stroke:#fff!important;stroke-width:4px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-type2{
+  font-size:15px!important;font-weight:900!important;fill:#1646a0!important;
+  stroke:#fff!important;stroke-width:3.5px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nava-tick2{stroke:#334155!important;stroke-width:1.4!important}
+#wheelPanel2 #wheel svg .nak-boundary2{stroke:#6841bd!important;stroke-width:2.2!important}
+#wheelPanel2 #wheel svg .triyang-boundary-line5{stroke:#a16207!important;stroke-width:2.6!important}
+#wheelPanel2 #wheel svg .drek-tick2{stroke:#92400e!important;stroke-width:2!important}
+#wheelPanel2 #wheel svg .triyang-ruler-number2{font-size:17px!important;font-weight:950!important}
+#wheelPanel2 #wheel svg .triyang-poison-label5{font-size:13px!important;font-weight:950!important}
+#wheelPanel2 .wheel-tools{gap:6px}
+#wheelPanel2 .wheel-tools button{min-height:40px;padding:8px 11px}
+@media(max-width:760px){
+  #calculatePanel.show{grid-template-columns:minmax(0,1fr);gap:10px}
+  #calculatePanel>.panel{padding:12px;margin:0}
+  #calculatePanel .form-grid{gap:8px 7px!important}
+  #calculatePanel .field label{font-size:11px!important}
+  #calculatePanel .field input,#calculatePanel .field select{
+    min-height:38px!important;height:38px;padding:6px 7px!important;font-size:13px!important;
+  }
+  #calculatePanel .calc-row{margin-top:9px;padding-top:8px}
+  #calculatePanel .calc-row button{min-height:38px}
+  #calculatePanel #calc{flex-basis:100%;width:100%}
+  #wheelPanel2{padding:10px!important}
+  #wheelPanel2 #wheelWrap2{padding:5px!important}
+  #wheelPanel2 #wheel{width:660px!important;min-width:660px!important;max-width:none!important}
+  #wheelPanel2 #wheel svg{width:660px!important;min-width:660px!important;max-width:none!important}
+  #wheelPanel2 .wheel-tools{justify-content:flex-start}
+  #wheelPanel2 .wheel-tools button{font-size:12px}
+}
+@media(max-width:380px){
+  #calculatePanel .field label{font-size:10px!important}
+  #calculatePanel .field input,#calculatePanel .field select{font-size:12px!important}
+  #wheelPanel2 #wheel,#wheelPanel2 #wheel svg{width:640px!important;min-width:640px!important}
+}
+</style>
+
+
+<style id="page911-form-alignment-v3">
+/* Explicit field placement: date, time, coordinates and location share fixed rows. */
+#calculatePanel .form-grid{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  grid-auto-flow:row;
+  align-items:end;
+  gap:10px 10px!important;
+}
+#calculatePanel .form-grid .field{
+  grid-column:auto!important;grid-row:auto!important;
+  width:100%;min-width:0;margin:0!important;
+}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bPlace){grid-column:1/-1!important;grid-row:1}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bMonth){grid-column:2!important;grid-row:2}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bYear){grid-column:3/5!important;grid-row:2}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bHour){grid-column:1!important;grid-row:3}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bMinute){grid-column:2!important;grid-row:3}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bLat){grid-column:3!important;grid-row:3}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bLon){grid-column:4!important;grid-row:3}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bProvince){grid-column:1/3!important;grid-row:4}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bDistrict){grid-column:3/5!important;grid-row:4}
+
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fMonth){grid-column:2!important;grid-row:1}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fYear){grid-column:3/5!important;grid-row:1}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fHour){grid-column:1!important;grid-row:2}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fMinute){grid-column:2!important;grid-row:2}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fLat){grid-column:3!important;grid-row:2}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fLon){grid-column:4!important;grid-row:2}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fProvince){grid-column:1/3!important;grid-row:3}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fDistrict){grid-column:3/5!important;grid-row:3}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fPlace){grid-column:1/-1!important;grid-row:4}
+
+#calculatePanel .field label{min-height:1.4em!important;margin:0!important}
+#calculatePanel .field input,#calculatePanel .field select{
+  display:block;width:100%!important;min-width:0!important;
+  min-height:40px!important;height:40px!important;
+  margin:0!important;padding:7px 9px!important;
+  border-radius:9px!important;font-size:14px!important;
+}
+#calculatePanel .calc-row{margin-top:12px!important;padding-top:10px!important}
+@media(max-width:1000px){
+  #calculatePanel.show{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+  #calculatePanel>.panel{width:100%;min-width:0}
+}
+@media(max-width:600px){
+  #calculatePanel .form-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px 8px!important;
+  }
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bPlace){grid-column:1/3!important;grid-row:1}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bMonth){grid-column:2!important;grid-row:2}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bYear){grid-column:1/3!important;grid-row:3}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bHour){grid-column:1!important;grid-row:4}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bMinute){grid-column:2!important;grid-row:4}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bProvince){grid-column:1!important;grid-row:5}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bDistrict){grid-column:2!important;grid-row:5}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bLat){grid-column:1!important;grid-row:6}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bLon){grid-column:2!important;grid-row:6}
+
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fMonth){grid-column:2!important;grid-row:1}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fYear){grid-column:1/3!important;grid-row:2}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fHour){grid-column:1!important;grid-row:3}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fMinute){grid-column:2!important;grid-row:3}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fProvince){grid-column:1!important;grid-row:4}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fDistrict){grid-column:2!important;grid-row:4}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fLat){grid-column:1!important;grid-row:5}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fLon){grid-column:2!important;grid-row:5}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fPlace){grid-column:1/3!important;grid-row:6}
+
+  #calculatePanel .field label{font-size:11px!important}
+  #calculatePanel .field input,#calculatePanel .field select{
+    min-height:39px!important;height:39px!important;
+    padding:6px 8px!important;font-size:13px!important;
+  }
+}
+</style>
+
+
+<style id="page911-form-wheel-refinement-v4">
+/* Form: give both panels enough width; use native lists for year and province. */
+#calculatePanel.show{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-items:start!important;
+  gap:14px!important;
+}
+#calculatePanel>.panel{min-width:0!important;width:100%!important}
+#calculatePanel .form-grid{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  grid-auto-flow:row!important;
+  align-items:end!important;
+  gap:10px 10px!important;
+}
+#calculatePanel .form-grid>.field{
+  grid-column:auto!important;grid-row:auto!important;
+  width:100%!important;min-width:0!important;margin:0!important;
+}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bPlace){grid-column:1/-1!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bMonth){grid-column:2!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bYear){grid-column:3/5!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bHour){grid-column:1!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bMinute){grid-column:2!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bLat){grid-column:3!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bLon){grid-column:4!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bProvince){grid-column:1/3!important;grid-row:4!important}
+#calculatePanel .form-grid:has(#bDay)>.field:has(#bDistrict){grid-column:3/5!important;grid-row:4!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fMonth){grid-column:2!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fYear){grid-column:3/5!important;grid-row:1!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fHour){grid-column:1!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fMinute){grid-column:2!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fLat){grid-column:3!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fLon){grid-column:4!important;grid-row:2!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fProvince){grid-column:1/3!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fDistrict){grid-column:3/5!important;grid-row:3!important}
+#calculatePanel .form-grid:has(#fDay)>.field:has(#fPlace){grid-column:1/-1!important;grid-row:4!important}
+#calculatePanel .field{min-width:0!important;gap:4px!important}
+#calculatePanel .field label{
+  display:block!important;min-height:1.4em!important;
+  margin:0!important;line-height:1.35!important;
+  font-size:12px!important;font-weight:800!important;
+}
+#calculatePanel .field label small{display:none!important}
+#calculatePanel .field input,#calculatePanel .field select{
+  display:block!important;width:100%!important;min-width:0!important;
+  height:43px!important;min-height:43px!important;
+  margin:0!important;padding:8px 10px!important;
+  border:1px solid #cbd5e1!important;border-radius:9px!important;
+  background:#fff!important;color:#17233d!important;
+  font-size:14px!important;line-height:1.25!important;
+  box-sizing:border-box!important;
+}
+/* 911 v6: keep the searchable input as the only visible control.
+   The backing select remains in the DOM for the original calculation engine. */
+#calculatePanel .page799-search-wrap{
+  display:block!important;position:relative!important;width:100%!important;
+  min-width:0!important;z-index:30!important;
+}
+#calculatePanel .page799-search-input{display:block!important}
+#calculatePanel select.page799-native-select{
+  display:none!important;position:absolute!important;width:1px!important;
+  height:1px!important;min-height:1px!important;padding:0!important;margin:0!important;
+  opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+  clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;
+}
+#calculatePanel .calc-row{margin-top:12px!important;padding-top:10px!important}
+@media(max-width:1100px){
+  #calculatePanel.show{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+}
+@media(max-width:600px){
+  #calculatePanel .form-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px 9px!important;
+  }
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bPlace){grid-column:1/3!important;grid-row:1!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bDay){grid-column:1!important;grid-row:2!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bMonth){grid-column:2!important;grid-row:2!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bYear){grid-column:1/3!important;grid-row:3!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bHour){grid-column:1!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bMinute){grid-column:2!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bProvince){grid-column:1!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bDistrict){grid-column:2!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bLat){grid-column:1!important;grid-row:6!important}
+  #calculatePanel .form-grid:has(#bDay)>.field:has(#bLon){grid-column:2!important;grid-row:6!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fDay){grid-column:1!important;grid-row:1!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fMonth){grid-column:2!important;grid-row:1!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fYear){grid-column:1/3!important;grid-row:2!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fHour){grid-column:1!important;grid-row:3!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fMinute){grid-column:2!important;grid-row:3!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fProvince){grid-column:1!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fDistrict){grid-column:2!important;grid-row:4!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fLat){grid-column:1!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fLon){grid-column:2!important;grid-row:5!important}
+  #calculatePanel .form-grid:has(#fDay)>.field:has(#fPlace){grid-column:1/3!important;grid-row:6!important}
+  #calculatePanel .field label{font-size:11px!important}
+  #calculatePanel .field input,#calculatePanel .field select,
+  #calculatePanel select.page799-native-select{height:42px!important;min-height:42px!important;font-size:14px!important}
+}
+/* Zodiac wheel: stronger natal markers, restrained outer-ring typography. */
+#wheelPanel2 #wheelWrap2{
+  width:100%!important;max-width:100%!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+}
+#wheelPanel2 #wheel svg{display:block;width:100%!important;height:auto;max-width:none!important}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"][data-kind="natal"]{
+  transform:scale(1.22);transform-box:fill-box;transform-origin:center;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"][data-kind="natal"] text{
+  font-size:18px!important;font-weight:950!important;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"][data-kind="transit"] text{
+  font-size:18px!important;font-weight:950!important;
+}
+#wheelPanel2 #wheel svg .zodiac-sign-label5{
+  font-size:20px!important;font-weight:950!important;
+  paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;
+}
+#wheelPanel2 #wheel svg .house-name-label5{
+  font-size:12px!important;font-weight:850!important;
+  paint-order:stroke;stroke:#fff;stroke-width:2.5px;stroke-linejoin:round;
+}
+#wheelPanel2 #wheel svg .nava-number2{
+  font-size:14px!important;font-weight:900!important;
+  fill:#172033!important;stroke:#fff!important;stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-name2{
+  font-size:15px!important;font-weight:900!important;
+  fill:#7c2d12!important;stroke:#fff!important;stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-type2{
+  font-size:12px!important;font-weight:900!important;
+  fill:#1646a0!important;stroke:#fff!important;stroke-width:2.8px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .triyang-ruler-number2{
+  font-size:14px!important;font-weight:900!important;
+  stroke:#fff!important;stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .triyang-poison-label5{
+  font-size:11px!important;font-weight:900!important;
+}
+#wheelPanel2 #wheel svg .nava-tick2{stroke:#334155!important;stroke-width:1.2!important}
+#wheelPanel2 #wheel svg .nak-boundary2{stroke:#6841bd!important;stroke-width:1.7!important}
+@media(max-width:600px){
+  #wheelPanel2 #wheel{width:760px!important;min-width:760px!important;max-width:none!important}
+  #wheelPanel2 #wheel svg{width:760px!important;min-width:760px!important;max-width:none!important}
+}
+</style>
+
+
+<style id="page911-wheel-separation-search-v5">
+/* Keep searchable text controls active; hide only the backing native select. */
+#calculatePanel .page799-search-wrap{
+ display:block!important;position:relative!important;width:100%!important;
+ min-width:0!important;z-index:30!important;
+}
+#calculatePanel .page799-search-input{
+ display:block!important;position:relative!important;z-index:31!important;
+ width:100%!important;height:43px!important;min-height:43px!important;
+ padding:8px 34px 8px 10px!important;margin:0!important;
+ border:1px solid #cbd5e1!important;border-radius:9px!important;
+ background:#fff!important;color:#17233d!important;
+ font:inherit!important;font-size:14px!important;line-height:1.25!important;
+ box-sizing:border-box!important;opacity:1!important;visibility:visible!important;
+ pointer-events:auto!important;
+}
+#calculatePanel .page799-search-results{
+ display:block;position:absolute!important;z-index:10050!important;
+ top:calc(100% + 4px)!important;left:0!important;right:0!important;
+ max-height:230px!important;overflow:auto!important;
+ background:#fff!important;border:1px solid #cbd5e1!important;
+ border-radius:10px!important;box-shadow:0 12px 26px #14213d24!important;
+}
+#calculatePanel .page799-search-results[hidden]{display:none!important}
+#calculatePanel select.page799-native-select{display:none!important}
+@media(max-width:600px){
+ #calculatePanel .page799-search-input{height:42px!important;min-height:42px!important;font-size:14px!important}
+}
+/* Separate radial bands: house/poison labels, natal markers, nava numbers, nakshatra names. */
+#wheelPanel2 #wheel svg .triyang-poison-label5{
+ font-size:12px!important;font-weight:950!important;
+ stroke-width:3.2px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nava-number2{
+ font-size:14px!important;font-weight:950!important;
+ stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-name2{
+ font-size:13.5px!important;font-weight:900!important;
+ stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-type2{
+ font-size:11.5px!important;font-weight:900!important;
+ stroke-width:3px!important;paint-order:stroke;
+}
+</style>
+<style id="page911-search-single-control-v7">
+#calculatePanel .page799-search-wrap{display:block!important;position:relative!important;width:100%!important;min-width:0!important;z-index:40!important}
+#calculatePanel .page799-search-wrap>.page799-search-input{display:block!important;position:relative!important;z-index:41!important;pointer-events:auto!important;touch-action:manipulation!important;user-select:text!important;-webkit-user-select:text!important}
+#calculatePanel .page799-search-wrap>.page799-search-results{z-index:10060!important;pointer-events:auto!important}
+#calculatePanel .page799-search-wrap>select.page799-native-select{display:none!important;pointer-events:none!important}
+</style>
+<style id="page911-search-single-control-v6">
+#calculatePanel .page799-search-wrap{display:block!important;position:relative!important;width:100%!important;min-width:0!important}
+#calculatePanel .page799-search-wrap>select.page799-native-select{display:none!important}
+#calculatePanel .page799-search-wrap>.page799-search-input{display:block!important;width:100%!important}
+</style>
+<script id="page911-search-sync-v6">
+(()=> {
+ const ids=['bYear','fYear','bProvince','fProvince'];
+ function sync(id){
+  const sel=document.getElementById(id),wrap=sel?.closest('.page799-search-wrap');
+  if(!sel||!wrap)return;
+  wrap.dispatchEvent(new Event('hora911:sync-search'));
+ }
+ function syncAll(){ids.forEach(sync);}
+ ['resetBirthBangkokNow51','resetTransitBangkokNow51'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('click',()=>setTimeout(syncAll,90));
+ });
+ document.addEventListener('change',e=>{if(ids.includes(e.target?.id))setTimeout(()=>sync(e.target.id),0);});
+ window.addEventListener('hora50:chart-calculated',syncAll);
+ setTimeout(syncAll,120);
+})();
+</script>
+
+
+<script id="page911-wheel-layout-v11">
+(()=>{'use strict';
+ const C=360,NS='http://www.w3.org/2000/svg';
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const norm=v=>((v%360)+360)%360;
+ const xy=(lon,r)=>{const a=(-lon-75)*Math.PI/180;return{x:C+r*Math.cos(a),y:C+r*Math.sin(a)}};
+ const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+ const natalLanes=[168,184,200,216,232];
+ const transitLanes=[246,254,262,270,278];
+ function layout(){
+  const svg=document.querySelector('#wheel svg');if(!svg)return;
+  svg.setAttribute('viewBox','-180 -180 1080 1080');
+  // Move the twelve sign names into the inner circle, around (not over) the Sun-degree value.
+  svg.querySelectorAll('text').forEach(t=>{
+   const i=signs.indexOf(t.textContent.trim());if(i<0)return;
+   const p=xy(i*30+15,66);
+   t.setAttribute('x',p.x.toFixed(2));t.setAttribute('y',p.y.toFixed(2));
+   t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+   t.setAttribute('font-size','10.5');t.setAttribute('font-weight','850');
+   t.setAttribute('fill',i===0?'#b42318':'#7c4a12');
+   t.classList.add('zodiac-sign-label5');
+  });
+  // Keep each marker on its exact longitude ray. Resolve collisions by radius only.
+  const groups=[...svg.querySelectorAll('g[data-planet-marker="true"]')];
+  groups.sort((a,b)=>{
+   const ka=a.dataset.kind==='natal'?0:1,kb=b.dataset.kind==='natal'?0:1;
+   return ka-kb||norm(Number(a.dataset.longitude))-norm(Number(b.dataset.longitude));
+  });
+  const placed=[];
+  groups.forEach(g=>{
+   const raw=Number(g.dataset.longitude);if(!Number.isFinite(raw))return;
+   const lon=norm(raw),isTransit=g.dataset.kind==='transit';
+   const circle=g.querySelector('circle:not([data-true-anchor]):not([data-v9-anchor]):not([data-v10-anchor])');
+   const label=g.querySelector('text');if(!circle||!label)return;
+   const color=circle.getAttribute('fill')||(isTransit?'#07834b':'#7250bd');
+   const lanes=isTransit?transitLanes:natalLanes;
+   const preferred=isTransit?254:192;
+   const candidates=lanes.map(radius=>{const p=xy(lon,radius);return{...p,radius,clearance:placed.length?Math.min(...placed.map(q=>distance(q,p))):Infinity,cost:Math.abs(radius-preferred)};}).sort((a,b)=>a.cost-b.cost);
+   const chosen=candidates.find(p=>p.clearance>=31)||candidates.slice().sort((a,b)=>b.clearance-a.clearance||a.cost-b.cost)[0];
+   placed.push({x:chosen.x,y:chosen.y});
+   // No leader lines or anchor dots: the marker itself sits on the correct longitude ray.
+   g.querySelectorAll('line,circle[data-true-anchor],circle[data-v9-anchor],circle[data-v10-anchor]').forEach(n=>n.remove());
+   circle.setAttribute('cx',chosen.x.toFixed(2));circle.setAttribute('cy',chosen.y.toFixed(2));
+   circle.setAttribute('r','13.5');circle.setAttribute('stroke','#fff');circle.setAttribute('stroke-width','2.2');
+   label.setAttribute('x',chosen.x.toFixed(2));label.setAttribute('y',(chosen.y+5.8).toFixed(2));
+   label.setAttribute('font-size','18');label.setAttribute('font-weight','950');
+   label.setAttribute('fill','#fff');label.setAttribute('text-anchor','middle');
+   label.setAttribute('paint-order','normal');
+  });
+ }
+ let queued=false;
+ const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;layout()});};
+ const wheel=document.getElementById('wheel');
+ if(wheel)new MutationObserver(schedule).observe(wheel,{childList:true,subtree:true});
+ window.addEventListener('hora50:chart-calculated',()=>requestAnimationFrame(()=>requestAnimationFrame(layout)));
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(layout,100),{once:true});else setTimeout(layout,100);
+})();
+</script>
+<style id="page911-wheel-layout-v11-style">
+/* Inner zodiac labels sit around the Sun degree; markers use separate radial bands. */
+#wheelPanel2 #wheel svg .zodiac-sign-label5{
+ font-size:10.5px!important;font-weight:850!important;
+ paint-order:stroke;stroke:#fff;stroke-width:1.8px;stroke-linejoin:round;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"] circle:not([data-v10-anchor]){
+ r:13.5px;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"] text{
+ font-size:18px!important;font-weight:950!important;
+}
+</style>
+
+<style id="page911-zodiac-label-size-v8">
+#wheelPanel2 #wheel svg .zodiac-sign-label5{
+ font-size:14px!important;font-weight:850!important;
+ stroke-width:2.2px!important;paint-order:stroke;
+}
+@media(max-width:600px){
+ #wheelPanel2 #wheel svg .zodiac-sign-label5{font-size:12px!important;stroke-width:2px!important}
+}
+</style>
+<style id="page911-wheel-true-longitude-v9">
+#wheelPanel2 #wheel svg g[data-planet-marker="true"]{transform:none!important;transform-box:initial!important}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"] circle:not([data-v9-anchor]){stroke-width:1.8px!important}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"] text{font-size:18px!important;font-weight:950!important}
+#wheelPanel2 #wheel svg .zodiac-sign-label5{font-size:12px!important;font-weight:850!important;stroke-width:2px!important}
+#wheelPanel2 #wheel svg .triyang-ruler-number2{font-size:13px!important;font-weight:950!important}
+#wheelPanel2 #wheel svg .triyang-poison-label5{font-size:11px!important;font-weight:950!important}
+#wheelPanel2 #wheel svg .nava-number2{font-size:12px!important;font-weight:950!important}
+</style>
 </body></html>
