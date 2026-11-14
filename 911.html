@@ -1724,8 +1724,9 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 .pss-date-heading{font-weight:900;color:#172746;margin-bottom:7px;font-size:14px}
 .pss-date-line{font-size:13px;line-height:1.7;color:#334155;overflow-wrap:anywhere}
 .pss-note{font-size:12px;color:#64748b;margin-top:8px}
-#wheel svg g:has(circle[fill="#7250bd"]),#wheel svg g:has(circle[fill="#07834b"]){cursor:pointer}
-#wheel svg g:has(circle[fill="#7250bd"]):hover circle,#wheel svg g:has(circle[fill="#07834b"]):hover circle{stroke:#f59e0b;stroke-width:4}
+#wheel svg g[data-natal-ascendant-marker="true"],#wheel svg text.transit-zodiac-time5{cursor:pointer}
+#wheel svg g[data-natal-ascendant-marker="true"]:hover circle{stroke:#f59e0b;stroke-width:4}
+#wheel svg text.transit-zodiac-time5:hover{filter:drop-shadow(0 0 2px #f59e0b)}
 </style>
 <script type="module">
 /* index8 only: show the sign-ingress and sign-egress times for the clicked natal/transit planet. */
@@ -1989,12 +1990,14 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
  };
  let requestId=0;
  if(wheel)wheel.addEventListener('click',async event=>{
-  // index106-only: read identity from the exact marker group emitted by main51.js.
-  // Do not infer planet/type from nested SVG groups, text labels, or colors.
-  const group=event.target?.closest?.('g[data-planet-marker="true"]');
-  if(!group||!wheel.contains(group))return;
-  const planet=(group.getAttribute('data-planet')||'').trim();
-  const markerKind=(group.getAttribute('data-kind')||'').trim();
+  // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
+  const target=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
+  if(!target||!wheel.contains(target))return;
+  const natalAsc=target.matches?.('g[data-natal-ascendant-marker="true"]');
+  const transitAsc=target.matches?.('text.transit-zodiac-time5')&&String(target.textContent||'').trim().startsWith('@จร');
+  const isAscendant=natalAsc||transitAsc;
+  const planet=isAscendant?'ลัคนา':(target.getAttribute('data-planet')||'').trim();
+  const markerKind=natalAsc?'natal':transitAsc?'transit':(target.getAttribute('data-kind')||'').trim();
   const kind=markerKind==='natal'?'natal':markerKind==='transit'?'transit':null;
   if(!planet||!kind)return;
   const id=++requestId;
