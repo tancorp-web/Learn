@@ -1885,9 +1885,9 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   // The boundary helper can report a generic "เข้า" for target signs
   // that were not actually entered at that timestamp. Verify the planet's
   // real HORA sign immediately after each boundary before assigning a sign.
-  const collectIngresses=async sets=>(await Promise.all(sets.map(async(events,signIndex)=>
-   events.filter(item=>item.type==='เข้า'&&signIndex(item.stamp+2*60*1000,planet,longitude)===signIndex)
-    .map(item=>({...item,signIndex}))
+  const collectIngresses=async sets=>(await Promise.all(sets.map(async(events,targetSignIndex)=>
+   events.filter(item=>item.type==='เข้า'&&signIndex(item.stamp+2*60*1000,planet,longitude)===targetSignIndex)
+    .map(item=>({...item,signIndex:targetSignIndex}))
   ))).flat();
   const [pastEvents,futureEvents]=await Promise.all([collectIngresses(pastSets),collectIngresses(futureSets)]);
   const past=pastEvents.filter(item=>item.stamp<=start)
