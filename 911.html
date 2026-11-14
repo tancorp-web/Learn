@@ -672,6 +672,11 @@ td,th{border-color:#e2e8f0!important}
   <div><strong>วันจร</strong><span id="ps911TransitDate">รอข้อมูลวันจร</span></div>
   <div class="ps911-asc"><strong>ลัคนากำเนิด</strong><span id="ps911NatalAsc">รอข้อมูลลัคนา</span></div>
  </div>
+ <div class="ps911-ascendant-lords" id="ps911AscendantLords" aria-label="ดาวประจำลัคนากำเนิด">
+  <div><strong>ดาวตนุลัคน์</strong><span id="ps911TanuLord">รอข้อมูล</span><small id="ps911TanuLordPositions">—</small></div>
+  <div><strong>ดาวตนุเกษตร</strong><span id="ps911TanuKaset">รอข้อมูล</span><small id="ps911TanuKasetPositions">—</small></div>
+  <div><strong>ดาวตนุเศษ</strong><span id="ps911TanuSesha">รอข้อมูล</span><small id="ps911TanuSeshaPositions">—</small></div>
+ </div>
  <div class="ps911-toggles" role="group" aria-label="ตั้งค่าการแสดงผลราศีและภพ">
   <label><input type="checkbox" id="ps911ShowSigns" checked> แสดงชื่อราศี</label>
   <label><input type="checkbox" id="ps911ShowHouses" checked> แสดงชื่อภพ</label>
@@ -691,6 +696,11 @@ td,th{border-color:#e2e8f0!important}
 #planetSummary911 .ps911-dates>div{display:flex;flex-direction:column;gap:3px;padding:8px 10px;border:1px solid #e1e7f0;border-radius:9px;background:#f8faff;min-width:0}
 #planetSummary911 .ps911-dates strong{font-size:11px;color:#64748b}
 #planetSummary911 .ps911-dates span{font-size:12px;font-weight:800;color:#263653;overflow-wrap:anywhere}
+#planetSummary911 .ps911-ascendant-lords{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 9px}
+#planetSummary911 .ps911-ascendant-lords>div{display:flex;flex-direction:column;gap:4px;padding:8px 10px;border:1px solid #d8e1ee;border-radius:9px;background:#fbfcff;min-width:0}
+#planetSummary911 .ps911-ascendant-lords strong{font-size:11px;color:#64748b}
+#planetSummary911 .ps911-ascendant-lords span{font-size:13px;font-weight:850;color:#253653;overflow-wrap:anywhere}
+#planetSummary911 .ps911-ascendant-lords small{font-size:10px;line-height:1.45;color:#64748b;overflow-wrap:anywhere}
 #planetSummary911 .ps911-toggles{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 9px;padding:7px 9px;border:1px solid #e1e7f0;border-radius:9px;background:#fff}
 #planetSummary911 .ps911-toggles label{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750;color:#334155;cursor:pointer}
 #planetSummary911 .ps911-toggles input{width:17px;height:17px;accent-color:#4b49b9}
@@ -720,6 +730,7 @@ td,th{border-color:#e2e8f0!important}
  #planetSummary911{padding:11px 9px}
  #planetSummary911 .ps911-dates{grid-template-columns:1fr 1fr}
  #planetSummary911 .ps911-dates .ps911-asc{grid-column:1/-1}
+ #planetSummary911 .ps911-ascendant-lords{grid-template-columns:1fr}
  #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:6px 4px;font-size:10.5px}
  #planetSummary911 .ps911-table th:nth-child(1){width:12%}
  #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:30%}
@@ -732,12 +743,14 @@ td,th{border-color:#e2e8f0!important}
 </style>
 <script type="module" id="planetSummary911Logic">
 import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu-sesha-domicile-exception';
 (()=>{
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const fullSigns=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุลย์','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
  const planetOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
  const numbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'ล'};
+ const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','เสาร์','พฤหัสบดี'];
  const digits='๐๑๒๓๔๕๖๗๘๙';
  const thai=n=>String(n).replace(/[0-9]/g,d=>digits[Number(d)]);
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -886,6 +899,23 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   const natal=data?.natal||{},transit=data?.transit||{};
   const natalAsc=Number(natal.asc),ascValid=Number.isFinite(natalAsc),ascParts=ascValid?parts(natalAsc):null;
   if(ascEl)ascEl.textContent=ascParts?'ราศี'+fullSigns[ascParts.signIndex]+' '+thai(ascParts.degree)+'°'+String(thai(ascParts.minute)).padStart(2,'๐')+'′':'รอข้อมูลลัคนา';
+  const lordName=ascParts?signLords[ascParts.signIndex]:null;
+  const natalByName=new Map((natal.planets||[]).map(p=>[p.name,p]));
+  const transitByName=new Map((transit.planets||[]).map(p=>[p.name,p]));
+  const lordNatal=natalByName.get(lordName),lordTransit=transitByName.get(lordName);
+  const formatPlanetPosition=p=>p&&Number.isFinite(Number(p.longitude))?position(p.longitude):'ไม่พบตำแหน่ง';
+  const lordEl=document.getElementById('ps911TanuLord'),lordPosEl=document.getElementById('ps911TanuLordPositions');
+  if(lordEl)lordEl.textContent=lordName?(numbers[lordName]+' '+lordName):'รอข้อมูลลัคนา';
+  if(lordPosEl)lordPosEl.textContent='เดิม: '+formatPlanetPosition(lordNatal)+' · จร: '+formatPlanetPosition(lordTransit);
+  const kasetNatal=!!(lordNatal&&ascParts&&parts(lordNatal.longitude).signIndex===ascParts.signIndex);
+  const kasetEl=document.getElementById('ps911TanuKaset'),kasetPosEl=document.getElementById('ps911TanuKasetPositions');
+  if(kasetEl)kasetEl.textContent=lordName?(kasetNatal?'เข้าเกณฑ์ · '+numbers[lordName]+' '+lordName:'ไม่เข้าเกณฑ์'):'รอข้อมูลลัคนา';
+  if(kasetPosEl)kasetPosEl.textContent='เดิม: '+formatPlanetPosition(lordNatal)+' · จร: '+formatPlanetPosition(lordTransit);
+  const tanuSesha=ascValid?calculateTanuSesha({ascendantLongitude:natalAsc,planets:natal.planets||[]}):null;
+  const seshaEl=document.getElementById('ps911TanuSesha'),seshaPosEl=document.getElementById('ps911TanuSeshaPositions');
+  const seshaNatal=tanuSesha?natalByName.get(tanuSesha.planetName):null,seshaTransit=tanuSesha?transitByName.get(tanuSesha.planetName):null;
+  if(seshaEl)seshaEl.textContent=tanuSesha?(numbers[tanuSesha.planetName]+' '+tanuSesha.planetName):'คำนวณไม่ได้';
+  if(seshaPosEl)seshaPosEl.textContent=tanuSesha?'เดิม: '+formatPlanetPosition(seshaNatal)+' · จร: '+formatPlanetPosition(seshaTransit):'ข้อมูลดาวกำเนิดไม่ครบ';
   const natalPlanets=Array.isArray(natal.planets)?natal.planets:[],transitPlanets=Array.isArray(transit.planets)?transit.planets:[];
   const nb=new Map(natalPlanets.map(p=>[p.name,p])),tb=new Map(transitPlanets.map(p=>[p.name,p]));
   const rows=['<tr class="ps911-group"><th colspan="4">ดาวทุกดวง · มาตรฐานรายดวง</th></tr>'];
