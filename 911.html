@@ -2915,7 +2915,7 @@ const wrap=document.createElement('div'),inp=document.createElement('input'),lis
 wrap.className='page799-search-wrap';inp.type='text';inp.className='page799-search-input';inp.autocomplete='off';inp.autocapitalize='off';inp.spellcheck=false;
 inp.placeholder=type==='year'?'พิมพ์ปี พ.ศ. เช่น 2534':'พิมพ์ชื่อจังหวัด เช่น ขอน';inp.setAttribute('aria-label',inp.placeholder);inp.setAttribute('role','combobox');inp.setAttribute('aria-expanded','false');inp.setAttribute('aria-autocomplete','list');
 list.className='page799-search-results';list.setAttribute('role','listbox');list.hidden=true;
-sel.before(wrap);wrap.append(inp,list,sel);sel.classList.add('page799-native-select');
+sel.before(wrap);wrap.append(inp,list,sel);sel.classList.add('page799-native-select');sel.style.setProperty('display','none','important');sel.setAttribute('aria-hidden','true');
 let matches=[],active=-1,isTyping=false;
 function label(o){return type==='year'?o.value:o.textContent.trim();}
 function syncFromSelect(){if(isTyping)return;const o=sel.options[sel.selectedIndex];inp.value=o&&o.value!==''?label(o):'';inp.setCustomValidity('');close();}
@@ -3178,18 +3178,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   font-size:14px!important;line-height:1.25!important;
   box-sizing:border-box!important;
 }
-/* Replace the searchable text overlays with the original select controls. */
-#calculatePanel .page799-search-wrap{display:contents!important;position:static!important}
-#calculatePanel .page799-search-input,
-#calculatePanel .page799-search-results{display:none!important}
+/* 911 v6: keep the searchable input as the only visible control.
+   The backing select remains in the DOM for the original calculation engine. */
+#calculatePanel .page799-search-wrap{
+  display:block!important;position:relative!important;width:100%!important;
+  min-width:0!important;z-index:30!important;
+}
+#calculatePanel .page799-search-input{display:block!important}
 #calculatePanel select.page799-native-select{
-  display:block!important;position:static!important;
-  width:100%!important;height:43px!important;min-height:43px!important;
-  margin:0!important;padding:8px 10px!important;
-  overflow:visible!important;clip:auto!important;clip-path:none!important;
-  white-space:normal!important;opacity:1!important;visibility:visible!important;
-  pointer-events:auto!important;border:1px solid #cbd5e1!important;
-  border-radius:9px!important;background:#fff!important;
+  display:none!important;position:absolute!important;width:1px!important;
+  height:1px!important;min-height:1px!important;padding:0!important;margin:0!important;
+  opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+  clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;
 }
 #calculatePanel .calc-row{margin-top:12px!important;padding-top:10px!important}
 @media(max-width:1100px){
@@ -3322,7 +3322,12 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  stroke-width:3px!important;paint-order:stroke;
 }
 </style>
-<script id="page911-search-sync-v5">
+<style id="page911-search-single-control-v6">
+#calculatePanel .page799-search-wrap{display:block!important;position:relative!important;width:100%!important;min-width:0!important}
+#calculatePanel .page799-search-wrap>select.page799-native-select{display:none!important}
+#calculatePanel .page799-search-wrap>.page799-search-input{display:block!important;width:100%!important}
+</style>
+<script id="page911-search-sync-v6">
 (()=> {
  const ids=['bYear','fYear','bProvince','fProvince'];
  function sync(id){
