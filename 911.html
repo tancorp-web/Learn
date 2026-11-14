@@ -2944,4 +2944,98 @@ function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','y
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<style id="page911-form-wheel-layout-v2">
+/* 911 preview: compact, aligned birth/transit forms */
+#calculatePanel.show{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:start;
+  gap:14px;
+}
+#calculatePanel>.panel{min-width:0;margin:0;padding:clamp(12px,1.5vw,18px)}
+#calculatePanel>.panel .section-title{margin-bottom:12px}
+#calculatePanel .form-grid{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:9px 8px!important;
+}
+#calculatePanel .field{min-width:0;gap:4px}
+#calculatePanel .field label{
+  min-height:1.35em;margin:0!important;
+  color:#475569;font-size:12px!important;font-weight:800;line-height:1.35;
+}
+#calculatePanel .field input,
+#calculatePanel .field select{
+  width:100%;min-width:0;min-height:39px!important;height:39px;
+  padding:7px 8px!important;border:1px solid #cbd5e1!important;
+  border-radius:8px!important;background:#fff!important;
+  color:#17233d;font-size:14px!important;line-height:1.25;
+}
+#calculatePanel .field:has(#bPlace),
+#calculatePanel .field:has(#fPlace){grid-column:1/-1!important}
+#calculatePanel .calc-row{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:12px;padding-top:10px;
+}
+#calculatePanel .calc-row button{min-height:40px;padding:8px 12px;font-size:13px}
+#calculatePanel #calc{min-width:0;flex:1 1 150px;font-size:14px}
+#calculatePanel #msg{flex:1 1 100%;font-size:12px;line-height:1.4}
+#calculatePanel .section-title h2{font-size:18px}
+#calculatePanel .section-title .badge{font-size:10px;padding:4px 8px}
+
+/* On phones, preserve a four-column rhythm for date/time and coordinate fields.
+   The chart scrolls horizontally rather than shrinking its labels into illegibility. */
+#wheelPanel2 #wheelWrap2{
+  width:100%;max-width:100%;overflow-x:auto!important;overflow-y:hidden!important;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  scrollbar-width:thin;touch-action:pan-x pan-y pinch-zoom;
+}
+#wheelPanel2 #wheel{width:100%;min-width:0}
+#wheelPanel2 #wheel svg{display:block;width:100%!important;height:auto;max-width:none!important}
+#wheelPanel2 #wheel svg .nava-number2{
+  font-size:18px!important;font-weight:950!important;fill:#101827!important;
+  stroke:#fff!important;stroke-width:4px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-name2{
+  font-size:19px!important;font-weight:950!important;fill:#7c2d12!important;
+  stroke:#fff!important;stroke-width:4px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-type2{
+  font-size:15px!important;font-weight:900!important;fill:#1646a0!important;
+  stroke:#fff!important;stroke-width:3.5px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nava-tick2{stroke:#334155!important;stroke-width:1.4!important}
+#wheelPanel2 #wheel svg .nak-boundary2{stroke:#6841bd!important;stroke-width:2.2!important}
+#wheelPanel2 #wheel svg .triyang-boundary-line5{stroke:#a16207!important;stroke-width:2.6!important}
+#wheelPanel2 #wheel svg .drek-tick2{stroke:#92400e!important;stroke-width:2!important}
+#wheelPanel2 #wheel svg .triyang-ruler-number2{font-size:17px!important;font-weight:950!important}
+#wheelPanel2 #wheel svg .triyang-poison-label5{font-size:13px!important;font-weight:950!important}
+#wheelPanel2 .wheel-tools{gap:6px}
+#wheelPanel2 .wheel-tools button{min-height:40px;padding:8px 11px}
+@media(max-width:760px){
+  #calculatePanel.show{grid-template-columns:minmax(0,1fr);gap:10px}
+  #calculatePanel>.panel{padding:12px;margin:0}
+  #calculatePanel .form-grid{gap:8px 7px!important}
+  #calculatePanel .field label{font-size:11px!important}
+  #calculatePanel .field input,#calculatePanel .field select{
+    min-height:38px!important;height:38px;padding:6px 7px!important;font-size:13px!important;
+  }
+  #calculatePanel .calc-row{margin-top:9px;padding-top:8px}
+  #calculatePanel .calc-row button{min-height:38px}
+  #calculatePanel #calc{flex-basis:100%;width:100%}
+  #wheelPanel2{padding:10px!important}
+  #wheelPanel2 #wheelWrap2{padding:5px!important}
+  #wheelPanel2 #wheel{width:660px!important;min-width:660px!important;max-width:none!important}
+  #wheelPanel2 #wheel svg{width:660px!important;min-width:660px!important;max-width:none!important}
+  #wheelPanel2 .wheel-tools{justify-content:flex-start}
+  #wheelPanel2 .wheel-tools button{font-size:12px}
+}
+@media(max-width:380px){
+  #calculatePanel .field label{font-size:10px!important}
+  #calculatePanel .field input,#calculatePanel .field select{font-size:12px!important}
+  #wheelPanel2 #wheel,#wheelPanel2 #wheel svg{width:640px!important;min-width:640px!important}
+}
+</style>
+
 </body></html>
