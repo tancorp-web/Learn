@@ -672,11 +672,6 @@ td,th{border-color:#e2e8f0!important}
   <div><strong>วันจร</strong><span id="ps911TransitDate">รอข้อมูลวันจร</span></div>
   <div class="ps911-asc"><strong>ลัคนากำเนิด</strong><span id="ps911NatalAsc">รอข้อมูลลัคนา</span></div>
  </div>
- <div class="ps911-ascendant-lords" id="ps911AscendantLords" aria-label="ดาวประจำลัคนากำเนิด">
-  <div><strong>ดาวตนุลัคน์</strong><span id="ps911TanuLord">รอข้อมูล</span><small id="ps911TanuLordPositions">—</small></div>
-  <div><strong>ดาวตนุเกษตร</strong><span id="ps911TanuKaset">รอข้อมูล</span><small id="ps911TanuKasetPositions">—</small></div>
-  <div><strong>ดาวตนุเศษ</strong><span id="ps911TanuSesha">รอข้อมูล</span><small id="ps911TanuSeshaPositions">—</small></div>
- </div>
  <div class="ps911-toggles" role="group" aria-label="ตั้งค่าการแสดงผลราศีและภพ">
   <label><input type="checkbox" id="ps911ShowSigns" checked> แสดงชื่อราศี</label>
   <label><input type="checkbox" id="ps911ShowHouses" checked> แสดงชื่อภพ</label>
@@ -687,7 +682,7 @@ td,th{border-color:#e2e8f0!important}
    <tbody id="planetSummary911Rows"><tr><td colspan="4">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
   </table>
  </div>
- <p class="ps911-note">แสดงดาวครบ ๑๐ ดวงและมาตรฐานทั้งหมดจากชุดข้อมูล HORA · เกณฑ์ที่ยังไม่มีสูตรยืนยันจะแสดง “รอตรวจสอบสูตร” ไม่คาดเดาผล</p>
+ <p class="ps911-note">แสดงลัคนาและดาวครบ ๑๐ ดวง พร้อมมาตรฐานและเกณฑ์ที่เข้าเฉพาะรายดวง</p>
 </section>
 <style id="planetSummary911Style">
 #planetSummary911{padding:14px clamp(12px,2vw,20px);margin-top:10px}
@@ -696,11 +691,6 @@ td,th{border-color:#e2e8f0!important}
 #planetSummary911 .ps911-dates>div{display:flex;flex-direction:column;gap:3px;padding:8px 10px;border:1px solid #e1e7f0;border-radius:9px;background:#f8faff;min-width:0}
 #planetSummary911 .ps911-dates strong{font-size:11px;color:#64748b}
 #planetSummary911 .ps911-dates span{font-size:12px;font-weight:800;color:#263653;overflow-wrap:anywhere}
-#planetSummary911 .ps911-ascendant-lords{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 9px}
-#planetSummary911 .ps911-ascendant-lords>div{display:flex;flex-direction:column;gap:4px;padding:8px 10px;border:1px solid #d8e1ee;border-radius:9px;background:#fbfcff;min-width:0}
-#planetSummary911 .ps911-ascendant-lords strong{font-size:11px;color:#64748b}
-#planetSummary911 .ps911-ascendant-lords span{font-size:13px;font-weight:850;color:#253653;overflow-wrap:anywhere}
-#planetSummary911 .ps911-ascendant-lords small{font-size:10px;line-height:1.45;color:#64748b;overflow-wrap:anywhere}
 #planetSummary911 .ps911-toggles{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 9px;padding:7px 9px;border:1px solid #e1e7f0;border-radius:9px;background:#fff}
 #planetSummary911 .ps911-toggles label{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750;color:#334155;cursor:pointer}
 #planetSummary911 .ps911-toggles input{width:17px;height:17px;accent-color:#4b49b9}
@@ -715,6 +705,7 @@ td,th{border-color:#e2e8f0!important}
 #planetSummary911 .ps911-standard{display:block;margin-top:2px;color:#8a641c;font-size:11px}
 #planetSummary911 .ps911-motion{display:block;margin-top:2px;color:#475569;font-size:10.5px}
 #planetSummary911 .ps911-flag{display:inline-block;margin:1px 3px 1px 0;padding:2px 5px;border-radius:6px;background:#f1f5f9;color:#334155;font-size:10.5px;font-weight:750}
+#planetSummary911 .ps911-tag-row{display:block;margin:2px 0;line-height:1.6}
 #planetSummary911 .ps911-group th{padding:7px 8px;background:#e9eef8;color:#263653;text-align:left;font-size:11px;font-weight:850}
 #planetSummary911 .ps911-status-pass{display:block;color:#16845b;font-weight:800}
 #planetSummary911 .ps911-status-fail{display:block;color:#64748b;font-weight:700}
@@ -730,7 +721,6 @@ td,th{border-color:#e2e8f0!important}
  #planetSummary911{padding:11px 9px}
  #planetSummary911 .ps911-dates{grid-template-columns:1fr 1fr}
  #planetSummary911 .ps911-dates .ps911-asc{grid-column:1/-1}
- #planetSummary911 .ps911-ascendant-lords{grid-template-columns:1fr}
  #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:6px 4px;font-size:10.5px}
  #planetSummary911 .ps911-table th:nth-child(1){width:12%}
  #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:30%}
@@ -900,61 +890,49 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
   const natalAsc=Number(natal.asc),ascValid=Number.isFinite(natalAsc),ascParts=ascValid?parts(natalAsc):null;
   if(ascEl)ascEl.textContent=ascParts?'ราศี'+fullSigns[ascParts.signIndex]+' '+thai(ascParts.degree)+'°'+String(thai(ascParts.minute)).padStart(2,'๐')+'′':'รอข้อมูลลัคนา';
   const lordName=ascParts?signLords[ascParts.signIndex]:null;
-  const natalByName=new Map((natal.planets||[]).map(p=>[p.name,p]));
-  const transitByName=new Map((transit.planets||[]).map(p=>[p.name,p]));
-  const lordNatal=natalByName.get(lordName),lordTransit=transitByName.get(lordName);
-  const formatPlanetPosition=p=>p&&Number.isFinite(Number(p.longitude))?position(p.longitude):'ไม่พบตำแหน่ง';
-  const lordEl=document.getElementById('ps911TanuLord'),lordPosEl=document.getElementById('ps911TanuLordPositions');
-  if(lordEl)lordEl.textContent=lordName?(numbers[lordName]+' '+lordName):'รอข้อมูลลัคนา';
-  if(lordPosEl)lordPosEl.textContent='เดิม: '+formatPlanetPosition(lordNatal)+' · จร: '+formatPlanetPosition(lordTransit);
-  const kasetNatal=!!(lordNatal&&ascParts&&parts(lordNatal.longitude).signIndex===ascParts.signIndex);
-  const kasetEl=document.getElementById('ps911TanuKaset'),kasetPosEl=document.getElementById('ps911TanuKasetPositions');
-  if(kasetEl)kasetEl.textContent=lordName?(kasetNatal?'เข้าเกณฑ์ · '+numbers[lordName]+' '+lordName:'ไม่เข้าเกณฑ์'):'รอข้อมูลลัคนา';
-  if(kasetPosEl)kasetPosEl.textContent='เดิม: '+formatPlanetPosition(lordNatal)+' · จร: '+formatPlanetPosition(lordTransit);
-  const tanuSesha=ascValid?calculateTanuSesha({ascendantLongitude:natalAsc,planets:natal.planets||[]}):null;
-  const seshaEl=document.getElementById('ps911TanuSesha'),seshaPosEl=document.getElementById('ps911TanuSeshaPositions');
-  const seshaNatal=tanuSesha?natalByName.get(tanuSesha.planetName):null,seshaTransit=tanuSesha?transitByName.get(tanuSesha.planetName):null;
-  if(seshaEl)seshaEl.textContent=tanuSesha?(numbers[tanuSesha.planetName]+' '+tanuSesha.planetName):'คำนวณไม่ได้';
-  if(seshaPosEl)seshaPosEl.textContent=tanuSesha?'เดิม: '+formatPlanetPosition(seshaNatal)+' · จร: '+formatPlanetPosition(seshaTransit):'ข้อมูลดาวกำเนิดไม่ครบ';
-  const natalPlanets=Array.isArray(natal.planets)?natal.planets:[],transitPlanets=Array.isArray(transit.planets)?transit.planets:[];
-  const nb=new Map(natalPlanets.map(p=>[p.name,p])),tb=new Map(transitPlanets.map(p=>[p.name,p]));
-  const rows=['<tr class="ps911-group"><th colspan="4">ดาวทุกดวง · มาตรฐานรายดวง</th></tr>'];
-  planetOrder.forEach(name=>{
-   const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
-   const flags=[];
-   if(nFlags.length)flags.push('<small><b>เดิม:</b> '+nFlags.map(esc).join(' · ')+'</small>');
-   if(tFlags.length)flags.push('<small><b>จร:</b> '+tFlags.map(esc).join(' · ')+'</small>');
-   rows.push('<tr><td><strong>'+esc(name)+'</strong></td><td>'+cell(name,b,ascValid?ascParts.signIndex:null)+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null)+'</td><td>'+(flags.join('')||'—')+'</td></tr>');
-  });
-  rows.push('<tr class="ps911-group"><th colspan="4">ความสัมพันธ์ดาว · ตรวจผังเดิมและดาวจรเทียบดาวเดิม</th></tr>');
-  const natalPoints=makePoints(natal),transitPoints=makePoints(transit);
-  ['กุม','ทับ','เล็ง','โยคหน้า','โยคหลัง','ตรีโกณ','จตุโกณ','ฉาก'].forEach(category=>{
-   const n=category==='ทับ'?'—':category==='ฉาก'?'รอตรวจสอบออร์บ':relationPairs(natalPoints,natalPoints,category);
-   const t=category==='ฉาก'?'รอตรวจสอบออร์บ':relationPairs(transitPoints,natalPoints,category,true);
-   const pending=category==='ฉาก'||!Number.isFinite(Number(natal.asc))||!Number.isFinite(Number(transit.asc));
-   rows.push('<tr><td>'+esc(category)+'</td><td>'+esc(n)+'</td><td>'+esc(t)+'</td><td>'+(pending?'<span class="ps911-status-pending">รอตรวจสอบ</span>':'<span class="ps911-status-pass">ตรวจตามราศี</span>')+'</td></tr>');
-  });
-  rows.push('<tr class="ps911-group"><th colspan="4">เกษตรสลับเรือน / ปริวรรตเกษตร</th></tr>');
-  const exchange=(chart,type)=>{
-   const found=getParivartanaKasetRelations((chart.planets||[]).map(p=>({name:p.name,sign:parts(p.longitude).sign}))).filter(x=>x.type===type);
-   return found.map(x=>x.planets.map(n=>numbers[n]||n).join(type==='pair'?'–':'→')).join(' · ')||'—';
-  };
-  const exchangeRows=[['เกษตรสลับเรือน · 2 ดวง','pair'],['ปริวรรตเกษตร · 3 ดวง','triple']];
-  exchangeRows.forEach(([label,type])=>{
-   const n=exchange(natal,type),t=exchange(transit,type);
-   rows.push('<tr><td>'+esc(label)+'</td><td>'+esc(n)+'</td><td>'+esc(t)+'</td><td><span class="ps911-status-pass">ตรวจความสัมพันธ์เรือน</span></td></tr>');
-  });
-  rows.push('<tr class="ps911-group"><th colspan="4">เกณฑ์พิเศษ · ผลดาวเดิมและดาวจร</th></tr>');
-  const natalSpecials=chartSpecials(natal),transitSpecials=chartSpecials(transit);
-  const specialNames=[...new Set([...natalSpecials,...transitSpecials].map(x=>x.label))];
-  const nMap=new Map(natalSpecials.map(x=>[x.label,x])),tMap=new Map(transitSpecials.map(x=>[x.label,x]));
-  specialNames.forEach(label=>{
-   const n=nMap.get(label)||{state:'pending',members:'รอตรวจสอบสูตร',note:'—'};
-   const t=tMap.get(label)||{state:'pending',members:'รอตรวจสอบสูตร',note:'—'};
-   const state=n.state==='pending'||t.state==='pending'?'pending':n.state==='alias'?'alias':n.state==='pass'||t.state==='pass'?'pass':'fail';
-   rows.push('<tr><td>'+esc(label)+'</td><td>'+resultCell(n.state,n.members)+'</td><td>'+resultCell(t.state,t.members)+'</td><td><small class="ps911-detail">'+esc(n.note||t.note||'—')+'</small></td></tr>');
-  });
-  tbody.innerHTML=rows.join('');
+   const natalPlanets=Array.isArray(natal.planets)?natal.planets:[],transitPlanets=Array.isArray(transit.planets)?transit.planets:[];
+   const nb=new Map(natalPlanets.map(p=>[p.name,p])),tb=new Map(transitPlanets.map(p=>[p.name,p]));
+   const kasetNatal=!!(lordName&&nb.get(lordName)&&ascParts&&parts(nb.get(lordName).longitude).signIndex===ascParts.signIndex);
+   const tanuSesha=ascValid?calculateTanuSesha({ascendantLongitude:natalAsc,planets:natalPlanets}):null;
+   const exchangeFlags=chart=>{
+    const result=new Map();
+    const relations=getParivartanaKasetRelations((Array.isArray(chart.planets)?chart.planets:[]).filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>({name:p.name,sign:parts(p.longitude).sign})));
+    relations.forEach(relation=>{
+     const label=relation.type==='pair'?'เกษตรสลับเรือน':relation.type==='triple'?'ปริวรรตเกษตร':null;
+     if(!label)return;
+     relation.planets.forEach(name=>{
+      if(!result.has(name))result.set(name,[]);
+      if(!result.get(name).includes(label))result.get(name).push(label);
+     });
+    });
+    return result;
+   };
+   const natalExchange=exchangeFlags(natal),transitExchange=exchangeFlags(transit);
+   const ascCell=(longitude,ascIndex)=>{
+    if(!Number.isFinite(Number(longitude)))return '<span class="ps911-pos">—</span>';
+    const p=parts(longitude),houseIndex=Number.isInteger(ascIndex)?(p.signIndex-ascIndex+12)%12:null,context=[];
+    if(showSigns)context.push('ราศี'+fullSigns[p.signIndex]);
+    if(showHouses&&houseIndex!==null)context.push('ภพ'+thai(houseIndex+1)+' · '+houseNames[houseIndex]);
+    return '<span class="ps911-pos">'+esc(position(longitude))+'</span>'+(context.length?'<span class="ps911-zodiac-house">'+context.map(esc).join(' · ')+'</span>':'');
+   };
+   const tagLine=(label,values)=>{
+    if(!values.length)return '';
+    return '<small class="ps911-tag-row"><b>'+label+':</b> '+values.map(value=>'<span class="ps911-flag">'+esc(value)+'</span>').join('')+'</small>';
+   };
+   const rows=['<tr class="ps911-group"><th colspan="4">ลัคนาและดาวครบทุกดวง</th></tr>'];
+   rows.push('<tr><td><strong>ลัคนา (ล)</strong></td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
+   planetOrder.forEach(name=>{
+    const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
+    const natalTags=[...nFlags],transitTags=[...tFlags];
+    if(b&&Number.isFinite(Number(b.longitude))&&name===lordName)natalTags.push('ตนุลัคน์');
+    if(b&&Number.isFinite(Number(b.longitude))&&name===lordName&&kasetNatal)natalTags.push('ตนุเกษตร');
+    if(b&&Number.isFinite(Number(b.longitude))&&tanuSesha?.planetName===name)natalTags.push('ตนุเศษ');
+    natalTags.push(...(natalExchange.get(name)||[]));
+    transitTags.push(...(transitExchange.get(name)||[]));
+    const flags=tagLine('เดิม',[...new Set(natalTags)])+tagLine('จร',[...new Set(transitTags)]);
+    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong></td><td>'+cell(name,b,ascValid?ascParts.signIndex:null)+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null)+'</td><td>'+(flags||'—')+'</td></tr>');
+   });
+   tbody.innerHTML=rows.join('');
  };
  const signToggle=document.getElementById('ps911ShowSigns'),houseToggle=document.getElementById('ps911ShowHouses');
  signToggle?.addEventListener('change',()=>{showSigns=!!signToggle.checked;if(lastData)render(lastData)});
