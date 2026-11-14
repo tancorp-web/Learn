@@ -2089,50 +2089,58 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  const clearMarkerSearching=target=>{
   if(target){target.classList.remove('pss-marker-searching');if(activeMarker===target)activeMarker=null;}
  };
- // Press feedback for natal and transit markers: add a visible SVG halo immediately on touch/mouse down.
+ // Press feedback stays in place: never scale or modify the marker's own geometry.
  let activePressedMarker=null;
  let activePressedHalo=null;
+ const findMarkerAtPoint=event=>{
+  const direct=event.target?.closest?.('g[data-planet-marker="true"]');
+  if(direct&&wheel?.contains(direct))return direct;
+  // If SVG labels overlap, select the marker whose visible center is nearest the actual tap.
+  const x=Number(event.clientX),y=Number(event.clientY);
+  if(!Number.isFinite(x)||!Number.isFinite(y))return null;
+  let best=null,bestDistance=Infinity;
+  wheel?.querySelectorAll('g[data-planet-marker="true"]')?.forEach(marker=>{
+   const rect=marker.getBoundingClientRect();
+   const dx=x-(rect.left+rect.width/2),dy=y-(rect.top+rect.height/2);
+   const distance=Math.hypot(dx,dy);
+   if(distance<bestDistance){bestDistance=distance;best=marker;}
+  });
+  return best&&bestDistance<=30?best:null;
+ };
  const clearPressedMarker=()=>{
   if(activePressedMarker)activePressedMarker.classList.remove('pss-marker-pressed');
   if(activePressedHalo){activePressedHalo.remove();activePressedHalo=null;}
   activePressedMarker=null;
  };
  const pressMarker=event=>{
-  const marker=event.target?.closest?.('g[data-planet-marker="true"]');
-  if(!marker||!wheel||!wheel.contains(marker))return;
+  const marker=findMarkerAtPoint(event);
+  if(!marker)return;
   clearPressedMarker();
   activePressedMarker=marker;
   marker.classList.add('pss-marker-pressed');
+  // Draw the halo as a sibling in the SVG, not inside the marker group.
+  const svg=wheel?.querySelector('svg');
+  const circle=marker.querySelector('circle:not([data-true-anchor]):not([data-v9-anchor]):not([data-v10-anchor])');
+  if(!svg||!circle)return;
   const color=marker.getAttribute('data-kind')==='natal'?'#8b5cf6':'#10a36b';
-  try{
-   const box=marker.getBBox();
-   if(box&&box.width>0&&box.height>0){
-    const halo=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    halo.setAttribute('cx',String(box.x+box.width/2));
-    halo.setAttribute('cy',String(box.y+box.height/2));
-    halo.setAttribute('r',String(Math.max(box.width,box.height)*.82+3));
-    halo.setAttribute('fill','none');
-    halo.setAttribute('stroke',color);
-    halo.setAttribute('stroke-width','3.5');
-    halo.setAttribute('opacity','1');
-    halo.setAttribute('pointer-events','none');
-    halo.style.filter='drop-shadow(0 0 5px '+color+')';
-    halo.classList.add('pss-marker-press-halo');
-    marker.appendChild(halo);
-    activePressedHalo=halo;
-   }
-  }catch(error){/* CSS highlight remains as a fallback if SVG geometry is unavailable. */}
+  const cx=Number(circle.getAttribute('cx')),cy=Number(circle.getAttribute('cy')),r=Number(circle.getAttribute('r'))||13.5;
+  if(!Number.isFinite(cx)||!Number.isFinite(cy))return;
+  const halo=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  halo.setAttribute('cx',String(cx));halo.setAttribute('cy',String(cy));
+  halo.setAttribute('r',String(r+7));halo.setAttribute('fill','none');
+  halo.setAttribute('stroke',color);halo.setAttribute('stroke-width','3.5');
+  halo.setAttribute('pointer-events','none');halo.classList.add('pss-marker-press-halo');
+  marker.parentNode?.insertBefore(halo,marker);
+  activePressedHalo=halo;
  };
  wheel?.addEventListener('pointerdown',pressMarker,true);
- wheel?.addEventListener('touchstart',pressMarker,{capture:true,passive:true});
  document.addEventListener('pointerup',clearPressedMarker,true);
  document.addEventListener('pointercancel',clearPressedMarker,true);
- document.addEventListener('touchend',clearPressedMarker,true);
- document.addEventListener('touchcancel',clearPressedMarker,true);
  window.addEventListener('blur',clearPressedMarker);
  document.addEventListener('click',async event=>{
   // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
-  const target=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
+  const directTarget=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
+  const target=(directTarget&&wheel&&wheel.contains(directTarget))?directTarget:findMarkerAtPoint(event);
   if(!target||!wheel||!wheel.contains(target))return;
   const natalAsc=target.matches?.('g[data-natal-ascendant-marker="true"]');
   const transitAsc=target.matches?.('text.transit-zodiac-time5')&&String(target.textContent||'').trim().startsWith('@จร');
@@ -4008,17 +4016,13 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   touch-action:manipulation;
 }
 #wheel g[data-planet-marker="true"].pss-marker-pressed{
-  scale:.78!important;
-  filter:brightness(1.3) drop-shadow(0 0 9px rgba(79,70,229,1)) drop-shadow(0 0 15px rgba(16,185,129,.8))!important;
+  filter:brightness(1.22)!important;
 }
 #wheel g[data-planet-marker="true"][data-kind="natal"].pss-marker-pressed{
-  filter:brightness(1.35) drop-shadow(0 0 10px rgba(124,58,237,1))!important;
+  filter:brightness(1.3) drop-shadow(0 0 8px rgba(124,58,237,1))!important;
 }
 #wheel g[data-planet-marker="true"][data-kind="transit"].pss-marker-pressed{
-  filter:brightness(1.35) drop-shadow(0 0 10px rgba(5,150,105,1))!important;
-}
-#wheel g[data-planet-marker="true"].pss-marker-pressed>circle{
-  stroke:#fff!important;stroke-width:3.5px!important;
+  filter:brightness(1.3) drop-shadow(0 0 8px rgba(5,150,105,1))!important;
 }
 #wheel circle.pss-marker-press-halo{
   animation:pssPressHalo .42s ease-out infinite alternate;
