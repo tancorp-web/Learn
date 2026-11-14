@@ -3354,74 +3354,77 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </script>
 
 
-<script id="page911-marker-spacing-v10">
+<script id="page911-wheel-layout-v11">
 (()=>{'use strict';
  const C=360,NS='http://www.w3.org/2000/svg';
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
  const norm=v=>((v%360)+360)%360;
  const xy=(lon,r)=>{const a=(-lon-75)*Math.PI/180;return{x:C+r*Math.cos(a),y:C+r*Math.sin(a)}};
- const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
- const lanes=[118,140,162,184,206,228];
- const shifts=[0,-2,2,-4,4,-6,6,-8,8,-10,10,-12,12,-15,15,-18,18];
+ const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+ const natalLanes=[168,184,200,216,232];
+ const transitLanes=[246,254,262,270,278];
  function layout(){
   const svg=document.querySelector('#wheel svg');if(!svg)return;
   svg.setAttribute('viewBox','-180 -180 1080 1080');
+  // Move the twelve sign names into the inner circle, around (not over) the Sun-degree value.
   svg.querySelectorAll('text').forEach(t=>{
    const i=signs.indexOf(t.textContent.trim());if(i<0)return;
-   const p=xy(i*30+15,254);t.setAttribute('x',p.x);t.setAttribute('y',p.y+4);
-   t.setAttribute('font-size','14');t.setAttribute('font-weight','900');t.classList.add('zodiac-sign-label5');
+   const p=xy(i*30+15,66);
+   t.setAttribute('x',p.x.toFixed(2));t.setAttribute('y',p.y.toFixed(2));
+   t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+   t.setAttribute('font-size','10.5');t.setAttribute('font-weight','850');
+   t.setAttribute('fill',i===0?'#b42318':'#7c4a12');
+   t.classList.add('zodiac-sign-label5');
   });
-  const groups=[...svg.querySelectorAll('g[data-planet-marker="true"]')],placed=[];
+  // Keep each marker on its exact longitude ray. Resolve collisions by radius only.
+  const groups=[...svg.querySelectorAll('g[data-planet-marker="true"]')];
   groups.sort((a,b)=>{
-   const ka=a.dataset.kind==='transit'?0:1,kb=b.dataset.kind==='transit'?0:1;
+   const ka=a.dataset.kind==='natal'?0:1,kb=b.dataset.kind==='natal'?0:1;
    return ka-kb||norm(Number(a.dataset.longitude))-norm(Number(b.dataset.longitude));
   });
+  const placed=[];
   groups.forEach(g=>{
    const raw=Number(g.dataset.longitude);if(!Number.isFinite(raw))return;
-   const lon=norm(raw),signIndex=Math.floor(lon/30);
+   const lon=norm(raw),isTransit=g.dataset.kind==='transit';
    const circle=g.querySelector('circle:not([data-true-anchor]):not([data-v9-anchor]):not([data-v10-anchor])');
    const label=g.querySelector('text');if(!circle||!label)return;
-   const color=circle.getAttribute('fill')||(g.dataset.kind==='transit'?'#07834b':'#7250bd');
-   const preferred=xy(lon,g.dataset.kind==='transit'?206:158),candidates=[];
-   for(const lane of lanes)for(const shift of shifts){
-    const displayLon=norm(lon+shift);
-    if(Math.floor(displayLon/30)!==signIndex)continue;
-    const q=xy(displayLon,lane),clearance=placed.length?Math.min(...placed.map(p=>dist(p,q))):Infinity;
-    candidates.push({...q,lane,displayLon,clearance,cost:dist(preferred,q)});
-   }
-   candidates.sort((a,b)=>a.cost-b.cost);
-   let marker=candidates.find(q=>q.clearance>=32);
-   if(!marker&&candidates.length)marker=candidates.slice().sort((a,b)=>b.clearance-a.clearance||a.cost-b.cost)[0];
-   if(!marker)marker=xy(lon,g.dataset.kind==='transit'?206:158);
-   placed.push({x:marker.x,y:marker.y});
-   g.querySelectorAll('line:not([data-v10-leader]):not([data-v10-halo])').forEach(n=>n.remove());
-   g.querySelectorAll('circle[data-true-anchor],circle[data-v9-anchor]').forEach(n=>n.remove());
-   let halo=g.querySelector('line[data-v10-halo]');
-   if(!halo){halo=document.createElementNS(NS,'line');halo.setAttribute('data-v10-halo','1');g.insertBefore(halo,circle);}
-   let leader=g.querySelector('line[data-v10-leader]');
-   if(!leader){leader=document.createElementNS(NS,'line');leader.setAttribute('data-v10-leader','1');g.insertBefore(leader,circle);}
-   const anchor=xy(lon,274),vx=anchor.x-marker.x,vy=anchor.y-marker.y,len=Math.max(1,Math.hypot(vx,vy));
-   const tail={x:marker.x+vx/len*14.5,y:marker.y+vy/len*14.5};
-   for(const line of [halo,leader]){
-    line.setAttribute('x1',tail.x);line.setAttribute('y1',tail.y);line.setAttribute('x2',anchor.x);line.setAttribute('y2',anchor.y);line.setAttribute('stroke-linecap','round');
-   }
-   halo.setAttribute('stroke','#fff');halo.setAttribute('stroke-width','5.5');halo.setAttribute('opacity','.95');
-   leader.setAttribute('stroke',color);leader.setAttribute('stroke-width','2.5');leader.setAttribute('opacity','.95');
-   let dot=g.querySelector('circle[data-v10-anchor]');
-   if(!dot){dot=document.createElementNS(NS,'circle');dot.setAttribute('data-v10-anchor','1');g.appendChild(dot);}
-   dot.setAttribute('cx',anchor.x);dot.setAttribute('cy',anchor.y);dot.setAttribute('r','4.8');dot.setAttribute('fill',color);dot.setAttribute('stroke','#fff');dot.setAttribute('stroke-width','1.8');
-   circle.setAttribute('cx',marker.x);circle.setAttribute('cy',marker.y);circle.setAttribute('r','13.5');circle.setAttribute('stroke','#fff');circle.setAttribute('stroke-width','2.2');
-   label.setAttribute('x',marker.x);label.setAttribute('y',marker.y+5.8);label.setAttribute('font-size','18');label.setAttribute('font-weight','950');label.setAttribute('fill','#fff');label.setAttribute('text-anchor','middle');label.setAttribute('paint-order','normal');
+   const color=circle.getAttribute('fill')||(isTransit?'#07834b':'#7250bd');
+   const lanes=isTransit?transitLanes:natalLanes;
+   const preferred=isTransit?254:192;
+   const candidates=lanes.map(radius=>{const p=xy(lon,radius);return{...p,radius,clearance:placed.length?Math.min(...placed.map(q=>distance(q,p))):Infinity,cost:Math.abs(radius-preferred)};}).sort((a,b)=>a.cost-b.cost);
+   const chosen=candidates.find(p=>p.clearance>=31)||candidates.slice().sort((a,b)=>b.clearance-a.clearance||a.cost-b.cost)[0];
+   placed.push({x:chosen.x,y:chosen.y});
+   // No leader lines or anchor dots: the marker itself sits on the correct longitude ray.
+   g.querySelectorAll('line,circle[data-true-anchor],circle[data-v9-anchor],circle[data-v10-anchor]').forEach(n=>n.remove());
+   circle.setAttribute('cx',chosen.x.toFixed(2));circle.setAttribute('cy',chosen.y.toFixed(2));
+   circle.setAttribute('r','13.5');circle.setAttribute('stroke','#fff');circle.setAttribute('stroke-width','2.2');
+   label.setAttribute('x',chosen.x.toFixed(2));label.setAttribute('y',(chosen.y+5.8).toFixed(2));
+   label.setAttribute('font-size','18');label.setAttribute('font-weight','950');
+   label.setAttribute('fill','#fff');label.setAttribute('text-anchor','middle');
+   label.setAttribute('paint-order','normal');
   });
  }
  let queued=false;
- const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;layout()})};
+ const schedule=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;layout()});};
  const wheel=document.getElementById('wheel');
  if(wheel)new MutationObserver(schedule).observe(wheel,{childList:true,subtree:true});
  window.addEventListener('hora50:chart-calculated',()=>requestAnimationFrame(()=>requestAnimationFrame(layout)));
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(layout,100),{once:true});else setTimeout(layout,100);
 })();
 </script>
+<style id="page911-wheel-layout-v11-style">
+/* Inner zodiac labels sit around the Sun degree; markers use separate radial bands. */
+#wheelPanel2 #wheel svg .zodiac-sign-label5{
+ font-size:10.5px!important;font-weight:850!important;
+ paint-order:stroke;stroke:#fff;stroke-width:1.8px;stroke-linejoin:round;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"] circle:not([data-v10-anchor]){
+ r:13.5px;
+}
+#wheelPanel2 #wheel svg g[data-planet-marker="true"] text{
+ font-size:18px!important;font-weight:950!important;
+}
+</style>
 
 <style id="page911-zodiac-label-size-v8">
 #wheelPanel2 #wheel svg .zodiac-sign-label5{
