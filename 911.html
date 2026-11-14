@@ -908,7 +908,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
     return result;
    };
    const criteriaFlags=chart=>{
-    const result=new Map(planetOrder.map(name=>[name,[]]));
+    const result=new Map([['ลัคนา',[]],...planetOrder.map(name=>[name,[]])]);
     const add=(name,label)=>{
      if(!result.has(name))return;
      if(!result.get(name).includes(label))result.get(name).push(label);
@@ -921,6 +921,21 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
      const p=byName.get(name);
      return p?((parts(p.longitude).signIndex-ascIndex+12)%12)+1:null;
     };
+    const pointEntries=[
+     {name:'ลัคนา',longitude:Number(chart.asc)},
+     ...[...byName.entries()].map(([name,p])=>({name,longitude:Number(p.longitude)}))
+    ].filter(point=>Number.isFinite(point.longitude));
+    const occupiedSigns=new Set(pointEntries.map(point=>parts(point.longitude).signIndex));
+    const markPattern=(offsets,label)=>{
+     for(const anchorSign of occupiedSigns){
+      const targetSigns=offsets.map(offset=>(anchorSign+offset)%12);
+      if(!targetSigns.every(index=>occupiedSigns.has(index)))continue;
+      pointEntries.filter(point=>targetSigns.includes(parts(point.longitude).signIndex))
+       .forEach(point=>add(point.name,label));
+     }
+    };
+    markPattern([0,4,8],'ตรีโกณ');
+    markPattern([0,3,6,9],'จตุโกณ');
     const signSet=new Set(planets.filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>parts(p.longitude).signIndex));
     const complete=planetOrder.every(name=>byName.has(name));
     const planetsInSigns=indices=>planetOrder.filter(name=>byName.has(name)&&indices.includes(parts(byName.get(name).longitude).signIndex));
@@ -972,7 +987,8 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
     return '<small class="ps911-tag-row"><b>'+label+':</b> '+values.map(value=>'<span class="ps911-flag">'+esc(value)+'</span>').join('')+'</small>';
    };
    const rows=['<tr class="ps911-group"><th colspan="4">ลัคนาและดาวครบทุกดวง</th></tr>'];
-   rows.push('<tr><td><strong>ลัคนา (ล)</strong></td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
+   const natalAscTags=tagLine('เดิม',[...(natalCriteria.get('ลัคนา')||[])]),transitAscTags=tagLine('จร',[...(transitCriteria.get('ลัคนา')||[])]);
+   rows.push('<tr><td><strong>ลัคนา (ล)</strong>'+natalAscTags+transitAscTags+'</td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
    planetOrder.forEach(name=>{
     const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
     const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[])];
@@ -1553,11 +1569,11 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
 
 <script type="module">
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
+import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261114-asc-boundary-import-fix2';
 import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 
-import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
 (()=>{
  const $=id=>document.getElementById(id);
@@ -1708,13 +1724,15 @@ import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geomet
 .pss-date-heading{font-weight:900;color:#172746;margin-bottom:7px;font-size:14px}
 .pss-date-line{font-size:13px;line-height:1.7;color:#334155;overflow-wrap:anywhere}
 .pss-note{font-size:12px;color:#64748b;margin-top:8px}
-#wheel svg g:has(circle[fill="#7250bd"]),#wheel svg g:has(circle[fill="#07834b"]){cursor:pointer}
-#wheel svg g:has(circle[fill="#7250bd"]):hover circle,#wheel svg g:has(circle[fill="#07834b"]):hover circle{stroke:#f59e0b;stroke-width:4}
+#wheel svg g[data-natal-ascendant-marker="true"],#wheel svg text.transit-zodiac-time5{cursor:pointer}
+#wheel svg g[data-natal-ascendant-marker="true"]:hover circle{stroke:#f59e0b;stroke-width:4}
+#wheel svg text.transit-zodiac-time5:hover{filter:drop-shadow(0 0 2px #f59e0b)}
 </style>
 <script type="module">
 /* index8 only: show the sign-ingress and sign-egress times for the clicked natal/transit planet. */
 import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
+import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261114-asc-boundary-import-fix2';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-parivartana-standards';
 (()=>{
@@ -1786,6 +1804,43 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   return ((lon%360)+360)%360;
  };
  const signIndex=(stamp,planet,longitude)=>Math.floor(planetLongitude(stamp,planet,longitude)/30);
+ // ลัคนาใช้ค่าจากผลคำนวณ HORA ของดวงที่เลือก และใช้เรขาคณิตขอบเขตลัคนาชุดเดิม
+ // เพื่อหาเวลาเข้าราศี/ออกราศี โดยไม่คำนวณลัคนาด้วยสูตรดาวเคราะห์
+ const findAscendantSignBoundaries=async(start,longitude,targetSign)=>{
+  const dayStart=new Date(start),baseDate=dayStart.getUTCFullYear()+'-'+String(dayStart.getUTCMonth()+1).padStart(2,'0')+'-'+String(dayStart.getUTCDate()).padStart(2,'0');
+  const candidates=[];
+  for(let offset=-1;offset<=1;offset++){
+   const [y,m,d]=baseDate.split('-').map(Number),dateObj=new Date(Date.UTC(y,m-1,d+offset));
+   const date=dateObj.getUTCFullYear()+'-'+String(dateObj.getUTCMonth()+1).padStart(2,'0')+'-'+String(dateObj.getUTCDate()).padStart(2,'0');
+   const boundaries=await (async()=>{
+    const engine=await calculationAtStamp(Date.UTC(dateObj.getUTCFullYear(),dateObj.getUTCMonth(),dateObj.getUTCDate(),12,0),longitude,false);
+    const sun=engine?.planets?.find(p=>p.name==='อาทิตย์');
+    if(!sun||!Number.isFinite(Number(sun.longitude)))throw new Error('ไม่พบลองจิจูดอาทิตย์สำหรับคำนวณขอบเขตลัคนา');
+    const correction=Number(engine.metadata?.localTimeCorrectionMinutes);
+    let result=calculateAscendantBoundaryTimes({sunLongitude:Number(sun.longitude),longitude,localTimeCorrectionMinutes:correction});
+    for(let pass=0;pass<2;pass++){
+     result=await Promise.all(result.map(async item=>{
+      const minutes=Number(item.minutes),boundaryDate=new Date(Date.UTC(dateObj.getUTCFullYear(),dateObj.getUTCMonth(),dateObj.getUTCDate())+Math.floor(minutes/1440)*DAY_MS);
+      const hh=String(Math.floor((((Math.round(minutes)%1440)+1440)%1440)/60)).padStart(2,'0');
+      const mm=String(((Math.round(minutes)%1440)+1440)%1440%60).padStart(2,'0');
+      const at=await calculationAtStamp(Date.UTC(boundaryDate.getUTCFullYear(),boundaryDate.getUTCMonth(),boundaryDate.getUTCDate(),Number(hh),Number(mm)),longitude,false);
+      const atSun=at?.planets?.find(p=>p.name==='อาทิตย์');
+      if(!atSun||!Number.isFinite(Number(atSun.longitude)))return item;
+      const atCorrection=Number(at.metadata?.localTimeCorrectionMinutes);
+      const refined=calculateAscendantBoundaryTimes({sunLongitude:Number(atSun.longitude),longitude,localTimeCorrectionMinutes:Number.isFinite(atCorrection)?atCorrection:correction});
+      return refined.find(v=>Number(v.sign)===Number(item.sign))||item;
+     }));
+    }
+    return result;
+   })();
+   const midnight=Date.UTC(dateObj.getUTCFullYear(),dateObj.getUTCMonth(),dateObj.getUTCDate());
+   boundaries.forEach(item=>candidates.push({sign:Number(item.sign),stamp:midnight+Number(item.minutes)*60000}));
+  }
+  const entry=candidates.filter(x=>x.sign===targetSign&&x.stamp<=start).sort((a,b)=>b.stamp-a.stamp)[0];
+  const exitSign=(targetSign+1)%12;
+  const exit=candidates.filter(x=>x.sign===exitSign&&x.stamp>start).sort((a,b)=>a.stamp-b.stamp)[0];
+  return {entry:entry?.stamp??null,exit:exit?.stamp??null};
+ };
  // Search horizons and sampling intervals are planet-specific. The position
  // formula remains the existing Suriyayatra engine; only the event-search
  // coverage changes. Longer-period planets receive wider horizons and coarser
@@ -1837,7 +1892,13 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   panel.hidden=false;
   panel.innerHTML='';
   const title=document.createElement('div');title.className='pss-title';
-  title.textContent=planet+' · '+(kind==='natal'?'ดาวเดิม (ดวงกำเนิด)':'ดาวจร')+' · ราศี'+sign;
+  const titleLon=((Number(currentLon)%360)+360)%360;
+  const titleWithin=titleLon%30;
+  const titleDegree=Math.floor(titleWithin);
+  const titleMinute=Math.floor((titleWithin-titleDegree)*60);
+  const titleSecond=Math.floor((((titleWithin-titleDegree)*60)-titleMinute)*60);
+  const titlePosition=String(titleDegree).padStart(2,'0')+'° '+String(titleMinute).padStart(2,'0')+'′ '+String(titleSecond).padStart(2,'0')+'″';
+  title.textContent=(planet==='ลัคนา'?(kind==='natal'?'ลัคนาเดิม':'ลัคนาจร'):planet+' · '+(kind==='natal'?'ดาวเดิม (ดวงกำเนิด)':'ดาวจร'))+' · ราศี'+sign+' '+titlePosition;
   panel.appendChild(title);
   try{const birth=dateFromInputs('b'),transit=dateFromInputs('f');const birthBlock=document.createElement('div');birthBlock.className='pss-date-summary';appendDateBlock(birthBlock,'วันเกิด',birth,'b',null);appendDateBlock(birthBlock,'วันจร',transit,'f',elapsedAge(birth,transit));panel.appendChild(birthBlock);}catch(dateError){const warning=document.createElement('div');warning.className='pss-note';warning.textContent='ไม่สามารถอ่านรายละเอียดวันเกิด/วันจรจากแบบฟอร์มได้: '+String(dateError?.message||dateError);panel.appendChild(warning);}
   const grid=document.createElement('div');grid.className='pss-grid';
@@ -1865,7 +1926,12 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   const hasThaksa=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู'].includes(planet);
   const thaksaValue=(oldRole||'—')+'/'+(transitRole||'—');
   // รายละเอียดตำแหน่งดาวเดิมใช้ลองจิจูด HORA และลัคนาจากผลคำนวณดวงหลักที่แสดงอยู่
-  if(kind==='natal'){
+  if(planet==='ลัคนา'){
+   add('ราศีที่ลัคนาสถิต',signs[Math.floor((((Number(currentLon)%360)+360)%360)/30)]);
+   add('ภพที่อยู่','ภพที่ 1 · ตนุ');
+   add('องศา/ลิปดา/พิลิปดา',titlePosition);
+  }
+  if(kind==='natal'&&planet!=='ลัคนา'){
    const lon=((Number(currentLon)%360)+360)%360;
    const signIndex=Math.floor(lon/30),within=lon%30;
    const degree=Math.floor(within),minute=Math.floor((within-degree)*60);
@@ -1890,7 +1956,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    add('มาตรฐานดาว',confirmedLabels.length?confirmedLabels.join(' · '):'-');
 
   }
-  if(kind!=='natal'){
+  if(kind!=='natal'&&planet!=='ลัคนา'){
    const lon=((Number(currentLon)%360)+360)%360;
    const signIndex=Math.floor(lon/30),within=lon%30,degree=Math.floor(within);
    const minute=Math.floor((within-degree)*60);
@@ -1903,7 +1969,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   }
   // ตรวจวงจรเกษตรสลับเรือนจากดาวทุกดวงในชุดเดียวกัน (กำเนิดหรือจร)
   const chartPlanets=latestChartData?.[kind]?.planets||[];
-  const exchangeRelations=getParivartanaKasetRelations(chartPlanets)
+  const exchangeRelations=planet==='ลัคนา'?[]:getParivartanaKasetRelations(chartPlanets)
    .filter(relation=>relation.planets.includes(planet));
   const exchangeLabels=exchangeRelations.map(relation=>{
    const heading=relation.type==='pair'?'เกษตรสลับเรือน 2 ดวง':'ปริวรรตเกษตร 3 ดวง';
@@ -1924,13 +1990,15 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   panel.appendChild(note);
  };
  let requestId=0;
- if(wheel)wheel.addEventListener('click',async event=>{
-  // index106-only: read identity from the exact marker group emitted by main51.js.
-  // Do not infer planet/type from nested SVG groups, text labels, or colors.
-  const group=event.target?.closest?.('g[data-planet-marker="true"]');
-  if(!group||!wheel.contains(group))return;
-  const planet=(group.getAttribute('data-planet')||'').trim();
-  const markerKind=(group.getAttribute('data-kind')||'').trim();
+ document.addEventListener('click',async event=>{
+  // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
+  const target=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
+  if(!target||!wheel||!wheel.contains(target))return;
+  const natalAsc=target.matches?.('g[data-natal-ascendant-marker="true"]');
+  const transitAsc=target.matches?.('text.transit-zodiac-time5')&&String(target.textContent||'').trim().startsWith('@จร');
+  const isAscendant=natalAsc||transitAsc;
+  const planet=isAscendant?'ลัคนา':(target.getAttribute('data-planet')||'').trim();
+  const markerKind=natalAsc?'natal':transitAsc?'transit':(target.getAttribute('data-kind')||'').trim();
   const kind=markerKind==='natal'?'natal':markerKind==='transit'?'transit':null;
   if(!planet||!kind)return;
   const id=++requestId;
@@ -1940,26 +2008,34 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    const longitude=Number($(prefix+'Lon')?.value);
    if(!Number.isFinite(longitude))throw new Error('ไม่พบลองจิจูดของสถานที่');
    const currentResult=calculationAtStamp(start,longitude,true);
-   const currentItem=currentResult?.planets?.find(x=>x.name===planet);
-   const currentLon=planetLongitude(start,planet,longitude);
-   if(!Number.isFinite(currentLon))throw new Error('สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
+   const currentItem=isAscendant?null:currentResult?.planets?.find(x=>x.name===planet);
+   const currentLon=isAscendant?Number(latestChartData?.[kind]?.asc):planetLongitude(start,planet,longitude);
+   if(!Number.isFinite(currentLon))throw new Error(isAscendant?'ไม่พบองศาลัคนาจากผลคำนวณ HORA กรุณากดคำนวณดวงใหม่':'สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
    const targetSign=Math.floor((((currentLon%360)+360)%360)/30);
    const sign=signs[targetSign];
-   showMessage('กำลังค้นหาวันและเวลาที่ดาว'+planet+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
-   const step=stepFor(planet);
-   const [eventsBefore,eventsAfter]=await Promise.all([
-    findBoundaryEvents({start,planet,longitude,targetSign,direction:-1,step}),
-    findBoundaryEvents({start,planet,longitude,targetSign,direction:1,step})
-   ]);
-   if(id!==requestId)return;
-   const entry=eventsBefore.find(item=>item.type==='เข้า')?.stamp??null;
-   const exit=eventsAfter.find(item=>item.type==='ออก')?.stamp??null;
-   showResults({planet,kind,sign,entry,exit,eventsBefore,eventsAfter,longitude,currentLon,motionItem:currentItem,calculationStamp:start});
+   if(isAscendant){
+    showResults({planet,kind,sign,entry:null,exit:null,eventsBefore:[],eventsAfter:[],longitude,currentLon,motionItem:null,calculationStamp:start});
+    showMessage('กำลังค้นหาวันและเวลาที่ลัคนา'+(kind==='natal'?'เดิม':'จร')+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
+    const boundaries=await findAscendantSignBoundaries(start,longitude,targetSign);
+    if(id!==requestId)return;
+    showResults({planet,kind,sign,entry:boundaries.entry,exit:boundaries.exit,eventsBefore:[],eventsAfter:[],longitude,currentLon,motionItem:null,calculationStamp:start});
+   }else{
+    showMessage('กำลังค้นหาวันและเวลาที่ดาว'+planet+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
+    const step=stepFor(planet);
+    const [eventsBefore,eventsAfter]=await Promise.all([
+     findBoundaryEvents({start,planet,longitude,targetSign,direction:-1,step}),
+     findBoundaryEvents({start,planet,longitude,targetSign,direction:1,step})
+    ]);
+    if(id!==requestId)return;
+    const entry=eventsBefore.find(item=>item.type==='เข้า')?.stamp??null;
+    const exit=eventsAfter.find(item=>item.type==='ออก')?.stamp??null;
+    showResults({planet,kind,sign,entry,exit,eventsBefore,eventsAfter,longitude,currentLon,motionItem:currentItem,calculationStamp:start});
+   }
   }catch(error){
    if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
    console.error('[HORA][SIGN STAY][index9]',error);
   }
- });
+ },true);
 })();
 
 /* Numeric summary is rendered directly from calculated chart objects in main.js. */
@@ -2521,7 +2597,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
 /* 999.html only. Uses the existing Suriyayatra engine, existing ascendant-boundary helper,
    and read-only main51 analyzer. It does not change any planetary formula. */
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
-import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261009-v7.5.1-golden-asc';
+import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261114-asc-boundary-import-fix2';
 import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 (()=>{
  const $=id=>document.getElementById(id);
@@ -3702,7 +3778,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    t.setAttribute('x',p.x.toFixed(2));t.setAttribute('y',p.y.toFixed(2));
    t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
    t.setAttribute('font-size','10.5');t.setAttribute('font-weight','850');
-   t.setAttribute('fill',i===0?'#b42318':'#7c4a12');
+   const elementColors=['#D94832','#9A743B','#278A78','#3478BD','#D94832','#9A743B','#278A78','#3478BD','#D94832','#9A743B','#278A78','#3478BD'];
+   t.setAttribute('fill',elementColors[i]);
    t.classList.add('zodiac-sign-label5');
   });
   // Keep each marker on its exact longitude ray. Resolve collisions by radius only.
