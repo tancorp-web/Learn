@@ -669,11 +669,11 @@ td,th{border-color:#e2e8f0!important}
  <div class="section-title"><h2 id="planetSummary911Title">สรุปองศาและมาตรฐานดาว</h2></div>
  <div class="table-wrap ps911-wrap">
   <table class="ps911-table">
-   <thead><tr><th>ดาว</th><th>ดาวเดิม</th><th>ดาวจร</th><th>จุดสังเกต</th></tr></thead>
+   <thead><tr><th>ดาว / เกณฑ์</th><th>ดาวเดิม / ผล</th><th>ดาวจร / ผล</th><th>จุดสังเกต / สถานะ</th></tr></thead>
    <tbody id="planetSummary911Rows"><tr><td colspan="4">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
   </table>
  </div>
- <p class="ps911-note">ใกล้อาทิตย์ / จันทร์ = ผลต่างองศาภายในราศี ไม่เกิน ๕° · วรโคตรนวางค์ = ดาวเดิมอยู่ราศีเดียวกันทั้งจักรราศีและนวางค์</p>
+ <p class="ps911-note">แสดงดาวครบ ๑๐ ดวงและมาตรฐานทั้งหมดจากชุดข้อมูล HORA · เกณฑ์ที่ยังไม่มีสูตรยืนยันจะแสดง “รอตรวจสอบสูตร” ไม่คาดเดาผล</p>
 </section>
 <style id="planetSummary911Style">
 #planetSummary911{padding:14px clamp(12px,2vw,20px);margin-top:10px}
@@ -688,6 +688,16 @@ td,th{border-color:#e2e8f0!important}
 #planetSummary911 .ps911-standard{display:block;margin-top:2px;color:#8a641c;font-size:11px}
 #planetSummary911 .ps911-motion{display:block;margin-top:2px;color:#475569;font-size:10.5px}
 #planetSummary911 .ps911-flag{display:inline-block;margin:1px 3px 1px 0;padding:2px 5px;border-radius:6px;background:#f1f5f9;color:#334155;font-size:10.5px;font-weight:750}
+#planetSummary911 .ps911-group th{padding:7px 8px;background:#e9eef8;color:#263653;text-align:left;font-size:11px;font-weight:850}
+#planetSummary911 .ps911-status-pass{display:block;color:#16845b;font-weight:800}
+#planetSummary911 .ps911-status-fail{display:block;color:#64748b;font-weight:700}
+#planetSummary911 .ps911-status-pending{display:block;color:#9a6a00;font-weight:800}
+#planetSummary911 .ps911-status-alias{display:block;color:#475569;font-weight:800}
+#planetSummary911 .ps911-detail{display:block;margin-top:2px;color:#64748b;font-size:10px;line-height:1.4}
+#planetSummary911 .ps911-table td{vertical-align:top}
+#planetSummary911 .ps911-table th:nth-child(1){width:22%}
+#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:25%}
+#planetSummary911 .ps911-table th:nth-child(4){width:28%}
 #planetSummary911 .ps911-note{margin:8px 0 0;color:#64748b;font-size:10.5px;line-height:1.5}
 @media(max-width:600px){
  #planetSummary911{padding:11px 9px}
@@ -702,11 +712,14 @@ td,th{border-color:#e2e8f0!important}
 }
 </style>
 <script type="module" id="planetSummary911Logic">
-import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 (()=>{
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const planetOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
+ const numbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'ล'};
  const digits='๐๑๒๓๔๕๖๗๘๙';
  const thai=n=>String(n).replace(/[0-9]/g,d=>digits[Number(d)]);
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const norm=n=>((Number(n)%360)+360)%360;
  const parts=lon=>{
   const n=norm(lon),si=Math.floor(n/30),within=n-si*30,degree=Math.floor(within),minute=Math.floor((within-degree)*60),second=((within-degree)*60-minute)*60;
@@ -719,44 +732,151 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
   return values.length?values.join(' · '):'—';
  };
  const navSign=lon=>{
-  const p=parts(lon),element=['fire','earth','air','water'][p.sign==='เมษ'||p.sign==='สิงห์'||p.sign==='ธนู'?0:p.sign==='พฤษภ'||p.sign==='กันย์'||p.sign==='มกร'?1:p.sign==='มิถุน'||p.sign==='ตุล'||p.sign==='กุมภ์'?2:3];
-  const elementStart={fire:0,earth:9,air:6,water:3};
-  const within=p.within,part=Math.min(8,Math.floor(within/(30/9)));
+  const p=parts(lon);
+  const element=p.sign==='เมษ'||p.sign==='สิงห์'||p.sign==='ธนู'?0:p.sign==='พฤษภ'||p.sign==='กันย์'||p.sign==='มกร'?1:p.sign==='มิถุน'||p.sign==='ตุล'||p.sign==='กุมภ์'?2:3;
+  const elementStart=[0,9,6,3],part=Math.min(8,Math.floor(p.within/(30/9)));
   return (elementStart[element]+part)%12;
  };
- const closeFlags=(items,source)=>{
+ const closeFlags=(items,source,kind)=>{
   const sun=items.find(p=>p.name==='อาทิตย์'),moon=items.find(p=>p.name==='จันทร์'),out=[];
   if(!Number.isFinite(Number(source.longitude)))return out;
   const p=parts(source.longitude);
   if(p.within<=5||30-p.within<=5)out.push('ใกล้เปลี่ยนราศี');
   for(const [ref,label] of [[sun,'ใกล้อาทิตย์'],[moon,'ใกล้จันทร์']]){
    if(!ref||ref.name===source.name||!Number.isFinite(Number(ref.longitude)))continue;
-   const delta=Math.abs(p.within-parts(ref.longitude).within);
-   if(delta<=5+1e-9)out.push(label);
+   if(Math.abs(p.within-parts(ref.longitude).within)<=5+1e-9)out.push(label);
   }
-  if(source.kind==='natal'&&navSign(source.longitude)===p.signIndex)out.push('วรโคตรนวางค์');
+  if(kind==='natal'&&navSign(source.longitude)===p.signIndex)out.push('วรโคตรนวางค์');
   return out;
+ };
+ const motionPlanets=new Set(['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู']);
+ const cell=(name,item)=>{
+  if(!item||!Number.isFinite(Number(item.longitude)))return '<span class="ps911-pos">—</span><span class="ps911-standard">มาตรฐาน: —</span>';
+  const label=position(item.longitude),std=standards(name,item.longitude);
+  const motion=motionPlanets.has(name)?(item.motionState||'—'):'—';
+  return '<span class="ps911-pos">'+esc(label)+'</span><span class="ps911-standard">มาตรฐาน: '+esc(std)+'</span><span class="ps911-motion">เดินดาว: '+esc(motion)+'</span>';
+ };
+ const makePoints=chart=>{
+  const planets=Array.isArray(chart?.planets)?chart.planets:[];
+  const points=planets.filter(p=>p&&p.name&&Number.isFinite(Number(p.longitude))).map(p=>({
+   name:p.name,number:numbers[p.name]||'',longitude:Number(p.longitude),sign:parts(p.longitude).sign
+  })).filter(p=>p.number);
+  if(Number.isFinite(Number(chart?.asc)))points.unshift({name:'ลัคนา',number:'ล',longitude:Number(chart.asc),sign:parts(chart.asc).sign});
+  return points;
+ };
+ const relationPairs=(from,to,category,transitMode=false)=>{
+  const offset=(a,b)=>(signs.indexOf(b.sign)-signs.indexOf(a.sign)+12)%12;
+  return [...new Set(from.flatMap(a=>to.filter(b=>{
+   if(!transitMode&&a.name===b.name)return false;
+   const o=offset(a,b);
+   if(category==='กุม')return o===0;
+   if(category==='ทับ')return transitMode&&o===0;
+   if(category==='เล็ง')return o===6;
+   if(category==='โยคหน้า')return o===2;
+   if(category==='โยคหลัง')return o===10;
+   if(category==='ตรีโกณ')return o===4||o===8;
+   if(category==='จตุโกณ')return o===3||o===9;
+   return false;
+  }).map(b=>transitMode?a.number+'→'+b.number:a.number+'–'+b.number)))].join(' · ')||'—';
+ };
+ const chartSpecials=chart=>{
+  const planets=Array.isArray(chart?.planets)?chart.planets:[];
+  const byName=new Map(planets.map(p=>[p.name,p]));
+  const ascValid=Number.isFinite(Number(chart?.asc));
+  const complete=ascValid&&planetOrder.every(name=>byName.has(name)&&Number.isFinite(Number(byName.get(name)?.longitude)));
+  if(!ascValid)return [];
+  const asc=parts(chart.asc),ascIndex=asc.signIndex;
+  const points=makePoints(chart);
+  const occupied=new Set(points.map(p=>p.sign));
+  const numsInSigns=wanted=>[...new Set(points.filter(p=>wanted.includes(p.sign)).map(p=>p.number))].join(' · ');
+  const house=name=>{
+   const p=byName.get(name);
+   return p?((parts(p.longitude).signIndex-ascIndex+12)%12)+1:null;
+  };
+  const known=(label,pass,members,note)=>({label,state:pass?'pass':'fail',members:pass?(members||'—'):'—',note});
+  const pending=(label,note)=>({label,state:'pending',members:'รอตรวจสอบสูตร',note});
+  const result=[];
+  const pikulSigns=[0,2,4,6,8,10].map(offset=>signs[(ascIndex+offset)%12]);
+  result.push(complete
+   ?known('ดอกพิกุล · แบบ A',pikulSigns.every(s=>occupied.has(s)),numsInSigns(pikulSigns),'ตามโครงแบบ A ที่มีในตารางเกณฑ์เดิม; สูตรเต็มยังควรยืนยัน')
+   :pending('ดอกพิกุล · แบบ A','ข้อมูลดาว/ลัคนายังไม่ครบ'));
+  const rahu=byName.get('ราหู');
+  result.push(rahu
+   ?known('ปกิณกะโชค · แบบ A', ['มิถุน','ตุล','กุมภ์'].includes(parts(rahu.longitude).sign),'๘','ราหูอยู่ราศีธาตุลม ตามเงื่อนไขเดิม')
+   :pending('ปกิณกะโชค · แบบ A','ไม่พบตำแหน่งราหู'));
+  result.push(rahu
+   ?known('ปกิณกะโชค · แบบ B',house('ราหู')===3,'๘','ราหูอยู่ภพ ๓ จากลัคนา ตามเงื่อนไขเดิม')
+   :pending('ปกิณกะโชค · แบบ B','ไม่พบตำแหน่งราหู'));
+  const moon=house('จันทร์'),jupiter=house('พฤหัสบดี'),venus=house('ศุกร์');
+  result.push(moon!==null&&jupiter!==null&&venus!==null
+   ?known('ปทุมเกณฑ์',moon===11&&jupiter===4&&venus===3,['จันทร์','พฤหัสบดี','ศุกร์'].map(n=>numbers[n]).join(' · '),'จันทร์ภพ ๑๑ · พฤหัสบดีภพ ๔ · ศุกร์ภพ ๓ จากลัคนา')
+   :pending('ปทุมเกณฑ์','ต้องมีตำแหน่งจันทร์ พฤหัสบดี และศุกร์ครบ'));
+  const coffin=['มิถุน','สิงห์','ธนู','กุมภ์'];
+  result.push(complete
+   ?known('ดวงโลงผี',coffin.every(s=>occupied.has(s)),numsInSigns(coffin),'ตามโครงราศี ๔ ตำแหน่งที่ระบบเดิมตรวจ')
+   :pending('ดวงโลงผี','ข้อมูลดาว/ลัคนายังไม่ครบ'));
+  const hanuman=[signs[(ascIndex+11)%12],asc.sign,signs[(ascIndex+1)%12]];
+  const hanumanPoints=points.filter(p=>hanuman.includes(p.sign));
+  result.push(complete
+   ?known('ดวงสามเหลี่ยม / ดวงหนุมาน',hanumanPoints.length>=5,[...new Set(hanumanPoints.map(p=>p.number))].join(' · '),'ตามโครง ๕ จุดในราศีลัคนาและราศีข้างเคียง')
+   :pending('ดวงสามเหลี่ยม / ดวงหนุมาน','ข้อมูลดาว/ลัคนายังไม่ครบ'));
+  result.push(pending('จันทร์คุรุสุริยา (เกณฑ์เดียว · แบบ A/B)','ยังต้องยืนยันนิยามทวารราศีและเงื่อนไขฉบับที่ใช้'));
+  result.push(pending('อุดมเกณฑ์','ยังไม่พบสูตรที่ยืนยันได้ในชุดข้อมูลที่หน้า 911 เรียกใช้'));
+  result.push(pending('องค์เกณฑ์','ยังไม่พบสูตรที่ยืนยันได้ในชุดข้อมูลที่หน้า 911 เรียกใช้'));
+  result.push(pending('ดอกอุตพิต','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push(pending('นำผล / นำพล','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push(pending('ตามผล / ขับพล','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push(pending('ดวงจันทร์เสี้ยว / มาลัยโยค / อัฒจักร','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push({label:'อนุเกษตร',state:'alias',members:'—',note:'ไม่แยกนับซ้ำ; ใช้ชื่อเกษตรสลับเรือนตามข้อกำหนดเดิม'});
+  return result;
+ };
+ const resultCell=(state,members)=>{
+  if(state==='pending')return '<span class="ps911-status-pending">รอตรวจสอบสูตร</span>';
+  if(state==='alias')return '<span class="ps911-status-alias">รวมชื่อเดิม</span>';
+  if(state==='pass')return '<span class="ps911-status-pass">เข้าเกณฑ์</span><small class="ps911-detail">'+esc(members)+'</small>';
+  return '<span class="ps911-status-fail">ไม่เข้าเกณฑ์</span>';
  };
  const tbody=document.getElementById('planetSummary911Rows');
  if(!tbody)return;
- const motionPlanets=new Set(['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู']);
- const cell=(name,item)=>{
-  if(!item||!Number.isFinite(Number(item.longitude)))return '<span class="ps911-pos">—</span>';
-  const label=position(item.longitude),std=standards(name,item.longitude);
-  const motion=motionPlanets.has(name)?(item.motionState||'—'):'—';
-  return '<span class="ps911-pos">'+label+'</span><span class="ps911-standard">มาตรฐาน: '+std+'</span><span class="ps911-motion">เดินดาว: '+motion+'</span>';
- };
  const render=data=>{
-  const natal=data?.natal?.planets||[],transit=data?.transit?.planets||[];
-  const names=[...new Set([...natal,...transit].map(p=>p.name).filter(n=>n&&n!=='ลัคนา'))];
-  if(!names.length){tbody.innerHTML='<tr><td colspan="4">ไม่พบข้อมูลดาว กรุณาคำนวณดวงใหม่</td></tr>';return;}
-  const nb=new Map(natal.map(p=>[p.name,p])),tb=new Map(transit.map(p=>[p.name,p]));
-  const rows=names.map(name=>{
-   const b=nb.get(name),t=tb.get(name),flags=[];
-   if(b)flags.push(...closeFlags(natal,{...b,kind:'natal'}));
-   if(t)flags.push(...closeFlags(transit,{...t,kind:'transit'}));
-   const unique=[...new Set(flags)];
-   return '<tr><td><strong>'+name+'</strong></td><td>'+cell(name,b)+'</td><td>'+cell(name,t)+'</td><td>'+ (unique.length?unique.map(x=>'<span class="ps911-flag">'+x+'</span>').join(''):'—')+'</td></tr>';
+  const natal=data?.natal||{},transit=data?.transit||{};
+  const natalPlanets=Array.isArray(natal.planets)?natal.planets:[],transitPlanets=Array.isArray(transit.planets)?transit.planets:[];
+  const nb=new Map(natalPlanets.map(p=>[p.name,p])),tb=new Map(transitPlanets.map(p=>[p.name,p]));
+  const rows=['<tr class="ps911-group"><th colspan="4">ดาวทุกดวง · มาตรฐานรายดวง</th></tr>'];
+  planetOrder.forEach(name=>{
+   const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
+   const flags=[];
+   if(nFlags.length)flags.push('<small><b>เดิม:</b> '+nFlags.map(esc).join(' · ')+'</small>');
+   if(tFlags.length)flags.push('<small><b>จร:</b> '+tFlags.map(esc).join(' · ')+'</small>');
+   rows.push('<tr><td><strong>'+esc(name)+'</strong></td><td>'+cell(name,b)+'</td><td>'+cell(name,t)+'</td><td>'+(flags.join('')||'—')+'</td></tr>');
+  });
+  rows.push('<tr class="ps911-group"><th colspan="4">ความสัมพันธ์ดาว · ตรวจผังเดิมและดาวจรเทียบดาวเดิม</th></tr>');
+  const natalPoints=makePoints(natal),transitPoints=makePoints(transit);
+  ['กุม','ทับ','เล็ง','โยคหน้า','โยคหลัง','ตรีโกณ','จตุโกณ','ฉาก'].forEach(category=>{
+   const n=category==='ทับ'?'—':category==='ฉาก'?'รอตรวจสอบออร์บ':relationPairs(natalPoints,natalPoints,category);
+   const t=category==='ฉาก'?'รอตรวจสอบออร์บ':relationPairs(transitPoints,natalPoints,category,true);
+   const pending=category==='ฉาก'||!Number.isFinite(Number(natal.asc))||!Number.isFinite(Number(transit.asc));
+   rows.push('<tr><td>'+esc(category)+'</td><td>'+esc(n)+'</td><td>'+esc(t)+'</td><td>'+(pending?'<span class="ps911-status-pending">รอตรวจสอบ</span>':'<span class="ps911-status-pass">ตรวจตามราศี</span>')+'</td></tr>');
+  });
+  rows.push('<tr class="ps911-group"><th colspan="4">เกษตรสลับเรือน / ปริวรรตเกษตร</th></tr>');
+  const exchange=(chart,type)=>{
+   const found=getParivartanaKasetRelations((chart.planets||[]).map(p=>({name:p.name,sign:parts(p.longitude).sign}))).filter(x=>x.type===type);
+   return found.map(x=>x.planets.map(n=>numbers[n]||n).join(type==='pair'?'–':'→')).join(' · ')||'—';
+  };
+  const exchangeRows=[['เกษตรสลับเรือน · 2 ดวง','pair'],['ปริวรรตเกษตร · 3 ดวง','triple']];
+  exchangeRows.forEach(([label,type])=>{
+   const n=exchange(natal,type),t=exchange(transit,type);
+   rows.push('<tr><td>'+esc(label)+'</td><td>'+esc(n)+'</td><td>'+esc(t)+'</td><td><span class="ps911-status-pass">ตรวจความสัมพันธ์เรือน</span></td></tr>');
+  });
+  rows.push('<tr class="ps911-group"><th colspan="4">เกณฑ์พิเศษ · ผลดาวเดิมและดาวจร</th></tr>');
+  const natalSpecials=chartSpecials(natal),transitSpecials=chartSpecials(transit);
+  const specialNames=[...new Set([...natalSpecials,...transitSpecials].map(x=>x.label))];
+  const nMap=new Map(natalSpecials.map(x=>[x.label,x])),tMap=new Map(transitSpecials.map(x=>[x.label,x]));
+  specialNames.forEach(label=>{
+   const n=nMap.get(label)||{state:'pending',members:'รอตรวจสอบสูตร',note:'—'};
+   const t=tMap.get(label)||{state:'pending',members:'รอตรวจสอบสูตร',note:'—'};
+   const state=n.state==='pending'||t.state==='pending'?'pending':n.state==='alias'?'alias':n.state==='pass'||t.state==='pass'?'pass':'fail';
+   rows.push('<tr><td>'+esc(label)+'</td><td>'+resultCell(n.state,n.members)+'</td><td>'+resultCell(t.state,t.members)+'</td><td><small class="ps911-detail">'+esc(n.note||t.note||'—')+'</small></td></tr>');
   });
   tbody.innerHTML=rows.join('');
  };
