@@ -708,7 +708,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
  const norm=n=>((Number(n)%360)+360)%360;
  const parts=lon=>{
   const n=norm(lon),si=Math.floor(n/30),within=n-si*30,degree=Math.floor(within),minute=Math.floor((within-degree)*60),second=((within-degree)*60-minute)*60;
-  return {sign:signs[si],degree,minute,second,within};
+  return {sign:signs[si],signIndex:si,degree,minute,second,within};
  };
  const position=lon=>{const p=parts(lon);return p.sign+' '+thai(p.degree)+'°'+String(thai(p.minute)).padStart(2,'๐')+'′';};
  const standards=(name,lon)=>{
@@ -728,7 +728,7 @@ import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=202611
   const p=parts(source.longitude);
   if(p.within<=5||30-p.within<=5)out.push('ใกล้เปลี่ยนราศี');
   for(const [ref,label] of [[sun,'ใกล้อาทิตย์'],[moon,'ใกล้จันทร์']]){
-   if(!ref||!Number.isFinite(Number(ref.longitude)))continue;
+   if(!ref||ref.name===source.name||!Number.isFinite(Number(ref.longitude)))continue;
    const delta=Math.abs(p.within-parts(ref.longitude).within);
    if(delta<=5+1e-9)out.push(label);
   }
