@@ -2007,7 +2007,6 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    const longitude=Number($(prefix+'Lon')?.value);
    if(!Number.isFinite(longitude))throw new Error('ไม่พบลองจิจูดของสถานที่');
    const currentResult=calculationAtStamp(start,longitude,true);
-   const isAscendant=planet==='ลัคนา';
    const currentItem=isAscendant?null:currentResult?.planets?.find(x=>x.name===planet);
    const currentLon=isAscendant?Number(latestChartData?.[kind]?.asc):planetLongitude(start,planet,longitude);
    if(!Number.isFinite(currentLon))throw new Error(isAscendant?'ไม่พบองศาลัคนาจากผลคำนวณ HORA กรุณากดคำนวณดวงใหม่':'สูตร HORA ไม่คืนตำแหน่งดาว '+planet);
