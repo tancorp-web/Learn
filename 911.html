@@ -1989,10 +1989,10 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   panel.appendChild(note);
  };
  let requestId=0;
- if(wheel)wheel.addEventListener('click',async event=>{
+ document.addEventListener('click',async event=>{
   // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
   const target=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
-  if(!target||!wheel.contains(target))return;
+  if(!target||!wheel||!wheel.contains(target))return;
   const natalAsc=target.matches?.('g[data-natal-ascendant-marker="true"]');
   const transitAsc=target.matches?.('text.transit-zodiac-time5')&&String(target.textContent||'').trim().startsWith('@จร');
   const isAscendant=natalAsc||transitAsc;
@@ -2013,6 +2013,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    const targetSign=Math.floor((((currentLon%360)+360)%360)/30);
    const sign=signs[targetSign];
    if(isAscendant){
+    showResults({planet,kind,sign,entry:null,exit:null,eventsBefore:[],eventsAfter:[],longitude,currentLon,motionItem:null,calculationStamp:start});
     showMessage('กำลังค้นหาวันและเวลาที่ลัคนา'+(kind==='natal'?'เดิม':'จร')+' เข้าราศี'+sign+' และออกราศี'+sign+'…');
     const boundaries=await findAscendantSignBoundaries(start,longitude,targetSign);
     if(id!==requestId)return;
@@ -2033,7 +2034,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
    console.error('[HORA][SIGN STAY][index9]',error);
   }
- });
+ },true);
 })();
 
 /* Numeric summary is rendered directly from calculated chart objects in main.js. */
