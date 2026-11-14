@@ -1741,8 +1741,10 @@ import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261114-asc-boundary-import-fix2';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
-import { getPlanetaryDignities, getParivartanaKasetRelations, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNITY_REFERENCE_RULES } from './js/data/planetary-dignities.js?v=20261104-parivartana-standards';
+import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign as getRashiLordBySignFor911, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNITY_REFERENCE_RULES } from './js/data/planetary-dignities.js?v=20261104-parivartana-standards';
 (()=>{
+ // Publish the shared HORA rashi-lord helper for legacy page scripts that resolve it globally.
+ if(typeof window.getRashiLordBySign!=='function')window.getRashiLordBySign=getRashiLordBySignFor911;
  const $=id=>document.getElementById(id);
  const wheel=$('wheel');
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
