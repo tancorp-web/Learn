@@ -664,6 +664,102 @@ td,th{border-color:#e2e8f0!important}
 </section>
 
 <div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="อุจจาวิลาศ">อุจจาวิลาศ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option><option value="ปกิณโชค">ปกิณโชค</option><option value="มหาอุจจ์">มหาอุจจ์ (ตามราศี/องศา)</option></select><span id="planetStandardColorKey4" class="standard-color-key4" aria-live="polite"><span class="standard-color-dot4"></span><span class="standard-color-name4">เกษตร · สีทอง</span></span><details class="standard-color-legend4"><summary>คำอธิบายสีมาตรฐาน</summary><div class="standard-color-grid4"><span><i style="--std-color:#C69224"></i>เกษตร</span><span><i style="--std-color:#0F766E"></i>ประ</span><span><i style="--std-color:#2878C8"></i>อุจจ์</span><span><i style="--std-color:#64748B"></i>นิจ</span><span><i style="--std-color:#8054B8"></i>ราชาโชค</span><span><i style="--std-color:#D97736"></i>มหาจักร</span><span><i style="--std-color:#0891B2"></i>จุลจักร</span><span><i style="--std-color:#BE185D"></i>อุจจาภิมุข</span><span><i style="--std-color:#15803D"></i>เทวีโชค</span><span><i style="--std-color:#A16207"></i>ปกิณโชค</span><span><i style="--std-color:#1D4ED8"></i>มหาอุจจ์</span></div></details></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details></div>
+
+<section class="panel" id="planetSummary911" aria-labelledby="planetSummary911Title">
+ <div class="section-title"><h2 id="planetSummary911Title">สรุปองศาและมาตรฐานดาว</h2></div>
+ <div class="table-wrap ps911-wrap">
+  <table class="ps911-table">
+   <thead><tr><th>ดาว</th><th>ดาวเดิม</th><th>ดาวจร</th><th>จุดสังเกต</th></tr></thead>
+   <tbody id="planetSummary911Rows"><tr><td colspan="4">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
+  </table>
+ </div>
+ <p class="ps911-note">ใกล้อาทิตย์ / จันทร์ = ผลต่างองศาภายในราศี ไม่เกิน ๕° · วรโคตรนวางค์ = ดาวเดิมอยู่ราศีเดียวกันทั้งจักรราศีและนวางค์</p>
+</section>
+<style id="planetSummary911Style">
+#planetSummary911{padding:14px clamp(12px,2vw,20px);margin-top:10px}
+#planetSummary911 .section-title{margin-bottom:10px}
+#planetSummary911 .ps911-wrap{overflow-x:auto}
+#planetSummary911 .ps911-table{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse}
+#planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:7px 8px;font-size:12px;line-height:1.45;vertical-align:middle;overflow-wrap:anywhere}
+#planetSummary911 .ps911-table th:nth-child(1){width:13%}
+#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:29%}
+#planetSummary911 .ps911-table th:nth-child(4){width:29%}
+#planetSummary911 .ps911-pos{display:block;font-weight:800;color:#263653}
+#planetSummary911 .ps911-standard{display:block;margin-top:2px;color:#8a641c;font-size:11px}
+#planetSummary911 .ps911-flag{display:inline-block;margin:1px 3px 1px 0;padding:2px 5px;border-radius:6px;background:#f1f5f9;color:#334155;font-size:10.5px;font-weight:750}
+#planetSummary911 .ps911-note{margin:8px 0 0;color:#64748b;font-size:10.5px;line-height:1.5}
+@media(max-width:600px){
+ #planetSummary911{padding:11px 9px}
+ #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:6px 4px;font-size:10.5px}
+ #planetSummary911 .ps911-table th:nth-child(1){width:12%}
+ #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:30%}
+ #planetSummary911 .ps911-table th:nth-child(4){width:28%}
+ #planetSummary911 .ps911-standard{font-size:9.5px}
+ #planetSummary911 .ps911-flag{font-size:9px;padding:2px 4px}
+ #planetSummary911 .ps911-note{font-size:9.5px}
+}
+</style>
+<script type="module" id="planetSummary911Logic">
+import { getPlanetaryDignities } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+(()=>{
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const digits='๐๑๒๓๔๕๖๗๘๙';
+ const thai=n=>String(n).replace(/[0-9]/g,d=>digits[Number(d)]);
+ const norm=n=>((Number(n)%360)+360)%360;
+ const parts=lon=>{
+  const n=norm(lon),si=Math.floor(n/30),within=n-si*30,degree=Math.floor(within),minute=Math.floor((within-degree)*60),second=((within-degree)*60-minute)*60;
+  return {sign:signs[si],degree,minute,second,within};
+ };
+ const position=lon=>{const p=parts(lon);return p.sign+' '+thai(p.degree)+'°'+String(thai(p.minute)).padStart(2,'๐')+'′';};
+ const standards=(name,lon)=>{
+  const p=parts(lon);
+  const values=[...new Set(getPlanetaryDignities(name,p.sign,p.degree,p.minute,p.second)||[])];
+  return values.length?values.join(' · '):'—';
+ };
+ const navSign=lon=>{
+  const p=parts(lon),element=['fire','earth','air','water'][p.sign==='เมษ'||p.sign==='สิงห์'||p.sign==='ธนู'?0:p.sign==='พฤษภ'||p.sign==='กันย์'||p.sign==='มกร'?1:p.sign==='มิถุน'||p.sign==='ตุล'||p.sign==='กุมภ์'?2:3];
+  const elementStart={fire:0,earth:9,air:6,water:3};
+  const within=p.within,part=Math.min(8,Math.floor(within/(30/9)));
+  return (elementStart[element]+part)%12;
+ };
+ const closeFlags=(items,source)=>{
+  const sun=items.find(p=>p.name==='อาทิตย์'),moon=items.find(p=>p.name==='จันทร์'),out=[];
+  if(!Number.isFinite(Number(source.longitude)))return out;
+  const p=parts(source.longitude);
+  if(p.within<=5||30-p.within<=5)out.push('ใกล้เปลี่ยนราศี');
+  for(const [ref,label] of [[sun,'ใกล้อาทิตย์'],[moon,'ใกล้จันทร์']]){
+   if(!ref||!Number.isFinite(Number(ref.longitude)))continue;
+   const delta=Math.abs(p.within-parts(ref.longitude).within);
+   if(delta<=5+1e-9)out.push(label);
+  }
+  if(source.kind==='natal'&&navSign(source.longitude)===p.signIndex)out.push('วรโคตรนวางค์');
+  return out;
+ };
+ const tbody=document.getElementById('planetSummary911Rows');
+ if(!tbody)return;
+ const cell=(name,item,kind,all)=>{
+  if(!item||!Number.isFinite(Number(item.longitude)))return '<span class="ps911-pos">—</span>';
+  const label=position(item.longitude),std=standards(name,item.longitude);
+  return '<span class="ps911-pos">'+label+'</span><span class="ps911-standard">'+std+'</span>';
+ };
+ const render=data=>{
+  const natal=data?.natal?.planets||[],transit=data?.transit?.planets||[];
+  const names=[...new Set([...natal,...transit].map(p=>p.name).filter(n=>n&&n!=='ลัคนา'))];
+  if(!names.length){tbody.innerHTML='<tr><td colspan="4">ไม่พบข้อมูลดาว กรุณาคำนวณดวงใหม่</td></tr>';return;}
+  const nb=new Map(natal.map(p=>[p.name,p])),tb=new Map(transit.map(p=>[p.name,p]));
+  const rows=names.map(name=>{
+   const b=nb.get(name),t=tb.get(name),flags=[];
+   if(b)flags.push(...closeFlags(natal,{...b,kind:'natal'}));
+   if(t)flags.push(...closeFlags(transit,{...t,kind:'transit'}));
+   const unique=[...new Set(flags)];
+   return '<tr><td><strong>'+name+'</strong></td><td>'+cell(name,b,'natal',natal)+'</td><td>'+cell(name,t,'transit',transit)+'</td><td>'+ (unique.length?unique.map(x=>'<span class="ps911-flag">'+x+'</span>').join(''):'—')+'</td></tr>';
+  });
+  tbody.innerHTML=rows.join('');
+ };
+ window.addEventListener('hora50:chart-calculated',e=>render(e.detail||{}));
+})();
+</script>
+
 <section class="panel" id="navamsaPanel50">
  <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="navamsaRun50" class="navamsa-calc-button" disabled>รอข้อมูลดวงหลัก</button><span class="badge">Navamsa 108 divisions</span></div><p id="navamsaRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณนวางค์” เพื่อวาดวงแยกต่างหาก</p>
  <p class="criteria7-muted">วงนวางค์สองชั้น: วงด้านในแสดงดาวและลัคนาเดิม วงด้านนอกแสดงดาวและลัคนาจร โดยเดินเลขนวางค์ตามธาตุและวางเลขดาวลงในราศีปลายทาง</p>
