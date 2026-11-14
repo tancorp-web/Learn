@@ -1819,7 +1819,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
     for(let pass=0;pass<2;pass++){
      result=await Promise.all(result.map(async item=>{
       const minutes=Number(item.minutes),boundaryDate=new Date(Date.UTC(dateObj.getUTCFullYear(),dateObj.getUTCMonth(),dateObj.getUTCDate())+Math.floor(minutes/1440)*DAY_MS);
-      const hh=String(Math.floor(((Math.round(minutes)%1440)+1440)%1440)/60).padStart(2,'0');
+      const hh=String(Math.floor((((Math.round(minutes)%1440)+1440)%1440)/60)).padStart(2,'0');
       const mm=String(((Math.round(minutes)%1440)+1440)%1440%60).padStart(2,'0');
       const at=await calculationAtStamp(Date.UTC(boundaryDate.getUTCFullYear(),boundaryDate.getUTCMonth(),boundaryDate.getUTCDate(),Number(hh),Number(mm)),longitude,false);
       const atSun=at?.planets?.find(p=>p.name==='อาทิตย์');
@@ -1954,7 +1954,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    add('มาตรฐานดาว',confirmedLabels.length?confirmedLabels.join(' · '):'-');
 
   }
-  if(kind!=='natal'&&planet!=='ลัคนא'){
+  if(kind!=='natal'&&planet!=='ลัคนา'){
    const lon=((Number(currentLon)%360)+360)%360;
    const signIndex=Math.floor(lon/30),within=lon%30,degree=Math.floor(within);
    const minute=Math.floor((within-degree)*60);
