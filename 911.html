@@ -1278,7 +1278,6 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
  const colorKey=document.getElementById('planetStandardColorKey4');
  function updateColorKey(){if(!colorKey)return;const displayName=picker.value;const name=aliases[displayName]||displayName;const color=standardColors[name]||'#C69224';colorKey.style.setProperty('--std-color',color);colorKey.querySelector('.standard-color-dot4')?.style.setProperty('--std-color',color);const label=colorKey.querySelector('.standard-color-name4');if(label)label.textContent=displayName+' · '+(standardColorNames[name]||'สีประจำมาตรฐาน');}
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
- const signNames=signs; // ใช้ชื่อราศีชุดเดียวกันในสรุปเกษตร
  const planetNumbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐'};
  const NS='http://www.w3.org/2000/svg', CENTER=360;
  const point=(lon,r)=>{const a=(-(lon-15)-90)*Math.PI/180;return{x:CENTER+r*Math.cos(a),y:CENTER+r*Math.sin(a)}};
@@ -1747,6 +1746,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
  const $=id=>document.getElementById(id);
  const wheel=$('wheel');
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const signNames=signs; // ใช้ชื่อราศีชุดเดียวกันในสรุปเกษตร
  const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
  const planetByNumber={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
  let latestChartData=null;
