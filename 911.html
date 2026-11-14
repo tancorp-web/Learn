@@ -664,6 +664,335 @@ td,th{border-color:#e2e8f0!important}
 </section>
 
 <div class="panel" id="wheelPanel2"><div class="section-title"><h2>จักรราศี · นวางค์ · ฤกษ์ 27</h2><span class="badge">♈ เมษอยู่ด้านบน</span></div><div class="wheel-tools" aria-label="เครื่องมือขยายวงจักรราศี"><button type="button" id="wheelFullscreen2">⛶ เต็มจอ</button><button type="button" id="wheelZoomOut2" aria-label="ย่อวงจักรราศี">−</button><span id="wheelZoomLabel2">100%</span><button type="button" id="wheelZoomIn2" aria-label="ขยายวงจักรราศี">+</button><button type="button" id="wheelZoomReset2">พอดีจอ</button><button type="button" id="refreshPageNoCache5" title="โหลดหน้าใหม่ด้วย URL ป้องกันแคช">รีเฟรชหน้า</button></div><div id="planetStandardPickerBar4" aria-label="ตัวเลือกการแสดงผลวงจักรราศี" style="max-width:760px;margin:0 auto 14px;padding:12px;display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-wrap:wrap;border:1px solid #cbd5e1;border-radius:12px;background:#fff"><label class="visibility-toggle5" for="showNakNames5"><input type="checkbox" id="showNakNames5" checked> แสดงชื่อฤกษ์</label><label class="visibility-toggle5" for="showZodiacNames5"><input type="checkbox" id="showZodiacNames5" checked> แสดงชื่อราศี</label><label class="visibility-toggle5" for="showHouseNames5"><input type="checkbox" id="showHouseNames5" checked> แสดงชื่อภพ</label><label class="visibility-toggle5" for="showNavaNames5"><input type="checkbox" id="showNavaNames5" checked> แสดงนวางค์</label><label class="visibility-toggle5" for="showTriyangNames5"><input type="checkbox" id="showTriyangNames5" checked> แสดงตรียางค์</label><label class="visibility-toggle5" for="showNakTypes5"><input type="checkbox" id="showNakTypes5"> แสดงฤกษ์ล่างทั้งหมด</label><label class="visibility-toggle5" for="showAllTransitZodiacTimes5"><input type="checkbox" id="showAllTransitZodiacTimes5" checked> แสดงเวลา @จร ครบ 12 ราศี</label><div class="standard-picker-group4"><label class="visibility-toggle5" for="showPlanetStandard5"><input type="checkbox" id="showPlanetStandard5" checked> แสดงมาตรฐานดาว</label><select id="planetStandardSelect4" aria-label="เลือกชุดมาตรฐานดาว"><option value="เกษตร" selected>เกษตร</option><option value="ประ">ประ</option><option value="อุจ">อุจ</option><option value="อุจจาวิลาศ">อุจจาวิลาศ</option><option value="นิจ">นิจ</option><option value="ราชาโชค">ราชาโชค</option><option value="มหาจักร">มหาจักร</option><option value="จุลจักร">จุลจักร</option><option value="อุจจาภิมุข">อุจจาภิมุข</option><option value="เทวีโชค">เทวีโชค</option><option value="ปกิณโชค">ปกิณโชค</option><option value="มหาอุจจ์">มหาอุจจ์ (ตามราศี/องศา)</option></select><span id="planetStandardColorKey4" class="standard-color-key4" aria-live="polite"><span class="standard-color-dot4"></span><span class="standard-color-name4">เกษตร · สีทอง</span></span><details class="standard-color-legend4"><summary>คำอธิบายสีมาตรฐาน</summary><div class="standard-color-grid4"><span><i style="--std-color:#C69224"></i>เกษตร</span><span><i style="--std-color:#0F766E"></i>ประ</span><span><i style="--std-color:#2878C8"></i>อุจจ์</span><span><i style="--std-color:#64748B"></i>นิจ</span><span><i style="--std-color:#8054B8"></i>ราชาโชค</span><span><i style="--std-color:#D97736"></i>มหาจักร</span><span><i style="--std-color:#0891B2"></i>จุลจักร</span><span><i style="--std-color:#BE185D"></i>อุจจาภิมุข</span><span><i style="--std-color:#15803D"></i>เทวีโชค</span><span><i style="--std-color:#A16207"></i>ปกิณโชค</span><span><i style="--std-color:#1D4ED8"></i>มหาอุจจ์</span></div></details></div></div><div class="wheel-wrap" id="wheelWrap2"><div id="wheel"></div></div><details class="nakshatra-legend2"><summary>รายชื่อฤกษ์ครบ 27 ฤกษ์และประเภทฤกษ์ (ฤกษ์ละ 4 นวางค์)</summary><div id="nakshatraLegend2"></div></details></div>
+
+<section class="panel" id="planetSummary911" aria-labelledby="planetSummary911Title">
+ <div class="section-title"><h2 id="planetSummary911Title">สรุปองศาและมาตรฐานดาว</h2></div>
+ <div class="ps911-dates" id="planetSummary911Dates">
+  <div><strong>วันเกิด</strong><span id="ps911BirthDate">รอข้อมูลวันเกิด</span></div>
+  <div><strong>วันจร</strong><span id="ps911TransitDate">รอข้อมูลวันจร</span></div>
+  <div class="ps911-asc"><strong>ลัคนากำเนิด</strong><span id="ps911NatalAsc">รอข้อมูลลัคนา</span></div>
+ </div>
+ <div class="ps911-toggles" role="group" aria-label="ตั้งค่าการแสดงผลราศีและภพ">
+  <label><input type="checkbox" id="ps911ShowSigns" checked> แสดงชื่อราศี</label>
+  <label><input type="checkbox" id="ps911ShowHouses" checked> แสดงชื่อภพ</label>
+ </div>
+ <div class="table-wrap ps911-wrap">
+  <table class="ps911-table">
+   <thead><tr><th>ดาว / เกณฑ์</th><th>ดาวเดิม / ผล</th><th>ดาวจร / ผล</th><th>จุดสังเกต / สถานะ</th></tr></thead>
+   <tbody id="planetSummary911Rows"><tr><td colspan="4">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
+  </table>
+ </div>
+ <p class="ps911-note">แสดงลัคนาและดาวครบ ๑๐ ดวง พร้อมมาตรฐานและเกณฑ์ที่เข้าเฉพาะรายดวง</p>
+</section>
+<style id="planetSummary911Style">
+#planetSummary911{padding:14px clamp(12px,2vw,20px);margin-top:10px}
+#planetSummary911 .section-title{margin-bottom:10px}
+#planetSummary911 .ps911-dates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 9px}
+#planetSummary911 .ps911-dates>div{display:flex;flex-direction:column;gap:3px;padding:8px 10px;border:1px solid #e1e7f0;border-radius:9px;background:#f8faff;min-width:0}
+#planetSummary911 .ps911-dates strong{font-size:11px;color:#64748b}
+#planetSummary911 .ps911-dates span{font-size:12px;font-weight:800;color:#263653;overflow-wrap:anywhere}
+#planetSummary911 .ps911-toggles{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 9px;padding:7px 9px;border:1px solid #e1e7f0;border-radius:9px;background:#fff}
+#planetSummary911 .ps911-toggles label{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750;color:#334155;cursor:pointer}
+#planetSummary911 .ps911-toggles input{width:17px;height:17px;accent-color:#4b49b9}
+#planetSummary911 .ps911-zodiac-house{display:block;margin-top:3px;color:#475569;font-size:10.5px;line-height:1.4}
+#planetSummary911 .ps911-wrap{overflow-x:auto}
+#planetSummary911 .ps911-table{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse}
+#planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:7px 8px;font-size:12px;line-height:1.45;vertical-align:middle;overflow-wrap:anywhere}
+#planetSummary911 .ps911-table th:nth-child(1){width:13%}
+#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:29%}
+#planetSummary911 .ps911-table th:nth-child(4){width:29%}
+#planetSummary911 .ps911-pos{display:block;font-weight:800;color:#263653}
+#planetSummary911 .ps911-standard{display:block;margin-top:2px;color:#8a641c;font-size:11px}
+#planetSummary911 .ps911-motion{display:block;margin-top:2px;color:#475569;font-size:10.5px}
+#planetSummary911 .ps911-flag{display:inline-block;margin:1px 3px 1px 0;padding:2px 5px;border-radius:6px;background:#f1f5f9;color:#334155;font-size:10.5px;font-weight:750}
+#planetSummary911 .ps911-tag-row{display:block;margin:2px 0;line-height:1.6}
+#planetSummary911 .ps911-group th{padding:7px 8px;background:#e9eef8;color:#263653;text-align:left;font-size:11px;font-weight:850}
+#planetSummary911 .ps911-status-pass{display:block;color:#16845b;font-weight:800}
+#planetSummary911 .ps911-status-fail{display:block;color:#64748b;font-weight:700}
+#planetSummary911 .ps911-status-pending{display:block;color:#9a6a00;font-weight:800}
+#planetSummary911 .ps911-status-alias{display:block;color:#475569;font-weight:800}
+#planetSummary911 .ps911-detail{display:block;margin-top:2px;color:#64748b;font-size:10px;line-height:1.4}
+#planetSummary911 .ps911-table td{vertical-align:top}
+#planetSummary911 .ps911-table th:nth-child(1){width:22%}
+#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:25%}
+#planetSummary911 .ps911-table th:nth-child(4){width:28%}
+#planetSummary911 .ps911-note{margin:8px 0 0;color:#64748b;font-size:10.5px;line-height:1.5}
+@media(max-width:600px){
+ #planetSummary911{padding:11px 9px}
+ #planetSummary911 .ps911-dates{grid-template-columns:1fr 1fr}
+ #planetSummary911 .ps911-dates .ps911-asc{grid-column:1/-1}
+ #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:6px 4px;font-size:10.5px}
+ #planetSummary911 .ps911-table th:nth-child(1){width:12%}
+ #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:30%}
+ #planetSummary911 .ps911-table th:nth-child(4){width:28%}
+ #planetSummary911 .ps911-standard{font-size:9.5px}
+ #planetSummary911 .ps911-motion{font-size:9px}
+ #planetSummary911 .ps911-flag{font-size:9px;padding:2px 4px}
+ #planetSummary911 .ps911-note{font-size:9.5px}
+}
+</style>
+<script type="module" id="planetSummary911Logic">
+import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu-sesha-domicile-exception';
+(()=>{
+ const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const fullSigns=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุลย์','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
+ const planetOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
+ const numbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'ล'};
+ const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','เสาร์','พฤหัสบดี'];
+ const digits='๐๑๒๓๔๕๖๗๘๙';
+ const thai=n=>String(n).replace(/[0-9]/g,d=>digits[Number(d)]);
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const norm=n=>((Number(n)%360)+360)%360;
+ const parts=lon=>{
+  const n=norm(lon),si=Math.floor(n/30),within=n-si*30,degree=Math.floor(within),minute=Math.floor((within-degree)*60),second=((within-degree)*60-minute)*60;
+  return {sign:signs[si],signIndex:si,degree,minute,second,within};
+ };
+ const position=lon=>{const p=parts(lon);return p.sign+' '+thai(p.degree)+'°'+String(thai(p.minute)).padStart(2,'๐')+'′';};
+ const standards=(name,lon)=>{
+  const p=parts(lon);
+  const values=[...new Set(getPlanetaryDignities(name,p.sign,p.degree,p.minute,p.second)||[])];
+  return values.length?values.join(' · '):'—';
+ };
+ const navSign=lon=>{
+  const p=parts(lon);
+  const element=p.sign==='เมษ'||p.sign==='สิงห์'||p.sign==='ธนู'?0:p.sign==='พฤษภ'||p.sign==='กันย์'||p.sign==='มกร'?1:p.sign==='มิถุน'||p.sign==='ตุล'||p.sign==='กุมภ์'?2:3;
+  const elementStart=[0,9,6,3],part=Math.min(8,Math.floor(p.within/(30/9)));
+  return (elementStart[element]+part)%12;
+ };
+ const closeFlags=(items,source,kind)=>{
+  const sun=items.find(p=>p.name==='อาทิตย์'),moon=items.find(p=>p.name==='จันทร์'),out=[];
+  if(!Number.isFinite(Number(source.longitude)))return out;
+  const p=parts(source.longitude);
+  if(p.within<=5||30-p.within<=5)out.push('ใกล้เปลี่ยนราศี');
+  for(const [ref,label] of [[sun,'ใกล้อาทิตย์'],[moon,'ใกล้จันทร์']]){
+   if(!ref||ref.name===source.name||!Number.isFinite(Number(ref.longitude)))continue;
+   if(Math.abs(p.within-parts(ref.longitude).within)<=5+1e-9)out.push(label);
+  }
+  if(kind==='natal'&&navSign(source.longitude)===p.signIndex)out.push('วรโคตรนวางค์');
+  return out;
+ };
+ const motionPlanets=new Set(['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู']);
+ const cell=(name,item,ascIndex)=>{
+  if(!item||!Number.isFinite(Number(item.longitude)))return '<span class="ps911-pos">—</span><span class="ps911-standard">มาตรฐาน: —</span>';
+  const p=parts(item.longitude),label=position(item.longitude),std=standards(name,item.longitude);
+  const motion=motionPlanets.has(name)?(item.motionState||'—'):'—';
+  const houseIndex=Number.isInteger(ascIndex)?(p.signIndex-ascIndex+12)%12:null;
+  const zodiacHouse=[];
+  if(showSigns)zodiacHouse.push('ราศี'+fullSigns[p.signIndex]);
+  if(showHouses&&houseIndex!==null)zodiacHouse.push('ภพ'+thai(houseIndex+1)+' · '+houseNames[houseIndex]);
+  const context=zodiacHouse.length?'<span class="ps911-zodiac-house">'+zodiacHouse.map(esc).join(' · ')+'</span>':'';
+  return '<span class="ps911-pos">'+esc(label)+'</span>'+context+'<span class="ps911-standard">มาตรฐาน: '+esc(std)+'</span><span class="ps911-motion">เดินดาว: '+esc(motion)+'</span>';
+ };
+ const makePoints=chart=>{
+  const planets=Array.isArray(chart?.planets)?chart.planets:[];
+  const points=planets.filter(p=>p&&p.name&&Number.isFinite(Number(p.longitude))).map(p=>({
+   name:p.name,number:numbers[p.name]||'',longitude:Number(p.longitude),sign:parts(p.longitude).sign
+  })).filter(p=>p.number);
+  if(Number.isFinite(Number(chart?.asc)))points.unshift({name:'ลัคนา',number:'ล',longitude:Number(chart.asc),sign:parts(chart.asc).sign});
+  return points;
+ };
+ const relationPairs=(from,to,category,transitMode=false)=>{
+  const offset=(a,b)=>(signs.indexOf(b.sign)-signs.indexOf(a.sign)+12)%12;
+  return [...new Set(from.flatMap(a=>to.filter(b=>{
+   if(!transitMode&&a.name===b.name)return false;
+   const o=offset(a,b);
+   if(category==='กุม')return o===0;
+   if(category==='ทับ')return transitMode&&o===0;
+   if(category==='เล็ง')return o===6;
+   if(category==='โยคหน้า')return o===2;
+   if(category==='โยคหลัง')return o===10;
+   if(category==='ตรีโกณ')return o===4||o===8;
+   if(category==='จตุโกณ')return o===3||o===9;
+   return false;
+  }).map(b=>transitMode?a.number+'→'+b.number:a.number+'–'+b.number)))].join(' · ')||'—';
+ };
+ const chartSpecials=chart=>{
+  const planets=Array.isArray(chart?.planets)?chart.planets:[];
+  const byName=new Map(planets.map(p=>[p.name,p]));
+  const ascValid=Number.isFinite(Number(chart?.asc));
+  const complete=ascValid&&planetOrder.every(name=>byName.has(name)&&Number.isFinite(Number(byName.get(name)?.longitude)));
+  if(!ascValid)return [];
+  const asc=parts(chart.asc),ascIndex=asc.signIndex;
+  const points=makePoints(chart);
+  const occupied=new Set(points.map(p=>p.sign));
+  const numsInSigns=wanted=>[...new Set(points.filter(p=>wanted.includes(p.sign)).map(p=>p.number))].join(' · ');
+  const house=name=>{
+   const p=byName.get(name);
+   return p?((parts(p.longitude).signIndex-ascIndex+12)%12)+1:null;
+  };
+  const known=(label,pass,members,note)=>({label,state:pass?'pass':'fail',members:pass?(members||'—'):'—',note});
+  const pending=(label,note)=>({label,state:'pending',members:'รอตรวจสอบสูตร',note});
+  const result=[];
+  const pikulSigns=[0,2,4,6,8,10].map(offset=>signs[(ascIndex+offset)%12]);
+  result.push(complete
+   ?known('ดอกพิกุล · แบบ A',pikulSigns.every(s=>occupied.has(s)),numsInSigns(pikulSigns),'ตามโครงแบบ A ที่มีในตารางเกณฑ์เดิม; สูตรเต็มยังควรยืนยัน')
+   :pending('ดอกพิกุล · แบบ A','ข้อมูลดาว/ลัคนายังไม่ครบ'));
+  const rahu=byName.get('ราหู');
+  result.push(rahu
+   ?known('ปกิณกะโชค · แบบ A', ['มิถุน','ตุล','กุมภ์'].includes(parts(rahu.longitude).sign),'๘','ราหูอยู่ราศีธาตุลม ตามเงื่อนไขเดิม')
+   :pending('ปกิณกะโชค · แบบ A','ไม่พบตำแหน่งราหู'));
+  result.push(rahu
+   ?known('ปกิณกะโชค · แบบ B',house('ราหู')===3,'๘','ราหูอยู่ภพ ๓ จากลัคนา ตามเงื่อนไขเดิม')
+   :pending('ปกิณกะโชค · แบบ B','ไม่พบตำแหน่งราหู'));
+  const moon=house('จันทร์'),jupiter=house('พฤหัสบดี'),venus=house('ศุกร์');
+  result.push(moon!==null&&jupiter!==null&&venus!==null
+   ?known('ปทุมเกณฑ์',moon===11&&jupiter===4&&venus===3,['จันทร์','พฤหัสบดี','ศุกร์'].map(n=>numbers[n]).join(' · '),'จันทร์ภพ ๑๑ · พฤหัสบดีภพ ๔ · ศุกร์ภพ ๓ จากลัคนา')
+   :pending('ปทุมเกณฑ์','ต้องมีตำแหน่งจันทร์ พฤหัสบดี และศุกร์ครบ'));
+  const coffin=['มิถุน','สิงห์','ธนู','กุมภ์'];
+  result.push(complete
+   ?known('ดวงโลงผี',coffin.every(s=>occupied.has(s)),numsInSigns(coffin),'ตามโครงราศี ๔ ตำแหน่งที่ระบบเดิมตรวจ')
+   :pending('ดวงโลงผี','ข้อมูลดาว/ลัคนายังไม่ครบ'));
+  const hanuman=[signs[(ascIndex+11)%12],asc.sign,signs[(ascIndex+1)%12]];
+  const hanumanPoints=points.filter(p=>hanuman.includes(p.sign));
+  result.push(complete
+   ?known('ดวงสามเหลี่ยม / ดวงหนุมาน',hanumanPoints.length>=5,[...new Set(hanumanPoints.map(p=>p.number))].join(' · '),'ตามโครง ๕ จุดในราศีลัคนาและราศีข้างเคียง')
+   :pending('ดวงสามเหลี่ยม / ดวงหนุมาน','ข้อมูลดาว/ลัคนายังไม่ครบ'));
+  result.push(pending('จันทร์คุรุสุริยา (เกณฑ์เดียว · แบบ A/B)','ยังต้องยืนยันนิยามทวารราศีและเงื่อนไขฉบับที่ใช้'));
+  result.push(pending('อุดมเกณฑ์','ยังไม่พบสูตรที่ยืนยันได้ในชุดข้อมูลที่หน้า 911 เรียกใช้'));
+  result.push(pending('องค์เกณฑ์','ยังไม่พบสูตรที่ยืนยันได้ในชุดข้อมูลที่หน้า 911 เรียกใช้'));
+  result.push(pending('ดอกอุตพิต','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push(pending('นำผล / นำพล','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push(pending('ตามผล / ขับพล','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push(pending('ดวงจันทร์เสี้ยว / มาลัยโยค / อัฒจักร','มีชื่อในคลังเกณฑ์ แต่ยังไม่พบสูตรที่ยืนยันได้'));
+  result.push({label:'อนุเกษตร',state:'alias',members:'—',note:'ไม่แยกนับซ้ำ; ใช้ชื่อเกษตรสลับเรือนตามข้อกำหนดเดิม'});
+  return result;
+ };
+ const resultCell=(state,members)=>{
+  if(state==='pending')return '<span class="ps911-status-pending">รอตรวจสอบสูตร</span>';
+  if(state==='alias')return '<span class="ps911-status-alias">รวมชื่อเดิม</span>';
+  if(state==='pass')return '<span class="ps911-status-pass">เข้าเกณฑ์</span><small class="ps911-detail">'+esc(members)+'</small>';
+  return '<span class="ps911-status-fail">ไม่เข้าเกณฑ์</span>';
+ };
+ const tbody=document.getElementById('planetSummary911Rows');
+ if(!tbody)return;
+ let showSigns=true,showHouses=true,lastData=null;
+ const birthDateEl=document.getElementById('ps911BirthDate'),transitDateEl=document.getElementById('ps911TransitDate'),ascEl=document.getElementById('ps911NatalAsc');
+ const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ const thaiWeekdays=['วันอาทิตย์','วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์'];
+ const formatInputDate=prefix=>{
+  const day=Number(document.getElementById(prefix+'Day')?.value),month=Number(document.getElementById(prefix+'Month')?.value),year=Number(document.getElementById(prefix+'Year')?.value);
+  if(!Number.isInteger(day)||!Number.isInteger(month)||!Number.isInteger(year)||month<1||month>12||day<1||day>31||year<2400)return 'รอข้อมูลวันที่';
+  const date=new Date(Date.UTC(year-543,month-1,day));
+  if(date.getUTCFullYear()!==year-543||date.getUTCMonth()!==month-1||date.getUTCDate()!==day)return 'วันที่ไม่ถูกต้อง';
+  return thaiWeekdays[date.getUTCDay()]+' '+thai(day)+' '+thaiMonths[month-1]+' พ.ศ. '+thai(year);
+ };
+ const refreshDateLabels=()=>{
+  if(birthDateEl)birthDateEl.textContent=formatInputDate('b');
+  if(transitDateEl)transitDateEl.textContent=formatInputDate('f');
+ };
+ refreshDateLabels();
+ ['bDay','bMonth','bYear','fDay','fMonth','fYear'].forEach(id=>document.getElementById(id)?.addEventListener('change',refreshDateLabels));
+ const render=data=>{
+  lastData=data;
+  const natal=data?.natal||{},transit=data?.transit||{};
+  const natalAsc=Number(natal.asc),ascValid=Number.isFinite(natalAsc),ascParts=ascValid?parts(natalAsc):null;
+  if(ascEl)ascEl.textContent=ascParts?'ราศี'+fullSigns[ascParts.signIndex]+' '+thai(ascParts.degree)+'°'+String(thai(ascParts.minute)).padStart(2,'๐')+'′':'รอข้อมูลลัคนา';
+  const lordName=ascParts?signLords[ascParts.signIndex]:null;
+   const natalPlanets=Array.isArray(natal.planets)?natal.planets:[],transitPlanets=Array.isArray(transit.planets)?transit.planets:[];
+   const nb=new Map(natalPlanets.map(p=>[p.name,p])),tb=new Map(transitPlanets.map(p=>[p.name,p]));
+   const kasetNatal=!!(lordName&&nb.get(lordName)&&ascParts&&parts(nb.get(lordName).longitude).signIndex===ascParts.signIndex);
+   const tanuSesha=ascValid?calculateTanuSesha({ascendantLongitude:natalAsc,planets:natalPlanets}):null;
+   const exchangeFlags=chart=>{
+    const result=new Map();
+    const relations=getParivartanaKasetRelations((Array.isArray(chart?.planets)?chart.planets:[]).filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>({name:p.name,sign:parts(p.longitude).sign})));
+    relations.forEach(relation=>{
+     const label=relation.type==='pair'?'เกษตรสลับเรือน':relation.type==='triple'?'ปริวรรตเกษตร':null;
+     if(!label)return;
+     relation.planets.forEach(name=>{
+      if(!result.has(name))result.set(name,[]);
+      if(!result.get(name).includes(label))result.get(name).push(label);
+     });
+    });
+    return result;
+   };
+   const criteriaFlags=chart=>{
+    const result=new Map(planetOrder.map(name=>[name,[]]));
+    const add=(name,label)=>{
+     if(!result.has(name))return;
+     if(!result.get(name).includes(label))result.get(name).push(label);
+    };
+    const planets=Array.isArray(chart?.planets)?chart.planets:[];
+    const byName=new Map(planets.filter(p=>p?.name&&Number.isFinite(Number(p.longitude))).map(p=>[p.name,p]));
+    if(!Number.isFinite(Number(chart?.asc)))return result;
+    const ascIndex=parts(chart.asc).signIndex;
+    const house=name=>{
+     const p=byName.get(name);
+     return p?((parts(p.longitude).signIndex-ascIndex+12)%12)+1:null;
+    };
+    const signSet=new Set(planets.filter(p=>p&&Number.isFinite(Number(p.longitude))).map(p=>parts(p.longitude).signIndex));
+    const complete=planetOrder.every(name=>byName.has(name));
+    const planetsInSigns=indices=>planetOrder.filter(name=>byName.has(name)&&indices.includes(parts(byName.get(name).longitude).signIndex));
+    const pikul=[0,2,4,6,8,10].map(offset=>(ascIndex+offset)%12);
+    if(complete&&pikul.every(index=>signSet.has(index)))planetsInSigns(pikul).forEach(name=>add(name,'ดอกพิกุล'));
+    const rahu=byName.get('ราหู');
+    if(rahu&&['มิถุน','ตุล','กุมภ์'].includes(parts(rahu.longitude).sign))add('ราหู','ปกิณกะโชค');
+    if(rahu&&house('ราหู')===3)add('ราหู','ปกิณกะโชค');
+    if(house('จันทร์')===11&&house('พฤหัสบดี')===4&&house('ศุกร์')===3){
+     ['จันทร์','พฤหัสบดี','ศุกร์'].forEach(name=>add(name,'ปทุมเกณฑ์'));
+    }
+    const coffin=[2,4,8,10];
+    if(complete&&coffin.every(index=>signSet.has(index)))planetsInSigns(coffin).forEach(name=>add(name,'ดวงโลงผี'));
+    const triangle=[(ascIndex+11)%12,ascIndex,(ascIndex+1)%12];
+    const trianglePoints=planets.filter(p=>p&&Number.isFinite(Number(p.longitude))&&triangle.includes(parts(p.longitude).signIndex));
+    if(Number.isFinite(Number(chart.asc))&&trianglePoints.length+1>=5)planetsInSigns(triangle).forEach(name=>add(name,'ดวงสามเหลี่ยม / หนุมาน'));
+    const typeRules=[
+     {signs:[0,1,4],planets:['อาทิตย์','จันทร์','อังคาร','พฤหัสบดี'],house:10},
+     {signs:[2,5,6,8,10],planets:['อาทิตย์','พฤหัสบดี','เสาร์'],house:1},
+     {signs:[3,9,11],planets:['จันทร์','พุธ','พฤหัสบดี','ศุกร์'],house:4},
+     {signs:[7],planets:['อังคาร','ราหู'],house:7}
+    ];
+    const type=typeRules.find(rule=>rule.signs.includes(ascIndex));
+    if(type)type.planets.filter(name=>house(name)===type.house).forEach(name=>add(name,'องค์เกณฑ์'));
+    const udomRules=[
+     {planets:['พุธ','พฤหัสบดี','ศุกร์'],houses:[3,4,7,11],allowAsc:true,signs:[2,5,6,8,10]},
+     {planets:['อังคาร','พฤหัสบดี','เสาร์','ราหู'],houses:[4,5,9],signs:[3,9,11]},
+     {planets:['อังคาร','ราหู'],houses:[3,7,9,12],signs:[7]},
+     {planets:['อาทิตย์','จันทร์','อังคาร','ศุกร์'],houses:[6,10],signs:[0,1,4]}
+    ];
+    const udom=udomRules.find(rule=>rule.signs.includes(ascIndex));
+    if(udom)udom.planets.forEach(name=>{
+     const h=house(name);
+     if(udom.houses.includes(h)||(udom.allowAsc&&h===1))add(name,'อุดมเกณฑ์');
+    });
+    return result;
+   };
+   const natalExchange=exchangeFlags(natal),transitExchange=exchangeFlags(transit);
+   const natalCriteria=criteriaFlags(natal),transitCriteria=criteriaFlags(transit);
+   const ascCell=(longitude,ascIndex)=>{
+    if(!Number.isFinite(Number(longitude)))return '<span class="ps911-pos">—</span>';
+    const p=parts(longitude),houseIndex=Number.isInteger(ascIndex)?(p.signIndex-ascIndex+12)%12:null,context=[];
+    if(showSigns)context.push('ราศี'+fullSigns[p.signIndex]);
+    if(showHouses&&houseIndex!==null)context.push('ภพ'+thai(houseIndex+1)+' · '+houseNames[houseIndex]);
+    return '<span class="ps911-pos">'+esc(position(longitude))+'</span>'+(context.length?'<span class="ps911-zodiac-house">'+context.map(esc).join(' · ')+'</span>':'');
+   };
+   const tagLine=(label,values)=>{
+    if(!values.length)return '';
+    return '<small class="ps911-tag-row"><b>'+label+':</b> '+values.map(value=>'<span class="ps911-flag">'+esc(value)+'</span>').join('')+'</small>';
+   };
+   const rows=['<tr class="ps911-group"><th colspan="4">ลัคนาและดาวครบทุกดวง</th></tr>'];
+   rows.push('<tr><td><strong>ลัคนา (ล)</strong></td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
+   planetOrder.forEach(name=>{
+    const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
+    const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[])];
+    const transitTags=[...(transitCriteria.get(name)||[]),...(transitExchange.get(name)||[])];
+    if(b&&Number.isFinite(Number(b.longitude))&&name===lordName)natalTags.push('ตนุลัคน์');
+    if(b&&Number.isFinite(Number(b.longitude))&&name===lordName&&kasetNatal)natalTags.push('ตนุเกษตร');
+    if(b&&Number.isFinite(Number(b.longitude))&&tanuSesha?.planetName===name)natalTags.push('ตนุเศษ');
+    const nameTags=tagLine('เดิม',[...new Set(natalTags)])+tagLine('จร',[...new Set(transitTags)]);
+    const flags=tagLine('เดิม',[...new Set(nFlags)])+tagLine('จร',[...new Set(tFlags)]);
+    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null)+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null)+'</td><td>'+(flags||'—')+'</td></tr>');
+   });
+   tbody.innerHTML=rows.join('');
+ };
+ const signToggle=document.getElementById('ps911ShowSigns'),houseToggle=document.getElementById('ps911ShowHouses');
+ signToggle?.addEventListener('change',()=>{showSigns=!!signToggle.checked;if(lastData)render(lastData)});
+ houseToggle?.addEventListener('change',()=>{showHouses=!!houseToggle.checked;if(lastData)render(lastData)});
+ window.addEventListener('hora50:chart-calculated',e=>render(e.detail||{}));
+})();
+</script>
+
 <section class="panel" id="navamsaPanel50">
  <div class="section-title" style="flex-wrap:wrap"><h2>วงกลมนวางค์ · ตำแหน่งดาวเดิมและดาวจร</h2><button type="button" id="navamsaRun50" class="navamsa-calc-button" disabled>รอข้อมูลดวงหลัก</button><span class="badge">Navamsa 108 divisions</span></div><p id="navamsaRunStatus50" class="criteria7-muted" aria-live="polite">คำนวณดวงหลักก่อน แล้วกด “คำนวณนวางค์” เพื่อวาดวงแยกต่างหาก</p>
  <p class="criteria7-muted">วงนวางค์สองชั้น: วงด้านในแสดงดาวและลัคนาเดิม วงด้านนอกแสดงดาวและลัคนาจร โดยเดินเลขนวางค์ตามธาตุและวางเลขดาวลงในราศีปลายทาง</p>
