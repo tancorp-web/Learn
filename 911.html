@@ -2092,18 +2092,23 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  // Press feedback stays in place: never scale or modify the marker's own geometry.
  let activePressedMarker=null;
  let activePressedHalo=null;
+ const markerFromEvent=event=>event.target?.closest?.('g[data-planet-marker="true"]');
+ const markerCircle=marker=>marker?.querySelector?.('circle:not([data-true-anchor]):not([data-v9-anchor]):not([data-v10-anchor])');
  const findMarkerAtPoint=event=>{
-  // Always resolve the closest visible marker center, because SVG labels may overlap.
+  // Fallback hit-testing uses the actual planet circle, never the marker group's label-inclusive box.
   const x=Number(event.clientX),y=Number(event.clientY);
   if(!Number.isFinite(x)||!Number.isFinite(y))return null;
-  let best=null,bestDistance=Infinity;
+  let best=null,bestDistance=Infinity,bestLimit=0;
   wheel?.querySelectorAll('g[data-planet-marker="true"]')?.forEach(marker=>{
-   const rect=marker.getBoundingClientRect();
+   const circle=markerCircle(marker);
+   const rect=circle?.getBoundingClientRect();
+   if(!rect||!rect.width||!rect.height)return;
    const dx=x-(rect.left+rect.width/2),dy=y-(rect.top+rect.height/2);
    const distance=Math.hypot(dx,dy);
-   if(distance<bestDistance){bestDistance=distance;best=marker;}
+   const limit=Math.max(14,Math.min(22,Math.max(rect.width,rect.height)*.85+5));
+   if(distance<bestDistance){bestDistance=distance;bestLimit=limit;best=marker;}
   });
-  return best&&bestDistance<=30?best:null;
+  return best&&bestDistance<=bestLimit?best:null;
  };
  const clearPressedMarker=()=>{
   if(activePressedMarker)activePressedMarker.classList.remove('pss-marker-pressed');
@@ -2111,14 +2116,14 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
   activePressedMarker=null;
  };
  const pressMarker=event=>{
-  const marker=findMarkerAtPoint(event);
+  const marker=markerFromEvent(event)||findMarkerAtPoint(event);
   if(!marker)return;
   clearPressedMarker();
   activePressedMarker=marker;
   marker.classList.add('pss-marker-pressed');
   // Draw the halo as a sibling in the SVG, not inside the marker group.
   const svg=wheel?.querySelector('svg');
-  const circle=marker.querySelector('circle:not([data-true-anchor]):not([data-v9-anchor]):not([data-v10-anchor])');
+  const circle=markerCircle(marker);
   if(!svg||!circle)return;
   const color=marker.getAttribute('data-kind')==='natal'?'#8b5cf6':'#10a36b';
   const cx=Number(circle.getAttribute('cx')),cy=Number(circle.getAttribute('cy')),r=Number(circle.getAttribute('r'))||13.5;
@@ -2138,8 +2143,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  document.addEventListener('click',async event=>{
   // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
   const directTarget=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
-  const directIsPlanet=directTarget?.matches?.('g[data-planet-marker="true"]');
-  const target=directIsPlanet?findMarkerAtPoint(event):(directTarget||findMarkerAtPoint(event));
+  const target=directTarget||findMarkerAtPoint(event);
   if(!target||!wheel||!wheel.contains(target))return;
   const natalAsc=target.matches?.('g[data-natal-ascendant-marker="true"]');
   const transitAsc=target.matches?.('text.transit-zodiac-time5')&&String(target.textContent||'').trim().startsWith('@จร');
@@ -4031,8 +4035,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   to{opacity:1;stroke-width:4.5}
 }
 #wheel g.pss-marker-searching{
-  transform-box:fill-box;
-  transform-origin:center;
   animation:pssMarkerPulse .72s ease-in-out infinite alternate;
   filter:drop-shadow(0 0 5px rgba(217,145,24,.95)) drop-shadow(0 0 10px rgba(217,145,24,.55));
 }
@@ -4042,8 +4044,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   stroke-width:2.6px!important;
 }
 @keyframes pssMarkerPulse{
-  from{transform:scale(1);opacity:1}
-  to{transform:scale(1.09);opacity:.82}
+  from{opacity:1}
+  to{opacity:.72}
 }
 @media(prefers-reduced-motion:reduce){
   #wheel g[data-planet-marker="true"]{transition:none}
