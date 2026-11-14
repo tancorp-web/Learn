@@ -2026,7 +2026,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    thead.appendChild(headRow);table.appendChild(thead);
    const tbody=document.createElement('tbody');
    const rows=[
-    ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(index+1),sign:signs[item.signIndex],stamp:item.stamp})),
+    ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(ingressHistory.previous.length-index),sign:signs[item.signIndex],stamp:item.stamp})),
     {label:'ราศีปัจจุบัน',sign,stamp:ingressHistory.current?.stamp??null,current:true},
     ...ingressHistory.next.map((item,index)=>({label:'ล่วงหน้า '+(index+1),sign:signs[item.signIndex],stamp:item.stamp}))
    ];
