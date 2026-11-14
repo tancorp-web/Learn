@@ -2093,9 +2093,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  let activePressedMarker=null;
  let activePressedHalo=null;
  const findMarkerAtPoint=event=>{
-  const direct=event.target?.closest?.('g[data-planet-marker="true"]');
-  if(direct&&wheel?.contains(direct))return direct;
-  // If SVG labels overlap, select the marker whose visible center is nearest the actual tap.
+  // Always resolve the closest visible marker center, because SVG labels may overlap.
   const x=Number(event.clientX),y=Number(event.clientY);
   if(!Number.isFinite(x)||!Number.isFinite(y))return null;
   let best=null,bestDistance=Infinity;
@@ -2140,7 +2138,8 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  document.addEventListener('click',async event=>{
   // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
   const directTarget=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
-  const target=(directTarget&&wheel&&wheel.contains(directTarget))?directTarget:findMarkerAtPoint(event);
+  const directIsPlanet=directTarget?.matches?.('g[data-planet-marker="true"]');
+  const target=directIsPlanet?findMarkerAtPoint(event):(directTarget||findMarkerAtPoint(event));
   if(!target||!wheel||!wheel.contains(target))return;
   const natalAsc=target.matches?.('g[data-natal-ascendant-marker="true"]');
   const transitAsc=target.matches?.('text.transit-zodiac-time5')&&String(target.textContent||'').trim().startsWith('@จร');
