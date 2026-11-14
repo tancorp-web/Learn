@@ -2097,6 +2097,17 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, PLANETARY_DIGNITY_
   panel.appendChild(note);
  };
  let requestId=0;
+ let activeMarker=null;
+ const markMarkerSearching=target=>{
+  if(activeMarker&&activeMarker!==target)activeMarker.classList.remove('pss-marker-searching');
+  activeMarker=target;
+  target.classList.remove('pss-marker-searching');
+  void target.getBoundingClientRect();
+  target.classList.add('pss-marker-searching');
+ };
+ const clearMarkerSearching=target=>{
+  if(target){target.classList.remove('pss-marker-searching');if(activeMarker===target)activeMarker=null;}
+ };
  document.addEventListener('click',async event=>{
   // Planet markers use standard data attributes; ascendant markers have dedicated markup in main51.js.
   const target=event.target?.closest?.('g[data-planet-marker="true"],g[data-natal-ascendant-marker="true"],text.transit-zodiac-time5');
@@ -2109,6 +2120,8 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, PLANETARY_DIGNITY_
   const kind=markerKind==='natal'?'natal':markerKind==='transit'?'transit':null;
   if(!planet||!kind)return;
   const id=++requestId;
+  markMarkerSearching(target);
+  showMessage('กำลังค้นหาประวัติการเข้าราศีของ'+(kind==='natal'?'ดาวเดิม ':'ดาวจร ')+planet+'…');
   try{
    const prefix=kind==='natal'?'b':'f';
    const start=stampFromInputs(prefix);
@@ -2139,9 +2152,14 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, PLANETARY_DIGNITY_
     showResults({planet,kind,sign,entry,exit,eventsAfter,longitude,currentLon,motionItem:currentItem,calculationStamp:start,ingressHistory});
    }
   }catch(error){
-   if(id===requestId)showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+String(error?.message||error));
+   if(id===requestId){
+    clearMarkerSearching(target);
+    const detail=String(error?.message||error);
+    showMessage('คำนวณเวลาเข้าราศี/ออกราศีไม่สำเร็จ: '+detail+(error?.stack?' · '+String(error.stack).split('\n').slice(1,3).join(' | '):''));
+   }
    console.error('[HORA][SIGN STAY][index9]',error);
   }
+  if(id===requestId)clearMarkerSearching(target);
  },true);
 })();
 
@@ -3956,5 +3974,27 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #wheelPanel2 #wheel svg .triyang-ruler-number2{font-size:13px!important;font-weight:950!important}
 #wheelPanel2 #wheel svg .triyang-poison-label5{font-size:11px!important;font-weight:950!important}
 #wheelPanel2 #wheel svg .nava-number2{font-size:12px!important;font-weight:950!important}
+</style>
+
+<style id="pss-marker-feedback-v1">
+/* Immediate visual acknowledgement while a planet's ingress history is being searched. */
+#wheel g.pss-marker-searching{
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:pssMarkerPulse .72s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 5px rgba(217,145,24,.95)) drop-shadow(0 0 10px rgba(217,145,24,.55));
+}
+#wheel g.pss-marker-searching circle,
+#wheel g.pss-marker-searching ellipse{
+  stroke:#d99118!important;
+  stroke-width:2.6px!important;
+}
+@keyframes pssMarkerPulse{
+  from{transform:scale(1);opacity:1}
+  to{transform:scale(1.09);opacity:.82}
+}
+@media(prefers-reduced-motion:reduce){
+  #wheel g.pss-marker-searching{animation:none;filter:drop-shadow(0 0 7px rgba(217,145,24,.9))}
+}
 </style>
 </body></html>
