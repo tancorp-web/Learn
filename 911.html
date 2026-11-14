@@ -1084,7 +1084,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
     },seq[j]);
     if(poisonType){
      /* แสดงชื่อชนิดพิษเป็นข้อความสีแดง แทนรูปสัญลักษณ์ และวางเข้าด้านในวงล้อ */
-     const labelPos=xy(lon,222);
+     const labelPos=xy(lon,136);
      addPoisonLabel(g,poisonType,labelPos.x,labelPos.y);
     }
    }
@@ -1093,7 +1093,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
   for(let s=0;s<12;s++){
    const seq=navaByElement[elements[s]];
    for(let j=0;j<9;j++){
-    const lon=s*30+(j+.5)*(30/9),p=xy(lon,374),tick1=xy(s*30+j*(30/9),360),tick2=xy(s*30+j*(30/9),366);
+    const lon=s*30+(j+.5)*(30/9),p=xy(lon,346),tick1=xy(s*30+j*(30/9),334),tick2=xy(s*30+j*(30/9),340);
     add(g,'line',{x1:tick1.x,y1:tick1.y,x2:tick2.x,y2:tick2.y,class:'nava-tick2'});
     add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nava-number2'},seq[j]);
    }
@@ -1104,7 +1104,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
    add(g,'line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'nak-boundary2'});
   }
   for(let i=0;i<27;i++){
-   const lon=i*(360/27)+(180/27),p=xy(lon,408),q=xy(lon,438);
+   const lon=i*(360/27)+(180/27),p=xy(lon,422),q=xy(lon,458);
    add(g,'text',{x:p.x,y:p.y+3.5,'text-anchor':'middle',class:'nak-name2'},(i+1)+'. '+nak[i]);
    add(g,'text',{x:q.x,y:q.y+3.5,'text-anchor':'middle',class:'nak-type2'},types[i%9]);
   }
@@ -2938,7 +2938,7 @@ else if(e.key==='Escape')close();
 });
 inp.addEventListener('change',()=>{const q=inp.value.trim().toLocaleLowerCase('th');const exact=[...sel.options].find(o=>o.value!==''&&label(o).toLocaleLowerCase('th')===q);if(exact)choose(exact);});
 inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement)){close();isTyping=false;syncFromSelect();}},120);});
-sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!inp.value.trim())render();}).observe(sel,{childList:true,subtree:true});syncFromSelect();
+sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!isTyping){syncFromSelect();if(document.activeElement===inp)render();}}).observe(sel,{childList:true,subtree:true});syncFromSelect();
 }
 function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
@@ -3274,5 +3274,81 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   #wheelPanel2 #wheel svg{width:760px!important;min-width:760px!important;max-width:none!important}
 }
 </style>
+
+
+<style id="page911-wheel-separation-search-v5">
+/* Keep searchable text controls active; hide only the backing native select. */
+#calculatePanel .page799-search-wrap{
+ display:block!important;position:relative!important;width:100%!important;
+ min-width:0!important;z-index:30!important;
+}
+#calculatePanel .page799-search-input{
+ display:block!important;position:relative!important;z-index:31!important;
+ width:100%!important;height:43px!important;min-height:43px!important;
+ padding:8px 34px 8px 10px!important;margin:0!important;
+ border:1px solid #cbd5e1!important;border-radius:9px!important;
+ background:#fff!important;color:#17233d!important;
+ font:inherit!important;font-size:14px!important;line-height:1.25!important;
+ box-sizing:border-box!important;opacity:1!important;visibility:visible!important;
+ pointer-events:auto!important;
+}
+#calculatePanel .page799-search-results{
+ display:block;position:absolute!important;z-index:10050!important;
+ top:calc(100% + 4px)!important;left:0!important;right:0!important;
+ max-height:230px!important;overflow:auto!important;
+ background:#fff!important;border:1px solid #cbd5e1!important;
+ border-radius:10px!important;box-shadow:0 12px 26px #14213d24!important;
+}
+#calculatePanel .page799-search-results[hidden]{display:none!important}
+#calculatePanel select.page799-native-select{display:none!important}
+@media(max-width:600px){
+ #calculatePanel .page799-search-input{height:42px!important;min-height:42px!important;font-size:14px!important}
+}
+/* Separate radial bands: house/poison labels, natal markers, nava numbers, nakshatra names. */
+#wheelPanel2 #wheel svg .triyang-poison-label5{
+ font-size:12px!important;font-weight:950!important;
+ stroke-width:3.2px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nava-number2{
+ font-size:14px!important;font-weight:950!important;
+ stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-name2{
+ font-size:13.5px!important;font-weight:900!important;
+ stroke-width:3px!important;paint-order:stroke;
+}
+#wheelPanel2 #wheel svg .nak-type2{
+ font-size:11.5px!important;font-weight:900!important;
+ stroke-width:3px!important;paint-order:stroke;
+}
+</style>
+<script id="page911-search-sync-v5">
+(()=> {
+ const ids=['bYear','fYear','bProvince','fProvince'];
+ function sync(id){
+  const sel=document.getElementById(id);
+  const wrap=sel?.previousElementSibling;
+  const inp=wrap?.querySelector('.page799-search-input');
+  if(!sel||!inp)return;
+  const opt=sel.options[sel.selectedIndex];
+  inp.value=opt&&opt.value!==''?(id.endsWith('Year')?opt.value:opt.textContent.trim()):'';
+  inp.setCustomValidity('');
+  const list=wrap.querySelector('.page799-search-results');
+  if(list)list.hidden=true;
+  inp.setAttribute('aria-expanded','false');
+  inp.dataset.externalSync='1';
+ }
+ function syncAll(){ids.forEach(sync);}
+ ['resetBirthBangkokNow51','resetTransitBangkokNow51'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('click',()=>setTimeout(syncAll,0));
+ });
+ document.addEventListener('change',e=>{
+  if(ids.includes(e.target?.id))setTimeout(()=>sync(e.target.id),0);
+ });
+ window.addEventListener('hora50:chart-calculated',syncAll);
+ document.addEventListener('DOMContentLoaded',()=>setTimeout(syncAll,80),{once:true});
+ setTimeout(syncAll,0);
+})();
+</script>
 
 </body></html>
