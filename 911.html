@@ -1571,7 +1571,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261114-asc-boundary-import-fix2';
 import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
-import { getRashiLordBySign } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
+import { getRashiLordBySign, PLANETARY_DIGNITY_REFERENCE_RULES } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 
 /* index3-only: attach selected times to ascendant rays and calculate all 0-degree transit boundary times using the existing HORA engine. No formula is changed. */
@@ -2028,11 +2028,18 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    const summary=document.createElement('div');
    summary.className='pss-history-summary';
    summary.style.cssText='display:grid;gap:8px;margin:0 0 14px;padding:12px 14px;border:1px solid #dbe3f0;border-radius:12px;background:#f8faff;color:#243653;font-size:13px;line-height:1.65';
-   const natalAscForSummary=Number(latestChartData?.natal?.asc);
+   const natalAscRawForSummary=latestChartData?.natal?.asc;
+   const natalAscForSummary=natalAscRawForSummary==null?NaN:Number(natalAscRawForSummary);
    const natalAscSignForSummary=Number.isFinite(natalAscForSummary)?Math.floor((((natalAscForSummary%360)+360)%360)/30):null;
    const natalPlanetsForSummary=latestChartData?.natal?.planets||[];
    const ownedSigns=signNames.map((name,index)=>({name,index,lord:getRashiLordBySign(name)?.planet}))
     .filter(item=>item.lord===planet);
+   // ราหู-กุมภ์เป็นเกษตรตามกฎที่ผู้ใช้ยืนยันไว้ แสดงในสรุปนี้โดยไม่เปลี่ยนเจ้าเรือนกลาง
+   PLANETARY_DIGNITY_REFERENCE_RULES.filter(rule=>rule.planet===planet&&rule.category==='เกษตร'&&rule.status==='CONFIRMED_BY_USER')
+    .forEach(rule=>{
+     const index=signNames.indexOf(rule.sign);
+     if(index>=0&&!ownedSigns.some(item=>item.index===index))ownedSigns.push({name:rule.sign,index,lord:planet});
+    });
    const ownedHouseDetails=ownedSigns.map(item=>{
     const house=natalAscSignForSummary===null?null:((item.index-natalAscSignForSummary+12)%12)+1;
     const houseName=house?('ภพที่ '+house+' · '+['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'][house-1]):'ไม่พบลัคนาดวงเดิม';
