@@ -667,6 +667,15 @@ td,th{border-color:#e2e8f0!important}
 
 <section class="panel" id="planetSummary911" aria-labelledby="planetSummary911Title">
  <div class="section-title"><h2 id="planetSummary911Title">สรุปองศาและมาตรฐานดาว</h2></div>
+ <div class="ps911-dates" id="planetSummary911Dates">
+  <div><strong>วันเกิด</strong><span id="ps911BirthDate">รอข้อมูลวันเกิด</span></div>
+  <div><strong>วันจร</strong><span id="ps911TransitDate">รอข้อมูลวันจร</span></div>
+  <div class="ps911-asc"><strong>ลัคนากำเนิด</strong><span id="ps911NatalAsc">รอข้อมูลลัคนา</span></div>
+ </div>
+ <div class="ps911-toggles" role="group" aria-label="ตั้งค่าการแสดงผลราศีและภพ">
+  <label><input type="checkbox" id="ps911ShowSigns" checked> แสดงชื่อราศี</label>
+  <label><input type="checkbox" id="ps911ShowHouses" checked> แสดงชื่อภพ</label>
+ </div>
  <div class="table-wrap ps911-wrap">
   <table class="ps911-table">
    <thead><tr><th>ดาว / เกณฑ์</th><th>ดาวเดิม / ผล</th><th>ดาวจร / ผล</th><th>จุดสังเกต / สถานะ</th></tr></thead>
@@ -678,6 +687,14 @@ td,th{border-color:#e2e8f0!important}
 <style id="planetSummary911Style">
 #planetSummary911{padding:14px clamp(12px,2vw,20px);margin-top:10px}
 #planetSummary911 .section-title{margin-bottom:10px}
+#planetSummary911 .ps911-dates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 9px}
+#planetSummary911 .ps911-dates>div{display:flex;flex-direction:column;gap:3px;padding:8px 10px;border:1px solid #e1e7f0;border-radius:9px;background:#f8faff;min-width:0}
+#planetSummary911 .ps911-dates strong{font-size:11px;color:#64748b}
+#planetSummary911 .ps911-dates span{font-size:12px;font-weight:800;color:#263653;overflow-wrap:anywhere}
+#planetSummary911 .ps911-toggles{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 9px;padding:7px 9px;border:1px solid #e1e7f0;border-radius:9px;background:#fff}
+#planetSummary911 .ps911-toggles label{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:750;color:#334155;cursor:pointer}
+#planetSummary911 .ps911-toggles input{width:17px;height:17px;accent-color:#4b49b9}
+#planetSummary911 .ps911-zodiac-house{display:block;margin-top:3px;color:#475569;font-size:10.5px;line-height:1.4}
 #planetSummary911 .ps911-wrap{overflow-x:auto}
 #planetSummary911 .ps911-table{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse}
 #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:7px 8px;font-size:12px;line-height:1.45;vertical-align:middle;overflow-wrap:anywhere}
@@ -701,6 +718,8 @@ td,th{border-color:#e2e8f0!important}
 #planetSummary911 .ps911-note{margin:8px 0 0;color:#64748b;font-size:10.5px;line-height:1.5}
 @media(max-width:600px){
  #planetSummary911{padding:11px 9px}
+ #planetSummary911 .ps911-dates{grid-template-columns:1fr 1fr}
+ #planetSummary911 .ps911-dates .ps911-asc{grid-column:1/-1}
  #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:6px 4px;font-size:10.5px}
  #planetSummary911 .ps911-table th:nth-child(1){width:12%}
  #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:30%}
@@ -715,6 +734,8 @@ td,th{border-color:#e2e8f0!important}
 import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 (()=>{
  const signs=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const fullSigns=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุลย์','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
  const planetOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
  const numbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'ล'};
  const digits='๐๑๒๓๔๕๖๗๘๙';
@@ -750,11 +771,16 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   return out;
  };
  const motionPlanets=new Set(['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู']);
- const cell=(name,item)=>{
+ const cell=(name,item,ascIndex)=>{
   if(!item||!Number.isFinite(Number(item.longitude)))return '<span class="ps911-pos">—</span><span class="ps911-standard">มาตรฐาน: —</span>';
-  const label=position(item.longitude),std=standards(name,item.longitude);
+  const p=parts(item.longitude),label=position(item.longitude),std=standards(name,item.longitude);
   const motion=motionPlanets.has(name)?(item.motionState||'—'):'—';
-  return '<span class="ps911-pos">'+esc(label)+'</span><span class="ps911-standard">มาตรฐาน: '+esc(std)+'</span><span class="ps911-motion">เดินดาว: '+esc(motion)+'</span>';
+  const houseIndex=Number.isInteger(ascIndex)?(p.signIndex-ascIndex+12)%12:null;
+  const zodiacHouse=[];
+  if(showSigns)zodiacHouse.push('ราศี'+fullSigns[p.signIndex]);
+  if(showHouses&&houseIndex!==null)zodiacHouse.push('ภพ'+thai(houseIndex+1)+' · '+houseNames[houseIndex]);
+  const context=zodiacHouse.length?'<span class="ps911-zodiac-house">'+zodiacHouse.map(esc).join(' · ')+'</span>':'';
+  return '<span class="ps911-pos">'+esc(label)+'</span>'+context+'<span class="ps911-standard">มาตรฐาน: '+esc(std)+'</span><span class="ps911-motion">เดินดาว: '+esc(motion)+'</span>';
  };
  const makePoints=chart=>{
   const planets=Array.isArray(chart?.planets)?chart.planets:[];
@@ -838,8 +864,18 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
  };
  const tbody=document.getElementById('planetSummary911Rows');
  if(!tbody)return;
+ let showSigns=true,showHouses=true,lastData=null;
+ const birthDateEl=document.getElementById('ps911BirthDate'),transitDateEl=document.getElementById('ps911TransitDate'),ascEl=document.getElementById('ps911NatalAsc');
+ const dateGroups=[...document.querySelectorAll('#birthDetails .birth-details-group')];
+ const birthDateText=dateGroups[0]?.querySelector('.birth-primary')?.textContent?.trim();
+ const transitDateText=dateGroups[1]?.querySelector('.birth-primary')?.textContent?.trim();
+ if(birthDateEl)birthDateEl.textContent=birthDateText||'รอข้อมูลวันเกิด';
+ if(transitDateEl)transitDateEl.textContent=transitDateText||'รอข้อมูลวันจร';
  const render=data=>{
+  lastData=data;
   const natal=data?.natal||{},transit=data?.transit||{};
+  const natalAsc=Number(natal.asc),ascValid=Number.isFinite(natalAsc),ascParts=ascValid?parts(natalAsc):null;
+  if(ascEl)ascEl.textContent=ascParts?'ราศี'+fullSigns[ascParts.signIndex]+' '+thai(ascParts.degree)+'°'+String(thai(ascParts.minute)).padStart(2,'๐')+'′':'รอข้อมูลลัคนา';
   const natalPlanets=Array.isArray(natal.planets)?natal.planets:[],transitPlanets=Array.isArray(transit.planets)?transit.planets:[];
   const nb=new Map(natalPlanets.map(p=>[p.name,p])),tb=new Map(transitPlanets.map(p=>[p.name,p]));
   const rows=['<tr class="ps911-group"><th colspan="4">ดาวทุกดวง · มาตรฐานรายดวง</th></tr>'];
@@ -848,7 +884,7 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    const flags=[];
    if(nFlags.length)flags.push('<small><b>เดิม:</b> '+nFlags.map(esc).join(' · ')+'</small>');
    if(tFlags.length)flags.push('<small><b>จร:</b> '+tFlags.map(esc).join(' · ')+'</small>');
-   rows.push('<tr><td><strong>'+esc(name)+'</strong></td><td>'+cell(name,b)+'</td><td>'+cell(name,t)+'</td><td>'+(flags.join('')||'—')+'</td></tr>');
+   rows.push('<tr><td><strong>'+esc(name)+'</strong></td><td>'+cell(name,b,ascValid?ascParts.signIndex:null)+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null)+'</td><td>'+(flags.join('')||'—')+'</td></tr>');
   });
   rows.push('<tr class="ps911-group"><th colspan="4">ความสัมพันธ์ดาว · ตรวจผังเดิมและดาวจรเทียบดาวเดิม</th></tr>');
   const natalPoints=makePoints(natal),transitPoints=makePoints(transit);
@@ -880,6 +916,9 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
   });
   tbody.innerHTML=rows.join('');
  };
+ const signToggle=document.getElementById('ps911ShowSigns'),houseToggle=document.getElementById('ps911ShowHouses');
+ signToggle?.addEventListener('change',()=>{showSigns=!!signToggle.checked;if(lastData)render(lastData)});
+ houseToggle?.addEventListener('change',()=>{showHouses=!!houseToggle.checked;if(lastData)render(lastData)});
  window.addEventListener('hora50:chart-calculated',e=>render(e.detail||{}));
 })();
 </script>
