@@ -1882,12 +1882,17 @@ import { getPlanetaryDignities, getParivartanaKasetRelations } from './js/data/p
    Promise.all(targetSigns.map(sign=>findBoundaryEvents({start,planet,longitude,targetSign:sign,direction:-1,step,maxSpanMs:horizon}))),
    Promise.all(targetSigns.map(sign=>findBoundaryEvents({start,planet,longitude,targetSign:sign,direction:1,step,maxSpanMs:horizon})))
   ]);
-  const collectIngresses=sets=>sets.flatMap((events,signIndex)=>
-   events.filter(item=>item.type==='เข้า').map(item=>({...item,signIndex}))
-  );
-  const past=collectIngresses(pastSets).filter(item=>item.stamp<=start)
+  // The boundary helper can report a generic "เข้า" for target signs
+  // that were not actually entered at that timestamp. Verify the planet's
+  // real HORA sign immediately after each boundary before assigning a sign.
+  const collectIngresses=async sets=>(await Promise.all(sets.map(async(events,signIndex)=>
+   events.filter(item=>item.type==='เข้า'&&signIndexAt(item.stamp+2*60*1000,planet,longitude)===signIndex)
+    .map(item=>({...item,signIndex}))
+  ))).flat();
+  const [pastEvents,futureEvents]=await Promise.all([collectIngresses(pastSets),collectIngresses(futureSets)]);
+  const past=pastEvents.filter(item=>item.stamp<=start)
    .sort((a,b)=>b.stamp-a.stamp);
-  const future=collectIngresses(futureSets).filter(item=>item.stamp>start)
+  const future=futureEvents.filter(item=>item.stamp>start)
    .sort((a,b)=>a.stamp-b.stamp);
   const current=past.find(item=>item.signIndex===targetSign)||null;
   const previous=past.filter(item=>!current||item.stamp<current.stamp).slice(0,5);
