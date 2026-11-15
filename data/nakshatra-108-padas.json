@@ -1,8 +1,10 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "2.0.0",
+  "language": "th",
   "totalPadas": 108,
-  "intervalConvention": "[startArcMinutes, endArcMinutesExclusive)",
-  "generation": "Derived deterministically from 27 equal spans × 4 padas; each pada is 200 arcminutes",
+  "intervalConvention": "[start,end) — รวมจุดเริ่ม ไม่รวมจุดสิ้นสุด",
+  "generation": "แบ่งแต่ละฤกษ์ 800 ลิปดาเป็น 4 บาท บาทละ 200 ลิปดา ใช้ระบุตำแหน่งเท่านั้น",
+  "interpretationRule": "ไม่มีความหมายเฉพาะบาท เว้นแต่พบข้อความของบาทนั้นใน 27mean และตรวจสอบได้",
   "entries": [
     {
       "id": "P001",
@@ -14,19 +16,7 @@
       "endArcMinutesExclusive": 200,
       "startLongitude": "0°00′",
       "endLongitudeExclusive": "3°20′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 0,
-          "start": "0°00′",
-          "endArcMinutes": 200,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P002",
@@ -38,19 +28,7 @@
       "endArcMinutesExclusive": 400,
       "startLongitude": "3°20′",
       "endLongitudeExclusive": "6°40′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 200,
-          "start": "3°20′",
-          "endArcMinutes": 400,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P003",
@@ -62,19 +40,7 @@
       "endArcMinutesExclusive": 600,
       "startLongitude": "6°40′",
       "endLongitudeExclusive": "10°00′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 400,
-          "start": "6°40′",
-          "endArcMinutes": 600,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P004",
@@ -86,19 +52,7 @@
       "endArcMinutesExclusive": 800,
       "startLongitude": "10°00′",
       "endLongitudeExclusive": "13°20′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 600,
-          "start": "10°00′",
-          "endArcMinutes": 800,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P005",
@@ -110,19 +64,7 @@
       "endArcMinutesExclusive": 1000,
       "startLongitude": "13°20′",
       "endLongitudeExclusive": "16°40′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 800,
-          "start": "13°20′",
-          "endArcMinutes": 1000,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P006",
@@ -134,19 +76,7 @@
       "endArcMinutesExclusive": 1200,
       "startLongitude": "16°40′",
       "endLongitudeExclusive": "20°00′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 1000,
-          "start": "16°40′",
-          "endArcMinutes": 1200,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P007",
@@ -158,19 +88,7 @@
       "endArcMinutesExclusive": 1400,
       "startLongitude": "20°00′",
       "endLongitudeExclusive": "23°20′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 1200,
-          "start": "20°00′",
-          "endArcMinutes": 1400,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P008",
@@ -182,19 +100,7 @@
       "endArcMinutesExclusive": 1600,
       "startLongitude": "23°20′",
       "endLongitudeExclusive": "26°40′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 1400,
-          "start": "23°20′",
-          "endArcMinutes": 1600,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P009",
@@ -206,19 +112,7 @@
       "endArcMinutesExclusive": 1800,
       "startLongitude": "26°40′",
       "endLongitudeExclusive": "30°00′",
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 1600,
-          "start": "26°40′",
-          "endArcMinutes": 1800,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P010",
@@ -230,19 +124,7 @@
       "endArcMinutesExclusive": 2000,
       "startLongitude": "30°00′",
       "endLongitudeExclusive": "33°20′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 1800,
-          "start": "0°00′",
-          "endArcMinutes": 2000,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P011",
@@ -254,19 +136,7 @@
       "endArcMinutesExclusive": 2200,
       "startLongitude": "33°20′",
       "endLongitudeExclusive": "36°40′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 2000,
-          "start": "3°20′",
-          "endArcMinutes": 2200,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P012",
@@ -278,19 +148,7 @@
       "endArcMinutesExclusive": 2400,
       "startLongitude": "36°40′",
       "endLongitudeExclusive": "40°00′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 2200,
-          "start": "6°40′",
-          "endArcMinutes": 2400,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P013",
@@ -302,19 +160,7 @@
       "endArcMinutesExclusive": 2600,
       "startLongitude": "40°00′",
       "endLongitudeExclusive": "43°20′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 2400,
-          "start": "10°00′",
-          "endArcMinutes": 2600,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P014",
@@ -326,19 +172,7 @@
       "endArcMinutesExclusive": 2800,
       "startLongitude": "43°20′",
       "endLongitudeExclusive": "46°40′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 2600,
-          "start": "13°20′",
-          "endArcMinutes": 2800,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P015",
@@ -350,19 +184,7 @@
       "endArcMinutesExclusive": 3000,
       "startLongitude": "46°40′",
       "endLongitudeExclusive": "50°00′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 2800,
-          "start": "16°40′",
-          "endArcMinutes": 3000,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P016",
@@ -374,19 +196,7 @@
       "endArcMinutesExclusive": 3200,
       "startLongitude": "50°00′",
       "endLongitudeExclusive": "53°20′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 3000,
-          "start": "20°00′",
-          "endArcMinutes": 3200,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P017",
@@ -398,19 +208,7 @@
       "endArcMinutesExclusive": 3400,
       "startLongitude": "53°20′",
       "endLongitudeExclusive": "56°40′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 3200,
-          "start": "23°20′",
-          "endArcMinutes": 3400,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P018",
@@ -422,19 +220,7 @@
       "endArcMinutesExclusive": 3600,
       "startLongitude": "56°40′",
       "endLongitudeExclusive": "60°00′",
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 3400,
-          "start": "26°40′",
-          "endArcMinutes": 3600,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P019",
@@ -446,19 +232,7 @@
       "endArcMinutesExclusive": 3800,
       "startLongitude": "60°00′",
       "endLongitudeExclusive": "63°20′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 3600,
-          "start": "0°00′",
-          "endArcMinutes": 3800,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P020",
@@ -470,19 +244,7 @@
       "endArcMinutesExclusive": 4000,
       "startLongitude": "63°20′",
       "endLongitudeExclusive": "66°40′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 3800,
-          "start": "3°20′",
-          "endArcMinutes": 4000,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P021",
@@ -494,19 +256,7 @@
       "endArcMinutesExclusive": 4200,
       "startLongitude": "66°40′",
       "endLongitudeExclusive": "70°00′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 4000,
-          "start": "6°40′",
-          "endArcMinutes": 4200,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P022",
@@ -518,19 +268,7 @@
       "endArcMinutesExclusive": 4400,
       "startLongitude": "70°00′",
       "endLongitudeExclusive": "73°20′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 4200,
-          "start": "10°00′",
-          "endArcMinutes": 4400,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P023",
@@ -542,19 +280,7 @@
       "endArcMinutesExclusive": 4600,
       "startLongitude": "73°20′",
       "endLongitudeExclusive": "76°40′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 4400,
-          "start": "13°20′",
-          "endArcMinutes": 4600,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P024",
@@ -566,19 +292,7 @@
       "endArcMinutesExclusive": 4800,
       "startLongitude": "76°40′",
       "endLongitudeExclusive": "80°00′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 4600,
-          "start": "16°40′",
-          "endArcMinutes": 4800,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P025",
@@ -590,19 +304,7 @@
       "endArcMinutesExclusive": 5000,
       "startLongitude": "80°00′",
       "endLongitudeExclusive": "83°20′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 4800,
-          "start": "20°00′",
-          "endArcMinutes": 5000,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P026",
@@ -614,19 +316,7 @@
       "endArcMinutesExclusive": 5200,
       "startLongitude": "83°20′",
       "endLongitudeExclusive": "86°40′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 5000,
-          "start": "23°20′",
-          "endArcMinutes": 5200,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P027",
@@ -638,19 +328,7 @@
       "endArcMinutesExclusive": 5400,
       "startLongitude": "86°40′",
       "endLongitudeExclusive": "90°00′",
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 5200,
-          "start": "26°40′",
-          "endArcMinutes": 5400,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P028",
@@ -662,19 +340,7 @@
       "endArcMinutesExclusive": 5600,
       "startLongitude": "90°00′",
       "endLongitudeExclusive": "93°20′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 5400,
-          "start": "0°00′",
-          "endArcMinutes": 5600,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P029",
@@ -686,19 +352,7 @@
       "endArcMinutesExclusive": 5800,
       "startLongitude": "93°20′",
       "endLongitudeExclusive": "96°40′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 5600,
-          "start": "3°20′",
-          "endArcMinutes": 5800,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P030",
@@ -710,19 +364,7 @@
       "endArcMinutesExclusive": 6000,
       "startLongitude": "96°40′",
       "endLongitudeExclusive": "100°00′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 5800,
-          "start": "6°40′",
-          "endArcMinutes": 6000,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P031",
@@ -734,19 +376,7 @@
       "endArcMinutesExclusive": 6200,
       "startLongitude": "100°00′",
       "endLongitudeExclusive": "103°20′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 6000,
-          "start": "10°00′",
-          "endArcMinutes": 6200,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P032",
@@ -758,19 +388,7 @@
       "endArcMinutesExclusive": 6400,
       "startLongitude": "103°20′",
       "endLongitudeExclusive": "106°40′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 6200,
-          "start": "13°20′",
-          "endArcMinutes": 6400,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P033",
@@ -782,19 +400,7 @@
       "endArcMinutesExclusive": 6600,
       "startLongitude": "106°40′",
       "endLongitudeExclusive": "110°00′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 6400,
-          "start": "16°40′",
-          "endArcMinutes": 6600,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P034",
@@ -806,19 +412,7 @@
       "endArcMinutesExclusive": 6800,
       "startLongitude": "110°00′",
       "endLongitudeExclusive": "113°20′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 6600,
-          "start": "20°00′",
-          "endArcMinutes": 6800,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P035",
@@ -830,19 +424,7 @@
       "endArcMinutesExclusive": 7000,
       "startLongitude": "113°20′",
       "endLongitudeExclusive": "116°40′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 6800,
-          "start": "23°20′",
-          "endArcMinutes": 7000,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P036",
@@ -854,19 +436,7 @@
       "endArcMinutesExclusive": 7200,
       "startLongitude": "116°40′",
       "endLongitudeExclusive": "120°00′",
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 7000,
-          "start": "26°40′",
-          "endArcMinutes": 7200,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P037",
@@ -878,19 +448,7 @@
       "endArcMinutesExclusive": 7400,
       "startLongitude": "120°00′",
       "endLongitudeExclusive": "123°20′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 7200,
-          "start": "0°00′",
-          "endArcMinutes": 7400,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P038",
@@ -902,19 +460,7 @@
       "endArcMinutesExclusive": 7600,
       "startLongitude": "123°20′",
       "endLongitudeExclusive": "126°40′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 7400,
-          "start": "3°20′",
-          "endArcMinutes": 7600,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P039",
@@ -926,19 +472,7 @@
       "endArcMinutesExclusive": 7800,
       "startLongitude": "126°40′",
       "endLongitudeExclusive": "130°00′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 7600,
-          "start": "6°40′",
-          "endArcMinutes": 7800,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P040",
@@ -950,19 +484,7 @@
       "endArcMinutesExclusive": 8000,
       "startLongitude": "130°00′",
       "endLongitudeExclusive": "133°20′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 7800,
-          "start": "10°00′",
-          "endArcMinutes": 8000,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P041",
@@ -974,19 +496,7 @@
       "endArcMinutesExclusive": 8200,
       "startLongitude": "133°20′",
       "endLongitudeExclusive": "136°40′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 8000,
-          "start": "13°20′",
-          "endArcMinutes": 8200,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P042",
@@ -998,19 +508,7 @@
       "endArcMinutesExclusive": 8400,
       "startLongitude": "136°40′",
       "endLongitudeExclusive": "140°00′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 8200,
-          "start": "16°40′",
-          "endArcMinutes": 8400,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P043",
@@ -1022,19 +520,7 @@
       "endArcMinutesExclusive": 8600,
       "startLongitude": "140°00′",
       "endLongitudeExclusive": "143°20′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 8400,
-          "start": "20°00′",
-          "endArcMinutes": 8600,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P044",
@@ -1046,19 +532,7 @@
       "endArcMinutesExclusive": 8800,
       "startLongitude": "143°20′",
       "endLongitudeExclusive": "146°40′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 8600,
-          "start": "23°20′",
-          "endArcMinutes": 8800,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P045",
@@ -1070,19 +544,7 @@
       "endArcMinutesExclusive": 9000,
       "startLongitude": "146°40′",
       "endLongitudeExclusive": "150°00′",
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 8800,
-          "start": "26°40′",
-          "endArcMinutes": 9000,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P046",
@@ -1094,19 +556,7 @@
       "endArcMinutesExclusive": 9200,
       "startLongitude": "150°00′",
       "endLongitudeExclusive": "153°20′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 9000,
-          "start": "0°00′",
-          "endArcMinutes": 9200,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P047",
@@ -1118,19 +568,7 @@
       "endArcMinutesExclusive": 9400,
       "startLongitude": "153°20′",
       "endLongitudeExclusive": "156°40′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 9200,
-          "start": "3°20′",
-          "endArcMinutes": 9400,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P048",
@@ -1142,19 +580,7 @@
       "endArcMinutesExclusive": 9600,
       "startLongitude": "156°40′",
       "endLongitudeExclusive": "160°00′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 9400,
-          "start": "6°40′",
-          "endArcMinutes": 9600,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P049",
@@ -1166,19 +592,7 @@
       "endArcMinutesExclusive": 9800,
       "startLongitude": "160°00′",
       "endLongitudeExclusive": "163°20′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 9600,
-          "start": "10°00′",
-          "endArcMinutes": 9800,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P050",
@@ -1190,19 +604,7 @@
       "endArcMinutesExclusive": 10000,
       "startLongitude": "163°20′",
       "endLongitudeExclusive": "166°40′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 9800,
-          "start": "13°20′",
-          "endArcMinutes": 10000,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P051",
@@ -1214,19 +616,7 @@
       "endArcMinutesExclusive": 10200,
       "startLongitude": "166°40′",
       "endLongitudeExclusive": "170°00′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 10000,
-          "start": "16°40′",
-          "endArcMinutes": 10200,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P052",
@@ -1238,19 +628,7 @@
       "endArcMinutesExclusive": 10400,
       "startLongitude": "170°00′",
       "endLongitudeExclusive": "173°20′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 10200,
-          "start": "20°00′",
-          "endArcMinutes": 10400,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P053",
@@ -1262,19 +640,7 @@
       "endArcMinutesExclusive": 10600,
       "startLongitude": "173°20′",
       "endLongitudeExclusive": "176°40′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 10400,
-          "start": "23°20′",
-          "endArcMinutes": 10600,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P054",
@@ -1286,19 +652,7 @@
       "endArcMinutesExclusive": 10800,
       "startLongitude": "176°40′",
       "endLongitudeExclusive": "180°00′",
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 10600,
-          "start": "26°40′",
-          "endArcMinutes": 10800,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P055",
@@ -1310,19 +664,7 @@
       "endArcMinutesExclusive": 11000,
       "startLongitude": "180°00′",
       "endLongitudeExclusive": "183°20′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 10800,
-          "start": "0°00′",
-          "endArcMinutes": 11000,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P056",
@@ -1334,19 +676,7 @@
       "endArcMinutesExclusive": 11200,
       "startLongitude": "183°20′",
       "endLongitudeExclusive": "186°40′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 11000,
-          "start": "3°20′",
-          "endArcMinutes": 11200,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P057",
@@ -1358,19 +688,7 @@
       "endArcMinutesExclusive": 11400,
       "startLongitude": "186°40′",
       "endLongitudeExclusive": "190°00′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 11200,
-          "start": "6°40′",
-          "endArcMinutes": 11400,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P058",
@@ -1382,19 +700,7 @@
       "endArcMinutesExclusive": 11600,
       "startLongitude": "190°00′",
       "endLongitudeExclusive": "193°20′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 11400,
-          "start": "10°00′",
-          "endArcMinutes": 11600,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P059",
@@ -1406,19 +712,7 @@
       "endArcMinutesExclusive": 11800,
       "startLongitude": "193°20′",
       "endLongitudeExclusive": "196°40′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 11600,
-          "start": "13°20′",
-          "endArcMinutes": 11800,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P060",
@@ -1430,19 +724,7 @@
       "endArcMinutesExclusive": 12000,
       "startLongitude": "196°40′",
       "endLongitudeExclusive": "200°00′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 11800,
-          "start": "16°40′",
-          "endArcMinutes": 12000,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P061",
@@ -1454,19 +736,7 @@
       "endArcMinutesExclusive": 12200,
       "startLongitude": "200°00′",
       "endLongitudeExclusive": "203°20′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 12000,
-          "start": "20°00′",
-          "endArcMinutes": 12200,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P062",
@@ -1478,19 +748,7 @@
       "endArcMinutesExclusive": 12400,
       "startLongitude": "203°20′",
       "endLongitudeExclusive": "206°40′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 12200,
-          "start": "23°20′",
-          "endArcMinutes": 12400,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P063",
@@ -1502,19 +760,7 @@
       "endArcMinutesExclusive": 12600,
       "startLongitude": "206°40′",
       "endLongitudeExclusive": "210°00′",
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 12400,
-          "start": "26°40′",
-          "endArcMinutes": 12600,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P064",
@@ -1526,19 +772,7 @@
       "endArcMinutesExclusive": 12800,
       "startLongitude": "210°00′",
       "endLongitudeExclusive": "213°20′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 12600,
-          "start": "0°00′",
-          "endArcMinutes": 12800,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P065",
@@ -1550,19 +784,7 @@
       "endArcMinutesExclusive": 13000,
       "startLongitude": "213°20′",
       "endLongitudeExclusive": "216°40′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 12800,
-          "start": "3°20′",
-          "endArcMinutes": 13000,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P066",
@@ -1574,19 +796,7 @@
       "endArcMinutesExclusive": 13200,
       "startLongitude": "216°40′",
       "endLongitudeExclusive": "220°00′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 13000,
-          "start": "6°40′",
-          "endArcMinutes": 13200,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P067",
@@ -1598,19 +808,7 @@
       "endArcMinutesExclusive": 13400,
       "startLongitude": "220°00′",
       "endLongitudeExclusive": "223°20′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 13200,
-          "start": "10°00′",
-          "endArcMinutes": 13400,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P068",
@@ -1622,19 +820,7 @@
       "endArcMinutesExclusive": 13600,
       "startLongitude": "223°20′",
       "endLongitudeExclusive": "226°40′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 13400,
-          "start": "13°20′",
-          "endArcMinutes": 13600,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P069",
@@ -1646,19 +832,7 @@
       "endArcMinutesExclusive": 13800,
       "startLongitude": "226°40′",
       "endLongitudeExclusive": "230°00′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 13600,
-          "start": "16°40′",
-          "endArcMinutes": 13800,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P070",
@@ -1670,19 +844,7 @@
       "endArcMinutesExclusive": 14000,
       "startLongitude": "230°00′",
       "endLongitudeExclusive": "233°20′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 13800,
-          "start": "20°00′",
-          "endArcMinutes": 14000,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P071",
@@ -1694,19 +856,7 @@
       "endArcMinutesExclusive": 14200,
       "startLongitude": "233°20′",
       "endLongitudeExclusive": "236°40′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 14000,
-          "start": "23°20′",
-          "endArcMinutes": 14200,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P072",
@@ -1718,19 +868,7 @@
       "endArcMinutesExclusive": 14400,
       "startLongitude": "236°40′",
       "endLongitudeExclusive": "240°00′",
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 14200,
-          "start": "26°40′",
-          "endArcMinutes": 14400,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P073",
@@ -1742,19 +880,7 @@
       "endArcMinutesExclusive": 14600,
       "startLongitude": "240°00′",
       "endLongitudeExclusive": "243°20′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 14400,
-          "start": "0°00′",
-          "endArcMinutes": 14600,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P074",
@@ -1766,19 +892,7 @@
       "endArcMinutesExclusive": 14800,
       "startLongitude": "243°20′",
       "endLongitudeExclusive": "246°40′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 14600,
-          "start": "3°20′",
-          "endArcMinutes": 14800,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P075",
@@ -1790,19 +904,7 @@
       "endArcMinutesExclusive": 15000,
       "startLongitude": "246°40′",
       "endLongitudeExclusive": "250°00′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 14800,
-          "start": "6°40′",
-          "endArcMinutes": 15000,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P076",
@@ -1814,19 +916,7 @@
       "endArcMinutesExclusive": 15200,
       "startLongitude": "250°00′",
       "endLongitudeExclusive": "253°20′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 15000,
-          "start": "10°00′",
-          "endArcMinutes": 15200,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P077",
@@ -1838,19 +928,7 @@
       "endArcMinutesExclusive": 15400,
       "startLongitude": "253°20′",
       "endLongitudeExclusive": "256°40′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 15200,
-          "start": "13°20′",
-          "endArcMinutes": 15400,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P078",
@@ -1862,19 +940,7 @@
       "endArcMinutesExclusive": 15600,
       "startLongitude": "256°40′",
       "endLongitudeExclusive": "260°00′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 15400,
-          "start": "16°40′",
-          "endArcMinutes": 15600,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P079",
@@ -1886,19 +952,7 @@
       "endArcMinutesExclusive": 15800,
       "startLongitude": "260°00′",
       "endLongitudeExclusive": "263°20′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 15600,
-          "start": "20°00′",
-          "endArcMinutes": 15800,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P080",
@@ -1910,19 +964,7 @@
       "endArcMinutesExclusive": 16000,
       "startLongitude": "263°20′",
       "endLongitudeExclusive": "266°40′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 15800,
-          "start": "23°20′",
-          "endArcMinutes": 16000,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P081",
@@ -1934,19 +976,7 @@
       "endArcMinutesExclusive": 16200,
       "startLongitude": "266°40′",
       "endLongitudeExclusive": "270°00′",
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 16000,
-          "start": "26°40′",
-          "endArcMinutes": 16200,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P082",
@@ -1958,19 +988,7 @@
       "endArcMinutesExclusive": 16400,
       "startLongitude": "270°00′",
       "endLongitudeExclusive": "273°20′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 16200,
-          "start": "0°00′",
-          "endArcMinutes": 16400,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P083",
@@ -1982,19 +1000,7 @@
       "endArcMinutesExclusive": 16600,
       "startLongitude": "273°20′",
       "endLongitudeExclusive": "276°40′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 16400,
-          "start": "3°20′",
-          "endArcMinutes": 16600,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P084",
@@ -2006,19 +1012,7 @@
       "endArcMinutesExclusive": 16800,
       "startLongitude": "276°40′",
       "endLongitudeExclusive": "280°00′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 16600,
-          "start": "6°40′",
-          "endArcMinutes": 16800,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P085",
@@ -2030,19 +1024,7 @@
       "endArcMinutesExclusive": 17000,
       "startLongitude": "280°00′",
       "endLongitudeExclusive": "283°20′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 16800,
-          "start": "10°00′",
-          "endArcMinutes": 17000,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P086",
@@ -2054,19 +1036,7 @@
       "endArcMinutesExclusive": 17200,
       "startLongitude": "283°20′",
       "endLongitudeExclusive": "286°40′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 17000,
-          "start": "13°20′",
-          "endArcMinutes": 17200,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P087",
@@ -2078,19 +1048,7 @@
       "endArcMinutesExclusive": 17400,
       "startLongitude": "286°40′",
       "endLongitudeExclusive": "290°00′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 17200,
-          "start": "16°40′",
-          "endArcMinutes": 17400,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P088",
@@ -2102,19 +1060,7 @@
       "endArcMinutesExclusive": 17600,
       "startLongitude": "290°00′",
       "endLongitudeExclusive": "293°20′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 17400,
-          "start": "20°00′",
-          "endArcMinutes": 17600,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P089",
@@ -2126,19 +1072,7 @@
       "endArcMinutesExclusive": 17800,
       "startLongitude": "293°20′",
       "endLongitudeExclusive": "296°40′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 17600,
-          "start": "23°20′",
-          "endArcMinutes": 17800,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P090",
@@ -2150,19 +1084,7 @@
       "endArcMinutesExclusive": 18000,
       "startLongitude": "296°40′",
       "endLongitudeExclusive": "300°00′",
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 17800,
-          "start": "26°40′",
-          "endArcMinutes": 18000,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P091",
@@ -2174,19 +1096,7 @@
       "endArcMinutesExclusive": 18200,
       "startLongitude": "300°00′",
       "endLongitudeExclusive": "303°20′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 18000,
-          "start": "0°00′",
-          "endArcMinutes": 18200,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P092",
@@ -2198,19 +1108,7 @@
       "endArcMinutesExclusive": 18400,
       "startLongitude": "303°20′",
       "endLongitudeExclusive": "306°40′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 18200,
-          "start": "3°20′",
-          "endArcMinutes": 18400,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P093",
@@ -2222,19 +1120,7 @@
       "endArcMinutesExclusive": 18600,
       "startLongitude": "306°40′",
       "endLongitudeExclusive": "310°00′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 18400,
-          "start": "6°40′",
-          "endArcMinutes": 18600,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P094",
@@ -2246,19 +1132,7 @@
       "endArcMinutesExclusive": 18800,
       "startLongitude": "310°00′",
       "endLongitudeExclusive": "313°20′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 18600,
-          "start": "10°00′",
-          "endArcMinutes": 18800,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P095",
@@ -2270,19 +1144,7 @@
       "endArcMinutesExclusive": 19000,
       "startLongitude": "313°20′",
       "endLongitudeExclusive": "316°40′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 18800,
-          "start": "13°20′",
-          "endArcMinutes": 19000,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P096",
@@ -2294,19 +1156,7 @@
       "endArcMinutesExclusive": 19200,
       "startLongitude": "316°40′",
       "endLongitudeExclusive": "320°00′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 19000,
-          "start": "16°40′",
-          "endArcMinutes": 19200,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P097",
@@ -2318,19 +1168,7 @@
       "endArcMinutesExclusive": 19400,
       "startLongitude": "320°00′",
       "endLongitudeExclusive": "323°20′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 19200,
-          "start": "20°00′",
-          "endArcMinutes": 19400,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P098",
@@ -2342,19 +1180,7 @@
       "endArcMinutesExclusive": 19600,
       "startLongitude": "323°20′",
       "endLongitudeExclusive": "326°40′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 19400,
-          "start": "23°20′",
-          "endArcMinutes": 19600,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P099",
@@ -2366,19 +1192,7 @@
       "endArcMinutesExclusive": 19800,
       "startLongitude": "326°40′",
       "endLongitudeExclusive": "330°00′",
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 19600,
-          "start": "26°40′",
-          "endArcMinutes": 19800,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P100",
@@ -2390,19 +1204,7 @@
       "endArcMinutesExclusive": 20000,
       "startLongitude": "330°00′",
       "endLongitudeExclusive": "333°20′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 19800,
-          "start": "0°00′",
-          "endArcMinutes": 20000,
-          "end": "3°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P101",
@@ -2414,19 +1216,7 @@
       "endArcMinutesExclusive": 20200,
       "startLongitude": "333°20′",
       "endLongitudeExclusive": "336°40′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 20000,
-          "start": "3°20′",
-          "endArcMinutes": 20200,
-          "end": "6°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P102",
@@ -2438,19 +1228,7 @@
       "endArcMinutesExclusive": 20400,
       "startLongitude": "336°40′",
       "endLongitudeExclusive": "340°00′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 20200,
-          "start": "6°40′",
-          "endArcMinutes": 20400,
-          "end": "10°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P103",
@@ -2462,19 +1240,7 @@
       "endArcMinutesExclusive": 20600,
       "startLongitude": "340°00′",
       "endLongitudeExclusive": "343°20′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 20400,
-          "start": "10°00′",
-          "endArcMinutes": 20600,
-          "end": "13°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P104",
@@ -2486,19 +1252,7 @@
       "endArcMinutesExclusive": 20800,
       "startLongitude": "343°20′",
       "endLongitudeExclusive": "346°40′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 20600,
-          "start": "13°20′",
-          "endArcMinutes": 20800,
-          "end": "16°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P105",
@@ -2510,19 +1264,7 @@
       "endArcMinutesExclusive": 21000,
       "startLongitude": "346°40′",
       "endLongitudeExclusive": "350°00′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 20800,
-          "start": "16°40′",
-          "endArcMinutes": 21000,
-          "end": "20°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P106",
@@ -2534,19 +1276,7 @@
       "endArcMinutesExclusive": 21200,
       "startLongitude": "350°00′",
       "endLongitudeExclusive": "353°20′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 21000,
-          "start": "20°00′",
-          "endArcMinutes": 21200,
-          "end": "23°20′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P107",
@@ -2558,19 +1288,7 @@
       "endArcMinutesExclusive": 21400,
       "startLongitude": "353°20′",
       "endLongitudeExclusive": "356°40′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 21200,
-          "start": "23°20′",
-          "endArcMinutes": 21400,
-          "end": "26°40′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     },
     {
       "id": "P108",
@@ -2582,19 +1300,7 @@
       "endArcMinutesExclusive": 21600,
       "startLongitude": "356°40′",
       "endLongitudeExclusive": "360°00′",
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 21400,
-          "start": "26°40′",
-          "endArcMinutes": 21600,
-          "end": "30°00′"
-        }
-      ],
-      "interpretationStatus": "missing_unless_source_describes_pada",
-      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+      "interpretationStatus": "pending_27mean_source"
     }
   ]
 }
