@@ -54,6 +54,18 @@
       "sourceType": "classical_text_digital_copy",
       "usageNote": "ใช้เป็นแหล่งตรวจข้อความดั้งเดิมเฉพาะประเด็นที่อ้างถึง โดยต้องตรวจฉบับ/บท/เลขโศลกก่อนนำเข้าฐานข้อมูล ห้ามใช้ผล OCR เพียงอย่างเดียว",
       "confidence": "B_pending_edition_and_verse_verification"
+    },
+    {
+      "sourceId": "SRC-BRIHAT-JATAKA-CH16",
+      "title": "Bṛhat Jātaka, Chapter 16 — Results of the Nakṣatras / The Moon in the Asterisms",
+      "author": "Varāhamihira; English translation by Michael D. Neely (2007)",
+      "publisher": "Wisdom Library digital edition",
+      "url": "https://www.wisdomlib.org/hinduism/book/brihat-jataka-by-varahamihira-sanskrit-english/d/doc1501551.html",
+      "accessedAt": "2026-11-15",
+      "sourceType": "classical_astrology_text_translation",
+      "usageNote": "ใช้เสริมคำบรรยายลักษณะตามจันทร์กำเนิดในนักษัตรเท่านั้น บทนี้มี 14 โศลกจับคู่/กล่าวถึง 27 กลุ่ม; ถอดความสั้นเป็นภาษาไทยและแยกจากความหมาย 27mean ห้ามนำไปใช้กับดาวทุกดวงโดยอัตโนมัติ",
+      "confidence": "B_translation_based",
+      "caveat": "เป็นคำบรรยายตามคติของตำราโบราณ มีถ้อยคำเชิงคุณค่าและบางคำแปลกำกวม ต้องตรวจเทียบสันสกฤตและฉบับแปลอื่นก่อนใช้เป็นข้อสรุป"
     }
   ],
   "retrievalLimitations": [
