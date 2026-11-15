@@ -3616,7 +3616,9 @@ inp.addEventListener('change',()=>{const q=inp.value.trim().toLocaleLowerCase('t
 inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement)){close();isTyping=false;syncFromSelect();}},120);});
 sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!isTyping){syncFromSelect();if(document.activeElement===inp)render();}}).observe(sel,{childList:true,subtree:true});syncFromSelect();
 }
-function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);}
+function setFormOnly(on){const header=document.querySelector('header.hero'),footer=document.querySelector('footer'),picker=$('displayPicker9');if(header)header.hidden=on;if(footer)footer.hidden=on;if(picker)picker.hidden=on;groups.forEach((g,k)=>{g.wrap.hidden=on&&k!=='data';const summary=g.details.querySelector('summary');if(summary)summary.hidden=on&&k==='data';if(k==='data')g.details.open=true;});}
+window.hora915SetFormOnly=setFormOnly;
+function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();setFormOnly(true);$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -4200,10 +4202,12 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
  if(!body||!form)return;
  const showResults=()=>{
    body.classList.add('hora915-calculated');
+   window.hora915SetFormOnly?.(false);
    if(edit)edit.hidden=false;
  };
  const returnToForm=()=>{
    body.classList.remove('hora915-calculated');
+   window.hora915SetFormOnly?.(true);
    if(msg)msg.textContent='ข้อมูลเปลี่ยนแล้ว · กด “คำนวณทุกอย่าง” เพื่อปรับปรุงผลลัพธ์';
    form.scrollIntoView({behavior:'smooth',block:'start'});
  };
