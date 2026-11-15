@@ -56,7 +56,8 @@
       "nakshatraLord": {
         "planet": "เกตุ",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -93,7 +94,8 @@
       "nakshatraLord": {
         "planet": "ศุกร์",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -132,7 +134,9 @@
       "nakshatraLord": {
         "planet": "อาทิตย์",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE",
+        "note": "บทความที่ค้นพบยืนยันอาทิตย์เป็นเจ้าฤกษ์สำหรับบาท 2–4 ในพฤษภา; บาท 1 ต้องตรวจต้นฉบับเพิ่ม"
       },
       "signSegments": [
         {
@@ -218,7 +222,9 @@
       "nakshatraLord": {
         "planet": "อังคาร",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE",
+        "note": "บทความที่ค้นพบยืนยันอังคารเป็นเจ้าฤกษ์สำหรับมฤคศิรบาท 1 ในพฤษภา"
       },
       "signSegments": [
         {
@@ -264,7 +270,8 @@
       "nakshatraLord": {
         "planet": "ราหู",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -303,7 +310,9 @@
       "nakshatraLord": {
         "planet": "พฤหัสบดี",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE",
+        "note": "บทความที่ค้นพบยืนยันพฤหัสบดีเป็นเจ้าฤกษ์สำหรับปุนัพสุบาท 4 ในกรกฎ"
       },
       "signSegments": [
         {
@@ -351,7 +360,8 @@
       "nakshatraLord": {
         "planet": "เสาร์",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -388,7 +398,8 @@
       "nakshatraLord": {
         "planet": "พุธ",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -630,7 +641,8 @@
       "nakshatraLord": {
         "planet": "ราหู",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -667,7 +679,8 @@
       "nakshatraLord": {
         "planet": "พฤหัสบดี",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -713,7 +726,8 @@
       "nakshatraLord": {
         "planet": "เสาร์",
         "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
+        "status": "confirmed_by_article_excerpt",
+        "sourceId": "SRC-27MEAN-ARTICLE"
       },
       "signSegments": [
         {
@@ -1138,5 +1152,6 @@
         "SRC-USER-SUPPLIED-TABLE"
       ]
     }
-  ]
+  ],
+  "verificationNote": "สถานะ confirmed_by_article_excerpt หมายถึงพบข้อความยืนยันในผลดัชนีของบทความ ไม่ได้หมายความว่าอ่านต้นฉบับเต็มและตรวจทุกบาทแล้ว"
 }
