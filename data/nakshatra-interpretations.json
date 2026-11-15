@@ -7,10 +7,26 @@
       "nakshatraId": "N01",
       "nakshatraName": "อัศวินี",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
+      "generalMeaning": "กล่าวถึงความเฉลียวฉลาดและสติปัญญาควบคู่กับความกังวลเรื่องทรัพย์สิน ความขัดแย้ง การแยกตัวจากกลุ่ม และความสนใจด้านมนตราหรือพิธีกรรม",
+      "strengths": [
+        "เฉลียวฉลาด",
+        "มีสติปัญญา",
+        "มีเสน่ห์และเป็นที่ชื่นชอบ"
+      ],
+      "cautions": [
+        "กังวลเรื่องทรัพย์สิน",
+        "ฟุ่มเฟือยหรือโลภ",
+        "โต้แย้งและขัดแย้งกับผู้อื่น"
+      ],
+      "careerAndOccupations": [
+        "โรงงาน",
+        "ตำรวจและทหาร",
+        "แพทย์และศัลยแพทย์",
+        "เครื่องจักรและโลหะ",
+        "ทางรถไฟ",
+        "งานดูแลความปลอดภัย",
+        "ม้าและการค้าขายม้า"
+      ],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": null,
@@ -22,19 +38,32 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุอังคารเป็นเจ้าเรือนเมษ และเกตุเป็นเจ้าฤกษ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N02",
       "nakshatraName": "ภรณี",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
+      "generalMeaning": "กล่าวถึงความทะเยอทะยาน ความมุ่งมั่น การต่อสู้เพื่อเป้าหมาย ความจริงใจและความฉลาด พร้อมด้านเงาที่เกี่ยวกับความรุนแรงและความโหดร้าย",
+      "strengths": [
+        "มุ่งมั่น",
+        "จริงใจ",
+        "เป็นอิสระจากการประพฤติผิด",
+        "ฉลาด"
+      ],
+      "cautions": [
+        "ความโลภ",
+        "ความโหดร้าย",
+        "ความก้าวร้าวหรือหมกมุ่น"
+      ],
+      "careerAndOccupations": [
+        "งานป้องกันและจับกุม",
+        "งานเลี้ยงสัตว์หรือเกี่ยวข้องกับเนื้อสัตว์"
+      ],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": null,
@@ -46,20 +75,59 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุอังคารเป็นเจ้าเรือนเมษ และศุกร์เป็นเจ้าฤกษ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N03",
       "nakshatraName": "กฤติกา",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
-      "padaInterpretations": [],
+      "generalMeaning": "ข้อความที่ค้นพบระบุเฉพาะบาทที่ 2–4 ในพฤษภา เน้นมิตรสังคม ความเอื้อเฟื้อ ความสุขสบาย ความคิดสร้างสรรค์ การลงทุนและความมั่งคั่ง",
+      "strengths": [
+        "มีมนุษยสัมพันธ์",
+        "เอื้อเฟื้อและเมตตา",
+        "สร้างสรรค์",
+        "มีแนวโน้มด้านธุรกิจและการลงทุน"
+      ],
+      "cautions": [
+        "ชอบความสบายและความหรูหรา",
+        "มีแนวโน้มเสี่ยงโชคหรือลงทุน"
+      ],
+      "careerAndOccupations": [
+        "ดนตรีและการแสดง",
+        "กวีและศิลปิน",
+        "ออกแบบและแกะสลัก",
+        "ถ่ายภาพ",
+        "การค้าระหว่างประเทศ",
+        "ตกแต่งภายใน",
+        "วิศวกรรม",
+        "การประเมินราคา"
+      ],
+      "padaInterpretations": [
+        {
+          "padaNumber": 1,
+          "status": "pending",
+          "note": "ต้นฉบับส่วนที่ค้นพบยังไม่ให้คำอธิบายบาทที่ 1 อย่างชัดเจน"
+        },
+        {
+          "padaNumber": 2,
+          "status": "partial",
+          "summary": "คำอธิบายชุดพฤษภา: เข้าสังคม เอื้อเฟื้อ รักความสุขสบาย มีความคิดสร้างสรรค์ และสัมพันธ์กับธุรกิจ/การลงทุน"
+        },
+        {
+          "padaNumber": 3,
+          "status": "partial",
+          "summary": "ใช้คำอธิบายชุดพฤษภาร่วมกับบาทที่ 2–4 ตามต้นฉบับ"
+        },
+        {
+          "padaNumber": 4,
+          "status": "partial",
+          "summary": "ใช้คำอธิบายชุดพฤษภาร่วมกับบาทที่ 2–4 ตามต้นฉบับ"
+        }
+      ],
       "modernMetadata": {
         "birthDateRange": null,
         "symbol": null,
@@ -70,10 +138,11 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "บาท 2–4: ศุกร์เป็นเจ้าเรือนพฤษภาและอาทิตย์เป็นเจ้าฤกษ์; บาท 1 ต้องตรวจต้นฉบับเพิ่ม",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N04",
@@ -103,11 +172,27 @@
       "nakshatraId": "N05",
       "nakshatraName": "มฤคศิร",
       "status": "partial",
-      "generalMeaning": null,
+      "generalMeaning": "ข้อความที่พบเป็นรายการความสัมพันธ์กับทรัพย์สิน อาคาร เครื่องดนตรี ยานยนต์ เสื้อผ้า อุตสาหกรรม ภาพยนตร์ ภาพถ่าย อัญมณีและสินค้าอุปโภคบริโภค โดยยังไม่พบคำอธิบายบุคลิกครบ",
       "strengths": [],
       "cautions": [],
-      "careerAndOccupations": [],
-      "padaInterpretations": [],
+      "careerAndOccupations": [
+        "อสังหาริมทรัพย์และอาคาร",
+        "เครื่องดนตรีและการจัดแสดงสินค้า",
+        "ช่างตัดเสื้อ",
+        "วิศวกรรมยานยนต์",
+        "สัตวแพทย์",
+        "คนขับแท็กซี่",
+        "อุตสาหกรรมภาพยนตร์",
+        "ช่างเสียงและช่างภาพ",
+        "อัญมณีและสินค้าอุตสาหกรรม"
+      ],
+      "padaInterpretations": [
+        {
+          "padaNumber": 1,
+          "status": "partial",
+          "summary": "ต้นฉบับแยกมฤคศิรบาทที่ 1 ในพฤษภา และให้รายการอาชีพ/สินค้าเกี่ยวกับทรัพย์สิน ยานยนต์ เสื้อผ้า ภาพยนตร์และอัญมณี"
+        }
+      ],
       "modernMetadata": {
         "birthDateRange": null,
         "symbol": null,
@@ -118,18 +203,28 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุศุกร์เป็นเจ้าเรือนพฤษภาและอังคารเป็นเจ้าฤกษ์สำหรับบาทที่ 1",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N06",
       "nakshatraName": "อารทรา",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "generalMeaning": "กล่าวถึงจิตใจตื่นตัว ไม่หยุดนิ่ง ความคิดริเริ่ม การวิเคราะห์และวิจารณ์ เชาวน์ปฏิภาณและความสำเร็จด้านภาษา/วรรณคดี พร้อมเตือนด้านพฤติกรรมทำลายและความขัดแย้ง",
+      "strengths": [
+        "คิดริเริ่ม",
+        "วิเคราะห์เก่ง",
+        "มีปฏิภาณ",
+        "สนใจการอ่านและภาษา"
+      ],
+      "cautions": [
+        "โต้เถียงและสร้างความแตกแยก",
+        "หยิ่งหรือไม่กตัญญู",
+        "มีพฤติกรรมด้านลบตามข้อความต้นฉบับ"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
@@ -142,20 +237,32 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุพุธเป็นเจ้าเรือนมิถุน และราหูเป็นเจ้าฤกษ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N07",
       "nakshatraName": "ปุนัพสุ",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
+      "generalMeaning": "มีข้อความเฉพาะบาทที่ 4 ในกรกฎ กล่าวถึงจินตนาการ ความซื่อสัตย์ ความยุติธรรม สุขภาพ สติปัญญา ความเมตตาและความมั่งคั่ง",
+      "strengths": [
+        "จินตนาการ",
+        "ซื่อสัตย์และน่าเชื่อถือ",
+        "มีวิจารณญาณ",
+        "ฉลาดและมีเมตตา"
+      ],
       "cautions": [],
       "careerAndOccupations": [],
-      "padaInterpretations": [],
+      "padaInterpretations": [
+        {
+          "padaNumber": 4,
+          "status": "partial",
+          "summary": "คำอธิบายเฉพาะบาท 4 ในกรกฎตามข้อความที่ค้นพบ"
+        }
+      ],
       "modernMetadata": {
         "birthDateRange": null,
         "symbol": null,
@@ -166,19 +273,34 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุจันทร์เป็นเจ้าเรือนกรกฎและพฤหัสบดีเป็นเจ้าฤกษ์ในบาทที่ 4",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N08",
       "nakshatraName": "ปุษยะ",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
+      "generalMeaning": "เน้นความมัธยัสถ์ รอบคอบ ระมัดระวัง เป็นระบบ อดทนและรับผิดชอบ อาจเคร่งครัดหรือยึดตนเองเป็นหลัก",
+      "strengths": [
+        "ประหยัดและรอบคอบ",
+        "ทำงานเป็นระบบ",
+        "อดทน",
+        "ได้รับความไว้วางใจ"
+      ],
+      "cautions": [
+        "ตระหนี่",
+        "ไม่ยืดหยุ่น",
+        "ยึดตนเองเป็นใหญ่"
+      ],
+      "careerAndOccupations": [
+        "งานบริหารและตำแหน่งที่ได้รับความไว้วางใจ",
+        "ประมง",
+        "ป่าไม้",
+        "เกษตรกรรม"
+      ],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": null,
@@ -190,16 +312,17 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุจันทร์เป็นเจ้าเรือนกรกฎและเสาร์เป็นเจ้าฤกษ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N09",
       "nakshatraName": "อาศเลษะ",
       "status": "partial",
-      "generalMeaning": null,
+      "generalMeaning": "ข้อความที่ดึงได้มีการสลับส่วนหัวข้อและเนื้อหาบางช่วง จึงยังจับคู่คำอธิบายกับอาศเลษาได้ไม่ครบ มีเพียงการระบุจันทร์เป็นเจ้าเรือนกรกฎและพุธเป็นเจ้าฤกษ์",
       "strengths": [],
       "cautions": [],
       "careerAndOccupations": [],
@@ -214,10 +337,11 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุจันทร์เป็นเจ้าเรือนกรกฎและพุธเป็นเจ้าฤกษ์",
+      "sourceConfidence": "fragmented_indexed_excerpt"
     },
     {
       "nakshatraId": "N10",
@@ -342,11 +466,27 @@
     {
       "nakshatraId": "N15",
       "nakshatraName": "สวาติ",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
+      "status": "partial",
+      "generalMeaning": "กล่าวถึงความเห็นอกเห็นใจ ความสุภาพ ยุติธรรม ซื่อตรง มีความคิดริเริ่ม ยืดหยุ่นและเป็นมนุษยธรรม แต่บางครั้งตัดสินใจช้า",
+      "strengths": [
+        "เห็นอกเห็นใจ",
+        "ซื่อสัตย์และสุภาพ",
+        "ยุติธรรม",
+        "คิดริเริ่มและยืดหยุ่น",
+        "มนุษยธรรม"
+      ],
+      "cautions": [
+        "ใช้เวลาตัดสินใจ",
+        "อาจเข้าใจสิ่งต่าง ๆ ช้าแต่แม่นยำ"
+      ],
+      "careerAndOccupations": [
+        "การขนส่งและเดินทาง",
+        "ดนตรี ละครและศิลปะ",
+        "วิทยาศาสตร์และงานคลินิก",
+        "งานกวี",
+        "เครื่องแต่งกาย",
+        "อาหารและสินค้าอุปโภค"
+      ],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": null,
@@ -358,20 +498,58 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุศุกร์เป็นเจ้าเรือนตุล และราหูเป็นเจ้าฤกษ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N16",
       "nakshatraName": "วิศาขา",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
-      "padaInterpretations": [],
+      "status": "partial",
+      "generalMeaning": "กล่าวถึงความทะเยอทะยาน ความมีเกียรติ ความจริงใจ ความเป็นตัวของตัวเองและความคิดสุดโต่งได้ในบางครั้ง",
+      "strengths": [
+        "กระตือรือร้น",
+        "ซื่อสัตย์และตรงไปตรงมา",
+        "มีความคิดอิสระ"
+      ],
+      "cautions": [
+        "หยิ่งหรือดื้อดึง",
+        "คิดหรือทำสุดโต่ง"
+      ],
+      "careerAndOccupations": [
+        "ธนาคาร",
+        "กฎหมายและผู้พิพากษา",
+        "ประกันภัย",
+        "เคมีและเภสัชกรรม",
+        "เกษตรกรรม",
+        "ตลาดหุ้น",
+        "ท่าเรือและอุตสาหกรรม",
+        "งานด้านกลาโหม"
+      ],
+      "padaInterpretations": [
+        {
+          "padaNumber": 1,
+          "status": "partial",
+          "summary": "บาท 1–3 อยู่ตุลตามข้อความต้นฉบับ"
+        },
+        {
+          "padaNumber": 2,
+          "status": "partial",
+          "summary": "บาท 1–3 อยู่ตุลตามข้อความต้นฉบับ"
+        },
+        {
+          "padaNumber": 3,
+          "status": "partial",
+          "summary": "บาท 1–3 อยู่ตุลตามข้อความต้นฉบับ"
+        },
+        {
+          "padaNumber": 4,
+          "status": "partial",
+          "summary": "บาท 4 อยู่พิจิกตามข้อความต้นฉบับ"
+        }
+      ],
       "modernMetadata": {
         "birthDateRange": null,
         "symbol": null,
@@ -382,16 +560,17 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ทั้งสองช่วงระบุพฤหัสบดีเป็นเจ้าฤกษ์; บาท 1–3 ศุกร์เป็นเจ้าเรือนตุล, บาท 4 อังคารเป็นเจ้าเรือนพิจิก",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N17",
       "nakshatraName": "อนุราธา",
-      "status": "missing",
-      "generalMeaning": null,
+      "status": "partial",
+      "generalMeaning": "ค้นพบส่วนต้นระบุช่วงพิจิกและดาวเจ้าเรือน/เจ้าฤกษ์ แต่เนื้อหาคำอธิบายจิตวิทยาและอาชีพยังไม่ปรากฏครบในข้อความที่ดึงได้",
       "strengths": [],
       "cautions": [],
       "careerAndOccupations": [],
@@ -406,34 +585,39 @@
         "status": "not_normalized"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "lordNotes": "ต้นฉบับระบุอังคารเป็นเจ้าเรือนพิจิกและเสาร์เป็นเจ้าฤกษ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N18",
       "nakshatraName": "เชษฐา",
-      "status": "missing",
-      "generalMeaning": null,
+      "status": "partial",
+      "generalMeaning": "ข้อความที่ค้นพบยังไม่มีคำอธิบายจิตวิทยาและอาชีพครบ แต่มีส่วนข้อมูลสมัยใหม่ที่กล่าวถึงความทะเยอทะยาน ความต้องการประสบความสำเร็จ วินัย ความเชื่อทางจิตวิญญาณและความสัมพันธ์",
       "strengths": [],
       "cautions": [],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "3–15 ธันวาคม (ตามบทความ)",
+        "symbol": "ตุ้มหู",
+        "compatibleNakshatra": "มาฆะ",
+        "color": "ครีม",
+        "element": "ลม",
+        "celebrities": [
+          "มาเรีย แคลลาส",
+          "นิโคล แอปเพิลตัน",
+          "บริดเจ็ต ฮอลล์"
+        ],
+        "status": "partial_source_excerpt"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N19",
@@ -583,73 +767,82 @@
       "nakshatraId": "N25",
       "nakshatraName": "บุรพภัทรบท",
       "status": "partial",
-      "generalMeaning": null,
+      "generalMeaning": "ข้อมูลจากผู้ใช้: อ่อนไหว เอื้ออาทร เป็นที่พึ่งทางใจได้ มีแนวโน้มประสบความสำเร็จทางวัตถุแต่ควรวางแผนการเงิน และอาจคาดหวังผู้อื่นสูง",
       "strengths": [],
       "cautions": [],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "5–17 มีนาคม (ตามข้อความที่ผู้ใช้ส่ง)",
+        "symbol": "ดาบ; มีคำอธิบายหมายถึงความรู้แจ้ง/สันติภาพที่ต้องตรวจตำแหน่งข้อความ",
+        "compatibleNakshatra": "ธนิษฐา",
+        "color": "เขียวอ่อน",
+        "element": "ลม",
+        "celebrities": [
+          "Drew Barrymore",
+          "Elizabeth Taylor",
+          "Esther Cañadas"
+        ],
+        "status": "user_supplied_unverified"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
         "SRC-USER-SUPPLIED-TABLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ"
     },
     {
       "nakshatraId": "N26",
       "nakshatraName": "อุตรภัทรบท",
       "status": "partial",
-      "generalMeaning": null,
+      "generalMeaning": "ข้อมูลจากผู้ใช้: ฉลาด ใจกว้าง มีอุดมคติ เคารพความฝันของผู้อื่น เชื่อในโชคชะตา และอาจเดินออกจากความสัมพันธ์เมื่อไม่เติบโต",
       "strengths": [],
       "cautions": [],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "18–31 มีนาคม (ตามข้อความที่ผู้ใช้ส่ง)",
+        "symbol": "ฝาแฝด; ความหมายที่ให้มาคือความมืดอันงดงาม",
+        "compatibleNakshatra": "เรวดี",
+        "color": "ม่วง",
+        "element": "ไฟ",
+        "celebrities": [
+          "Diana Ross",
+          "Sarah Jessica Parker",
+          "Gary Oldman"
+        ],
+        "status": "user_supplied_unverified"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
         "SRC-USER-SUPPLIED-TABLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ"
     },
     {
       "nakshatraId": "N27",
       "nakshatraName": "เรวดี",
       "status": "partial",
-      "generalMeaning": null,
+      "generalMeaning": "ข้อมูลจากผู้ใช้: เมตตา อ่อนโยน อ่อนไหว เสียสละ โรแมนติก และต้องการคู่ที่เข้าใจความรู้สึก",
       "strengths": [],
       "cautions": [],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "1–13 เมษายน (ตามข้อความที่ผู้ใช้ส่ง)",
+        "symbol": "ปลา; ความหมายความบริสุทธิ์",
+        "compatibleNakshatra": "อุตรภัทรบท",
+        "color": "น้ำตาล",
+        "element": "น้ำ",
+        "celebrities": [
+          "Marlon Brando",
+          "Vivienne Westwood",
+          "Russell Crowe"
+        ],
+        "status": "user_supplied_unverified"
       },
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
         "SRC-USER-SUPPLIED-TABLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ"
     }
   ],
   "statusDefinitions": {
@@ -658,5 +851,41 @@
     "pending": "พบข้อมูลแต่ยังไม่ได้ตรวจทาน",
     "missing": "ยังไม่มีข้อมูล",
     "conflict": "แหล่งข้อมูลขัดแย้ง"
+  },
+  "transcriptionNotes": {
+    "method": "ถอดความเฉพาะส่วนที่ค้นพบจากดัชนีค้นหาและข้อความที่ผู้ใช้ส่ง; ไม่เติมเนื้อหาที่ขาด",
+    "caveat": "หน้า Blogspot เปิดอ่านเป็นบรรทัดไม่ได้และผลค้นหาบางช่วงตัด/สลับหัวข้อ จึงยังไม่ถือว่าตรวจครบทุก 27 ฤกษ์",
+    "verifiedAgainstSourceExcerpt": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      15,
+      16,
+      17,
+      18,
+      25,
+      26,
+      27
+    ],
+    "pendingNakshatras": [
+      4,
+      10,
+      11,
+      12,
+      13,
+      14,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "spellingCaution": "ชื่อและตัวสะกดในบทความ เช่น กติกา/กฤติกา, มิคสิระ/มฤคศิร, ปุนีพสุ/ปุนัพสุ, บุษย/ปุษยะ, อสิเลสะ/อาศเลษา, วิสาขะ/วิศาขา, เชษฐะ/เชษฐา ต้องเก็บเป็น variants และตัดสิน canonical ภายหลัง"
   }
 }
