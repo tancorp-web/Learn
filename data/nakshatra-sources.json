@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "sources": [
     {
       "sourceId": "SRC-27MEAN-ARTICLE",
@@ -9,23 +9,57 @@
       "url": "https://27mean.blogspot.com/",
       "accessedAt": "2026-11-15",
       "sourceType": "blog_article",
-      "usageNote": "ใช้เป็นแหล่งอ้างอิงสำหรับถอดความ ไม่คัดลอกบทความยาวลงในฐานข้อมูล; หน้าเว็บที่อ่านได้ผ่านดัชนีค้นหามีข้อความบางส่วนและมีภาพประกอบ/ข้อความที่ถูกตัด จึงต้องตรวจทานต้นฉบับก่อนยืนยันรายละเอียด",
-      "copyrightNote": "ควรใช้การสรุป/ถอดความและตรวจสอบสิทธิ์ก่อนเผยแพร่ข้อความต้นฉบับ"
+      "usageNote": "ใช้เป็นแหล่งอ้างอิงสำหรับถอดความแนวบุคลิก อาชีพและการดำเนินชีวิต แต่หน้าเว็บที่อ่านได้ผ่านดัชนีค้นหามีข้อความบางส่วนและมีภาพประกอบ/ข้อความที่ถูกตัด จึงต้องคงสถานะ partial/missing จนกว่าจะตรวจต้นฉบับ",
+      "copyrightNote": "ใช้การสรุป/ถอดความ ไม่คัดลอกบทความยาว"
     },
     {
       "sourceId": "SRC-USER-SUPPLIED-TABLE",
       "title": "ตารางฤกษ์ ๒๗ กลุ่มและประเภทฤกษ์ ๙ ตามข้อมูลที่ผู้ใช้ให้",
       "author": "ผู้ใช้โครงการ HORA",
-      "publisher": "Conversation reference",
+      "publisher": "Project HORA conversation reference",
       "url": null,
       "accessedAt": "2026-11-15",
       "sourceType": "user_provided_reference",
-      "usageNote": "ใช้ชื่อและช่วงองศา 13°20′ ต่อกลุ่ม รวมถึงลำดับประเภทฤกษ์ ๙ ตามที่ผู้ใช้ให้; ต้องยืนยันรูปสะกดมาตรฐานก่อนล็อก"
+      "usageNote": "ใช้ชื่อและช่วงองศา 13°20′ ต่อกลุ่ม รวมถึงลำดับประเภทฤกษ์ ๙ ตามที่ผู้ใช้ให้ ต้องแยกจากระบบเจ้าแห่งนักษัตร"
+    },
+    {
+      "sourceId": "SRC-PUSTAKALAYA-KHAGOLA-CH04",
+      "title": "The Nakṣatras: India's Lunar Asterisms, Khagola Jyotiṣa Chapter 4",
+      "author": "Pustakalaya editorial volume",
+      "publisher": "Pustakalaya",
+      "url": "https://pustakalaya-org.github.io/vol12-jyotisa/chapter04_nakshatra_system.html",
+      "accessedAt": "2026-11-15",
+      "sourceType": "scholarly_historical_reference",
+      "usageNote": "ใช้ยืนยันโครงสร้าง 27 ช่วงเท่า 13°20′ รายการมาตรฐานภายหลัง เทพประจำฤกษ์ ประวัติรายการพระเวท ความแตกต่าง 27/28 และข้อจำกัดการระบุดาวฤกษ์ ไม่ใช้แทนตำแหน่งดาว HORA",
+      "confidence": "A_for_historical_structure_and_list"
+    },
+    {
+      "sourceId": "SRC-BEINORIUS-2023",
+      "title": "Lunar Constellations (Nakṣatras) and Name Giving Tradition in Ancient India",
+      "author": "L. Beinorius",
+      "publisher": "Polish Academy of Sciences journal",
+      "url": "https://journals.pan.pl/Content/129895/PDF/1_ROrient%2076%20z.%202-23%202Beinorius.pdf",
+      "accessedAt": "2026-11-15",
+      "sourceType": "academic_article",
+      "usageNote": "ใช้ประกอบประวัติรายการฤกษ์ใน Taittirīya Saṃhitā/Brāhmaṇa และความแตกต่างระหว่างรายการโบราณ",
+      "confidence": "A_for_historical_context"
+    },
+    {
+      "sourceId": "SRC-BRIHAT-PARASHARA",
+      "title": "Bṛhat Parāśara Horā Śāstra",
+      "author": "Attributed to Parāśara",
+      "publisher": "Publicly accessible digitized text",
+      "url": "https://vedic-astro.s3.amazonaws.com/books/bhrihat_parasara_hora_shastra.pdf",
+      "accessedAt": "2026-11-15",
+      "sourceType": "classical_text_digital_copy",
+      "usageNote": "ใช้เป็นแหล่งตรวจข้อความดั้งเดิมเฉพาะประเด็นที่อ้างถึง โดยต้องตรวจฉบับ/บท/เลขโศลกก่อนนำเข้าฐานข้อมูล ห้ามใช้ผล OCR เพียงอย่างเดียว",
+      "confidence": "B_pending_edition_and_verse_verification"
     }
   ],
   "retrievalLimitations": [
-    "หน้า Blogspot เปิดอ่านเนื้อหาเต็มผ่านตัวดึงข้อมูลไม่ได้; ผลค้นหาแสดงข้อความยาวบางส่วนแต่มีการตัดทอน",
-    "ตัวสะกดชื่อบางฤกษ์ในบทความต่างจากตารางของผู้ใช้ จึงเก็บ variants แยกไว้",
-    "ข้อมูลวันเกิด สี ธาตุ คู่ฤกษ์ และบุคคลดังเป็น metadata ตามบทความ ไม่ใช้แทนการคำนวณตำแหน่งฤกษ์"
+    "27mean page full text could not be reliably retrieved; search-index excerpts may be incomplete.",
+    "Classical nakshatra lists differ by text, recension and historical period; the project labels each convention.",
+    "Modern interpretive databases must be added per field with provenance and may not be treated as classical doctrine.",
+    "No external source may replace HORA Suriyayatra planetary positions."
   ]
 }
