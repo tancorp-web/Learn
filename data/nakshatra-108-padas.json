@@ -112,7 +112,7 @@
       "endArcMinutesExclusive": 1800,
       "startLongitude": "26°40′",
       "endLongitudeExclusive": "30°00′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P010",
@@ -124,7 +124,7 @@
       "endArcMinutesExclusive": 2000,
       "startLongitude": "30°00′",
       "endLongitudeExclusive": "33°20′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P011",
@@ -136,7 +136,7 @@
       "endArcMinutesExclusive": 2200,
       "startLongitude": "33°20′",
       "endLongitudeExclusive": "36°40′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P012",
@@ -148,7 +148,7 @@
       "endArcMinutesExclusive": 2400,
       "startLongitude": "36°40′",
       "endLongitudeExclusive": "40°00′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P013",
@@ -208,7 +208,7 @@
       "endArcMinutesExclusive": 3400,
       "startLongitude": "53°20′",
       "endLongitudeExclusive": "56°40′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P018",
@@ -340,7 +340,7 @@
       "endArcMinutesExclusive": 5600,
       "startLongitude": "90°00′",
       "endLongitudeExclusive": "93°20′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P029",
@@ -544,7 +544,7 @@
       "endArcMinutesExclusive": 9000,
       "startLongitude": "146°40′",
       "endLongitudeExclusive": "150°00′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P046",
@@ -556,7 +556,7 @@
       "endArcMinutesExclusive": 9200,
       "startLongitude": "150°00′",
       "endLongitudeExclusive": "153°20′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P047",
@@ -568,7 +568,7 @@
       "endArcMinutesExclusive": 9400,
       "startLongitude": "153°20′",
       "endLongitudeExclusive": "156°40′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P048",
@@ -580,7 +580,7 @@
       "endArcMinutesExclusive": 9600,
       "startLongitude": "156°40′",
       "endLongitudeExclusive": "160°00′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P049",
@@ -640,7 +640,7 @@
       "endArcMinutesExclusive": 10600,
       "startLongitude": "173°20′",
       "endLongitudeExclusive": "176°40′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P054",
@@ -652,7 +652,7 @@
       "endArcMinutesExclusive": 10800,
       "startLongitude": "176°40′",
       "endLongitudeExclusive": "180°00′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P055",
@@ -664,7 +664,7 @@
       "endArcMinutesExclusive": 11000,
       "startLongitude": "180°00′",
       "endLongitudeExclusive": "183°20′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P056",
@@ -676,7 +676,7 @@
       "endArcMinutesExclusive": 11200,
       "startLongitude": "183°20′",
       "endLongitudeExclusive": "186°40′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P057",
@@ -736,7 +736,7 @@
       "endArcMinutesExclusive": 12200,
       "startLongitude": "200°00′",
       "endLongitudeExclusive": "203°20′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P062",
@@ -748,7 +748,7 @@
       "endArcMinutesExclusive": 12400,
       "startLongitude": "203°20′",
       "endLongitudeExclusive": "206°40′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P063",
@@ -760,7 +760,7 @@
       "endArcMinutesExclusive": 12600,
       "startLongitude": "206°40′",
       "endLongitudeExclusive": "210°00′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P064",
@@ -772,7 +772,7 @@
       "endArcMinutesExclusive": 12800,
       "startLongitude": "210°00′",
       "endLongitudeExclusive": "213°20′",
-      "interpretationStatus": "pending_27mean_source"
+      "interpretationStatus": "partial_27mean_excerpt"
     },
     {
       "id": "P065",
