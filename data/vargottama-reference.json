@@ -1,0 +1,1141 @@
+{
+  "schemaVersion": 1,
+  "title": "คลังอ้างอิงวรโคตมะและนวางศ์พิเศษ",
+  "usage": "ข้อมูลอ้างอิงสำหรับวิเคราะห์ตำแหน่งดาวจากองศาจริง ไม่ใช่สูตรคำนวณดวงหลัก",
+  "rules": {
+    "navamsaVargottama": {
+      "movable": "0°00′–3°20′",
+      "fixed": "13°20′–16°40′",
+      "dual": "26°40′–30°00′",
+      "method": "นวางศ์แรกของจรราศี นวางศ์กลางของสถิรราศี นวางศ์สุดท้ายของทวิภาวะราศี"
+    },
+    "special": [
+      "สวะกษัตระ/เกษตรวรโคตมะ",
+      "อุจจะวรโคตมะ",
+      "นิจวรโคตมะ"
+    ],
+    "vargottamaNakshatra": [
+      {
+        "name": "ปุนรวสุ",
+        "padas": [
+          3,
+          4
+        ]
+      },
+      {
+        "name": "จิตรา",
+        "padas": [
+          2,
+          3
+        ]
+      },
+      {
+        "name": "อุตตราษาฒ",
+        "padas": [
+          1,
+          2
+        ]
+      }
+    ],
+    "sixStrengthPrinciples": [
+      "วรโคตมะ",
+      "ดาวเคราะห์เป็นอุจจ์",
+      "ดาวเคราะห์อยู่ราศีมูลตรีโกณหรือเกษตร",
+      "ดาวเคราะห์สถิตในเรือนเกณฑ์",
+      "เจ้าเรือนของราศีที่ดาวสถิตอยู่เข้มแข็ง",
+      "ดาวเคราะห์ประกอบเป็นรูปโยค เช่น ราชาโยค"
+    ],
+    "ashtakavargaNote": "เอกสารต้นทางระบุสมุทยะอัษฏกวรรค 30 bindus ขึ้นไปเป็นเงื่อนไขที่ให้ผลเด่น ควรถือเป็นข้ออ้างอิงตามเอกสาร ไม่ใช่สูตรสากล"
+  },
+  "tableColumns": [
+    "ราศี",
+    "ตรียางค์",
+    "ลำดับนวางศ์รวม 108",
+    "ค่าต้นฉบับ",
+    "พิษนวางศ์โหรไทย",
+    "โทษโหรภารตะ",
+    "วรโคตมะ",
+    "ปุษการะ"
+  ],
+  "rows": [
+    {
+      "rasi": "เมษ",
+      "drekkana": "",
+      "navamsaIndex": 1,
+      "sourceValue": "3",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "นาคะโทษ",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "3",
+      "navamsaIndex": 2,
+      "sourceValue": "6",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "",
+      "navamsaIndex": 3,
+      "sourceValue": "4",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "",
+      "navamsaIndex": 4,
+      "sourceValue": "2",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "1",
+      "navamsaIndex": 5,
+      "sourceValue": "1",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "",
+      "navamsaIndex": 6,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "",
+      "navamsaIndex": 7,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "5",
+      "navamsaIndex": 8,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "เมษ",
+      "drekkana": "",
+      "navamsaIndex": 9,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "",
+      "navamsaIndex": 10,
+      "sourceValue": "7",
+      "thaiPoison": "",
+      "indianDosha": "นาคะโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "6",
+      "navamsaIndex": 11,
+      "sourceValue": "8",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "",
+      "navamsaIndex": 12,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "",
+      "navamsaIndex": 13,
+      "sourceValue": "3",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "4",
+      "navamsaIndex": 14,
+      "sourceValue": "6",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "วรโคตมะ",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "",
+      "navamsaIndex": 15,
+      "sourceValue": "4",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "",
+      "navamsaIndex": 16,
+      "sourceValue": "2",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "7",
+      "navamsaIndex": 17,
+      "sourceValue": "1",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พฤษภ",
+      "drekkana": "",
+      "navamsaIndex": 18,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "",
+      "navamsaIndex": 19,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "4",
+      "navamsaIndex": 20,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "",
+      "navamsaIndex": 21,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "",
+      "navamsaIndex": 22,
+      "sourceValue": "7",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "6",
+      "navamsaIndex": 23,
+      "sourceValue": "8",
+      "thaiPoison": "",
+      "indianDosha": "คฤธระโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "",
+      "navamsaIndex": 24,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "",
+      "navamsaIndex": 25,
+      "sourceValue": "3",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "7",
+      "navamsaIndex": 26,
+      "sourceValue": "6",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "มิถุน",
+      "drekkana": "",
+      "navamsaIndex": 27,
+      "sourceValue": "4",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "",
+      "navamsaIndex": 28,
+      "sourceValue": "2",
+      "thaiPoison": "",
+      "indianDosha": "วรโคตมะ",
+      "vargottama": "ปุษการะ"
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "2",
+      "navamsaIndex": 29,
+      "sourceValue": "1",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "",
+      "navamsaIndex": 30,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "",
+      "navamsaIndex": 31,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "3",
+      "navamsaIndex": 32,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "",
+      "navamsaIndex": 33,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "",
+      "navamsaIndex": 34,
+      "sourceValue": "7",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "5",
+      "navamsaIndex": 35,
+      "sourceValue": "8",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กรกฏ",
+      "drekkana": "",
+      "navamsaIndex": 36,
+      "sourceValue": "5",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "ราหูโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "",
+      "navamsaIndex": 37,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "1",
+      "navamsaIndex": 38,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "",
+      "navamsaIndex": 39,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "",
+      "navamsaIndex": 40,
+      "sourceValue": "2",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "5",
+      "navamsaIndex": 41,
+      "sourceValue": "1",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "คฤธระโทษ",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "",
+      "navamsaIndex": 42,
+      "sourceValue": "4",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "",
+      "navamsaIndex": 43,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "3",
+      "navamsaIndex": 44,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "สิงห์",
+      "drekkana": "",
+      "navamsaIndex": 45,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "",
+      "navamsaIndex": 46,
+      "sourceValue": "7",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "นาคะโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "4",
+      "navamsaIndex": 47,
+      "sourceValue": "8",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "",
+      "navamsaIndex": 48,
+      "sourceValue": "5",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "",
+      "navamsaIndex": 49,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "7",
+      "navamsaIndex": 50,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "",
+      "navamsaIndex": 51,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "",
+      "navamsaIndex": 52,
+      "sourceValue": "2",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "6",
+      "navamsaIndex": 53,
+      "sourceValue": "1",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กันย์",
+      "drekkana": "",
+      "navamsaIndex": 54,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "",
+      "navamsaIndex": 55,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "วรโคตมะ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "6",
+      "navamsaIndex": 56,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "",
+      "navamsaIndex": 57,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "",
+      "navamsaIndex": 58,
+      "sourceValue": "7",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "7",
+      "navamsaIndex": 59,
+      "sourceValue": "8",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "คฤธระโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "",
+      "navamsaIndex": 60,
+      "sourceValue": "5",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "",
+      "navamsaIndex": 61,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "4",
+      "navamsaIndex": 62,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "ตุลย์",
+      "drekkana": "",
+      "navamsaIndex": 63,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "",
+      "navamsaIndex": 64,
+      "sourceValue": "2",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "5",
+      "navamsaIndex": 65,
+      "sourceValue": "1",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "",
+      "navamsaIndex": 66,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "",
+      "navamsaIndex": 67,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "3",
+      "navamsaIndex": 68,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "",
+      "navamsaIndex": 69,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "",
+      "navamsaIndex": 70,
+      "sourceValue": "7",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "2",
+      "navamsaIndex": 71,
+      "sourceValue": "8",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "พิจิก",
+      "drekkana": "",
+      "navamsaIndex": 72,
+      "sourceValue": "5",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "ราหูโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "",
+      "navamsaIndex": 73,
+      "sourceValue": "3",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "นาคะโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "5",
+      "navamsaIndex": 74,
+      "sourceValue": "6",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "",
+      "navamsaIndex": 75,
+      "sourceValue": "4",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "",
+      "navamsaIndex": 76,
+      "sourceValue": "2",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "3",
+      "navamsaIndex": 77,
+      "sourceValue": "1",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "",
+      "navamsaIndex": 78,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "",
+      "navamsaIndex": 79,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "1",
+      "navamsaIndex": 80,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "ธนู",
+      "drekkana": "",
+      "navamsaIndex": 81,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "วรโคตมะ",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "",
+      "navamsaIndex": 82,
+      "sourceValue": "7",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "7",
+      "navamsaIndex": 83,
+      "sourceValue": "8",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "",
+      "navamsaIndex": 84,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "",
+      "navamsaIndex": 85,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "6",
+      "navamsaIndex": 86,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "",
+      "navamsaIndex": 87,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "",
+      "navamsaIndex": 88,
+      "sourceValue": "2",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "4",
+      "navamsaIndex": 89,
+      "sourceValue": "1",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มังกร",
+      "drekkana": "",
+      "navamsaIndex": 90,
+      "sourceValue": "4",
+      "thaiPoison": "พิษสุนัข",
+      "indianDosha": "ราหูโทษ",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "",
+      "navamsaIndex": 91,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "7",
+      "navamsaIndex": 92,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "",
+      "navamsaIndex": 93,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "",
+      "navamsaIndex": 94,
+      "sourceValue": "7",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "4",
+      "navamsaIndex": 95,
+      "sourceValue": "8",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "คฤธระโทษ",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "",
+      "navamsaIndex": 96,
+      "sourceValue": "5",
+      "thaiPoison": "พิษครุฑ",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "",
+      "navamsaIndex": 97,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "6",
+      "navamsaIndex": 98,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "กุมภ์",
+      "drekkana": "",
+      "navamsaIndex": 99,
+      "sourceValue": "4",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "",
+      "navamsaIndex": 100,
+      "sourceValue": "2",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "5",
+      "navamsaIndex": 101,
+      "sourceValue": "1",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "",
+      "navamsaIndex": 102,
+      "sourceValue": "4",
+      "thaiPoison": "พิษนาค",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": "ปุษการะ"
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "",
+      "navamsaIndex": 103,
+      "sourceValue": "6",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "2",
+      "navamsaIndex": 104,
+      "sourceValue": "3",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "",
+      "navamsaIndex": 105,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "",
+      "navamsaIndex": 106,
+      "sourceValue": "7",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "3",
+      "navamsaIndex": 107,
+      "sourceValue": "8",
+      "thaiPoison": "",
+      "indianDosha": "",
+      "vargottama": "",
+      "pushkara": ""
+    },
+    {
+      "rasi": "มีน",
+      "drekkana": "",
+      "navamsaIndex": 108,
+      "sourceValue": "5",
+      "thaiPoison": "",
+      "indianDosha": "ราหูโทษ",
+      "vargottama": "วรโคตมะ",
+      "pushkara": ""
+    }
+  ]
+}
