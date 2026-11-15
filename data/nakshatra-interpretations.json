@@ -797,25 +797,38 @@
     {
       "nakshatraId": "N20",
       "nakshatraName": "บุรพาษาฒ",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "เป็นคนสร้างสรรค์ เฉลียวฉลาด และมีปัญญา หากได้ทำงานตรงกับความสามารถ ผลงานมักผ่านไปได้ด้วยดีและเป็นที่น่าพอใจ สามารถปรับเปลี่ยนตัวเองได้เรื่อย ๆ แต่อาจเกิดความยุ่งยากในความสัมพันธ์หากคู่ไม่ยอมเปลี่ยนแปลงไปด้วย",
+      "strengths": [
+        "มีความคิดสร้างสรรค์",
+        "เฉลียวฉลาดและมีปัญญา",
+        "ทำงานได้ดีเมื่อได้ใช้ความสามารถตรงทาง",
+        "ปรับตัวและเปลี่ยนแปลงตนเองได้"
+      ],
+      "cautions": [
+        "ความสัมพันธ์อาจมีปัญหาเมื่อคู่ไม่ยอมปรับตัวตาม"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "29 ธันวาคม–11 มกราคม (ตามบทความ; ระบุว่าเป็นศาสตร์อินเดีย)",
+        "symbol": "งาช้าง",
+        "symbolMeaning": "บุคลิกที่โดดเด่น",
+        "color": "ดำ",
+        "element": "ไฟ",
+        "compatibleNakshatra": "เรวดี",
+        "celebrities": [
+          "เดวิด โบวี่",
+          "แม็กกี้ ไรเซอร์",
+          "จู๊ด ลอว์"
+        ],
+        "status": "user_supplied_27mean_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เพิ่มจากข้อความบทความ 27mean ที่ผู้ใช้ส่งมา เป็นคำอธิบายบุคลิกสมัยใหม่ของผู้เกิดช่วง 29 ธันวาคม–11 มกราคม แยกจากความหมายนามธรรม/จิตวิทยาและอาชีพของบุรพาสาฬหะ ซึ่งยังไม่มีข้อความในชุดนี้",
+      "sourceConfidence": "user_supplied_source_excerpt"
     },
     {
       "nakshatraId": "N21",
