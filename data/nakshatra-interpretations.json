@@ -833,48 +833,76 @@
     {
       "nakshatraId": "N21",
       "nakshatraName": "อุตตราษาฒ",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "เป็นคนคล่องแคล่ว กระฉับกระเฉง และมีสมองดีในระดับปัญญาชน มักมุ่งทำสิ่งที่ตั้งใจและไล่ตามความฝันโดยไม่ย่อท้อ เกลียดการหลอกลวงและคนโกง และไม่ยอมหยุดจนกว่าจะจัดการกับคนเหล่านั้นได้ อีกทั้งต้องการเวลาที่ได้อยู่คนเดียว จึงอาจมีความสัมพันธ์ที่ซับซ้อนหรือยุ่งยากกว่าคนอื่น",
+      "strengths": [
+        "คล่องแคล่วและกระฉับกระเฉง",
+        "มีความเฉลียวฉลาด",
+        "มุ่งมั่นทำสิ่งที่ตั้งใจและไล่ตามความฝัน",
+        "เกลียดการหลอกลวงและการโกง"
+      ],
+      "cautions": [
+        "ต้องการเวลาส่วนตัวและการอยู่ตามลำพัง",
+        "ความสัมพันธ์อาจซับซ้อนจากความต้องการพื้นที่ส่วนตัว"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "12–24 มกราคม (ตามบทความ; ระบุว่าเป็นศาสตร์อินเดีย)",
+        "symbol": "ขาเตียง",
+        "symbolMeaning": "การสันโดษ",
+        "color": "สีทองแดง",
+        "element": "น้ำ",
+        "compatibleNakshatra": "อุตตรภัทรบท",
+        "celebrities": [
+          "มูฮัมหมัด อาลี",
+          "เคต มอสระ",
+          "เมล ซี"
+        ],
+        "status": "user_supplied_27mean_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เพิ่มจากข้อความบทความ 27mean ที่ผู้ใช้ส่งมา เป็นคำอธิบายบุคลิกสมัยใหม่ของผู้เกิดช่วง 12–24 มกราคม แยกจากความหมายนามธรรม/จิตวิทยาและอาชีพในเชิงลึกซึ่งยังไม่มีข้อมูลในชุดนี้",
+      "sourceConfidence": "user_supplied_source_excerpt"
     },
     {
       "nakshatraId": "N22",
       "nakshatraName": "ศรวณะ",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "เป็นคนมีสมองเฉียบแหลม และมีรูปลักษณ์ภายนอกที่แข็งแกร่งราวเกราะป้องกันตัวเอง ถวิลหาความสงบท่ามกลางความวุ่นวาย เป็นผู้ฟังที่ดีและเชี่ยวชาญในการแก้ปัญหาให้ผู้อื่น ในความสัมพันธ์ คู่ควรเคารพเงื่อนไขที่ตั้งไว้และเข้าใจว่าบางครั้งต้องการอยู่คนเดียว",
+      "strengths": [
+        "มีไหวพริบและความคิดเฉียบแหลม",
+        "เป็นผู้ฟังที่ดี",
+        "มีความสามารถในการแก้ปัญหาให้ผู้อื่น",
+        "แสวงหาความสงบ"
+      ],
+      "cautions": [
+        "ต้องการพื้นที่ส่วนตัวและเวลาที่อยู่ตามลำพัง",
+        "ความสัมพันธ์ต้องอาศัยการเคารพเงื่อนไขและขอบเขตส่วนตัว"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "25 มกราคม–6 กุมภาพันธ์ (ตามบทความ; ระบุว่าเป็นศาสตร์อินเดีย)",
+        "symbol": "หู",
+        "symbolMeaning": "ความเงียบ",
+        "color": "สีฟ้า",
+        "element": "น้ำ",
+        "compatibleNakshatra": "อุตตรภัทรบท",
+        "celebrities": [
+          "ฮีเทอร์ เกรแฮมี",
+          "พอล นิวแมน",
+          "มินนี่ ไดรเวอร์"
+        ],
+        "status": "user_supplied_27mean_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เพิ่มจากข้อความบทความ 27mean ที่ผู้ใช้ส่งมา เป็นคำอธิบายบุคลิกสมัยใหม่ของผู้เกิดช่วง 25 มกราคม–6 กุมภาพันธ์ แยกจากความหมายนามธรรม/จิตวิทยาและอาชีพในเชิงลึกซึ่งยังไม่มีข้อมูลในชุดนี้; ชื่อบุคคลถอดตามข้อความที่ผู้ใช้ส่งมา",
+      "sourceConfidence": "user_supplied_source_excerpt"
     },
     {
       "nakshatraId": "N23",
