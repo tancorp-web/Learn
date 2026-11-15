@@ -1213,8 +1213,12 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
   <div class="section-title"><h2>ดาวกำเนิดจริง · ดาวจรจริง</h2><span class="badge">แยกตาราง · เกณฑ์รายดวง</span></div>
   <p class="criteria7-lead">แยกข้อมูลเป็นสองตารางเพื่อดูได้ชัดว่าดาวแต่ละดวงอยู่ราศี/ภพใด มีมาตรฐานหรือเกณฑ์พื้นฐานอะไร และสัมพันธ์กับดาวใดบ้าง</p>
   <p class="criteria7-muted">คอลัมน์ “มาตรฐานดาว” ใช้เกณฑ์ที่ยืนยันแล้วใน HORA แสดงผลตามราศีและองศาจริงของดาว ได้แก่ เกษตร ประ อุจจาวิลาส อุจจ์ นิจ ราชาโชค มหาจักร จุลจักร อุจจาภิมุข เทวีโชค ปกิณโชค มหาอุจจ์ มหานิจ และมูลตรีโกณตามเงื่อนไขในต้นฉบับ 69.xlsx; ราหูใช้เฉพาะกฎที่มีระบุไว้ในต้นฉบับ ส่วนเกตุและมฤตยูไม่มีรายการมาตรฐานในชีตคำนวณนาที</p>
-  <h3>ตารางที่ 1 · ดาวกำเนิดจริง</h3>
-  <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศี</th><th>องศา</th><th>ภพจากลัคนากำเนิด</th><th>ตำแหน่งตามภพ</th><th>มาตรฐานดาว</th><th>นวางค์</th><th>ตรียางค์</th><th>ฤกษ์</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="natalStarDetailsBody"></tbody></table></div>
+  <h3>ตารางสมผุสดวงกำเนิด</h3>
+  <p id="page912NatalDateLine" class="criteria7-muted">วันเกิด · รอข้อมูลจากแบบฟอร์มหลัก</p>
+  <div class="table-wrap page912-summary-wrap"><table class="criteria7-table page912-summary-table"><thead><tr><th>ดาว/ปัจจัย</th><th>ราศี</th><th>°</th><th>'</th></tr></thead><tbody id="natalStarDetailsBody"></tbody></table></div>
+  <h3 style="margin-top:20px">รายละเอียดดาวกำเนิด · ตาราง 22 คอลัมน์</h3>
+  <p class="criteria7-muted">เรียงลำดับเดียวกับตารางสมผุส · ช่องที่ยังไม่มีข้อมูลหรือสูตรที่ยืนยันจะแสดง “-”</p>
+  <div class="table-wrap page912-detail-wrap"><table class="criteria7-table page912-detail-table"><thead><tr><th>เรือนลัคนา</th><th>ตรียางค์</th><th>พิษ</th><th>นวางค์</th><th class="page912-gap-col"></th><th>ฤกษ์:นาที</th><th>นักษัตรฤกษ์</th><th>บาท</th><th>ฤกษ์</th><th>ฤกษ์ใหญ่</th><th>เจ้าเรือน</th><th>มาตรฐาน เกณฑ์ ฯ</th><th>เรือนตนุฯ</th><th>เกษตร</th><th>ราศีธาตุ</th><th>ราศีเกณฑ์</th><th>ทักษา</th><th>กุม</th><th>เล็ง</th><th>โยค</th><th>ฉาก</th><th>ตรีโกณ</th></tr></thead><tbody id="page912NatalDetailBody"></tbody></table></div>
   <h3 style="margin-top:22px">ตารางที่ 2 · ดาวจรจริง</h3>
   <p class="criteria7-muted">ภพดาวจรนับจากลัคนากำเนิด เพื่อให้เห็นว่าดาวจรผ่านภพใดในดวงกำเนิด ส่วนลัคนาจรแสดงภพของตัวเอง</p>
   <div class="table-wrap"><table class="criteria7-table star-real-table"><thead><tr><th>ดาว</th><th>ราศีจร</th><th>องศาจร</th><th>ภพจรจากลัคนากำเนิด</th><th>ตำแหน่งตามภพจร</th><th>มาตรฐานดาวจร</th><th>นวางค์จร</th><th>ตรียางค์จร</th><th>ฤกษ์จร</th><th>เกณฑ์และความสัมพันธ์ที่ได้</th></tr></thead><tbody id="transitStarDetailsBody"></tbody></table></div>
@@ -4169,4 +4173,75 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   #wheel g.pss-marker-searching{animation:none;filter:drop-shadow(0 0 7px rgba(217,145,24,.9))}
 }
 </style>
+
+<style id="page912-natal-tables-style">
+#starDetails .page912-summary-wrap{overflow-x:auto}
+#starDetails .page912-summary-table{width:100%;min-width:320px;table-layout:fixed}
+#starDetails .page912-summary-table th,#starDetails .page912-summary-table td{padding:7px 8px;text-align:center;white-space:nowrap}
+#starDetails .page912-summary-table th:first-child,#starDetails .page912-summary-table td:first-child{text-align:left;font-weight:750;width:36%}
+#starDetails .page912-detail-wrap{overflow-x:auto;max-width:100%;overscroll-behavior-x:contain}
+#starDetails .page912-detail-table{width:max-content;min-width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+#starDetails .page912-detail-table th,#starDetails .page912-detail-table td{padding:7px 9px;min-width:76px;max-width:220px;white-space:normal;vertical-align:top}
+#starDetails .page912-detail-table th:first-child,#starDetails .page912-detail-table td:first-child{position:sticky;left:0;z-index:2;background:#fff;min-width:88px;font-weight:800}
+#starDetails .page912-detail-table thead th:first-child{z-index:3;background:#f1f5f9}
+#starDetails .page912-detail-table .page912-gap-col{min-width:14px;width:14px;padding:0;background:#f8fafc}
+#starDetails .page912-detail-table td:nth-child(5){min-width:14px;width:14px;padding:0;background:#f8fafc}
+@media(max-width:600px){
+ #starDetails .page912-summary-table th,#starDetails .page912-summary-table td{padding:7px 6px;font-size:12px}
+ #starDetails .page912-detail-table{font-size:11px}
+ #starDetails .page912-detail-table th,#starDetails .page912-detail-table td{padding:6px 7px;min-width:68px}
+}
+</style>
+<script id="page912-natal-tables-script">
+(function(){
+ 'use strict';
+ const body=document.getElementById('natalStarDetailsBody');
+ const detail=document.getElementById('page912NatalDetailBody');
+ if(!body||!detail)return;
+ const nums={'ลัคนา':'ล.ลัคนา','อาทิตย์':'๑.อาทิตย์','จันทร์':'๒.จันทร์','อังคาร':'๓.อังคาร','พุธ':'๔.พุธ','พฤหัสบดี':'๕.พฤหัสบดี','ศุกร์':'๖.ศุกร์','เสาร์':'๗.เสาร์','ราหู':'๘.ราหู','เกตุ':'๙.เกตุ','มฤตยู':'๐.มฤตยู'};
+ const dash='-';
+ const cell=(tr,index)=>tr.cells[index]?.innerText?.trim()||'';
+ const cleanNak=value=>value.replace(/\s*·\s*ดาว.*$/,'').trim();
+ function render(){
+  const rows=[...body.rows].filter(r=>r.cells.length>=10);
+  if(!rows.length)return;
+  const summary=document.createDocumentFragment(),details=document.createDocumentFragment();
+  rows.forEach(source=>{
+   const name=cell(source,0),sign=cell(source,1),angle=cell(source,2),house=cell(source,3),position=cell(source,4),standard=cell(source,5),nav=cell(source,6),dre=cell(source,7),nakRaw=cell(source,8),criteria=cell(source,9);
+   const match=angle.match(/(\d{1,2})\s*°\s*(\d{1,2})\s*['′]?/);
+   const degree=match?match[1].padStart(2,'0'):dash,minute=match?match[2].padStart(2,'0'):dash;
+   const sr=document.createElement('tr');
+   [nums[name]||name,sign,degree,minute].forEach(v=>{const td=document.createElement('td');td.textContent=v||dash;sr.appendChild(td)});
+   summary.appendChild(sr);
+   const nak=cleanNak(nakRaw);
+   const pada=(nakRaw.match(/บาท\s*(\d+)/)||[])[1]||dash;
+   const nakshatra=nak.replace(/\s*ฤกษ์ที่\s*\d+.*$/,'').trim()||dash;
+   const nakNumber=(nakRaw.match(/ฤกษ์ที่\s*(\d+)/)||[])[1]||dash;
+   const stdText=[standard,criteria].filter(Boolean).join(' · ');
+   const relText=criteria;
+   const relation=(term)=>new RegExp(term).test(relText)?term:dash;
+   const values=[
+    house||dash,dre||dash,dash,nav||dash,'',dash,nakshatra,pada,
+    nakNumber==='-'?dash:'ฤกษ์ที่ '+nakNumber,dash,dash,stdText||dash,
+    position||dash,(/เกษตร/.test(standard)?'เกษตร':dash),dash,dash,dash,
+    relation('กุม'),relation('เล็ง'),relation('โยค'),relation('ฉาก'),relation('ตรีโกณ')
+   ];
+   const dr=document.createElement('tr');
+   values.forEach((v,i)=>{const td=document.createElement('td');td.textContent=v|| (i===4?'':dash);if(i===4)td.className='page912-gap-col';dr.appendChild(td)});
+   details.appendChild(dr);
+  });
+  body.replaceChildren(summary);
+  detail.replaceChildren(details);
+  const dateTarget=document.getElementById('page912NatalDateLine');
+  const dateSource=document.getElementById('ps911BirthDate');
+  if(dateTarget&&dateSource&&dateSource.textContent.trim()&&!dateSource.textContent.includes('รอข้อมูล'))dateTarget.textContent=dateSource.textContent.trim();
+ }
+ const observer=new MutationObserver(render);
+ observer.observe(body,{childList:true,subtree:true,characterData:true});
+ render();
+ const dateSource=document.getElementById('ps911BirthDate');
+ if(dateSource){new MutationObserver(()=>{const t=document.getElementById('page912NatalDateLine');if(t&&dateSource.textContent.trim())t.textContent=dateSource.textContent.trim()}).observe(dateSource,{childList:true,subtree:true,characterData:true})}
+})();
+</script>
+
 </body></html>
