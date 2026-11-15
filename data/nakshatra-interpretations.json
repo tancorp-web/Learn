@@ -874,94 +874,148 @@
     {
       "nakshatraId": "N24",
       "nakshatraName": "ศตภิษัช",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "ข้อความที่ค้นพบในบทความส่วนบุคลิกสมัยใหม่กล่าวถึงคนที่ยึดมั่นในหลักการ ดูลึกลับในบางครั้ง มองการณ์ไกลและตั้งเป้าหมายสูง แต่ขาดความมั่นใจ ต้องการความสัมพันธ์ที่น่าตื่นเต้นและควรแสดงความรู้สึกให้อีกฝ่ายรับรู้",
+      "strengths": [
+        "ยึดมั่นในหลักการ",
+        "มองการณ์ไกล",
+        "ตั้งเป้าหมายสูง"
+      ],
+      "cautions": [
+        "อาจขาดความมั่นใจ",
+        "บางครั้งดูเป็นคนลึกลับหรือเข้าถึงยาก"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "20 กุมภาพันธ์–4 มีนาคม",
+        "symbol": "ดวงดาว",
+        "symbolMeaning": "ความรู้แจ้ง",
+        "color": "เขียวอ่อน",
+        "element": "ลม",
+        "compatibleNakshatra": "ธนิษฐา",
+        "celebrities": [
+          "ดรูว์ แบร์รี่มอร์",
+          "เอลิซาเบท เทย์เลอร์",
+          "เอสเทอร์ คัญญาดาสร์"
+        ],
+        "status": "partial_source_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean (โพสต์ 16 มกราคม 2012); ต้องตรวจทานต้นฉบับและภาพประกอบก่อนยืนยันฉบับสมบูรณ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N25",
       "nakshatraName": "บุรพภัทรบท",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "อ่อนไหว เอาใจใส่และห่วงใยคนรอบข้าง จนผู้อื่นมักมาขอคำปรึกษา แม้ประสบความสำเร็จด้านวัตถุแล้วก็ควรวางแผนการเงินให้ดี มักมองคนใกล้ตัวในแง่ดีเกินจริง แต่แท้จริงสามารถพึ่งพาตนเองได้",
+      "strengths": [
+        "ใส่ใจและห่วงใยผู้อื่น",
+        "เป็นที่ปรึกษาที่คนไว้วางใจ",
+        "พึ่งพาตนเองได้"
+      ],
+      "cautions": [
+        "ควรวางแผนการเงิน",
+        "อาจมองคนใกล้ตัวในแง่ดีเกินจริง"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "pending_27mean_verification"
+        "birthDateRange": "5–17 มีนาคม",
+        "symbol": "ดาบ",
+        "symbolMeaning": "สันติสุข (ตามบทความ)",
+        "color": "เงิน",
+        "element": "ลม",
+        "compatibleNakshatra": "อุตตรภัทรบท",
+        "celebrities": [
+          "ชารอน สโตน",
+          "รูดอล์ฟ นูเรเยฟ",
+          "ทอร่า เบิร์ช"
+        ],
+        "status": "partial_source_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ข้อมูลเดิมมาจากข้อความผู้ใช้ ยังไม่ยืนยันกับต้นฉบับ 27mean จึงพักไว้ ไม่ใช้เป็นความหมายจนกว่าจะตรวจสอบได้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean (โพสต์ 16 มกราคม 2012); ต้องตรวจทานต้นฉบับและภาพประกอบก่อนยืนยันฉบับสมบูรณ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N26",
       "nakshatraName": "อุตรภัทรบท",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "ฉลาด ใจบุญ มีอุดมการณ์ เคารพความฝันของผู้อื่นและเชื่อในโชคชะตา ไม่ชอบยึดติดหรือผูกพันมากเกินไป อาจเป็นครูที่ดี พยายามประคองความสัมพันธ์ แต่พร้อมเดินหน้าต่อเมื่อความสัมพันธ์ไม่เติบโต",
+      "strengths": [
+        "ฉลาดและมีเมตตา",
+        "มีอุดมการณ์",
+        "เคารพความฝันของผู้อื่น",
+        "มีศักยภาพในการเป็นครู"
+      ],
+      "cautions": [
+        "อาจไม่ต้องการผูกพันหรือยึดติด",
+        "พร้อมตัดใจเมื่อความสัมพันธ์ไม่งอกงาม"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "pending_27mean_verification"
+        "birthDateRange": "18–31 มีนาคม",
+        "symbol": "ฝาแฝด",
+        "symbolMeaning": "ความมืดที่งดงาม (ตามบทความ)",
+        "color": "ม่วง",
+        "element": "ไฟ",
+        "compatibleNakshatra": "เรวดี",
+        "celebrities": [
+          "ไดอานา รอสส์",
+          "ซาราห์ เจสสิกา พาร์กเกอร์",
+          "แกรี โอลด์แมน"
+        ],
+        "status": "partial_source_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ข้อมูลเดิมมาจากข้อความผู้ใช้ ยังไม่ยืนยันกับต้นฉบับ 27mean จึงพักไว้ ไม่ใช้เป็นความหมายจนกว่าจะตรวจสอบได้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean (โพสต์ 16 มกราคม 2012); ต้องตรวจทานต้นฉบับและภาพประกอบก่อนยืนยันฉบับสมบูรณ์",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N27",
       "nakshatraName": "เรวดี",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "มีเมตตา ห่วงใยและอ่อนไหว อุทิศตนเพื่อประโยชน์ส่วนรวมและมักทำความดีโดยไม่ต้องการออกหน้า มีความงามแต่ขาดความมั่นใจ ควรเรียนรู้ที่จะศรัทธาและไว้ใจผู้อื่น เป็นคนโรแมนติกและต้องการคู่ที่เข้าใจความต้องการลึก ๆ",
+      "strengths": [
+        "เมตตาและห่วงใยผู้อื่น",
+        "อุทิศตนเพื่อประโยชน์ส่วนรวม",
+        "ทำความดีโดยไม่หวังชื่อเสียง",
+        "โรแมนติก"
+      ],
+      "cautions": [
+        "อาจขาดความมั่นใจ",
+        "ควรเรียนรู้ที่จะไว้ใจผู้อื่น"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "pending_27mean_verification"
+        "birthDateRange": "1–13 เมษายน",
+        "symbol": "ปลา",
+        "symbolMeaning": "ความบริสุทธิ์ (ตามบทความ)",
+        "color": "น้ำตาล",
+        "element": "น้ำ",
+        "compatibleNakshatra": "อุตตรภัทรบท",
+        "celebrities": [
+          "มาร์ลอน แบรนโด",
+          "วิเวียน เวสต์วูด",
+          "รัสเซล โครว์"
+        ],
+        "status": "partial_source_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ข้อมูลเดิมมาจากข้อความผู้ใช้ ยังไม่ยืนยันกับต้นฉบับ 27mean จึงพักไว้ ไม่ใช้เป็นความหมายจนกว่าจะตรวจสอบได้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean (โพสต์ 16 มกราคม 2012); ต้องตรวจทานต้นฉบับและภาพประกอบก่อนยืนยันฉบับสมบูรณ์",
+      "sourceConfidence": "indexed_article_excerpt"
     }
   ]
 }
