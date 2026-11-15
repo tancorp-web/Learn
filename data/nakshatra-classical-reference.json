@@ -6,7 +6,8 @@
   "convention": "Later siddhanta 27-equal-division list beginning with Ashwini; each span is 13°20′. Some earlier Vedic lists begin with Krittika and some traditions include Abhijit as a 28th asterism.",
   "sourceIds": [
     "SRC-PUSTAKALAYA-KHAGOLA-CH04",
-    "SRC-BEINORIUS-2023"
+    "SRC-BEINORIUS-2023",
+    "SRC-BRIHAT-SAMHITA-CH98"
   ],
   "entries": [
     {
@@ -178,7 +179,16 @@
       "deityNameIAST": "Nirṛti",
       "tradition": "later_siddhanta_27",
       "confidence": "A_for_presence_in_this_list",
-      "interpretationStatus": "not_an_interpretation"
+      "interpretationStatus": "not_an_interpretation",
+      "historicalVariants": [
+        {
+          "presidingDeity": "ประชาบดี",
+          "deityNameIAST": "Prajāpati",
+          "sourceId": "SRC-BRIHAT-SAMHITA-CH98",
+          "tradition": "Bṛhat Saṃhitā chapter 98 translation",
+          "note": "รายการบท 98 ระบุ Mula เป็น Prajāpati; ต่างจากรายการมาตรฐานภายหลังที่ใช้ Nirṛti จึงต้องเก็บเป็นความต่างตามแหล่ง ไม่ควรบังคับให้เหลือคำตอบเดียว"
+        }
+      ]
     },
     {
       "nakshatraId": "N20",
@@ -257,7 +267,8 @@
     "The Vedic lists do not all begin with Ashwini; several early lists begin with Krittika.",
     "Names and presiding deities can differ across textual recensions and historical periods.",
     "Some sources include Abhijit as a 28th asterism; this project keeps the computational set at 27 and records Abhijit only as historical context.",
-    "The deity field is not interchangeable with the Vimshottari nakshatra ruler, the zodiac sign lord, or HORA's nine-fold nakshatra type."
+    "The deity field is not interchangeable with the Vimshottari nakshatra ruler, the zodiac sign lord, or HORA's nine-fold nakshatra type.",
+    "For Mūla, the later 27-equal-division list in the Pustakalaya reference gives Nirṛti, while the Bṛhat Saṃhitā chapter 98 list gives Prajāpati. Preserve both as source-specific variants."
   ],
   "prohibitedInferences": [
     "Do not derive personality traits directly from deity names without a separate cited interpretive source.",
