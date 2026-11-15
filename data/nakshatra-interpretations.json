@@ -85,16 +85,16 @@
       "nakshatraId": "N03",
       "nakshatraName": "กฤติกา",
       "status": "partial",
-      "generalMeaning": "ข้อความที่ค้นพบระบุเฉพาะบาทที่ 2–4 ในพฤษภา เน้นมิตรสังคม ความเอื้อเฟื้อ ความสุขสบาย ความคิดสร้างสรรค์ การลงทุนและความมั่งคั่ง",
+      "generalMeaning": "ข้อความต้นฉบับแยกความหมายตามบาท: บาท 1 ในเมษเน้นสุขภาพและกำลังกาย ความกระตือรือร้น ภาวะผู้นำ การแข่งขันและการแสดงออก; บาท 2–4 ในพฤษภาเน้นการเข้าสังคม ความเอื้อเฟื้อ ความสุขสบาย ความคิดสร้างสรรค์ ธุรกิจและการลงทุน",
       "strengths": [
-        "มีมนุษยสัมพันธ์",
-        "เอื้อเฟื้อและเมตตา",
-        "สร้างสรรค์",
-        "มีแนวโน้มด้านธุรกิจและการลงทุน"
+        "สุขภาพและกำลังกายแข็งแรง",
+        "กระตือรือร้นและมุ่งไปข้างหน้า",
+        "มีลักษณะผู้นำและชอบแข่งขัน",
+        "เข้าสังคม เอื้อเฟื้อ เมตตา และสร้างสรรค์ในบาท 2–4"
       ],
       "cautions": [
-        "ชอบความสบายและความหรูหรา",
-        "มีแนวโน้มเสี่ยงโชคหรือลงทุน"
+        "ต้นฉบับกล่าวถึงการกินมาก อารมณ์ร้อน และการโต้เถียงในคำอธิบายบาท 1",
+        "ชอบความสบายและมีแนวโน้มเสี่ยงโชค/ลงทุนในคำอธิบายบาท 2–4"
       ],
       "careerAndOccupations": [
         "ดนตรีและการแสดง",
@@ -109,23 +109,23 @@
       "padaInterpretations": [
         {
           "padaNumber": 1,
-          "status": "pending",
-          "note": "ต้นฉบับส่วนที่ค้นพบยังไม่ให้คำอธิบายบาทที่ 1 อย่างชัดเจน"
+          "status": "partial",
+          "summary": "สุขภาพแข็งแรง กระตือรือร้น มุ่งไปข้างหน้า ชอบการแข่งขัน มีลักษณะผู้นำและแสดงออกเต็มที่"
         },
         {
           "padaNumber": 2,
           "status": "partial",
-          "summary": "คำอธิบายชุดพฤษภา: เข้าสังคม เอื้อเฟื้อ รักความสุขสบาย มีความคิดสร้างสรรค์ และสัมพันธ์กับธุรกิจ/การลงทุน"
+          "summary": "ชุดคำอธิบายพฤษภา: เข้าสังคม เอื้อเฟื้อ รักความสุขสบาย มีความคิดสร้างสรรค์และสัมพันธ์กับธุรกิจ/การลงทุน"
         },
         {
           "padaNumber": 3,
           "status": "partial",
-          "summary": "ใช้คำอธิบายชุดพฤษภาร่วมกับบาทที่ 2–4 ตามต้นฉบับ"
+          "summary": "ชุดคำอธิบายพฤษภาเดียวกับบาท 2–4 ตามการแบ่งในบทความ"
         },
         {
           "padaNumber": 4,
           "status": "partial",
-          "summary": "ใช้คำอธิบายชุดพฤษภาร่วมกับบาทที่ 2–4 ตามต้นฉบับ"
+          "summary": "ชุดคำอธิบายพฤษภาเดียวกับบาท 2–4 ตามการแบ่งในบทความ"
         }
       ],
       "modernMetadata": {
@@ -140,15 +140,20 @@
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
       "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N04",
       "nakshatraName": "โรหิณี",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
+      "generalMeaning": "กล่าวถึงกิริยาท่าทางและการแสดงออกที่เป็นที่พึงพอใจ เป็นคนดีตามธรรมชาติ รักธรรมชาติ มีรสนิยมด้านดนตรี ศิลปะ การแสดงและวรรณกรรม ชอบช่วยเหลือผู้อื่น โอบอ้อมอารี เห็นอกเห็นใจ จริงใจ บริสุทธิ์ ปากหวาน จิตใจมั่นคงและมีเสน่ห์",
+      "strengths": [
+        "เป็นที่พึงพอใจของผู้อื่น",
+        "โอบอ้อมอารีและเห็นอกเห็นใจ",
+        "มีรสนิยมด้านดนตรี ศิลปะและการแสดง",
+        "จริงใจและจิตใจมั่นคง"
+      ],
       "cautions": [],
       "careerAndOccupations": [],
       "padaInterpretations": [],
@@ -164,7 +169,8 @@
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N05",
@@ -340,116 +346,234 @@
       "nakshatraId": "N10",
       "nakshatraName": "มาฆะ",
       "status": "partial",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "generalMeaning": "กล่าวถึงความตรงไปตรงมา มั่นใจในตนเอง ชอบการแข่งขันและการต่อสู้ และมักป้องกันตนเองไว้ก่อน",
+      "strengths": [
+        "ตรงไปตรงมา",
+        "มั่นใจในตนเอง",
+        "กล้าแข่งขัน"
+      ],
+      "cautions": [
+        "มีแนวโน้มตั้งการ์ดหรือป้องกันตนเองก่อน"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "symbol": "วอ",
+        "color": "ครีม",
+        "element": "น้ำ",
+        "compatibleNakshatra": "เชษฐา",
+        "celebrities": [
+          "Robert De Niro",
+          "Cameron Diaz",
+          "Matthew Perry"
+        ],
+        "status": "article_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N11",
       "nakshatraName": "บุรพผลคุนี",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "กล่าวถึงความสามารถด้านศิลปะ ดนตรีและกวี ใจกว้าง มีไมตรี เมตตา รักความสนุกสนานและความโอ่อ่า ชอบเสี่ยงโชค ซื่อสัตย์ ระมัดระวัง มีรสนิยมด้านการวาดภาพ งานปั้น แกะสลักและถ่ายภาพ รวมถึงชอบเดินทาง",
+      "strengths": [
+        "มีความสามารถด้านศิลปะ ดนตรีและกวี",
+        "ใจกว้างและมีไมตรี",
+        "ซื่อสัตย์และระมัดระวัง",
+        "มีรสนิยมและความคิดสร้างสรรค์"
+      ],
+      "cautions": [
+        "ชอบเสี่ยงโชค",
+        "ถือตนเองเป็นที่ตั้ง"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "symbol": "เตาผิง",
+        "color": "น้ำตาล",
+        "element": "ไฟ",
+        "compatibleNakshatra": "มาฆะ",
+        "celebrities": [
+          "Raquel Welch",
+          "Hugh Grant",
+          "Stella McCartney"
+        ],
+        "status": "article_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N12",
       "nakshatraName": "อุตตรผลคุนี",
-      "status": "missing",
-      "generalMeaning": null,
+      "status": "partial",
+      "generalMeaning": "ข้อมูลที่พบแยกบาท 1 เป็นคำบรรยายบุคลิกสมัยใหม่ ส่วนบาท 2–4 มีรายการอาชีพ/บุคคลที่เกี่ยวข้อง แต่ยังไม่พบคำอธิบายทั่วไปครบทุกบาท",
       "strengths": [],
       "cautions": [],
-      "careerAndOccupations": [],
-      "padaInterpretations": [],
+      "careerAndOccupations": [
+        "การรวมบริษัท",
+        "ดาราศาสตร์และโหราศาสตร์",
+        "การสื่อสารและโทรคมนาคม",
+        "การศึกษาและการบรรยาย",
+        "งานกฎหมายและประชาสัมพันธ์",
+        "วิศวกรรมและการแพทย์",
+        "งานทะเบียนและไปรษณีย์"
+      ],
+      "padaInterpretations": [
+        {
+          "padaNumber": 1,
+          "status": "partial",
+          "summary": "มีคำบรรยายบุคลิกสมัยใหม่ในบทความ แต่ยังต้องแยกจากความหมายทางนามธรรมของฤกษ์"
+        },
+        {
+          "padaNumber": 2,
+          "status": "partial",
+          "summary": "พบรายการอาชีพและบุคคลที่เกี่ยวข้องร่วมกับบาท 3–4"
+        },
+        {
+          "padaNumber": 3,
+          "status": "partial",
+          "summary": "พบรายการอาชีพและบุคคลที่เกี่ยวข้องร่วมกับบาท 2 และ 4"
+        },
+        {
+          "padaNumber": 4,
+          "status": "partial",
+          "summary": "พบรายการอาชีพและบุคคลที่เกี่ยวข้องร่วมกับบาท 2–3"
+        }
+      ],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "14–26 กันยายน",
+        "symbol": "ขาเตียง",
+        "color": "ฟ้าสดใส",
+        "element": "ลม",
+        "compatibleNakshatra": "บุรพผลคุนี",
+        "celebrities": [
+          "Greta Garbo",
+          "Catherine Zeta-Jones",
+          "Fernanda Tavares"
+        ],
+        "status": "article_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N13",
       "nakshatraName": "หัสตะ",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
+      "status": "partial",
+      "generalMeaning": "กล่าวถึงความขยันขันแข็ง ความรอบคอบและระมัดระวัง แต่ยังมีข้อความด้านเงา เช่น ความไม่เมตตา การลักขโมย และพฤติกรรมที่ต้นฉบับบรรยายในเชิงลบ",
+      "strengths": [
+        "ขยันขันแข็ง",
+        "รอบคอบและระมัดระวัง",
+        "มีทักษะงานฝีมือ"
+      ],
+      "cautions": [
+        "ต้นฉบับกล่าวถึงความไม่เมตตาและพฤติกรรมด้านลบ"
+      ],
+      "careerAndOccupations": [
+        "การพาณิชย์และการขาย",
+        "การสื่อสารและการติดต่อระหว่างประเทศ",
+        "การเดินเรือและโลจิสติกส์",
+        "วิศวกรรมและงานก่อสร้าง",
+        "กฎหมายและโภชนาการ",
+        "ศิลปะและงานเขียน",
+        "การส่งออกและงานการทูต"
+      ],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "26 กันยายน–10 ตุลาคม",
+        "symbol": "ฝ่ามือ",
+        "color": "เขียว",
+        "element": "ลม",
+        "compatibleNakshatra": "มฤคศิร",
+        "celebrities": [
+          "Brigitte Bardot",
+          "Kate Winslet",
+          "Mahatma Gandhi"
+        ],
+        "status": "article_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N14",
       "nakshatraName": "จิตรา",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
-      "padaInterpretations": [],
+      "status": "partial",
+      "generalMeaning": "คำอธิบายบาท 3–4 กล่าวถึงความทะเยอทะยาน ความใฝ่ฝัน การเผชิญโชคและเสี่ยงภัย ความจำดี มีทัศนะชัดเจน รสนิยมละเอียดอ่อน เป็นนักอุดมคติ มีความคิดริเริ่มและสนใจวิทยาศาสตร์/งานละเอียด",
+      "strengths": [
+        "ทะเยอทะยานและมีความคิดริเริ่ม",
+        "จดจำสิ่งต่าง ๆ ได้ดี",
+        "มีทัศนะและรสนิยมชัดเจน",
+        "สนใจวิทยาศาสตร์และงานละเอียด"
+      ],
+      "cautions": [
+        "มีแนวโน้มเผชิญโชคและเสี่ยงภัย"
+      ],
+      "careerAndOccupations": [
+        "วิศวกรรมและเครื่องยนต์กลไก",
+        "งานก่อสร้าง",
+        "กฎหมายและงานภาษี",
+        "อุตสาหกรรมและเหมืองแร่",
+        "งานฝีมือและเครื่องประดับ",
+        "การวาดภาพและน้ำหอม",
+        "การแพทย์และคณิตศาสตร์"
+      ],
+      "padaInterpretations": [
+        {
+          "padaNumber": 1,
+          "status": "partial",
+          "summary": "ต้นฉบับให้รายการอาชีพ/บุคคลที่เกี่ยวข้องร่วมกับบาท 2"
+        },
+        {
+          "padaNumber": 2,
+          "status": "partial",
+          "summary": "ต้นฉบับให้รายการอาชีพ/บุคคลที่เกี่ยวข้องร่วมกับบาท 1"
+        },
+        {
+          "padaNumber": 3,
+          "status": "partial",
+          "summary": "คำอธิบายความทะเยอทะยาน ความใฝ่ฝัน ความจำดี รสนิยมละเอียดอ่อนและความคิดริเริ่ม"
+        },
+        {
+          "padaNumber": 4,
+          "status": "partial",
+          "summary": "ใช้คำอธิบายชุดเดียวกับบาท 3 ตามการแบ่งในบทความ"
+        }
+      ],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "11–23 ตุลาคม",
+        "symbol": "ไข่มุก",
+        "color": "ดำ",
+        "element": "ไฟ",
+        "compatibleNakshatra": "หัสตะ",
+        "celebrities": [
+          "Oscar Wilde",
+          "Audrey Marnay",
+          "Eminem"
+        ],
+        "status": "article_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
+      "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N15",
@@ -495,24 +619,25 @@
       "nakshatraId": "N16",
       "nakshatraName": "วิศาขา",
       "status": "partial",
-      "generalMeaning": "กล่าวถึงความทะเยอทะยาน ความมีเกียรติ ความจริงใจ ความเป็นตัวของตัวเองและความคิดสุดโต่งได้ในบางครั้ง",
+      "generalMeaning": "กล่าวถึงทัศนคติและความคิดเก่าในบางครั้ง ความหยิ่งในตนเอง แต่ยังมีความกระตือรือร้น มีเกียรติ จริงใจ ซื่อสัตย์ ตรงไปตรงมา เป็นตัวของตัวเองและมีความคิดอิสระ บางครั้งดึงดันหรือคิดและทำสุดโต่ง",
       "strengths": [
         "กระตือรือร้น",
-        "ซื่อสัตย์และตรงไปตรงมา",
-        "มีความคิดอิสระ"
+        "มีเกียรติ",
+        "จริงใจและซื่อสัตย์",
+        "ตรงไปตรงมาและมีความคิดอิสระ"
       ],
       "cautions": [
-        "หยิ่งหรือดื้อดึง",
-        "คิดหรือทำสุดโต่ง"
+        "หยิ่งในตนเองหรือดึงดัน",
+        "อาจคิดและทำสุดโต่ง"
       ],
       "careerAndOccupations": [
-        "ธนาคาร",
+        "ธนาคารและการเงิน",
         "กฎหมายและผู้พิพากษา",
         "ประกันภัย",
         "เคมีและเภสัชกรรม",
         "เกษตรกรรม",
-        "ตลาดหุ้น",
-        "ท่าเรือและอุตสาหกรรม",
+        "ตลาดหุ้นและการลงทุน",
+        "อุตสาหกรรมและท่าเรือ",
         "งานด้านกลาโหม"
       ],
       "padaInterpretations": [
@@ -538,28 +663,49 @@
         }
       ],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "7–19 พฤศจิกายน",
+        "symbol": "แท่นปั้นหม้อ",
+        "color": "ทอง",
+        "element": "น้ำ",
+        "compatibleNakshatra": "จิตรา",
+        "celebrities": [
+          "Chloë Sevigny",
+          "Calvin Klein",
+          "Calista Flockhart"
+        ],
+        "status": "article_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
       "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N17",
       "nakshatraName": "อนุราธา",
       "status": "partial",
-      "generalMeaning": "ค้นพบส่วนต้นระบุช่วงพิจิกและดาวเจ้าเรือน/เจ้าฤกษ์ แต่เนื้อหาคำอธิบายจิตวิทยาและอาชีพยังไม่ปรากฏครบในข้อความที่ดึงได้",
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
+      "generalMeaning": "กล่าวถึงการตัดสินใจแน่วแน่ เต็มไปด้วยพลังและอำนาจ กระตือรือร้นและเป็นนักปฏิบัติ แต่มีด้านเงาเรื่องความเห็นแก่ตัว ความรุนแรง การแก้แค้น ความไม่จริงใจและการขาดศีลธรรม",
+      "strengths": [
+        "ตัดสินใจแน่วแน่",
+        "มีพลังและกระตือรือร้น",
+        "เป็นนักปฏิบัติ"
+      ],
+      "cautions": [
+        "อาจเห็นแก่ตัวหรือใช้ความรุนแรง",
+        "เจ้าคิดเจ้าแค้น",
+        "ต้นฉบับกล่าวถึงความไม่จริงใจและการขาดศีลธรรม"
+      ],
+      "careerAndOccupations": [
+        "องค์กรและการประชุม",
+        "การเดินทาง",
+        "อุตสาหกรรมน้ำมัน",
+        "วิศวกรรมเหมืองแร่",
+        "กฎหมายคดีอาญา",
+        "การแพทย์และการผ่าตัด",
+        "อุตสาหกรรมเครื่องกล",
+        "งานใช้แรงงาน"
+      ],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": null,
@@ -573,17 +719,31 @@
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
       "sourceConfidence": "indexed_article_excerpt"
     },
     {
       "nakshatraId": "N18",
       "nakshatraName": "เชษฐา",
       "status": "partial",
-      "generalMeaning": "ข้อความที่ค้นพบยังไม่มีคำอธิบายจิตวิทยาและอาชีพครบ แต่มีส่วนข้อมูลสมัยใหม่ที่กล่าวถึงความทะเยอทะยาน ความต้องการประสบความสำเร็จ วินัย ความเชื่อทางจิตวิญญาณและความสัมพันธ์",
-      "strengths": [],
-      "cautions": [],
-      "careerAndOccupations": [],
+      "generalMeaning": "ข้อความที่พบยังมีคำอธิบายทั่วไปไม่ครบ แต่มีส่วนที่กล่าวถึงความจริงใจ ความเข้มแข็ง อดทน เหนียวแน่นในความคิด ทำงานเป็นเอกเทศ และไม่ชอบทำตามผู้อื่น",
+      "strengths": [
+        "จริงใจและเข้มแข็ง",
+        "อดทนและเหนียวแน่น",
+        "พึ่งพาตนเองและทำงานเป็นเอกเทศ"
+      ],
+      "cautions": [
+        "ต้นฉบับกล่าวถึงความเกียจคร้านเป็นด้านหนึ่ง"
+      ],
+      "careerAndOccupations": [
+        "วิทยาศาสตร์และงานค้นคว้า",
+        "ไฟฟ้าและเทคโนโลยี",
+        "ดาราศาสตร์และการเดินทางอวกาศ",
+        "ประวัติศาสตร์และวิทยาการโบราณ",
+        "สถิติและงานสำมะโน",
+        "ตลาดและการค้าหุ้น",
+        "งานโรงงานและห้องทดลอง"
+      ],
       "padaInterpretations": [],
       "modernMetadata": {
         "birthDateRange": "3–15 ธันวาคม (ตามบทความ)",
@@ -601,7 +761,7 @@
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "เป็นการถอดความ/สรุปจากข้อความที่ค้นพบหรือผู้ใช้ส่ง ไม่ใช่การคัดลอกต้นฉบับ; รายการที่ยังไม่ครบต้องตรวจต่อ",
+      "editorialNote": "ถอดความจากข้อความที่ค้นพบในบทความ 27mean; ยังต้องตรวจเทียบกับหน้าเต็ม/ภาพประกอบและตรวจรายละเอียดรายบาท",
       "sourceConfidence": "indexed_article_excerpt"
     },
     {
