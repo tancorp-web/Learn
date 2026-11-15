@@ -4167,8 +4167,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 /* 915: show only the input form until the main chart calculation succeeds. */
 body.hora915-form-first:not(.hora915-calculated) .sticky-nav,
 body.hora915-form-first:not(.hora915-calculated) #displayPicker9,
-body.hora915-form-first:not(.hora915-calculated) main.container .panel:not(#calculatePanel),
-body.hora915-form-first:not(.hora915-calculated) main.container section:not(#calculatePanel),
+body.hora915-form-first:not(.hora915-calculated) main.container .panel:not(#calculatePanel):not(#calculatePanel .panel),
 body.hora915-form-first:not(.hora915-calculated) .page799-group:not(:has(#calculatePanel)),
 body.hora915-form-first:not(.hora915-calculated) #birthDetails,
 body.hora915-form-first:not(.hora915-calculated) #selectedSignAnalysis999{
