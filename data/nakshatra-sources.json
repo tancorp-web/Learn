@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.1.0",
+  "schemaVersion": "2.0.0",
   "sources": [
     {
       "sourceId": "SRC-27MEAN-ARTICLE",
@@ -8,105 +8,27 @@
       "publisher": "27mean.blogspot.com",
       "url": "https://27mean.blogspot.com/",
       "accessedAt": "2026-11-15",
-      "sourceType": "blog_article",
-      "usageNote": "ใช้เป็นแหล่งอ้างอิงสำหรับถอดความแนวบุคลิก อาชีพและการดำเนินชีวิต แต่หน้าเว็บที่อ่านได้ผ่านดัชนีค้นหามีข้อความบางส่วนและมีภาพประกอบ/ข้อความที่ถูกตัด จึงต้องคงสถานะ partial/missing จนกว่าจะตรวจต้นฉบับ",
-      "copyrightNote": "ใช้การสรุป/ถอดความ ไม่คัดลอกบทความยาว"
+      "sourceType": "primary_blog_article",
+      "usageNote": "แหล่งเดียวสำหรับความหมายฤกษ์ 27 บุคลิก จุดเด่น ข้อควรระวัง อาชีพ การดำเนินชีวิต และรายละเอียดรายบาท/ข้อมูลประกอบเมื่อมีข้อความต้นฉบับรองรับ",
+      "retrievalStatus": "partial",
+      "limitation": "การดึงหน้าเว็บเต็มไม่สำเร็จในรอบตรวจนี้ พบเพียงข้อความบางส่วนจากดัชนีค้นหาและข้อความที่ผู้ใช้ส่ง จึงห้ามถือว่าข้อมูลครบหรือสร้างเนื้อหาที่หายไป",
+      "copyrightNote": "สรุปและถอดความสั้นพร้อมระบุแหล่ง ไม่คัดลอกบทความยาว"
     },
     {
-      "sourceId": "SRC-USER-SUPPLIED-TABLE",
-      "title": "ตารางฤกษ์ ๒๗ กลุ่มและประเภทฤกษ์ ๙ ตามข้อมูลที่ผู้ใช้ให้",
-      "author": "ผู้ใช้โครงการ HORA",
-      "publisher": "Project HORA conversation reference",
+      "sourceId": "SRC-HORA-27-GEOMETRY",
+      "title": "โครงสร้างช่วงองศาฤกษ์ 27 และ 108 บาทของ HORA",
+      "author": "Project HORA",
+      "publisher": "ข้อมูลกำหนดโครงสร้างโครงการ",
       "url": null,
       "accessedAt": "2026-11-15",
-      "sourceType": "user_provided_reference",
-      "usageNote": "ใช้ชื่อและช่วงองศา 13°20′ ต่อกลุ่ม รวมถึงลำดับประเภทฤกษ์ ๙ ตามที่ผู้ใช้ให้ ต้องแยกจากระบบเจ้าแห่งนักษัตร"
-    },
-    {
-      "sourceId": "SRC-PUSTAKALAYA-KHAGOLA-CH04",
-      "title": "The Nakṣatras: India's Lunar Asterisms, Khagola Jyotiṣa Chapter 4",
-      "author": "Pustakalaya editorial volume",
-      "publisher": "Pustakalaya",
-      "url": "https://pustakalaya-org.github.io/vol12-jyotisa/chapter04_nakshatra_system.html",
-      "accessedAt": "2026-11-15",
-      "sourceType": "scholarly_historical_reference",
-      "usageNote": "ใช้ยืนยันโครงสร้าง 27 ช่วงเท่า 13°20′ รายการมาตรฐานภายหลัง เทพประจำฤกษ์ ประวัติรายการพระเวท ความแตกต่าง 27/28 และข้อจำกัดการระบุดาวฤกษ์ ไม่ใช้แทนตำแหน่งดาว HORA",
-      "confidence": "A_for_historical_structure_and_list"
-    },
-    {
-      "sourceId": "SRC-BEINORIUS-2023",
-      "title": "Lunar Constellations (Nakṣatras) and Name Giving Tradition in Ancient India",
-      "author": "L. Beinorius",
-      "publisher": "Polish Academy of Sciences journal",
-      "url": "https://journals.pan.pl/Content/129895/PDF/1_ROrient%2076%20z.%202-23%202Beinorius.pdf",
-      "accessedAt": "2026-11-15",
-      "sourceType": "academic_article",
-      "usageNote": "ใช้ประกอบประวัติรายการฤกษ์ใน Taittirīya Saṃhitā/Brāhmaṇa และความแตกต่างระหว่างรายการโบราณ",
-      "confidence": "A_for_historical_context"
-    },
-    {
-      "sourceId": "SRC-BRIHAT-PARASHARA",
-      "title": "Bṛhat Parāśara Horā Śāstra",
-      "author": "Attributed to Parāśara",
-      "publisher": "Publicly accessible digitized text",
-      "url": "https://vedic-astro.s3.amazonaws.com/books/bhrihat_parasara_hora_shastra.pdf",
-      "accessedAt": "2026-11-15",
-      "sourceType": "classical_text_digital_copy",
-      "usageNote": "ใช้เป็นแหล่งตรวจข้อความดั้งเดิมเฉพาะประเด็นที่อ้างถึง โดยต้องตรวจฉบับ/บท/เลขโศลกก่อนนำเข้าฐานข้อมูล ห้ามใช้ผล OCR เพียงอย่างเดียว",
-      "confidence": "B_pending_edition_and_verse_verification"
-    },
-    {
-      "sourceId": "SRC-BRIHAT-JATAKA-CH16",
-      "title": "Bṛhat Jātaka, Chapter 16 — Results of the Nakṣatras / The Moon in the Asterisms",
-      "author": "Varāhamihira; English translation by Michael D. Neely (2007)",
-      "publisher": "Wisdom Library digital edition",
-      "url": "https://www.wisdomlib.org/hinduism/book/brihat-jataka-by-varahamihira-sanskrit-english/d/doc1501551.html",
-      "accessedAt": "2026-11-15",
-      "sourceType": "classical_astrology_text_translation",
-      "usageNote": "ใช้เสริมคำบรรยายลักษณะตามจันทร์กำเนิดในนักษัตรเท่านั้น บทนี้มี 14 โศลกจับคู่/กล่าวถึง 27 กลุ่ม; ถอดความสั้นเป็นภาษาไทยและแยกจากความหมาย 27mean ห้ามนำไปใช้กับดาวทุกดวงโดยอัตโนมัติ",
-      "confidence": "B_translation_based",
-      "caveat": "เป็นคำบรรยายตามคติของตำราโบราณ มีถ้อยคำเชิงคุณค่าและบางคำแปลกำกวม ต้องตรวจเทียบสันสกฤตและฉบับแปลอื่นก่อนใช้เป็นข้อสรุป"
-    },
-    {
-      "sourceId": "SRC-BRIHAT-SAMHITA-CH98",
-      "title": "Bṛhat Saṃhitā, Chapter 98 — Nakṣatra-karmaguṇa",
-      "author": "Varāhamihira; English translation by N. Chidambaram Iyer (1884)",
-      "publisher": "Wisdom Library digital edition",
-      "url": "https://www.wisdomlib.org/hinduism/book/brihat-samhita/d/doc229361.html",
-      "accessedAt": "2026-11-15",
-      "sourceType": "classical_astrology_text_translation",
-      "usageNote": "ใช้ตรวจรายชื่อเทพประจำฤกษ์และกลุ่มฤกษ์สำหรับการประกอบกิจตามตำรา บทนี้มีรายการ 28 กลุ่มรวมอภิชิต และมีรูปแบบชื่อ/เทพบางรายการต่างจากตารางมาตรฐาน 27 กลุ่ม",
-      "confidence": "B_translation_based",
-      "caveat": "ควรเทียบฉบับสันสกฤตและเลขบท/โศลกต่างฉบับก่อนสรุป เนื่องจากฉบับแปลและลำดับ 27/28 มีความต่าง"
-    },
-    {
-      "sourceId": "SRC-PARASHARA-CH3",
-      "title": "Bṛhat Parāśara Horā Śāstra, Chapter 3 — Traits and Characteristics of the Grahas",
-      "author": "Attributed to Parāśara; translation/commentary by Dan Nelson",
-      "publisher": "Parashara.net",
-      "url": "https://parashara.net/index.php?page=chapter3",
-      "accessedAt": "2026-11-15",
-      "sourceType": "classical_text_translation_and_commentary",
-      "usageNote": "ใช้เป็นกรอบความหมายพื้นฐานของดาว 9 ดวง เช่น อาทิตย์=อาตมัน จันทร์=จิตใจ อังคาร=พลัง/การกระทำ พุธ=ภาษา/ปัญญา พฤหัส=ความรู้ ศุกร์=พลังสร้างสรรค์/สืบพันธุ์ เสาร์=ภาระ/ความทุกข์ ราหูเกตุ=เงื่อนปม/กองกำลังที่ถูกชี้นำ; ต้องแยกข้อความแปลกับคำอธิบายผู้แปล",
-      "confidence": "B_text_and_commentary_mixed"
-    },
-    {
-      "sourceId": "SRC-BPHS-34-45-VOLUNTEER",
-      "title": "Bṛhat Parāśara Horā Śāstra Chapters 34–45 (English meaning)",
-      "author": "Volunteer transliteration/translation; Ahto Jarve",
-      "publisher": "Sanskrit Documents",
-      "url": "https://sanskritdocuments.org/doc_z_misc_sociology_astrology/horaashaastraEng34-45.pdf",
-      "accessedAt": "2026-11-15",
-      "sourceType": "volunteer_translation_and_explanatory_notes",
-      "usageNote": "ใช้เป็นตัวอย่างประกอบความหมายเทพ/สัญลักษณ์/นักษัตรและกรณีดาวบางดวงสถิตนักษัตร เช่น อังคารในอัศวินีหรืออาทิตย์ในหัสตะเท่านั้น ไม่ใช้เป็นตารางครบ 9 ดาว × 27 กลุ่ม และไม่ยึดตารางเจ้าแห่งนักษัตรในเอกสารนี้เป็นมาตรฐาน เพราะมีรายละเอียดต่างจากระบบที่โครงการแยกไว้",
-      "confidence": "C_translation_commentary",
-      "caveat": "เอกสารระบุว่าเป็น English meaning, จัดทำโดยอาสาสมัคร และมีคำอธิบายผสมกับข้อความแปล ต้องตรวจต้นฉบับ/ฉบับอื่นก่อนยกระดับ"
+      "sourceType": "technical_geometry_reference",
+      "usageNote": "ใช้เฉพาะชื่อและช่วงองศาเพื่อแบ่งตำแหน่ง 27 กลุ่มและ 108 บาท ไม่ใช่แหล่งความหมายหรือคำพยากรณ์"
     }
   ],
-  "retrievalLimitations": [
-    "27mean page full text could not be reliably retrieved; search-index excerpts may be incomplete.",
-    "Classical nakshatra lists differ by text, recension and historical period; the project labels each convention.",
-    "Modern interpretive databases must be added per field with provenance and may not be treated as classical doctrine.",
-    "No external source may replace HORA Suriyayatra planetary positions."
+  "rules": [
+    "ความหมายและคำอธิบายทั้งหมดต้องมาจาก SRC-27MEAN-ARTICLE เท่านั้น",
+    "ข้อมูลโครงสร้างองศาใช้ SRC-HORA-27-GEOMETRY ได้ แต่ห้ามใช้เป็นแหล่งคำพยากรณ์",
+    "ข้อมูลที่มาจากผู้ใช้แต่ยังตรวจไม่พบใน 27mean ให้พักเป็น pending ไม่แสดงเป็นความหมายที่ยืนยันแล้ว",
+    "ห้ามนำคัมภีร์ งานวิชาการ หรือสำนักโหราศาสตร์อื่นมาผสมในคำพยากรณ์ฤกษ์ 27"
   ]
 }
