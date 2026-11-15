@@ -1,0 +1,662 @@
+{
+  "schemaVersion": "1.0.0",
+  "language": "th",
+  "policy": "เก็บเฉพาะคำอธิบายที่มีหลักฐานจากแหล่งอ้างอิง; ห้ามสร้างคำพยากรณ์แทนข้อมูลที่ขาด",
+  "entries": [
+    {
+      "nakshatraId": "N01",
+      "nakshatraName": "อัศวินี",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N02",
+      "nakshatraName": "ภรณี",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N03",
+      "nakshatraName": "กฤติกา",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N04",
+      "nakshatraName": "โรหิณี",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N05",
+      "nakshatraName": "มฤคศิร",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N06",
+      "nakshatraName": "อารทรา",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N07",
+      "nakshatraName": "ปุนัพสุ",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N08",
+      "nakshatraName": "ปุษยะ",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N09",
+      "nakshatraName": "อาศเลษะ",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N10",
+      "nakshatraName": "มาฆะ",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N11",
+      "nakshatraName": "บุรพผลคุนี",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N12",
+      "nakshatraName": "อุตตรผลคุนี",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N13",
+      "nakshatraName": "หัสตะ",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N14",
+      "nakshatraName": "จิตรา",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N15",
+      "nakshatraName": "สวาติ",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N16",
+      "nakshatraName": "วิศาขา",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N17",
+      "nakshatraName": "อนุราธา",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N18",
+      "nakshatraName": "เชษฐา",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N19",
+      "nakshatraName": "มูละ",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N20",
+      "nakshatraName": "บุรพาษาฒ",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N21",
+      "nakshatraName": "อุตตราษาฒ",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N22",
+      "nakshatraName": "ศรวณะ",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N23",
+      "nakshatraName": "ธนิษฐา",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N24",
+      "nakshatraName": "ศตภิษัช",
+      "status": "missing",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+    },
+    {
+      "nakshatraId": "N25",
+      "nakshatraName": "บุรพภัทรบท",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N26",
+      "nakshatraName": "อุตรภัทรบท",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    },
+    {
+      "nakshatraId": "N27",
+      "nakshatraName": "เรวดี",
+      "status": "partial",
+      "generalMeaning": null,
+      "strengths": [],
+      "cautions": [],
+      "careerAndOccupations": [],
+      "padaInterpretations": [],
+      "modernMetadata": {
+        "birthDateRange": null,
+        "symbol": null,
+        "color": null,
+        "element": null,
+        "compatibleNakshatra": null,
+        "celebrities": [],
+        "status": "not_normalized"
+      },
+      "sourceIds": [
+        "SRC-27MEAN-ARTICLE",
+        "SRC-USER-SUPPLIED-TABLE"
+      ],
+      "editorialNote": "พบข้อความบางส่วนในบทความ/ข้อความที่ผู้ใช้ส่งแล้ว แต่ยังไม่ได้ถอดความและตรวจทานแยกฟิลด์"
+    }
+  ],
+  "statusDefinitions": {
+    "verified": "ตรวจต้นฉบับและตรวจทานแล้ว",
+    "partial": "มีข้อมูลบางส่วน",
+    "pending": "พบข้อมูลแต่ยังไม่ได้ตรวจทาน",
+    "missing": "ยังไม่มีข้อมูล",
+    "conflict": "แหล่งข้อมูลขัดแย้ง"
+  }
+}
