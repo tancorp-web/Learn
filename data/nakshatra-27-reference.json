@@ -1,42 +1,21 @@
 {
-  "schemaVersion": "1.0.0",
-  "coordinateSystem": "sidereal ecliptic longitude normalized to [0,360)",
+  "schemaVersion": "2.0.0",
+  "language": "th",
+  "coordinateSystem": "สุริยวิถี 360 องศา ใช้เฉพาะแบ่งช่วงฤกษ์ ไม่ใช่การคำนวณตำแหน่งดาว",
   "arcMinutesPerCircle": 21600,
   "nakshatraCount": 27,
   "arcMinutesPerNakshatra": 800,
   "padasPerNakshatra": 4,
   "arcMinutesPerPada": 200,
-  "intervalConvention": "[startArcMinutes, endArcMinutesExclusive)",
+  "intervalConvention": "[start,end) — รวมจุดเริ่ม ไม่รวมจุดสิ้นสุด",
   "calculationFormula": {
-    "nakshatraIndex": "floor(longitudeDegrees / (40/3))",
-    "padaIndex": "floor((longitudeDegrees - nakshatraIndex*(40/3)) / (10/3))",
-    "globalPadaNumber": "nakshatraIndex*4 + padaIndex + 1"
+    "normalizedArcMinutes": "L = longitudeArcMinutes mod 21600",
+    "nakshatraIndex": "floor(L / 800)",
+    "padaIndex": "floor((L mod 800) / 200)",
+    "globalPadaNumber": "nakshatraIndex * 4 + padaIndex + 1"
   },
-  "namesAndRangesSource": "user-provided table; verify spelling before production",
-  "type9Cycle": [
-    "ทลิทโท",
-    "มหัทธโน",
-    "โจโร",
-    "ภูมิปาโล",
-    "เทศาตรี",
-    "เทวี",
-    "เพชฌฆาต",
-    "ราชา",
-    "สมโณ"
-  ],
-  "type9Status": "provisional_user_rule",
-  "nakshatraLordCycle": [
-    "เกตุ",
-    "ศุกร์",
-    "อาทิตย์",
-    "จันทร์",
-    "อังคาร",
-    "ราหู",
-    "พฤหัสบดี",
-    "เสาร์",
-    "พุธ"
-  ],
-  "nakshatraLordStatus": "provisional_pending_project_confirmation",
+  "namesAndRangesSource": "SRC-HORA-27-GEOMETRY",
+  "interpretationSource": "SRC-27MEAN-ARTICLE",
   "entries": [
     {
       "id": "N01",
@@ -47,33 +26,10 @@
       "endArcMinutesExclusive": 800,
       "startLongitude": "0°00′",
       "endLongitudeExclusive": "13°20′",
-      "type9": {
-        "sequence": 1,
-        "name": "ทลิทโท",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "เกตุ",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 0,
-          "start": "0°00′",
-          "endArcMinutes": 800,
-          "end": "13°20′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -85,33 +41,10 @@
       "endArcMinutesExclusive": 1600,
       "startLongitude": "13°20′",
       "endLongitudeExclusive": "26°40′",
-      "type9": {
-        "sequence": 2,
-        "name": "มหัทธโน",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "ศุกร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 800,
-          "start": "13°20′",
-          "endArcMinutes": 1600,
-          "end": "26°40′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -125,43 +58,10 @@
       "endArcMinutesExclusive": 2400,
       "startLongitude": "26°40′",
       "endLongitudeExclusive": "40°00′",
-      "type9": {
-        "sequence": 3,
-        "name": "โจโร",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "อาทิตย์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE",
-        "note": "บทความที่ค้นพบยืนยันอาทิตย์เป็นเจ้าฤกษ์สำหรับบาท 2–4 ในพฤษภา; บาท 1 ต้องตรวจต้นฉบับเพิ่ม"
-      },
-      "signSegments": [
-        {
-          "signIndex": 1,
-          "sign": "เมษ",
-          "signLord": "อังคาร",
-          "startArcMinutes": 1600,
-          "start": "26°40′",
-          "endArcMinutes": 1800,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 1800,
-          "start": "0°00′",
-          "endArcMinutes": 2400,
-          "end": "10°00′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -173,32 +73,10 @@
       "endArcMinutesExclusive": 3200,
       "startLongitude": "40°00′",
       "endLongitudeExclusive": "53°20′",
-      "type9": {
-        "sequence": 4,
-        "name": "ภูมิปาโล",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "จันทร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 2400,
-          "start": "10°00′",
-          "endArcMinutes": 3200,
-          "end": "23°20′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -213,43 +91,10 @@
       "endArcMinutesExclusive": 4000,
       "startLongitude": "53°20′",
       "endLongitudeExclusive": "66°40′",
-      "type9": {
-        "sequence": 5,
-        "name": "เทศาตรี",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "อังคาร",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE",
-        "note": "บทความที่ค้นพบยืนยันอังคารเป็นเจ้าฤกษ์สำหรับมฤคศิรบาท 1 ในพฤษภา"
-      },
-      "signSegments": [
-        {
-          "signIndex": 2,
-          "sign": "พฤษภ",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 3200,
-          "start": "23°20′",
-          "endArcMinutes": 3600,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 3600,
-          "start": "0°00′",
-          "endArcMinutes": 4000,
-          "end": "6°40′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -261,33 +106,10 @@
       "endArcMinutesExclusive": 4800,
       "startLongitude": "66°40′",
       "endLongitudeExclusive": "80°00′",
-      "type9": {
-        "sequence": 6,
-        "name": "เทวี",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "ราหู",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 4000,
-          "start": "6°40′",
-          "endArcMinutes": 4800,
-          "end": "20°00′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -301,43 +123,10 @@
       "endArcMinutesExclusive": 5600,
       "startLongitude": "80°00′",
       "endLongitudeExclusive": "93°20′",
-      "type9": {
-        "sequence": 7,
-        "name": "เพชฌฆาต",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "พฤหัสบดี",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE",
-        "note": "บทความที่ค้นพบยืนยันพฤหัสบดีเป็นเจ้าฤกษ์สำหรับปุนัพสุบาท 4 ในกรกฎ"
-      },
-      "signSegments": [
-        {
-          "signIndex": 3,
-          "sign": "มิถุน",
-          "signLord": "พุธ",
-          "startArcMinutes": 4800,
-          "start": "20°00′",
-          "endArcMinutes": 5400,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 5400,
-          "start": "0°00′",
-          "endArcMinutes": 5600,
-          "end": "3°20′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -351,33 +140,10 @@
       "endArcMinutesExclusive": 6400,
       "startLongitude": "93°20′",
       "endLongitudeExclusive": "106°40′",
-      "type9": {
-        "sequence": 8,
-        "name": "ราชา",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "เสาร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 5600,
-          "start": "3°20′",
-          "endArcMinutes": 6400,
-          "end": "16°40′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -389,33 +155,10 @@
       "endArcMinutesExclusive": 7200,
       "startLongitude": "106°40′",
       "endLongitudeExclusive": "120°00′",
-      "type9": {
-        "sequence": 9,
-        "name": "สมโณ",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "พุธ",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 4,
-          "sign": "กรกฎ",
-          "signLord": "จันทร์",
-          "startArcMinutes": 6400,
-          "start": "16°40′",
-          "endArcMinutes": 7200,
-          "end": "30°00′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -429,32 +172,10 @@
       "endArcMinutesExclusive": 8000,
       "startLongitude": "120°00′",
       "endLongitudeExclusive": "133°20′",
-      "type9": {
-        "sequence": 1,
-        "name": "ทลิทโท",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "เกตุ",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 7200,
-          "start": "0°00′",
-          "endArcMinutes": 8000,
-          "end": "13°20′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -466,32 +187,10 @@
       "endArcMinutesExclusive": 8800,
       "startLongitude": "133°20′",
       "endLongitudeExclusive": "146°40′",
-      "type9": {
-        "sequence": 2,
-        "name": "มหัทธโน",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "ศุกร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 8000,
-          "start": "13°20′",
-          "endArcMinutes": 8800,
-          "end": "26°40′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -503,41 +202,10 @@
       "endArcMinutesExclusive": 9600,
       "startLongitude": "146°40′",
       "endLongitudeExclusive": "160°00′",
-      "type9": {
-        "sequence": 3,
-        "name": "โจโร",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "อาทิตย์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 5,
-          "sign": "สิงห์",
-          "signLord": "อาทิตย์",
-          "startArcMinutes": 8800,
-          "start": "26°40′",
-          "endArcMinutes": 9000,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 9000,
-          "start": "0°00′",
-          "endArcMinutes": 9600,
-          "end": "10°00′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -549,32 +217,10 @@
       "endArcMinutesExclusive": 10400,
       "startLongitude": "160°00′",
       "endLongitudeExclusive": "173°20′",
-      "type9": {
-        "sequence": 4,
-        "name": "ภูมิปาโล",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "จันทร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 9600,
-          "start": "10°00′",
-          "endArcMinutes": 10400,
-          "end": "23°20′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -586,41 +232,10 @@
       "endArcMinutesExclusive": 11200,
       "startLongitude": "173°20′",
       "endLongitudeExclusive": "186°40′",
-      "type9": {
-        "sequence": 5,
-        "name": "เทศาตรี",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "อังคาร",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 6,
-          "sign": "กันย์",
-          "signLord": "พุธ",
-          "startArcMinutes": 10400,
-          "start": "23°20′",
-          "endArcMinutes": 10800,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 10800,
-          "start": "0°00′",
-          "endArcMinutes": 11200,
-          "end": "6°40′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -632,33 +247,10 @@
       "endArcMinutesExclusive": 12000,
       "startLongitude": "186°40′",
       "endLongitudeExclusive": "200°00′",
-      "type9": {
-        "sequence": 6,
-        "name": "เทวี",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "ราหู",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 11200,
-          "start": "6°40′",
-          "endArcMinutes": 12000,
-          "end": "20°00′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -670,42 +262,10 @@
       "endArcMinutesExclusive": 12800,
       "startLongitude": "200°00′",
       "endLongitudeExclusive": "213°20′",
-      "type9": {
-        "sequence": 7,
-        "name": "เพชฌฆาต",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "พฤหัสบดี",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 7,
-          "sign": "ตุล",
-          "signLord": "ศุกร์",
-          "startArcMinutes": 12000,
-          "start": "20°00′",
-          "endArcMinutes": 12600,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 12600,
-          "start": "0°00′",
-          "endArcMinutes": 12800,
-          "end": "3°20′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -717,33 +277,10 @@
       "endArcMinutesExclusive": 13600,
       "startLongitude": "213°20′",
       "endLongitudeExclusive": "226°40′",
-      "type9": {
-        "sequence": 8,
-        "name": "ราชา",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "เสาร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "confirmed_by_article_excerpt",
-        "sourceId": "SRC-27MEAN-ARTICLE"
-      },
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 12800,
-          "start": "3°20′",
-          "endArcMinutes": 13600,
-          "end": "16°40′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -755,32 +292,10 @@
       "endArcMinutesExclusive": 14400,
       "startLongitude": "226°40′",
       "endLongitudeExclusive": "240°00′",
-      "type9": {
-        "sequence": 9,
-        "name": "สมโณ",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "พุธ",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 8,
-          "sign": "พิจิก",
-          "signLord": "อังคาร",
-          "startArcMinutes": 13600,
-          "start": "16°40′",
-          "endArcMinutes": 14400,
-          "end": "30°00′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -794,32 +309,10 @@
       "endArcMinutesExclusive": 15200,
       "startLongitude": "240°00′",
       "endLongitudeExclusive": "253°20′",
-      "type9": {
-        "sequence": 1,
-        "name": "ทลิทโท",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "เกตุ",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 14400,
-          "start": "0°00′",
-          "endArcMinutes": 15200,
-          "end": "13°20′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -833,32 +326,10 @@
       "endArcMinutesExclusive": 16000,
       "startLongitude": "253°20′",
       "endLongitudeExclusive": "266°40′",
-      "type9": {
-        "sequence": 2,
-        "name": "มหัทธโน",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "ศุกร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 15200,
-          "start": "13°20′",
-          "endArcMinutes": 16000,
-          "end": "26°40′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -873,41 +344,10 @@
       "endArcMinutesExclusive": 16800,
       "startLongitude": "266°40′",
       "endLongitudeExclusive": "280°00′",
-      "type9": {
-        "sequence": 3,
-        "name": "โจโร",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "อาทิตย์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 9,
-          "sign": "ธนู",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 16000,
-          "start": "26°40′",
-          "endArcMinutes": 16200,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 16200,
-          "start": "0°00′",
-          "endArcMinutes": 16800,
-          "end": "10°00′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -919,32 +359,10 @@
       "endArcMinutesExclusive": 17600,
       "startLongitude": "280°00′",
       "endLongitudeExclusive": "293°20′",
-      "type9": {
-        "sequence": 4,
-        "name": "ภูมิปาโล",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "จันทร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 16800,
-          "start": "10°00′",
-          "endArcMinutes": 17600,
-          "end": "23°20′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -956,41 +374,10 @@
       "endArcMinutesExclusive": 18400,
       "startLongitude": "293°20′",
       "endLongitudeExclusive": "306°40′",
-      "type9": {
-        "sequence": 5,
-        "name": "เทศาตรี",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "อังคาร",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 10,
-          "sign": "มกร",
-          "signLord": "เสาร์",
-          "startArcMinutes": 17600,
-          "start": "23°20′",
-          "endArcMinutes": 18000,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 18000,
-          "start": "0°00′",
-          "endArcMinutes": 18400,
-          "end": "6°40′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -1002,32 +389,10 @@
       "endArcMinutesExclusive": 19200,
       "startLongitude": "306°40′",
       "endLongitudeExclusive": "320°00′",
-      "type9": {
-        "sequence": 6,
-        "name": "เทวี",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "ราหู",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 18400,
-          "start": "6°40′",
-          "endArcMinutes": 19200,
-          "end": "20°00′"
-        }
-      ],
       "interpretationStatus": "missing",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -1039,41 +404,10 @@
       "endArcMinutesExclusive": 20000,
       "startLongitude": "320°00′",
       "endLongitudeExclusive": "333°20′",
-      "type9": {
-        "sequence": 7,
-        "name": "เพชฌฆาต",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "พฤหัสบดี",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 11,
-          "sign": "กุมภ์",
-          "signLord": "เสาร์",
-          "startArcMinutes": 19200,
-          "start": "20°00′",
-          "endArcMinutes": 19800,
-          "end": "30°00′"
-        },
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 19800,
-          "start": "0°00′",
-          "endArcMinutes": 20000,
-          "end": "3°20′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -1087,32 +421,10 @@
       "endArcMinutesExclusive": 20800,
       "startLongitude": "333°20′",
       "endLongitudeExclusive": "346°40′",
-      "type9": {
-        "sequence": 8,
-        "name": "ราชา",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "เสาร์",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 20000,
-          "start": "3°20′",
-          "endArcMinutes": 20800,
-          "end": "16°40′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     },
     {
@@ -1124,34 +436,11 @@
       "endArcMinutesExclusive": 21600,
       "startLongitude": "346°40′",
       "endLongitudeExclusive": "360°00′",
-      "type9": {
-        "sequence": 9,
-        "name": "สมโณ",
-        "assignmentSource": "user-provided sequence",
-        "status": "provisional_user_rule"
-      },
-      "nakshatraLord": {
-        "planet": "พุธ",
-        "system": "Vimshottari-style 9-lord cycle",
-        "status": "provisional_pending_project_confirmation"
-      },
-      "signSegments": [
-        {
-          "signIndex": 12,
-          "sign": "มีน",
-          "signLord": "พฤหัสบดี",
-          "startArcMinutes": 20800,
-          "start": "16°40′",
-          "endArcMinutes": 21600,
-          "end": "30°00′"
-        }
-      ],
       "interpretationStatus": "partial",
       "sourceIds": [
-        "SRC-27MEAN-ARTICLE",
-        "SRC-USER-SUPPLIED-TABLE"
+        "SRC-HORA-27-GEOMETRY",
+        "SRC-27MEAN-ARTICLE"
       ]
     }
-  ],
-  "verificationNote": "สถานะ confirmed_by_article_excerpt หมายถึงพบข้อความยืนยันในผลดัชนีของบทความ ไม่ได้หมายความว่าอ่านต้นฉบับเต็มและตรวจทุกบาทแล้ว"
+  ]
 }
