@@ -389,7 +389,7 @@
       "endArcMinutesExclusive": 19200,
       "startLongitude": "306°40′",
       "endLongitudeExclusive": "320°00′",
-      "interpretationStatus": "missing",
+      "interpretationStatus": "partial",
       "sourceIds": [
         "SRC-HORA-27-GEOMETRY",
         "SRC-27MEAN-ARTICLE"
@@ -404,7 +404,7 @@
       "endArcMinutesExclusive": 20000,
       "startLongitude": "320°00′",
       "endLongitudeExclusive": "333°20′",
-      "interpretationStatus": "missing",
+      "interpretationStatus": "partial",
       "sourceIds": [
         "SRC-HORA-27-GEOMETRY",
         "SRC-27MEAN-ARTICLE"
@@ -421,7 +421,7 @@
       "endArcMinutesExclusive": 20800,
       "startLongitude": "333°20′",
       "endLongitudeExclusive": "346°40′",
-      "interpretationStatus": "missing",
+      "interpretationStatus": "partial",
       "sourceIds": [
         "SRC-HORA-27-GEOMETRY",
         "SRC-27MEAN-ARTICLE"
@@ -436,7 +436,7 @@
       "endArcMinutesExclusive": 21600,
       "startLongitude": "346°40′",
       "endLongitudeExclusive": "360°00′",
-      "interpretationStatus": "missing",
+      "interpretationStatus": "partial",
       "sourceIds": [
         "SRC-HORA-27-GEOMETRY",
         "SRC-27MEAN-ARTICLE"
