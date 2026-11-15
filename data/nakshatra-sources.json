@@ -78,6 +78,29 @@
       "usageNote": "ใช้ตรวจรายชื่อเทพประจำฤกษ์และกลุ่มฤกษ์สำหรับการประกอบกิจตามตำรา บทนี้มีรายการ 28 กลุ่มรวมอภิชิต และมีรูปแบบชื่อ/เทพบางรายการต่างจากตารางมาตรฐาน 27 กลุ่ม",
       "confidence": "B_translation_based",
       "caveat": "ควรเทียบฉบับสันสกฤตและเลขบท/โศลกต่างฉบับก่อนสรุป เนื่องจากฉบับแปลและลำดับ 27/28 มีความต่าง"
+    },
+    {
+      "sourceId": "SRC-PARASHARA-CH3",
+      "title": "Bṛhat Parāśara Horā Śāstra, Chapter 3 — Traits and Characteristics of the Grahas",
+      "author": "Attributed to Parāśara; translation/commentary by Dan Nelson",
+      "publisher": "Parashara.net",
+      "url": "https://parashara.net/index.php?page=chapter3",
+      "accessedAt": "2026-11-15",
+      "sourceType": "classical_text_translation_and_commentary",
+      "usageNote": "ใช้เป็นกรอบความหมายพื้นฐานของดาว 9 ดวง เช่น อาทิตย์=อาตมัน จันทร์=จิตใจ อังคาร=พลัง/การกระทำ พุธ=ภาษา/ปัญญา พฤหัส=ความรู้ ศุกร์=พลังสร้างสรรค์/สืบพันธุ์ เสาร์=ภาระ/ความทุกข์ ราหูเกตุ=เงื่อนปม/กองกำลังที่ถูกชี้นำ; ต้องแยกข้อความแปลกับคำอธิบายผู้แปล",
+      "confidence": "B_text_and_commentary_mixed"
+    },
+    {
+      "sourceId": "SRC-BPHS-34-45-VOLUNTEER",
+      "title": "Bṛhat Parāśara Horā Śāstra Chapters 34–45 (English meaning)",
+      "author": "Volunteer transliteration/translation; Ahto Jarve",
+      "publisher": "Sanskrit Documents",
+      "url": "https://sanskritdocuments.org/doc_z_misc_sociology_astrology/horaashaastraEng34-45.pdf",
+      "accessedAt": "2026-11-15",
+      "sourceType": "volunteer_translation_and_explanatory_notes",
+      "usageNote": "ใช้เป็นตัวอย่างประกอบความหมายเทพ/สัญลักษณ์/นักษัตรและกรณีดาวบางดวงสถิตนักษัตร เช่น อังคารในอัศวินีหรืออาทิตย์ในหัสตะเท่านั้น ไม่ใช้เป็นตารางครบ 9 ดาว × 27 กลุ่ม และไม่ยึดตารางเจ้าแห่งนักษัตรในเอกสารนี้เป็นมาตรฐาน เพราะมีรายละเอียดต่างจากระบบที่โครงการแยกไว้",
+      "confidence": "C_translation_commentary",
+      "caveat": "เอกสารระบุว่าเป็น English meaning, จัดทำโดยอาสาสมัคร และมีคำอธิบายผสมกับข้อความแปล ต้องตรวจต้นฉบับ/ฉบับอื่นก่อนยกระดับ"
     }
   ],
   "retrievalLimitations": [
