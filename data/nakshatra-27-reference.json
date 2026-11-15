@@ -309,7 +309,7 @@
       "endArcMinutesExclusive": 15200,
       "startLongitude": "240°00′",
       "endLongitudeExclusive": "253°20′",
-      "interpretationStatus": "missing",
+      "interpretationStatus": "partial",
       "sourceIds": [
         "SRC-HORA-27-GEOMETRY",
         "SRC-27MEAN-ARTICLE"
