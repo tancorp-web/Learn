@@ -759,25 +759,40 @@
     {
       "nakshatraId": "N19",
       "nakshatraName": "มูละ",
-      "status": "missing",
-      "generalMeaning": null,
-      "strengths": [],
-      "cautions": [],
+      "status": "partial",
+      "generalMeaning": "ชอบทดลองสิ่งใหม่อยู่เสมอ เป็นผู้นำและมองโลกในแง่ดี เบื่อง่ายแต่ปรับตัวเก่ง จึงมักลุกขึ้นมาเปลี่ยนแปลงสิ่งรอบตัวเมื่อรู้สึกว่าทุกอย่างราบเรียบเกินไป ความสัมพันธ์จะดำเนินไปได้ดีเมื่อคู่ยอมให้เป็นตัวของตัวเอง",
+      "strengths": [
+        "ชอบทดลองสิ่งใหม่",
+        "มีภาวะผู้นำ",
+        "มองโลกในแง่ดี",
+        "ปรับตัวเก่ง",
+        "กล้าลุกขึ้นเปลี่ยนแปลง"
+      ],
+      "cautions": [
+        "เบื่อง่าย",
+        "ต้องการพื้นที่ในการเป็นตัวของตัวเอง"
+      ],
       "careerAndOccupations": [],
       "padaInterpretations": [],
       "modernMetadata": {
-        "birthDateRange": null,
-        "symbol": null,
-        "color": null,
-        "element": null,
-        "compatibleNakshatra": null,
-        "celebrities": [],
-        "status": "not_normalized"
+        "birthDateRange": "16–28 ธันวาคม (ตามบทความ; ระบุว่าเป็นศาสตร์อินเดีย)",
+        "symbol": "หางสิงโต",
+        "symbolMeaning": "ความไม่หยุดนิ่ง",
+        "color": "เหลืองมัสตาร์ด",
+        "element": "ลม",
+        "compatibleNakshatra": "บุพพาสาฬหะ",
+        "celebrities": [
+          "เอวา การ์ดเนอร์",
+          "แบรด พิตต์",
+          "เฮเลน่า คริสเตน"
+        ],
+        "status": "user_supplied_27mean_excerpt"
       },
       "sourceIds": [
         "SRC-27MEAN-ARTICLE"
       ],
-      "editorialNote": "ยังไม่มีข้อความที่ตรวจสอบครบสำหรับฤกษ์นี้"
+      "editorialNote": "เพิ่มจากข้อความบทความ 27mean ที่ผู้ใช้ส่งมา เป็นคำอธิบายบุคลิกสมัยใหม่ของผู้เกิดช่วง 16–28 ธันวาคม แยกจากความหมายนามธรรม/จิตวิทยาและอาชีพของฤกษ์มูละ ซึ่งยังไม่มีข้อความในชุดนี้",
+      "sourceConfidence": "user_supplied_source_excerpt"
     },
     {
       "nakshatraId": "N20",
