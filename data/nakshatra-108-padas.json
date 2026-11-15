@@ -1,0 +1,2600 @@
+{
+  "schemaVersion": "1.0.0",
+  "totalPadas": 108,
+  "intervalConvention": "[startArcMinutes, endArcMinutesExclusive)",
+  "generation": "Derived deterministically from 27 equal spans × 4 padas; each pada is 200 arcminutes",
+  "entries": [
+    {
+      "id": "P001",
+      "globalPadaNumber": 1,
+      "nakshatraId": "N01",
+      "nakshatraName": "อัศวินี",
+      "padaNumber": 1,
+      "startArcMinutes": 0,
+      "endArcMinutesExclusive": 200,
+      "startLongitude": "0°00′",
+      "endLongitudeExclusive": "3°20′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 0,
+          "start": "0°00′",
+          "endArcMinutes": 200,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P002",
+      "globalPadaNumber": 2,
+      "nakshatraId": "N01",
+      "nakshatraName": "อัศวินี",
+      "padaNumber": 2,
+      "startArcMinutes": 200,
+      "endArcMinutesExclusive": 400,
+      "startLongitude": "3°20′",
+      "endLongitudeExclusive": "6°40′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 200,
+          "start": "3°20′",
+          "endArcMinutes": 400,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P003",
+      "globalPadaNumber": 3,
+      "nakshatraId": "N01",
+      "nakshatraName": "อัศวินี",
+      "padaNumber": 3,
+      "startArcMinutes": 400,
+      "endArcMinutesExclusive": 600,
+      "startLongitude": "6°40′",
+      "endLongitudeExclusive": "10°00′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 400,
+          "start": "6°40′",
+          "endArcMinutes": 600,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P004",
+      "globalPadaNumber": 4,
+      "nakshatraId": "N01",
+      "nakshatraName": "อัศวินี",
+      "padaNumber": 4,
+      "startArcMinutes": 600,
+      "endArcMinutesExclusive": 800,
+      "startLongitude": "10°00′",
+      "endLongitudeExclusive": "13°20′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 600,
+          "start": "10°00′",
+          "endArcMinutes": 800,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P005",
+      "globalPadaNumber": 5,
+      "nakshatraId": "N02",
+      "nakshatraName": "ภรณี",
+      "padaNumber": 1,
+      "startArcMinutes": 800,
+      "endArcMinutesExclusive": 1000,
+      "startLongitude": "13°20′",
+      "endLongitudeExclusive": "16°40′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 800,
+          "start": "13°20′",
+          "endArcMinutes": 1000,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P006",
+      "globalPadaNumber": 6,
+      "nakshatraId": "N02",
+      "nakshatraName": "ภรณี",
+      "padaNumber": 2,
+      "startArcMinutes": 1000,
+      "endArcMinutesExclusive": 1200,
+      "startLongitude": "16°40′",
+      "endLongitudeExclusive": "20°00′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 1000,
+          "start": "16°40′",
+          "endArcMinutes": 1200,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P007",
+      "globalPadaNumber": 7,
+      "nakshatraId": "N02",
+      "nakshatraName": "ภรณี",
+      "padaNumber": 3,
+      "startArcMinutes": 1200,
+      "endArcMinutesExclusive": 1400,
+      "startLongitude": "20°00′",
+      "endLongitudeExclusive": "23°20′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 1200,
+          "start": "20°00′",
+          "endArcMinutes": 1400,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P008",
+      "globalPadaNumber": 8,
+      "nakshatraId": "N02",
+      "nakshatraName": "ภรณี",
+      "padaNumber": 4,
+      "startArcMinutes": 1400,
+      "endArcMinutesExclusive": 1600,
+      "startLongitude": "23°20′",
+      "endLongitudeExclusive": "26°40′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 1400,
+          "start": "23°20′",
+          "endArcMinutes": 1600,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P009",
+      "globalPadaNumber": 9,
+      "nakshatraId": "N03",
+      "nakshatraName": "กฤติกา",
+      "padaNumber": 1,
+      "startArcMinutes": 1600,
+      "endArcMinutesExclusive": 1800,
+      "startLongitude": "26°40′",
+      "endLongitudeExclusive": "30°00′",
+      "signSegments": [
+        {
+          "signIndex": 1,
+          "sign": "เมษ",
+          "signLord": "อังคาร",
+          "startArcMinutes": 1600,
+          "start": "26°40′",
+          "endArcMinutes": 1800,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P010",
+      "globalPadaNumber": 10,
+      "nakshatraId": "N03",
+      "nakshatraName": "กฤติกา",
+      "padaNumber": 2,
+      "startArcMinutes": 1800,
+      "endArcMinutesExclusive": 2000,
+      "startLongitude": "30°00′",
+      "endLongitudeExclusive": "33°20′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 1800,
+          "start": "0°00′",
+          "endArcMinutes": 2000,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P011",
+      "globalPadaNumber": 11,
+      "nakshatraId": "N03",
+      "nakshatraName": "กฤติกา",
+      "padaNumber": 3,
+      "startArcMinutes": 2000,
+      "endArcMinutesExclusive": 2200,
+      "startLongitude": "33°20′",
+      "endLongitudeExclusive": "36°40′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 2000,
+          "start": "3°20′",
+          "endArcMinutes": 2200,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P012",
+      "globalPadaNumber": 12,
+      "nakshatraId": "N03",
+      "nakshatraName": "กฤติกา",
+      "padaNumber": 4,
+      "startArcMinutes": 2200,
+      "endArcMinutesExclusive": 2400,
+      "startLongitude": "36°40′",
+      "endLongitudeExclusive": "40°00′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 2200,
+          "start": "6°40′",
+          "endArcMinutes": 2400,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P013",
+      "globalPadaNumber": 13,
+      "nakshatraId": "N04",
+      "nakshatraName": "โรหิณี",
+      "padaNumber": 1,
+      "startArcMinutes": 2400,
+      "endArcMinutesExclusive": 2600,
+      "startLongitude": "40°00′",
+      "endLongitudeExclusive": "43°20′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 2400,
+          "start": "10°00′",
+          "endArcMinutes": 2600,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P014",
+      "globalPadaNumber": 14,
+      "nakshatraId": "N04",
+      "nakshatraName": "โรหิณี",
+      "padaNumber": 2,
+      "startArcMinutes": 2600,
+      "endArcMinutesExclusive": 2800,
+      "startLongitude": "43°20′",
+      "endLongitudeExclusive": "46°40′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 2600,
+          "start": "13°20′",
+          "endArcMinutes": 2800,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P015",
+      "globalPadaNumber": 15,
+      "nakshatraId": "N04",
+      "nakshatraName": "โรหิณี",
+      "padaNumber": 3,
+      "startArcMinutes": 2800,
+      "endArcMinutesExclusive": 3000,
+      "startLongitude": "46°40′",
+      "endLongitudeExclusive": "50°00′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 2800,
+          "start": "16°40′",
+          "endArcMinutes": 3000,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P016",
+      "globalPadaNumber": 16,
+      "nakshatraId": "N04",
+      "nakshatraName": "โรหิณี",
+      "padaNumber": 4,
+      "startArcMinutes": 3000,
+      "endArcMinutesExclusive": 3200,
+      "startLongitude": "50°00′",
+      "endLongitudeExclusive": "53°20′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 3000,
+          "start": "20°00′",
+          "endArcMinutes": 3200,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P017",
+      "globalPadaNumber": 17,
+      "nakshatraId": "N05",
+      "nakshatraName": "มฤคศิร",
+      "padaNumber": 1,
+      "startArcMinutes": 3200,
+      "endArcMinutesExclusive": 3400,
+      "startLongitude": "53°20′",
+      "endLongitudeExclusive": "56°40′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 3200,
+          "start": "23°20′",
+          "endArcMinutes": 3400,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P018",
+      "globalPadaNumber": 18,
+      "nakshatraId": "N05",
+      "nakshatraName": "มฤคศิร",
+      "padaNumber": 2,
+      "startArcMinutes": 3400,
+      "endArcMinutesExclusive": 3600,
+      "startLongitude": "56°40′",
+      "endLongitudeExclusive": "60°00′",
+      "signSegments": [
+        {
+          "signIndex": 2,
+          "sign": "พฤษภ",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 3400,
+          "start": "26°40′",
+          "endArcMinutes": 3600,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P019",
+      "globalPadaNumber": 19,
+      "nakshatraId": "N05",
+      "nakshatraName": "มฤคศิร",
+      "padaNumber": 3,
+      "startArcMinutes": 3600,
+      "endArcMinutesExclusive": 3800,
+      "startLongitude": "60°00′",
+      "endLongitudeExclusive": "63°20′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 3600,
+          "start": "0°00′",
+          "endArcMinutes": 3800,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P020",
+      "globalPadaNumber": 20,
+      "nakshatraId": "N05",
+      "nakshatraName": "มฤคศิร",
+      "padaNumber": 4,
+      "startArcMinutes": 3800,
+      "endArcMinutesExclusive": 4000,
+      "startLongitude": "63°20′",
+      "endLongitudeExclusive": "66°40′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 3800,
+          "start": "3°20′",
+          "endArcMinutes": 4000,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P021",
+      "globalPadaNumber": 21,
+      "nakshatraId": "N06",
+      "nakshatraName": "อารทรา",
+      "padaNumber": 1,
+      "startArcMinutes": 4000,
+      "endArcMinutesExclusive": 4200,
+      "startLongitude": "66°40′",
+      "endLongitudeExclusive": "70°00′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 4000,
+          "start": "6°40′",
+          "endArcMinutes": 4200,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P022",
+      "globalPadaNumber": 22,
+      "nakshatraId": "N06",
+      "nakshatraName": "อารทรา",
+      "padaNumber": 2,
+      "startArcMinutes": 4200,
+      "endArcMinutesExclusive": 4400,
+      "startLongitude": "70°00′",
+      "endLongitudeExclusive": "73°20′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 4200,
+          "start": "10°00′",
+          "endArcMinutes": 4400,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P023",
+      "globalPadaNumber": 23,
+      "nakshatraId": "N06",
+      "nakshatraName": "อารทรา",
+      "padaNumber": 3,
+      "startArcMinutes": 4400,
+      "endArcMinutesExclusive": 4600,
+      "startLongitude": "73°20′",
+      "endLongitudeExclusive": "76°40′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 4400,
+          "start": "13°20′",
+          "endArcMinutes": 4600,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P024",
+      "globalPadaNumber": 24,
+      "nakshatraId": "N06",
+      "nakshatraName": "อารทรา",
+      "padaNumber": 4,
+      "startArcMinutes": 4600,
+      "endArcMinutesExclusive": 4800,
+      "startLongitude": "76°40′",
+      "endLongitudeExclusive": "80°00′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 4600,
+          "start": "16°40′",
+          "endArcMinutes": 4800,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P025",
+      "globalPadaNumber": 25,
+      "nakshatraId": "N07",
+      "nakshatraName": "ปุนัพสุ",
+      "padaNumber": 1,
+      "startArcMinutes": 4800,
+      "endArcMinutesExclusive": 5000,
+      "startLongitude": "80°00′",
+      "endLongitudeExclusive": "83°20′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 4800,
+          "start": "20°00′",
+          "endArcMinutes": 5000,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P026",
+      "globalPadaNumber": 26,
+      "nakshatraId": "N07",
+      "nakshatraName": "ปุนัพสุ",
+      "padaNumber": 2,
+      "startArcMinutes": 5000,
+      "endArcMinutesExclusive": 5200,
+      "startLongitude": "83°20′",
+      "endLongitudeExclusive": "86°40′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 5000,
+          "start": "23°20′",
+          "endArcMinutes": 5200,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P027",
+      "globalPadaNumber": 27,
+      "nakshatraId": "N07",
+      "nakshatraName": "ปุนัพสุ",
+      "padaNumber": 3,
+      "startArcMinutes": 5200,
+      "endArcMinutesExclusive": 5400,
+      "startLongitude": "86°40′",
+      "endLongitudeExclusive": "90°00′",
+      "signSegments": [
+        {
+          "signIndex": 3,
+          "sign": "มิถุน",
+          "signLord": "พุธ",
+          "startArcMinutes": 5200,
+          "start": "26°40′",
+          "endArcMinutes": 5400,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P028",
+      "globalPadaNumber": 28,
+      "nakshatraId": "N07",
+      "nakshatraName": "ปุนัพสุ",
+      "padaNumber": 4,
+      "startArcMinutes": 5400,
+      "endArcMinutesExclusive": 5600,
+      "startLongitude": "90°00′",
+      "endLongitudeExclusive": "93°20′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 5400,
+          "start": "0°00′",
+          "endArcMinutes": 5600,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P029",
+      "globalPadaNumber": 29,
+      "nakshatraId": "N08",
+      "nakshatraName": "ปุษยะ",
+      "padaNumber": 1,
+      "startArcMinutes": 5600,
+      "endArcMinutesExclusive": 5800,
+      "startLongitude": "93°20′",
+      "endLongitudeExclusive": "96°40′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 5600,
+          "start": "3°20′",
+          "endArcMinutes": 5800,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P030",
+      "globalPadaNumber": 30,
+      "nakshatraId": "N08",
+      "nakshatraName": "ปุษยะ",
+      "padaNumber": 2,
+      "startArcMinutes": 5800,
+      "endArcMinutesExclusive": 6000,
+      "startLongitude": "96°40′",
+      "endLongitudeExclusive": "100°00′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 5800,
+          "start": "6°40′",
+          "endArcMinutes": 6000,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P031",
+      "globalPadaNumber": 31,
+      "nakshatraId": "N08",
+      "nakshatraName": "ปุษยะ",
+      "padaNumber": 3,
+      "startArcMinutes": 6000,
+      "endArcMinutesExclusive": 6200,
+      "startLongitude": "100°00′",
+      "endLongitudeExclusive": "103°20′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 6000,
+          "start": "10°00′",
+          "endArcMinutes": 6200,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P032",
+      "globalPadaNumber": 32,
+      "nakshatraId": "N08",
+      "nakshatraName": "ปุษยะ",
+      "padaNumber": 4,
+      "startArcMinutes": 6200,
+      "endArcMinutesExclusive": 6400,
+      "startLongitude": "103°20′",
+      "endLongitudeExclusive": "106°40′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 6200,
+          "start": "13°20′",
+          "endArcMinutes": 6400,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P033",
+      "globalPadaNumber": 33,
+      "nakshatraId": "N09",
+      "nakshatraName": "อาศเลษะ",
+      "padaNumber": 1,
+      "startArcMinutes": 6400,
+      "endArcMinutesExclusive": 6600,
+      "startLongitude": "106°40′",
+      "endLongitudeExclusive": "110°00′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 6400,
+          "start": "16°40′",
+          "endArcMinutes": 6600,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P034",
+      "globalPadaNumber": 34,
+      "nakshatraId": "N09",
+      "nakshatraName": "อาศเลษะ",
+      "padaNumber": 2,
+      "startArcMinutes": 6600,
+      "endArcMinutesExclusive": 6800,
+      "startLongitude": "110°00′",
+      "endLongitudeExclusive": "113°20′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 6600,
+          "start": "20°00′",
+          "endArcMinutes": 6800,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P035",
+      "globalPadaNumber": 35,
+      "nakshatraId": "N09",
+      "nakshatraName": "อาศเลษะ",
+      "padaNumber": 3,
+      "startArcMinutes": 6800,
+      "endArcMinutesExclusive": 7000,
+      "startLongitude": "113°20′",
+      "endLongitudeExclusive": "116°40′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 6800,
+          "start": "23°20′",
+          "endArcMinutes": 7000,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P036",
+      "globalPadaNumber": 36,
+      "nakshatraId": "N09",
+      "nakshatraName": "อาศเลษะ",
+      "padaNumber": 4,
+      "startArcMinutes": 7000,
+      "endArcMinutesExclusive": 7200,
+      "startLongitude": "116°40′",
+      "endLongitudeExclusive": "120°00′",
+      "signSegments": [
+        {
+          "signIndex": 4,
+          "sign": "กรกฎ",
+          "signLord": "จันทร์",
+          "startArcMinutes": 7000,
+          "start": "26°40′",
+          "endArcMinutes": 7200,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P037",
+      "globalPadaNumber": 37,
+      "nakshatraId": "N10",
+      "nakshatraName": "มาฆะ",
+      "padaNumber": 1,
+      "startArcMinutes": 7200,
+      "endArcMinutesExclusive": 7400,
+      "startLongitude": "120°00′",
+      "endLongitudeExclusive": "123°20′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 7200,
+          "start": "0°00′",
+          "endArcMinutes": 7400,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P038",
+      "globalPadaNumber": 38,
+      "nakshatraId": "N10",
+      "nakshatraName": "มาฆะ",
+      "padaNumber": 2,
+      "startArcMinutes": 7400,
+      "endArcMinutesExclusive": 7600,
+      "startLongitude": "123°20′",
+      "endLongitudeExclusive": "126°40′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 7400,
+          "start": "3°20′",
+          "endArcMinutes": 7600,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P039",
+      "globalPadaNumber": 39,
+      "nakshatraId": "N10",
+      "nakshatraName": "มาฆะ",
+      "padaNumber": 3,
+      "startArcMinutes": 7600,
+      "endArcMinutesExclusive": 7800,
+      "startLongitude": "126°40′",
+      "endLongitudeExclusive": "130°00′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 7600,
+          "start": "6°40′",
+          "endArcMinutes": 7800,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P040",
+      "globalPadaNumber": 40,
+      "nakshatraId": "N10",
+      "nakshatraName": "มาฆะ",
+      "padaNumber": 4,
+      "startArcMinutes": 7800,
+      "endArcMinutesExclusive": 8000,
+      "startLongitude": "130°00′",
+      "endLongitudeExclusive": "133°20′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 7800,
+          "start": "10°00′",
+          "endArcMinutes": 8000,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P041",
+      "globalPadaNumber": 41,
+      "nakshatraId": "N11",
+      "nakshatraName": "บุรพผลคุนี",
+      "padaNumber": 1,
+      "startArcMinutes": 8000,
+      "endArcMinutesExclusive": 8200,
+      "startLongitude": "133°20′",
+      "endLongitudeExclusive": "136°40′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 8000,
+          "start": "13°20′",
+          "endArcMinutes": 8200,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P042",
+      "globalPadaNumber": 42,
+      "nakshatraId": "N11",
+      "nakshatraName": "บุรพผลคุนี",
+      "padaNumber": 2,
+      "startArcMinutes": 8200,
+      "endArcMinutesExclusive": 8400,
+      "startLongitude": "136°40′",
+      "endLongitudeExclusive": "140°00′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 8200,
+          "start": "16°40′",
+          "endArcMinutes": 8400,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P043",
+      "globalPadaNumber": 43,
+      "nakshatraId": "N11",
+      "nakshatraName": "บุรพผลคุนี",
+      "padaNumber": 3,
+      "startArcMinutes": 8400,
+      "endArcMinutesExclusive": 8600,
+      "startLongitude": "140°00′",
+      "endLongitudeExclusive": "143°20′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 8400,
+          "start": "20°00′",
+          "endArcMinutes": 8600,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P044",
+      "globalPadaNumber": 44,
+      "nakshatraId": "N11",
+      "nakshatraName": "บุรพผลคุนี",
+      "padaNumber": 4,
+      "startArcMinutes": 8600,
+      "endArcMinutesExclusive": 8800,
+      "startLongitude": "143°20′",
+      "endLongitudeExclusive": "146°40′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 8600,
+          "start": "23°20′",
+          "endArcMinutes": 8800,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P045",
+      "globalPadaNumber": 45,
+      "nakshatraId": "N12",
+      "nakshatraName": "อุตตรผลคุนี",
+      "padaNumber": 1,
+      "startArcMinutes": 8800,
+      "endArcMinutesExclusive": 9000,
+      "startLongitude": "146°40′",
+      "endLongitudeExclusive": "150°00′",
+      "signSegments": [
+        {
+          "signIndex": 5,
+          "sign": "สิงห์",
+          "signLord": "อาทิตย์",
+          "startArcMinutes": 8800,
+          "start": "26°40′",
+          "endArcMinutes": 9000,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P046",
+      "globalPadaNumber": 46,
+      "nakshatraId": "N12",
+      "nakshatraName": "อุตตรผลคุนี",
+      "padaNumber": 2,
+      "startArcMinutes": 9000,
+      "endArcMinutesExclusive": 9200,
+      "startLongitude": "150°00′",
+      "endLongitudeExclusive": "153°20′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 9000,
+          "start": "0°00′",
+          "endArcMinutes": 9200,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P047",
+      "globalPadaNumber": 47,
+      "nakshatraId": "N12",
+      "nakshatraName": "อุตตรผลคุนี",
+      "padaNumber": 3,
+      "startArcMinutes": 9200,
+      "endArcMinutesExclusive": 9400,
+      "startLongitude": "153°20′",
+      "endLongitudeExclusive": "156°40′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 9200,
+          "start": "3°20′",
+          "endArcMinutes": 9400,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P048",
+      "globalPadaNumber": 48,
+      "nakshatraId": "N12",
+      "nakshatraName": "อุตตรผลคุนี",
+      "padaNumber": 4,
+      "startArcMinutes": 9400,
+      "endArcMinutesExclusive": 9600,
+      "startLongitude": "156°40′",
+      "endLongitudeExclusive": "160°00′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 9400,
+          "start": "6°40′",
+          "endArcMinutes": 9600,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P049",
+      "globalPadaNumber": 49,
+      "nakshatraId": "N13",
+      "nakshatraName": "หัสตะ",
+      "padaNumber": 1,
+      "startArcMinutes": 9600,
+      "endArcMinutesExclusive": 9800,
+      "startLongitude": "160°00′",
+      "endLongitudeExclusive": "163°20′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 9600,
+          "start": "10°00′",
+          "endArcMinutes": 9800,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P050",
+      "globalPadaNumber": 50,
+      "nakshatraId": "N13",
+      "nakshatraName": "หัสตะ",
+      "padaNumber": 2,
+      "startArcMinutes": 9800,
+      "endArcMinutesExclusive": 10000,
+      "startLongitude": "163°20′",
+      "endLongitudeExclusive": "166°40′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 9800,
+          "start": "13°20′",
+          "endArcMinutes": 10000,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P051",
+      "globalPadaNumber": 51,
+      "nakshatraId": "N13",
+      "nakshatraName": "หัสตะ",
+      "padaNumber": 3,
+      "startArcMinutes": 10000,
+      "endArcMinutesExclusive": 10200,
+      "startLongitude": "166°40′",
+      "endLongitudeExclusive": "170°00′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 10000,
+          "start": "16°40′",
+          "endArcMinutes": 10200,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P052",
+      "globalPadaNumber": 52,
+      "nakshatraId": "N13",
+      "nakshatraName": "หัสตะ",
+      "padaNumber": 4,
+      "startArcMinutes": 10200,
+      "endArcMinutesExclusive": 10400,
+      "startLongitude": "170°00′",
+      "endLongitudeExclusive": "173°20′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 10200,
+          "start": "20°00′",
+          "endArcMinutes": 10400,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P053",
+      "globalPadaNumber": 53,
+      "nakshatraId": "N14",
+      "nakshatraName": "จิตรา",
+      "padaNumber": 1,
+      "startArcMinutes": 10400,
+      "endArcMinutesExclusive": 10600,
+      "startLongitude": "173°20′",
+      "endLongitudeExclusive": "176°40′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 10400,
+          "start": "23°20′",
+          "endArcMinutes": 10600,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P054",
+      "globalPadaNumber": 54,
+      "nakshatraId": "N14",
+      "nakshatraName": "จิตรา",
+      "padaNumber": 2,
+      "startArcMinutes": 10600,
+      "endArcMinutesExclusive": 10800,
+      "startLongitude": "176°40′",
+      "endLongitudeExclusive": "180°00′",
+      "signSegments": [
+        {
+          "signIndex": 6,
+          "sign": "กันย์",
+          "signLord": "พุธ",
+          "startArcMinutes": 10600,
+          "start": "26°40′",
+          "endArcMinutes": 10800,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P055",
+      "globalPadaNumber": 55,
+      "nakshatraId": "N14",
+      "nakshatraName": "จิตรา",
+      "padaNumber": 3,
+      "startArcMinutes": 10800,
+      "endArcMinutesExclusive": 11000,
+      "startLongitude": "180°00′",
+      "endLongitudeExclusive": "183°20′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 10800,
+          "start": "0°00′",
+          "endArcMinutes": 11000,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P056",
+      "globalPadaNumber": 56,
+      "nakshatraId": "N14",
+      "nakshatraName": "จิตรา",
+      "padaNumber": 4,
+      "startArcMinutes": 11000,
+      "endArcMinutesExclusive": 11200,
+      "startLongitude": "183°20′",
+      "endLongitudeExclusive": "186°40′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 11000,
+          "start": "3°20′",
+          "endArcMinutes": 11200,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P057",
+      "globalPadaNumber": 57,
+      "nakshatraId": "N15",
+      "nakshatraName": "สวาติ",
+      "padaNumber": 1,
+      "startArcMinutes": 11200,
+      "endArcMinutesExclusive": 11400,
+      "startLongitude": "186°40′",
+      "endLongitudeExclusive": "190°00′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 11200,
+          "start": "6°40′",
+          "endArcMinutes": 11400,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P058",
+      "globalPadaNumber": 58,
+      "nakshatraId": "N15",
+      "nakshatraName": "สวาติ",
+      "padaNumber": 2,
+      "startArcMinutes": 11400,
+      "endArcMinutesExclusive": 11600,
+      "startLongitude": "190°00′",
+      "endLongitudeExclusive": "193°20′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 11400,
+          "start": "10°00′",
+          "endArcMinutes": 11600,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P059",
+      "globalPadaNumber": 59,
+      "nakshatraId": "N15",
+      "nakshatraName": "สวาติ",
+      "padaNumber": 3,
+      "startArcMinutes": 11600,
+      "endArcMinutesExclusive": 11800,
+      "startLongitude": "193°20′",
+      "endLongitudeExclusive": "196°40′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 11600,
+          "start": "13°20′",
+          "endArcMinutes": 11800,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P060",
+      "globalPadaNumber": 60,
+      "nakshatraId": "N15",
+      "nakshatraName": "สวาติ",
+      "padaNumber": 4,
+      "startArcMinutes": 11800,
+      "endArcMinutesExclusive": 12000,
+      "startLongitude": "196°40′",
+      "endLongitudeExclusive": "200°00′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 11800,
+          "start": "16°40′",
+          "endArcMinutes": 12000,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P061",
+      "globalPadaNumber": 61,
+      "nakshatraId": "N16",
+      "nakshatraName": "วิศาขา",
+      "padaNumber": 1,
+      "startArcMinutes": 12000,
+      "endArcMinutesExclusive": 12200,
+      "startLongitude": "200°00′",
+      "endLongitudeExclusive": "203°20′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 12000,
+          "start": "20°00′",
+          "endArcMinutes": 12200,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P062",
+      "globalPadaNumber": 62,
+      "nakshatraId": "N16",
+      "nakshatraName": "วิศาขา",
+      "padaNumber": 2,
+      "startArcMinutes": 12200,
+      "endArcMinutesExclusive": 12400,
+      "startLongitude": "203°20′",
+      "endLongitudeExclusive": "206°40′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 12200,
+          "start": "23°20′",
+          "endArcMinutes": 12400,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P063",
+      "globalPadaNumber": 63,
+      "nakshatraId": "N16",
+      "nakshatraName": "วิศาขา",
+      "padaNumber": 3,
+      "startArcMinutes": 12400,
+      "endArcMinutesExclusive": 12600,
+      "startLongitude": "206°40′",
+      "endLongitudeExclusive": "210°00′",
+      "signSegments": [
+        {
+          "signIndex": 7,
+          "sign": "ตุล",
+          "signLord": "ศุกร์",
+          "startArcMinutes": 12400,
+          "start": "26°40′",
+          "endArcMinutes": 12600,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P064",
+      "globalPadaNumber": 64,
+      "nakshatraId": "N16",
+      "nakshatraName": "วิศาขา",
+      "padaNumber": 4,
+      "startArcMinutes": 12600,
+      "endArcMinutesExclusive": 12800,
+      "startLongitude": "210°00′",
+      "endLongitudeExclusive": "213°20′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 12600,
+          "start": "0°00′",
+          "endArcMinutes": 12800,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P065",
+      "globalPadaNumber": 65,
+      "nakshatraId": "N17",
+      "nakshatraName": "อนุราธา",
+      "padaNumber": 1,
+      "startArcMinutes": 12800,
+      "endArcMinutesExclusive": 13000,
+      "startLongitude": "213°20′",
+      "endLongitudeExclusive": "216°40′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 12800,
+          "start": "3°20′",
+          "endArcMinutes": 13000,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P066",
+      "globalPadaNumber": 66,
+      "nakshatraId": "N17",
+      "nakshatraName": "อนุราธา",
+      "padaNumber": 2,
+      "startArcMinutes": 13000,
+      "endArcMinutesExclusive": 13200,
+      "startLongitude": "216°40′",
+      "endLongitudeExclusive": "220°00′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 13000,
+          "start": "6°40′",
+          "endArcMinutes": 13200,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P067",
+      "globalPadaNumber": 67,
+      "nakshatraId": "N17",
+      "nakshatraName": "อนุราธา",
+      "padaNumber": 3,
+      "startArcMinutes": 13200,
+      "endArcMinutesExclusive": 13400,
+      "startLongitude": "220°00′",
+      "endLongitudeExclusive": "223°20′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 13200,
+          "start": "10°00′",
+          "endArcMinutes": 13400,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P068",
+      "globalPadaNumber": 68,
+      "nakshatraId": "N17",
+      "nakshatraName": "อนุราธา",
+      "padaNumber": 4,
+      "startArcMinutes": 13400,
+      "endArcMinutesExclusive": 13600,
+      "startLongitude": "223°20′",
+      "endLongitudeExclusive": "226°40′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 13400,
+          "start": "13°20′",
+          "endArcMinutes": 13600,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P069",
+      "globalPadaNumber": 69,
+      "nakshatraId": "N18",
+      "nakshatraName": "เชษฐา",
+      "padaNumber": 1,
+      "startArcMinutes": 13600,
+      "endArcMinutesExclusive": 13800,
+      "startLongitude": "226°40′",
+      "endLongitudeExclusive": "230°00′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 13600,
+          "start": "16°40′",
+          "endArcMinutes": 13800,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P070",
+      "globalPadaNumber": 70,
+      "nakshatraId": "N18",
+      "nakshatraName": "เชษฐา",
+      "padaNumber": 2,
+      "startArcMinutes": 13800,
+      "endArcMinutesExclusive": 14000,
+      "startLongitude": "230°00′",
+      "endLongitudeExclusive": "233°20′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 13800,
+          "start": "20°00′",
+          "endArcMinutes": 14000,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P071",
+      "globalPadaNumber": 71,
+      "nakshatraId": "N18",
+      "nakshatraName": "เชษฐา",
+      "padaNumber": 3,
+      "startArcMinutes": 14000,
+      "endArcMinutesExclusive": 14200,
+      "startLongitude": "233°20′",
+      "endLongitudeExclusive": "236°40′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 14000,
+          "start": "23°20′",
+          "endArcMinutes": 14200,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P072",
+      "globalPadaNumber": 72,
+      "nakshatraId": "N18",
+      "nakshatraName": "เชษฐา",
+      "padaNumber": 4,
+      "startArcMinutes": 14200,
+      "endArcMinutesExclusive": 14400,
+      "startLongitude": "236°40′",
+      "endLongitudeExclusive": "240°00′",
+      "signSegments": [
+        {
+          "signIndex": 8,
+          "sign": "พิจิก",
+          "signLord": "อังคาร",
+          "startArcMinutes": 14200,
+          "start": "26°40′",
+          "endArcMinutes": 14400,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P073",
+      "globalPadaNumber": 73,
+      "nakshatraId": "N19",
+      "nakshatraName": "มูละ",
+      "padaNumber": 1,
+      "startArcMinutes": 14400,
+      "endArcMinutesExclusive": 14600,
+      "startLongitude": "240°00′",
+      "endLongitudeExclusive": "243°20′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 14400,
+          "start": "0°00′",
+          "endArcMinutes": 14600,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P074",
+      "globalPadaNumber": 74,
+      "nakshatraId": "N19",
+      "nakshatraName": "มูละ",
+      "padaNumber": 2,
+      "startArcMinutes": 14600,
+      "endArcMinutesExclusive": 14800,
+      "startLongitude": "243°20′",
+      "endLongitudeExclusive": "246°40′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 14600,
+          "start": "3°20′",
+          "endArcMinutes": 14800,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P075",
+      "globalPadaNumber": 75,
+      "nakshatraId": "N19",
+      "nakshatraName": "มูละ",
+      "padaNumber": 3,
+      "startArcMinutes": 14800,
+      "endArcMinutesExclusive": 15000,
+      "startLongitude": "246°40′",
+      "endLongitudeExclusive": "250°00′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 14800,
+          "start": "6°40′",
+          "endArcMinutes": 15000,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P076",
+      "globalPadaNumber": 76,
+      "nakshatraId": "N19",
+      "nakshatraName": "มูละ",
+      "padaNumber": 4,
+      "startArcMinutes": 15000,
+      "endArcMinutesExclusive": 15200,
+      "startLongitude": "250°00′",
+      "endLongitudeExclusive": "253°20′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 15000,
+          "start": "10°00′",
+          "endArcMinutes": 15200,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P077",
+      "globalPadaNumber": 77,
+      "nakshatraId": "N20",
+      "nakshatraName": "บุรพาษาฒ",
+      "padaNumber": 1,
+      "startArcMinutes": 15200,
+      "endArcMinutesExclusive": 15400,
+      "startLongitude": "253°20′",
+      "endLongitudeExclusive": "256°40′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 15200,
+          "start": "13°20′",
+          "endArcMinutes": 15400,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P078",
+      "globalPadaNumber": 78,
+      "nakshatraId": "N20",
+      "nakshatraName": "บุรพาษาฒ",
+      "padaNumber": 2,
+      "startArcMinutes": 15400,
+      "endArcMinutesExclusive": 15600,
+      "startLongitude": "256°40′",
+      "endLongitudeExclusive": "260°00′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 15400,
+          "start": "16°40′",
+          "endArcMinutes": 15600,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P079",
+      "globalPadaNumber": 79,
+      "nakshatraId": "N20",
+      "nakshatraName": "บุรพาษาฒ",
+      "padaNumber": 3,
+      "startArcMinutes": 15600,
+      "endArcMinutesExclusive": 15800,
+      "startLongitude": "260°00′",
+      "endLongitudeExclusive": "263°20′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 15600,
+          "start": "20°00′",
+          "endArcMinutes": 15800,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P080",
+      "globalPadaNumber": 80,
+      "nakshatraId": "N20",
+      "nakshatraName": "บุรพาษาฒ",
+      "padaNumber": 4,
+      "startArcMinutes": 15800,
+      "endArcMinutesExclusive": 16000,
+      "startLongitude": "263°20′",
+      "endLongitudeExclusive": "266°40′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 15800,
+          "start": "23°20′",
+          "endArcMinutes": 16000,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P081",
+      "globalPadaNumber": 81,
+      "nakshatraId": "N21",
+      "nakshatraName": "อุตตราษาฒ",
+      "padaNumber": 1,
+      "startArcMinutes": 16000,
+      "endArcMinutesExclusive": 16200,
+      "startLongitude": "266°40′",
+      "endLongitudeExclusive": "270°00′",
+      "signSegments": [
+        {
+          "signIndex": 9,
+          "sign": "ธนู",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 16000,
+          "start": "26°40′",
+          "endArcMinutes": 16200,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P082",
+      "globalPadaNumber": 82,
+      "nakshatraId": "N21",
+      "nakshatraName": "อุตตราษาฒ",
+      "padaNumber": 2,
+      "startArcMinutes": 16200,
+      "endArcMinutesExclusive": 16400,
+      "startLongitude": "270°00′",
+      "endLongitudeExclusive": "273°20′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 16200,
+          "start": "0°00′",
+          "endArcMinutes": 16400,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P083",
+      "globalPadaNumber": 83,
+      "nakshatraId": "N21",
+      "nakshatraName": "อุตตราษาฒ",
+      "padaNumber": 3,
+      "startArcMinutes": 16400,
+      "endArcMinutesExclusive": 16600,
+      "startLongitude": "273°20′",
+      "endLongitudeExclusive": "276°40′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 16400,
+          "start": "3°20′",
+          "endArcMinutes": 16600,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P084",
+      "globalPadaNumber": 84,
+      "nakshatraId": "N21",
+      "nakshatraName": "อุตตราษาฒ",
+      "padaNumber": 4,
+      "startArcMinutes": 16600,
+      "endArcMinutesExclusive": 16800,
+      "startLongitude": "276°40′",
+      "endLongitudeExclusive": "280°00′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 16600,
+          "start": "6°40′",
+          "endArcMinutes": 16800,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P085",
+      "globalPadaNumber": 85,
+      "nakshatraId": "N22",
+      "nakshatraName": "ศรวณะ",
+      "padaNumber": 1,
+      "startArcMinutes": 16800,
+      "endArcMinutesExclusive": 17000,
+      "startLongitude": "280°00′",
+      "endLongitudeExclusive": "283°20′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 16800,
+          "start": "10°00′",
+          "endArcMinutes": 17000,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P086",
+      "globalPadaNumber": 86,
+      "nakshatraId": "N22",
+      "nakshatraName": "ศรวณะ",
+      "padaNumber": 2,
+      "startArcMinutes": 17000,
+      "endArcMinutesExclusive": 17200,
+      "startLongitude": "283°20′",
+      "endLongitudeExclusive": "286°40′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 17000,
+          "start": "13°20′",
+          "endArcMinutes": 17200,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P087",
+      "globalPadaNumber": 87,
+      "nakshatraId": "N22",
+      "nakshatraName": "ศรวณะ",
+      "padaNumber": 3,
+      "startArcMinutes": 17200,
+      "endArcMinutesExclusive": 17400,
+      "startLongitude": "286°40′",
+      "endLongitudeExclusive": "290°00′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 17200,
+          "start": "16°40′",
+          "endArcMinutes": 17400,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P088",
+      "globalPadaNumber": 88,
+      "nakshatraId": "N22",
+      "nakshatraName": "ศรวณะ",
+      "padaNumber": 4,
+      "startArcMinutes": 17400,
+      "endArcMinutesExclusive": 17600,
+      "startLongitude": "290°00′",
+      "endLongitudeExclusive": "293°20′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 17400,
+          "start": "20°00′",
+          "endArcMinutes": 17600,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P089",
+      "globalPadaNumber": 89,
+      "nakshatraId": "N23",
+      "nakshatraName": "ธนิษฐา",
+      "padaNumber": 1,
+      "startArcMinutes": 17600,
+      "endArcMinutesExclusive": 17800,
+      "startLongitude": "293°20′",
+      "endLongitudeExclusive": "296°40′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 17600,
+          "start": "23°20′",
+          "endArcMinutes": 17800,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P090",
+      "globalPadaNumber": 90,
+      "nakshatraId": "N23",
+      "nakshatraName": "ธนิษฐา",
+      "padaNumber": 2,
+      "startArcMinutes": 17800,
+      "endArcMinutesExclusive": 18000,
+      "startLongitude": "296°40′",
+      "endLongitudeExclusive": "300°00′",
+      "signSegments": [
+        {
+          "signIndex": 10,
+          "sign": "มกร",
+          "signLord": "เสาร์",
+          "startArcMinutes": 17800,
+          "start": "26°40′",
+          "endArcMinutes": 18000,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P091",
+      "globalPadaNumber": 91,
+      "nakshatraId": "N23",
+      "nakshatraName": "ธนิษฐา",
+      "padaNumber": 3,
+      "startArcMinutes": 18000,
+      "endArcMinutesExclusive": 18200,
+      "startLongitude": "300°00′",
+      "endLongitudeExclusive": "303°20′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 18000,
+          "start": "0°00′",
+          "endArcMinutes": 18200,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P092",
+      "globalPadaNumber": 92,
+      "nakshatraId": "N23",
+      "nakshatraName": "ธนิษฐา",
+      "padaNumber": 4,
+      "startArcMinutes": 18200,
+      "endArcMinutesExclusive": 18400,
+      "startLongitude": "303°20′",
+      "endLongitudeExclusive": "306°40′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 18200,
+          "start": "3°20′",
+          "endArcMinutes": 18400,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P093",
+      "globalPadaNumber": 93,
+      "nakshatraId": "N24",
+      "nakshatraName": "ศตภิษัช",
+      "padaNumber": 1,
+      "startArcMinutes": 18400,
+      "endArcMinutesExclusive": 18600,
+      "startLongitude": "306°40′",
+      "endLongitudeExclusive": "310°00′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 18400,
+          "start": "6°40′",
+          "endArcMinutes": 18600,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P094",
+      "globalPadaNumber": 94,
+      "nakshatraId": "N24",
+      "nakshatraName": "ศตภิษัช",
+      "padaNumber": 2,
+      "startArcMinutes": 18600,
+      "endArcMinutesExclusive": 18800,
+      "startLongitude": "310°00′",
+      "endLongitudeExclusive": "313°20′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 18600,
+          "start": "10°00′",
+          "endArcMinutes": 18800,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P095",
+      "globalPadaNumber": 95,
+      "nakshatraId": "N24",
+      "nakshatraName": "ศตภิษัช",
+      "padaNumber": 3,
+      "startArcMinutes": 18800,
+      "endArcMinutesExclusive": 19000,
+      "startLongitude": "313°20′",
+      "endLongitudeExclusive": "316°40′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 18800,
+          "start": "13°20′",
+          "endArcMinutes": 19000,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P096",
+      "globalPadaNumber": 96,
+      "nakshatraId": "N24",
+      "nakshatraName": "ศตภิษัช",
+      "padaNumber": 4,
+      "startArcMinutes": 19000,
+      "endArcMinutesExclusive": 19200,
+      "startLongitude": "316°40′",
+      "endLongitudeExclusive": "320°00′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 19000,
+          "start": "16°40′",
+          "endArcMinutes": 19200,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P097",
+      "globalPadaNumber": 97,
+      "nakshatraId": "N25",
+      "nakshatraName": "บุรพภัทรบท",
+      "padaNumber": 1,
+      "startArcMinutes": 19200,
+      "endArcMinutesExclusive": 19400,
+      "startLongitude": "320°00′",
+      "endLongitudeExclusive": "323°20′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 19200,
+          "start": "20°00′",
+          "endArcMinutes": 19400,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P098",
+      "globalPadaNumber": 98,
+      "nakshatraId": "N25",
+      "nakshatraName": "บุรพภัทรบท",
+      "padaNumber": 2,
+      "startArcMinutes": 19400,
+      "endArcMinutesExclusive": 19600,
+      "startLongitude": "323°20′",
+      "endLongitudeExclusive": "326°40′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 19400,
+          "start": "23°20′",
+          "endArcMinutes": 19600,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P099",
+      "globalPadaNumber": 99,
+      "nakshatraId": "N25",
+      "nakshatraName": "บุรพภัทรบท",
+      "padaNumber": 3,
+      "startArcMinutes": 19600,
+      "endArcMinutesExclusive": 19800,
+      "startLongitude": "326°40′",
+      "endLongitudeExclusive": "330°00′",
+      "signSegments": [
+        {
+          "signIndex": 11,
+          "sign": "กุมภ์",
+          "signLord": "เสาร์",
+          "startArcMinutes": 19600,
+          "start": "26°40′",
+          "endArcMinutes": 19800,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P100",
+      "globalPadaNumber": 100,
+      "nakshatraId": "N25",
+      "nakshatraName": "บุรพภัทรบท",
+      "padaNumber": 4,
+      "startArcMinutes": 19800,
+      "endArcMinutesExclusive": 20000,
+      "startLongitude": "330°00′",
+      "endLongitudeExclusive": "333°20′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 19800,
+          "start": "0°00′",
+          "endArcMinutes": 20000,
+          "end": "3°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P101",
+      "globalPadaNumber": 101,
+      "nakshatraId": "N26",
+      "nakshatraName": "อุตรภัทรบท",
+      "padaNumber": 1,
+      "startArcMinutes": 20000,
+      "endArcMinutesExclusive": 20200,
+      "startLongitude": "333°20′",
+      "endLongitudeExclusive": "336°40′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 20000,
+          "start": "3°20′",
+          "endArcMinutes": 20200,
+          "end": "6°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P102",
+      "globalPadaNumber": 102,
+      "nakshatraId": "N26",
+      "nakshatraName": "อุตรภัทรบท",
+      "padaNumber": 2,
+      "startArcMinutes": 20200,
+      "endArcMinutesExclusive": 20400,
+      "startLongitude": "336°40′",
+      "endLongitudeExclusive": "340°00′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 20200,
+          "start": "6°40′",
+          "endArcMinutes": 20400,
+          "end": "10°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P103",
+      "globalPadaNumber": 103,
+      "nakshatraId": "N26",
+      "nakshatraName": "อุตรภัทรบท",
+      "padaNumber": 3,
+      "startArcMinutes": 20400,
+      "endArcMinutesExclusive": 20600,
+      "startLongitude": "340°00′",
+      "endLongitudeExclusive": "343°20′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 20400,
+          "start": "10°00′",
+          "endArcMinutes": 20600,
+          "end": "13°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P104",
+      "globalPadaNumber": 104,
+      "nakshatraId": "N26",
+      "nakshatraName": "อุตรภัทรบท",
+      "padaNumber": 4,
+      "startArcMinutes": 20600,
+      "endArcMinutesExclusive": 20800,
+      "startLongitude": "343°20′",
+      "endLongitudeExclusive": "346°40′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 20600,
+          "start": "13°20′",
+          "endArcMinutes": 20800,
+          "end": "16°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P105",
+      "globalPadaNumber": 105,
+      "nakshatraId": "N27",
+      "nakshatraName": "เรวดี",
+      "padaNumber": 1,
+      "startArcMinutes": 20800,
+      "endArcMinutesExclusive": 21000,
+      "startLongitude": "346°40′",
+      "endLongitudeExclusive": "350°00′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 20800,
+          "start": "16°40′",
+          "endArcMinutes": 21000,
+          "end": "20°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P106",
+      "globalPadaNumber": 106,
+      "nakshatraId": "N27",
+      "nakshatraName": "เรวดี",
+      "padaNumber": 2,
+      "startArcMinutes": 21000,
+      "endArcMinutesExclusive": 21200,
+      "startLongitude": "350°00′",
+      "endLongitudeExclusive": "353°20′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 21000,
+          "start": "20°00′",
+          "endArcMinutes": 21200,
+          "end": "23°20′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P107",
+      "globalPadaNumber": 107,
+      "nakshatraId": "N27",
+      "nakshatraName": "เรวดี",
+      "padaNumber": 3,
+      "startArcMinutes": 21200,
+      "endArcMinutesExclusive": 21400,
+      "startLongitude": "353°20′",
+      "endLongitudeExclusive": "356°40′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 21200,
+          "start": "23°20′",
+          "endArcMinutes": 21400,
+          "end": "26°40′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    },
+    {
+      "id": "P108",
+      "globalPadaNumber": 108,
+      "nakshatraId": "N27",
+      "nakshatraName": "เรวดี",
+      "padaNumber": 4,
+      "startArcMinutes": 21400,
+      "endArcMinutesExclusive": 21600,
+      "startLongitude": "356°40′",
+      "endLongitudeExclusive": "360°00′",
+      "signSegments": [
+        {
+          "signIndex": 12,
+          "sign": "มีน",
+          "signLord": "พฤหัสบดี",
+          "startArcMinutes": 21400,
+          "start": "26°40′",
+          "endArcMinutes": 21600,
+          "end": "30°00′"
+        }
+      ],
+      "interpretationStatus": "missing_unless_source_describes_pada",
+      "note": "ตำแหน่งบาทคำนวณจากการแบ่ง 13°20′ ออกเป็น 4 ส่วนเท่ากัน; ไม่ใช่คำพยากรณ์เฉพาะบาท"
+    }
+  ]
+}
