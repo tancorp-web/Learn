@@ -1977,8 +1977,31 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
   const future=futureEvents.filter(item=>item.stamp>start)
    .sort((a,b)=>a.stamp-b.stamp);
   const current=past.find(item=>item.signIndex===targetSign)||null;
-  const previous=past.filter(item=>!current||item.stamp<current.stamp).slice(0,5);
-  return {previous:previous.reverse(),current,next:future.slice(0,5)};
+  const previous=past.filter(item=>!current||item.stamp<current.stamp).slice(0,5).reverse();
+  const next=future.slice(0,5);
+  // Read motion status from the same HORA engine at each actual boundary.
+  // For planets without a published Engine motion state, derive direction
+  // and signed speed from two nearby HORA positions (not from another zodiac).
+  const enrichEvent=async item=>{
+   if(!item)return null;
+   const result=await calculationAtStamp(item.stamp,longitude,true);
+   const motion=result?.planets?.find(entry=>entry?.name===planet);
+   const engineSpeed=Number(motion?.speedArcminPerDay);
+   const before=await planetLongitude(item.stamp-6*3600000,planet,longitude);
+   const after=await planetLongitude(item.stamp+6*3600000,planet,longitude);
+   let delta=after-before;
+   if(delta>180)delta-=360;
+   if(delta<-180)delta+=360;
+   const derivedSpeed=delta*60*2;
+   const speed=Number.isFinite(engineSpeed)?engineSpeed:derivedSpeed;
+   const directionLabel=Math.abs(speed)<0.01?'ใกล้หยุด':speed<0?'ถอยหลัง':'เดินหน้า';
+   const state=motion?.motionState||directionLabel;
+   return {...item,motionState:state,direction:directionLabel,speedArcminPerDay:Number.isFinite(speed)?speed:null};
+  };
+  const [previousDetailed,currentDetailed,nextDetailed]=await Promise.all([
+   Promise.all(previous.map(enrichEvent)),enrichEvent(current),Promise.all(next.map(enrichEvent))
+  ]);
+  return {previous:previousDetailed,current:currentDetailed,next:nextDetailed};
  };
  let panel=$('planetSignStayPanel8');
  if(!panel){
@@ -2159,15 +2182,15 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
    history.appendChild(summary);
    const table=document.createElement('table');
    const thead=document.createElement('thead'),headRow=document.createElement('tr');
-   ['ชื่อภพ · นับจากลัคนาเดิม','ราศี ณ เวลานั้น','วัน เดือน ปี และเวลา'].forEach(label=>{
+   ['ชื่อภพ · นับจากลัคนาเดิม','ราศี ณ เวลานั้น','วัน เดือน ปี และเวลา','ทิศทาง / สถานะ','ความเร็ว (ลิปดา/วัน)'].forEach(label=>{
     const th=document.createElement('th');th.textContent=label;headRow.appendChild(th);
    });
    thead.appendChild(headRow);table.appendChild(thead);
    const tbody=document.createElement('tbody');
    const rows=[
-    ...ingressHistory.previous.map((item,index)=>({label:'ย้อนหลัง '+(ingressHistory.previous.length-index),signIndex:item.signIndex,stamp:item.stamp})),
-    {label:'ราศีปัจจุบัน',signIndex:Math.floor((((Number(currentLon)%360)+360)%360)/30),stamp:ingressHistory.current?.stamp??null,current:true},
-    ...ingressHistory.next.map((item,index)=>({label:'ล่วงหน้า '+(index+1),signIndex:item.signIndex,stamp:item.stamp}))
+    ...ingressHistory.previous.map((item,index)=>({...item,label:'ย้อนหลัง '+(ingressHistory.previous.length-index)})),
+    {...(ingressHistory.current||{}),label:'ราศีปัจจุบัน',signIndex:Math.floor((((Number(currentLon)%360)+360)%360)/30),stamp:ingressHistory.current?.stamp??null,current:true},
+    ...ingressHistory.next.map((item,index)=>({...item,label:'ล่วงหน้า '+(index+1)}))
    ];
    rows.forEach(item=>{
     const tr=document.createElement('tr');if(item.current)tr.className='pss-current';
@@ -2177,7 +2200,10 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
     houseStrong.className='pss-house-name';
     houseStrong.textContent=Number.isInteger(item.signIndex)?resolveNatalHouseForSign(item.signIndex):'-';
     houseCell.appendChild(houseStrong);tr.appendChild(houseCell);
-    [rowSign,item.stamp==null?'ไม่พบภายในช่วงค้นหา':localDateTime(item.stamp)].forEach(value=>{
+    [rowSign,item.stamp==null?'ไม่พบภายในช่วงค้นหา':localDateTime(item.stamp),
+     item.motionState||'-',
+     Number.isFinite(item.speedArcminPerDay)?item.speedArcminPerDay.toFixed(2):'-'
+    ].forEach(value=>{
      const td=document.createElement('td');td.textContent=value;tr.appendChild(td);
     });
     tbody.appendChild(tr);
