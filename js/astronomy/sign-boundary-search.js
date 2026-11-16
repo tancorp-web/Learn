@@ -131,8 +131,9 @@ export async function findSignBoundaryEvents({
     const segmentDelta = signedAngularDelta(previousLongitude, currentLongitude);
     const segmentDirection = Math.abs(segmentDelta) < 1e-8 ? 0 : Math.sign(segmentDelta);
 
-    // Direction reversal brackets a station over the preceding two segments.
-    // Inspect its extremum directly; never enumerate every minute in the span.
+    // Direction reversal brackets a station from the last moving sample,
+    // including any intervening zero-motion samples. Never enumerate every
+    // minute in the full search span.
     if (segmentDirection && previousDirection && segmentDirection !== previousDirection) {
       const chronologicalDirection = previousDirection * direction;
       const maximizeChronological = chronologicalDirection > 0;
