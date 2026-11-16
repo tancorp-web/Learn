@@ -12,7 +12,7 @@ header,.panel{background:var(--paper);border:1px solid var(--line);border-radius
 header{background:linear-gradient(135deg,#fff,#f6f0e4)}h1{font-size:1.5rem;margin:8px 0 5px}h2{font-size:1.12rem;margin:0 0 13px}h3{font-size:1rem;margin:0 0 10px}
 .sub,.muted,small{color:var(--muted)}.sub{font-size:.92rem}.muted{font-size:.86rem;line-height:1.65}.tag{display:inline-block;background:#eee7da;border-radius:30px;padding:4px 10px;font-size:.78rem}
 .form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field label{display:block;font-size:.88rem;color:#514b43}.field input,.field select{width:100%;padding:11px;border:1px solid #d8d1c6;border-radius:9px;margin-top:5px;font:inherit;background:#fff;color:var(--ink);min-width:0}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
+.date-field{grid-column:span 3}.date-selects{display:grid;grid-template-columns:1fr 1.5fr 1.2fr;gap:8px;margin-top:5px}.date-selects select{margin-top:0;min-height:44px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
 .note{background:#f8f4eb;border-left:3px solid #b9a47e;padding:10px 12px;border-radius:7px;margin-top:12px;font-size:.85rem;color:#625847}
 .details{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:11px}.details summary{cursor:pointer;font-weight:650}.optional-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
 .result-head{line-height:1.85}.result-head .lead{font-weight:700}.result-head .meta{color:var(--muted);font-size:.9rem}
@@ -30,8 +30,8 @@ table.calc thead th{background:#eee8dc;font-size:.78rem;color:#665d50}
 .group-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.group{border:1px solid var(--line);border-radius:10px;padding:11px}.group h3{font-size:.93rem}.group p{margin:4px 0;font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}
 .hidden{display:none!important}.error{color:#9b3f27;font-weight:650}.success{color:#286044;font-weight:650}
 footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
-@media(max-width:760px){body{padding:8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.optional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:1fr}.group-list{grid-template-columns:1fr}header,.panel{padding:13px}h1{font-size:1.25rem}}
-@media(max-width:390px){.form-grid{grid-template-columns:1fr}.optional-grid{grid-template-columns:1fr}}
+@media(max-width:760px){body{padding:8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.date-field{grid-column:span 2}.optional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:1fr}.group-list{grid-template-columns:1fr}header,.panel{padding:13px}h1{font-size:1.25rem}}
+@media(max-width:390px){.form-grid{grid-template-columns:1fr}.date-field{grid-column:span 1}.optional-grid{grid-template-columns:1fr}}
 @media print{body{background:#fff;padding:0}.panel,header{box-shadow:none;break-inside:avoid}.form-panel,.actions,footer{display:none!important}.table-scroll{overflow:visible}table.calc{min-width:0;font-size:10px}.num{font-size:1rem}}
 </style>
 </head>
@@ -49,9 +49,9 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <div class="field"><label for="name">ชื่อ-สกุล</label><input id="name" placeholder="ชื่อ-สกุล"></div>
 <div class="field"><label for="sex">เพศ</label><select id="sex"><option value="">ไม่ระบุ</option><option>ชาย</option><option>หญิง</option></select></div>
 <div class="field"><label for="place">จังหวัด / สถานที่เกิด</label><input id="place" placeholder="เช่น ขอนแก่น"></div>
-<div class="field"><label for="birth">วันเดือนปีเกิด</label><input id="birth" type="date" required></div>
+<div class="field date-field"><label>วันเดือนปีเกิด</label><div class="date-selects"><select id="birthDay" aria-label="วันเกิด"><option value="">วัน</option></select><select id="birthMonth" aria-label="เดือนเกิด"><option value="">เดือน</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select><select id="birthYear" aria-label="ปีเกิด พ.ศ."><option value="">ปี พ.ศ.</option></select></div></div>
 <div class="field"><label for="time">เวลาเกิด</label><input id="time" type="time" required></div>
-<div class="field"><label for="transit">วันเดือนปีจร</label><input id="transit" type="date" required></div>
+<div class="field date-field"><label>วันเดือนปีจร</label><div class="date-selects"><select id="transitDay" aria-label="วันจร"><option value="">วัน</option></select><select id="transitMonth" aria-label="เดือนจร"><option value="">เดือน</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select><select id="transitYear" aria-label="ปีจร พ.ศ."><option value="">ปี พ.ศ.</option></select></div></div>
 <div class="field"><label for="transitTime">เวลาจร</label><input id="transitTime" type="time" required></div>
 </div>
 <div class="actions">
@@ -60,7 +60,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <button type="button" class="secondary" id="print">พิมพ์ / บันทึก PDF</button>
 <button type="button" class="secondary" id="reset">ล้างข้อมูล</button>
 </div>
-<div class="note">ผู้ใช้กรอกเฉพาะวันเดือนปีและเวลาเกิด / วันเดือนปีและเวลาจรเท่านั้น โปรแกรมคำนวณวันในสัปดาห์ ข้างขึ้น–ข้างแรม ค่ำ เดือนจันทรคติ ปีนักษัตร และศักราชให้อัตโนมัติ โดยถือเวลา 06:00 น. เป็นจุดเปลี่ยนวันทางปฏิทินไทย (ก่อน 06:00 น. นับเป็นวันก่อนหน้า)</div>
+<div class="note">เลือกวัน เดือน และปี พ.ศ. แยกช่องด้วยการกดเลือกหรือเลื่อนรายการ ทั้งวันเกิดและวันจร ส่วนเวลาให้กรอกเอง โปรแกรมคำนวณวันในสัปดาห์ ข้างขึ้น–ข้างแรม ค่ำ เดือนจันทรคติ ปีนักษัตร และศักราชให้อัตโนมัติ โดยถือเวลา 06:00 น. เป็นจุดเปลี่ยนวันทางปฏิทินไทย (ก่อน 06:00 น. นับเป็นวันก่อนหน้า)</div>
 <div id="formError" class="error" role="alert"></div>
 </section>
 
@@ -408,10 +408,32 @@ function renderInfo(prefix,info,name,place,label){
  const matches=groupData.map((g,i)=>({name:g[0],index:i+1,codes:g[1].split(/\s+/)})).filter(g=>g.codes.includes(code));
  $(prefix+'GroupMatches').innerHTML='รหัสตั้งต้น วัน-เดือน-ปี: <b>'+toThai(info.dayStart)+'-'+toThai(info.monthStart)+'-'+toThai(info.yearStart)+'</b> · รหัสสามหลัก <b>'+code+'</b><br>'+(matches.length?matches.map(g=>'<span class="tag">'+g.index+'. '+escapeHtml(g.name)+'</span>').join(' '):'ไม่พบรหัสนี้ในรายการ 12 กลุ่มที่บันทึกไว้');
 }
+function initDatePickers(){
+ const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ ['birth','transit'].forEach(prefix=>{
+  const yearEl=$(prefix+'Year'),monthEl=$(prefix+'Month'),dayEl=$(prefix+'Day');
+  for(let be=2300;be<=2700;be++){const o=document.createElement('option');o.value=String(be-543);o.textContent='พ.ศ. '+toThai(be);yearEl.appendChild(o);}
+  const refresh=()=>{const keep=dayEl.value,m=Number(monthEl.value),y=Number(yearEl.value),max=m&&y?new Date(Date.UTC(y,m,0)).getUTCDate():31;dayEl.innerHTML='<option value="">วัน</option>';for(let d=1;d<=max;d++){const o=document.createElement('option');o.value=String(d);o.textContent=toThai(d);dayEl.appendChild(o);}if(keep&&Number(keep)<=max)dayEl.value=keep;};
+  monthEl.addEventListener('change',refresh);yearEl.addEventListener('change',refresh);refresh();
+ });
+}
+function datePickerValue(prefix){
+ const d=$(prefix+'Day').value,m=$(prefix+'Month').value,y=$(prefix+'Year').value;
+ if(!d||!m||!y)return '';
+ const yy=Number(y),mm=Number(m),dd=Number(d),dt=new Date(Date.UTC(yy,mm-1,dd));
+ if(dt.getUTCFullYear()!==yy||dt.getUTCMonth()!==mm-1||dt.getUTCDate()!==dd)throw new Error('วันเดือนปีไม่ถูกต้อง');
+ return String(yy).padStart(4,'0')+'-'+String(mm).padStart(2,'0')+'-'+String(dd).padStart(2,'0');
+}
+function setDatePicker(prefix,iso){
+ const p=parseDate(iso),dayEl=$(prefix+'Day');
+ $(prefix+'Month').value=String(p.month);$(prefix+'Year').value=String(p.year);
+ const max=new Date(Date.UTC(p.year,p.month,0)).getUTCDate();dayEl.innerHTML='<option value="">วัน</option>';
+ for(let d=1;d<=max;d++){const o=document.createElement('option');o.value=String(d);o.textContent=toThai(d);dayEl.appendChild(o);}dayEl.value=String(p.day);
+}
 function calculate(){
  $('formError').textContent='';
  try{
-  const birth=$('birth').value,birthTime=$('time').value,transit=$('transit').value,transitTime=$('transitTime').value;
+  const birth=datePickerValue('birth'),birthTime=$('time').value,transit=datePickerValue('transit'),transitTime=$('transitTime').value;
   if(!birth||!birthTime||!transit||!transitTime)throw new Error('กรุณากรอกวันเดือนปีและเวลาทั้งวันเกิดและวันจรให้ครบ');
   const birthInfo=calculateDateInfo(birth,birthTime);
   const transitInfo=calculateDateInfo(transit,transitTime);
@@ -430,10 +452,11 @@ $('reset').addEventListener('click',()=>{
  $('formError').textContent='';$('output').classList.add('hidden');
 });
 $('sample').addEventListener('click',()=>{
- $('name').value='Golden Case';$('birth').value='2026-11-16';$('time').value='15:35';
- $('transit').value='2026-11-17';$('transitTime').value='19:00';
+ $('name').value='Golden Case';setDatePicker('birth','2026-11-16');$('time').value='15:35';
+ setDatePicker('transit','2026-11-17');$('transitTime').value='19:00';
  $('place').value='ขอนแก่น';calculate();
 });
+initDatePickers();
 })();
 </script>
 </body>
