@@ -4495,11 +4495,11 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
 </script>
 
 <style id="page916-button-order-grid-v3">
-/* One explicit two-column layout: reset first, calculate second, status below. */
+/* Fixed order: reset first on the left, calculate second on the right, status below. */
 #calculatePanel .calc-row{
  display:grid!important;
  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
- grid-template-areas:"calculate reset" "status status"!important;
+ grid-template-areas:"reset calculate" "status status"!important;
  align-items:stretch!important;
  gap:10px!important;
 }
