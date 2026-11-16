@@ -2930,7 +2930,14 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  };
  // The main chart engine announces its completed natal/transit data here.
  // Wait briefly so every existing listener caches the same fresh data first.
- window.addEventListener('hora50:chart-calculated',()=>{runAll();});
+ window.addEventListener('hora50:chart-calculated',()=>{
+   runAll();
+   // หลังคำนวณดวงหลักเสร็จ เลื่อนไปยังตารางสรุปผลตารางแรกโดยอัตโนมัติ
+   window.setTimeout(()=>{
+     const firstResultTable=document.querySelector('#planetSummary911 .ps911-wrap');
+     if(firstResultTable)firstResultTable.scrollIntoView({behavior:'smooth',block:'start'});
+   },450);
+ });
  const main=$('calc');
  if(main){
    main.textContent='คำนวณทุกอย่าง';
