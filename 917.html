@@ -4794,7 +4794,7 @@ import { getPlanetaryDignities, getPlanetaryDignityReferences, getParivartanaKas
  'use strict';
  const tbody=document.getElementById('planetSummary911Rows');
  if(!tbody)return;
- const thai=n=>String(n).replace(/\\d/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ const thai=n=>String(n).replace(/\d/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
  const planetNames={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
  let latest=null,scheduled=false;
  const navPlacements=(chart,navOf)=>{
