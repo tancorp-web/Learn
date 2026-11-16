@@ -34,6 +34,24 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 @media(max-width:390px){.form-grid{grid-template-columns:1fr}.date-field{grid-column:span 1}.optional-grid{grid-template-columns:1fr}}
 @media print{body{background:#fff;padding:0}.panel,header{box-shadow:none;break-inside:avoid}.form-panel,.actions,footer{display:none!important}.table-scroll{overflow:visible}table.calc{min-width:0;font-size:10px}.num{font-size:1rem}}
 </style>
+
+<style>
+#birthTables,#transitTables{display:none!important}
+.combined-panel{margin-top:14px!important}
+.combined-scroll{overflow-x:auto}
+.combined-calc{width:100%;min-width:760px;border-collapse:collapse;font-size:13px}
+.combined-calc th,.combined-calc td{border:1px solid var(--line);padding:9px 8px;text-align:center;vertical-align:middle}
+.combined-calc thead th{background:var(--soft);font-weight:700}
+.combined-calc tbody th{white-space:nowrap;background:#faf8f3}
+.combined-calc td:nth-child(2),.combined-calc td:nth-child(3){white-space:nowrap;font-variant-numeric:tabular-nums}
+.combined-calc td[rowspan]{min-width:126px;padding:6px}
+.thaksa-stack{display:grid;gap:5px;text-align:left;min-width:112px}
+.thaksa-stack>div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:2px 0}
+.thaksa-stack>div:last-child{border-bottom:0}
+.thaksa-stack span{color:var(--muted);font-size:11px}
+.thaksa-stack b{font-size:12px;white-space:nowrap}
+@media(max-width:600px){.combined-calc th,.combined-calc td{padding:7px 6px;font-size:12px}}
+</style>
 </head>
 <body>
 <main class="wrap">
@@ -79,6 +97,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <div id="transitTables"></div>
 <details class="details"><summary>รหัสประจำดวงจร · คลังข้อมูล 12 กลุ่ม</summary><div id="transitGroupMatches" class="muted"></div></details>
 </div>
+<div class="panel combined-panel"><h2>ผลฐาน ๑–๙ และทักษา</h2><div id="combinedResults"></div></div>
 </section>
 
 <footer>i002 · ระบบคำนวณ 343 · แยกจากระบบ HORA และแยกจากคลังตำราอ้างอิงภายนอก</footer>
@@ -388,12 +407,69 @@ function renderInfo(prefix,info,name,place,label){
  '<div class="summary-item"><span class="muted">ฐาน 1 · วันตั้งต้น</span><b>'+toThai(info.dayStart)+' · '+stars[info.dayStart]+'</b></div>'+
  '<div class="summary-item"><span class="muted">ฐาน 2 · เดือนตั้งต้น</span><b>'+toThai(info.monthStart)+' · '+lunarMonthLabel(info.lunar.month)+'</b></div>'+
  '<div class="summary-item"><span class="muted">ฐาน 3 · ปีตั้งต้น</span><b>'+toThai(info.yearStart)+' · ปี'+info.animal+'</b></div>';
- const rows=calcRows(info.dayStart,info.monthStart,info.yearStart);
- $(prefix+'Tables').innerHTML=rows.map((r,i)=>renderTable(i+1,r)).join('');
+ $(prefix+'Tables').innerHTML='';
  const code=''+info.dayStart+info.monthStart+info.yearStart;
  const matches=groupData.map((g,i)=>({name:g[0],index:i+1,codes:g[1].split(/\s+/)})).filter(g=>g.codes.includes(code));
  $(prefix+'GroupMatches').innerHTML='รหัสตั้งต้น วัน-เดือน-ปี: <b>'+toThai(info.dayStart)+'-'+toThai(info.monthStart)+'-'+toThai(info.yearStart)+'</b> · รหัสสามหลัก <b>'+code+'</b><br>'+(matches.length?matches.map(g=>'<span class="tag">'+g.index+'. '+escapeHtml(g.name)+'</span>').join(' '):'ไม่พบรหัสนี้ในรายการ 12 กลุ่มที่บันทึกไว้');
 }
+
+const thaksaRoles=['บริวาร','อายุ','เดช','ศรี','มูละ','อุตสาหะ','มนตรี','กาลกิณี'];
+const thaksaPlanets=['อาทิตย์','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
+const thaksaPath=['อาทิตย์','จุดกลาง','จันทร์','อังคาร','พุธ','เสาร์','พฤหัสบดี','ราหู','ศุกร์'];
+const thaksaWeekdayPlanets=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+function thaksaBirthPlanet(dateText,timeText){
+ const p=parseDate(dateText),hh=Number(timeText.split(':')[0]);
+ let dow=new Date(Date.UTC(p.year,p.month-1,p.day)).getUTCDay();
+ const beforeSix=hh<6;
+ const wednesdayNight=(dow===3&&hh>=18)||(dow===4&&beforeSix);
+ if(beforeSix)dow=new Date(Date.UTC(p.year,p.month-1,p.day-1)).getUTCDay();
+ return wednesdayNight?'ราหู':thaksaWeekdayPlanets[dow];
+}
+function thaksaAgeYang(birthDate,transitDate){
+ const b=parseDate(birthDate),t=parseDate(transitDate);
+ let years=t.year-b.year;
+ if(t.month<b.month||(t.month===b.month&&t.day<b.day))years--;
+ return Math.max(1,Math.max(0,years)+1);
+}
+function thaksaDigitalRoot(n){
+ while(n>9)n=String(n).split('').reduce((sum,d)=>sum+Number(d),0);
+ return n;
+}
+function thaksaTransitPlanet(start,ageYang){
+ const count=thaksaDigitalRoot(ageYang);
+ let index=thaksaPath.indexOf(start);if(index<0)index=0;
+ let found=start;
+ for(let n=0;n<count;n++)found=thaksaPath[(index+n)%thaksaPath.length];
+ return found==='จุดกลาง'?'พฤหัสบดี':found;
+}
+function thaksaRoleMap(start){
+ const map={};let index=thaksaPlanets.indexOf(start);if(index<0)index=0;
+ for(let i=0;i<8;i++)map[thaksaPlanets[(index+i)%8]]=thaksaRoles[i];
+ return map;
+}
+function renderThaksaStack(start){
+ const map=thaksaRoleMap(start);
+ return '<div class="thaksa-stack">'+thaksaRoles.map(role=>{
+  const planet=Object.keys(map).find(name=>map[name]===role)||'—';
+  return '<div><span>'+role+'</span><b>'+planet+'</b></div>';
+ }).join('')+'</div>';
+}
+function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDate){
+ const birthRows=calcRows(birthInfo.dayStart,birthInfo.monthStart,birthInfo.yearStart);
+ const transitRows=calcRows(transitInfo.dayStart,transitInfo.monthStart,transitInfo.yearStart);
+ const oldStart=thaksaBirthPlanet(birthDate,birthTime);
+ const ageYang=thaksaAgeYang(birthDate,transitDate);
+ const transitStart=thaksaTransitPlanet(oldStart,ageYang);
+ let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th>ฐาน</th><th>ดวงเดิม</th><th>ดวงจร</th><th>ทักษาเดิม</th><th>ทักษาจร</th></tr></thead><tbody>';
+ for(let i=0;i<9;i++){
+  html+='<tr><th>ฐาน '+toThai(i+1)+'</th><td>'+birthRows[i].map(toThai).join(' · ')+'</td><td>'+transitRows[i].map(toThai).join(' · ')+'</td>';
+  if(i===0)html+='<td rowspan="9">'+renderThaksaStack(oldStart)+'</td><td rowspan="9">'+renderThaksaStack(transitStart)+'</td>';
+  html+='</tr>';
+ }
+ html+='</tbody></table></div>';
+ $('combinedResults').innerHTML=html;
+}
+
 function initDatePickers(){
  const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
  ['birth','transit'].forEach(prefix=>{
@@ -425,6 +501,7 @@ function calculate(){
   const name=$('name').value.trim(),place=$('place').value.trim();
   renderInfo('birth',birthInfo,name,place,'เกิด');
   renderInfo('transit',transitInfo,'','', 'จร');
+  renderCombinedTable(birthInfo,transitInfo,birth,birthTime,transit);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
  }catch(err){$('formError').textContent=err.message||'เกิดข้อผิดพลาดในการคำนวณ';}
