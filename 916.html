@@ -4351,6 +4351,49 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
 
 <footer id="hora-credit-footer" style="margin:28px auto 16px;padding:14px 16px;max-width:1100px;text-align:center;border-top:1px solid #d8dee8;color:#64748b;font-size:13px;line-height:1.8">อสังหาพยากรณ์ โดย โหรธนนทร · โทร. <a href="tel:0915544146" style="color:inherit;text-decoration:none">0915544146</a></footer>
 <style id="ps916-compact-three-columns">#planetSummary911 .ps911-table th:nth-child(1){width:34%}#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:33%}@media(max-width:600px){#planetSummary911 .ps911-table th:nth-child(1){width:34%}#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:33%}}</style>
+<script id="page916-result-freshness-v1">
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const thaiDigits=value=>String(value).replace(/\d/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ const weekdays=['วันอาทิตย์','วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์'];
+ const format=prefix=>{
+  const day=Number($(prefix+'Day')?.value),month=Number($(prefix+'Month')?.value),year=Number($(prefix+'Year')?.value);
+  const hour=Number($(prefix+'Hour')?.value),minute=Number($(prefix+'Minute')?.value);
+  if(!Number.isInteger(day)||!Number.isInteger(month)||!Number.isInteger(year)||month<1||month>12||day<1||day>31||year<2400)return 'รอข้อมูลวันที่';
+  const date=new Date(Date.UTC(year-543,month-1,day));
+  if(date.getUTCFullYear()!==year-543||date.getUTCMonth()!==month-1||date.getUTCDate()!==day)return 'วันที่ไม่ถูกต้อง';
+  if(!Number.isInteger(hour)||hour<0||hour>23||!Number.isInteger(minute)||minute<0||minute>59)return weekdays[date.getUTCDay()]+' '+thaiDigits(day)+' '+months[month-1]+' พ.ศ. '+thaiDigits(year);
+  return weekdays[date.getUTCDay()]+' '+thaiDigits(day)+' '+months[month-1]+' พ.ศ. '+thaiDigits(year)+' เวลา '+thaiDigits(String(hour).padStart(2,'0'))+':'+thaiDigits(String(minute).padStart(2,'0'))+' น.';
+ };
+ const clearSummary=()=>{
+  const birth=$('ps911BirthDate'),transit=$('ps911TransitDate'),asc=$('ps911NatalAsc'),rows=$('planetSummary911Rows');
+  if(birth)birth.textContent='รอคำนวณดวงกำเนิด';
+  if(transit)transit.textContent='รอคำนวณวันจร';
+  if(asc)asc.textContent='รอข้อมูลลัคนา';
+  if(rows)rows.innerHTML='<tr><td colspan="4">ข้อมูลเปลี่ยนแล้ว · กรุณากด “คำนวณทุกอย่าง” เพื่อคำนวณชุดข้อมูลล่าสุด</td></tr>';
+ };
+ const showCalculatedDates=()=>{
+  const birth=$('ps911BirthDate'),transit=$('ps911TransitDate');
+  if(birth)birth.textContent=format('b');
+  if(transit)transit.textContent=format('f');
+  const button=$('calc');
+  if(button)window.setTimeout(()=>{if(button.dataset.calculating!=='1')button.textContent='คำนวณทุกอย่าง';},0);
+ };
+ const panel=$('calculatePanel'),button=$('calc');
+ clearSummary();
+ if(panel){
+  ['input','change'].forEach(type=>panel.addEventListener(type,event=>{
+   if(event.target?.matches('input,select,textarea'))clearSummary();
+  }));
+ }
+ button?.addEventListener('click',clearSummary);
+ window.addEventListener('hora50:chart-calculated',showCalculatedDates);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>window.setTimeout(clearSummary,0),{once:true});
+ if(button)button.textContent='คำนวณทุกอย่าง';
+})();
+</script>
 </body></html>
 <!-- HORA_SPECIAL_ADISORN_YONGYOT_20261116 -->
 <script>
