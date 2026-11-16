@@ -727,11 +727,12 @@ td,th{border-color:#e2e8f0!important}
  </div>
  <div class="table-wrap ps911-wrap">
   <table class="ps911-table">
-   <thead><tr><th>ดาว / เกณฑ์ และจุดสังเกต</th><th>ดาวเดิม / ผล</th><th>ดาวจร / ผล</th></tr></thead>
-   <tbody id="planetSummary911Rows"><tr><td colspan="3">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
+   <thead><tr><th>ดาว / เกณฑ์</th><th>ดาวเดิม / ผล</th><th>ดาวจร / ผล</th><th>จุดสังเกต / สถานะ</th></tr></thead>
+   <tbody id="planetSummary911Rows"><tr><td colspan="4">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
   </table>
  </div>
- <p class="ps911-note">แสดงลัคนาและดาวครบ ๑๐ ดวง · สีม่วง = ดาวเดิม/เกณฑ์เดิม · สีเขียว = ดาวจร/เกณฑ์จร · สีของป้ายมาตรฐานแยกตามประเภทเกณฑ์</p>
+<div class="ps916-formula-note"><strong>เกณฑ์ที่ยังรอยืนยันสูตร</strong><span>จันทร์คุรุสุริยา · ดอกอุตพิต · นำผล/นำพล · ตามผล/ขับพล · ดวงจันทร์เสี้ยว · มาลัยโยค · อัฒจักร</span></div>
+  <p class="ps911-note">แสดงลัคนาและดาวครบ ๑๐ ดวง · สีม่วง = ดาวเดิม/เกณฑ์เดิม · สีเขียว = ดาวจร/เกณฑ์จร · สีของป้ายมาตรฐานแยกตามประเภทเกณฑ์</p>
    <div class="ps916-credit-bottom"><strong>อสังหาพยากรณ์</strong><span>โดย โหรธนนทร</span><small>HORA · ตารางสรุปองศาและมาตรฐานดาว</small></div>
 </section>
 <style id="planetSummary911Style">
@@ -799,14 +800,14 @@ td,th{border-color:#e2e8f0!important}
 #planetSummary911 .ps911-dates>div:nth-child(3){background:#fff9eb;border-color:#f0dfb4}
 #planetSummary911 .ps911-dates>div:nth-child(3) strong{color:#8a641c}
 #planetSummary911 .ps911-toggles{background:#fafbfe;border-color:#e4e8f1}
-#planetSummary911 .ps911-wrap{border:1px solid #dce2ed;border-radius:12px;box-shadow:0 4px 14px rgba(24,39,75,.045);overscroll-behavior-x:contain}
-#planetSummary911 .ps911-table{min-width:940px;width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0}
+#planetSummary911 .ps911-wrap{border:1px solid #dce2ed;border-radius:12px;box-shadow:0 4px 14px rgba(24,39,75,.045);overflow-x:hidden}
+#planetSummary911 .ps911-table{width:100%;min-width:0;table-layout:fixed;border-collapse:separate;border-spacing:0}
 #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:10px 11px;font-size:12px;line-height:1.55}
 #planetSummary911 .ps911-table th{position:sticky;top:0;z-index:4;background:#f0f2f8;color:#34425e;border-bottom:1px solid #d8deea;white-space:normal}
-#planetSummary911 .ps911-table th:nth-child(1){width:18%;background:#f0f2f8}
+#planetSummary911 .ps911-table th:nth-child(1){width:22%;background:#f0f2f8}
 #planetSummary911 .ps911-table th:nth-child(2){width:25%;background:#eee8ff;color:#4c328a}
 #planetSummary911 .ps911-table th:nth-child(3){width:25%;background:#e2f5e9;color:#176b3a}
-#planetSummary911 .ps911-table th:nth-child(4){width:32%;background:#fff7e8;color:#805b20}
+#planetSummary911 .ps911-table th:nth-child(4){width:28%;background:#fff7e8;color:#805b20}
 #planetSummary911 .ps911-table td{border-bottom:1px solid #e9edf4}
 #planetSummary911 .ps911-table tbody tr:not(.ps911-group) td:nth-child(1){background:#fbfcfe}
 #planetSummary911 .ps911-table tbody tr:not(.ps911-group) td:nth-child(2){background:#fcfaff}
@@ -860,12 +861,16 @@ td,th{border-color:#e2e8f0!important}
  #planetSummary911 .ps916-credit-top strong{font-size:13px}
  #planetSummary911 .ps911-dates{grid-template-columns:1fr 1fr}
  #planetSummary911 .ps911-dates .ps911-asc{grid-column:1/-1}
- #planetSummary911 .ps911-table{min-width:880px}
- #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:9px 8px;font-size:11px}
- #planetSummary911 .ps911-table th:nth-child(1){width:18%}
- #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:25%}
- #planetSummary911 .ps911-table th:nth-child(4){width:32%}
- #planetSummary911 .ps911-pos{font-size:12px}
+ #planetSummary911 .ps911-table{width:100%;min-width:0;table-layout:fixed}
+ #planetSummary911 .ps911-table th,#planetSummary911 .ps911-table td{padding:6px 3px;font-size:9.5px;line-height:1.35;overflow-wrap:anywhere;word-break:normal}
+ #planetSummary911 .ps911-table th:nth-child(1){width:22%}
+ #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:26%}
+ #planetSummary911 .ps911-table th:nth-child(4){width:26%}
+ #planetSummary911 .ps911-pos{font-size:10.5px}
+ #planetSummary911 .ps911-standard{font-size:8.5px;padding:1px 3px;margin:3px 2px 0 0}
+ #planetSummary911 .ps911-motion{font-size:8.5px}
+ #planetSummary911 .ps911-flag{font-size:8.5px;padding:2px 3px;margin:1px 1px 1px 0}
+ #planetSummary911 .ps911-tag-row{margin:2px 0;line-height:1.35}
 }
 @media(prefers-reduced-motion:reduce){#planetSummary911 .ps911-table tbody tr{transition:none}}
 </style>
@@ -1146,7 +1151,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
     if(b&&Number.isFinite(Number(b.longitude))&&tanuSesha?.planetName===name)natalTags.push('ตนุเศษ');
     const nameTags=tagLine('เดิม',[...new Set(natalTags)])+tagLine('จร',[...new Set(transitTags)]);
     const flags=tagLine('เดิม',[...new Set(nFlags)])+tagLine('จร',[...new Set(tFlags)]);
-    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+(flags||'')+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null,'เดิม')+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null,'จร')+'</td></tr>');
+    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null,'เดิม')+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null,'จร')+'</td><td>'+(flags||'—')+'</td></tr>');
    });
    tbody.innerHTML=rows.join('');
  };
