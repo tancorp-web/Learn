@@ -2932,11 +2932,6 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
  // Wait briefly so every existing listener caches the same fresh data first.
  window.addEventListener('hora50:chart-calculated',()=>{
    runAll();
-   // หลังคำนวณดวงหลักเสร็จ เลื่อนไปยังตารางสรุปผลตารางแรกโดยอัตโนมัติ
-   window.setTimeout(()=>{
-     const firstResultTable=document.querySelector('#planetSummary911 .ps911-wrap');
-     if(firstResultTable)firstResultTable.scrollIntoView({behavior:'smooth',block:'start'});
-   },450);
  });
  const main=$('calc');
  if(main){
@@ -4368,6 +4363,16 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
    body.classList.add('hora915-calculated');
    window.hora915SetFormOnly?.(false);
    if(edit)edit.hidden=false;
+   // รอให้ซ่อนแบบฟอร์มและจัดหน้าแสดงผลเสร็จก่อน จึงเลื่อนไปตารางแรก
+   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+     window.setTimeout(()=>{
+       const firstResultTable=document.querySelector('#planetSummary911 .ps911-wrap table');
+       if(firstResultTable){
+         firstResultTable.style.scrollMarginTop='18px';
+         firstResultTable.scrollIntoView({behavior:'smooth',block:'start'});
+       }
+     },180);
+   }));
  };
  const returnToForm=()=>{
    body.classList.remove('hora915-calculated');
