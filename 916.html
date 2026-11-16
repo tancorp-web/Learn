@@ -636,9 +636,24 @@ td,th{border-color:#e2e8f0!important}
 
 <style id="hora916-show-header-before-calc">
 /* PAGE 916: keep the professional HORA header visible before and after calculation. */
-body.hora915-form-first:not(.hora915-calculated) header.hero{
+header.hero{
   display:block!important;
   visibility:visible!important;
+  width:100%!important;
+  text-align:center!important;
+}
+header.hero > .container{
+  width:min(1200px,calc(100% - 36px))!important;
+  margin-inline:auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+header.hero > .container > *{
+  max-width:100%;
+  text-align:center!important;
 }
 </style>
 
@@ -3759,7 +3774,7 @@ inp.addEventListener('change',()=>{const q=inp.value.trim().toLocaleLowerCase('t
 inp.addEventListener('blur',()=>{window.setTimeout(()=>{if(!wrap.contains(document.activeElement)){close();isTyping=false;syncFromSelect();}},120);});
 sel.addEventListener('change',syncFromSelect);new MutationObserver(()=>{if(!isTyping){syncFromSelect();if(document.activeElement===inp)render();}}).observe(sel,{childList:true,subtree:true});syncFromSelect();
 }
-function setFormOnly(on){const header=document.querySelector('header.hero'),footer=document.querySelector('footer'),picker=$('displayPicker9');if(header)header.hidden=on;if(footer)footer.hidden=on;if(picker)picker.hidden=on;groups.forEach((g,k)=>{g.wrap.hidden=on&&k!=='data';const summary=g.details.querySelector('summary');if(summary)summary.hidden=on&&k==='data';if(k==='data')g.details.open=true;});}
+function setFormOnly(on){const header=document.querySelector('header.hero'),footer=document.querySelector('footer'),picker=$('displayPicker9');if(header)header.hidden=false;if(footer)footer.hidden=on;if(picker)picker.hidden=on;groups.forEach((g,k)=>{g.wrap.hidden=on&&k!=='data';const summary=g.details.querySelector('summary');if(summary)summary.hidden=on&&k==='data';if(k==='data')g.details.open=true;});}
 window.hora915SetFormOnly=setFormOnly;
 function init(){if($('displayPicker9')?.dataset.page799Ready)return;[['bYear','year'],['fYear','year'],['bProvince','province'],['fProvince','province']].forEach(x=>search(...x));if(!build())return;$('displayPicker9').dataset.page799Ready='1';try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){if(Array.isArray(x.order)){const a=x.order.filter((k,i)=>byKey.has(k)&&x.order.indexOf(k)===i);state.order=[...a,...keys.filter(k=>!a.includes(k))];}if(x.visible)keys.forEach(k=>state.visible[k]=x.visible[k]!==false);if(x.collapsed)keys.forEach(k=>state.collapsed[k]=x.collapsed[k]===true);}}catch(e){console.warn('[799] load layout',e);}apply();controls();setFormOnly(true);$('displayPickerAll9')?.addEventListener('click',()=>all(true));$('displayPickerNone9')?.addEventListener('click',()=>all(false));$('displayPickerReset9')?.addEventListener('click',reset);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
