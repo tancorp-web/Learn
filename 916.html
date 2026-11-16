@@ -4368,8 +4368,8 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
      window.setTimeout(()=>{
        const resultHeading=document.querySelector('#planetSummary911 .ps916-heading');
        if(resultHeading){
-         resultHeading.style.scrollMarginTop='18px';
-         resultHeading.scrollIntoView({behavior:'smooth',block:'start'});
+         const targetTop=resultHeading.getBoundingClientRect().top+window.scrollY-12;
+         window.scrollTo({top:Math.max(0,targetTop),behavior:'smooth'});
        }
      },180);
    }));
