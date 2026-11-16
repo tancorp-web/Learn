@@ -12,7 +12,7 @@ header,.panel{background:var(--paper);border:1px solid var(--line);border-radius
 header{background:linear-gradient(135deg,#fff,#f6f0e4)}h1{font-size:1.5rem;margin:8px 0 5px}h2{font-size:1.12rem;margin:0 0 13px}h3{font-size:1rem;margin:0 0 10px}
 .sub,.muted,small{color:var(--muted)}.sub{font-size:.92rem}.muted{font-size:.86rem;line-height:1.65}.tag{display:inline-block;background:#eee7da;border-radius:30px;padding:4px 10px;font-size:.78rem}
 .form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field label{display:block;font-size:.88rem;color:#514b43}.field input,.field select{width:100%;padding:11px;border:1px solid #d8d1c6;border-radius:9px;margin-top:5px;font:inherit;background:#fff;color:var(--ink);min-width:0}
-.date-field{grid-column:span 3}.date-selects{display:grid;grid-template-columns:1fr 1.5fr 1.2fr;gap:8px;margin-top:5px}.date-selects select{margin-top:0;min-height:44px}.time-selects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}.time-selects select{margin-top:0;min-height:44px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
+.date-field{grid-column:span 3}.timezone-note{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}.date-selects{display:grid;grid-template-columns:1fr 1.5fr 1.2fr;gap:8px;margin-top:5px}.date-selects select{margin-top:0;min-height:44px}.time-selects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}.time-selects select{margin-top:0;min-height:44px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
 .note{background:#f8f4eb;border-left:3px solid #b9a47e;padding:10px 12px;border-radius:7px;margin-top:12px;font-size:.85rem;color:#625847}
 .details{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:11px}.details summary{cursor:pointer;font-weight:650}.optional-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
 .result-head{line-height:1.85}.result-head .lead{font-weight:700}.result-head .meta{color:var(--muted);font-size:.9rem}
@@ -39,12 +39,16 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 #birthTables,#transitTables{display:none!important}
 .combined-panel{margin-top:14px!important}
 .combined-scroll{overflow-x:auto}
-.combined-calc{width:100%;min-width:1400px;border-collapse:collapse;font-size:14px;table-layout:fixed}
+.combined-calc{width:100%;min-width:920px;border-collapse:collapse;font-size:14px;table-layout:fixed}
 .combined-calc th,.combined-calc td{border:1px solid var(--line);padding:9px 5px;text-align:center;vertical-align:middle}
 .combined-calc .house{display:block;font-size:11px;line-height:1.25;color:#625847;white-space:normal;min-height:2.5em}
 .combined-calc .num{display:block;font-size:19px;font-weight:800;line-height:1.35}
-.combined-calc .transit-col{display:table-cell}
-.combined-calc .transit-col.is-hidden{display:none!important}
+.combined-calc .transit-value{display:none!important;color:#16734a;font-weight:800}
+.combined-calc.show-transit .transit-value{display:inline!important}
+.combined-calc .transit-value small{display:block;color:#16734a;font-size:10px;font-weight:600}
+.combined-calc .paired-value{display:flex;flex-direction:column;align-items:center;gap:3px}
+.combined-calc .birth-value{font-weight:800}
+.timezone-note{line-height:1.4}
 .combined-calc thead th{background:var(--soft);font-weight:700}
 .combined-calc tbody th{white-space:nowrap;background:#faf8f3}
 .combined-calc td:nth-child(n+2):nth-child(-n+15){white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -87,10 +91,13 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <div class="form-grid">
 <div class="field"><label for="name">ชื่อ-สกุล</label><input id="name" placeholder="ชื่อ-สกุล"></div>
 <div class="field"><label for="sex">เพศ</label><select id="sex"><option value="">ไม่ระบุ</option><option>ชาย</option><option>หญิง</option></select></div>
-<div class="field"><label for="place">จังหวัดเกิด</label><select id="place"><option value="">เลือกจังหวัด</option><option>กรุงเทพมหานคร</option><option>กระบี่</option><option>กาญจนบุรี</option><option>กาฬสินธุ์</option><option>กำแพงเพชร</option><option>ขอนแก่น</option><option>จันทบุรี</option><option>ฉะเชิงเทรา</option><option>ชลบุรี</option><option>ชัยนาท</option><option>ชัยภูมิ</option><option>ชุมพร</option><option>เชียงราย</option><option>เชียงใหม่</option><option>ตรัง</option><option>ตราด</option><option>ตาก</option><option>นครนายก</option><option>นครปฐม</option><option>นครพนม</option><option>นครราชสีมา</option><option>นครศรีธรรมราช</option><option>นครสวรรค์</option><option>นนทบุรี</option><option>นราธิวาส</option><option>น่าน</option><option>บึงกาฬ</option><option>บุรีรัมย์</option><option>ปทุมธานี</option><option>ประจวบคีรีขันธ์</option><option>ปราจีนบุรี</option><option>ปัตตานี</option><option>พระนครศรีอยุธยา</option><option>พะเยา</option><option>พังงา</option><option>พัทลุง</option><option>พิจิตร</option><option>พิษณุโลก</option><option>เพชรบุรี</option><option>เพชรบูรณ์</option><option>แพร่</option><option>ภูเก็ต</option><option>มหาสารคาม</option><option>มุกดาหาร</option><option>แม่ฮ่องสอน</option><option>ยโสธร</option><option>ยะลา</option><option>ร้อยเอ็ด</option><option>ระนอง</option><option>ระยอง</option><option>ราชบุรี</option><option>ลพบุรี</option><option>ลำปาง</option><option>ลำพูน</option><option>เลย</option><option>ศรีสะเกษ</option><option>สกลนคร</option><option>สงขลา</option><option>สตูล</option><option>สมุทรปราการ</option><option>สมุทรสงคราม</option><option>สมุทรสาคร</option><option>สระแก้ว</option><option>สระบุรี</option><option>สิงห์บุรี</option><option>สุโขทัย</option><option>สุพรรณบุรี</option><option>สุราษฎร์ธานี</option><option>สุรินทร์</option><option>หนองคาย</option><option>หนองบัวลำภู</option><option>อ่างทอง</option><option>อำนาจเจริญ</option><option>อุดรธานี</option><option>อุตรดิตถ์</option><option>อุทัยธานี</option><option>อุบลราชธานี</option></select></div>
+<div class="field"><label for="birthCountry">ประเทศที่เกิด</label><select id="birthCountry" class="country-select"></select></div>
+<div class="field"><label for="birthZone">เมือง / เขตเวลาเกิด</label><select id="birthZone"></select><small id="birthGmt" class="timezone-note">GMT+7 · ประเทศไทย</small></div>
 <div class="field date-field"><label>วันเดือนปีเกิด</label><div class="date-selects"><select id="birthDay" aria-label="วันเกิด"><option value="">วัน</option><option value="1">๑</option><option value="2">๒</option><option value="3">๓</option><option value="4">๔</option><option value="5">๕</option><option value="6">๖</option><option value="7">๗</option><option value="8">๘</option><option value="9">๙</option><option value="10">๑๐</option><option value="11">๑๑</option><option value="12">๑๒</option><option value="13">๑๓</option><option value="14">๑๔</option><option value="15">๑๕</option><option value="16">๑๖</option><option value="17">๑๗</option><option value="18">๑๘</option><option value="19">๑๙</option><option value="20">๒๐</option><option value="21">๒๑</option><option value="22">๒๒</option><option value="23">๒๓</option><option value="24">๒๔</option><option value="25">๒๕</option><option value="26">๒๖</option><option value="27">๒๗</option><option value="28">๒๘</option><option value="29">๒๙</option><option value="30">๓๐</option><option value="31">๓๑</option></select><select id="birthMonth" aria-label="เดือนเกิด"><option value="">เดือน</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select><input id="birthYear" type="text" inputmode="numeric" list="beYearOptions" aria-label="ปีเกิด พ.ศ." placeholder="ปี พ.ศ." value="2569" autocomplete="off"></div></div>
 <div class="field"><label>เวลาเกิด</label><div class="time-selects"><select id="timeHour" aria-label="เวลาเกิด ชั่วโมง"><option value="">ชั่วโมง</option><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select><select id="timeMinute" aria-label="เวลาเกิด นาที"><option value="">นาที</option><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select></div></div>
 <div class="field date-field"><label>วันเดือนปีจร</label><div class="date-selects"><select id="transitDay" aria-label="วันจร"><option value="">วัน</option><option value="1">๑</option><option value="2">๒</option><option value="3">๓</option><option value="4">๔</option><option value="5">๕</option><option value="6">๖</option><option value="7">๗</option><option value="8">๘</option><option value="9">๙</option><option value="10">๑๐</option><option value="11">๑๑</option><option value="12">๑๒</option><option value="13">๑๓</option><option value="14">๑๔</option><option value="15">๑๕</option><option value="16">๑๖</option><option value="17">๑๗</option><option value="18">๑๘</option><option value="19">๑๙</option><option value="20">๒๐</option><option value="21">๒๑</option><option value="22">๒๒</option><option value="23">๒๓</option><option value="24">๒๔</option><option value="25">๒๕</option><option value="26">๒๖</option><option value="27">๒๗</option><option value="28">๒๘</option><option value="29">๒๙</option><option value="30">๓๐</option><option value="31">๓๑</option></select><select id="transitMonth" aria-label="เดือนจร"><option value="">เดือน</option><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select><input id="transitYear" type="text" inputmode="numeric" list="beYearOptions" aria-label="ปีจร พ.ศ." placeholder="ปี พ.ศ." value="2569" autocomplete="off"></div></div>
+<div class="field"><label for="transitCountry">ประเทศของวันจร</label><select id="transitCountry" class="country-select"></select></div>
+<div class="field"><label for="transitZone">เมือง / เขตเวลาจร</label><select id="transitZone"></select><small id="transitGmt" class="timezone-note">GMT+7 · ประเทศไทย</small></div>
 <div class="field"><label>เวลาจร</label><div class="time-selects"><select id="transitTimeHour" aria-label="เวลาจร ชั่วโมง"><option value="">ชั่วโมง</option><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select><select id="transitTimeMinute" aria-label="เวลาจร นาที"><option value="">นาที</option><option value="00">00</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select></div></div>
 </div>
 <div class="actions">
@@ -478,7 +485,7 @@ function renderThaksaStack(start){
 let transitVisible=true;
 function toggleTransitColumns(){
  transitVisible=!transitVisible;
- document.querySelectorAll('#combinedResults .transit-col').forEach(el=>el.classList.toggle('is-hidden',!transitVisible));
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
  const btn=$('toggleTransit');
  btn.textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
  btn.setAttribute('aria-pressed',String(transitVisible));
@@ -489,21 +496,19 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const ageYang=thaksaAgeYang(birthDate,transitDate);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
- let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col" rowspan="2">ฐาน</th><th colspan="7">ดวงเดิม</th><th class="transit-col" colspan="7">ดวงจร</th><th class="thaksa-col" rowspan="2">ทักษาเดิม</th><th class="thaksa-col" rowspan="2">ทักษาจร</th></tr><tr>';
+ let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม (ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง)</th><th class="thaksa-col">ทักษาเดิม</th><th class="thaksa-col">ทักษาจร</th></tr><tr><th></th>';
  for(let i=1;i<=7;i++)html+='<th class="value-col">'+toThai(i)+'</th>';
- for(let i=1;i<=7;i++)html+='<th class="value-col transit-col">'+toThai(i)+'</th>';
- html+='</tr></thead><tbody>';
+ html+='<th class="thaksa-col"></th><th class="thaksa-col"></th></tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
-  const birthCells=birthRows[i].map((v,j)=>'<td>'+(houseSet?'<span class="house">'+houseSet[j]+'</span>':'')+'<span class="num">'+toThai(v)+'</span></td>').join('');
-  const transitCells=transitRows[i].map((v,j)=>'<td class="transit-col">'+(houseSet?'<span class="house">'+houseSet[j]+'</span>':'')+'<span class="num">'+toThai(v)+'</span></td>').join('');
-  html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+transitCells;
+  const birthCells=birthRows[i].map((v,j)=>'<td><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">เดิม '+toThai(v)+'</span><span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>').join('');
+  html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells;
   if(i===0)html+='<td class="thaksa-col" rowspan="9">'+renderThaksaStack(oldStart)+'</td><td class="thaksa-col" rowspan="9">'+renderThaksaStack(transitStart)+'</td>';
   html+='</tr>';
  }
  html+='</tbody></table></div>';
  $('combinedResults').innerHTML=html;
- document.querySelectorAll('#combinedResults .transit-col').forEach(el=>el.classList.toggle('is-hidden',!transitVisible));
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
  $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
  $('toggleTransit').setAttribute('aria-pressed',String(transitVisible));
 }
@@ -535,6 +540,90 @@ function setDatePicker(prefix,iso){
  const max=new Date(Date.UTC(p.year,p.month,0)).getUTCDate();dayEl.innerHTML='<option value="">วัน</option>';
  for(let d=1;d<=max;d++){const o=document.createElement('option');o.value=String(d);o.textContent=toThai(d);dayEl.appendChild(o);}dayEl.value=String(p.day);
 }
+
+const countryZones=[
+['TH','ประเทศไทย',[['Asia/Bangkok','กรุงเทพฯ · ประเทศไทย']]],
+['JP','ญี่ปุ่น',[['Asia/Tokyo','โตเกียว']]],
+['SG','สิงคโปร์',[['Asia/Singapore','สิงคโปร์']]],
+['MY','มาเลเซีย',[['Asia/Kuala_Lumpur','กัวลาลัมเปอร์']]],
+['ID','อินโดนีเซีย',[['Asia/Jakarta','จาการ์ตา'],['Asia/Makassar','มากัสซาร์'],['Asia/Jayapura','จายาปุระ']]],
+['PH','ฟิลิปปินส์',[['Asia/Manila','มะนิลา']]],
+['VN','เวียดนาม',[['Asia/Ho_Chi_Minh','โฮจิมินห์']]],
+['KH','กัมพูชา',[['Asia/Phnom_Penh','พนมเปญ']]],
+['LA','ลาว',[['Asia/Vientiane','เวียงจันทน์']]],
+['MM','เมียนมา',[['Asia/Yangon','ย่างกุ้ง']]],
+['CN','จีน',[['Asia/Shanghai','เซี่ยงไฮ้ / ปักกิ่ง']]],
+['HK','ฮ่องกง',[['Asia/Hong_Kong','ฮ่องกง']]],
+['KR','เกาหลีใต้',[['Asia/Seoul','โซล']]],
+['IN','อินเดีย',[['Asia/Kolkata','นิวเดลี / มุมไบ']]],
+['AE','สหรัฐอาหรับเอมิเรตส์',[['Asia/Dubai','ดูไบ']]],
+['GB','สหราชอาณาจักร',[['Europe/London','ลอนดอน']]],
+['FR','ฝรั่งเศส',[['Europe/Paris','ปารีส']]],
+['DE','เยอรมนี',[['Europe/Berlin','เบอร์ลิน']]],
+['IT','อิตาลี',[['Europe/Rome','โรม']]],
+['ES','สเปน',[['Europe/Madrid','มาดริด'],['Atlantic/Canary','หมู่เกาะคานารี']]],
+['RU','รัสเซีย',[['Europe/Moscow','มอสโก'],['Asia/Yekaterinburg','เยคาเตรินบุร์ก'],['Asia/Novosibirsk','โนโวซีบีสค์'],['Asia/Vladivostok','วลาดิวอสต็อก']]],
+['US','สหรัฐอเมริกา',[['America/New_York','นิวยอร์ก / วอชิงตัน'],['America/Chicago','ชิคาโก'],['America/Denver','เดนเวอร์'],['America/Los_Angeles','ลอสแอนเจลิส'],['Pacific/Honolulu','ฮาวาย']]],
+['CA','แคนาดา',[['America/Toronto','โตรอนโต'],['America/Winnipeg','วินนิเพก'],['America/Edmonton','เอ็ดมอนตัน'],['America/Vancouver','แวนคูเวอร์'],['America/Halifax','แฮลิแฟกซ์']]],
+['AU','ออสเตรเลีย',[['Australia/Sydney','ซิดนีย์'],['Australia/Melbourne','เมลเบิร์น'],['Australia/Brisbane','บริสเบน'],['Australia/Adelaide','แอดิเลด'],['Australia/Perth','เพิร์ท']]],
+['NZ','นิวซีแลนด์',[['Pacific/Auckland','โอ๊คแลนด์']]],
+['BR','บราซิล',[['America/Sao_Paulo','เซาเปาลู'],['America/Manaus','มาเนาส์'],['America/Rio_Branco','ริโอ บรังโก']]],
+['MX','เม็กซิโก',[['America/Mexico_City','เม็กซิโกซิตี'],['America/Cancun','กังกุน']]],
+['AR','อาร์เจนตินา',[['America/Argentina/Buenos_Aires','บัวโนสไอเรส']]],
+['ZA','แอฟริกาใต้',[['Africa/Johannesburg','โจฮันเนสเบิร์ก']]],
+['EG','อียิปต์',[['Africa/Cairo','ไคโร']]],
+['TR','ตุรกี',[['Europe/Istanbul','อิสตันบูล']]],
+['CH','สวิตเซอร์แลนด์',[['Europe/Zurich','ซูริก']]],
+['NL','เนเธอร์แลนด์',[['Europe/Amsterdam','อัมสเตอร์ดัม']]],
+['SE','สวีเดน',[['Europe/Stockholm','สตอกโฮล์ม']]],
+['NO','นอร์เวย์',[['Europe/Oslo','ออสโล']]],
+['DK','เดนมาร์ก',[['Europe/Copenhagen','โคเปนเฮเกน']]],
+['PT','โปรตุเกส',[['Europe/Lisbon','ลิสบอน'],['Atlantic/Azores','อะซอเรส']]],
+['GR','กรีซ',[['Europe/Athens','เอเธนส์']]],
+['SA','ซาอุดีอาระเบีย',[['Asia/Riyadh','ริยาด']]],
+['PK','ปากีสถาน',[['Asia/Karachi','การาจี']]],
+['BD','บังกลาเทศ',[['Asia/Dhaka','ธากา']]],
+['NP','เนปาล',[['Asia/Kathmandu','กาฐมาณฑุ']]]
+];
+function populateCountries(){
+ ['birth','transit'].forEach(prefix=>{
+  const el=$(prefix+'Country');el.innerHTML=countryZones.map(c=>'<option value="'+c[0]+'">'+c[1]+'</option>').join('');
+  el.value='TH';el.addEventListener('change',()=>populateZones(prefix));
+  populateZones(prefix);
+ });
+}
+function populateZones(prefix){
+ const country=$(prefix+'Country').value,entry=countryZones.find(c=>c[0]===country)||countryZones[0],el=$(prefix+'Zone');
+ el.innerHTML=entry[2].map(z=>'<option value="'+z[0]+'">'+z[1]+'</option>').join('');
+ updateZoneLabel(prefix);
+}
+function zoneOffsetAt(date,zone){
+ const parts=new Intl.DateTimeFormat('en-US',{timeZone:zone,timeZoneName:'longOffset',hour:'2-digit'}).formatToParts(date);
+ const raw=parts.find(p=>p.type==='timeZoneName')?.value||'GMT+00:00';
+ const m=/GMT([+-])(\\d{2}):(\\d{2})/.exec(raw);
+ return m?(m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3])):0;
+}
+function updateZoneLabel(prefix){
+ const zone=$(prefix+'Zone').value;if(!zone)return;
+ const offset=zoneOffsetAt(new Date(),zone),sign=offset>=0?'+':'−',abs=Math.abs(offset);
+ $(prefix+'Gmt').textContent='GMT'+sign+Math.floor(abs/60)+':'+String(abs%60).padStart(2,'0')+' · '+zone;
+}
+function localWallToUtc(dateText,timeText,zone){
+ const p=parseDate(dateText),[hh,mm]=timeText.split(':').map(Number);
+ const guess=Date.UTC(p.year,p.month-1,p.day,hh,mm);
+ let utc=guess-zoneOffsetAt(new Date(guess),zone)*60000;
+ utc=guess-zoneOffsetAt(new Date(utc),zone)*60000;
+ return new Date(utc);
+}
+function toThailandDateTime(dateText,timeText,zone){
+ const utc=localWallToUtc(dateText,timeText,zone);
+ const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(utc);
+ const get=t=>parts.find(p=>p.type===t)?.value;
+ const date=get('year')+'-'+get('month')+'-'+get('day'),time=get('hour')+':'+get('minute');
+ const offset=zoneOffsetAt(utc,zone),sign=offset>=0?'+':'−',abs=Math.abs(offset);
+ return {date,time,offsetLabel:'เวลา '+zone+' (GMT'+sign+Math.floor(abs/60)+':'+String(abs%60).padStart(2,'0')+')'};
+}
+
 function calculate(){
  $('formError').textContent='';
  try{
@@ -542,10 +631,17 @@ function calculate(){
   if(!birth||!birthTime||!transit||!transitTime)throw new Error('กรุณากรอกวันเดือนปีและเวลาทั้งวันเกิดและวันจรให้ครบ');
   const birthInfo=calculateDateInfo(birth,birthTime);
   const transitInfo=calculateDateInfo(transit,transitTime);
-  const name=$('name').value.trim(),place=$('place').value.trim();
-  renderInfo('birth',birthInfo,name,place,'เกิด');
+  const name=$('name').value.trim();
+  const birthZone=$('birthZone').value,transitZone=$('transitZone').value;
+  const birthLocal=toThailandDateTime(birth,birthTime,birthZone);
+  const transitLocal=toThailandDateTime(transit,transitTime,transitZone);
+  const birthInfo=calculateDateInfo(birthLocal.date,birthLocal.time);
+  const transitInfo=calculateDateInfo(transitLocal.date,transitLocal.time);
+  const birthCountry=$('birthCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
+  renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)');
+  renderInfo('transit',transitInfo,'','', 'จร (เทียบเวลาไทย)');
   renderInfo('transit',transitInfo,'','', 'จร');
-  renderCombinedTable(birthInfo,transitInfo,birth,birthTime,transit);
+  renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
  }catch(err){$('formError').textContent=err.message||'เกิดข้อผิดพลาดในการคำนวณ';}
@@ -556,19 +652,23 @@ $('print').addEventListener('click',()=>window.print());
 $('reset').addEventListener('click',()=>{
  document.querySelectorAll('.form-panel input').forEach(x=>x.value='');
  document.querySelectorAll('.form-panel select').forEach(x=>x.selectedIndex=0);
+ $('birthCountry').value='TH';$('transitCountry').value='TH';populateZones('birth');populateZones('transit');
  const currentBE=String(new Date().getFullYear()+543);$('birthYear').value=currentBE;$('transitYear').value=currentBE;
  $('formError').textContent='';initializeBirthToday();initializeTransitNow();$('output').classList.add('hidden');
 });
 $('sample').addEventListener('click',()=>{
  $('name').value='Golden Case';setDatePicker('birth','2026-11-16');setTimeValue('time','15:35');
  setDatePicker('transit','2026-11-17');setTimeValue('transitTime','19:00');
- $('place').value='ขอนแก่น';calculate();
+ $('birthCountry').value='TH';populateZones('birth');$('birthZone').value='Asia/Bangkok';calculate();
 });
 function getTimeValue(prefix){const h=$(prefix+'Hour').value,m=$(prefix+'Minute').value;return h!==''&&m!==''?h+':'+m:'';}
 function setTimeValue(prefix,value){const parts=value.split(':');$(prefix+'Hour').value=parts[0];$(prefix+'Minute').value=parts[1];}
 function initializeBirthToday(){const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();setDatePicker('birth',String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'));}
 function initializeTransitNow(){const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();setDatePicker('transit',String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'));setTimeValue('transitTime',String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));}
 initDatePickers();
+populateCountries();
+['birth','transit'].forEach(prefix=>$(prefix+'Zone').addEventListener('change',()=>updateZoneLabel(prefix)));
+initializeBirthToday();
 initializeTransitNow();
 })();
 </script>
