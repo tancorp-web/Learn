@@ -1,8 +1,8 @@
 // Adaptive zodiac-boundary enumeration for the HORA 791 page.
-// Coarse samples find ordinary crossings. A detected change in orbital
-// direction triggers a bounded extremum search (golden-section), not a
-// minute-by-minute scan. This detects brief leave-and-return excursions with
-// logarithmically many extra ephemeris evaluations around each station.
+// Half-step samples find ordinary crossings and reduce the chance of missing
+// a short leave-and-return excursion between configured coarse samples. A
+// detected change in orbital direction triggers a bounded extremum search
+// (golden-section), not a minute-by-minute scan.
 const MINUTE_MS = 60_000;
 const GOLDEN_RATIO = (Math.sqrt(5) - 1) / 2;
 
@@ -34,6 +34,12 @@ export async function findSignBoundaryEvents({
   }
 
   const events = [];
+  // Probe halfway between configured samples. The page-level position cache
+  // shares these timestamps across all twelve target-sign searches.
+  const sampleStep = Math.max(
+    MINUTE_MS,
+    Math.floor(step / (2 * MINUTE_MS)) * MINUTE_MS
+  );
   const longitudeAt = async stamp => {
     const value = Number(await positionAt(stamp, planet, longitude));
     if (!Number.isFinite(value)) throw new Error('SIGN_BOUNDARY_POSITION_INVALID');
@@ -60,10 +66,11 @@ export async function findSignBoundaryEvents({
         && Math.abs(item.stamp - event.stamp) <= MINUTE_MS)) events.push(event);
   };
 
-  // Locate the single local extremum bracketed by the sampled direction
-  // reversal. Search in traversal order so the same logic works backwards.
-  // Angular displacement is unwrapped relative to the first endpoint; the
-  // bracket is at most two coarse steps and therefore safely below 180°.
+  // Locate the local extremum bracketed by a direction reversal. The search
+  // bracket starts at the last sample with non-zero motion, so a flat/stationary
+  // run cannot move the bracket past the actual turning point. Search and
+  // optimize in traversal order; the explicit chronological conversion below
+  // keeps forward and backward searches equivalent.
   const inspectStationWindow = async (a, b, aLongitude, maximize) => {
     const span = Math.abs(b - a);
     if (span <= MINUTE_MS) return;
@@ -114,9 +121,9 @@ export async function findSignBoundaryEvents({
   let previousIndex = await signAt(start);
   let previousLongitude = await longitudeAt(start);
   let previousDirection = 0;
-  let priorSampleStamp = start;
+  let lastMovingStamp = start;
 
-  for (let elapsed = step, tries = 0; elapsed <= maxSpanMs; elapsed += step, tries++) {
+  for (let elapsed = sampleStep, tries = 0; elapsed <= maxSpanMs; elapsed += sampleStep, tries++) {
     const stamp = start + direction * elapsed;
     const currentLongitude = await longitudeAt(stamp);
     const currentIndex = Math.floor(currentLongitude / 30);
@@ -127,7 +134,17 @@ export async function findSignBoundaryEvents({
     // Direction reversal brackets a station over the preceding two segments.
     // Inspect its extremum directly; never enumerate every minute in the span.
     if (segmentDirection && previousDirection && segmentDirection !== previousDirection) {
-      await inspectStationWindow(priorSampleStamp, stamp, await longitudeAt(priorSampleStamp), previousDirection > 0);
+      const chronologicalDirection = previousDirection * direction;
+      const maximizeChronological = chronologicalDirection > 0;
+      const maximizeTraversal = direction > 0
+        ? maximizeChronological
+        : !maximizeChronological;
+      await inspectStationWindow(
+        lastMovingStamp,
+        stamp,
+        await longitudeAt(lastMovingStamp),
+        maximizeTraversal
+      );
     }
 
     if (previousIndex !== currentIndex) {
@@ -139,8 +156,10 @@ export async function findSignBoundaryEvents({
       addEvent(await refine(low, high, lowIsTarget));
     }
 
-    if (segmentDirection) previousDirection = segmentDirection;
-    priorSampleStamp = previousStamp;
+    if (segmentDirection) {
+      previousDirection = segmentDirection;
+      lastMovingStamp = stamp;
+    }
     previousStamp = stamp;
     previousIndex = currentIndex;
     previousLongitude = currentLongitude;
