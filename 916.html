@@ -4447,6 +4447,29 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
 })();
 </script>
 
+
+<style id="hora916-header-hard-lock">
+/* Keep HORA brand header visible regardless of the form-first display state. */
+body.hora915-form-first header.hero,
+body.hora915-form-first header.hero[hidden],
+header.hero[hidden]{display:block!important;visibility:visible!important;opacity:1!important}
+</style>
+<script id="hora916-header-visibility-guard">
+(()=>{
+ const keepVisible=()=>{
+  const h=document.querySelector('header.hero');
+  if(!h)return;
+  if(h.hidden)h.hidden=false;
+  if(h.getAttribute('aria-hidden')==='true')h.setAttribute('aria-hidden','false');
+  if(h.style.getPropertyValue('display')!=='block'||h.style.getPropertyPriority('display')!=='important')h.style.setProperty('display','block','important');
+  if(h.style.getPropertyValue('visibility')!=='visible'||h.style.getPropertyPriority('visibility')!=='important')h.style.setProperty('visibility','visible','important');
+ };
+ keepVisible();
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',keepVisible,{once:true});
+ const h=document.querySelector('header.hero');
+ if(h)new MutationObserver(keepVisible).observe(h,{attributes:true,attributeFilter:['hidden','style','aria-hidden']});
+})();
+</script>
 </body></html>
 <!-- HORA_SPECIAL_ADISORN_YONGYOT_20261116 -->
 <script>
