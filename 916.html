@@ -4493,3 +4493,45 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
  new MutationObserver(()=>{if(latest)decorate(latest)}).observe(tbody,{childList:true,subtree:true});
 })();
 </script>
+
+<script id="page916-transit-now-recalculate-v1">
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const calc=$('calc'),reset=$('resetTransitBangkokNow51'),msg=$('msg');
+ if(!calc||!reset)return;
+ const keepMainLabel=()=>{
+  if(calc.textContent.trim()!=='คำนวณทุกอย่าง')calc.textContent='คำนวณทุกอย่าง';
+  calc.setAttribute('aria-label','คำนวณดวงหลัก ทักษา นวางค์ ตรียางค์ และตารางวิเคราะห์ทั้งหมด');
+ };
+ // main51.js restores the old button caption after each calculation; keep the
+ // 916 all-in-one action label without changing the shared calculation engine.
+ keepMainLabel();
+ window.addEventListener('hora50:chart-calculated',()=>window.setTimeout(keepMainLabel,60));
+ // main51.js already sets Bangkok date/time, province, district and coordinates
+ // when this button is pressed. Start a fresh main calculation only after that
+ // synchronous reset handler has finished.
+ reset.addEventListener('click',()=>{
+  window.setTimeout(()=>{
+   const required=['fDay','fMonth','fYear','fHour','fMinute','fProvince','fDistrict','fLat','fLon'];
+   if(required.some(id=>!$(id))){
+    if(msg)msg.textContent='ไม่สามารถเริ่มคำนวณใหม่ได้ · ตรวจไม่พบช่องข้อมูลวันจร';
+    return;
+   }
+   if(!String($('fDay').value||'').trim()||!String($('fMonth').value||'').trim()||
+      !String($('fYear').value||'').trim()||!String($('fHour').value||'').trim()||
+      !String($('fMinute').value||'').trim()||!String($('fProvince').value||'').trim()||
+      $('fDistrict').value!=='พระนคร'){
+    if(msg)msg.textContent='ตั้งวันจรพระนครไม่ครบ · กรุณาตรวจสอบวัน เวลา จังหวัด และเขต ก่อนคำนวณ';
+    return;
+   }
+   if(calc.disabled||calc.dataset.calculating==='1'){
+    if(msg)msg.textContent='มีการคำนวณอยู่แล้ว · รอให้เสร็จก่อนกดตั้งวันจรใหม่อีกครั้ง';
+    return;
+   }
+   if(msg)msg.textContent='ตั้งวันจรเป็นเวลาปัจจุบัน · พระนครแล้ว · กำลังคำนวณดวงหลักและทุกส่วนใหม่…';
+   calc.click();
+  },0);
+ });
+})();
+</script>
