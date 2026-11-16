@@ -4449,25 +4449,65 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
 
 
 <style id="hora916-header-hard-lock">
-/* Keep HORA brand header visible regardless of the form-first display state. */
+/* PAGE 916: the brand header is a permanent page element, not part of the form/results toggle. */
 body.hora915-form-first header.hero,
 body.hora915-form-first header.hero[hidden],
-header.hero[hidden]{display:block!important;visibility:visible!important;opacity:1!important}
+body header.hero,
+body header.hero[hidden]{
+ display:block!important;
+ position:relative!important;
+ width:100%!important;
+ min-height:1px!important;
+ height:auto!important;
+ max-height:none!important;
+ overflow:visible!important;
+ visibility:visible!important;
+ opacity:1!important;
+ flex:none!important;
+}
 </style>
 <script id="hora916-header-visibility-guard">
 (()=>{
+ 'use strict';
+ const body=document.body;
+ const root=document.documentElement;
+ let originalHeader=null;
+ const force=(el,property,value)=>{
+  if(el.style.getPropertyValue(property)!==value||el.style.getPropertyPriority(property)!=='important'){
+   el.style.setProperty(property,value,'important');
+  }
+ };
  const keepVisible=()=>{
-  const h=document.querySelector('header.hero');
+  let h=document.querySelector('body > header.hero');
+  if(!h&&originalHeader&&body){
+   body.insertBefore(originalHeader,body.firstChild);
+   h=originalHeader;
+  }
   if(!h)return;
+  originalHeader=h;
   if(h.hidden)h.hidden=false;
-  if(h.getAttribute('aria-hidden')==='true')h.setAttribute('aria-hidden','false');
-  if(h.style.getPropertyValue('display')!=='block'||h.style.getPropertyPriority('display')!=='important')h.style.setProperty('display','block','important');
-  if(h.style.getPropertyValue('visibility')!=='visible'||h.style.getPropertyPriority('visibility')!=='important')h.style.setProperty('visibility','visible','important');
+  if(h.getAttribute('aria-hidden')==='true')h.removeAttribute('aria-hidden');
+  force(h,'display','block');
+  force(h,'position','relative');
+  force(h,'visibility','visible');
+  force(h,'opacity','1');
+  force(h,'height','auto');
+  force(h,'max-height','none');
+  force(h,'min-height','1px');
+  force(h,'overflow','visible');
+  for(let p=h.parentElement;p&&p!==root;p=p.parentElement){
+   if(p.hidden)p.hidden=false;
+   if(p.getAttribute('aria-hidden')==='true')p.removeAttribute('aria-hidden');
+  }
  };
  keepVisible();
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',keepVisible,{once:true});
- const h=document.querySelector('header.hero');
- if(h)new MutationObserver(keepVisible).observe(h,{attributes:true,attributeFilter:['hidden','style','aria-hidden']});
+ if(root){
+  new MutationObserver(()=>keepVisible()).observe(root,{
+   subtree:true,childList:true,attributes:true,
+   attributeFilter:['hidden','style','class','aria-hidden']
+  });
+ }
 })();
 </script>
 </body></html>
