@@ -4494,68 +4494,56 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
 })();
 </script>
 
-<style id="page916-button-order-v2">
-/* Force the requested visual order on desktop and mobile, independent of DOM/CSS cascade. */
-#calculatePanel .calc-row #resetTransitBangkokNow51{order:1!important}
-#calculatePanel .calc-row #calc{order:2!important}
-#calculatePanel .calc-row #msg{order:3!important}
+<style id="page916-button-order-grid-v3">
+/* One explicit two-column layout: reset first, calculate second, status below. */
+#calculatePanel .calc-row{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ grid-template-areas:"reset calculate" "status status"!important;
+ align-items:stretch!important;
+ gap:10px!important;
+}
+#calculatePanel .calc-row #resetTransitBangkokNow51{grid-area:reset!important;order:0!important;width:100%!important}
+#calculatePanel .calc-row #calc{grid-area:calculate!important;order:0!important;width:100%!important}
+#calculatePanel .calc-row #msg{grid-area:status!important;order:0!important;text-align:center!important}
+@media(max-width:600px){
+ #calculatePanel .calc-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+ #calculatePanel .calc-row #resetTransitBangkokNow51,
+ #calculatePanel .calc-row #calc{min-width:0!important;padding:10px 7px!important;font-size:12px!important;line-height:1.35!important}
+}
 </style>
-<script id="page916-transit-now-recalculate-v2">
+<script id="page916-transit-reset-single-handler-v3">
 (()=>{
  'use strict';
  const $=id=>document.getElementById(id);
- const calc=$('calc'),reset=$('resetTransitBangkokNow51'),msg=$('msg');
- if(!calc||!reset)return;
- const setValue=(el,value)=>{
-  if(!el)return false;
-  const v=String(value);
-  const option=Array.from(el.options||[]).find(o=>o.value===v||o.text.trim()===v);
-  if(!option)return false;
-  el.value=option.value;
-  el.dispatchEvent(new Event('change',{bubbles:true}));
-  return true;
- };
- const setBangkokNow=()=>{
+ const reset=$('resetTransitBangkokNow51'),calc=$('calc'),msg=$('msg');
+ if(!reset||!calc)return;
+ const bangkokNow=()=>{
   const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
-  const part=n=>parts.find(p=>p.type===n)?.value;
-  const values={fDay:String(Number(part('day'))),fMonth:String(Number(part('month'))),fYear:String(Number(part('year'))+543),fHour:String(Number(part('hour'))),fMinute:String(Number(part('minute')))};
-  let ok=true;
-  Object.entries(values).forEach(([id,v])=>{if(!setValue($(id),v))ok=false;});
-  const province=$('fProvince');
-  const bangkok=Array.from(province?.options||[]).find(o=>/กรุงเทพมหานคร|กรุงเทพฯ|กรุงเทพ/.test(o.text));
-  if(!bangkok)ok=false;
-  else {province.value=bangkok.value;province.dispatchEvent(new Event('change',{bubbles:true}));}
-  return {ok,values};
+  const get=k=>parts.find(p=>p.type===k)?.value||'';
+  return {day:String(Number(get('day'))),month:String(Number(get('month'))),year:String(Number(get('year'))+543),hour:String(Number(get('hour'))),minute:String(Number(get('minute')))};
  };
  reset.addEventListener('click',()=>{
+  // main51.js owns the authoritative reset. Wait for it and the searchable-select UI sync.
   window.setTimeout(()=>{
-   const result=setBangkokNow();
-   if(!result.ok){
-    if(msg)msg.textContent='ตั้งวันจรไม่สำเร็จ · ตรวจสอบรายการวัน เวลา และจังหวัดในแบบฟอร์ม';
+   const now=bangkokNow();
+   const actual={day:$('fDay')?.value,month:$('fMonth')?.value,year:$('fYear')?.value,hour:$('fHour')?.value,minute:$('fMinute')?.value};
+   const dateOK=Object.keys(now).every(k=>String(actual[k])===now[k]);
+   const province=$('fProvince'),district=$('fDistrict');
+   const provinceText=province?.selectedOptions?.[0]?.textContent||'';
+   const placeOK=/กรุงเทพ/.test(provinceText)&&district?.value==='พระนคร';
+   const coordsOK=Math.abs(Number($('fLat')?.value)-13.752555)<0.00001&&Math.abs(Number($('fLon')?.value)-100.494066)<0.00001;
+   if(!dateOK||!placeOK||!coordsOK){
+    if(msg)msg.textContent='ตั้งวันจรไม่ครบ · กรุณาตรวจวัน เวลา จังหวัด เขต และพิกัดก่อนคำนวณ';
     return;
    }
-   window.setTimeout(()=>{
-    const district=$('fDistrict');
-    const phraNakhon=Array.from(district?.options||[]).find(o=>o.value==='พระนคร'||o.text.trim()==='พระนคร');
-    if(!phraNakhon){
-     if(msg)msg.textContent='ตั้งวันและเวลาแล้ว แต่ไม่พบเขตพระนครในรายการ';
-     return;
-    }
-    district.value=phraNakhon.value;
-    district.dispatchEvent(new Event('change',{bubbles:true}));
-    $('fLat').value='13.752555';$('fLon').value='100.494066';
-    const place=$('fPlace');if(place)place.value='กรุงเทพมหานคร · พระนคร · 13.752555, 100.494066 UTC+7';
-    ['fLat','fLon','fPlace'].forEach(id=>$(id)?.dispatchEvent(new Event('change',{bubbles:true})));
-    if(msg)msg.textContent='ตั้งวันจรเป็นเวลาปัจจุบัน · พระนครแล้ว · กำลังคำนวณใหม่…';
-    window.setTimeout(()=>{
-     if(calc.disabled||calc.dataset.calculating==='1'){
-      if(msg)msg.textContent='ตั้งวันจรแล้ว · รอการคำนวณเดิมเสร็จก่อน';
-      return;
-     }
-     calc.click();
-    },100);
-   },100);
-  },0);
- });
+   if(calc.disabled||calc.dataset.calculating==='1'){
+    if(msg)msg.textContent='ตั้งวันจรแล้ว · กำลังรอการคำนวณเดิม';
+    return;
+   }
+   if(msg)msg.textContent='ตั้งวันจรเป็นเวลาปัจจุบัน · พระนครแล้ว · กำลังคำนวณใหม่…';
+   calc.click();
+  },220);
+ },{capture:false});
 })();
 </script>
