@@ -949,9 +949,11 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
   if(p.within<=5||30-p.within<=5)out.push('ใกล้เปลี่ยนราศี');
   for(const [ref,label] of [[sun,'ใกล้อาทิตย์'],[moon,'ใกล้จันทร์']]){
    if(!ref||ref.name===source.name||!Number.isFinite(Number(ref.longitude)))continue;
-   if(Math.abs(p.within-parts(ref.longitude).within)<=5+1e-9)out.push(label);
+   const separation=Math.abs(((Number(source.longitude)-Number(ref.longitude)+540)%360)-180);
+   if(separation<=5+1e-9)out.push(label);
   }
-  if(kind==='natal'&&navSign(source.longitude)===p.signIndex)out.push('วรโคตรนวางค์');
+  // วรโคตม: ราศีจักรและราศีนวางค์เป็นราศีเดียวกัน ตรวจทั้งดวงเดิมและดวงจร
+  if(navSign(source.longitude)===p.signIndex)out.push('วรโคตมนวางค์');
   return out;
  };
  const motionPlanets=new Set(['อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','มฤตยู']);
@@ -1182,8 +1184,8 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
    rows.push('<tr data-ps917-name="ลัคนา"><td><strong>ลัคนา (ล)</strong>'+natalAscTags+transitAscTags+'</td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
    planetOrder.forEach(name=>{
     const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
-    const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[])];
-    const transitTags=[...(transitCriteria.get(name)||[]),...(transitExchange.get(name)||[])];
+    const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[]),...nFlags];
+    const transitTags=[...(transitCriteria.get(name)||[]),...(transitExchange.get(name)||[]),...tFlags];
     if(b&&Number.isFinite(Number(b.longitude))&&name===lordName)natalTags.push('ตนุลัคน์');
     if(b&&Number.isFinite(Number(b.longitude))&&name===lordName&&kasetNatal)natalTags.push('ตนุเกษตร');
     if(b&&Number.isFinite(Number(b.longitude))&&tanuSesha?.planetName===name)natalTags.push('ตนุเศษ');
