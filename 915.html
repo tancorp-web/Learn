@@ -4326,3 +4326,65 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
  window.addEventListener('hora50:chart-calculated',event=>render(event?.detail?.natal,event?.detail?.transit));
 })();
 </script>
+
+
+<style id="ps911SpecialBadgeStyle">
+#planetSummary911 .ps911-special-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+#planetSummary911 .ps911-special-badge{display:inline-flex;align-items:center;border:1px solid #d8c8a2;border-radius:999px;background:#fff9e9;color:#76531a;padding:2px 7px;font-size:10px;font-weight:800;line-height:1.45}
+#planetSummary911 .ps911-special-badge[data-side="จร"]{border-color:#b9d9c8;background:#effaf3;color:#236044}
+</style>
+<script id="ps911AdisornYongyotBadges">
+/* 915-only: show calculated special-criterion badges after planet names.
+   These are annotations only; existing dignity labels and calculations remain unchanged. */
+(()=>{
+ const tbody=document.getElementById('planetSummary911Rows');
+ if(!tbody)return;
+ const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const yongyot={
+  'อาทิตย์':['เมษ','กรกฎ'],'จันทร์':['เมษ','มกร'],
+  'อังคาร':['เมษ','สิงห์','กันย์'],'พุธ':['สิงห์','ธนู'],
+  'พฤหัสบดี':['กรกฎ','พิจิก','มีน'],'ศุกร์':['ธนู','มีน'],
+  'เสาร์':['พฤษภ','ตุล'],'ราหู':['เมษ','ตุล','มกร']
+ };
+ const names=Object.keys(yongyot);
+ const norm=x=>((Number(x)%360)+360)%360;
+ const find=(chart,name)=>(Array.isArray(chart?.planets)?chart.planets:[]).find(p=>p?.name===name&&Number.isFinite(Number(p.longitude)));
+ const labelsFor=(chart,name)=>{
+  const p=find(chart,name);if(!p||!yongyot[name])return [];
+  const lon=norm(p.longitude),sign=signNames[Math.floor(lon/30)],minute=(lon%30)*60,labels=[];
+  if(name==='จันทร์'&&sign==='มกร'){
+   if(minute>=801-1e-7&&minute<=1000+1e-7)labels.push('จันทร์อดิศรที่แท้จริง');
+   else if(minute>=600-1e-7&&minute<=1200+1e-7)labels.push('จันทร์อดิศร');
+   if(minute>=1-1e-7&&minute<=200+1e-7)labels.push('จันทร์วรโคตมนวางศ์');
+  }
+  if((yongyot[name]||[]).includes(sign))labels.push('ดาวยงยศ');
+  return labels;
+ };
+ const decorate=(detail)=>{
+  const natal=detail?.natal,transit=detail?.transit;
+  if(!natal||!transit)return;
+  for(const row of [...tbody.rows]){
+   const cell=row.cells?.[0],strong=cell?.querySelector('strong');if(!cell||!strong)continue;
+   const name=names.find(n=>strong.textContent.includes(n));if(!name)continue;
+   const badges=[
+    ...labelsFor(natal,name).map(label=>({side:'เดิม',label})),
+    ...labelsFor(transit,name).map(label=>({side:'จร',label}))
+   ];
+   const signature=JSON.stringify(badges);
+   let wrap=cell.querySelector('.ps911-special-badges');
+   if(wrap?.dataset.signature===signature)continue;
+   wrap?.remove();
+   if(!badges.length)continue;
+   wrap=document.createElement('span');wrap.className='ps911-special-badges';wrap.dataset.signature=signature;
+   for(const item of badges){
+    const badge=document.createElement('span');badge.className='ps911-special-badge';
+    badge.dataset.side=item.side;badge.textContent=item.side+' · '+item.label;wrap.appendChild(badge);
+   }
+   strong.insertAdjacentElement('afterend',wrap);
+  }
+ };
+ let latest=null;
+ window.addEventListener('hora50:chart-calculated',event=>{latest=event?.detail||null;decorate(latest)});
+ new MutationObserver(()=>{if(latest)decorate(latest)}).observe(tbody,{childList:true,subtree:true});
+})();
+</script>
