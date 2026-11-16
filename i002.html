@@ -40,62 +40,45 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <header>
 <span class="tag">i002 · ระบบคำนวณ 343</span>
 <h1>ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</h1>
-<div class="sub">กรอกข้อมูลเกิด แล้วคำนวณฐาน 1–9 อัตโนมัติ · แสดงชื่อภพและดาวตามตำแหน่งที่กำหนด</div>
+<div class="sub">กรอกวันเดือนปีและเวลาเกิด / วันจร แล้วให้ระบบคำนวณปฏิทินไทยและฐาน 1–9 อัตโนมัติ</div>
 </header>
 
 <section class="panel form-panel">
-<h2>กรอกข้อมูลเพื่อคำนวณ</h2>
+<h2>กรอกข้อมูลวันเกิดและวันจร</h2>
 <div class="form-grid">
 <div class="field"><label for="name">ชื่อ-สกุล</label><input id="name" placeholder="ชื่อ-สกุล"></div>
 <div class="field"><label for="sex">เพศ</label><select id="sex"><option value="">ไม่ระบุ</option><option>ชาย</option><option>หญิง</option></select></div>
-<div class="field"><label for="birth">วันเดือนปีเกิด (ค.ศ.)</label><input id="birth" type="date" required></div>
-<div class="field"><label for="time">เวลาเกิด</label><input id="time" type="time" value="06:00" required></div>
 <div class="field"><label for="place">จังหวัด / สถานที่เกิด</label><input id="place" placeholder="เช่น ขอนแก่น"></div>
-<div class="field"><label for="lunarPhase">ข้างขึ้น / ข้างแรม</label><select id="lunarPhase"><option value="ขึ้น">ข้างขึ้น</option><option value="แรม">ข้างแรม</option></select></div>
-<div class="field"><label for="lunarDay">วันค่ำ</label><select id="lunarDay"><option value="">เลือกวันค่ำ</option></select></div>
-<div class="field"><label for="month">เดือนจันทรคติ</label><select id="month"><option value="">เลือกเดือนจันทรคติ</option><option value="1">เดือนอ้าย (๑)</option><option value="2">เดือนยี่ (๒)</option><option value="3">เดือนสาม (๓)</option><option value="4">เดือนสี่ (๔)</option><option value="5">เดือนห้า (๕)</option><option value="6">เดือนหก (๖)</option><option value="7">เดือนเจ็ด (๗)</option><option value="8">เดือนแปด (๘)</option><option value="9">เดือนเก้า (๙)</option><option value="10">เดือนสิบ (๑๐)</option><option value="11">เดือนสิบเอ็ด (๑๑)</option><option value="12">เดือนสิบสอง (๑๒)</option></select></div>
-<div class="field"><label for="year">ปีนักษัตร</label><select id="year"><option value="">เลือกปีนักษัตร</option><option value="1">ชวด</option><option value="2">ฉลู</option><option value="3">ขาล</option><option value="4">เถาะ</option><option value="5">มะโรง</option><option value="6">มะเส็ง</option><option value="7">มะเมีย</option><option value="8">มะแม</option><option value="9">วอก</option><option value="10">ระกา</option><option value="11">จอ</option><option value="12">กุน</option></select></div>
+<div class="field"><label for="birth">วันเดือนปีเกิด</label><input id="birth" type="date" required></div>
+<div class="field"><label for="time">เวลาเกิด</label><input id="time" type="time" required></div>
+<div class="field"><label for="transit">วันเดือนปีจร</label><input id="transit" type="date" required></div>
+<div class="field"><label for="transitTime">เวลาจร</label><input id="transitTime" type="time" required></div>
 </div>
-<details class="details">
-<summary>ข้อมูลปฏิทินเพิ่มเติม (กรอกเมื่อมีข้อมูล)</summary>
-<div class="optional-grid">
-<div class="field"><label for="jula">จ.ศ.</label><input id="jula" inputmode="numeric" placeholder="เช่น 1388"></div>
-<div class="field"><label for="maha">ม.ศ.</label><input id="maha" inputmode="numeric" placeholder="เช่น 1948"></div>
-<div class="field"><label for="rattan">ร.ศ.</label><input id="rattan" inputmode="numeric" placeholder="เช่น 245"></div>
-<div class="field"><label for="solarType">สุรทิน</label><select id="solarType"><option value="">ไม่ระบุ</option><option>ปกติสุรทิน</option><option>อธิกสุรทิน</option></select></div>
-<div class="field"><label for="monthType">มาส</label><select id="monthType"><option value="">ไม่ระบุ</option><option>ปกติมาส</option><option>อธิกมาส</option></select></div>
-<div class="field"><label for="dayType">วาร</label><select id="dayType"><option value="">ไม่ระบุ</option><option>ปกติวาร</option><option>อธิกวาร</option></select></div>
-<div class="field"><label for="yama">ยามเกิด</label><input id="yama" placeholder="เช่น ยามศุกระ (6)"></div>
-<div class="field"><label for="period">ช่วงยาม</label><input id="period" placeholder="เช่น ยามกลาง"></div>
-<div class="field"><label for="age">อายุ</label><input id="age" placeholder="เช่น 2 เดือน 1 วัน"></div>
-<div class="field"><label for="ageFull">อายุเต็ม / ราชการ</label><input id="ageFull" placeholder="เช่น 0 ปี"></div>
-<div class="field"><label for="ageAstro">อายุย่าง / โหร</label><input id="ageAstro" placeholder="เช่น 1 ปี (2570)"></div>
-</div>
-<div class="optional-grid">
-<div class="field"><label for="flag1">ธงชัย</label><input id="flag1" inputmode="numeric" placeholder="เลข"></div>
-<div class="field"><label for="flag2">อธิบดี</label><input id="flag2" inputmode="numeric" placeholder="เลข"></div>
-<div class="field"><label for="flag3">อุบาทว์</label><input id="flag3" inputmode="numeric" placeholder="เลข"></div>
-<div class="field"><label for="flag4">โลกาวินาศ</label><input id="flag4" inputmode="numeric" placeholder="เลข"></div>
-</div>
-</details>
 <div class="actions">
-<button id="calculate">คำนวณฐาน 1–9</button>
+<button id="calculate" type="button">คำนวณดวงเกิดและดวงจร</button>
 <button type="button" class="secondary" id="sample">โหลด Golden Case</button>
 <button type="button" class="secondary" id="print">พิมพ์ / บันทึก PDF</button>
 <button type="button" class="secondary" id="reset">ล้างข้อมูล</button>
 </div>
-<div class="note">วันเกิดทางโหราศาสตร์: เกิดก่อน 06:00 น. ให้นับเป็นวันก่อนหน้า; ตั้งแต่ 06:00 น. เป็นต้นไปใช้วันตามปฏิทินปัจจุบัน เดือนจันทรคติและปีนักษัตรให้เลือกตามปฏิทินจริงของวันเกิด</div>
+<div class="note">ผู้ใช้กรอกเฉพาะวันเดือนปีและเวลาเกิด / วันเดือนปีและเวลาจรเท่านั้น โปรแกรมคำนวณวันในสัปดาห์ ข้างขึ้น–ข้างแรม ค่ำ เดือนจันทรคติ ปีนักษัตร และศักราชให้อัตโนมัติ โดยถือเวลา 06:00 น. เป็นจุดเปลี่ยนวันทางปฏิทินไทย (ก่อน 06:00 น. นับเป็นวันก่อนหน้า)</div>
 <div id="formError" class="error" role="alert"></div>
 </section>
 
 <section class="panel hidden" id="output" aria-live="polite">
 <h2>ผลคำนวณดวงชะตา</h2>
+<div class="panel" style="margin:0 0 16px">
+<h2>ดวงกำเนิด</h2>
 <div id="birthSummary" class="result-head"></div>
-<div class="summary-grid" id="startNumbers" style="margin-top:13px"></div>
-<div id="tables"></div>
-<div class="panel" style="margin:16px 0 0;background:#faf8f3">
-<h2>ตรวจรหัสประจำดวง · คลังข้อมูล 12 กลุ่ม</h2>
-<div id="groupMatches" class="muted"></div>
+<div class="summary-grid" id="birthStartNumbers" style="margin-top:13px"></div>
+<div id="birthTables"></div>
+<div class="details"><summary>รหัสประจำดวง · คลังข้อมูล 12 กลุ่ม</summary><div id="birthGroupMatches" class="muted"></div></div>
+</div>
+<div class="panel" style="margin:0">
+<h2>ดวงจร</h2>
+<div id="transitSummary" class="result-head"></div>
+<div class="summary-grid" id="transitStartNumbers" style="margin-top:13px"></div>
+<div id="transitTables"></div>
+<div class="details"><summary>รหัสประจำดวงจร · คลังข้อมูล 12 กลุ่ม</summary><div id="transitGroupMatches" class="muted"></div></div>
 </div>
 </section>
 
@@ -114,17 +97,207 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <footer>i002 · ระบบคำนวณ 343 · แยกจากระบบ HORA และแยกจากคลังตำราอ้างอิงภายนอก</footer>
 </main>
 
+// HORA local Thai lunar calendar engine for month 8/8 date verification.
+// Ported from KranaxALT/thailunar (MIT), itself ported from pythaidate and
+// based on classical Thai calendrical arithmetic (horakhun, avoman, tithi).
+// This module calculates dates from the algorithm; it does not read backup
+// reference data and does not make network requests.
+//
+// Upstream source: https://github.com/KranaxALT/thailunar
+// License: MIT. This compact port keeps the year/month arithmetic needed to
+// identify the first civil date of the repeated eighth month.
+
+const DAYS_IN_800_YEARS = 292207;
+const TIME_UNITS_IN_DAY = 800;
+const EPOCH_OFFSET = 373;
+const CS_JULIAN_DAY_OFFSET = 1954167;
+const LUNAR_MONTHS = [0, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 8, 88, 5, 6];
+
+function floorMod(a, b) {
+  const remainder = a % b;
+  return remainder < 0 ? remainder + b : remainder;
+}
+
+function gregorianToJulianDay(year, month, day) {
+  let yearp;
+  let monthp;
+  if (month === 1 || month === 2) {
+    yearp = year - 1;
+    monthp = month + 12;
+  } else {
+    yearp = year;
+    monthp = month;
+  }
+  let b = 0;
+  if (year > 1582 || (year === 1582 && (month > 10 || (month === 10 && day >= 15)))) {
+    const a = Math.trunc(yearp / 100);
+    b = 2 - a + Math.trunc(a / 4);
+  }
+  let c = Math.trunc(365.25 * yearp);
+  if (yearp < 0) c = Math.trunc(365.25 * yearp - 0.75);
+  const d = Math.trunc(30.6001 * (monthp + 1));
+  return Math.trunc(b + c + d + day + 1720994.5 + 0.5);
+}
+
+function newLunarYear(year) {
+  const total = year * DAYS_IN_800_YEARS + EPOCH_OFFSET;
+  const horakhun = Math.trunc(total / TIME_UNITS_IN_DAY) + 1;
+  const kammacapon = TIME_UNITS_IN_DAY - floorMod(total, TIME_UNITS_IN_DAY);
+  const avomanRaw = horakhun * 11 + 650;
+  const avoman = floorMod(avomanRaw, 692) || 692;
+  let tithi = floorMod(Math.trunc(avomanRaw / 692) + horakhun, 30);
+  if (avoman === 692) tithi -= 1;
+
+  const nextHorakhun = Math.trunc(((year + 1) * DAYS_IN_800_YEARS + EPOCH_OFFSET) / TIME_UNITS_IN_DAY) + 1;
+  const nextTithi = floorMod(Math.trunc((nextHorakhun * 11 + 650) / 692) + nextHorakhun, 30);
+
+  let langsak = tithi;
+  if (langsak < 1) langsak = 1;
+  let nydDay = langsak;
+  if (nydDay < 6) nydDay += 29;
+  const nyd = floorMod(floorMod(horakhun, 7) - nydDay + 1 + 35, 7);
+  const leapday = kammacapon <= 207;
+
+  let calType = 'A';
+  if (tithi > 24 || tithi < 6) calType = 'C';
+  if (tithi === 25 && nextTithi === 5) calType = 'A';
+  if ((leapday && avoman <= 126) || (!leapday && avoman <= 137)) {
+    calType = calType !== 'C' ? 'B' : 'c';
+  }
+
+  let nextNyd;
+  if (calType === 'A') nextNyd = floorMod(nyd + 4, 7);
+  else if (calType === 'B') nextNyd = floorMod(nyd + 5, 7);
+  else nextNyd = floorMod(nyd + 6, 7);
+
+  return { horakhun, avoman, tithi, langsak, nyd, nextNyd, leapday, calType, offset: false };
+}
+
+function calculateYear0(year) {
+  const years = [
+    newLunarYear(year - 2),
+    newLunarYear(year - 1),
+    newLunarYear(year),
+    newLunarYear(year + 1),
+    newLunarYear(year + 2)
+  ];
+
+  if (years[2].tithi === 24 && years[3].tithi === 6) {
+    for (const item of years) {
+      item.calType = 'C';
+      item.nextNyd = floorMod(item.nextNyd + 2, 7);
+    }
+  }
+
+  for (let i = 1; i <= 3; i += 1) {
+    if (years[i].calType === 'c') {
+      const j = years[i].nyd === years[i - 1].nextNyd ? 1 : -1;
+      years[i + j].calType = 'B';
+      years[i + j].nextNyd = floorMod(years[i + j].nextNyd + 1, 7);
+    }
+  }
+
+  for (let i = 1; i <= 3; i += 1) {
+    if (years[i - 1].nextNyd !== years[i].nyd && years[i].nextNyd !== years[i + 1].nyd) {
+      years[i].offset = true;
+      years[i].langsak += 1;
+      years[i].nyd = floorMod(years[i].nyd + 6, 7);
+      years[i].nextNyd = floorMod(years[i].nextNyd + 6, 7);
+    }
+  }
+
+  if (years[2].calType === 'c') years[2].calType = 'C';
+  const result = { ...years[2] };
+  result.offsetDays = result.langsak;
+  if (result.offsetDays < 6 + (result.offset ? 1 : 0)) result.offsetDays += 29;
+  return result;
+}
+
+function findLunarDate(calType, days) {
+  const tables = {
+    A: [[383,16],[354,15],[324,12],[295,11],[265,10],[236,9],[206,8],[177,7],[147,6],[118,5],[88,4],[59,3],[29,2]],
+    B: [[384,16],[355,15],[325,12],[296,11],[266,10],[237,9],[207,8],[178,7],[148,6],[119,5],[89,4],[59,3],[29,2]],
+    C: [[384,15],[354,12],[325,11],[295,10],[266,9],[236,8],[207,7],[177,6],[148,5],[118,14],[88,13],[59,3],[29,2]]
+  };
+  let month = LUNAR_MONTHS[1];
+  for (const [threshold, slot] of tables[calType]) {
+    if (days > threshold) {
+      days -= threshold;
+      month = LUNAR_MONTHS[slot];
+      return { month, day: days };
+    }
+  }
+  return { month, day: days };
+}
+
+function lunarDateForGregorianDate(year, month, day) {
+  const jd = gregorianToJulianDay(year, month, day);
+  const horakhun = jd - CS_JULIAN_DAY_OFFSET;
+  let csYear = Math.trunc((horakhun * 800 - 373) / DAYS_IN_800_YEARS);
+  let days;
+  if (floorMod(horakhun, DAYS_IN_800_YEARS) === 95333) {
+    csYear -= 1;
+    days = 365;
+  } else {
+    days = horakhun - calculateYear0(csYear).horakhun;
+  }
+
+  let yearInfo = calculateYear0(csYear);
+  let daysInYear = yearInfo.leapday ? 366 : 365;
+  while (days > daysInYear) {
+    csYear += 1;
+    days -= daysInYear;
+    yearInfo = calculateYear0(csYear);
+    daysInYear = yearInfo.leapday ? 366 : 365;
+  }
+  const lunar = findLunarDate(yearInfo.calType, yearInfo.offsetDays + days);
+  return { ...lunar, chulaSakarat: csYear, isAdhikamas: yearInfo.calType === 'C' || yearInfo.calType === 'c', isLeapDay: yearInfo.leapday };
+}
+
+function lunarMonthForGregorianDate(year, month, day) {
+  return lunarDateForGregorianDate(year, month, day).month;
+}
+
+/** Return the traditional Thai lunar date for a Gregorian civil date. */
+function calculateThaiLunarDate(year, month, day) {
+  if (![year, month, day].every(Number.isInteger) || year < 1 || month < 1 || month > 12 || day < 1 || day > 31) {
+    throw new TypeError('Invalid Gregorian date');
+  }
+  const result = lunarDateForGregorianDate(year, month, day);
+  return { ...result, gregorianYear: year, gregorianMonth: month, gregorianDay: day };
+}
+
+/**
+ * Calculate the first Gregorian civil date labelled as the second eighth
+ * month (8/8) in the given Buddhist Era year. Returns null for a normal year.
+ */
+function calculateClassicalMonth88Start(beYear) {
+  if (!Number.isInteger(beYear) || beYear < 1181) {
+    throw new TypeError('beYear must be an integer Buddhist Era year >= 1181');
+  }
+  const year = beYear - 543;
+  const daysInMonth = (month) => new Date(Date.UTC(year, month, 0)).getUTCDate();
+  for (let month = 1; month <= 12; month += 1) {
+    for (let day = 1; day <= daysInMonth(month); day += 1) {
+      if (lunarMonthForGregorianDate(year, month, day) === 88) {
+        return String(year).padStart(4, '0') + '-' +
+          String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+      }
+    }
+  }
+  return null;
+}
+
 <script>
 (function(){
 'use strict';
 const thaiDigits=['๐','๑','๒','๓','๔','๕','๖','๗','๘','๙'];
 const toThai=n=>String(n).replace(/[0-9]/g,d=>thaiDigits[Number(d)]);
 const weekdays=['วันอาทิตย์','วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์'];
-const stars={1:'อาทิตย์',2:'จันทร์',3:'อังคาร',4:'พุธ',5:'พฤหัสบดี',6:'ศุกร์',7:'เสาร์'};
-const lunarMonths={1:'อ้าย',2:'ยี่',3:'สาม',4:'สี่',5:'ห้า',6:'หก',7:'เจ็ด',8:'แปด',9:'เก้า',10:'สิบ',11:'สิบเอ็ด',12:'สิบสอง'};
+const stars={1:'๑ อาทิตย์',2:'๒ จันทร์',3:'๓ อังคาร',4:'๔ พุธ',5:'๕ พฤหัสบดี',6:'๖ ศุกร์',7:'๗ เสาร์'};
+const lunarMonths={1:'อ้าย',2:'ยี่',3:'สาม',4:'สี่',5:'ห้า',6:'หก',7:'เจ็ด',8:'แปด',9:'เก้า',10:'สิบ',11:'สิบเอ็ด',12:'สิบสอง',88:'แปดหลัง'};
 const animals={1:'ชวด',2:'ฉลู',3:'ขาล',4:'เถาะ',5:'มะโรง',6:'มะเส็ง',7:'มะเมีย',8:'มะแม',9:'วอก',10:'ระกา',11:'จอ',12:'กุน'};
 const monthMap={1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:1,9:2,10:3,11:4,12:5};
-const yearMap={1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:1,9:2,10:3,11:4,12:5};
 const houses=[
 ['อัตตะ','หินะ','ธนัง','ปิตา','มาตา','โภคา','มัชฌิมา'],
 ['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ'],
@@ -151,16 +324,8 @@ const groupData=[
 ['สนุกสนานกับงานบริการและการท่องเที่ยว','351 361 461 531 631 641 462 472 642 742 572 752 143 163 513 573 613 753 164 264 276 614 624 724 135 275 315 375 725 735 136 146 246 316 416 426 247 257 357 427 527 537']
 ];
 const $=id=>document.getElementById(id);
-for(let i=1;i<=15;i++){const o=document.createElement('option');o.value=i;o.textContent=toThai(i);$('lunarDay').appendChild(o);}
 function reduce7(n){return ((n-1)%7)+1;}
 function sequence(start){return Array.from({length:7},(_,i)=>((start-1+i)%7)+1);}
-function getWeekdayNumber(dateText,timeText){
- const parts=dateText.split('-').map(Number);const y=parts[0],m=parts[1],d=parts[2];
- const [hh,mm]=timeText.split(':').map(Number);
- const dt=new Date(Date.UTC(y,m-1,d));
- if(hh*60+mm<360)dt.setUTCDate(dt.getUTCDate()-1);
- return dt.getUTCDay()+1;
-}
 function calcRows(dayStart,monthStart,yearStart){
  const b1=sequence(dayStart),b2=sequence(monthStart),b3=sequence(yearStart);
  const b4=b1.map((v,i)=>v+b2[i]+b3[i]);
@@ -169,18 +334,59 @@ function calcRows(dayStart,monthStart,yearStart){
  const b9=Array(7);b9[6]=reduce7(b8[5]+b8[6]);for(let i=5;i>=0;i--)b9[i]=prevDay[b9[i+1]];
  return [b1,b2,b3,b4,b5,b6,b7,b8,b9];
 }
-function dateLabel(dateText){
- const [y,m,d]=dateText.split('-').map(Number);const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
- return d+' '+months[m-1]+' พ.ศ. '+(y+543)+' / ค.ศ. '+y;
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function parseDate(value){
+ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value||'');
+ if(!m)throw new Error('กรุณาเลือกวันเดือนปีให้ครบ');
+ const y=Number(m[1]),mo=Number(m[2]),d=Number(m[3]);
+ const check=new Date(Date.UTC(y,mo-1,d));
+ if(check.getUTCFullYear()!==y||check.getUTCMonth()!==mo-1||check.getUTCDate()!==d)throw new Error('วันเดือนปีไม่ถูกต้อง');
+ return {year:y,month:mo,day:d};
+}
+function adjustedCalendarDate(dateText,timeText){
+ const p=parseDate(dateText);
+ if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(timeText||''))throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
+ const [hh,mm]=timeText.split(':').map(Number);
+ const dt=new Date(Date.UTC(p.year,p.month-1,p.day));
+ if(hh*60+mm<360)dt.setUTCDate(dt.getUTCDate()-1);
+ return {year:dt.getUTCFullYear(),month:dt.getUTCMonth()+1,day:dt.getUTCDate()};
+}
+function calculateDateInfo(dateText,timeText){
+ const original=parseDate(dateText);
+ const local=adjustedCalendarDate(dateText,timeText);
+ const lunar=calculateThaiLunarDate(local.year,local.month,local.day);
+ const weekday=new Date(Date.UTC(local.year,local.month-1,local.day)).getUTCDay()+1;
+ const lunarPhase=lunar.day<=15?'ขึ้น':'แรม';
+ const lunarDay=lunar.day<=15?lunar.day:lunar.day-15;
+ const monthForBase=lunar.month===88?8:lunar.month;
+ const monthStart=monthMap[monthForBase];
+ // ปีนักษัตรเปลี่ยนเมื่อขึ้น ๑ ค่ำ เดือน ๕ ตามกติกาโครงการ
+ const zodiacYear=lunar.month<5?local.year-1:local.year;
+ const animalNo=((zodiacYear-2008)%12+12)%12+1;
+ const yearStart=((animalNo-1)%7)+1;
+ const jula=lunar.chulaSakarat;
+ const maha=jula+560;
+ const rattan=jula-1143;
+ const solarType=(local.year%4===0&&(local.year%100!==0||local.year%400===0))?'อธิกสุรทิน':'ปกติสุรทิน';
+ const monthType=lunar.isAdhikamas?'อธิกมาส':'ปกติมาส';
+ const dayType=lunar.isLeapDay?'อธิกวาร':'ปกติวาร';
+ return {dateText,timeText,original,local,lunar,weekday,dayStart:weekday,phase:lunarPhase,lunarDay,monthStart,animalNo,animal:animals[animalNo],yearStart,jula,maha,rattan,solarType,monthType,dayType};
+}
+function dateLabel(p){
+ const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ return p.day+' '+months[p.month-1]+' พ.ศ. '+(p.year+543)+' / ค.ศ. '+p.year;
+}
+function lunarMonthLabel(month){
+ return month===88?'เดือนแปดหลัง (๘๘)':'เดือน'+lunarMonths[month]+' ('+toThai(month)+')';
 }
 function makeCell(house,num,star,label){
- return '<td>'+(house?'<span class="house">'+house+'</span>':'')+'<span class="num">'+toThai(num)+'</span>'+(star?'<span class="star">'+star+'</span>':'')+(label?'<span class="cell-label">'+label+'</span>':'')+'</td>';
+ return '<td>'+(house?'<span class="house">'+house+'</span>':'')+'<span class="num">'+toThai(num)+'</span>'+(star?'<span class="star">ดาว '+star+'</span>':'')+(label?'<span class="cell-label">'+label+'</span>':'')+'</td>';
 }
 function renderTable(baseNo,values){
  const heads=houses[baseNo-1];let cells='';
  for(let i=0;i<7;i++){
   const n=values[i],h=heads?heads[i]:'';
-  const star=(baseNo<=3)?'ดาว'+stars[n]:'';
+  const star=(baseNo<=3)?stars[n]:'';
   const label=(baseNo===4)?(base4Labels[n]||''):'';
   cells+=makeCell(h,n,star,label);
  }
@@ -188,38 +394,46 @@ function renderTable(baseNo,values){
  const note=baseNo===4?'ผลรวมยังไม่ลดเลข':baseNo===5?'ลดเลขให้เหลือ 1–7':baseNo===6||baseNo===7?'คูณ 2 แล้วลดให้เหลือ 1–7':baseNo===8?'เริ่มจากตัวแรกของฐาน 5':baseNo===9?'ผลบวกสองตัวท้ายฐาน 8 วางคอลัมน์ 7 แล้วนับย้อน':'';
  return '<div class="base-title"><strong>'+title+'</strong><span>'+note+'</span></div><div class="table-scroll"><table class="calc"><thead><tr><th class="row-title">คอลัมน์</th>'+[1,2,3,4,5,6,7].map(x=>'<th>'+toThai(x)+'</th>').join('')+'</tr></thead><tbody><tr><th class="row-title">ผลคำนวณ</th>'+cells+'</tr></tbody></table></div>';
 }
-function additionalSummary(){
- const vals=['jula','maha','rattan','solarType','monthType','dayType','flag1','flag2','flag3','flag4','yama','period','age','ageFull','ageAstro'].map(id=>$(id).value.trim());
- const ids=['จ.ศ.','ม.ศ.','ร.ศ.','สุรทิน','มาส','วาร','ธงชัย','อธิบดี','อุบาทว์','โลกาวินาศ','ยามเกิด','ช่วงยาม','อายุ','อายุเต็ม/ราชการ','อายุย่าง/โหร'];
- const parts=vals.map((v,i)=>v?ids[i]+' '+v:'').filter(Boolean);
- return parts.length?'<div class="meta">'+parts.join(' · ')+'</div>':'';
+function renderInfo(prefix,info,name,place,label){
+ const lunarText=weekdays[info.weekday-1]+' '+info.phase+' '+toThai(info.lunarDay)+' ค่ำ '+lunarMonthLabel(info.lunar.month)+' ปี'+info.animal;
+ const eraText='จ.ศ. '+toThai(info.jula)+' · ม.ศ. '+toThai(info.maha)+' · ร.ศ. '+toThai(info.rattan)+' · '+info.solarType+' · '+info.monthType+' · '+info.dayType;
+ const lead='<div class="lead">'+(name?escapeHtml(name)+' · ':'')+label+'วันที่ '+dateLabel(info.original)+' เวลา '+escapeHtml(info.timeText)+' น.</div><div>'+lunarText+'</div><div class="meta">'+eraText+'</div>'+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
+ $(prefix+'Summary').innerHTML=lead;
+ $(prefix+'StartNumbers').innerHTML=
+ '<div class="summary-item"><span class="muted">ฐาน 1 · วันตั้งต้น</span><b>'+toThai(info.dayStart)+' · '+stars[info.dayStart]+'</b></div>'+
+ '<div class="summary-item"><span class="muted">ฐาน 2 · เดือนตั้งต้น</span><b>'+toThai(info.monthStart)+' · '+lunarMonthLabel(info.lunar.month)+'</b></div>'+
+ '<div class="summary-item"><span class="muted">ฐาน 3 · ปีตั้งต้น</span><b>'+toThai(info.yearStart)+' · ปี'+info.animal+'</b></div>';
+ const rows=calcRows(info.dayStart,info.monthStart,info.yearStart);
+ $(prefix+'Tables').innerHTML=rows.map((r,i)=>renderTable(i+1,r)).join('');
+ const code=''+info.dayStart+info.monthStart+info.yearStart;
+ const matches=groupData.map((g,i)=>({name:g[0],index:i+1,codes:g[1].split(/\s+/)})).filter(g=>g.codes.includes(code));
+ $(prefix+'GroupMatches').innerHTML='รหัสตั้งต้น วัน-เดือน-ปี: <b>'+toThai(info.dayStart)+'-'+toThai(info.monthStart)+'-'+toThai(info.yearStart)+'</b> · รหัสสามหลัก <b>'+code+'</b><br>'+(matches.length?matches.map(g=>'<span class="tag">'+g.index+'. '+escapeHtml(g.name)+'</span>').join(' '):'ไม่พบรหัสนี้ในรายการ 12 กลุ่มที่บันทึกไว้');
 }
 function calculate(){
  $('formError').textContent='';
- const date=$('birth').value,time=$('time').value,month=Number($('month').value),year=Number($('year').value);
- if(!date||!time||!month||!year){$('formError').textContent='กรุณากรอกวันเกิด เวลาเกิด เดือนจันทรคติ และปีนักษัตรให้ครบ';return;}
- const weekday=getWeekdayNumber(date,time),dayStart=weekday,monthStart=monthMap[month],yearStart=yearMap[year];
- const rows=calcRows(dayStart,monthStart,yearStart);
- const lunarDay=$('lunarDay').value;const lunarPhase=$('lunarPhase').value;
- const lunarText=(lunarDay?lunarPhase+' '+toThai(lunarDay)+' ค่ำ ':'')+'เดือน'+lunarMonths[month]+' ('+toThai(month)+')';
- const name=$('name').value.trim(),place=$('place').value.trim(),animal=animals[year];
- const header='<div class="lead">'+(name?name+' · ':'')+'เกิดวันที่ '+dateLabel(date)+' เวลา '+time+' น.</div><div>'+weekdays[weekday-1]+' '+lunarText+' ปี'+animal+'</div>'+(place?'<div class="meta">สถานที่เกิด '+place+'</div>':'')+additionalSummary();
- $('birthSummary').innerHTML=header;
- const code=''+dayStart+monthStart+yearStart;
- $('startNumbers').innerHTML='<div class="summary-item"><span class="muted">ฐาน 1 · วันตั้งต้น</span><b>'+toThai(dayStart)+' · '+stars[dayStart]+'</b></div><div class="summary-item"><span class="muted">ฐาน 2 · เดือนตั้งต้น</span><b>'+toThai(monthStart)+' · เดือน'+lunarMonths[month]+'</b></div><div class="summary-item"><span class="muted">ฐาน 3 · ปีตั้งต้น</span><b>'+toThai(yearStart)+' · ปี'+animal+'</b></div>';
- $('tables').innerHTML=rows.map((r,i)=>renderTable(i+1,r)).join('');
- const matches=groupData.map((g,i)=>({name:g[0],index:i+1,codes:g[1].split(/\s+/)})).filter(g=>g.codes.includes(code));
- $('groupMatches').innerHTML='รหัสตั้งต้น วัน-เดือน-ปี: <b>'+toThai(dayStart)+'-'+toThai(monthStart)+'-'+toThai(yearStart)+'</b> · รหัสสามหลัก <b>'+code+'</b><br>'+(matches.length?matches.map(g=>'<span class="tag">'+g.index+'. '+g.name+'</span>').join(' '):'ไม่พบรหัสนี้ในรายการ 12 กลุ่มที่บันทึกไว้');
- $('output').classList.remove('hidden');
- $('output').scrollIntoView({behavior:'smooth',block:'start'});
+ try{
+  const birth=$('birth').value,birthTime=$('time').value,transit=$('transit').value,transitTime=$('transitTime').value;
+  if(!birth||!birthTime||!transit||!transitTime)throw new Error('กรุณากรอกวันเดือนปีและเวลาทั้งวันเกิดและวันจรให้ครบ');
+  const birthInfo=calculateDateInfo(birth,birthTime);
+  const transitInfo=calculateDateInfo(transit,transitTime);
+  const name=$('name').value.trim(),place=$('place').value.trim();
+  renderInfo('birth',birthInfo,name,place,'เกิด');
+  renderInfo('transit',transitInfo,'','', 'จร');
+  $('output').classList.remove('hidden');
+  $('output').scrollIntoView({behavior:'smooth',block:'start'});
+ }catch(err){$('formError').textContent=err.message||'เกิดข้อผิดพลาดในการคำนวณ';}
 }
 $('calculate').addEventListener('click',calculate);
 $('print').addEventListener('click',()=>window.print());
-$('reset').addEventListener('click',()=>{document.querySelectorAll('input').forEach(x=>x.value='');document.querySelectorAll('select').forEach(x=>x.selectedIndex=0);$('time').value='06:00';$('formError').textContent='';$('output').classList.add('hidden');});
+$('reset').addEventListener('click',()=>{
+ document.querySelectorAll('.form-panel input').forEach(x=>x.value='');
+ document.querySelectorAll('.form-panel select').forEach(x=>x.selectedIndex=0);
+ $('formError').textContent='';$('output').classList.add('hidden');
+});
 $('sample').addEventListener('click',()=>{
- $('name').value='Golden Case';$('birth').value='2026-11-16';$('time').value='15:35';$('place').value='';$('lunarPhase').value='ขึ้น';$('lunarDay').value='7';$('month').value='12';$('year').value='7';
- $('jula').value='1388';$('maha').value='1948';$('rattan').value='245';$('solarType').value='ปกติสุรทิน';$('monthType').value='อธิกมาส';$('dayType').value='ปกติวาร';
- calculate();
+ $('name').value='Golden Case';$('birth').value='2026-11-16';$('time').value='15:35';
+ $('transit').value='2026-11-17';$('transitTime').value='19:00';
+ $('place').value='ขอนแก่น';calculate();
 });
 })();
 </script>
