@@ -600,7 +600,7 @@ function populateZones(prefix){
 function zoneOffsetAt(date,zone){
  const parts=new Intl.DateTimeFormat('en-US',{timeZone:zone,timeZoneName:'longOffset',hour:'2-digit'}).formatToParts(date);
  const raw=parts.find(p=>p.type==='timeZoneName')?.value||'GMT+00:00';
- const m=/GMT([+-])(\\d{2}):(\\d{2})/.exec(raw);
+ const m=/GMT([+-])(\d{2}):(\d{2})/.exec(raw);
  return m?(m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3])):0;
 }
 function updateZoneLabel(prefix){
