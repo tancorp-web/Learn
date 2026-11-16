@@ -4800,11 +4800,14 @@ body header.hero[hidden]{
    [[1,natalLon,'เดิม'],[2,transitLon,'จร']].forEach(([index,longitude,side])=>{
     const cell=row.cells[index];
     if(!cell)return;
-    cell.querySelector('.ps917-navamsa')?.remove();
-    if(!Number.isFinite(Number(longitude)))return;
+    if(!Number.isFinite(Number(longitude))){cell.querySelector('.ps917-navamsa')?.remove();return;}
     const n=navOf(Number(longitude));
-    if(!n||!n.sign)return;
-    const box=document.createElement('span');box.className='ps917-navamsa';box.dataset.side=side;
+    if(!n||!n.sign){cell.querySelector('.ps917-navamsa')?.remove();return;}
+    const signature=[Number(longitude),n.number,n.navNumber,n.sign,n.lordNum].join('|');
+    const existing=cell.querySelector('.ps917-navamsa');
+    if(existing?.dataset.signature===signature)return;
+    existing?.remove();
+    const box=document.createElement('span');box.className='ps917-navamsa';box.dataset.side=side;box.dataset.signature=signature;
     const heading=document.createElement('span');heading.className='ps917-nav-title';heading.textContent=side==='เดิม'?'นวางค์เดิม':'นวางค์จร';
     const main=document.createElement('span');main.className='ps917-nav-main';
     main.textContent='นวางค์ที่ '+thai(n.number)+' · ราศี'+n.sign;
