@@ -1295,7 +1295,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
   </table></div>
 </section>
 
-<div id="compare" class="panel"><div class="section-title"><h2>เปรียบเทียบผลคำนวณ</h2></div></div>
+<!-- Category 11.01 Golden QA comparison removed from page 916 -->
 
 
 
@@ -3687,7 +3687,7 @@ const KEY='hora915:display-layout:v1',defs=[
 {key:'thaksaTransit',label:'ตารางทักษาจร',selectors:['#thaksaTransitPanel799']},
 {key:'navamsa',label:'นวางค์',selectors:['#navamsaPanel50']},
 {key:'triyang',label:'ตรียางค์',selectors:['#triyangPanel50']},
-{key:'other',label:'ผลวิเคราะห์อื่น ๆ',selectors:['#selectedSignAnalysis999','#compare','#thaksaRoleSummary100']}
+{key:'other',label:'ผลวิเคราะห์อื่น ๆ',selectors:['#selectedSignAnalysis999','#thaksaRoleSummary100']}
 ],keys=defs.map(x=>x.key),byKey=new Map(defs.map(x=>[x.key,x])), $=id=>document.getElementById(id);
 let state={order:[...keys],visible:Object.fromEntries(keys.map(k=>[k,true])),collapsed:{}},groups=new Map(),host;
 function splitThaksa(){const p=$('thaksaPanel51'),g=p?.querySelector('.thaksa51-grids');if(!p||!g||$('thaksaTransitPanel799'))return;const cards=[...g.children].filter(x=>x.classList.contains('thaksa51-card'));if(cards.length<2)return;g.removeChild(cards[1]);g.style.gridTemplateColumns='minmax(0,1fr)';const h=p.querySelector('.section-title h2');if(h)h.textContent='ตารางทักษาเดิม';const t=document.createElement('section');t.id='thaksaTransitPanel799';t.className='panel';t.innerHTML='<div class="section-title"><h2>ตารางทักษาจร</h2><button type="button" class="thaksa799-run">คำนวณทักษาจร</button></div>';t.append(cards[1]);t.querySelector('button').onclick=()=>$('thaksaRun51')?.click();p.after(t);}
