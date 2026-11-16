@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f0e8">
+<title>ระบบคำนวณ 343 · i002</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#28251f;background:#f4f1ea;--ink:#28251f;--muted:#756e63;--line:#e5ded2;--paper:#fff;--soft:#f8f5ef;--accent:#514432}
+*{box-sizing:border-box}body{margin:0;padding:14px}.wrap{max-width:1120px;margin:auto}
+header,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;margin:0 0 14px;box-shadow:0 2px 8px #33250a08}
+header{background:linear-gradient(135deg,#fff,#f6f0e4)}h1{font-size:1.5rem;margin:8px 0 5px}h2{font-size:1.12rem;margin:0 0 13px}h3{font-size:1rem;margin:0 0 10px}
+.sub,.muted,small{color:var(--muted)}.sub{font-size:.92rem}.muted{font-size:.86rem;line-height:1.65}.tag{display:inline-block;background:#eee7da;border-radius:30px;padding:4px 10px;font-size:.78rem}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field label{display:block;font-size:.88rem;color:#514b43}.field input,.field select{width:100%;padding:11px;border:1px solid #d8d1c6;border-radius:9px;margin-top:5px;font:inherit;background:#fff;color:var(--ink);min-width:0}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
+.note{background:#f8f4eb;border-left:3px solid #b9a47e;padding:10px 12px;border-radius:7px;margin-top:12px;font-size:.85rem;color:#625847}
+.details{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:11px}.details summary{cursor:pointer;font-weight:650}.optional-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.result-head{line-height:1.85}.result-head .lead{font-weight:700}.result-head .meta{color:var(--muted);font-size:.9rem}
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:11px}table.calc{border-collapse:separate;border-spacing:0;width:100%;min-width:680px;table-layout:fixed}
+table.calc th,table.calc td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 5px;text-align:center;vertical-align:middle}
+table.calc th:last-child,table.calc td:last-child{border-right:0}table.calc tr:last-child td{border-bottom:0}
+table.calc thead th{background:#eee8dc;font-size:.78rem;color:#665d50}
+.row-title{width:95px;min-width:95px;background:#f7f3eb;font-weight:700;text-align:left!important;padding-left:10px!important}
+.house{display:block;font-size:.78rem;line-height:1.35;min-height:2.1em;overflow-wrap:anywhere}
+.num{display:block;font-size:1.35rem;font-weight:800;line-height:1.35;font-variant-numeric:tabular-nums}
+.star{display:block;font-size:.7rem;color:#756b5c;line-height:1.35}
+.cell-label{display:block;font-size:.72rem;color:#756b5c;line-height:1.35;min-height:1em}
+.base-title{display:flex;align-items:baseline;gap:8px;margin:18px 0 8px}.base-title strong{font-size:1rem}.base-title span{font-size:.82rem;color:var(--muted)}
+.summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.summary-item{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px}.summary-item b{display:block;font-size:1.15rem;margin-top:3px}
+.group-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.group{border:1px solid var(--line);border-radius:10px;padding:11px}.group h3{font-size:.93rem}.group p{margin:4px 0;font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}
+.hidden{display:none!important}.error{color:#9b3f27;font-weight:650}.success{color:#286044;font-weight:650}
+footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
+@media(max-width:760px){body{padding:8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.optional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:1fr}.group-list{grid-template-columns:1fr}header,.panel{padding:13px}h1{font-size:1.25rem}}
+@media(max-width:390px){.form-grid{grid-template-columns:1fr}.optional-grid{grid-template-columns:1fr}}
+@media print{body{background:#fff;padding:0}.panel,header{box-shadow:none;break-inside:avoid}.form-panel,.actions,footer{display:none!important}.table-scroll{overflow:visible}table.calc{min-width:0;font-size:10px}.num{font-size:1rem}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+<span class="tag">i002 · ระบบคำนวณ 343</span>
+<h1>ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</h1>
+<div class="sub">กรอกข้อมูลเกิด แล้วคำนวณฐาน 1–9 อัตโนมัติ · แสดงชื่อภพและดาวตามตำแหน่งที่กำหนด</div>
+</header>
+
+<section class="panel form-panel">
+<h2>กรอกข้อมูลเพื่อคำนวณ</h2>
+<div class="form-grid">
+<div class="field"><label for="name">ชื่อ-สกุล</label><input id="name" placeholder="ชื่อ-สกุล"></div>
+<div class="field"><label for="sex">เพศ</label><select id="sex"><option value="">ไม่ระบุ</option><option>ชาย</option><option>หญิง</option></select></div>
+<div class="field"><label for="birth">วันเดือนปีเกิด (ค.ศ.)</label><input id="birth" type="date" required></div>
+<div class="field"><label for="time">เวลาเกิด</label><input id="time" type="time" value="06:00" required></div>
+<div class="field"><label for="place">จังหวัด / สถานที่เกิด</label><input id="place" placeholder="เช่น ขอนแก่น"></div>
+<div class="field"><label for="lunarPhase">ข้างขึ้น / ข้างแรม</label><select id="lunarPhase"><option value="ขึ้น">ข้างขึ้น</option><option value="แรม">ข้างแรม</option></select></div>
+<div class="field"><label for="lunarDay">วันค่ำ</label><select id="lunarDay"><option value="">เลือกวันค่ำ</option></select></div>
+<div class="field"><label for="month">เดือนจันทรคติ</label><select id="month"><option value="">เลือกเดือนจันทรคติ</option><option value="1">เดือนอ้าย (๑)</option><option value="2">เดือนยี่ (๒)</option><option value="3">เดือนสาม (๓)</option><option value="4">เดือนสี่ (๔)</option><option value="5">เดือนห้า (๕)</option><option value="6">เดือนหก (๖)</option><option value="7">เดือนเจ็ด (๗)</option><option value="8">เดือนแปด (๘)</option><option value="9">เดือนเก้า (๙)</option><option value="10">เดือนสิบ (๑๐)</option><option value="11">เดือนสิบเอ็ด (๑๑)</option><option value="12">เดือนสิบสอง (๑๒)</option></select></div>
+<div class="field"><label for="year">ปีนักษัตร</label><select id="year"><option value="">เลือกปีนักษัตร</option><option value="1">ชวด</option><option value="2">ฉลู</option><option value="3">ขาล</option><option value="4">เถาะ</option><option value="5">มะโรง</option><option value="6">มะเส็ง</option><option value="7">มะเมีย</option><option value="8">มะแม</option><option value="9">วอก</option><option value="10">ระกา</option><option value="11">จอ</option><option value="12">กุน</option></select></div>
+</div>
+<details class="details">
+<summary>ข้อมูลปฏิทินเพิ่มเติม (กรอกเมื่อมีข้อมูล)</summary>
+<div class="optional-grid">
+<div class="field"><label for="jula">จ.ศ.</label><input id="jula" inputmode="numeric" placeholder="เช่น 1388"></div>
+<div class="field"><label for="maha">ม.ศ.</label><input id="maha" inputmode="numeric" placeholder="เช่น 1948"></div>
+<div class="field"><label for="rattan">ร.ศ.</label><input id="rattan" inputmode="numeric" placeholder="เช่น 245"></div>
+<div class="field"><label for="solarType">สุรทิน</label><select id="solarType"><option value="">ไม่ระบุ</option><option>ปกติสุรทิน</option><option>อธิกสุรทิน</option></select></div>
+<div class="field"><label for="monthType">มาส</label><select id="monthType"><option value="">ไม่ระบุ</option><option>ปกติมาส</option><option>อธิกมาส</option></select></div>
+<div class="field"><label for="dayType">วาร</label><select id="dayType"><option value="">ไม่ระบุ</option><option>ปกติวาร</option><option>อธิกวาร</option></select></div>
+<div class="field"><label for="yama">ยามเกิด</label><input id="yama" placeholder="เช่น ยามศุกระ (6)"></div>
+<div class="field"><label for="period">ช่วงยาม</label><input id="period" placeholder="เช่น ยามกลาง"></div>
+<div class="field"><label for="age">อายุ</label><input id="age" placeholder="เช่น 2 เดือน 1 วัน"></div>
+<div class="field"><label for="ageFull">อายุเต็ม / ราชการ</label><input id="ageFull" placeholder="เช่น 0 ปี"></div>
+<div class="field"><label for="ageAstro">อายุย่าง / โหร</label><input id="ageAstro" placeholder="เช่น 1 ปี (2570)"></div>
+</div>
+<div class="optional-grid">
+<div class="field"><label for="flag1">ธงชัย</label><input id="flag1" inputmode="numeric" placeholder="เลข"></div>
+<div class="field"><label for="flag2">อธิบดี</label><input id="flag2" inputmode="numeric" placeholder="เลข"></div>
+<div class="field"><label for="flag3">อุบาทว์</label><input id="flag3" inputmode="numeric" placeholder="เลข"></div>
+<div class="field"><label for="flag4">โลกาวินาศ</label><input id="flag4" inputmode="numeric" placeholder="เลข"></div>
+</div>
+</details>
+<div class="actions">
+<button id="calculate">คำนวณฐาน 1–9</button>
+<button type="button" class="secondary" id="sample">โหลด Golden Case</button>
+<button type="button" class="secondary" id="print">พิมพ์ / บันทึก PDF</button>
+<button type="button" class="secondary" id="reset">ล้างข้อมูล</button>
+</div>
+<div class="note">วันเกิดทางโหราศาสตร์: เกิดก่อน 06:00 น. ให้นับเป็นวันก่อนหน้า; ตั้งแต่ 06:00 น. เป็นต้นไปใช้วันตามปฏิทินปัจจุบัน เดือนจันทรคติและปีนักษัตรให้เลือกตามปฏิทินจริงของวันเกิด</div>
+<div id="formError" class="error" role="alert"></div>
+</section>
+
+<section class="panel hidden" id="output" aria-live="polite">
+<h2>ผลคำนวณดวงชะตา</h2>
+<div id="birthSummary" class="result-head"></div>
+<div class="summary-grid" id="startNumbers" style="margin-top:13px"></div>
+<div id="tables"></div>
+<div class="panel" style="margin:16px 0 0;background:#faf8f3">
+<h2>ตรวจรหัสประจำดวง · คลังข้อมูล 12 กลุ่ม</h2>
+<div id="groupMatches" class="muted"></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>หลักการคำนวณที่ใช้ในหน้านี้</h2>
+<div class="muted">
+ฐาน 1–3: ใช้เลขตั้งต้นจากวัน เดือนจันทรคติ และปีนักษัตร แล้วเดินเพิ่มทีละ 1 ให้ครบ 7 ช่อง วนกลับ 1 เมื่อเกิน 7<br>
+ฐาน 4: บวกฐาน 1 + 2 + 3 ตามแนวตั้ง โดยยังไม่ลดเลข<br>
+ฐาน 5: ลดผลฐาน 4 ให้เหลือ 1–7<br>
+ฐาน 6: คูณฐาน 5 ด้วย 2 แล้วลดให้เหลือ 1–7<br>
+ฐาน 7: คูณฐาน 6 ด้วย 2 แล้วลดให้เหลือ 1–7<br>
+ฐาน 8: เริ่มจากตัวแรกของฐาน 5 แล้วเดินยามกลางวันให้ครบ 7 ช่อง<br>
+ฐาน 9: นำสองตัวท้ายของฐาน 8 มาบวกเป็นตัวสุดท้ายของฐาน 9 แล้วนับย้อนยามกลางวันจากคอลัมน์ 7 กลับมาคอลัมน์ 1
+</div>
+</section>
+<footer>i002 · ระบบคำนวณ 343 · แยกจากระบบ HORA และแยกจากคลังตำราอ้างอิงภายนอก</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+const thaiDigits=['๐','๑','๒','๓','๔','๕','๖','๗','๘','๙'];
+const toThai=n=>String(n).replace(/[0-9]/g,d=>thaiDigits[Number(d)]);
+const weekdays=['วันอาทิตย์','วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์'];
+const stars={1:'อาทิตย์',2:'จันทร์',3:'อังคาร',4:'พุธ',5:'พฤหัสบดี',6:'ศุกร์',7:'เสาร์'};
+const lunarMonths={1:'อ้าย',2:'ยี่',3:'สาม',4:'สี่',5:'ห้า',6:'หก',7:'เจ็ด',8:'แปด',9:'เก้า',10:'สิบ',11:'สิบเอ็ด',12:'สิบสอง'};
+const animals={1:'ชวด',2:'ฉลู',3:'ขาล',4:'เถาะ',5:'มะโรง',6:'มะเส็ง',7:'มะเมีย',8:'มะแม',9:'วอก',10:'ระกา',11:'จอ',12:'กุน'};
+const monthMap={1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:1,9:2,10:3,11:4,12:5};
+const yearMap={1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:1,9:2,10:3,11:4,12:5};
+const houses=[
+['อัตตะ','หินะ','ธนัง','ปิตา','มาตา','โภคา','มัชฌิมา'],
+['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ'],
+['มรณะ','สุภะ','กัมมะ','ลาภะ','พยายะ','ทาสา','ทาสี'],
+null,null,null,null,
+['อาตมะ','ทาสา','สิทธิโชค','โภคทรัพย์','โจร','อุบาทว์','อุปถัมภ์'],
+['อัตตะ','สักกะ','ญาติ','ธะนัง','เคหัง','นาวัง','ภริยัง']
+];
+const base4Labels={8:'อังคารใหญ่',10:'เสาร์',11:'ราชาโชค',12:'ราหู',13:'มหาอุจจ์',14:'จักรพรรดิ',16:'โสฬสมงคล'};
+const nextDay={1:6,6:4,4:2,2:7,7:5,5:3,3:1};
+const prevDay={6:4,4:2,2:7,7:5,5:3,3:1,1:6};
+const groupData=[
+['เลขตอง','111 222 333 444 555 666 777'],
+['ถูกหลอกลวง','121 211 771 112 232 322 223 323 433 334 454 445 544 565 655 556 676 766 667 177 717'],
+['ชีวิตราบเรียบ','131 311 661 242 422 772 113 353 533 224 464 644 335 575 755 616 446 166 277 557 727'],
+['เสี่ยสั่งลุย','141 411 551 252 522 662 363 633 773 474 744 114 514 155 225 626 266 336 377 737 447'],
+['ราชาเป็นยาจก','151 511 441 262 622 552 373 733 663 144 414 774 255 525 115 366 636 226 477 747 337'],
+['สูญเสีย','171 221 122 212 332 233 323 443 344 434 554 545 455 665 656 566 776 767 677 117'],
+['คิดการใหญ่','231 271 321 671 721 761 132 172 712 312 342 712 123 213 243 423 453 543 234 324 354 534 564 654 345 435 465 645 675 765 176 456 546 576 716 5756 167 567 217 617 657'],
+['เศรษฐีหงอนไก่','241 371 421 561 651 731 142 352 412 532 672 762 173 253 463 523 643 713 124 214 364 574 634 754 165 235 325 475 615 745 156 276 346 436 516 726 137 267 317 457 547 627'],
+['นักเลง กล้าได้กล้าเสีย','251 451 471 521 541 741 152 512 362 562 652 632 263 473 623 673 743 763 154 174 234 324 564 714 125 215 145 265 625 236 326 256 526 376 736 147 347 367 417 437 637'],
+['ชีวิตเปลี่ยนแปลงบ่อย','261 341 431 571 751 162 372 452 542 612 732 143 273 413 563 653 723 134 254 314 524 674 764 175 245 365 425'],
+['นักลงทุน','161 331 611 272 442 722 133 313 553 244 424 665 355 535 775 116 646 466 227 577 757'],
+['สนุกสนานกับงานบริการและการท่องเที่ยว','351 361 461 531 631 641 462 472 642 742 572 752 143 163 513 573 613 753 164 264 276 614 624 724 135 275 315 375 725 735 136 146 246 316 416 426 247 257 357 427 527 537']
+];
+const $=id=>document.getElementById(id);
+for(let i=1;i<=15;i++){const o=document.createElement('option');o.value=i;o.textContent=toThai(i);$('lunarDay').appendChild(o);}
+function reduce7(n){return ((n-1)%7)+1;}
+function sequence(start){return Array.from({length:7},(_,i)=>((start-1+i)%7)+1);}
+function getWeekdayNumber(dateText,timeText){
+ const parts=dateText.split('-').map(Number);const y=parts[0],m=parts[1],d=parts[2];
+ const [hh,mm]=timeText.split(':').map(Number);
+ const dt=new Date(Date.UTC(y,m-1,d));
+ if(hh*60+mm<360)dt.setUTCDate(dt.getUTCDate()-1);
+ return dt.getUTCDay()+1;
+}
+function calcRows(dayStart,monthStart,yearStart){
+ const b1=sequence(dayStart),b2=sequence(monthStart),b3=sequence(yearStart);
+ const b4=b1.map((v,i)=>v+b2[i]+b3[i]);
+ const b5=b4.map(reduce7),b6=b5.map(v=>reduce7(v*2)),b7=b6.map(v=>reduce7(v*2));
+ const b8=[b5[0]];for(let i=1;i<7;i++)b8.push(nextDay[b8[i-1]]);
+ const b9=Array(7);b9[6]=reduce7(b8[5]+b8[6]);for(let i=5;i>=0;i--)b9[i]=prevDay[b9[i+1]];
+ return [b1,b2,b3,b4,b5,b6,b7,b8,b9];
+}
+function dateLabel(dateText){
+ const [y,m,d]=dateText.split('-').map(Number);const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+ return d+' '+months[m-1]+' พ.ศ. '+(y+543)+' / ค.ศ. '+y;
+}
+function makeCell(house,num,star,label){
+ return '<td>'+(house?'<span class="house">'+house+'</span>':'')+'<span class="num">'+toThai(num)+'</span>'+(star?'<span class="star">'+star+'</span>':'')+(label?'<span class="cell-label">'+label+'</span>':'')+'</td>';
+}
+function renderTable(baseNo,values){
+ const heads=houses[baseNo-1];let cells='';
+ for(let i=0;i<7;i++){
+  const n=values[i],h=heads?heads[i]:'';
+  const star=(baseNo<=3)?'ดาว'+stars[n]:'';
+  const label=(baseNo===4)?(base4Labels[n]||''):'';
+  cells+=makeCell(h,n,star,label);
+ }
+ const title=baseNo<=3?'ฐาน '+baseNo+' · '+(baseNo===1?'วัน':baseNo===2?'เดือนจันทรคติ':'ปีนักษัตร'):baseNo===4?'ฐาน 4 · ผลบวกแนวตั้ง':baseNo===5?'ฐาน 5 · ลดเลข':baseNo===6?'ฐาน 6 · คูณสองจากฐาน 5':baseNo===7?'ฐาน 7 · คูณสองจากฐาน 6':baseNo===8?'ฐาน 8 · เดินยามกลางวัน':'ฐาน 9 · เดินย้อนยามกลางวัน';
+ const note=baseNo===4?'ผลรวมยังไม่ลดเลข':baseNo===5?'ลดเลขให้เหลือ 1–7':baseNo===6||baseNo===7?'คูณ 2 แล้วลดให้เหลือ 1–7':baseNo===8?'เริ่มจากตัวแรกของฐาน 5':baseNo===9?'ผลบวกสองตัวท้ายฐาน 8 วางคอลัมน์ 7 แล้วนับย้อน':'';
+ return '<div class="base-title"><strong>'+title+'</strong><span>'+note+'</span></div><div class="table-scroll"><table class="calc"><thead><tr><th class="row-title">คอลัมน์</th>'+[1,2,3,4,5,6,7].map(x=>'<th>'+toThai(x)+'</th>').join('')+'</tr></thead><tbody><tr><th class="row-title">ผลคำนวณ</th>'+cells+'</tr></tbody></table></div>';
+}
+function additionalSummary(){
+ const vals=['jula','maha','rattan','solarType','monthType','dayType','flag1','flag2','flag3','flag4','yama','period','age','ageFull','ageAstro'].map(id=>$(id).value.trim());
+ const ids=['จ.ศ.','ม.ศ.','ร.ศ.','สุรทิน','มาส','วาร','ธงชัย','อธิบดี','อุบาทว์','โลกาวินาศ','ยามเกิด','ช่วงยาม','อายุ','อายุเต็ม/ราชการ','อายุย่าง/โหร'];
+ const parts=vals.map((v,i)=>v?ids[i]+' '+v:'').filter(Boolean);
+ return parts.length?'<div class="meta">'+parts.join(' · ')+'</div>':'';
+}
+function calculate(){
+ $('formError').textContent='';
+ const date=$('birth').value,time=$('time').value,month=Number($('month').value),year=Number($('year').value);
+ if(!date||!time||!month||!year){$('formError').textContent='กรุณากรอกวันเกิด เวลาเกิด เดือนจันทรคติ และปีนักษัตรให้ครบ';return;}
+ const weekday=getWeekdayNumber(date,time),dayStart=weekday,monthStart=monthMap[month],yearStart=yearMap[year];
+ const rows=calcRows(dayStart,monthStart,yearStart);
+ const lunarDay=$('lunarDay').value;const lunarPhase=$('lunarPhase').value;
+ const lunarText=(lunarDay?lunarPhase+' '+toThai(lunarDay)+' ค่ำ ':'')+'เดือน'+lunarMonths[month]+' ('+toThai(month)+')';
+ const name=$('name').value.trim(),place=$('place').value.trim(),animal=animals[year];
+ const header='<div class="lead">'+(name?name+' · ':'')+'เกิดวันที่ '+dateLabel(date)+' เวลา '+time+' น.</div><div>'+weekdays[weekday-1]+' '+lunarText+' ปี'+animal+'</div>'+(place?'<div class="meta">สถานที่เกิด '+place+'</div>':'')+additionalSummary();
+ $('birthSummary').innerHTML=header;
+ const code=''+dayStart+monthStart+yearStart;
+ $('startNumbers').innerHTML='<div class="summary-item"><span class="muted">ฐาน 1 · วันตั้งต้น</span><b>'+toThai(dayStart)+' · '+stars[dayStart]+'</b></div><div class="summary-item"><span class="muted">ฐาน 2 · เดือนตั้งต้น</span><b>'+toThai(monthStart)+' · เดือน'+lunarMonths[month]+'</b></div><div class="summary-item"><span class="muted">ฐาน 3 · ปีตั้งต้น</span><b>'+toThai(yearStart)+' · ปี'+animal+'</b></div>';
+ $('tables').innerHTML=rows.map((r,i)=>renderTable(i+1,r)).join('');
+ const matches=groupData.map((g,i)=>({name:g[0],index:i+1,codes:g[1].split(/\s+/)})).filter(g=>g.codes.includes(code));
+ $('groupMatches').innerHTML='รหัสตั้งต้น วัน-เดือน-ปี: <b>'+toThai(dayStart)+'-'+toThai(monthStart)+'-'+toThai(yearStart)+'</b> · รหัสสามหลัก <b>'+code+'</b><br>'+(matches.length?matches.map(g=>'<span class="tag">'+g.index+'. '+g.name+'</span>').join(' '):'ไม่พบรหัสนี้ในรายการ 12 กลุ่มที่บันทึกไว้');
+ $('output').classList.remove('hidden');
+ $('output').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('calculate').addEventListener('click',calculate);
+$('print').addEventListener('click',()=>window.print());
+$('reset').addEventListener('click',()=>{document.querySelectorAll('input').forEach(x=>x.value='');document.querySelectorAll('select').forEach(x=>x.selectedIndex=0);$('time').value='06:00';$('formError').textContent='';$('output').classList.add('hidden');});
+$('sample').addEventListener('click',()=>{
+ $('name').value='Golden Case';$('birth').value='2026-11-16';$('time').value='15:35';$('place').value='';$('lunarPhase').value='ขึ้น';$('lunarDay').value='7';$('month').value='12';$('year').value='7';
+ $('jula').value='1388';$('maha').value='1948';$('rattan').value='245';$('solarType').value='ปกติสุรทิน';$('monthType').value='อธิกมาส';$('dayType').value='ปกติวาร';
+ calculate();
+});
+})();
+</script>
+</body>
+</html>
