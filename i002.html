@@ -39,13 +39,17 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 #birthTables,#transitTables{display:none!important}
 .combined-panel{margin-top:14px!important}
 .combined-scroll{overflow-x:auto}
-.combined-calc{width:100%;min-width:1160px;border-collapse:collapse;font-size:12px;table-layout:fixed}
-.combined-calc th,.combined-calc td{border:1px solid var(--line);padding:7px 4px;text-align:center;vertical-align:middle}
+.combined-calc{width:100%;min-width:1400px;border-collapse:collapse;font-size:14px;table-layout:fixed}
+.combined-calc th,.combined-calc td{border:1px solid var(--line);padding:9px 5px;text-align:center;vertical-align:middle}
+.combined-calc .house{display:block;font-size:11px;line-height:1.25;color:#625847;white-space:normal;min-height:2.5em}
+.combined-calc .num{display:block;font-size:19px;font-weight:800;line-height:1.35}
+.combined-calc .transit-col{display:table-cell}
+.combined-calc .transit-col.is-hidden{display:none!important}
 .combined-calc thead th{background:var(--soft);font-weight:700}
 .combined-calc tbody th{white-space:nowrap;background:#faf8f3}
 .combined-calc td:nth-child(n+2):nth-child(-n+15){white-space:nowrap;font-variant-numeric:tabular-nums}
 .combined-calc .base-col{width:62px}
-.combined-calc .value-col{width:34px}
+.combined-calc .value-col{width:38px}
 .combined-calc .thaksa-col{width:126px}
 .combined-calc td[rowspan]{min-width:126px;padding:6px}
 .thaksa-stack{display:grid;gap:5px;text-align:left;min-width:112px}
@@ -53,7 +57,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .thaksa-stack>div:last-child{border-bottom:0}
 .thaksa-stack span{color:var(--muted);font-size:11px}
 .thaksa-stack b{font-size:12px;white-space:nowrap}
-@media(max-width:600px){.combined-calc th,.combined-calc td{padding:7px 6px;font-size:12px}}
+@media(max-width:600px){.combined-calc th,.combined-calc td{padding:8px 6px;font-size:13px}.combined-calc .house{font-size:11px}.combined-calc .num{font-size:19px}}
 @media print{
  @page{size:A4 landscape;margin:8mm}
  body{padding:0}
@@ -114,7 +118,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <div id="transitTables"></div>
 <details class="details"><summary>รหัสประจำดวงจร · คลังข้อมูล 12 กลุ่ม</summary><div id="transitGroupMatches" class="muted"></div></details>
 </div>
-<div class="panel combined-panel"><h2>ผลฐาน ๑–๙ และทักษา</h2><div id="combinedResults"></div></div>
+<div class="panel combined-panel"><h2>ผลฐาน ๑–๙ และทักษา</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button></div><div id="combinedResults"></div></div>
 </section>
 
 <footer>i002 · ระบบคำนวณ 343 · แยกจากระบบ HORA และแยกจากคลังตำราอ้างอิงภายนอก</footer>
@@ -471,23 +475,37 @@ function renderThaksaStack(start){
   return '<div><span>'+role+'</span><b>'+planet+'</b></div>';
  }).join('')+'</div>';
 }
+let transitVisible=true;
+function toggleTransitColumns(){
+ transitVisible=!transitVisible;
+ document.querySelectorAll('#combinedResults .transit-col').forEach(el=>el.classList.toggle('is-hidden',!transitVisible));
+ const btn=$('toggleTransit');
+ btn.textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
+ btn.setAttribute('aria-pressed',String(transitVisible));
+}
 function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDate){
  const birthRows=calcRows(birthInfo.dayStart,birthInfo.monthStart,birthInfo.yearStart);
  const transitRows=calcRows(transitInfo.dayStart,transitInfo.monthStart,transitInfo.yearStart);
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const ageYang=thaksaAgeYang(birthDate,transitDate);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
- let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col" rowspan="2">ฐาน</th><th colspan="7">ดวงเดิม</th><th colspan="7">ดวงจร</th><th class="thaksa-col" rowspan="2">ทักษาเดิม</th><th class="thaksa-col" rowspan="2">ทักษาจร</th></tr><tr>';
+ let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col" rowspan="2">ฐาน</th><th colspan="7">ดวงเดิม</th><th class="transit-col" colspan="7">ดวงจร</th><th class="thaksa-col" rowspan="2">ทักษาเดิม</th><th class="thaksa-col" rowspan="2">ทักษาจร</th></tr><tr>';
  for(let i=1;i<=7;i++)html+='<th class="value-col">'+toThai(i)+'</th>';
- for(let i=1;i<=7;i++)html+='<th class="value-col">'+toThai(i)+'</th>';
+ for(let i=1;i<=7;i++)html+='<th class="value-col transit-col">'+toThai(i)+'</th>';
  html+='</tr></thead><tbody>';
  for(let i=0;i<9;i++){
-  html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthRows[i].map(v=>'<td>'+toThai(v)+'</td>').join('')+transitRows[i].map(v=>'<td>'+toThai(v)+'</td>').join('');
+  const houseSet=houses[i];
+  const birthCells=birthRows[i].map((v,j)=>'<td>'+(houseSet?'<span class="house">'+houseSet[j]+'</span>':'')+'<span class="num">'+toThai(v)+'</span></td>').join('');
+  const transitCells=transitRows[i].map((v,j)=>'<td class="transit-col">'+(houseSet?'<span class="house">'+houseSet[j]+'</span>':'')+'<span class="num">'+toThai(v)+'</span></td>').join('');
+  html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+transitCells;
   if(i===0)html+='<td class="thaksa-col" rowspan="9">'+renderThaksaStack(oldStart)+'</td><td class="thaksa-col" rowspan="9">'+renderThaksaStack(transitStart)+'</td>';
   html+='</tr>';
  }
  html+='</tbody></table></div>';
  $('combinedResults').innerHTML=html;
+ document.querySelectorAll('#combinedResults .transit-col').forEach(el=>el.classList.toggle('is-hidden',!transitVisible));
+ $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
+ $('toggleTransit').setAttribute('aria-pressed',String(transitVisible));
 }
 
 function initDatePickers(){
@@ -495,6 +513,8 @@ function initDatePickers(){
  const yearList=$('beYearOptions');
  for(let y=currentBE-150;y<=currentBE+30;y++){const o=document.createElement('option');o.value=String(y);yearList.appendChild(o);}
  ['birth','transit'].forEach(prefix=>$(prefix+'Year').value=String(currentBE));
+ const today=new Date(),todayISO=String(today.getFullYear()).padStart(4,'0')+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+ ['birth','transit'].forEach(prefix=>setDatePicker(prefix,todayISO));
  const thaiMonths=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
  ['birth','transit'].forEach(prefix=>{
   const yearEl=$(prefix+'Year'),monthEl=$(prefix+'Month'),dayEl=$(prefix+'Day');
@@ -530,6 +550,7 @@ function calculate(){
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
  }catch(err){$('formError').textContent=err.message||'เกิดข้อผิดพลาดในการคำนวณ';}
 }
+$('toggleTransit').addEventListener('click',toggleTransitColumns);
 $('calculate').addEventListener('click',calculate);
 $('print').addEventListener('click',()=>window.print());
 $('reset').addEventListener('click',()=>{
