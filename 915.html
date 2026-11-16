@@ -4248,3 +4248,81 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
 })();
 </script>
 </body></html>
+<!-- HORA_SPECIAL_ADISORN_YONGYOT_20261116 -->
+<script>
+/* 915-only: evaluate Chandra Adisorn, Chandra Vargottama, and Yongyot from
+   the already-calculated natal/transit longitudes. No ephemeris or dignity
+   formula is changed. Pranwet's Adisorn intervals are kept as authored. */
+(()=>{
+ const table=document.getElementById('planetDignityNumberTable8');
+ const body=table?.querySelector('tbody');
+ if(!body)return;
+ const signNames=['เมษ','พฤษภ','มิถุน','กรกฎ','สิงห์','กันย์','ตุล','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const digit={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘'};
+ const yongyot={
+  'อาทิตย์':['เมษ','กรกฎ'],
+  'จันทร์':['เมษ','มกร'],
+  'อังคาร':['เมษ','สิงห์','กันย์'],
+  'พุธ':['สิงห์','ธนู'],
+  'พฤหัสบดี':['กรกฎ','พิจิก','มีน'],
+  'ศุกร์':['ธนู','มีน'],
+  'เสาร์':['พฤษภ','ตุล'],
+  'ราหู':['เมษ','ตุล','มกร']
+ };
+ const norm=x=>((Number(x)%360)+360)%360;
+ const findPlanet=(chart,name)=>(Array.isArray(chart?.planets)?chart.planets:[]).find(p=>p?.name===name&&Number.isFinite(Number(p.longitude)));
+ const signOf=lon=>signNames[Math.floor(norm(lon)/30)];
+ const localMinutes=lon=>(norm(lon)%30)*60;
+ const inRange=(v,a,b)=>v>=a-1e-7&&v<=b+1e-7;
+ const moonResult=chart=>{
+  const moon=findPlanet(chart,'จันทร์');
+  if(!moon)return {trueAdisorn:false,triyangVenus:false,vargottama:false,yongyot:false};
+  const lon=Number(moon.longitude),sign=signOf(lon),m=localMinutes(lon);
+  const shravana=sign==='มกร'&&inRange(m,601,1400); // 10°01′–23°20′ as source text
+  const triyangVenus=sign==='มกร'&&inRange(m,600,1200); // special Adisorn-only rule
+  const fifthNavamsaVenus=sign==='มกร'&&inRange(m,801,1000); // 13°21′–16°40′ as source text
+  return {
+   trueAdisorn:shravana&&triyangVenus&&fifthNavamsaVenus,
+   triyangVenus,
+   vargottama:sign==='มกร'&&inRange(m,1,200),
+   yongyot:(yongyot['จันทร์']||[]).includes(sign)
+  };
+ };
+ const yongyotResult=chart=>(Array.isArray(chart?.planets)?chart.planets:[])
+  .filter(p=>digit[p?.name]&&Number.isFinite(Number(p.longitude)))
+  .filter(p=>(yongyot[p.name]||[]).includes(signOf(p.longitude)))
+  .map(p=>digit[p.name]+' '+p.name+' ('+signOf(p.longitude)+')');
+ const keys=[
+  ['adisorn-true','จันทร์อดิศรที่แท้จริง · ศรวณะภูมิปาโล + ทุติยตรียางค์ศุกร์ + ปัญจมนวางศ์ศุกร์'],
+  ['adisorn-triyang','จันทร์เข้าเกณฑ์ทุติยตรียางค์ศุกร์ · มังกร 10°00′–20°00′ (กฎเฉพาะจันทร์อดิศร)'],
+  ['moon-vargottama','จันทร์วรโคตมนวางศ์ · มังกร 0°01′–3°20′'],
+  ['yongyot','ดาวยงยศตามโคลง · ตรวจตำแหน่งราศีของดาว ๑–๘']
+ ];
+ function updateRow(key,label,natalValue,transitValue){
+  let tr=body.querySelector('tr[data-hora-special="'+key+'"]');
+  if(!tr){
+   tr=document.createElement('tr');tr.dataset.horaSpecial=key;
+   const a=document.createElement('td'),b=document.createElement('td'),c=document.createElement('td');
+   a.textContent=label;tr.append(a,b,c);
+   const rows=[...body.rows];
+   const groupIndex=rows.findIndex(row=>row.querySelector('th[colspan]')?.textContent.trim()==='เกณฑ์พิเศษที่มีโครงสูตรในคลัง');
+   if(groupIndex<0)return;
+   let nextGroup=null;
+   for(let i=groupIndex+1;i<rows.length;i++){if(rows[i].querySelector('th[colspan]')){nextGroup=rows[i];break;}}
+   if(nextGroup)body.insertBefore(tr,nextGroup);else body.appendChild(tr);
+  }
+  tr.cells[1].textContent=natalValue||'—';
+  tr.cells[2].textContent=transitValue||'—';
+ }
+ function render(chartNatal,chartTransit){
+  if(!chartNatal||!chartTransit||!Array.isArray(chartNatal.planets)||!Array.isArray(chartTransit.planets))return;
+  const n=moonResult(chartNatal),t=moonResult(chartTransit);
+  updateRow('adisorn-true',keys[0][1],n.trueAdisorn?'๒':'—',t.trueAdisorn?'๒':'—');
+  updateRow('adisorn-triyang',keys[1][1],n.triyangVenus?'๒':'—',t.triyangVenus?'๒':'—');
+  updateRow('moon-vargottama',keys[2][1],n.vargottama?'๒':'—',t.vargottama?'๒':'—');
+  const ny=yongyotResult(chartNatal).join(' · '),ty=yongyotResult(chartTransit).join(' · ');
+  updateRow('yongyot',keys[3][1],ny,ty);
+ }
+ window.addEventListener('hora50:chart-calculated',event=>render(event?.detail?.natal,event?.detail?.transit));
+})();
+</script>
