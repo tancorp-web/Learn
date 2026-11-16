@@ -1650,7 +1650,7 @@ import { CONFIRMED_PLANETARY_STANDARDS, PLANETARY_DIGNITY_DATA, PLANETARY_DIGNIT
 <script type="module">
 import { calculateSuriyayatra } from './js/astronomy/suriyayatra-engine.js?v=20261103-utc0642-active-cs-boundaries-01';
 import { calculateAscendantBoundaryTimes } from './js/astronomy/ascendant-geometry.js?v=20261114-asc-boundary-import-fix2';
-import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261103-bounded-station-extremum-02';
+import { findSignBoundaryEvents } from './js/astronomy/sign-boundary-search.js?v=20261116-half-step-station-01';
 import { getRashiLordBySign, PLANETARY_DIGNITY_REFERENCE_RULES } from './js/data/planetary-dignities.js?v=20261104-source-workbook-standards';
 import { calculateThaiLunarDate } from './js/astronomy/thai-lunar-calendar-engine.js?v=20261011-lunar-details-1';
 
@@ -1930,10 +1930,10 @@ import { getPlanetaryDignities, getParivartanaKasetRelations, getRashiLordBySign
   const exit=candidates.filter(x=>x.sign===exitSign&&x.stamp>start).sort((a,b)=>a.stamp-b.stamp)[0];
   return {entry:entry?.stamp??null,exit:exit?.stamp??null};
  };
- // Search horizons and sampling intervals are planet-specific. The position
- // formula remains the existing Suriyayatra engine; only the event-search
- // coverage changes. Longer-period planets receive wider horizons and coarser
- // samples, while the helper still refines each detected boundary to one minute.
+ // Search horizons and base sampling intervals are planet-specific. The
+ // position formula remains the existing Suriyayatra engine. The boundary
+ // helper probes at half of each configured interval, detects station windows,
+ // and refines each discovered boundary to one minute.
  const DAY_MS=86400000;
  const searchConfig={
   'อาทิตย์':{maxSpanMs:120*DAY_MS,step:DAY_MS},
