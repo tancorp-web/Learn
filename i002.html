@@ -482,7 +482,7 @@ function renderThaksaStack(start){
   return '<div><span>'+role+'</span><b>'+planet+'</b></div>';
  }).join('')+'</div>';
 }
-let transitVisible=true;
+let transitVisible=false;
 function toggleTransitColumns(){
  transitVisible=!transitVisible;
  document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
@@ -629,8 +629,6 @@ function calculate(){
  try{
   const birth=datePickerValue('birth'),birthTime=getTimeValue('time'),transit=datePickerValue('transit'),transitTime=getTimeValue('transitTime');
   if(!birth||!birthTime||!transit||!transitTime)throw new Error('กรุณากรอกวันเดือนปีและเวลาทั้งวันเกิดและวันจรให้ครบ');
-  const birthInfo=calculateDateInfo(birth,birthTime);
-  const transitInfo=calculateDateInfo(transit,transitTime);
   const name=$('name').value.trim();
   const birthZone=$('birthZone').value,transitZone=$('transitZone').value;
   const birthLocal=toThailandDateTime(birth,birthTime,birthZone);
@@ -639,8 +637,8 @@ function calculate(){
   const transitInfo=calculateDateInfo(transitLocal.date,transitLocal.time);
   const birthCountry=$('birthCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
   renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)');
-  renderInfo('transit',transitInfo,'','', 'จร (เทียบเวลาไทย)');
-  renderInfo('transit',transitInfo,'','', 'จร');
+  const transitCountry=$('transitCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
+  renderInfo('transit',transitInfo,'',transitCountry+' · '+transitLocal.offsetLabel,'จร (เทียบเวลาไทย)');
   renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
