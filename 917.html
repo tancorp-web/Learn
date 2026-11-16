@@ -1184,14 +1184,14 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
    rows.push('<tr data-ps917-name="ลัคนา"><td><strong>ลัคนา (ล)</strong>'+natalAscTags+transitAscTags+'</td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
    planetOrder.forEach(name=>{
     const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
-    const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[]),...nFlags];
-    const transitTags=[...(transitCriteria.get(name)||[]),...(transitExchange.get(name)||[]),...tFlags];
+    const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[])];
+    const transitTags=[...(transitCriteria.get(name)||[]),...(transitExchange.get(name)||[])];
     if(b&&Number.isFinite(Number(b.longitude))&&name===lordName)natalTags.push('ตนุลัคน์');
     if(b&&Number.isFinite(Number(b.longitude))&&name===lordName&&kasetNatal)natalTags.push('ตนุเกษตร');
     if(b&&Number.isFinite(Number(b.longitude))&&tanuSesha?.planetName===name)natalTags.push('ตนุเศษ');
     const nameTags=tagLine('เดิม',[...new Set(natalTags)])+tagLine('จร',[...new Set(transitTags)]);
-    const flags=tagLine('เดิม',[...new Set(nFlags)])+tagLine('จร',[...new Set(tFlags)]);
-    rows.push('<tr data-ps917-name="'+esc(name)+'"><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null,'เดิม')+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null,'จร')+'</td><td>'+(flags||'—')+'</td></tr>');
+    const observationTags='<span class="ps917-observation-tags">'+tagLine('เดิม',[...new Set(nFlags)])+tagLine('จร',[...new Set(tFlags)])+'</span>';
+    rows.push('<tr data-ps917-name="'+esc(name)+'"><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+observationTags+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null,'เดิม')+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null,'จร')+'</td><td>—</td></tr>');
    });
    tbody.innerHTML=rows.join('');
  };
@@ -4526,6 +4526,14 @@ body header.hero[hidden]{
  }
 })();
 </script>
+<style id="ps917-observation-tags-layout">
+#planetSummary911 .ps917-observation-tags{display:block!important;margin-top:5px;padding-top:4px;border-top:1px dotted #d7dce7}
+#planetSummary911 .ps917-observation-tags .ps911-tag-row{display:block!important;margin:3px 0!important;white-space:normal}
+#planetSummary911 .ps917-observation-tags .ps911-tag-row[data-side="เดิม"] b{color:#5935a5}
+#planetSummary911 .ps917-observation-tags .ps911-tag-row[data-side="จร"] b{color:#176b3a}
+#planetSummary911 .ps917-observation-tags .ps911-flag[data-side="เดิม"]{border-color:#d9cdfb;background:#eee8ff;color:#40218a}
+#planetSummary911 .ps917-observation-tags .ps911-flag[data-side="จร"]{border-color:#c5e9d1;background:#ddf8e8;color:#075b31}
+</style>
 </body></html>
 <!-- HORA_SPECIAL_ADISORN_YONGYOT_20261116 -->
 <script>
