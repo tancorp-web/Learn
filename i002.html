@@ -557,7 +557,7 @@ $('reset').addEventListener('click',()=>{
  document.querySelectorAll('.form-panel input').forEach(x=>x.value='');
  document.querySelectorAll('.form-panel select').forEach(x=>x.selectedIndex=0);
  const currentBE=String(new Date().getFullYear()+543);$('birthYear').value=currentBE;$('transitYear').value=currentBE;
- $('formError').textContent='';initializeTransitNow();$('output').classList.add('hidden');
+ $('formError').textContent='';initializeBirthToday();initializeTransitNow();$('output').classList.add('hidden');
 });
 $('sample').addEventListener('click',()=>{
  $('name').value='Golden Case';setDatePicker('birth','2026-11-16');setTimeValue('time','15:35');
@@ -566,6 +566,7 @@ $('sample').addEventListener('click',()=>{
 });
 function getTimeValue(prefix){const h=$(prefix+'Hour').value,m=$(prefix+'Minute').value;return h!==''&&m!==''?h+':'+m:'';}
 function setTimeValue(prefix,value){const parts=value.split(':');$(prefix+'Hour').value=parts[0];$(prefix+'Minute').value=parts[1];}
+function initializeBirthToday(){const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();setDatePicker('birth',String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'));}
 function initializeTransitNow(){const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();setDatePicker('transit',String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'));setTimeValue('transitTime',String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));}
 initDatePickers();
 initializeTransitNow();
