@@ -4767,43 +4767,93 @@ body header.hero[hidden]{
 #planetSummary911 .ps911-table th:nth-child(1){width:18%!important}
 #planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:27%!important}
 #planetSummary911 .ps911-table th:nth-child(4){width:28%!important}
-#planetSummary911 .ps917-navamsa{display:block;margin-top:8px;padding:7px 8px;border-top:1px dashed #cbd5e1;border-radius:0 0 7px 7px;background:#f8fafc;line-height:1.55}
+#planetSummary911 .ps917-navamsa{display:block;margin-top:8px;padding:8px;border-top:1px dashed #cbd5e1;border-radius:0 0 7px 7px;background:#f8fafc;line-height:1.55}
 #planetSummary911 .ps917-navamsa[data-side="เดิม"]{border-left:3px solid #7654c8;background:#f7f2ff}
 #planetSummary911 .ps917-navamsa[data-side="จร"]{border-left:3px solid #16834a;background:#effbf3}
 #planetSummary911 .ps917-nav-title{display:block;font-size:10px;font-weight:900;letter-spacing:.02em;margin-bottom:2px}
 #planetSummary911 .ps917-navamsa[data-side="เดิม"] .ps917-nav-title{color:#6841a5}
 #planetSummary911 .ps917-navamsa[data-side="จร"] .ps917-nav-title{color:#08713e}
 #planetSummary911 .ps917-nav-main{display:block;font-size:12px;font-weight:850;color:#243653}
-#planetSummary911 .ps917-nav-meta{display:block;font-size:10px;color:#64748b;margin-top:1px}
+#planetSummary911 .ps917-nav-meta{display:block;font-size:10px;color:#64748b;margin-top:3px}
+#planetSummary911 .ps917-nav-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+#planetSummary911 .ps917-nav-badge{display:inline-flex;align-items:center;border:1px solid #c69224;border-radius:6px;background:#fff8e6;color:#76500b;padding:2px 6px;font-size:10px;font-weight:850;line-height:1.45}
+#planetSummary911 .ps917-nav-badge.reference{border-style:dashed;border-color:#9a7ac7;background:#f7f2ff;color:#6841a5}
+#planetSummary911 .ps917-nav-badge.relation{border-color:#2878c8;background:#eff6ff;color:#1d4e89}
+#planetSummary911 .ps917-nav-empty{display:block;margin-top:5px;font-size:10px;color:#788397}
 #planetSummary911 .ps911-table thead th small{display:block;margin-top:3px;font-size:10px;font-weight:700;color:#718096}
 @media(max-width:600px){
  #planetSummary911 .ps911-table{min-width:980px!important}
  #planetSummary911 .ps917-navamsa{padding:6px}
  #planetSummary911 .ps917-nav-main{font-size:11px}
+ #planetSummary911 .ps917-nav-badge{font-size:9px}
 }
 </style>
-<script id="ps917-navamsa-table-renderer">
+<script type="module" id="ps917-navamsa-table-renderer">
+import { getPlanetaryDignities, getPlanetaryDignityReferences, getParivartanaKasetRelations } from './js/data/planetary-dignities.js?v=20261104-parivartana-standards';
 (()=>{
  'use strict';
  const tbody=document.getElementById('planetSummary911Rows');
  if(!tbody)return;
- const thai=n=>String(n).replace(/\d/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ const thai=n=>String(n).replace(/\\d/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ const planetNames={'๑':'อาทิตย์','๒':'จันทร์','๓':'อังคาร','๔':'พุธ','๕':'พฤหัสบดี','๖':'ศุกร์','๗':'เสาร์','๘':'ราหู','๙':'เกตุ','๐':'มฤตยู'};
  let latest=null,scheduled=false;
+ const navPlacements=(chart,navOf)=>{
+  const items=[];
+  for(const p of (chart?.planets||[])){
+   if(!p?.name||!Number.isFinite(Number(p.longitude)))continue;
+   const n=navOf(Number(p.longitude));
+   if(n?.sign)items.push({name:p.name,sign:n.sign,longitude:Number(p.longitude)});
+  }
+  return items;
+ };
+ const getPositionDignities=(name,n)=>{
+  if(!name||name==='ลัคนา')return [];
+  const within=Math.max(0,Number(n.longitude)%30);
+  const totalSeconds=within*3600;
+  const degree=Math.floor(totalSeconds/3600);
+  const minute=Math.floor((totalSeconds-degree*3600)/60);
+  const second=(totalSeconds-degree*3600-minute*60);
+  return getPlanetaryDignities(name,n.sign,degree,minute,second);
+ };
+ const relationLabels=(chart,navOf)=>{
+  const positions=navPlacements(chart,navOf);
+  const relations=getParivartanaKasetRelations(positions);
+  const labels=new Map();
+  for(const relation of relations||[]){
+   const label=relation.type==='triple'?'ปริวรรตเกษตร 3 ดวง':'เกษตรสลับเรือน';
+   for(const name of relation.planets||[]){
+    if(!labels.has(name))labels.set(name,[]);
+    labels.get(name).push(label);
+   }
+  }
+  return labels;
+ };
+ const addBadges=(box,items,kind='')=>{
+  if(!items.length)return;
+  const wrap=document.createElement('span');wrap.className='ps917-nav-badges';
+  for(const label of items){
+   const badge=document.createElement('span');badge.className='ps917-nav-badge'+(kind?' '+kind:'');
+   badge.textContent=label;wrap.appendChild(badge);
+  }
+  box.appendChild(wrap);
+ };
  const render=()=>{
   scheduled=false;
   const navOf=window.HORA_NAVAMSA_917;
   if(!latest||typeof navOf!=='function')return;
+  const natalRelations=relationLabels(latest.natal,navOf);
+  const transitRelations=relationLabels(latest.transit,navOf);
   for(const row of tbody.querySelectorAll('tr[data-ps917-name]')){
    const name=row.dataset.ps917Name;
    const natalLon=name==='ลัคนา'?latest.natal?.asc:(latest.natal?.planets||[]).find(p=>p?.name===name)?.longitude;
    const transitLon=name==='ลัคนา'?latest.transit?.asc:(latest.transit?.planets||[]).find(p=>p?.name===name)?.longitude;
-   [[1,natalLon,'เดิม'],[2,transitLon,'จร']].forEach(([index,longitude,side])=>{
+   [[1,natalLon,'เดิม',latest.natal,natalRelations],[2,transitLon,'จร',latest.transit,transitRelations]].forEach(([index,longitude,side,chart,relations])=>{
     const cell=row.cells[index];
     if(!cell)return;
     if(!Number.isFinite(Number(longitude))){cell.querySelector('.ps917-navamsa')?.remove();return;}
     const n=navOf(Number(longitude));
     if(!n||!n.sign){cell.querySelector('.ps917-navamsa')?.remove();return;}
-    const signature=[Number(longitude),n.number,n.navNumber,n.sign,n.lordNum].join('|');
+    const signature=[Number(longitude),n.number,n.navNumber,n.sign,n.longitude].join('|');
     const existing=cell.querySelector('.ps917-navamsa');
     if(existing?.dataset.signature===signature)return;
     existing?.remove();
@@ -4812,8 +4862,23 @@ body header.hero[hidden]{
     const main=document.createElement('span');main.className='ps917-nav-main';
     main.textContent='นวางค์ที่ '+thai(n.number)+' · ราศี'+n.sign;
     const meta=document.createElement('span');meta.className='ps917-nav-meta';
-    meta.textContent='เลขนวางค์ '+n.navNumber+' · เกษตรราศีปลายทาง '+n.lordNum;
-    box.append(heading,main,meta);cell.appendChild(box);
+    const lordName=planetNames[String(n.lordNum)]||'ไม่ระบุ';
+    meta.textContent='เจ้าเรือนราศีนวางค์: ดาว'+lordName;
+    box.append(heading,main,meta);
+    if(name==='ลัคนา'){
+     const ascNote=document.createElement('span');ascNote.className='ps917-nav-empty';ascNote.textContent='ลัคนาแสดงตำแหน่งนวางค์ · ไม่จัดมาตรฐานดาวให้ลัคนา';box.appendChild(ascNote);
+    }else{
+     const dignities=getPositionDignities(name,n);
+     addBadges(box,dignities);
+     const references=getPlanetaryDignityReferences(name,n.sign);
+     addBadges(box,references.map(x=>'อ้างอิง·รอยืนยัน: '+x),'reference');
+     const relationsForPlanet=relations.get(name)||[];
+     addBadges(box,[...new Set(relationsForPlanet)],'relation');
+     if(!dignities.length&&!references.length&&!relationsForPlanet.length){
+      const empty=document.createElement('span');empty.className='ps917-nav-empty';empty.textContent='ไม่พบมาตรฐานหรือเกณฑ์ที่ระบุไว้ในชุดข้อมูล HORA';box.appendChild(empty);
+     }
+    }
+    cell.appendChild(box);
    });
   }
  };
