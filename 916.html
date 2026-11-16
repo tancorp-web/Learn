@@ -4366,10 +4366,10 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
    // รอให้ซ่อนแบบฟอร์มและจัดหน้าแสดงผลเสร็จก่อน จึงเลื่อนไปตารางแรก
    requestAnimationFrame(()=>requestAnimationFrame(()=>{
      window.setTimeout(()=>{
-       const firstResultTable=document.querySelector('#planetSummary911 .ps911-wrap table');
-       if(firstResultTable){
-         firstResultTable.style.scrollMarginTop='18px';
-         firstResultTable.scrollIntoView({behavior:'smooth',block:'start'});
+       const resultHeading=document.querySelector('#planetSummary911 .ps916-heading');
+       if(resultHeading){
+         resultHeading.style.scrollMarginTop='18px';
+         resultHeading.scrollIntoView({behavior:'smooth',block:'start'});
        }
      },180);
    }));
