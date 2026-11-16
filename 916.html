@@ -727,11 +727,10 @@ td,th{border-color:#e2e8f0!important}
  </div>
  <div class="table-wrap ps911-wrap">
   <table class="ps911-table">
-   <thead><tr><th>ดาว / เกณฑ์</th><th>ดาวเดิม / ผล</th><th>ดาวจร / ผล</th><th>จุดสังเกต / สถานะ</th></tr></thead>
-   <tbody id="planetSummary911Rows"><tr><td colspan="4">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
+   <thead><tr><th>ดาว / เกณฑ์ และจุดสังเกต</th><th>ดาวเดิม / ผล</th><th>ดาวจร / ผล</th></tr></thead>
+   <tbody id="planetSummary911Rows"><tr><td colspan="3">คำนวณดวงก่อนเพื่อแสดงข้อมูล</td></tr></tbody>
   </table>
  </div>
- <div class="ps916-formula-note"><strong>เกณฑ์ที่ยังรอยืนยันสูตร</strong><span>จันทร์คุรุสุริยา · ดอกอุตพิต · นำผล/นำพล · ตามผล/ขับพล · ดวงจันทร์เสี้ยว · มาลัยโยค · อัฒจักร</span><small>แสดงเป็นรายการรอตรวจสอบเท่านั้น ไม่ตีความว่าเข้าเกณฑ์ และยังไม่นำไปคำนวณคะแนนหรือเปลี่ยนมาตรฐานดาว</small></div>
  <p class="ps911-note">แสดงลัคนาและดาวครบ ๑๐ ดวง · สีม่วง = ดาวเดิม/เกณฑ์เดิม · สีเขียว = ดาวจร/เกณฑ์จร · สีของป้ายมาตรฐานแยกตามประเภทเกณฑ์</p>
    <div class="ps916-credit-bottom"><strong>อสังหาพยากรณ์</strong><span>โดย โหรธนนทร</span><small>HORA · ตารางสรุปองศาและมาตรฐานดาว</small></div>
 </section>
@@ -1137,7 +1136,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
    };
    const rows=['<tr class="ps911-group"><th colspan="4">ลัคนาและดาวครบทุกดวง</th></tr>'];
    const natalAscTags=tagLine('เดิม',[...(natalCriteria.get('ลัคนา')||[])]),transitAscTags=tagLine('จร',[...(transitCriteria.get('ลัคนา')||[])]);
-   rows.push('<tr><td><strong>ลัคนา (ล)</strong>'+natalAscTags+transitAscTags+'</td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td><td>—</td></tr>');
+   rows.push('<tr><td><strong>ลัคนา (ล)</strong>'+natalAscTags+transitAscTags+'</td><td>'+ascCell(natal.asc,ascParts?ascParts.signIndex:null)+'</td><td>'+ascCell(transit.asc,ascParts?ascParts.signIndex:null)+'</td></tr>');
    planetOrder.forEach(name=>{
     const b=nb.get(name),t=tb.get(name),nFlags=b?closeFlags(natalPlanets,b,'natal'):[],tFlags=t?closeFlags(transitPlanets,t,'transit'):[];
     const natalTags=[...(natalCriteria.get(name)||[]),...(natalExchange.get(name)||[])];
@@ -1147,7 +1146,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
     if(b&&Number.isFinite(Number(b.longitude))&&tanuSesha?.planetName===name)natalTags.push('ตนุเศษ');
     const nameTags=tagLine('เดิม',[...new Set(natalTags)])+tagLine('จร',[...new Set(transitTags)]);
     const flags=tagLine('เดิม',[...new Set(nFlags)])+tagLine('จร',[...new Set(tFlags)]);
-    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null,'เดิม')+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null,'จร')+'</td><td>'+(flags||'—')+'</td></tr>');
+    rows.push('<tr><td><strong>'+esc(numbers[name]+' '+name)+'</strong>'+nameTags+(flags||'')+'</td><td>'+cell(name,b,ascValid?ascParts.signIndex:null,'เดิม')+'</td><td>'+cell(name,t,ascValid?ascParts.signIndex:null,'จร')+'</td></tr>');
    });
    tbody.innerHTML=rows.join('');
  };
@@ -4346,6 +4345,7 @@ body.hora915-calculated #hora915EditData{display:inline-flex}
 </script>
 
 <footer id="hora-credit-footer" style="margin:28px auto 16px;padding:14px 16px;max-width:1100px;text-align:center;border-top:1px solid #d8dee8;color:#64748b;font-size:13px;line-height:1.8">อสังหาพยากรณ์ โดย โหรธนนทร · โทร. <a href="tel:0915544146" style="color:inherit;text-decoration:none">0915544146</a></footer>
+<style id="ps916-compact-three-columns">#planetSummary911 .ps911-table th:nth-child(1){width:34%}#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:33%}@media(max-width:600px){#planetSummary911 .ps911-table th:nth-child(1){width:34%}#planetSummary911 .ps911-table th:nth-child(2),#planetSummary911 .ps911-table th:nth-child(3){width:33%}}</style>
 </body></html>
 <!-- HORA_SPECIAL_ADISORN_YONGYOT_20261116 -->
 <script>
