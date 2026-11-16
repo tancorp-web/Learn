@@ -921,7 +921,6 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
  const houseNames=['ตนุ','กดุมภะ','สหัชชะ','พันธุ','ปุตตะ','อริ','ปัตนิ','มรณะ','ศุภะ','กัมมะ','ลาภะ','วินาศ'];
  const planetOrder=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','ราหู','เกตุ','มฤตยู'];
  const numbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘','เกตุ':'๙','มฤตยู':'๐','ลัคนา':'ล'};
- const signLords=['อังคาร','ศุกร์','พุธ','จันทร์','อาทิตย์','พุธ','ศุกร์','อังคาร','พฤหัสบดี','เสาร์','เสาร์','พฤหัสบดี'];
  const digits='๐๑๒๓๔๕๖๗๘๙';
  const thai=n=>String(n).replace(/[0-9]/g,d=>digits[Number(d)]);
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1081,7 +1080,7 @@ import { calculateTanuSesha } from './js/astrology/tanu-sesha.js?v=20261013-tanu
   const natal=data?.natal||{},transit=data?.transit||{};
   const natalAsc=Number(natal.asc),ascValid=Number.isFinite(natalAsc),ascParts=ascValid?parts(natalAsc):null;
   if(ascEl)ascEl.textContent=ascParts?'ราศี'+fullSigns[ascParts.signIndex]+' '+thai(ascParts.degree)+'°'+String(thai(ascParts.minute)).padStart(2,'๐')+'′':'รอข้อมูลลัคนา';
-  const lordName=ascParts?signLords[ascParts.signIndex]:null;
+  const lordName=ascParts?(window.getRashiLordBySign?.(signs[ascParts.signIndex])?.planet||null):null;
    const natalPlanets=Array.isArray(natal.planets)?natal.planets:[],transitPlanets=Array.isArray(transit.planets)?transit.planets:[];
    const nb=new Map(natalPlanets.map(p=>[p.name,p])),tb=new Map(transitPlanets.map(p=>[p.name,p]));
    const kasetNatal=!!(lordName&&nb.get(lordName)&&ascParts&&parts(nb.get(lordName).longitude).signIndex===ascParts.signIndex);
