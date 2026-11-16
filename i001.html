@@ -1,63 +1,57 @@
 <!doctype html>
-<html lang="th">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>7 ตัว 9 ฐาน · i001</title>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>เลข 7 ตัว 9 ฐาน · i001</title>
 <style>
-:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#252525;background:#f5f2eb}
-*{box-sizing:border-box}body{margin:0;padding:20px}.wrap{max-width:1100px;margin:auto}
-header,.panel{background:#fff;border:1px solid #e5dfd4;border-radius:14px;padding:20px;margin-bottom:16px}
-h1{font-size:1.55rem;margin:0 0 6px}h2{font-size:1.15rem;margin:0 0 14px}
-.sub,.muted{color:#716b62;font-size:.92rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-label{display:block;font-size:.9rem;color:#514b43}input,select{width:100%;padding:10px;border:1px solid #d8d1c6;border-radius:8px;margin-top:5px;font:inherit;background:white}
-button{border:0;border-radius:9px;padding:11px 18px;background:#514432;color:#fff;font:inherit;cursor:pointer;margin-top:14px}
-table{border-collapse:collapse;width:100%;min-width:520px}th,td{padding:10px 12px;border-bottom:1px solid #eee7dc;text-align:center}th{background:#f5f1e9;font-weight:650}td:first-child,th:first-child{text-align:left}
-.table-wrap{overflow-x:auto}.number{font-variant-numeric:tabular-nums;letter-spacing:.04em}.note{padding:12px;background:#faf7f0;border-radius:8px;color:#655d51;font-size:.9rem}
-.hidden{display:none}.pill{display:inline-block;background:#eee8dc;border-radius:30px;padding:3px 9px;font-size:.8rem}
-@media(max-width:600px){body{padding:10px}header,.panel{padding:15px}h1{font-size:1.3rem}}
-</style>
-</head>
-<body><main class="wrap">
-<header><div class="pill">i001 · ระบบใหม่แยกจาก HORA เดิม</div><h1>เลข 7 ตัว 9 ฐาน · สัตตเลข</h1><div class="sub">คำนวณดวงกำเนิดและวันจร พร้อมทักษาเดิมและทักษาจร</div></header>
-<section class="panel"><h2>กรอกข้อมูลเพื่อเริ่มการทำนาย</h2>
-<div class="grid">
-<label>ชื่อ-สกุล<input id="fullname" type="text" placeholder="ระบุชื่อ-สกุล"></label>
-<label>เพศ<select id="sex"><option value="">เลือกเพศ</option><option>ชาย</option><option>หญิง</option></select></label>
-<label>วันเกิด<input id="bd" type="date" value="2026-11-16"></label>
-<label>เวลาเกิด<input id="bt" type="time" value="15:35"></label>
-<label>วันทำนาย / วันจร<input id="td" type="date" value="2026-11-16"></label>
-<label>เวลาทำนาย<input id="tt" type="time" value="15:35"></label>
-<label>เดือนจันทรคติ<select id="lmonth"><option value="">เลือกเดือนจันทรคติ</option><option value="1" >เดือนอ้าย (1)</option><option value="2" >เดือนยี่ (2)</option><option value="3" >เดือนสาม (3)</option><option value="4" >เดือนสี่ (4)</option><option value="5" >เดือนห้า (5)</option><option value="6" >เดือนหก (6)</option><option value="7" >เดือนเจ็ด (7)</option><option value="8" >เดือนแปด (8)</option><option value="9" >เดือนเก้า (9)</option><option value="10" >เดือนสิบ (10)</option><option value="11" >เดือนสิบเอ็ด (11)</option><option value="12" selected>เดือนสิบสอง (12)</option></select></label>
-<label>ปีนักษัตร<select id="naksat"><option value="">เลือกปีนักษัตร</option><option value="1" >ปีชวด</option><option value="2" >ปีฉลู</option><option value="3" >ปีขาล</option><option value="4" >ปีเถาะ</option><option value="5" >ปีมะโรง</option><option value="6" >ปีมะเส็ง</option><option value="7" selected>ปีมะเมีย</option><option value="8" >ปีมะแม</option><option value="9" >ปีวอก</option><option value="10" >ปีระกา</option><option value="11" >ปีจอ</option><option value="12" >ปีกุน</option></select></label>
-</div><button id="show">แสดงตารางกรณีทดสอบ</button>
-<p class="muted">หมายเหตุ: วันเปลี่ยนตามหลักที่กำหนดเวลา 06:01 น. เดือนจันทรคติและปีนักษัตรในรุ่นนี้ให้เลือกเพื่อป้องกันการแปลงปฏิทินผิดพลาด</p>
-</section>
-<section class="panel"><h2>ข้อมูลวันเกิดและวันจร</h2><div id="summary" class="note">กรอกข้อมูลแล้วกด “แสดงตารางกรณีทดสอบ” เพื่อแสดงข้อมูล</div></section>
-<section class="panel"><h2>ตาราง 7 ตัว 9 ฐาน · Golden Case</h2><p class="muted">กรณีอ้างอิง: 16 พฤศจิกายน 2569 เวลา 15:35 น. วันจันทร์ ขึ้น 7 ค่ำ เดือน 12 ปีมะเมีย</p><div class="table-wrap"><table><thead><tr><th>ฐาน</th><th>ตำแหน่ง 1</th><th>ตำแหน่ง 2</th><th>ตำแหน่ง 3</th><th>ตำแหน่ง 4</th><th>ตำแหน่ง 5</th><th>ตำแหน่ง 6</th><th>ตำแหน่ง 7</th></tr></thead><tbody id="bases"></tbody></table></div>
-<p class="note">ตัวเลขชุดนี้บันทึกเป็นผลอ้างอิงสำหรับตรวจสอบสูตร ไม่ใช่ผลคำนวณสำหรับวันเกิดอื่น จนกว่าจะตรวจสอบกติกาการสร้างแต่ละฐานให้ครบถ้วน</p></section>
-<section class="panel"><h2>ทักษาเดิม · ทักษาจร · เรือน</h2><p class="muted">ส่วนนี้จะเชื่อมกับสูตรทักษาและผังเรือนที่ยืนยันแล้ว โดยไม่ดึงสูตรหรือไฟล์จากระบบ HORA เดิม</p><div id="thaksa" class="note">รอตรวจสอบกติกาทักษาเดิมและทักษาจร</div></section>
-<footer class="muted">i001 · ระบบเลข 7 ตัว 9 ฐาน (สัตตเลข) · แยกการทำงานจากไฟล์เดิมทั้งหมด</footer>
-</main>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#28251f;background:#f5f2eb}*{box-sizing:border-box}body{margin:0;padding:14px}.wrap{max-width:1080px;margin:auto}header,.panel{background:#fff;border:1px solid #e5dfd4;border-radius:14px;padding:18px;margin:0 0 14px}h1{font-size:1.45rem;margin:8px 0}h2{font-size:1.12rem;margin:0 0 13px}.sub,.muted{color:#716b62;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:11px}label{display:block;font-size:.9rem;color:#514b43}input,select{width:100%;padding:11px;border:1px solid #d8d1c6;border-radius:9px;margin-top:5px;font:inherit;background:#fff}button{border:0;border-radius:9px;padding:12px 18px;background:#514432;color:#fff;font:inherit;cursor:pointer;margin-top:13px}.result{background:#f8f4ec;border-radius:10px;padding:14px;margin-top:12px}.big{font-size:1.7rem;font-weight:750;letter-spacing:.08em}.pill{display:inline-block;background:#eee8dc;border-radius:30px;padding:4px 10px;font-size:.8rem}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:560px}th,td{padding:9px 11px;border-bottom:1px solid #eee7dc;text-align:left;vertical-align:top}th{background:#f5f1e9}.codes{font-size:.9rem;line-height:1.8;overflow-wrap:anywhere}.group{border:1px solid #e9e2d7;border-radius:10px;padding:12px;margin:9px 0}.group h3{font-size:1rem;margin:0 0 5px}.warn{color:#8b4b1e}.ok{color:#286044}.hidden{display:none}@media(max-width:600px){body{padding:9px}header,.panel{padding:14px}h1{font-size:1.25rem}}
+</style></head><body><main class="wrap">
+<header><span class="pill">i001 · ระบบใหม่แยกจาก HORA</span><h1>เลข 7 ตัว 9 ฐาน · สัตตเลข</h1><div class="sub">เลือกวัน เดือนจันทรคติ และปีนักษัตร ระบบแปลงเป็นเลขประจำดวงชะตา 343 แบบ</div></header>
+<section class="panel"><h2>ข้อมูลเจ้าชะตา</h2><div class="grid">
+<label>ชื่อ-สกุล<input id="name" placeholder="ชื่อ-สกุล"></label>
+<label>เพศ<select id="sex"><option value="">ไม่ระบุ</option><option>ชาย</option><option>หญิง</option></select></label>
+<label>วันเดือนปีเกิด (ปฏิทินสากล)<input id="birth" type="date"></label>
+<label>เวลาตกฟาก<input id="time" type="time" value="06:01"></label>
+<label>จังหวัด / สถานที่เกิด<input id="place" placeholder="เช่น จังหวัดขอนแก่น"></label>
+<label>เดือนจันทรคติเกิด<select id="month"><option value="">เลือกเดือน</option><option value="1">เดือนอ้าย (1)</option><option value="2">เดือนยี่ (2)</option><option value="3">เดือนสาม (3)</option><option value="4">เดือนสี่ (4)</option><option value="5">เดือนห้า (5)</option><option value="6">เดือนหก (6)</option><option value="7">เดือนเจ็ด (7)</option><option value="8">เดือนแปด (8)</option><option value="9">เดือนเก้า (9)</option><option value="10">เดือนสิบ (10)</option><option value="11">เดือนสิบเอ็ด (11)</option><option value="12">เดือนสิบสอง (12)</option></select></label>
+<label>ปีนักษัตรเกิด<select id="year"><option value="">เลือกปีนักษัตร</option><option value="1">ชวด</option><option value="2">ฉลู</option><option value="3">ขาล</option><option value="4">เถาะ</option><option value="5">มะโรง</option><option value="6">มะเส็ง</option><option value="7">มะเมีย</option><option value="8">มะแม</option><option value="9">วอก</option><option value="10">ระกา</option><option value="11">จอ</option><option value="12">กุน</option></select></label>
+<label>วันจร<input id="transit" type="date"></label><label>เวลาจร<input id="transitTime" type="time"></label>
+</div><button id="calc">คำนวณเลขดวงชะตา</button><div class="muted">ระบบถือวันใหม่เมื่อเวลา 06:01 น. หากเกิดก่อน 06:01 จะนับเป็นวันตามปฏิทินก่อนหน้า ส่วนเดือนจันทรคติและปีนักษัตรให้เลือกตามปฏิทินจันทรคติจริงของวันเกิด</div>
+<div id="result" class="result" aria-live="polite">กรอกข้อมูลให้ครบ 3 รายการหลัก ได้แก่ วันเกิด เดือนจันทรคติ และปีนักษัตร แล้วกดคำนวณ</div></section>
+<section class="panel"><h2>หลักแปลงเลขประจำดวงชะตา</h2><div class="table-wrap"><table><thead><tr><th>องค์ประกอบ</th><th>หลักการกำหนดเลข</th></tr></thead><tbody>
+<tr><td>วันเกิด</td><td>อาทิตย์ 1 · จันทร์ 2 · อังคาร 3 · พุธ 4 · พฤหัสบดี 5 · ศุกร์ 6 · เสาร์ 7</td></tr>
+<tr><td>เดือนจันทรคติ</td><td>เดือน 1 และ 8 = 1 · 2 และ 9 = 2 · 3 และ 10 = 3 · 4 และ 11 = 4 · 5 และ 12 = 5 · 6 = 6 · 7 = 7</td></tr>
+<tr><td>ปีนักษัตร</td><td>ชวด/มะแม = 1 · ฉลู/วอก = 2 · ขาล/ระกา = 3 · เถาะ/จอ = 4 · มะโรง/กุน = 5 · มะเส็ง = 6 · มะเมีย = 7</td></tr>
+</tbody></table></div><p class="muted">เลขทั้งสามตำแหน่งสร้างรหัสวัน-เดือน-ปี เช่น 2-5-7 เป็นหนึ่งใน 343 ดวงชะตา (7 × 7 × 7)</p></section>
+<section class="panel"><h2>คลังความรู้ · 12 กลุ่มกำลังพระเคราะห์</h2><p class="muted">ระบบจะนำรหัสสามหลักจากข้อมูลที่เลือกมาเทียบกับรายการรหัสในแต่ละกลุ่ม รายการต้นฉบับยังต้องตรวจทานก่อนใช้เป็นคำพยากรณ์เด็ดขาด</p><div id="groups"></div></section>
+<section class="panel"><h2>หลักประกอบการพยากรณ์</h2><p>การพิจารณาดวงชะตาต้องใช้เวลาตกฟากและสถานที่เกิดประกอบกับสภาพแวดล้อมตามฤดูกาลของท้องถิ่น ขนบธรรมเนียม จารีตประเพณี ศาสนา การศึกษาอบรม สุขภาพของมารดาขณะตั้งครรภ์ และฐานะความเป็นอยู่ของครอบครัว</p><p>ทุกคนมีกำลังพระเคราะห์ครบทั้ง 3 กลุ่ม แต่ตำแหน่งดาวที่จรมากระทบฐานต่างกัน นักพยากรณ์จึงควรพิจารณาความหมายของดาวและกำลังพระเคราะห์ร่วมกับพื้นฐานชีวิตและสภาพการดำเนินชีวิต ไม่ใช้รหัสเพียงอย่างเดียวตัดสินชะตา</p><p class="muted">แนวคิดนี้เป็นข้อมูลประกอบการศึกษา ไม่ใช่ข้อสรุปทางวิทยาศาสตร์ และยังไม่ใช่การคำนวณทักษา/ฐาน 1–9 เต็มรูปแบบ</p></section>
+<footer class="muted">i001 · เลข 7 ตัว 9 ฐาน · แยกจากไฟล์และสูตร HORA เดิมทั้งหมด</footer></main>
 <script>
-const golden=[
-['ฐาน 1','2','1','3','7','4','6','5'],
-['ฐาน 2','4','5','3','3','6','5','2'],
-['ฐาน 3','3','7','2','2','1','4','1'],
-['ฐาน 4','14','10','13','9','12','15','11'],
-['ฐาน 5','7','3','6','2','5','1','4'],
-['ฐาน 6','7','6','5','4','3','2','1'],
-['ฐาน 7','7','5','3','1','6','4','2'],
-['ฐาน 8','7','5','3','1','6','4','2'],
-['ฐาน 9','1','3','5','7','2','4','6']
+const monthMap={1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:1,9:2,10:3,11:4,12:5};
+const yearMap={1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:1,9:2,10:3,11:4,12:5};
+const weekdayNames=['วันอาทิตย์','วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์'];
+const weekdayNums=[1,2,3,4,5,6,7];
+const groups=[
+['เลขตอง','3, 6, 9, 12, 15, 18, 21','111 222 333 444 555 666 777'],
+['ถูกหลอกลวง','4, 7, 10, 13, 16, 19, 15','121 211 771 112 232 322 223 323 433 334 454 445 544 565 655 556 676 766 667 177 717'],
+['ชีวิตราบเรียบ','5, 8, 11, 14, 17, 13, 16','131 311 661 242 422 772 113 353 533 224 464 644 335 575 755 616 446 166 277 557 727'],
+['เสี่ยสั่งลุย','6, 9, 12, 15, 11, 14, 17','141 411 551 252 522 662 363 633 773 474 744 114 514 155 225 626 266 336 377 737 447'],
+['ราชาเป็นยาจก','7, 10, 13, 9, 12, 15, 18','151 511 441 262 622 552 373 733 663 144 414 774 255 525 115 366 636 226 477 747 337'],
+['สูญเสีย','8, 11, 14, 17, 20, 19, 5','171 221 122 212 332 233 323 443 344 434 554 545 455 665 656 566 776 767 677 117'],
+['คิดการใหญ่','9, 12, 15, 18, 14, 10, 6','231 271 321 671 721 761 132 172 712 312 342 712 123 213 243 423 453 543 234 324 354 534 564 654 345 435 465 645 675 765 176 456 546 576 716 5756 167 567 217 617 657'],
+['เศรษฐีหงอนไก่','10, 13, 16, 12, 15, 11, 7','241 371 421 561 651 731 142 352 412 532 672 762 173 253 463 523 643 713 124 214 364 574 634 754 165 235 325 475 615 745 156 276 346 436 516 726 137 267 317 457 547 627'],
+['นักเลง กล้าได้กล้าเสีย','11, 14, 10, 13, 16, 12, 8','251 451 471 521 541 741 152 512 362 562 652 632 263 473 623 673 743 763 154 174 234 324 564 714 125 215 145 265 625 236 326 256 526 376 736 147 347 367 417 437 637'],
+['ชีวิตเปลี่ยนแปลงบ่อย','12, 8, 11, 14, 17, 13, 9','261 341 431 571 751 162 372 452 542 612 732 143 273 413 563 653 723 134 254 314 524 674 764 175 245 365 425'],
+['นักลงทุน','13, 16, 19, 8, 11, 7, 10','161 331 611 272 442 722 133 313 553 244 424 665 355 535 775 116 646 466 227 577 757'],
+['สนุกสนานกับงานบริการและการท่องเที่ยว','14, 10, 13, 9, 12, 15, 11','351 361 461 531 631 641 462 472 642 742 572 752 143 163 513 573 613 753 164 264 276 614 624 724 135 275 315 375 725 735 136 146 246 316 416 426 247 257 357 427 527 537']
 ];
-document.getElementById('bases').innerHTML=golden.map(r=>'<tr>'+r.map((v,i)=>'<td class="'+(i?'number':'')+'">'+v+'</td>').join('')+'</tr>').join('');
-function thaiDate(v){if(!v)return '-';const d=new Date(v+'T12:00:00');return new Intl.DateTimeFormat('th-TH',{dateStyle:'long'}).format(d)}
-document.getElementById('show').addEventListener('click',()=>{
- const bd=document.getElementById('bd').value,bt=document.getElementById('bt').value,td=document.getElementById('td').value,tt=document.getElementById('tt').value;
- const lm=document.getElementById('lmonth'),na=document.getElementById('naksat');
- document.getElementById('summary').textContent='ชื่อ: '+(document.getElementById('fullname').value||'-')+' · เพศ: '+(document.getElementById('sex').value||'-')+' · เกิด '+thaiDate(bd)+' เวลา '+(bt||'-')+' · วันจร '+thaiDate(td)+' เวลา '+(tt||'-')+' · เดือนจันทรคติ '+(lm.selectedOptions[0]?.text||'-')+' · '+(na.selectedOptions[0]?.text||'-');
- const exact=bd==='2026-11-16'&&bt==='15:35'&&Number(lm.value)===12&&Number(na.value)===7;
- document.getElementById('thaksa').textContent=exact?'ข้อมูลตรงกับวันเกิดตัวอย่าง Golden Case; ตารางด้านบนเป็นค่ามาตรฐานอ้างอิงสำหรับตรวจสูตร':'ข้อมูลนี้ยังไม่ตรงกับ Golden Case จึงแสดงเฉพาะข้อมูลที่กรอก และไม่แสดงตัวเลขอ้างอิงเป็นผลคำนวณ';
-});
+const groupBox=document.getElementById('groups');
+groupBox.innerHTML=groups.map((g,i)=>'<article class="group"><h3>'+(i+1)+'. '+g[0]+'</h3><div class="muted">ชุดกำลังพระเคราะห์: '+g[1]+'</div><div class="codes">'+g[2]+'</div></article>').join('');
+function getWeekday(date,time){const [y,m,d]=date.split('-').map(Number);let dt=new Date(y,m-1,d);const [hh,mm]=(time||'00:00').split(':').map(Number);if(hh*60+mm<361)dt.setDate(dt.getDate()-1);return dt.getDay();}
+function calculate(){const date=document.getElementById('birth').value,time=document.getElementById('time').value,month=document.getElementById('month').value,year=document.getElementById('year').value;const out=document.getElementById('result');if(!date||!month||!year){out.innerHTML='<span class="warn">กรุณาเลือกวันเกิด เดือนจันทรคติ และปีนักษัตรให้ครบ</span>';return;}
+const wd=getWeekday(date,time);const dnum=weekdayNums[wd],mnum=monthMap[month],ynum=yearMap[year];const code=''+dnum+mnum+ynum;const matches=groups.map((g,i)=>({name:g[0],codes:g[2].split(/\\s+/),i})).filter(g=>g.codes.includes(code));
+const dateText=new Intl.DateTimeFormat('th-TH',{dateStyle:'long'}).format(new Date(date+'T12:00:00'));
+const mlabel=document.getElementById('month').selectedOptions[0].text, ylabel=document.getElementById('year').selectedOptions[0].text;
+out.innerHTML='<div><b>ข้อมูลที่ใช้คำนวณ</b><br>'+dateText+' เวลา '+(time||'ไม่ระบุ')+' · '+weekdayNames[wd]+' · '+mlabel+' · '+ylabel+'</div><div class="result"><div class="muted">เลขประจำดวงชะตา (วัน-เดือน-ปี)</div><div class="big">'+dnum+'-'+mnum+'-'+ynum+'</div><div>รหัสสามหลัก: <b>'+code+'</b></div><div>ลำดับในชุด 343 แบบ: <b>'+((dnum-1)*49+(mnum-1)*7+ynum)+'</b> / 343</div></div><div><b>ผลเทียบคลัง 12 กลุ่ม</b><br>'+(matches.length?matches.map(g=>'<span class="pill">'+(g.i+1)+'. '+g.name+'</span>').join(' '):'<span class="warn">ไม่พบรหัสนี้ในรายการรหัส 12 กลุ่มที่ให้มา</span>')+'</div><p class="muted">วันตามเวลา 06:01 น. · สถานที่เกิด: '+(document.getElementById('place').value||'ยังไม่ระบุ')+' · เวลาเกิดและสถานที่เป็นข้อมูลประกอบการพยากรณ์ ยังไม่ได้นำไปคำนวณฐานอื่น</p>';
+}
+document.getElementById('calc').addEventListener('click',calculate);
+document.getElementById('birth').addEventListener('change',()=>{const v=document.getElementById('birth').value;if(v)document.getElementById('transit').value=v;});
 </script></body></html>
