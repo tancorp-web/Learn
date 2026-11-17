@@ -1181,7 +1181,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  $('toggleThaksa').setAttribute('aria-pressed',String(thaksaVisible));
  $('toggleTransitPower').textContent=transitPowerVisible?'ปิดกำลังดาวจร':'เปิดกำลังดาวจร';
  $('toggleTransitPower').setAttribute('aria-pressed',String(transitPowerVisible));
- $('toggleTransitPower').classList.toggle('hidden',!!codeSeeds);
+ $('toggleTransitPower').classList.remove('hidden');
  $('toggleTransit').setAttribute('aria-pressed',String(transitVisible));
 }
 
@@ -1205,7 +1205,7 @@ function renderCodeTable(seed1,seed2,seed3){
  $('combinedResults').innerHTML=html;
  document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-power',powerVisible));
  $('toggleTransit').classList.add('hidden');
- $('toggleTransitPower').classList.add('hidden');
+ $('toggleTransitPower').classList.remove('hidden');
  $('combinedResults').insertAdjacentHTML('afterbegin','<div class="snake-summary"><strong>รหัสชะตา:</strong> คอลัมน์แรกของตาราง ๗ ตัวเดิม = '+[seed1,seed2,seed3].map(toThai).join(' · ')+'<br>คำนวณฐาน ๑–๙ ด้วยกระบวนการเดิม สามารถกดหัวข้อแถวแรกเพื่อกลบทงูกินหางได้</div>');
 }
 function calculateCode(){
