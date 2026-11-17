@@ -576,7 +576,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
   const birthCells=birthRows[i].map((v,j)=>{
-   const ageActive=Number(v)===agePosition;
+   const ageActive=i<3&&((i*7+j+1)===agePosition);
    return '<td'+(ageActive?' class="age-active" aria-current="true"':'')+'><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
