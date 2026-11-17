@@ -42,6 +42,7 @@ table.calc thead th{background:#eee8dc;font-size:.78rem;color:#665d50}
 .group-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.group{border:1px solid var(--line);border-radius:10px;padding:11px}.group h3{font-size:.93rem}.group p{margin:4px 0;font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}
 .hidden{display:none!important}.error{color:#9b3f27;font-weight:650}.success{color:#286044;font-weight:650}
 footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
+.print-brand-header{display:none}
 .export-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0 4px;padding:14px;background:#f8f5ef;border:1px solid var(--line);border-radius:12px}
 .export-actions button{min-width:130px}
 @media(max-width:520px){.export-actions{gap:8px}.export-actions button{min-width:0;padding:11px 14px}}
@@ -238,6 +239,16 @@ button{padding:10px 15px}
  #output,#output *{visibility:visible!important}
  header,.form-panel,footer,.actions,.export-actions,#snakePanel{display:none!important}
  .wrap{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+ #output .print-brand-header{
+  display:block!important;text-align:center!important;margin:0 0 2.5mm!important;
+  padding:0 0 2mm!important;border-bottom:1px solid #bdb5a7!important;
+  color:#171717!important;break-after:avoid!important;page-break-after:avoid!important
+ }
+ #output .print-brand-header .print-program-title{font-size:14pt!important;font-weight:800!important;line-height:1.25!important;margin:0 0 1mm!important}
+ #output .print-brand-header .print-program-credit{font-size:9pt!important;line-height:1.25!important}
+ #output .print-brand-header .print-program-brand{font-size:9pt!important;font-weight:650!important;line-height:1.25!important}
+ #output .print-brand-header .print-document-title{font-size:10pt!important;font-weight:750!important;line-height:1.3!important;margin-top:1.5mm!important}
+ #output .print-brand-header .print-document-subtitle{font-size:7pt!important;line-height:1.25!important;margin-top:.5mm!important}
  #output{
   display:block!important;position:static!important;inset:auto!important;
   width:100%!important;max-width:none!important;min-width:0!important;
@@ -348,6 +359,13 @@ button{padding:10px 15px}
 </section>
 
 <section class="panel hidden" id="output" aria-live="polite">
+<div class="print-brand-header">
+ <div class="print-program-title">โปรแกรม สัตตเลข 7 ตัว 9 ฐาน</div>
+ <div class="print-program-credit">อาจารย์ธานินทร์ นันต๊ะ</div>
+ <div class="print-program-brand">อสังหาพยากรณ์ โดย โหรธนนทร</div>
+ <div class="print-document-title">ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</div>
+ <div class="print-document-subtitle">กรอกวันเดือนปีและเวลาเกิด / วันจร แล้วให้ระบบคำนวณปฏิทินไทยและฐาน 1–9 อัตโนมัติ</div>
+</div>
 <h2>ผลคำนวณดวงชะตา</h2>
 <div class="summary-pair">
 <div class="panel summary-card birth-card">
