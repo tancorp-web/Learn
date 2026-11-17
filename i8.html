@@ -209,6 +209,26 @@ button{padding:10px 15px}
  #output .age-active{print-color-adjust:exact;-webkit-print-color-adjust:exact}
  #output *{print-color-adjust:exact;-webkit-print-color-adjust:exact}
 }
+
+/* Unified birth/transit summary typography */
+.summary-card .result-head{font-size:1rem!important;line-height:1.7!important;font-weight:500!important}
+.summary-card .result-head>div,
+.summary-card .result-head>div:first-child,
+.summary-card .result-head .meta{font-size:1rem!important;line-height:1.7!important}
+.summary-card .result-head>div:first-child{font-weight:700!important;color:var(--ink)!important}
+.summary-card .result-head .meta{font-weight:500!important;color:var(--muted)!important}
+@media(max-width:600px){
+ .summary-card .result-head,
+ .summary-card .result-head>div,
+ .summary-card .result-head>div:first-child,
+ .summary-card .result-head .meta{font-size:.96rem!important;line-height:1.65!important}
+}
+@media print{
+ #output .summary-card .result-head,
+ #output .summary-card .result-head>div,
+ #output .summary-card .result-head>div:first-child,
+ #output .summary-card .result-head .meta{font-size:9pt!important;line-height:1.45!important}
+}
 </style>
 </head>
 <body>
