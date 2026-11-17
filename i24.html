@@ -1565,7 +1565,21 @@ $('previewPrint').addEventListener('click',()=>{
  document.body.classList.add('printing-preview');
  window.print();
 });
-window.addEventListener('afterprint',()=>document.body.classList.remove('printing-preview'));
+/* i24: ปรับผลพิมพ์ให้พอดีกระดาษ A4 หน้าเดียว โดยไม่เปลี่ยนข้อมูล */
+window.addEventListener('beforeprint',()=>{
+ const printOutput=$('previewStage').querySelector('#output');
+ if(!printOutput)return;
+ printOutput.style.removeProperty('zoom');
+ const availableHeight=1060;
+ const contentHeight=Math.max(printOutput.offsetHeight,printOutput.scrollHeight);
+ const fitScale=contentHeight>availableHeight?availableHeight/contentHeight:1;
+ printOutput.style.setProperty('zoom',String(fitScale),'important');
+});
+window.addEventListener('afterprint',()=>{
+ const printOutput=$('previewStage').querySelector('#output');
+ if(printOutput)printOutput.style.removeProperty('zoom');
+ document.body.classList.remove('printing-preview');
+});
 $('closePreview').addEventListener('click',()=>{
  $('previewOverlay').classList.remove('open');
  $('previewOverlay').setAttribute('aria-hidden','true');
