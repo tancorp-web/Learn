@@ -430,9 +430,20 @@ button{padding:10px 15px}
 </style>
 
 <style id="i24-readable-fit">
-/* i24: โหมด 65% เน้นรักษาขนาดตัวอักษร โดยย่อเฉพาะระยะห่างแนวตั้ง */
+/* i24: โหมด 50/60/65 คงขนาดตัวอักษร ไม่ย่อทั้งเอกสาร */
 @media print{
  #previewStage #output.readable-fit{zoom:1!important}
+ #previewStage #output.readable-fit .combined-calc .house{font-size:8pt!important;line-height:1.15!important}
+ #previewStage #output.readable-fit .combined-calc .birth-value{font-size:17pt!important;line-height:1.08!important}
+ #previewStage #output.readable-fit .combined-calc .transit-value small{font-size:9pt!important;line-height:1.12!important}
+ #previewStage #output.readable-fit .combined-calc th,
+ #previewStage #output.readable-fit .combined-calc td{font-size:9pt!important;line-height:1.15!important}
+ #previewStage #output.readable-fit .combined-calc thead th{font-size:8.5pt!important}
+ #previewStage #output.readable-fit .combined-calc tbody th{font-size:9pt!important}
+ #previewStage #output.readable-fit .combined-calc .base4-strength{font-size:7.5pt!important}
+ #previewStage #output.readable-fit .thaksa-cell b{font-size:8pt!important}
+ #previewStage #output.readable-fit .thaksa-cell .thaksa-number{font-size:17pt!important}
+ #previewStage #output.readable-fit .thaksa-cell span{font-size:7.5pt!important}
  #previewStage #output.readable-fit .print-brand-header{margin-bottom:1mm!important;padding-bottom:1mm!important}
  #previewStage #output.readable-fit>.summary-pair{gap:1mm!important;margin-bottom:.7mm!important}
  #previewStage #output.readable-fit>.summary-pair>.summary-card{padding:1mm!important}
@@ -1608,8 +1619,8 @@ function applyPrintScale(){
   printOutput.style.setProperty('width','100%','important');
   printOutput.style.setProperty('min-width','0','important');
   printOutput.style.setProperty('max-width','100%','important');
-  /* 60% และ 65% เป็นโหมดจัดหน้าให้อ่านง่าย: ไม่ย่อฟอนต์ทั้งหน้า แต่ลดช่องว่างแทน */
-  const readableFit=percent===60||percent===65;
+  /* 50%, 60% และ 65% เป็นโหมดอ่านง่าย: ไม่ย่อเอกสารทั้งชุด */
+  const readableFit=percent===50||percent===60||percent===65;
   printOutput.classList.toggle('readable-fit',readableFit);
   printOutput.style.setProperty('zoom',readableFit?'1':String(scale),'important');
   printOutput.querySelectorAll('table,.combined-calc').forEach(table=>{
