@@ -39,29 +39,29 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 #birthTables,#transitTables{display:none!important}
 .combined-panel{margin-top:14px!important}
 .combined-scroll{overflow-x:auto}
-.combined-calc{width:100%;min-width:920px;border-collapse:collapse;font-size:14px;table-layout:fixed}
-.combined-calc th,.combined-calc td{border:1px solid var(--line);padding:9px 5px;text-align:center;vertical-align:middle}
-.combined-calc .house{display:block;font-size:11px;line-height:1.25;color:#625847;white-space:normal;min-height:2.5em}
-.combined-calc .num{display:block;font-size:19px;font-weight:800;line-height:1.35}
+.combined-calc{width:100%;min-width:720px;border-collapse:collapse;font-size:14px;table-layout:fixed}
+.combined-calc th,.combined-calc td{border:1px solid var(--line);padding:10px 5px;text-align:center;vertical-align:middle}
+.combined-calc .house{display:block;font-size:16px;font-weight:700;line-height:1.35;color:#514638;white-space:normal;min-height:2.5em}
+.combined-calc .num{display:block;font-size:21px;font-weight:800;line-height:1.4}
 .combined-calc .transit-value{display:none!important;color:#16734a;font-weight:800}
 .combined-calc.show-transit .transit-value{display:inline!important}
-.combined-calc .transit-value small{display:block;color:#16734a;font-size:10px;font-weight:600}
+.combined-calc .transit-value small{display:block;color:#16734a;font-size:11px;font-weight:600}
 .combined-calc .paired-value{display:flex;flex-direction:column;align-items:center;gap:3px}
 .combined-calc .birth-value{font-weight:800}
 .timezone-note{line-height:1.4}
 .combined-calc thead th{background:var(--soft);font-weight:700}
 .combined-calc tbody th{white-space:nowrap;background:#faf8f3}
-.combined-calc td:nth-child(n+2):nth-child(-n+15){white-space:nowrap;font-variant-numeric:tabular-nums}
-.combined-calc .base-col{width:62px}
-.combined-calc .value-col{width:38px}
-.combined-calc .thaksa-col{width:158px}
-.combined-calc td[rowspan]{min-width:158px;padding:6px}
-.thaksa-stack{display:grid;gap:5px;text-align:left;min-width:144px}
-.thaksa-stack>div{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:start;gap:5px;border-bottom:1px solid var(--line);padding:3px 0}
-.thaksa-stack>div:last-child{border-bottom:0}
-.thaksa-stack span{color:var(--muted);font-size:11px;line-height:1.35}
-.thaksa-stack b{font-size:12px;white-space:nowrap}
-@media(max-width:600px){.combined-calc th,.combined-calc td{padding:8px 6px;font-size:13px}.combined-calc .house{font-size:11px}.combined-calc .num{font-size:19px}}
+.combined-calc .base-col{width:70px}
+.thaksa-section{margin-top:18px}
+.thaksa-section h3{font-size:1.1rem;margin:0 0 9px}
+.thaksa-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.thaksa-cell{min-height:76px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:8px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.thaksa-cell b{font-size:14px;line-height:1.35}
+.thaksa-cell span{font-size:13px;color:#625847;line-height:1.4}
+.thaksa-cell.center{background:#f6f0e4;border:1px solid #cfc1a8}
+.thaksa-cell.center b{font-size:13px}
+.thaksa-cell.center span{font-weight:700;color:#514432}
+@media(max-width:600px){.combined-calc th,.combined-calc td{padding:8px 5px}.combined-calc .house{font-size:15px}.combined-calc .num{font-size:20px}.thaksa-cell{min-height:70px;padding:7px 3px}.thaksa-cell b{font-size:13px}.thaksa-cell span{font-size:12px}}
 @media print{
  @page{size:A4 landscape;margin:8mm}
  body{padding:0}
@@ -475,14 +475,14 @@ function thaksaRoleMap(start){
  for(let i=0;i<8;i++)map[thaksaPlanets[(index+i)%8]]=thaksaRoles[i];
  return map;
 }
-function renderThaksaStack(birthStart,transitStart){
- const birthMap=thaksaRoleMap(birthStart);
- const transitMap=thaksaRoleMap(transitStart);
- return '<div class="thaksa-stack">'+thaksaPlanets.map(planet=>{
-  const birthRole=birthMap[planet]||'—';
-  const transitRole=transitMap[planet]||'—';
-  return '<div><b>'+planet+'</b><span>เดิม '+birthRole+' / จร '+transitRole+'</span></div>';
- }).join('')+'</div>';
+function renderThaksaGrid(title,start,lunarInfo){
+ const roleMap=thaksaRoleMap(start);
+ const positions=[thaksaPlanets[0],thaksaPlanets[1],thaksaPlanets[2],thaksaPlanets[3],null,thaksaPlanets[4],thaksaPlanets[5],thaksaPlanets[6],thaksaPlanets[7]];
+ const center=lunarInfo&&lunarInfo.isAdhikamas?'เป็นอธิกมาส':'ไม่เป็นอธิกมาส';
+ return '<section class="thaksa-section"><h3>'+title+'</h3><div class="thaksa-grid">'+positions.map(planet=>{
+  if(!planet)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>'+center+'</span></div>';
+  return '<div class="thaksa-cell"><b>'+planet+'</b><span>'+(roleMap[planet]||'—')+'</span></div>';
+ }).join('')+'</div></section>';
 }
 let transitVisible=false;
 function toggleTransitColumns(){
@@ -498,17 +498,15 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const ageYang=thaksaAgeYang(birthDate,transitDate);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
- let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม (ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง)</th><th class="thaksa-col">ดาว · ทักษาเดิม / ทักษาจร</th></tr><tr><th></th>';
- for(let i=1;i<=7;i++)html+='<th class="value-col"><span>ภพ</span><b>'+toThai(i)+'</b><small>เลข</small></th>';
- html+='</tr></thead><tbody>';
+ let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม · ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง</th></tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
-  const birthCells=birthRows[i].map((v,j)=>'<td><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">เดิม '+toThai(v)+'</span><span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>').join('');
-  html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells;
-  if(i===0)html+='<td class="thaksa-col" rowspan="9">'+renderThaksaStack(oldStart,transitStart)+'</td>';
-  html+='</tr>';
+  const birthCells=birthRows[i].map((v,j)=>'<td><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span><span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>').join('');
+  html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
  html+='</tbody></table></div>';
+ html+=renderThaksaGrid('ทักษาเดิม',oldStart,birthInfo.lunar);
+ html+=renderThaksaGrid('ทักษาจร',transitStart,transitInfo.lunar);
  $('combinedResults').innerHTML=html;
  document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
  $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
