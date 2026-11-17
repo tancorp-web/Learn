@@ -1561,6 +1561,7 @@ $('print').addEventListener('click',()=>{
  documentCopy.id='output';
  documentCopy.classList.remove('hidden');
  stage.appendChild(documentCopy);
+ applyPrintScale();
  $('previewOverlay').classList.add('open');
  $('previewOverlay').setAttribute('aria-hidden','false');
  document.body.style.overflow='hidden';
