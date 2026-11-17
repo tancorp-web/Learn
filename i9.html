@@ -677,10 +677,11 @@ function renderTable(baseNo,values){
  const title='ฐาน '+baseNo;
  return '<div class="base-title"><strong>'+title+'</strong></div><div class="table-scroll"><table class="calc"><thead><tr><th class="row-title">คอลัมน์</th>'+[1,2,3,4,5,6,7].map(x=>'<th>'+toThai(x)+'</th>').join('')+'</tr></thead><tbody><tr><th class="row-title">ผลคำนวณ</th>'+cells+'</tr></tbody></table></div>';
 }
-function renderInfo(prefix,info,name,place,label,yearBE,ageText,enteredDate){
+function renderInfo(prefix,info,name,place,label,yearBE,ageText,enteredDate,enteredTime){
  const entered=enteredDate?parseDate(enteredDate):info.original;
  const solarDate=info.local;
- const dateLines='<div class="date-entered"><strong>วันที่กรอก:</strong> '+dateLabel(entered)+'</div><div class="date-suriyayatra"><strong>วันที่สุริยยาตร์:</strong> '+dateLabel(solarDate)+' <span>(เปลี่ยนวันเวลา ๐๖:๐๐ น.)</span></div>';
+ const thaiTime=(enteredTime||'').replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
+ const dateLines='<div class="date-entered"><strong>วันที่กรอก:</strong> '+dateLabel(entered)+'</div><div class="date-entered"><strong>เวลาที่กรอก:</strong> '+thaiTime+' น.</div><div class="date-suriyayatra"><strong>วันที่สุริยยาตร์:</strong> '+dateLabel(solarDate)+' <span>(เปลี่ยนวันเวลา ๐๖:๐๐ น.)</span></div>';
  const lunarText=weekdays[info.weekday-1]+' '+info.phase+' '+toThai(info.lunarDay)+' ค่ำ '+lunarMonthLabel(info.lunar.month)+' ปี'+info.animal;
  const eraText='จ.ศ. '+toThai(info.jula)+' · ม.ศ. '+toThai(info.maha)+' · ร.ศ. '+toThai(info.rattan)+' · '+info.solarType+' · '+info.monthType+' · '+info.dayType;
  const lead=dateLines+'<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
@@ -969,9 +970,9 @@ function calculate(){
   const ageYang=thaksaAgeYang(birthLocal.date,transitLocal.date);
   const ageComplete=Math.max(0,ageYang-1);
   const birthCountry=$('birthCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
-  renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)',birthYearBE,'',birth);
+  renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)',birthYearBE,'',birth,birthTime);
   const transitCountry=$('transitCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
-  renderInfo('transit',transitInfo,'',transitCountry+' · '+transitLocal.offsetLabel,'จร (เทียบเวลาไทย)',transitYearBE,'อายุครบ '+toThai(ageComplete)+' ปี · อายุย่าง '+toThai(ageYang)+' ปี',transit);
+  renderInfo('transit',transitInfo,'',transitCountry+' · '+transitLocal.offsetLabel,'จร (เทียบเวลาไทย)',transitYearBE,'อายุครบ '+toThai(ageComplete)+' ปี · อายุย่าง '+toThai(ageYang)+' ปี',transit,transitTime);
   renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date,ageYang);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
