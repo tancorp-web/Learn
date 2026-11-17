@@ -353,13 +353,14 @@ button{padding:10px 15px}
 
 
 <style id="i12-print-blessing-style">
-.print-blessing{display:none}
+/* แสดงคำอวยพรต่อท้ายผลคำนวณ และคงการจัดรูปแบบเดียวกันในหน้าพิมพ์ */
+#output .print-blessing{display:block;visibility:visible;margin:7mm 2mm 0;padding:4mm 5mm;border:1px solid #c9bda8;border-radius:3mm;text-align:center;color:#40392f;background:#fffdf8;box-sizing:border-box;break-inside:avoid;page-break-inside:avoid}
+#output .print-blessing h3{margin:0 0 3mm;font-size:12pt;color:#6e5636}
+#output .print-blessing .blessing-quote{font-size:13pt;font-weight:700;margin:0 0 2.5mm;color:#59472f}
+#output .print-blessing p{font-size:9.5pt;line-height:1.55;margin:1.5mm 0}
+#output .print-blessing .blessing-sign{margin-top:3mm;font-weight:700;color:#6e5636}
 @media print{
- #output .print-blessing{display:block!important;visibility:visible!important;break-inside:avoid;page-break-inside:avoid;margin:7mm 2mm 0;padding:4mm 5mm;border:1px solid #c9bda8;border-radius:3mm;text-align:center;color:#40392f;background:#fffdf8!important;box-sizing:border-box}
- #output .print-blessing h3{margin:0 0 3mm;font-size:12pt;color:#6e5636}
- #output .print-blessing .blessing-quote{font-size:13pt;font-weight:700;margin:0 0 2.5mm;color:#59472f}
- #output .print-blessing p{font-size:9.5pt;line-height:1.55;margin:1.5mm 0}
- #output .print-blessing .blessing-sign{margin-top:3mm;font-weight:700;color:#6e5636}
+ #output .print-blessing{display:block!important;visibility:visible!important;break-inside:avoid!important;page-break-inside:avoid!important}
 }
 </style>
 </head>
