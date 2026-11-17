@@ -15,12 +15,18 @@ header{background:linear-gradient(135deg,#fff,#f6f0e4)}h1{font-size:1.5rem;margi
 .date-field{grid-column:span 3}.timezone-note{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}.date-selects{display:grid;grid-template-columns:1fr 1.5fr 1.2fr;gap:8px;margin-top:5px}.date-selects select{margin-top:0;min-height:44px}.time-selects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}.time-selects select{margin-top:0;min-height:44px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
 .note{background:#f8f4eb;border-left:3px solid #b9a47e;padding:10px 12px;border-radius:7px;margin-top:12px;font-size:.85rem;color:#625847}
 .details{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:11px}.details summary{cursor:pointer;font-weight:650}.optional-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
-.result-head .date-entered,.result-head .date-suriyayatra{font-size:1.04rem;line-height:1.75;color:var(--ink);margin:2px 0}
-.result-head .date-entered strong{font-weight:750}
-.result-head .date-suriyayatra{background:#f0f4ed;border-left:3px solid #6c9274;border-radius:5px;padding:5px 9px;margin:5px 0 9px}
-.result-head .date-suriyayatra strong{color:#285b3b}
-.result-head .date-suriyayatra span{font-size:.88em;color:var(--muted)}
-.result-head{line-height:1.85}.result-head .lead{font-weight:700}.result-head .meta{color:var(--muted);font-size:.9rem}
+.result-head{line-height:1.75}
+.result-head .date-entered,.result-head .date-suriyayatra{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 9px;font-size:1rem;line-height:1.6;color:var(--ink);margin:5px 0}
+.result-head .date-entered{padding:2px 1px 4px}
+.result-head .date-entered strong,.result-head .date-suriyayatra strong{font-size:.86rem;font-weight:750;letter-spacing:.01em;color:#665d50}
+.result-head .date-entered{font-variant-numeric:tabular-nums}
+.result-head .date-suriyayatra{background:linear-gradient(110deg,#eef4eb,#f6f8f2);border:1px solid #dce7d8;border-left:4px solid #789878;border-radius:8px;padding:8px 11px;margin:4px 0 10px;box-shadow:0 1px 2px rgba(45,70,45,.05)}
+.result-head .date-suriyayatra strong{color:#365d3c}
+.result-head .date-suriyayatra span{flex-basis:100%;font-size:.78rem;line-height:1.35;color:var(--muted);padding-left:1px}
+.result-head .lead{font-weight:700}
+.result-head .lead>div:not(.date-entered):not(.date-suriyayatra){margin:4px 0}
+.result-head .year-line{font-size:1.02rem;font-weight:750;color:var(--ink)}
+.result-head .meta{color:var(--muted);font-size:.86rem;line-height:1.55;overflow-wrap:anywhere}
 .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:11px}table.calc{border-collapse:separate;border-spacing:0;width:100%;min-width:680px;table-layout:fixed}
 table.calc th,table.calc td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 5px;text-align:center;vertical-align:middle}
 table.calc th:last-child,table.calc td:last-child{border-right:0}table.calc tr:last-child td{border-bottom:0}
