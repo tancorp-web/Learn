@@ -475,13 +475,14 @@ function thaksaRoleMap(start){
  for(let i=0;i<8;i++)map[thaksaPlanets[(index+i)%8]]=thaksaRoles[i];
  return map;
 }
-function renderThaksaGrid(title,start,lunarInfo){
- const roleMap=thaksaRoleMap(start);
+function renderThaksaGrid(birthStart,transitStart,birthLunar,transitLunar){
+ const birthMap=thaksaRoleMap(birthStart);
+ const transitMap=thaksaRoleMap(transitStart);
  const positions=[thaksaPlanets[0],thaksaPlanets[1],thaksaPlanets[2],thaksaPlanets[3],null,thaksaPlanets[4],thaksaPlanets[5],thaksaPlanets[6],thaksaPlanets[7]];
- const center=lunarInfo&&lunarInfo.isAdhikamas?'เป็นอธิกมาส':'ไม่เป็นอธิกมาส';
- return '<section class="thaksa-section"><h3>'+title+'</h3><div class="thaksa-grid">'+positions.map(planet=>{
-  if(!planet)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>'+center+'</span></div>';
-  return '<div class="thaksa-cell"><b>'+planet+'</b><span>'+(roleMap[planet]||'—')+'</span></div>';
+ const monthStatus=lunar=>lunar&&lunar.isAdhikamas?'อธิกมาส':'ปกติมาส';
+ return '<section class="thaksa-section"><h3>ทักษาเดิม / ทักษาจร</h3><div class="thaksa-grid">'+positions.map(planet=>{
+  if(!planet)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>เดือนเกิด: '+monthStatus(birthLunar)+'</span><span>เดือนจร: '+monthStatus(transitLunar)+'</span></div>';
+  return '<div class="thaksa-cell"><b>'+planet+'</b><span>เดิม: '+(birthMap[planet]||'—')+'</span><span>จร: '+(transitMap[planet]||'—')+'</span></div>';
  }).join('')+'</div></section>';
 }
 let transitVisible=false;
@@ -505,8 +506,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
  html+='</tbody></table></div>';
- html+=renderThaksaGrid('ทักษาเดิม',oldStart,birthInfo.lunar);
- html+=renderThaksaGrid('ทักษาจร',transitStart,transitInfo.lunar);
+ html+=renderThaksaGrid(oldStart,transitStart,birthInfo.lunar,transitInfo.lunar);
  $('combinedResults').innerHTML=html;
  document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
  $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
