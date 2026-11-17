@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f4f0e8">
-<title>ระบบคำนวณ 343 · i19</title>
+<title>ระบบคำนวณ 343 · i15</title>
 <style>
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#28251f;background:#f4f1ea;--ink:#28251f;--muted:#756e63;--line:#e5ded2;--paper:#fff;--soft:#f8f5ef;--accent:#514432}
 *{box-sizing:border-box}body{margin:0;padding:14px}.wrap{max-width:1120px;margin:auto}
@@ -445,105 +445,6 @@ button{padding:10px 15px}
 }
 </style>
 
-
-<style id="i19-responsive-layout">
-/* i19: responsive screen layout; print styles remain independent */
-@media screen and (min-width:681px) and (max-width:1024px){
- body{padding:10px}
- .wrap{width:100%;max-width:100%}
- header,.panel{padding:14px}
- .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .date-field{grid-column:span 2}
- .optional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .table-scroll,.combined-scroll{overflow-x:visible}
- table.calc,.combined-calc,.snake-calc{width:100%;min-width:0;table-layout:fixed}
- .combined-calc th,.combined-calc td,.snake-calc th,.snake-calc td{padding:7px 3px}
- .combined-calc .base-col,.snake-calc .base-col{width:14%}
-}
-@media screen and (max-width:680px){
- html,body{width:100%;max-width:100%;overflow-x:hidden}
- body{padding:5px}
- .wrap{width:100%;max-width:100%;margin:0}
- header,.panel{padding:9px;margin:0 0 8px;border-radius:10px}
- .program-title{font-size:1.08rem;line-height:1.35}
- .program-credit,.program-brand{font-size:.78rem}
- h2{font-size:1rem;margin-bottom:9px}
- h3{font-size:.94rem}
- .sub{font-size:.82rem}
- .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
- .date-field{grid-column:span 2}
- .field label{font-size:.78rem}
- .field input,.field select{min-width:0;padding:8px 6px;font-size: .88rem}
- .date-selects,.time-selects{gap:4px}
- .date-selects{grid-template-columns:.85fr 1.35fr 1fr}
- .date-selects select{font-size:.78rem;padding:7px 3px}
- .time-selects select{font-size:.82rem;padding:7px 4px}
- .timezone-note{font-size:.68rem}
- .actions{gap:6px}
- .actions button,.export-actions button{flex:1 1 auto;min-width:0;padding:9px 8px;font-size:.84rem}
- .optional-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
- .summary-pair{grid-template-columns:1fr;gap:7px}
- .summary-card{padding:9px!important}
- .summary-card h2{font-size:1rem;margin-bottom:6px}
- .summary-card .result-head,.summary-card .result-head>div,
- .summary-card .result-head>div:first-child,.summary-card .result-head .meta,
- .summary-card .result-head .year-line{font-size:.84rem!important;line-height:1.5!important}
- .result-head .date-entered,.result-head .date-suriyayatra{gap:3px 5px;font-size:.82rem;padding:6px}
- .result-head .date-entered strong,.result-head .date-suriyayatra strong{font-size:.76rem}
- .result-head .date-suriyayatra span{font-size:.7rem}
- /* All 7-column calculation tables fit the device width; no horizontal scrolling */
- .table-scroll,.combined-scroll{width:100%;max-width:100%;overflow-x:visible;overflow-y:visible}
- table.calc,.combined-calc,.snake-calc{
-  width:100%!important;min-width:0!important;max-width:100%!important;
-  table-layout:fixed!important;border-collapse:collapse
- }
- table.calc th,table.calc td,.combined-calc th,.combined-calc td,
- .snake-calc th,.snake-calc td{
-  min-width:0!important;padding:5px 2px!important;
-  white-space:normal!important;overflow-wrap:anywhere;word-break:normal;
-  line-height:1.25
- }
- table.calc .row-title{width:15%!important;min-width:0!important;padding-left:3px!important}
- .combined-calc .base-col,.snake-calc .base-col{width:15%!important;min-width:0!important}
- .combined-calc thead th,.snake-calc thead th,table.calc thead th{font-size:clamp(9px,2.7vw,12px)!important}
- .combined-calc tbody th,.snake-calc tbody th{font-size:clamp(9px,2.8vw,12px)!important;white-space:normal!important}
- .combined-calc .house,.snake-calc .house,table.calc .house{
-  min-height:0!important;font-size:clamp(8px,2.5vw,11px)!important;
-  line-height:1.2!important;overflow-wrap:anywhere
- }
- .combined-calc .birth-value,.combined-calc .num,.snake-calc .snake-value,
- table.calc .num{font-size:clamp(15px,4.6vw,20px)!important;line-height:1.25!important}
- .combined-calc .transit-value small{font-size:clamp(8px,2.4vw,11px)!important;line-height:1.15}
- .combined-calc .base4-strength,.snake-calc .snake-strength,
- table.calc .star,table.calc .cell-label{font-size:clamp(7px,2vw,9px)!important;line-height:1.15}
- .combined-calc .yama-mark{font-size:8px}
- .thaksa-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
- .thaksa-cell{min-width:0;min-height:65px;padding:5px 2px}
- .thaksa-cell b{font-size:clamp(9px,2.8vw,12px)}
- .thaksa-cell .thaksa-number{font-size:clamp(18px,5vw,24px)!important}
- .thaksa-cell span{font-size:clamp(8px,2.4vw,11px);overflow-wrap:anywhere}
- .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .group-list{grid-template-columns:1fr}
- .snake-summary{font-size:.82rem;padding:7px}
- .export-actions{padding:8px;gap:6px}
- #previewOverlay{padding:5px}
- #previewOverlay .preview-toolbar{gap:5px;padding:7px}
- #previewOverlay .preview-toolbar button{min-width:0;flex:1;padding:8px 5px;font-size:.8rem}
-}
-@media screen and (max-width:380px){
- body{padding:3px}
- header,.panel{padding:7px}
- .form-grid{gap:5px}
- .field label{font-size:.73rem}
- .field input,.field select{font-size:.8rem;padding:7px 4px}
- .combined-calc th,.combined-calc td,.snake-calc th,.snake-calc td,
- table.calc th,table.calc td{padding:4px 1px!important}
- .combined-calc .birth-value,.combined-calc .num,.snake-calc .snake-value,
- table.calc .num{font-size:15px!important}
- .combined-calc .house,.snake-calc .house,table.calc .house{font-size:8px!important}
-}
-</style>
-
 </head>
 <body>
 <main class="wrap">
@@ -629,12 +530,12 @@ button{padding:10px 15px}
 </div>
 </section>
 
-<footer>i19 · ระบบคำนวณ 343 · รหัสชะตาและกลบทงูกินหาง</footer>
+<footer>i15 · ระบบคำนวณ 343 · รหัสชะตาและกลบทงูกินหาง</footer>
 </main>
 
 <div id="previewOverlay" aria-label="ตัวอย่างเอกสารก่อนพิมพ์" aria-hidden="true">
  <div class="preview-toolbar">
-  <strong>ตัวอย่างเอกสารก่อนพิมพ์ · i19</strong>
+  <strong>ตัวอย่างเอกสารก่อนพิมพ์ · i15</strong>
   <button type="button" id="previewPrint">พิมพ์ / Save PDF</button>
   <button type="button" class="secondary" id="closePreview">ปิดพรีวิว</button>
  </div>
