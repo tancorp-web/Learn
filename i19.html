@@ -445,6 +445,92 @@ button{padding:10px 15px}
 }
 </style>
 
+<style>
+
+/* i19 responsive tables: fit all columns within the device viewport */
+@media (max-width: 760px) {
+  html, body { width:100%; max-width:100%; overflow-x:hidden; }
+  body { padding:6px; }
+  .wrap, main, .panel, .combined-panel, .table-scroll, .combined-scroll {
+    min-width:0 !important;
+    max-width:100% !important;
+  }
+  .table-scroll, .combined-scroll {
+    width:100%;
+    overflow-x:hidden !important;
+    -webkit-overflow-scrolling:touch;
+  }
+  table.calc, table.snake-calc, table.combined-calc {
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    table-layout:fixed !important;
+  }
+  table.calc th, table.calc td,
+  table.snake-calc th, table.snake-calc td,
+  table.combined-calc th, table.combined-calc td {
+    min-width:0 !important;
+    padding:5px 2px !important;
+    overflow-wrap:anywhere;
+    word-break:normal;
+    white-space:normal !important;
+  }
+  table.calc .row-title { width:46px !important; min-width:46px !important; padding:4px 2px !important; }
+  table.snake-calc .base-col, table.combined-calc .base-col,
+  table.snake-calc tbody th, table.combined-calc tbody th {
+    width:46px !important;
+    min-width:46px !important;
+    padding:4px 2px !important;
+    white-space:normal !important;
+    font-size:11px !important;
+  }
+  table.calc thead th { font-size:10px !important; }
+  table.calc .house, table.snake-calc .house, table.combined-calc .house {
+    font-size:clamp(9px, 2.7vw, 13px) !important;
+    line-height:1.25 !important;
+    min-height:0 !important;
+    overflow-wrap:anywhere;
+  }
+  table.calc .num { font-size:clamp(13px, 4vw, 18px) !important; }
+  table.snake-calc .snake-value {
+    max-width:100%;
+    padding:2px !important;
+    font-size:clamp(13px, 4vw, 18px) !important;
+  }
+  table.snake-calc .snake-strength,
+  table.calc .star, table.calc .cell-label { font-size:9px !important; }
+  table.combined-calc .birth-value {
+    font-size:clamp(15px, 4.3vw, 21px) !important;
+    padding:0 1px !important;
+  }
+  table.combined-calc .transit-value small {
+    font-size:clamp(9px, 2.7vw, 12px) !important;
+    overflow-wrap:anywhere;
+  }
+  table.combined-calc .base4-strength,
+  table.combined-calc .yama-mark { font-size:9px !important; }
+}
+@media (max-width: 390px) {
+  body { padding:4px; }
+  header, .panel { padding:9px !important; }
+  table.calc .row-title,
+  table.snake-calc .base-col, table.combined-calc .base-col,
+  table.snake-calc tbody th, table.combined-calc tbody th {
+    width:39px !important; min-width:39px !important;
+    font-size:10px !important;
+  }
+  table.calc th, table.calc td,
+  table.snake-calc th, table.snake-calc td,
+  table.combined-calc th, table.combined-calc td {
+    padding:4px 1px !important;
+  }
+  table.calc .house, table.snake-calc .house, table.combined-calc .house {
+    font-size:9px !important;
+  }
+  table.combined-calc .birth-value { font-size:15px !important; }
+}
+
+</style>
 </head>
 <body>
 <main class="wrap">
