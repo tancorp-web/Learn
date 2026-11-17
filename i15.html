@@ -235,7 +235,7 @@ button{padding:10px 15px}
 </style>
 
 <style id="i9-print-system">
-@page{size:A4 portrait;margin:6mm}
+@page{size:A4 portrait;margin:4mm}
 @media print{
  html,body{margin:0!important;padding:0!important;width:auto!important;height:auto!important;background:#fff!important}
  body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
@@ -348,6 +348,13 @@ button{padding:10px 15px}
  #output .age-active,#output .wai-active,#output .date-suriyayatra,
  #output .combined-calc *{
   print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important
+ }
+ /* ย่อเอกสารทั้งชุดเฉพาะตอนพิมพ์ เพื่อให้ผลลัพธ์อยู่ใน A4 หน้าเดียว */
+ #output{
+  zoom:.78!important;
+  width:128.205%!important;
+  transform:none!important;
+  transform-origin:top left!important
  }
 }
 </style>
