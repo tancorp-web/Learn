@@ -429,6 +429,24 @@ button{padding:10px 15px}
 }
 </style>
 
+<style id="i24-readable-fit">
+/* i24: โหมด 65% เน้นรักษาขนาดตัวอักษร โดยย่อเฉพาะระยะห่างแนวตั้ง */
+@media print{
+ #previewStage #output.readable-fit{zoom:1!important}
+ #previewStage #output.readable-fit .print-brand-header{margin-bottom:1mm!important;padding-bottom:1mm!important}
+ #previewStage #output.readable-fit>.summary-pair{gap:1mm!important;margin-bottom:.7mm!important}
+ #previewStage #output.readable-fit>.summary-pair>.summary-card{padding:1mm!important}
+ #previewStage #output.readable-fit .panel{margin-bottom:1mm!important;padding:1.2mm!important}
+ #previewStage #output.readable-fit .combined-panel{padding:.8mm!important;margin-bottom:1mm!important}
+ #previewStage #output.readable-fit .combined-calc th,
+ #previewStage #output.readable-fit .combined-calc td{padding:.55mm .35mm!important}
+ #previewStage #output.readable-fit .thaksa-section{margin-top:1mm!important}
+ #previewStage #output.readable-fit .thaksa-grid{gap:.5mm!important}
+ #previewStage #output.readable-fit .thaksa-cell{padding:.55mm .3mm!important}
+ #previewStage #output.readable-fit .print-blessing{margin-top:1mm!important;padding:1mm!important}
+}
+</style>
+
 <style id="i15-preview">
 #previewOverlay{display:none;position:fixed;inset:0;z-index:9999;overflow:auto;background:#e8e5df;padding:12px}
 #previewOverlay.open{display:block}
@@ -1590,7 +1608,10 @@ function applyPrintScale(){
   printOutput.style.setProperty('width','100%','important');
   printOutput.style.setProperty('min-width','0','important');
   printOutput.style.setProperty('max-width','100%','important');
-  printOutput.style.setProperty('zoom',String(scale),'important');
+  /* 65% เป็นโหมดจัดหน้าให้อ่านง่าย: ไม่ย่อฟอนต์ทั้งหน้า แต่ลดช่องว่างแทน */
+  const readableFit=percent===65;
+  printOutput.classList.toggle('readable-fit',readableFit);
+  printOutput.style.setProperty('zoom',readableFit?'1':String(scale),'important');
   printOutput.querySelectorAll('table,.combined-calc').forEach(table=>{
    table.style.setProperty('box-sizing','border-box','important');
    table.style.setProperty('width','100%','important');
