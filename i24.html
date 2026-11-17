@@ -789,15 +789,8 @@ button{padding:10px 15px}
  <div class="preview-toolbar">
   <strong>ตัวอย่างเอกสารก่อนพิมพ์ · i24</strong>
   <div class="preview-scale">
-   <span>ปรับขนาดก่อนพิมพ์</span>
-   <div class="preview-scale-buttons" role="group" aria-label="เลือกระดับการซูม">
-    <button type="button" class="secondary" data-print-scale="50" aria-pressed="false">50%</button>
-    <button type="button" class="secondary" data-print-scale="60" aria-pressed="false">60%</button>
-    <button type="button" class="secondary" data-print-scale="65" aria-pressed="false">65%</button>
-    <button type="button" class="secondary" data-print-scale="70" aria-pressed="false">70%</button>
-    <button type="button" data-print-scale="100" class="active" aria-pressed="true">100%</button>
-   </div>
-   <output id="printScaleValue">100%</output>
+   <span>ขนาดพิมพ์ที่กำหนด</span>
+   <output id="printScaleValue">70%</output>
   </div>
   <button type="button" id="previewPrint">พิมพ์ / Save PDF</button>
   <button type="button" class="secondary" id="closePreview">ปิดพรีวิว</button>
@@ -1608,21 +1601,18 @@ document.addEventListener('keydown',event=>{
  if(event.key==='Escape'&&$('previewOverlay').classList.contains('open'))$('closePreview').click();
 });
 function applyPrintScale(){
- const selectedScale=$('previewOverlay').querySelector('.preview-scale-buttons button.active');
- const percent=Number(selectedScale?.getAttribute('data-print-scale'))||100;
- const scale=percent/100;
- $('printScaleValue').textContent=percent+'%';
+ const percent=70;
+ const scale=0.70;
+ $('printScaleValue').textContent='70%';
  const printOutput=$('previewStage').querySelector('#output');
  if(printOutput){
-  /* จำกัดหน้าและตารางให้อยู่ในกรอบ A4 แล้วปรับขนาดเอกสารทั้งชุด */
+  /* ล็อกขนาดเอกสารที่ 70% ตามค่าที่ทดสอบแล้วว่าอ่านได้และอยู่ใน A4 หน้าเดียว */
   printOutput.style.setProperty('box-sizing','border-box','important');
   printOutput.style.setProperty('width','100%','important');
   printOutput.style.setProperty('min-width','0','important');
   printOutput.style.setProperty('max-width','100%','important');
-  /* 50%, 60% และ 65% เป็นโหมดอ่านง่าย: ไม่ย่อเอกสารทั้งชุด */
-  const readableFit=percent===50||percent===60||percent===65;
-  printOutput.classList.toggle('readable-fit',readableFit);
-  printOutput.style.setProperty('zoom',readableFit?'1':String(scale),'important');
+  printOutput.classList.remove('readable-fit');
+  printOutput.style.setProperty('zoom',String(scale),'important');
   printOutput.querySelectorAll('table,.combined-calc').forEach(table=>{
    table.style.setProperty('box-sizing','border-box','important');
    table.style.setProperty('width','100%','important');
@@ -1632,22 +1622,12 @@ function applyPrintScale(){
   });
  }
 }
-$('previewOverlay').querySelectorAll('.preview-scale-buttons [data-print-scale]').forEach(button=>{
- button.addEventListener('click',()=>{
-  $('previewOverlay').querySelectorAll('.preview-scale-buttons [data-print-scale]').forEach(item=>{
-   const active=item===button;
-   item.classList.toggle('active',active);
-   item.setAttribute('aria-pressed',String(active));
-  });
-  applyPrintScale();
- });
-});
 $('previewPrint').addEventListener('click',()=>{
  applyPrintScale();
  document.body.classList.add('printing-preview');
  window.print();
 });
-/* i24: ใช้เปอร์เซ็นต์ที่ผู้ใช้เลือกทั้งในพรีวิวและเอกสารที่พิมพ์ */
+/* i24: ล็อกขนาดพิมพ์ 70% ทั้งในพรีวิวและเอกสารที่พิมพ์ */
 window.addEventListener('beforeprint',applyPrintScale);
 window.addEventListener('afterprint',()=>{
  document.body.classList.remove('printing-preview');
