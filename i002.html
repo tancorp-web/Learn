@@ -75,27 +75,6 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
  .thaksa-stack>div{gap:2px;padding:1px 0}
  .thaksa-stack span,.thaksa-stack b{font-size:7px}
 }
-
-/* ตารางดวงเดิมแยกตามชุดภพ 35 ภพ */
-.birth-house-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:10px 0 16px}
-.birth-house-card,.thaksa-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
-.birth-house-card h3,.thaksa-card h3{font-size:1.08rem;margin:0 0 9px}
-.birth-house-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:1rem}
-.birth-house-table th,.birth-house-table td{border:1px solid var(--line);padding:9px 7px;text-align:center}
-.birth-house-table thead th{background:#f2ede4;font-size:.92rem}
-.birth-house-table tbody th{width:42%;text-align:left;background:#faf8f3;font-size:1.02rem;font-weight:750}
-.birth-house-table .birth-value{font-size:1.35rem;font-weight:850;font-variant-numeric:tabular-nums}
-.birth-house-table .transit-value{display:none!important;color:#16734a;font-size:1.15rem;font-weight:800}
-.birth-house-card.show-transit .birth-house-table .transit-value{display:table-cell!important}
-.birth-house-card.show-transit .birth-house-table .transit-heading{display:table-cell}
-.birth-house-table .transit-heading{display:none}
-.thaksa-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.thaksa-columns h4{margin:4px 0 8px;font-size:1rem}
-.thaksa-stack b{font-size:1.25rem;font-variant-numeric:tabular-nums}
-.thaksa-stack span{font-size:.95rem}
-.thaksa-card .thaksa-stack{max-width:360px}
-.thaksa-card.show-transit{border-color:#a8cbb8}
-@media(max-width:680px){.birth-house-grid{grid-template-columns:1fr}.birth-house-card,.thaksa-card{padding:10px}.birth-house-table th,.birth-house-table td{padding:10px 8px}.birth-house-table tbody th{font-size:1.05rem}.birth-house-table .birth-value{font-size:1.45rem}.thaksa-columns{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
 </style>
 </head>
 <body>
@@ -498,11 +477,9 @@ function thaksaRoleMap(start){
 }
 function renderThaksaStack(start){
  const map=thaksaRoleMap(start);
- const planetNumbers={'อาทิตย์':1,'จันทร์':2,'อังคาร':3,'พุธ':4,'พฤหัสบดี':5,'ศุกร์':6,'เสาร์':7,'ราหู':8};
  return '<div class="thaksa-stack">'+thaksaRoles.map(role=>{
   const planet=Object.keys(map).find(name=>map[name]===role)||'—';
-  const number=planetNumbers[planet];
-  return '<div><span>'+role+'</span><b>'+(number===undefined?'—':number)+'</b></div>';
+  return '<div><span>'+role+'</span><b>'+planet+'</b></div>';
  }).join('')+'</div>';
 }
 let transitVisible=false;
@@ -519,20 +496,19 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const ageYang=thaksaAgeYang(birthDate,transitDate);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
- let html='<div class="birth-house-grid">';
+ let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม (ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง)</th><th class="thaksa-col">ทักษาเดิม</th><th class="thaksa-col">ทักษาจร</th></tr><tr><th></th>';
+ for(let i=1;i<=7;i++)html+='<th class="value-col">'+toThai(i)+'</th>';
+ html+='<th class="thaksa-col"></th><th class="thaksa-col"></th></tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
-  if(!houseSet)continue;
-  html+='<section class="birth-house-card"><h3>ดวงเดิม · ฐาน '+toThai(i+1)+'</h3><table class="birth-house-table"><thead><tr><th>ภพ</th><th>เลขเดิม</th><th class="transit-heading">เลขจร</th></tr></thead><tbody>';
-  for(let j=0;j<7;j++){
-   html+='<tr><th>'+houseSet[j]+'</th><td><span class="birth-value">'+toThai(birthRows[i][j])+'</span></td><td class="transit-value"><span>'+toThai(transitRows[i][j])+'</span></td></tr>';
-  }
-  html+='</tbody></table></section>';
+  const birthCells=birthRows[i].map((v,j)=>'<td><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">เดิม '+toThai(v)+'</span><span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>').join('');
+  html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells;
+  if(i===0)html+='<td class="thaksa-col" rowspan="9">'+renderThaksaStack(oldStart)+'</td><td class="thaksa-col" rowspan="9">'+renderThaksaStack(transitStart)+'</td>';
+  html+='</tr>';
  }
- html+='</div><section class="thaksa-card"><h3>ทักษาเดิม และทักษาจร · เลขดาว</h3><div class="thaksa-columns"><div><h4>ทักษาเดิม</h4>'+renderThaksaStack(oldStart)+'</div><div><h4>ทักษาจร</h4>'+renderThaksaStack(transitStart)+'</div></div></section>';
+ html+='</tbody></table></div>';
  $('combinedResults').innerHTML=html;
- document.querySelectorAll('#combinedResults .birth-house-card').forEach(el=>el.classList.toggle('show-transit',transitVisible));
- document.querySelectorAll('#combinedResults .thaksa-card').forEach(el=>el.classList.toggle('show-transit',transitVisible));
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
  $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
  $('toggleTransit').setAttribute('aria-pressed',String(transitVisible));
 }
