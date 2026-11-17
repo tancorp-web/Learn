@@ -89,6 +89,9 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .combined-calc .thaksa-mark{display:none;align-items:center;justify-content:center;margin-left:3px;vertical-align:middle;color:#397052;line-height:1}
 .combined-calc .thaksa-mark svg{display:block;width:18px;height:18px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .combined-calc.show-thaksa .thaksa-mark{display:inline-flex}
+.combined-calc .transit-power-mark{display:none;align-items:center;justify-content:center;margin-left:3px;vertical-align:middle;color:#247b58;line-height:1}
+.combined-calc .transit-power-mark svg{display:block;width:18px;height:18px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.combined-calc.show-transit-power .transit-power-mark{display:inline-flex}
 .combined-calc .yama-mark{display:inline-block;margin-left:3px;font-size:10px;line-height:1;vertical-align:super;font-weight:800;color:#9a6840;letter-spacing:.02em}
 .timezone-note{line-height:1.4}
 .combined-calc thead th{background:var(--soft);font-weight:700}
@@ -602,7 +605,7 @@ button{padding:10px 15px}
 <div id="transitTables"></div>
 </div>
 </div>
-<div class="panel combined-panel"><h2 id="combinedTitle">ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button><button type="button" id="togglePower" class="secondary" aria-pressed="false">เปิดกำลังดาว</button><button type="button" id="toggleThaksa" class="secondary" aria-pressed="false">เปิดทักษาเดิม</button></div><div id="combinedResults"></div></div>
+<div class="panel combined-panel"><h2 id="combinedTitle">ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button><button type="button" id="togglePower" class="secondary" aria-pressed="false">เปิดกำลังดาว</button><button type="button" id="toggleThaksa" class="secondary" aria-pressed="false">เปิดทักษาเดิม</button><button type="button" id="toggleTransitPower" class="secondary" aria-pressed="false">เปิดกำลังดาวจร</button></div><div id="combinedResults"></div></div>
 <div class="panel hidden snake-panel" id="snakePanel" aria-live="polite">
 <h2>ผลกลบทงูกินหาง</h2><div id="snakeSummary" class="snake-summary">กดชื่อหัวข้อในแถวแรกของตารางหลัก เช่น ปิตา เพื่อเริ่มกลบทงูกินหาง</div><div id="snakeResults"></div>
 </div>
@@ -983,7 +986,7 @@ function thaksaRoleMap(start){
  for(let i=0;i<8;i++)map[thaksaPlanets[(index+i)%8]]=thaksaRoles[i];
  return map;
 }
-function renderThaksaMark(value,birthMap){
+function renderThaksaMark(value,birthMap,label='ทักษาเดิม',extraClass=''){
  const number=Number(value);
  const planetNumber=number<=7?number:powerPlanetByNumber[number];
  const planetNames={1:'อาทิตย์',2:'จันทร์',3:'อังคาร',4:'พุธ',5:'พฤหัสบดี',6:'ศุกร์',7:'เสาร์',8:'ราหู'};
@@ -998,7 +1001,7 @@ function renderThaksaMark(value,birthMap){
   'มนตรี':'<svg viewBox="0 0 18 18" aria-hidden="true"><rect x="3" y="2" width="9" height="9"/><rect x="6" y="7" width="9" height="9"/></svg>',
   'กาลกิณี':'<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 4 L14 14 M14 4 L4 14"/></svg>'
  };
- return icons[role]?'<span class="thaksa-mark" title="ทักษาเดิม: '+role+'" aria-label="ทักษาเดิม: '+role+'">'+icons[role]+'</span>':'';
+ return icons[role]?'<span class="thaksa-mark '+extraClass+'" title="'+label+': '+role+'" aria-label="'+label+': '+role+'">'+icons[role]+'</span>':'';
 }
 function renderThaksaGrid(birthStart,transitStart,birthLunar,transitLunar){
  const birthMap=thaksaRoleMap(birthStart);
@@ -1060,6 +1063,15 @@ function toggleThaksaMarks(){
  btn.setAttribute('aria-pressed',String(thaksaVisible));
 }
 $('toggleThaksa').addEventListener('click',toggleThaksaMarks);
+let transitPowerVisible=false;
+function toggleTransitPowerMarks(){
+ transitPowerVisible=!transitPowerVisible;
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit-power',transitPowerVisible));
+ const btn=$('toggleTransitPower');
+ btn.textContent=transitPowerVisible?'ปิดกำลังดาวจร':'เปิดกำลังดาวจร';
+ btn.setAttribute('aria-pressed',String(transitPowerVisible));
+}
+$('toggleTransitPower').addEventListener('click',toggleTransitPowerMarks);
 
 let transitVisible=false;
 function toggleTransitColumns(){
@@ -1125,6 +1137,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const birthThaksaMap=thaksaRoleMap(oldStart);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
+ const transitThaksaMap=thaksaRoleMap(transitStart);
  const waiJon=calculateWaiJon(birthRows,ageYang);
  const transitYama=getTransitYama(transitInfo);
  let html=waiJon?'<div class="wai-jon-summary"><strong>วัยจร:</strong> ฐาน '+toThai(waiJon.row+1)+' · ช่อง '+toThai(waiJon.col+1)+' · ช่วงอายุ '+toThai(waiJon.start)+'–'+toThai(waiJon.end)+' ปี <span>(อายุย่าง '+toThai(ageYang)+' ปี)</span><div class="highlight-legend"><span class="legend-age">อายุจร</span><span class="legend-wai">วัยจร</span><span class="legend-yama">D = ยามกลางวัน</span><span class="legend-yama">N = ยามกลางคืน</span></div></div>':'<div class="wai-jon-summary">ไม่สามารถระบุวัยจรได้</div>';
@@ -1139,17 +1152,20 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
    const classes=[ageActive?'age-active':'',waiActive?'wai-active':''].filter(Boolean).join(' ');
    const houseLabel=(houseSet?houseSet[j]:'');
    const houseHtml=i===0?'<button type="button" class="snake-pick" data-snake-col="'+j+'" title="กลบทงูกินหางที่ '+houseLabel+'">'+houseLabel+'</button>':houseLabel;
-   return '<td'+(classes?' class="'+classes+'" aria-current="true"':'')+'><span class="house">'+houseHtml+'</span><span class="paired-value"><button type="button" class="birth-value main-number" data-main-number="'+v+'" aria-label="เน้นเลข '+toThai(v)+'">'+toThai(v)+'</button>'+(i===0&&transitYama&&Number(v)===transitYama.planet?'<small class="yama-mark" aria-label="ดาวประจำยาม">'+transitYama.letter+'</small>':'')+((i===2||i===3)?renderThaksaMark(v,birthThaksaMap):'')+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+(i===3?renderPowerMark(v):'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
+   return '<td'+(classes?' class="'+classes+'" aria-current="true"':'')+'><span class="house">'+houseHtml+'</span><span class="paired-value"><button type="button" class="birth-value main-number" data-main-number="'+v+'" aria-label="เน้นเลข '+toThai(v)+'">'+toThai(v)+'</button>'+(i===0&&transitYama&&Number(v)===transitYama.planet?'<small class="yama-mark" aria-label="ดาวประจำยาม">'+transitYama.letter+'</small>':'')+((i===2||i===3)?renderThaksaMark(v,birthThaksaMap):'')+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+(i===3?renderPowerMark(v):'')+(i===3?renderThaksaMark(v,transitThaksaMap,'ทักษาจร','transit-power-mark'):'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
  html+='</tbody></table></div>';
  html+=renderThaksaGrid(oldStart,transitStart,birthInfo.lunar,transitInfo.lunar);
  $('combinedResults').innerHTML=html;
- document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>{el.classList.toggle('show-transit',transitVisible);el.classList.toggle('show-power',powerVisible);el.classList.toggle('show-thaksa',thaksaVisible);});
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>{el.classList.toggle('show-transit',transitVisible);el.classList.toggle('show-power',powerVisible);el.classList.toggle('show-thaksa',thaksaVisible);el.classList.toggle('show-transit-power',transitPowerVisible);});
  $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
  $('toggleThaksa').textContent=thaksaVisible?'ปิดทักษาเดิม':'เปิดทักษาเดิม';
  $('toggleThaksa').setAttribute('aria-pressed',String(thaksaVisible));
+ $('toggleTransitPower').textContent=transitPowerVisible?'ปิดกำลังดาวจร':'เปิดกำลังดาวจร';
+ $('toggleTransitPower').setAttribute('aria-pressed',String(transitPowerVisible));
+ $('toggleTransitPower').classList.toggle('hidden',!!codeSeeds);
  $('toggleTransit').setAttribute('aria-pressed',String(transitVisible));
 }
 
@@ -1173,6 +1189,7 @@ function renderCodeTable(seed1,seed2,seed3){
  $('combinedResults').innerHTML=html;
  document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-power',powerVisible));
  $('toggleTransit').classList.add('hidden');
+ $('toggleTransitPower').classList.add('hidden');
  $('combinedResults').insertAdjacentHTML('afterbegin','<div class="snake-summary"><strong>รหัสชะตา:</strong> คอลัมน์แรกของตาราง ๗ ตัวเดิม = '+[seed1,seed2,seed3].map(toThai).join(' · ')+'<br>คำนวณฐาน ๑–๙ ด้วยกระบวนการเดิม สามารถกดหัวข้อแถวแรกเพื่อกลบทงูกินหางได้</div>');
 }
 function calculateCode(){
