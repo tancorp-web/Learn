@@ -65,7 +65,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
  .combined-calc .transit-value small{font-size:13px}
  .combined-calc tbody th{font-size:16px}
 }
-.code-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:10px 0}.code-grid .field input{font-size:1.2rem;font-weight:750;text-align:center}
+.code-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:10px 0}.code-grid .field label{display:block!important;font-size:.95rem;font-weight:750;color:#383127;margin-bottom:4px}.code-grid .field input{font-size:1.2rem;font-weight:750;text-align:center;min-height:48px}.code-hint{display:block!important;margin-top:5px;color:#756e63;font-size:.82rem}
 @media(max-width:520px){.code-grid{grid-template-columns:1fr}}
 </style>
 
@@ -377,9 +377,9 @@ button{padding:10px 15px}
 <div id="codePanel" class="details hidden">
  <h3>กรอกรหัสชะตา</h3>
  <div class="form-grid code-grid">
-  <div class="field"><label for="codeRow1">เลขที่ ๑</label><input id="codeRow1" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"></div>
-  <div class="field"><label for="codeRow2">เลขที่ ๒</label><input id="codeRow2" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"></div>
-  <div class="field"><label for="codeRow3">เลขที่ ๓</label><input id="codeRow3" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"></div>
+  <div class="field"><label for="codeRow1">เลขที่ ๑</label><input id="codeRow1" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"><small class="code-hint">กรอกเลข ๑–๗</small></div>
+  <div class="field"><label for="codeRow2">เลขที่ ๒</label><input id="codeRow2" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"><small class="code-hint">กรอกเลข ๑–๗</small></div>
+  <div class="field"><label for="codeRow3">เลขที่ ๓</label><input id="codeRow3" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"><small class="code-hint">กรอกเลข ๑–๗</small></div>
  </div>
  <div class="actions"><button type="button" id="calculateCode">คำนวณรหัสชะตา</button><button type="button" class="secondary" id="closeCodeForm">กลับไปกรอกแบบปกติ</button></div>
  <div class="muted">กรอกตัวเลข ๑–๗ ให้ครบทั้ง ๓ ช่อง ระบบจะนำไปคำนวณในตาราง ๗ ตัวเดิมด้วยสูตรเดิม</div>
@@ -859,9 +859,9 @@ function getTransitYama(transitInfo){
  const index=minutes>=1080?Math.floor((minutes-1080)/90):4+Math.floor(minutes/90);
  return {planet:nightTable[weekday][index],letter:'N'};
 }
-function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDate,ageYang){
+function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDate,ageYang,codeSeeds=null){
  document.querySelector('.summary-pair').classList.remove('hidden');
- const birthRows=calcRows(birthInfo.dayStart,birthInfo.monthStart,birthInfo.yearStart);
+ const birthRows=codeSeeds?calcRowsFromSeeds(sequence(codeSeeds[0]),sequence(codeSeeds[1]),sequence(codeSeeds[2])):calcRows(birthInfo.dayStart,birthInfo.monthStart,birthInfo.yearStart);
  const transitRows=calcRows(transitInfo.dayStart,transitInfo.monthStart,transitInfo.yearStart);
  latestBirthRows=birthRows.map(row=>row.slice());
  $('snakePanel').classList.add('hidden');
@@ -870,6 +870,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const waiJon=calculateWaiJon(birthRows,ageYang);
  const transitYama=getTransitYama(transitInfo);
  let html=waiJon?'<div class="wai-jon-summary"><strong>วัยจร:</strong> ฐาน '+toThai(waiJon.row+1)+' · ช่อง '+toThai(waiJon.col+1)+' · ช่วงอายุ '+toThai(waiJon.start)+'–'+toThai(waiJon.end)+' ปี <span>(อายุย่าง '+toThai(ageYang)+' ปี)</span><div class="highlight-legend"><span class="legend-age">อายุจร</span><span class="legend-wai">วัยจร</span><span class="legend-yama">D = ยามกลางวัน</span><span class="legend-yama">N = ยามกลางคืน</span></div></div>':'<div class="wai-jon-summary">ไม่สามารถระบุวัยจรได้</div>';
+  if(codeSeeds)html+='<div class="snake-summary"><strong>รหัสชะตา:</strong> '+codeSeeds.map(toThai).join(' · ')+' · ใช้เป็นเลขตั้งต้นแทนดวงกำเนิดในตารางเดิม</div>';
  html+='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม · ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง</th></tr></thead><tbody>';
  const agePosition=((ageYang-1)%21)+1;
  for(let i=0;i<9;i++){
@@ -916,15 +917,15 @@ function renderCodeTable(seed1,seed2,seed3){
 function calculateCode(){
  $('formError').textContent='';
  try{
-  const values=['codeRow1','codeRow2','codeRow3'].map(id=>Number($(id).value));
-  if(values.some((v,i)=>!$( ['codeRow1','codeRow2','codeRow3'][i] ).value||!Number.isInteger(v)||v<1||v>7)){
+  const ids=['codeRow1','codeRow2','codeRow3'];
+  const raw=ids.map(id=>$(id).value.trim());
+  const values=raw.map(Number);
+  if(raw.some((v,i)=>!v||!Number.isInteger(values[i])||values[i]<1||values[i]>7)){
    throw new Error('กรุณากรอกเลขทั้ง ๓ ช่อง โดยใช้เลข ๑–๗');
   }
-  $('output').classList.remove('hidden');
-  $('birthSummary').innerHTML='';$('transitSummary').innerHTML='';
-  $('birthTables').innerHTML='';$('transitTables').innerHTML='';
-  renderCodeTable(values[0],values[1],values[2]);
-  $('output').scrollIntoView({behavior:'smooth',block:'start'});
+  $('codePanel').classList.add('hidden');
+  $('showCodeForm').setAttribute('aria-expanded','false');
+  calculate(values);
  }catch(err){$('formError').textContent=err.message||'กรุณาตรวจสอบรหัสชะตา';}
 }
 function initDatePickers(){
@@ -1038,7 +1039,7 @@ function toThailandDateTime(dateText,timeText,zone){
  return {date,time,offsetLabel:'เวลา '+zone+' (GMT'+sign+Math.floor(abs/60)+':'+String(abs%60).padStart(2,'0')+')'};
 }
 
-function calculate(){
+function calculate(codeSeeds=null){
  $('formError').textContent='';
  try{
   const birth=datePickerValue('birth'),birthTime=getTimeValue('time'),transit=datePickerValue('transit'),transitTime=getTimeValue('transitTime');
@@ -1057,7 +1058,7 @@ function calculate(){
   renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)',birthYearBE,'',birth,birthTime,birthLocal.time);
   const transitCountry=$('transitCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
   renderInfo('transit',transitInfo,'',transitCountry+' · '+transitLocal.offsetLabel,'จร (เทียบเวลาไทย)',transitYearBE,'อายุครบ '+toThai(ageComplete)+' ปี · อายุย่าง '+toThai(ageYang)+' ปี',transit,transitTime,transitLocal.time);
-  renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date,ageYang);
+  renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date,ageYang,codeSeeds);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
  }catch(err){$('formError').textContent=err.message||'เกิดข้อผิดพลาดในการคำนวณ';}
