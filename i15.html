@@ -427,6 +427,11 @@ button{padding:10px 15px}
 #previewOverlay #output .export-actions{display:none!important}
 @media(max-width:600px){#previewOverlay{padding:6px}#previewOverlay .preview-toolbar{gap:7px;padding:8px}#previewOverlay .preview-toolbar button{min-width:0;flex:1}}
 @media print{
+ /* พิมพ์เฉพาะสำเนาผลลัพธ์ในพรีวิว ไม่ให้พื้นที่ฟอร์ม/หน้าหลักกันพื้นที่กระดาษ */
+ body.printing-preview main{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important}
+ body.printing-preview #previewOverlay{display:block!important;position:static!important;inset:auto!important;overflow:visible!important;padding:0!important;margin:0!important;background:#fff!important}
+ body.printing-preview #previewStage{display:block!important;margin:0!important;padding:0!important}
+ body.printing-preview #previewOverlay #output{margin:0!important;padding:0!important;min-height:0!important;break-before:auto!important;page-break-before:auto!important}
  body.printing-preview main #output,body.printing-preview main #output *{visibility:hidden!important}
  body.printing-preview #previewOverlay{display:block!important;position:static!important;inset:auto!important;overflow:visible!important;padding:0!important;background:#fff!important}
  body.printing-preview #previewOverlay .preview-toolbar{display:none!important}
