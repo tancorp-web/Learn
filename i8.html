@@ -217,7 +217,13 @@ button{padding:10px 15px}
 .summary-card .result-head .meta{font-size:1rem!important;line-height:1.7!important}
 .summary-card .result-head>div:first-child{font-weight:700!important;color:var(--ink)!important}
 .summary-card .result-head .meta{font-weight:500!important;color:var(--muted)!important}
-.summary-card .result-head>div:nth-child(2){font-weight:700!important;color:var(--ink)!important}
+.summary-card .result-head .year-line{font-size:1rem!important;line-height:1.7!important;font-weight:700!important;color:var(--ink)!important}
+@media(max-width:600px){
+ .summary-card .result-head .year-line{font-size:.96rem!important;line-height:1.65!important}
+}
+@media print{
+ #output .summary-card .result-head .year-line{font-size:9pt!important;line-height:1.45!important}
+}
 @media(max-width:600px){
  .summary-card .result-head,
  .summary-card .result-head>div,
@@ -582,7 +588,7 @@ function renderTable(baseNo,values){
 function renderInfo(prefix,info,name,place,label,yearBE,ageText){
  const lunarText=weekdays[info.weekday-1]+' '+info.phase+' '+toThai(info.lunarDay)+' ค่ำ '+lunarMonthLabel(info.lunar.month)+' ปี'+info.animal;
  const eraText='จ.ศ. '+toThai(info.jula)+' · ม.ศ. '+toThai(info.maha)+' · ร.ศ. '+toThai(info.rattan)+' · '+info.solarType+' · '+info.monthType+' · '+info.dayType;
- const lead='<div>'+lunarText+'</div><div class="meta">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
+ const lead='<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
  $(prefix+'Summary').innerHTML=lead;
 }
 
