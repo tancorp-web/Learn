@@ -239,8 +239,18 @@ button{padding:10px 15px}
  #output,#output *{visibility:visible!important}
  header,.form-panel,footer,.actions,.export-actions,#snakePanel{display:none!important}
  .wrap{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+ #output .print-brand-header{display:none!important}
+ #output::before{
+  content:"โปรแกรม สัตตเลข 7 ตัว 9 ฐาน\\Aอาจารย์ธานินทร์ นันต๊ะ\\Aอสังหาพยากรณ์ โดย โหรธนนทร\\Aตารางวิเคราะห์ดวงชะตา · 9 ฐาน\\Aกรอกวันเดือนปีและเวลาเกิด / วันจร แล้วให้ระบบคำนวณปฏิทินไทยและฐาน 1–9 อัตโนมัติ";
+  display:block!important;white-space:pre-line!important;text-align:center!important;
+  font-size:8pt!important;font-weight:500!important;line-height:1.45!important;
+  color:#171717!important;margin:0 0 2.5mm!important;padding:0 0 2mm!important;
+  border-bottom:1px solid #bdb5a7!important;
+  break-after:avoid!important;page-break-after:avoid!important
+ }
+ #output::before{ }
  #output .print-brand-header{
-  display:block!important;text-align:center!important;margin:0 0 2.5mm!important;
+  display:none!important;text-align:center!important;margin:0 0 2.5mm!important;
   padding:0 0 2mm!important;border-bottom:1px solid #bdb5a7!important;
   color:#171717!important;break-after:avoid!important;page-break-after:avoid!important
  }
