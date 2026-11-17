@@ -377,12 +377,12 @@ button{padding:10px 15px}
 <div id="codePanel" class="details hidden">
  <h3>กรอกรหัสชะตา</h3>
  <div class="form-grid code-grid">
-  <div class="field"><label for="codeRow1">คอลัมน์ที่ 1 · แถวที่ 1</label><input id="codeRow1" type="number" inputmode="numeric" min="1" max="7" step="1" placeholder="เลข 1–7"></div>
-  <div class="field"><label for="codeRow2">คอลัมน์ที่ 1 · แถวที่ 2</label><input id="codeRow2" type="number" inputmode="numeric" min="1" max="7" step="1" placeholder="เลข 1–7"></div>
-  <div class="field"><label for="codeRow3">คอลัมน์ที่ 1 · แถวที่ 3</label><input id="codeRow3" type="number" inputmode="numeric" min="1" max="7" step="1" placeholder="เลข 1–7"></div>
+  <div class="field"><label for="codeRow1">เลขที่ ๑</label><input id="codeRow1" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"></div>
+  <div class="field"><label for="codeRow2">เลขที่ ๒</label><input id="codeRow2" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"></div>
+  <div class="field"><label for="codeRow3">เลขที่ ๓</label><input id="codeRow3" type="text" inputmode="numeric" pattern="[1-7]" maxlength="1" autocomplete="off" placeholder="๑–๗"></div>
  </div>
  <div class="actions"><button type="button" id="calculateCode">คำนวณรหัสชะตา</button><button type="button" class="secondary" id="closeCodeForm">กลับไปกรอกแบบปกติ</button></div>
- <div class="muted">กรอกเลข ๑–๗ เพื่อกำหนดค่าในคอลัมน์แรกของ ๓ แถว จากนั้นระบบเรียงตัวเลขต่อในตาราง ๗ ตัวเดิมและคำนวณฐาน ๑–๙ ด้วยสูตรเดิม</div>
+ <div class="muted">กรอกตัวเลข ๑–๗ ให้ครบทั้ง ๓ ช่อง ระบบจะนำไปคำนวณในตาราง ๗ ตัวเดิมด้วยสูตรเดิม</div>
 </div>
 <div id="formError" class="error" role="alert"></div>
 </section>
@@ -910,7 +910,7 @@ function renderCodeTable(seed1,seed2,seed3){
  }
  html+='</tbody></table></div>';
  $('combinedResults').innerHTML=html;
- $('toggleTransit').closest('.actions').classList.add('hidden');
+ $('toggleTransit').classList.add('hidden');
  $('combinedResults').insertAdjacentHTML('afterbegin','<div class="snake-summary"><strong>รหัสชะตา:</strong> คอลัมน์แรกของตาราง ๗ ตัวเดิม = '+[seed1,seed2,seed3].map(toThai).join(' · ')+'<br>คำนวณฐาน ๑–๙ ด้วยกระบวนการเดิม สามารถกดหัวข้อแถวแรกเพื่อกลบทงูกินหางได้</div>');
 }
 function calculateCode(){
@@ -1085,7 +1085,7 @@ $('snakeResults').addEventListener('click',event=>{
 });
 $('toggleTransit').addEventListener('click',toggleTransitColumns);
 $('calculate').addEventListener('click',()=>{
- $('toggleTransit').closest('.actions').classList.remove('hidden');
+ $('toggleTransit').classList.remove('hidden');
  $('codePanel').classList.add('hidden');
  $('showCodeForm').setAttribute('aria-expanded','false');
  calculate();
