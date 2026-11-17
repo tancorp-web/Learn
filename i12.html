@@ -351,6 +351,17 @@ button{padding:10px 15px}
 }
 </style>
 
+
+<style id="i12-print-blessing-style">
+.print-blessing{display:none}
+@media print{
+ #output .print-blessing{display:block!important;visibility:visible!important;break-inside:avoid;page-break-inside:avoid;margin:7mm 2mm 0;padding:4mm 5mm;border:1px solid #c9bda8;border-radius:3mm;text-align:center;color:#40392f;background:#fffdf8!important;box-sizing:border-box}
+ #output .print-blessing h3{margin:0 0 3mm;font-size:12pt;color:#6e5636}
+ #output .print-blessing .blessing-quote{font-size:13pt;font-weight:700;margin:0 0 2.5mm;color:#59472f}
+ #output .print-blessing p{font-size:9.5pt;line-height:1.55;margin:1.5mm 0}
+ #output .print-blessing .blessing-sign{margin-top:3mm;font-weight:700;color:#6e5636}
+}
+</style>
 </head>
 <body>
 <main class="wrap">
@@ -423,6 +434,16 @@ button{padding:10px 15px}
 </div>
 <div class="export-actions" aria-label="เครื่องมือพิมพ์และบันทึกผล">
  <button type="button" id="print">พิมพ์ / Save PDF</button>
+</div>
+
+<div class="print-blessing" aria-label="คำอวยพรและกำลังใจ">
+ <h3>คำอวยพรและกำลังใจ</h3>
+ <p class="blessing-quote">“ชะตาเป็นเพียงแผนที่ ชีวิตคือการเดินทาง”</p>
+ <p>แผนที่อาจบอกเส้นทาง แต่ผู้กำหนดปลายทางคือหัวใจและการกระทำของเรา</p>
+ <p>ไม่ว่าชะตาจะเปิดทางเช่นไร ขอให้มีสติเป็นเข็มทิศ มีปัญญาเป็นแสงนำทาง มีความกล้าก้าวผ่านอุปสรรค และมีความเพียรในการสร้างสิ่งดีงามให้ชีวิต</p>
+ <p>อย่าหมดกำลังใจในวันที่เส้นทางยากลำบาก เพราะทุกก้าวที่ลงมือทำ ล้วนมีความหมายต่อวันข้างหน้า</p>
+ <p>ขอให้พบแสงสว่างในทุกเส้นทาง ประสบความสุข ความสำเร็จ และความเจริญในชีวิต</p>
+ <p class="blessing-sign">ด้วยความปรารถนาดี<br>อสังหาพยากรณ์ โดย โหรธนนทร</p>
 </div>
 </section>
 
