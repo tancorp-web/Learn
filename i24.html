@@ -1608,8 +1608,8 @@ function applyPrintScale(){
   printOutput.style.setProperty('width','100%','important');
   printOutput.style.setProperty('min-width','0','important');
   printOutput.style.setProperty('max-width','100%','important');
-  /* 65% เป็นโหมดจัดหน้าให้อ่านง่าย: ไม่ย่อฟอนต์ทั้งหน้า แต่ลดช่องว่างแทน */
-  const readableFit=percent===65;
+  /* 60% และ 65% เป็นโหมดจัดหน้าให้อ่านง่าย: ไม่ย่อฟอนต์ทั้งหน้า แต่ลดช่องว่างแทน */
+  const readableFit=percent===60||percent===65;
   printOutput.classList.toggle('readable-fit',readableFit);
   printOutput.style.setProperty('zoom',readableFit?'1':String(scale),'important');
   printOutput.querySelectorAll('table,.combined-calc').forEach(table=>{
