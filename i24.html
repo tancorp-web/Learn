@@ -702,7 +702,7 @@ button{padding:10px 15px}
 <main class="wrap">
 <header>
 <div class="program-title">โปรแกรม สัตตเลข 7 ตัว 9 ฐาน</div>
-<div class="program-credit">อาจารย์ธานินทร์ นันต๊ะ</div>
+
 <div class="program-brand">อสังหาพยากรณ์ โดย โหรธนนทร</div>
 
 <div class="sub">กรอกวันเดือนปีและเวลาเกิด / วันจร แล้วให้ระบบคำนวณปฏิทินไทยและฐาน 1–9 อัตโนมัติ</div>
@@ -727,6 +727,7 @@ button{padding:10px 15px}
 <button id="calculate" type="button">คำนวณดวงเกิดและดวงจร</button>
 <button type="button" class="secondary" id="showCodeForm" aria-expanded="false">รหัสชะตา</button>
 <button type="button" class="secondary" id="reset">ล้างข้อมูล</button>
+<button type="button" class="secondary" id="resetCurrentTime">รีเซ็ตตั้งค่าเวลาปัจจุบัน</button>
 </div>
 <div id="codePanel" class="details hidden">
  <h3>กรอกรหัสชะตา</h3>
@@ -782,7 +783,7 @@ button{padding:10px 15px}
 </div>
 </section>
 
-<footer>i15 · ระบบคำนวณ 343 · รหัสชะตาและกลบทงูกินหาง</footer>
+<footer>i15 · ระบบคำนวณ 343 · รหัสชะตาและกลบทงูกินหาง<br><span class="program-credit">อาจารย์ธานินทร์ นันต๊ะ</span></footer>
 </main>
 
 <div id="previewOverlay" aria-label="ตัวอย่างเอกสารก่อนพิมพ์" aria-hidden="true">
@@ -1657,7 +1658,18 @@ $('reset').addEventListener('click',()=>{
 });
 function getTimeValue(prefix){const h=$(prefix+'Hour').value,m=$(prefix+'Minute').value;return h!==''&&m!==''?h+':'+m:'';}
 function setTimeValue(prefix,value){const parts=value.split(':');$(prefix+'Hour').value=parts[0];$(prefix+'Minute').value=parts[1];}
-function initializeBirthToday(){setDatePicker('birth','1991-01-01');setTimeValue('time','01:05');$('birthCountry').value='TH';populateZones('birth');$('birthZone').value='Asia/Bangkok';updateZoneLabel('birth');}
+function initializeBirthToday(){setDatePicker('birth','1991-10-14');setTimeValue('time','01:15');$('birthCountry').value='TH';populateZones('birth');$('birthZone').value='Asia/Bangkok';updateZoneLabel('birth');}
+$('resetCurrentTime').addEventListener('click',()=>{
+ initializeBirthNow();initializeTransitNow();
+ $('formError').textContent='';$('output').classList.add('hidden');
+});
+function initializeBirthNow(){
+ const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+ const get=t=>parts.find(p=>p.type===t)?.value||'00';
+ setDatePicker('birth',get('year')+'-'+get('month')+'-'+get('day'));
+ setTimeValue('time',get('hour')+':'+get('minute'));
+ $('birthCountry').value='TH';populateZones('birth');$('birthZone').value='Asia/Bangkok';updateZoneLabel('birth');
+}
 function initializeTransitNow(){
  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
  const get=t=>parts.find(p=>p.type===t)?.value||'00';
