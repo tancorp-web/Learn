@@ -43,7 +43,6 @@ table.calc thead th{background:#eee8dc;font-size:.78rem;color:#665d50}
 footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .export-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0 4px;padding:14px;background:#f8f5ef;border:1px solid var(--line);border-radius:12px}
 .export-actions button{min-width:130px}
-#preview{background:#e8eee9;color:#304b46}
 @media(max-width:520px){.export-actions{gap:8px}.export-actions button{min-width:0;padding:11px 14px}}
 @media(max-width:760px){body{padding:8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.date-field{grid-column:span 2}.optional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:1fr}.group-list{grid-template-columns:1fr}header,.panel{padding:13px}h1{font-size:1.25rem}}
 @media(max-width:390px){.form-grid{grid-template-columns:1fr}.date-field{grid-column:span 1}.optional-grid{grid-template-columns:1fr}}
@@ -363,7 +362,6 @@ button{padding:10px 15px}
 <h2>ผลกลบทงูกินหาง</h2><div id="snakeSummary" class="snake-summary">กดชื่อหัวข้อในแถวแรกของตารางหลัก เช่น ปิตา เพื่อเริ่มกลบทงูกินหาง</div><div id="snakeResults"></div>
 </div>
 <div class="export-actions" aria-label="เครื่องมือพิมพ์และบันทึกผล">
- <button type="button" class="secondary" id="preview">พรีวิว</button>
  <button type="button" id="print">พิมพ์ / Save PDF</button>
 </div>
 </section>
@@ -968,19 +966,6 @@ $('snakeResults').addEventListener('click',event=>{
 $('toggleTransit').addEventListener('click',toggleTransitColumns);
 $('calculate').addEventListener('click',calculate);
 $('print').addEventListener('click',()=>window.print());
-function buildExportDocument(title){
- const styles=Array.from(document.querySelectorAll('style')).map(el=>el.textContent).join('\n');
- const result=$('output').cloneNode(true);result.classList.remove('hidden');
- result.querySelectorAll('.export-actions').forEach(el=>el.remove());
- const previewStyles='<style id="i9-preview-full-width">*,*::before,*::after{box-sizing:border-box}html,body{width:100%;min-width:0;max-width:100%;margin:0;padding:0;overflow-x:hidden}body{padding:8px!important}.wrap{display:block;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}#output{display:block;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}.table-scroll,.combined-scroll{display:block;width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:visible!important}table.calc,.combined-calc{width:100%!important;max-width:100%!important;min-width:0!important;table-layout:fixed!important}table.calc th,table.calc td,.combined-calc th,.combined-calc td{overflow-wrap:anywhere;word-break:normal}</style>';
- return '<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+styles+'</style>'+previewStyles+'</head><body><main class="wrap">'+result.outerHTML+'</main></body></html>';
-}
-function openPreview(){
- const win=window.open('','_blank');
- if(!win){alert('เบราว์เซอร์บล็อกหน้าพรีวิว กรุณาอนุญาตป๊อปอัปแล้วลองอีกครั้ง');return;}
- win.document.open();win.document.write(buildExportDocument('พรีวิวผลคำนวณ i9'));win.document.close();win.focus();
-}
-$('preview').addEventListener('click',openPreview);
 $('reset').addEventListener('click',()=>{
  document.querySelectorAll('.form-panel input').forEach(x=>x.value='');
  document.querySelectorAll('.form-panel select').forEach(x=>x.selectedIndex=0);
