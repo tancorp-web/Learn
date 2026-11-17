@@ -258,7 +258,10 @@ button{padding:10px 15px}
 .snake-calc{width:100%;min-width:720px;border-collapse:collapse;table-layout:fixed}.snake-calc th,.snake-calc td{border:1px solid var(--line);padding:9px 5px;text-align:center;vertical-align:middle}
 .snake-calc thead th{background:#eee8dc;color:#665d50}.snake-calc tbody th{background:#f7f3eb;white-space:nowrap}
 .snake-calc .house{display:block;font-size:15px;font-weight:700;line-height:1.4;color:#737b73;min-height:2em}
-.snake-calc .snake-value{display:block;font-size:23px;font-weight:850;line-height:1.4;color:#304b46}.snake-calc .snake-strength{display:block;font-size:11px;color:#756b5c;line-height:1.3;margin-top:2px}
+.snake-calc .snake-value{display:block;width:100%;border:0;background:transparent;font:inherit;font-size:23px;font-weight:850;line-height:1.4;color:#304b46;cursor:pointer;border-radius:5px;padding:0}
+.snake-calc .snake-value:hover{background:#f0eee8}
+.snake-calc .snake-value.same-number{background:#e7efe9!important;color:#244f3a!important;box-shadow:inset 0 0 0 1px #b6cbbd}
+.snake-calc .snake-value:focus-visible{outline:2px solid #91aa9b;outline-offset:2px}.snake-calc .snake-strength{display:block;font-size:11px;color:#756b5c;line-height:1.3;margin-top:2px}
 @media(max-width:600px){.snake-calc th,.snake-calc td{padding:7px 3px}.snake-calc .house{font-size:13px}.snake-calc .snake-value{font-size:19px}}
 @media print{.snake-panel{break-inside:auto!important}.snake-calc{min-width:0;width:100%;font-size:8pt}.snake-calc th,.snake-calc td{padding:1.2mm .7mm;font-size:8pt}.snake-calc .house{font-size:7pt;min-height:0}.snake-calc .snake-value{font-size:11pt}}
 </style>
@@ -685,12 +688,12 @@ function renderSnakeTable(birthRows,startCol){
  const rows=calcRowsFromSeeds(rotatedSeeds[0],rotatedSeeds[1],rotatedSeeds[2]);
  const firstHouse=houses[0][startCol],sourceOrder=Array.from({length:7},(_,i)=>(startCol+i)%7);
  $('snakeSummary').innerHTML='<strong>จุดเริ่มต้น: '+escapeHtml(firstHouse)+'</strong> · คอลัมน์เดิมที่ '+toThai(startCol+1)+' มาเป็นคอลัมน์ใหม่ที่ ๑<br>ลำดับใหม่: '+sourceOrder.map(i=>escapeHtml(houses[0][i])).join(' → ')+'<br>ยกตัวเลขครบ ๓ แถวตามลำดับ แล้วคำนวณฐาน ๔–๙ ใหม่ทั้งหมด · ไม่ใช้ดาวจร อายุจร หรือวัยจร';
- let html='<div class="table-scroll combined-scroll"><table class="snake-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ผลกลบทงูกินหาง · เริ่มจาก '+escapeHtml(firstHouse)+'</th></tr><tr><th>แถว</th>'+[1,2,3,4,5,6,7].map(n=>'<th>คอลัมน์ '+toThai(n)+'</th>').join('')+'</tr></thead><tbody>';
+ let html='<div class="table-scroll combined-scroll"><table class="snake-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ผลกลบทงูกินหาง · เริ่มจาก '+escapeHtml(firstHouse)+'</th></tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];html+='<tr><th>ฐาน '+toThai(i+1)+'</th>';
   for(let j=0;j<7;j++){
    const sourceCol=sourceOrder[j],house=houseSet?houseSet[sourceCol]:'',value=rows[i][j];
-   html+='<td>'+(house?'<span class="house">'+escapeHtml(house)+'</span>':'')+'<span class="snake-value">'+toThai(value)+'</span>'+(i===3&&base4Labels[value]?'<span class="snake-strength">'+escapeHtml(base4Labels[value])+'</span>':'')+'</td>';
+   html+='<td>'+(house?'<span class="house">'+escapeHtml(house)+'</span>':'')+'<button type="button" class="snake-value" data-snake-number="'+value+'" aria-label="เน้นเลข '+toThai(value)+'">'+toThai(value)+'</button>'+(i===3&&base4Labels[value]?'<span class="snake-strength">'+escapeHtml(base4Labels[value])+'</span>':'')+'</td>';
   }
   html+='</tr>';
  }
@@ -892,6 +895,14 @@ $('combinedResults').addEventListener('click',event=>{
  const pick=event.target.closest('[data-snake-col]');
  if(!pick||!latestBirthRows)return;
  renderSnakeTable(latestBirthRows,Number(pick.getAttribute('data-snake-col')));
+});
+$('snakeResults').addEventListener('click',event=>{
+ const pick=event.target.closest('[data-snake-number]');
+ if(!pick)return;
+ const selected=pick.getAttribute('data-snake-number');
+ $('snakeResults').querySelectorAll('[data-snake-number]').forEach(el=>{
+  el.classList.toggle('same-number',el.getAttribute('data-snake-number')===selected);
+ });
 });
 $('toggleTransit').addEventListener('click',toggleTransitColumns);
 $('calculate').addEventListener('click',calculate);
