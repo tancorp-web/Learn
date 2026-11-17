@@ -280,6 +280,13 @@ button{padding:10px 15px}
   display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
   gap:2mm!important;margin:0 0 2mm!important;align-items:start!important
  }
+ /* โหมดรหัสชะตา: ไม่ให้กฎ grid ของหน้าพิมพ์เปิดส่วนสรุปดวงที่ถูกซ่อนไว้ */
+ #output>.summary-pair.hidden{
+  display:none!important;visibility:hidden!important
+ }
+ #output>.summary-pair.hidden *{
+  display:none!important;visibility:hidden!important
+ }
  #output .panel{
   box-shadow:none!important;border:1px solid #c9c4bb!important;border-radius:2mm!important;
   margin:0 0 2mm!important;padding:1.5mm!important;
