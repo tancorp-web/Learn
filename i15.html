@@ -353,6 +353,46 @@ button{padding:10px 15px}
  #output .combined-calc *{
   print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important
  }
+ /* A4 หน้าเดียว: ย่อเฉพาะข้อมูลวันเดือนปี/เวลา และวางข้อมูลเกิด-จรคู่กัน */
+ @page{size:A4 portrait;margin:4mm}
+ #output>.summary-pair{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:2mm!important;align-items:start!important;margin:0 0 1.5mm!important
+ }
+ #output>.summary-pair>.summary-card{
+  width:auto!important;min-width:0!important;margin:0!important;
+  padding:1.8mm!important;border-radius:1.2mm!important
+ }
+ #output>.summary-pair>.summary-card h2{
+  font-size:8.5pt!important;line-height:1.15!important;margin:0 0 1mm!important
+ }
+ #output .summary-card .result-head,
+ #output .summary-card .result-head>div,
+ #output .summary-card .result-head>div:first-child,
+ #output .summary-card .result-head .meta,
+ #output .summary-card .result-head .year-line{
+  font-size:7.2pt!important;line-height:1.18!important
+ }
+ #output .result-head .date-entered{
+  display:flex!important;flex-wrap:nowrap!important;align-items:baseline!important;
+  gap:0 .8mm!important;margin:.25mm 0!important;padding:0!important;
+  font-size:6.8pt!important;line-height:1.12!important
+ }
+ #output .result-head .date-entered strong{
+  flex:0 0 auto!important;font-size:6.8pt!important;white-space:nowrap!important
+ }
+ #output .result-head .date-suriyayatra{
+  display:flex!important;flex-wrap:wrap!important;gap:0 .8mm!important;
+  margin:.4mm 0!important;padding:.5mm .8mm!important;
+  font-size:6.8pt!important;line-height:1.12!important
+ }
+ #output .result-head .date-suriyayatra strong{font-size:6.8pt!important}
+ #output .result-head .date-suriyayatra span{font-size:6.2pt!important;line-height:1.1!important}
+ #output .result-head .year-line{font-size:7.5pt!important;line-height:1.15!important}
+ #output .summary-card .result-head .meta{font-size:6.6pt!important;line-height:1.12!important}
+ #output .summary-card{break-inside:avoid!important;page-break-inside:avoid!important}
+ #output .combined-panel{margin-top:1mm!important}
+
 }
 </style>
 
