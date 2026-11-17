@@ -54,12 +54,12 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .combined-calc td:nth-child(n+2):nth-child(-n+15){white-space:nowrap;font-variant-numeric:tabular-nums}
 .combined-calc .base-col{width:62px}
 .combined-calc .value-col{width:38px}
-.combined-calc .thaksa-col{width:126px}
-.combined-calc td[rowspan]{min-width:126px;padding:6px}
-.thaksa-stack{display:grid;gap:5px;text-align:left;min-width:112px}
-.thaksa-stack>div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:2px 0}
+.combined-calc .thaksa-col{width:158px}
+.combined-calc td[rowspan]{min-width:158px;padding:6px}
+.thaksa-stack{display:grid;gap:5px;text-align:left;min-width:144px}
+.thaksa-stack>div{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:start;gap:5px;border-bottom:1px solid var(--line);padding:3px 0}
 .thaksa-stack>div:last-child{border-bottom:0}
-.thaksa-stack span{color:var(--muted);font-size:11px}
+.thaksa-stack span{color:var(--muted);font-size:11px;line-height:1.35}
 .thaksa-stack b{font-size:12px;white-space:nowrap}
 @media(max-width:600px){.combined-calc th,.combined-calc td{padding:8px 6px;font-size:13px}.combined-calc .house{font-size:11px}.combined-calc .num{font-size:19px}}
 @media print{
@@ -475,11 +475,13 @@ function thaksaRoleMap(start){
  for(let i=0;i<8;i++)map[thaksaPlanets[(index+i)%8]]=thaksaRoles[i];
  return map;
 }
-function renderThaksaStack(start){
- const map=thaksaRoleMap(start);
- return '<div class="thaksa-stack">'+thaksaRoles.map(role=>{
-  const planet=Object.keys(map).find(name=>map[name]===role)||'—';
-  return '<div><span>'+role+'</span><b>'+planet+'</b></div>';
+function renderThaksaStack(birthStart,transitStart){
+ const birthMap=thaksaRoleMap(birthStart);
+ const transitMap=thaksaRoleMap(transitStart);
+ return '<div class="thaksa-stack">'+thaksaPlanets.map(planet=>{
+  const birthRole=birthMap[planet]||'—';
+  const transitRole=transitMap[planet]||'—';
+  return '<div><b>'+planet+'</b><span>เดิม '+birthRole+' / จร '+transitRole+'</span></div>';
  }).join('')+'</div>';
 }
 let transitVisible=false;
@@ -496,14 +498,14 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const ageYang=thaksaAgeYang(birthDate,transitDate);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
- let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม (ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง)</th><th class="thaksa-col">ทักษาเดิม</th><th class="thaksa-col">ทักษาจร</th></tr><tr><th></th>';
+ let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม (ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง)</th><th class="thaksa-col">ดาว · ทักษาเดิม / ทักษาจร</th></tr><tr><th></th>';
  for(let i=1;i<=7;i++)html+='<th class="value-col"><span>ภพ</span><b>'+toThai(i)+'</b><small>เลข</small></th>';
- html+='<th class="thaksa-col"></th><th class="thaksa-col"></th></tr></thead><tbody>';
+ html+='</tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
   const birthCells=birthRows[i].map((v,j)=>'<td><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">เดิม '+toThai(v)+'</span><span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>').join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells;
-  if(i===0)html+='<td class="thaksa-col" rowspan="9">'+renderThaksaStack(oldStart)+'</td><td class="thaksa-col" rowspan="9">'+renderThaksaStack(transitStart)+'</td>';
+  if(i===0)html+='<td class="thaksa-col" rowspan="9">'+renderThaksaStack(oldStart,transitStart)+'</td>';
   html+='</tr>';
  }
  html+='</tbody></table></div>';
