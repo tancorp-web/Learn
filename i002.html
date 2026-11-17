@@ -497,7 +497,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const ageYang=thaksaAgeYang(birthDate,transitDate);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
  let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม (ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง)</th><th class="thaksa-col">ทักษาเดิม</th><th class="thaksa-col">ทักษาจร</th></tr><tr><th></th>';
- for(let i=1;i<=7;i++)html+='<th class="value-col">'+toThai(i)+'</th>';
+ for(let i=1;i<=7;i++)html+='<th class="value-col"><span>ภพ</span><b>'+toThai(i)+'</b><small>เลข</small></th>';
  html+='<th class="thaksa-col"></th><th class="thaksa-col"></th></tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
