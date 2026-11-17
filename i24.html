@@ -1639,16 +1639,32 @@ $('closePreview').addEventListener('click',()=>{
  document.body.style.overflow='';
 });
 $('reset').addEventListener('click',()=>{
- document.querySelectorAll('.form-panel input').forEach(x=>x.value='');
- document.querySelectorAll('.form-panel select').forEach(x=>x.selectedIndex=0);
- $('birthCountry').value='TH';$('transitCountry').value='TH';populateZones('birth');populateZones('transit');
- const currentBE=String(new Date().getFullYear()+543);$('birthYear').value=currentBE;$('transitYear').value=currentBE;
- $('formError').textContent='';initializeBirthToday();initializeTransitNow();$('output').classList.add('hidden');
+ document.querySelectorAll('.form-panel input').forEach(x=>{x.value='';});
+ document.querySelectorAll('.form-panel select').forEach(x=>{x.selectedIndex=0;});
+ $('birthCountry').value='TH';$('transitCountry').value='TH';
+ populateZones('birth');populateZones('transit');
+ $('birthZone').value='Asia/Bangkok';$('transitZone').value='Asia/Bangkok';
+ updateZoneLabel('birth');updateZoneLabel('transit');
+ $('codePanel').classList.add('hidden');$('showCodeForm').setAttribute('aria-expanded','false');
+ $('toggleTransit').classList.remove('hidden');
+ transitVisible=false;
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.remove('show-transit'));
+ $('toggleTransit').textContent='เปิดชุดดาวจร';$('toggleTransit').setAttribute('aria-pressed','false');
+ resetThaksaMarkVisibility();latestBirthRows=null;
+ $('formError').textContent='';
+ initializeBirthToday();initializeTransitNow();
+ $('output').classList.add('hidden');
 });
 function getTimeValue(prefix){const h=$(prefix+'Hour').value,m=$(prefix+'Minute').value;return h!==''&&m!==''?h+':'+m:'';}
 function setTimeValue(prefix,value){const parts=value.split(':');$(prefix+'Hour').value=parts[0];$(prefix+'Minute').value=parts[1];}
-function initializeBirthToday(){setDatePicker('birth','1975-10-14');setTimeValue('time','01:05');$('birthCountry').value='TH';populateZones('birth');$('birthZone').value='Asia/Bangkok';updateZoneLabel('birth');}
-function initializeTransitNow(){const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();setDatePicker('transit',String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'));setTimeValue('transitTime',String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));}
+function initializeBirthToday(){setDatePicker('birth','1991-01-01');setTimeValue('time','01:05');$('birthCountry').value='TH';populateZones('birth');$('birthZone').value='Asia/Bangkok';updateZoneLabel('birth');}
+function initializeTransitNow(){
+ const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+ const get=t=>parts.find(p=>p.type===t)?.value||'00';
+ setDatePicker('transit',get('year')+'-'+get('month')+'-'+get('day'));
+ setTimeValue('transitTime',get('hour')+':'+get('minute'));
+ $('transitCountry').value='TH';populateZones('transit');$('transitZone').value='Asia/Bangkok';updateZoneLabel('transit');
+}
 initDatePickers();
 populateCountries();
 ['birth','transit'].forEach(prefix=>$(prefix+'Zone').addEventListener('change',()=>updateZoneLabel(prefix)));
