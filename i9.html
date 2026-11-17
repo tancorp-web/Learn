@@ -9,7 +9,8 @@
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#28251f;background:#f4f1ea;--ink:#28251f;--muted:#756e63;--line:#e5ded2;--paper:#fff;--soft:#f8f5ef;--accent:#514432}
 *{box-sizing:border-box}body{margin:0;padding:14px}.wrap{max-width:1120px;margin:auto}
 header,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;margin:0 0 14px;box-shadow:0 2px 8px #33250a08}
-header{background:linear-gradient(135deg,#fff,#f6f0e4)}h1{font-size:1.5rem;margin:8px 0 5px}h2{font-size:1.12rem;margin:0 0 13px}h3{font-size:1rem;margin:0 0 10px}
+header{background:linear-gradient(135deg,#fff,#f6f0e4)}h1{font-size:1.5rem;margin:8px 0 5px}
+.program-title{text-align:center;font-size:1.35rem;font-weight:800;line-height:1.45;color:var(--ink);margin:2px 0 3px}.program-credit{text-align:center;font-size:.9rem;font-weight:400;color:var(--muted);line-height:1.45}.program-brand{text-align:center;font-size:.95rem;font-weight:600;color:#665d50;line-height:1.45;margin-bottom:9px}h2{font-size:1.12rem;margin:0 0 13px}h3{font-size:1rem;margin:0 0 10px}
 .sub,.muted,small{color:var(--muted)}.sub{font-size:.92rem}.muted{font-size:.86rem;line-height:1.65}.tag{display:inline-block;background:#eee7da;border-radius:30px;padding:4px 10px;font-size:.78rem}
 .form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field label{display:block;font-size:.88rem;color:#514b43}.field input,.field select{width:100%;padding:11px;border:1px solid #d8d1c6;border-radius:9px;margin-top:5px;font:inherit;background:#fff;color:var(--ink);min-width:0}
 .date-field{grid-column:span 3}.timezone-note{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}.date-selects{display:grid;grid-template-columns:1fr 1.5fr 1.2fr;gap:8px;margin-top:5px}.date-selects select{margin-top:0;min-height:44px}.time-selects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}.time-selects select{margin-top:0;min-height:44px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
@@ -316,7 +317,9 @@ button{padding:10px 15px}
 <body>
 <main class="wrap">
 <header>
-<span class="tag">i9 · ระบบคำนวณ 343</span>
+<div class="program-title">โปรแกรม สัตตเลข 7 ตัว 9 ฐาน</div>
+<div class="program-credit">อาจารย์ธานินทร์ นันต๊ะ</div>
+<div class="program-brand">อสังหาพยากรณ์ โดย โหรธนนทร</div>
 <h1>ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</h1>
 <div class="sub">กรอกวันเดือนปีและเวลาเกิด / วันจร แล้วให้ระบบคำนวณปฏิทินไทยและฐาน 1–9 อัตโนมัติ</div>
 </header>
