@@ -819,7 +819,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
  const waiJon=calculateWaiJon(birthRows,ageYang);
  const transitYama=getTransitYama(transitInfo);
- let html=waiJon?'<div class="wai-jon-summary"><strong>วัยจร:</strong> ฐาน '+toThai(waiJon.row+1)+' · ช่อง '+toThai(waiJon.col+1)+' · ช่วงอายุ '+toThai(waiJon.start)+'–'+toThai(waiJon.end)+' ปี <span>(อายุย่าง '+toThai(ageYang)+' ปี)</span><div class="highlight-legend"><span class="legend-age">อายุจร</span><span class="legend-wai">วัยจร</span></div></div>':'<div class="wai-jon-summary">ไม่สามารถระบุวัยจรได้</div>';
+ let html=waiJon?'<div class="wai-jon-summary"><strong>วัยจร:</strong> ฐาน '+toThai(waiJon.row+1)+' · ช่อง '+toThai(waiJon.col+1)+' · ช่วงอายุ '+toThai(waiJon.start)+'–'+toThai(waiJon.end)+' ปี <span>(อายุย่าง '+toThai(ageYang)+' ปี)</span><div class="highlight-legend"><span class="legend-age">อายุจร</span><span class="legend-wai">วัยจร</span><span class="legend-yama">D = ยามกลางวัน</span><span class="legend-yama">N = ยามกลางคืน</span></div></div>':'<div class="wai-jon-summary">ไม่สามารถระบุวัยจรได้</div>';
  html+='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม · ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง</th></tr></thead><tbody>';
  const agePosition=((ageYang-1)%21)+1;
  for(let i=0;i<9;i++){
