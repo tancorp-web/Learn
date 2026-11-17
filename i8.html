@@ -236,6 +236,21 @@ button{padding:10px 15px}
  #output .summary-card .result-head>div:first-child,
  #output .summary-card .result-head .meta{font-size:9pt!important;line-height:1.45!important}
 }
+/* Separate age-transit and life-period highlights */
+.wai-jon-summary{margin:0 0 10px;padding:10px 12px;border:1px solid #c9d9e8;border-radius:9px;background:#f3f8fc;color:#30485d;font-size:.92rem;line-height:1.6}
+.wai-jon-summary>strong{color:#263f57}
+.highlight-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:5px;font-size:.8rem}
+.highlight-legend span{display:inline-flex;align-items:center;gap:5px}
+.highlight-legend span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;border:1px solid #777}
+.legend-age:before{background:#f4c85b;border-color:#a87512!important}
+.legend-wai:before{background:#b9d9f5;border-color:#3975a5!important}
+.combined-calc tbody td.wai-active{background:#b9d9f5!important;box-shadow:inset 0 0 0 3px #3975a5;color:#183b59}
+.combined-calc tbody td.age-active.wai-active{background:linear-gradient(135deg,#f4c85b 0 48%,#b9d9f5 52% 100%)!important;box-shadow:inset 0 0 0 3px #526b7b;color:#26333b}
+@media print{
+ .wai-jon-summary{font-size:8pt!important;padding:1.5mm 2mm!important;margin-bottom:2mm!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .highlight-legend{font-size:7pt!important}
+ .combined-calc .wai-active{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
 </style>
 </head>
 <body>
@@ -649,18 +664,39 @@ function toggleTransitColumns(){
  btn.textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
  btn.setAttribute('aria-pressed',String(transitVisible));
 }
+function calculateWaiJon(birthRows,ageYang){
+ const cycleAge=((ageYang-1)%84)+1;
+ const cycleNo=Math.floor((ageYang-1)/84);
+ let elapsed=0;
+ for(let col=0;col<7;col++){
+  for(let row=0;row<3;row++){
+   const duration=Number(birthRows[row][col]);
+   const start=elapsed+1,end=elapsed+duration;
+   if(cycleAge>=start&&cycleAge<=end){
+    return {row,col,duration,cycleStart:start,cycleEnd:end,
+     start:cycleNo*84+start,end:cycleNo*84+end,cycleNo:cycleNo+1};
+   }
+   elapsed=end;
+  }
+ }
+ return null;
+}
 function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDate,ageYang){
  const birthRows=calcRows(birthInfo.dayStart,birthInfo.monthStart,birthInfo.yearStart);
  const transitRows=calcRows(transitInfo.dayStart,transitInfo.monthStart,transitInfo.yearStart);
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
- let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม · ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง</th></tr></thead><tbody>';
+ const waiJon=calculateWaiJon(birthRows,ageYang);
+ let html=waiJon?'<div class="wai-jon-summary"><strong>วัยจร:</strong> ฐาน '+toThai(waiJon.row+1)+' · ช่อง '+toThai(waiJon.col+1)+' · ช่วงอายุ '+toThai(waiJon.start)+'–'+toThai(waiJon.end)+' ปี <span>(อายุย่าง '+toThai(ageYang)+' ปี)</span><div class="highlight-legend"><span class="legend-age">อายุจร</span><span class="legend-wai">วัยจร</span></div></div>':'<div class="wai-jon-summary">ไม่สามารถระบุวัยจรได้</div>';
+ html+='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม · ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง</th></tr></thead><tbody>';
  const agePosition=((ageYang-1)%21)+1;
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
   const birthCells=birthRows[i].map((v,j)=>{
    const ageActive=i<3&&((i*7+j+1)===agePosition);
-   return '<td'+(ageActive?' class="age-active" aria-current="true"':'')+'><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
+   const waiActive=!!waiJon&&i===waiJon.row&&j===waiJon.col;
+   const classes=[ageActive?'age-active':'',waiActive?'wai-active':''].filter(Boolean).join(' ');
+   return '<td'+(classes?' class="'+classes+'" aria-current="true"':'')+'><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
