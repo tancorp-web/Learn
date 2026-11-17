@@ -571,12 +571,11 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
  let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม · ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง</th></tr></thead><tbody>';
- const agePosition=(ageYang-1)%21;
- const ageRow=Math.floor(agePosition/7),ageCol=agePosition%7;
+ const agePosition=((ageYang-1)%21)+1;
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
   const birthCells=birthRows[i].map((v,j)=>{
-   const ageActive=i===ageRow&&j===ageCol;
+   const ageActive=Number(v)===agePosition;
    return '<td'+(ageActive?' class="age-active" aria-current="true"':'')+'><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span><span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
