@@ -233,6 +233,23 @@ button{padding:10px 15px}
 @media(max-width:600px){.snake-calc th,.snake-calc td{padding:7px 3px}.snake-calc .house{font-size:13px}.snake-calc .snake-value{font-size:19px}}
 
 </style>
+
+<style id="i12-preview-mode">
+.preview-toolbar{display:none}
+body.preview-mode{background:#e8e5df!important;padding:0!important}
+body.preview-mode header,body.preview-mode .form-panel,body.preview-mode footer{display:none!important}
+body.preview-mode .wrap{max-width:1060px!important;margin:0 auto!important;padding:12px!important}
+body.preview-mode #output{display:block!important;margin-top:0!important;box-shadow:0 3px 18px #0002!important}
+body.preview-mode .preview-toolbar{display:flex!important;position:sticky;top:0;z-index:1000;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:10px;background:#fff;border:1px solid #d8d1c6;border-radius:10px;margin:0 0 12px;box-shadow:0 2px 8px #0002}
+body.preview-mode .preview-toolbar button{min-width:120px}
+body.preview-mode #output .print-brand-header{display:block!important;text-align:center;margin:0 0 12px;padding:8px 4px;border-bottom:1px solid #bdb5a7}
+body.preview-mode #output .print-program-title{font-size:1.15rem;font-weight:800;line-height:1.35}
+body.preview-mode #output .print-program-credit,body.preview-mode #output .print-program-brand{font-size:.9rem;line-height:1.4}
+body.preview-mode #output .print-document-title{font-size:1rem;font-weight:750;margin-top:6px}
+body.preview-mode #output .print-blessing{display:block!important}
+@media(max-width:600px){body.preview-mode .wrap{padding:6px!important}body.preview-mode .preview-toolbar{gap:7px;padding:8px}body.preview-mode .preview-toolbar button{min-width:0;flex:1}}
+@media print{.preview-toolbar{display:none!important}}
+</style>
 <style id="i9-print-system">
 @page{size:A4 portrait;margin:6mm}
 @media print{
@@ -411,6 +428,7 @@ button{padding:10px 15px}
 </section>
 
 <section class="panel hidden" id="output" aria-live="polite">
+<div class="preview-toolbar" id="previewToolbar" aria-label="เครื่องมือพรีวิว"><button type="button" id="previewPrint">พิมพ์ / Save PDF</button><button type="button" class="secondary" id="closePreview">ปิดพรีวิว</button></div>
 <div class="print-brand-header">
  <div class="print-program-title">โปรแกรม สัตตเลข 7 ตัว 9 ฐาน</div>
  <div class="print-program-credit">อาจารย์ธานินทร์ นันต๊ะ</div>
@@ -437,7 +455,7 @@ button{padding:10px 15px}
 <h2>ผลกลบทงูกินหาง</h2><div id="snakeSummary" class="snake-summary">กดชื่อหัวข้อในแถวแรกของตารางหลัก เช่น ปิตา เพื่อเริ่มกลบทงูกินหาง</div><div id="snakeResults"></div>
 </div>
 <div class="export-actions" aria-label="เครื่องมือพิมพ์และบันทึกผล">
- <button type="button" id="print">พิมพ์ / Save PDF</button>
+ <button type="button" id="print">ดูพรีวิว / พิมพ์</button>
 </div>
 
 <div class="print-blessing" aria-label="คำอวยพรและกำลังใจ">
@@ -1161,7 +1179,16 @@ $('calculateCode').addEventListener('click',()=>{
   }
  });
 });
-$('print').addEventListener('click',()=>window.print());
+$('print').addEventListener('click',()=>{
+ if($('output').classList.contains('hidden'))return;
+ document.body.classList.add('preview-mode');
+ $('output').scrollIntoView({behavior:'smooth',block:'start'});
+});
+$('previewPrint').addEventListener('click',()=>window.print());
+$('closePreview').addEventListener('click',()=>{
+ document.body.classList.remove('preview-mode');
+ $('output').scrollIntoView({behavior:'smooth',block:'start'});
+});
 $('reset').addEventListener('click',()=>{
  document.querySelectorAll('.form-panel input').forEach(x=>x.value='');
  document.querySelectorAll('.form-panel select').forEach(x=>x.selectedIndex=0);
