@@ -62,6 +62,39 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .thaksa-cell.center b{font-size:13px}
 .thaksa-cell.center span{font-weight:700;color:#514432}
 @media(max-width:600px){.combined-calc th,.combined-calc td{padding:8px 5px}.combined-calc .house{font-size:15px}.combined-calc .num{font-size:20px}.thaksa-cell{min-height:70px;padding:7px 3px}.thaksa-cell b{font-size:13px}.thaksa-cell span{font-size:12px}}
+/* Readability and side-by-side summary layout */
+.summary-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.summary-card{margin:0!important;min-width:0;padding:20px}
+.summary-card h2{font-size:1.35rem;margin-bottom:12px}
+.result-head{font-size:1.08rem;line-height:1.9;font-weight:600;overflow-wrap:anywhere}
+.result-head>div:first-child{font-size:1.16rem;font-weight:800;color:var(--ink)}
+.result-head .meta{font-size:1rem;line-height:1.8}
+.combined-calc{font-size:16px}
+.combined-calc th,.combined-calc td{padding:12px 7px}
+.combined-calc .house{font-size:17px;line-height:1.45}
+.combined-calc .num{font-size:24px;line-height:1.4}
+.combined-calc .transit-value small{font-size:13px}
+.combined-calc tbody th{font-size:16px}
+.thaksa-cell{min-height:88px;padding:10px 7px}
+.thaksa-cell b{font-size:16px}
+.thaksa-cell .thaksa-number{font-size:26px}
+.thaksa-cell span{font-size:15px;line-height:1.5}
+.thaksa-cell.center b{font-size:15px}
+@media(max-width:680px){
+ .summary-pair{grid-template-columns:1fr}
+ .summary-card{padding:16px}
+ .result-head{font-size:1.02rem}
+ .result-head>div:first-child{font-size:1.1rem}
+ .result-head .meta{font-size:.98rem}
+ .combined-calc th,.combined-calc td{padding:10px 5px}
+ .combined-calc .house{font-size:16px}
+ .combined-calc .num{font-size:23px}
+ .combined-calc tbody th{font-size:15px}
+ .thaksa-cell{min-height:82px}
+ .thaksa-cell b{font-size:15px}
+ .thaksa-cell .thaksa-number{font-size:24px}
+ .thaksa-cell span{font-size:14px}
+}
 @media print{
  @page{size:A4 landscape;margin:8mm}
  body{padding:0}
@@ -111,15 +144,17 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 
 <section class="panel hidden" id="output" aria-live="polite">
 <h2>ผลคำนวณดวงชะตา</h2>
-<div class="panel" style="margin:0 0 16px">
+<div class="summary-pair">
+<div class="panel summary-card birth-card">
 <h2>ดวงกำเนิด</h2>
 <div id="birthSummary" class="result-head"></div>
 <div id="birthTables"></div>
 </div>
-<div class="panel" style="margin:0">
+<div class="panel summary-card transit-card">
 <h2>ดวงจร</h2>
 <div id="transitSummary" class="result-head"></div>
 <div id="transitTables"></div>
+</div>
 </div>
 <div class="panel combined-panel"><h2>ผลฐาน ๑–๙ และทักษา</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button></div><div id="combinedResults"></div></div>
 </section>
