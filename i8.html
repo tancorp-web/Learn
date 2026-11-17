@@ -596,7 +596,8 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
  html+='</tbody></table></div>';
- html+=renderAgeTransit(ageYang);\n html+=renderThaksaGrid(oldStart,transitStart,birthInfo.lunar,transitInfo.lunar);
+ html+=renderAgeTransit(ageYang);
+ html+=renderThaksaGrid(oldStart,transitStart,birthInfo.lunar,transitInfo.lunar);
  $('combinedResults').innerHTML=html;
  document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
  $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
