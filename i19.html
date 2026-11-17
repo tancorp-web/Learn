@@ -84,6 +84,8 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .combined-calc .paired-value{display:flex;flex-direction:column;align-items:center;gap:3px}
 .combined-calc .birth-value{font-weight:800}
 .combined-calc .base4-strength{display:block;text-align:center;font-size:12px;line-height:1.3;font-weight:650;color:#756b5c;margin-top:2px}
+.combined-calc .power-mark{display:none;margin-left:3px;font-size:.68em;font-weight:750;color:#8a5b2b;white-space:nowrap}
+.combined-calc.show-power .power-mark{display:inline}
 .combined-calc .yama-mark{display:inline-block;margin-left:3px;font-size:10px;line-height:1;vertical-align:super;font-weight:800;color:#9a6840;letter-spacing:.02em}
 .timezone-note{line-height:1.4}
 .combined-calc thead th{background:var(--soft);font-weight:700}
@@ -597,7 +599,7 @@ button{padding:10px 15px}
 <div id="transitTables"></div>
 </div>
 </div>
-<div class="panel combined-panel"><h2 id="combinedTitle">ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button></div><div id="combinedResults"></div></div>
+<div class="panel combined-panel"><h2 id="combinedTitle">ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button><button type="button" id="togglePower" class="secondary" aria-pressed="false">เปิดกำลังดาว</button></div><div id="combinedResults"></div></div>
 <div class="panel hidden snake-panel" id="snakePanel" aria-live="polite">
 <h2>ผลกลบทงูกินหาง</h2><div id="snakeSummary" class="snake-summary">กดชื่อหัวข้อในแถวแรกของตารางหลัก เช่น ปิตา เพื่อเริ่มกลบทงูกินหาง</div><div id="snakeResults"></div>
 </div>
@@ -1012,6 +1014,21 @@ function renderSnakeTable(birthRows,startCol){
  html+='</tbody></table></div>';$('snakeResults').innerHTML=html;$('snakePanel').classList.remove('hidden');
 }
 
+const powerPlanetByNumber={7:2,8:3,9:4,10:7,11:5,12:8,13:6,14:1,15:2,16:3,17:4,18:7,19:5,20:8,21:6};
+let powerVisible=false;
+function renderPowerMark(value){
+ const planet=powerPlanetByNumber[Number(value)];
+ return planet?'<span class="power-mark" aria-label="ดาว '+planet+'">('+planet+')</span>':'';
+}
+function togglePowerMarks(){
+ powerVisible=!powerVisible;
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-power',powerVisible));
+ const btn=$('togglePower');
+ btn.textContent=powerVisible?'ปิดกำลังดาว':'เปิดกำลังดาว';
+ btn.setAttribute('aria-pressed',String(powerVisible));
+}
+$('togglePower').addEventListener('click',togglePowerMarks);
+
 let transitVisible=false;
 function toggleTransitColumns(){
  transitVisible=!transitVisible;
@@ -1089,14 +1106,14 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
    const classes=[ageActive?'age-active':'',waiActive?'wai-active':''].filter(Boolean).join(' ');
    const houseLabel=(houseSet?houseSet[j]:'');
    const houseHtml=i===0?'<button type="button" class="snake-pick" data-snake-col="'+j+'" title="กลบทงูกินหางที่ '+houseLabel+'">'+houseLabel+'</button>':houseLabel;
-   return '<td'+(classes?' class="'+classes+'" aria-current="true"':'')+'><span class="house">'+houseHtml+'</span><span class="paired-value"><button type="button" class="birth-value main-number" data-main-number="'+v+'" aria-label="เน้นเลข '+toThai(v)+'">'+toThai(v)+'</button>'+(i===0&&transitYama&&Number(v)===transitYama.planet?'<small class="yama-mark" aria-label="ดาวประจำยาม">'+transitYama.letter+'</small>':'')+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
+   return '<td'+(classes?' class="'+classes+'" aria-current="true"':'')+'><span class="house">'+houseHtml+'</span><span class="paired-value"><button type="button" class="birth-value main-number" data-main-number="'+v+'" aria-label="เน้นเลข '+toThai(v)+'">'+toThai(v)+'</button>'+(i===0&&transitYama&&Number(v)===transitYama.planet?'<small class="yama-mark" aria-label="ดาวประจำยาม">'+transitYama.letter+'</small>':'')+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+(i===3?renderPowerMark(v):'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
  html+='</tbody></table></div>';
  html+=renderThaksaGrid(oldStart,transitStart,birthInfo.lunar,transitInfo.lunar);
  $('combinedResults').innerHTML=html;
- document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-transit',transitVisible));
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>{el.classList.toggle('show-transit',transitVisible);el.classList.toggle('show-power',powerVisible);});
  $('toggleTransit').textContent=transitVisible?'ปิดชุดดาวจร':'เปิดชุดดาวจร';
  $('toggleTransit').setAttribute('aria-pressed',String(transitVisible));
 }
@@ -1113,12 +1130,13 @@ function renderCodeTable(seed1,seed2,seed3){
   const cells=rows[i].map((v,j)=>{
    const houseLabel=houseSet?houseSet[j]:'';
    const houseHtml=i===0?'<button type="button" class="snake-pick" data-snake-col="'+j+'" title="กลบทงูกินหางที่ '+houseLabel+'">'+houseLabel+'</button>':houseLabel;
-   return '<td><span class="house">'+houseHtml+'</span><button type="button" class="birth-value main-number" data-main-number="'+v+'" aria-label="เน้นเลข '+toThai(v)+'">'+toThai(v)+'</button>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'</td>';
+   return '<td><span class="house">'+houseHtml+'</span><button type="button" class="birth-value main-number" data-main-number="'+v+'" aria-label="เน้นเลข '+toThai(v)+'">'+toThai(v)+'</button>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+(i===3?renderPowerMark(v):'')+'</td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+cells+'</tr>';
  }
  html+='</tbody></table></div>';
  $('combinedResults').innerHTML=html;
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>el.classList.toggle('show-power',powerVisible));
  $('toggleTransit').classList.add('hidden');
  $('combinedResults').insertAdjacentHTML('afterbegin','<div class="snake-summary"><strong>รหัสชะตา:</strong> คอลัมน์แรกของตาราง ๗ ตัวเดิม = '+[seed1,seed2,seed3].map(toThai).join(' · ')+'<br>คำนวณฐาน ๑–๙ ด้วยกระบวนการเดิม สามารถกดหัวข้อแถวแรกเพื่อกลบทงูกินหางได้</div>');
 }
