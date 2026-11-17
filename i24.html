@@ -1576,10 +1576,19 @@ function applyPrintScale(){
  $('printScaleValue').textContent=percent+'%';
  const printOutput=$('previewStage').querySelector('#output');
  if(printOutput){
-  /* ขยายพื้นที่จัดวางตามอัตราส่วนก่อนย่อทั้งหน้า เพื่อรักษาสัดส่วนคอลัมน์และข้อความ */
-  printOutput.style.setProperty('width','calc(100% / '+scale+')','important');
-  printOutput.style.setProperty('max-width','none','important');
+  /* จำกัดหน้าและตารางให้อยู่ในกรอบ A4 แล้วปรับขนาดเอกสารทั้งชุด */
+  printOutput.style.setProperty('box-sizing','border-box','important');
+  printOutput.style.setProperty('width','100%','important');
+  printOutput.style.setProperty('min-width','0','important');
+  printOutput.style.setProperty('max-width','100%','important');
   printOutput.style.setProperty('zoom',String(scale),'important');
+  printOutput.querySelectorAll('table,.combined-calc').forEach(table=>{
+   table.style.setProperty('box-sizing','border-box','important');
+   table.style.setProperty('width','100%','important');
+   table.style.setProperty('min-width','0','important');
+   table.style.setProperty('max-width','100%','important');
+   table.style.setProperty('table-layout','fixed','important');
+  });
  }
 }
 $('printScale').addEventListener('input',applyPrintScale);
