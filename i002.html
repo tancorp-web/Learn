@@ -511,12 +511,16 @@ function thaksaRoleMap(start){
 function renderThaksaGrid(birthStart,transitStart,birthLunar,transitLunar){
  const birthMap=thaksaRoleMap(birthStart);
  const transitMap=thaksaRoleMap(transitStart);
- const positions=[thaksaPlanets[0],thaksaPlanets[1],thaksaPlanets[2],thaksaPlanets[7],null,thaksaPlanets[3],thaksaPlanets[6],thaksaPlanets[5],thaksaPlanets[4]];
+ const positions=[
+  {planet:'อาทิตย์',number:'๑'},{planet:'จันทร์',number:'๒'},{planet:'อังคาร',number:'๓'},
+  {planet:'ศุกร์',number:'๖'},null,{planet:'พุธ',number:'๔'},
+  {planet:'ราหู',number:'๘'},{planet:'พฤหัสบดี',number:'๕'},{planet:'เสาร์',number:'๗'}
+ ];
  const monthStatus=lunar=>lunar&&lunar.isAdhikamas?'อธิกมาส':'ปกติมาส';
- return '<section class="thaksa-section"><h3>ทักษาเดิม / ทักษาจร</h3><div class="thaksa-grid">'+positions.map(planet=>{
-  if(!planet)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>เดือนเกิด: '+monthStatus(birthLunar)+'</span><span>เดือนจร: '+monthStatus(transitLunar)+'</span></div>';
-  const planetNumbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘'};
-  return '<div class="thaksa-cell"><b class="thaksa-number">'+planetNumbers[planet]+'</b><span>'+(birthMap[planet]||'—')+'เดิม / '+(transitMap[planet]||'—')+'จร</span></div>';
+ return '<section class="thaksa-section"><h3>ทักษาเดิม / ทักษาจร</h3><div class="thaksa-grid">'+positions.map(item=>{
+  if(!item)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>เดือนเกิด: '+monthStatus(birthLunar)+'</span><span>เดือนจร: '+monthStatus(transitLunar)+'</span></div>';
+  const planet=item.planet;
+  return '<div class="thaksa-cell"><b class="thaksa-number">'+item.number+'</b><span>'+(birthMap[planet]||'—')+'เดิม / '+(transitMap[planet]||'—')+'จร</span></div>';
  }).join('')+'</div></section>';
 }
 let transitVisible=false;
