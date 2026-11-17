@@ -1695,5 +1695,27 @@ initializeTransitNow();
 #combinedResults .combined-calc tbody tr:nth-child(4) th{background-color:#d6e0e9!important}
 </style>
 
+
+<style id="i24-compact-date-summary">
+/* ลดพื้นที่ส่วนวันเกิด/วันเวลาจร โดยคงตารางหลักให้อ่านชัด */
+@media print{
+ #output>.summary-pair{gap:1mm!important;margin-bottom:.8mm!important}
+ #output>.summary-pair>.summary-card{padding:1.1mm!important;margin:0!important}
+ #output>.summary-pair>.summary-card h2{font-size:8pt!important;margin:0 0 .5mm!important;line-height:1.1!important}
+ #output .result-head .date-entered{
+  font-size:6.4pt!important;line-height:1.05!important;margin:0!important;padding:0!important;gap:0 .5mm!important
+ }
+ #output .result-head .date-entered strong{font-size:6.4pt!important}
+ #output .result-head .date-suriyayatra{
+  font-size:6.4pt!important;line-height:1.05!important;margin:.2mm 0!important;padding:.25mm .6mm!important;border-left-width:2px!important
+ }
+ #output .result-head .date-suriyayatra strong{font-size:6.4pt!important}
+ #output .result-head .date-suriyayatra span{font-size:5.8pt!important;line-height:1.05!important;margin:0!important}
+ #output .summary-card .result-head,
+ #output .summary-card .result-head>div,
+ #output .summary-card .result-head>div:first-child,
+ #output .summary-card .result-head .meta{line-height:1.08!important}
+}
+</style>
 </body>
 </html>
