@@ -390,7 +390,11 @@ button{padding:10px 15px}
  #output .result-head .date-suriyayatra span{font-size:6.2pt!important;line-height:1.1!important}
  #output .result-head .year-line{font-size:7.5pt!important;line-height:1.15!important}
  #output .summary-card .result-head .meta{font-size:6.6pt!important;line-height:1.12!important}
- #output .summary-card{break-inside:avoid!important;page-break-inside:avoid!important}
+ /* ไม่บังคับย้ายการ์ดทั้งใบไปหน้าใหม่จนเหลือแต่หัวข้อบนหน้าแรก */
+ #output .summary-card{break-inside:auto!important;page-break-inside:auto!important}
+ #output .summary-card *{orphans:1;widows:1}
+ #previewOverlay #output{break-before:auto!important;page-break-before:auto!important;break-after:avoid!important;page-break-after:avoid!important}
+ #previewOverlay #output>.print-brand-header{break-before:avoid!important;page-break-before:avoid!important}
  #output .combined-panel{margin-top:1mm!important}
 
 }
