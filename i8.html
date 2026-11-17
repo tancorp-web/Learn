@@ -70,7 +70,6 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .combined-calc tbody th{white-space:nowrap;background:#faf8f3}
 .combined-calc .base-col{width:70px}
 .combined-calc tbody td.age-active{background:#f4c85b!important;box-shadow:inset 0 0 0 3px #a87512;color:#392800}
- .thaksa-cell.age-active{background:#f4c85b!important;border:2px solid #a87512;color:#392800;box-shadow:inset 0 0 0 1px #a87512}
 .thaksa-section{margin-top:18px}
 .thaksa-section h3{font-size:1.1rem;margin:0 0 9px}
 .thaksa-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
@@ -556,8 +555,7 @@ function renderThaksaGrid(birthStart,transitStart,birthLunar,transitLunar){
  return '<section class="thaksa-section"><h3>ทักษาเดิม / ทักษาจร</h3><div class="thaksa-grid">'+positions.map(item=>{
   if(!item)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>เดือนเกิด: '+monthStatus(birthLunar)+'</span><span>เดือนจร: '+monthStatus(transitLunar)+'</span></div>';
   const planet=item.planet;
-  const ageActive=transitMap[planet]==='อายุ';
-  return '<div class="thaksa-cell'+(ageActive?' age-active':'')+'"><b class="thaksa-number">'+item.number+'</b><span>'+(birthMap[planet]||'—')+'เดิม / '+(transitMap[planet]||'—')+'จร</span></div>';
+  return '<div class="thaksa-cell"><b class="thaksa-number">'+item.number+'</b><span>'+(birthMap[planet]||'—')+'เดิม / '+(transitMap[planet]||'—')+'จร</span></div>';
  }).join('')+'</div></section>';
 }
 let transitVisible=false;
@@ -574,10 +572,12 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
  const oldStart=thaksaBirthPlanet(birthDate,birthTime);
  const transitStart=thaksaTransitPlanet(oldStart,ageYang);
  let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ดาวเดิม · ตัวเลขดาวจรซ่อนอยู่ในแต่ละช่อง</th></tr></thead><tbody>';
+ const agePosition=((ageYang-1)%21)+1;
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
   const birthCells=birthRows[i].map((v,j)=>{
-   return '<td><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
+   const ageActive=i<3&&((i*7+j+1)===agePosition);
+   return '<td'+(ageActive?' class="age-active" aria-current="true"':'')+'><span class="house">'+(houseSet?houseSet[j]:'')+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
