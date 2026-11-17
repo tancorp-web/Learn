@@ -33,6 +33,22 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 @media(max-width:760px){body{padding:8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.date-field{grid-column:span 2}.optional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:1fr}.group-list{grid-template-columns:1fr}header,.panel{padding:13px}h1{font-size:1.25rem}}
 @media(max-width:390px){.form-grid{grid-template-columns:1fr}.date-field{grid-column:span 1}.optional-grid{grid-template-columns:1fr}}
 @media print{body{background:#fff;padding:0}.panel,header{box-shadow:none;break-inside:avoid}.form-panel,.actions,footer{display:none!important}.table-scroll{overflow:visible}table.calc{min-width:0;font-size:10px}.num{font-size:1rem}}
+
+/* Larger, clearer Thai typography for base 1–9 */
+.combined-calc{font-size:18px}
+.combined-calc th,.combined-calc td{padding:14px 7px}
+.combined-calc thead th{font-size:17px;line-height:1.5}
+.combined-calc .house{font-size:20px;font-weight:750;line-height:1.5;min-height:2.7em}
+.combined-calc .birth-value{font-size:29px;line-height:1.45}
+.combined-calc .transit-value small{font-size:15px;line-height:1.5}
+.combined-calc tbody th{font-size:18px;line-height:1.5}
+@media(max-width:600px){
+ .combined-calc th,.combined-calc td{padding:11px 5px}
+ .combined-calc .house{font-size:18px;line-height:1.5;min-height:2.7em}
+ .combined-calc .birth-value{font-size:26px;line-height:1.45}
+ .combined-calc .transit-value small{font-size:13px}
+ .combined-calc tbody th{font-size:16px}
+}
 </style>
 
 <style>
