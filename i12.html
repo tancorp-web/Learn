@@ -897,7 +897,7 @@ function renderCodeTable(seed1,seed2,seed3){
  const rows=calcRowsFromSeeds(seedRows[0],seedRows[1],seedRows[2]);
  latestBirthRows=rows.map(row=>row.slice());
  $('snakePanel').classList.add('hidden');
- $('.summary-pair').classList.add('hidden');
+ document.querySelector('.summary-pair').classList.add('hidden');
  let html='<div class="table-scroll combined-scroll"><table class="combined-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ตารางรหัสชะตา · ตาราง ๗ ตัวเดิม</th></tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];
