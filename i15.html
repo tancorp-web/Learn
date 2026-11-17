@@ -452,7 +452,7 @@ button{padding:10px 15px}
 <div class="program-title">โปรแกรม สัตตเลข 7 ตัว 9 ฐาน</div>
 <div class="program-credit">อาจารย์ธานินทร์ นันต๊ะ</div>
 <div class="program-brand">อสังหาพยากรณ์ โดย โหรธนนทร</div>
-<h1>ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</h1>
+
 <div class="sub">กรอกวันเดือนปีและเวลาเกิด / วันจร แล้วให้ระบบคำนวณปฏิทินไทยและฐาน 1–9 อัตโนมัติ</div>
 </header>
 
@@ -494,7 +494,7 @@ button{padding:10px 15px}
  <div class="print-program-title">โปรแกรม สัตตเลข 7 ตัว 9 ฐาน</div>
  <div class="print-program-credit">อาจารย์ธานินทร์ นันต๊ะ</div>
  <div class="print-program-brand">อสังหาพยากรณ์ โดย โหรธนนทร</div>
- <div class="print-document-title" id="printDocumentTitle">ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</div>
+ <div class="print-document-title" id="printDocumentTitle"></div>
  
 </div>
 <h2 id="outputTitle">ผลคำนวณดวงชะตา</h2>
@@ -1185,7 +1185,7 @@ function calculate(codeSeeds=null){
   $('calculationMode').textContent=codeMode?'การคำนวณรหัสชะตา · สัตตเลข 7 ตัว 9 ฐาน แบบรหัสชะตา':'';
   $('calculationMode').classList.toggle('hidden',!codeMode);
   $('combinedTitle').textContent=codeMode?'ตารางคำนวณรหัสชะตา · สัตตเลข 7 ตัว 9 ฐาน แบบรหัสชะตา':'ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน';
-  $('printDocumentTitle').textContent=codeMode?'การคำนวณรหัสชะตา · สัตตเลข 7 ตัว 9 ฐาน แบบรหัสชะตา':'ตารางวิเคราะห์ดวงชะตา · 9 ฐาน';
+  $('printDocumentTitle').textContent=codeMode?'การคำนวณรหัสชะตา · สัตตเลข 7 ตัว 9 ฐาน แบบรหัสชะตา':'';
   renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date,ageYang,codeSeeds);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
