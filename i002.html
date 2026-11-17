@@ -483,7 +483,7 @@ function renderThaksaGrid(birthStart,transitStart,birthLunar,transitLunar){
  return '<section class="thaksa-section"><h3>ทักษาเดิม / ทักษาจร</h3><div class="thaksa-grid">'+positions.map(planet=>{
   if(!planet)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>เดือนเกิด: '+monthStatus(birthLunar)+'</span><span>เดือนจร: '+monthStatus(transitLunar)+'</span></div>';
   const planetNumbers={'อาทิตย์':'๑','จันทร์':'๒','อังคาร':'๓','พุธ':'๔','พฤหัสบดี':'๕','ศุกร์':'๖','เสาร์':'๗','ราหู':'๘'};
-  return '<div class="thaksa-cell"><b class="thaksa-number">'+planetNumbers[planet]+'</b><span>เดิม: '+(birthMap[planet]||'—')+'</span><span>จร: '+(transitMap[planet]||'—')+'</span></div>';
+  return '<div class="thaksa-cell"><b class="thaksa-number">'+planetNumbers[planet]+'</b><span>'+(birthMap[planet]||'—')+'เดิม / '+(transitMap[planet]||'—')+'จร</span></div>';
  }).join('')+'</div></section>';
 }
 let transitVisible=false;
