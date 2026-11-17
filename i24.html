@@ -1572,9 +1572,15 @@ document.addEventListener('keydown',event=>{
 });
 function applyPrintScale(){
  const percent=Number($('printScale').value)||100;
+ const scale=percent/100;
  $('printScaleValue').textContent=percent+'%';
  const printOutput=$('previewStage').querySelector('#output');
- if(printOutput)printOutput.style.setProperty('zoom',String(percent/100),'important');
+ if(printOutput){
+  /* ขยายพื้นที่จัดวางตามอัตราส่วนก่อนย่อทั้งหน้า เพื่อรักษาสัดส่วนคอลัมน์และข้อความ */
+  printOutput.style.setProperty('width','calc(100% / '+scale+')','important');
+  printOutput.style.setProperty('max-width','none','important');
+  printOutput.style.setProperty('zoom',String(scale),'important');
+ }
 }
 $('printScale').addEventListener('input',applyPrintScale);
 $('previewPrint').addEventListener('click',()=>{
