@@ -235,7 +235,7 @@ button{padding:10px 15px}
 </style>
 
 <style id="i9-print-system">
-@page{size:A4 portrait;margin:4mm}
+@page{size:A4 portrait;margin:6mm}
 @media print{
  html,body{margin:0!important;padding:0!important;width:auto!important;height:auto!important;background:#fff!important}
  body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
@@ -278,8 +278,12 @@ button{padding:10px 15px}
   overflow:visible!important;zoom:1!important;transform:none!important
  }
  #output>.summary-pair{
-  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-  gap:2mm!important;margin:0 0 2mm!important;align-items:start!important
+  display:block!important;width:100%!important;margin:0 0 2mm!important
+ }
+ #output>.summary-pair>.summary-card{
+  display:block!important;width:100%!important;max-width:none!important;
+  box-sizing:border-box!important;margin:0 0 3mm!important;padding:3mm!important;
+  break-inside:avoid!important;page-break-inside:avoid!important
  }
  /* โหมดรหัสชะตา: ไม่ให้กฎ grid ของหน้าพิมพ์เปิดส่วนสรุปดวงที่ถูกซ่อนไว้ */
  #output>.summary-pair.hidden{
@@ -290,28 +294,28 @@ button{padding:10px 15px}
  }
  #output .panel{
   box-shadow:none!important;border:1px solid #c9c4bb!important;border-radius:2mm!important;
-  margin:0 0 2mm!important;padding:1.5mm!important;
-  break-inside:avoid!important;page-break-inside:avoid!important
+  margin:0 0 3mm!important;padding:3mm!important;
+  break-inside:auto!important;page-break-inside:auto!important
  }
- #output .summary-card{min-width:0!important;padding:1.5mm!important}
- #output h2{font-size:9pt!important;line-height:1.15!important;margin:0 0 1mm!important}
- #output h3{font-size:8pt!important;line-height:1.15!important;margin:0 0 1mm!important}
+ #output .summary-card{min-width:0!important;padding:3mm!important}
+ #output h2{font-size:10pt!important;line-height:1.2!important;margin:0 0 1.5mm!important}
+ #output h3{font-size:9pt!important;line-height:1.2!important;margin:0 0 1.5mm!important}
  #output .result-head,
  #output .summary-card .result-head,
  #output .summary-card .result-head>div,
  #output .summary-card .result-head>div:first-child,
  #output .summary-card .result-head .meta,
  #output .summary-card .result-head .year-line{
-  font-size:7pt!important;line-height:1.18!important;overflow-wrap:anywhere!important
+  font-size:8.5pt!important;line-height:1.25!important;overflow-wrap:anywhere!important
  }
  #output .result-head .date-entered,
  #output .result-head .date-suriyayatra{
   display:flex!important;gap:0.5mm 1mm!important;margin:.5mm 0!important;
-  padding:.5mm 1mm!important;font-size:6.5pt!important;line-height:1.12!important
+  padding:.7mm 1mm!important;font-size:8pt!important;line-height:1.2!important
  }
  #output .result-head .date-entered strong,
- #output .result-head .date-suriyayatra strong{font-size:6.5pt!important}
- #output .result-head .date-suriyayatra span{font-size:6pt!important;line-height:1.1!important}
+ #output .result-head .date-suriyayatra strong{font-size:8pt!important}
+ #output .result-head .date-suriyayatra span{font-size:7.5pt!important;line-height:1.2!important}
  #output .combined-panel{padding:1.5mm!important;margin:0 0 2mm!important}
  #output #combinedResults,#output .combined-scroll,#output .table-scroll{
   display:block!important;width:100%!important;max-width:100%!important;
@@ -324,10 +328,10 @@ button{padding:10px 15px}
  }
  #output .combined-calc th,#output .combined-calc td,
  #output table.calc th,#output table.calc td{
-  padding:1mm .5mm!important;font-size:8pt!important;line-height:1.12!important;
+  padding:1mm .5mm!important;font-size:9pt!important;line-height:1.2!important;
   overflow-wrap:anywhere!important;word-break:normal!important
  }
- #output .combined-calc thead th{font-size:7pt!important;line-height:1.12!important}
+ #output .combined-calc thead th{font-size:8pt!important;line-height:1.2!important}
  #output .combined-calc .base-col{width:9%!important}
  #output .combined-calc .house{font-size:7pt!important;line-height:1.12!important;min-height:0!important}
  #output .combined-calc .birth-value{font-size:15pt!important;line-height:1.05!important}
@@ -337,7 +341,7 @@ button{padding:10px 15px}
  #output .wai-jon-summary{font-size:7pt!important;line-height:1.2!important;padding:1mm 1.5mm!important;margin:0 0 1mm!important}
  #output .highlight-legend{font-size:6pt!important;margin-top:.5mm!important;gap:2mm!important}
  #output .combined-calc tr{break-inside:avoid!important;page-break-inside:avoid!important}
- #output .thaksa-section{margin-top:1.5mm!important;break-inside:avoid!important;page-break-inside:avoid!important}
+ #output .thaksa-section{margin-top:2mm!important;break-inside:auto!important;page-break-inside:auto!important}
  #output .thaksa-section h3{font-size:8pt!important;margin:0 0 1mm!important}
  #output .thaksa-grid{gap:1mm!important}
  #output .thaksa-cell{min-height:0!important;padding:1mm .5mm!important;border-radius:1mm!important}
@@ -348,13 +352,6 @@ button{padding:10px 15px}
  #output .age-active,#output .wai-active,#output .date-suriyayatra,
  #output .combined-calc *{
   print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important
- }
- /* ย่อเอกสารทั้งชุดเฉพาะตอนพิมพ์ เพื่อให้ผลลัพธ์อยู่ใน A4 หน้าเดียว */
- #output{
-  zoom:.78!important;
-  width:128.205%!important;
-  transform:none!important;
-  transform-origin:top left!important
  }
 }
 </style>
