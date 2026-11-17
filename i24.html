@@ -435,7 +435,9 @@ button{padding:10px 15px}
 #previewOverlay .preview-toolbar{position:sticky;top:0;z-index:2;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;max-width:1060px;margin:0 auto 12px;padding:10px;background:#fff;border:1px solid #d8d1c6;border-radius:10px;box-shadow:0 2px 8px #0002}
 #previewOverlay .preview-toolbar strong{width:100%;text-align:center;font-size:1rem}
 #previewOverlay .preview-scale{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;width:100%;font-size:.92rem;color:#514b43}
-#previewOverlay .preview-scale input{width:min(280px,52vw);accent-color:#514432}
+#previewOverlay .preview-scale-buttons{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+#previewOverlay .preview-scale-buttons button{min-width:58px;padding:8px 11px;font-size:.9rem}
+#previewOverlay .preview-scale-buttons button.active{background:#514432;color:#fff;box-shadow:0 0 0 2px #c9bda8}
 #previewOverlay .preview-scale output{min-width:48px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
 #previewOverlay .preview-toolbar button{min-width:130px}
 #previewOverlay #output{display:block!important;max-width:1060px;margin:0 auto 20px;background:#fff;box-shadow:0 3px 18px #0002}
@@ -757,11 +759,17 @@ button{padding:10px 15px}
 <div id="previewOverlay" aria-label="ตัวอย่างเอกสารก่อนพิมพ์" aria-hidden="true">
  <div class="preview-toolbar">
   <strong>ตัวอย่างเอกสารก่อนพิมพ์ · i24</strong>
-  <label class="preview-scale" for="printScale">
+  <div class="preview-scale">
    <span>ปรับขนาดก่อนพิมพ์</span>
-   <input type="range" id="printScale" min="60" max="120" step="5" value="100">
-   <output id="printScaleValue" for="printScale">100%</output>
-  </label>
+   <div class="preview-scale-buttons" role="group" aria-label="เลือกระดับการซูม">
+    <button type="button" class="secondary" data-print-scale="50" aria-pressed="false">50%</button>
+    <button type="button" class="secondary" data-print-scale="60" aria-pressed="false">60%</button>
+    <button type="button" class="secondary" data-print-scale="65" aria-pressed="false">65%</button>
+    <button type="button" class="secondary" data-print-scale="70" aria-pressed="false">70%</button>
+    <button type="button" data-print-scale="100" class="active" aria-pressed="true">100%</button>
+   </div>
+   <output id="printScaleValue">100%</output>
+  </div>
   <button type="button" id="previewPrint">พิมพ์ / Save PDF</button>
   <button type="button" class="secondary" id="closePreview">ปิดพรีวิว</button>
  </div>
@@ -1571,7 +1579,8 @@ document.addEventListener('keydown',event=>{
  if(event.key==='Escape'&&$('previewOverlay').classList.contains('open'))$('closePreview').click();
 });
 function applyPrintScale(){
- const percent=Number($('printScale').value)||100;
+ const selectedScale=$('previewOverlay').querySelector('.preview-scale-buttons button.active');
+ const percent=Number(selectedScale?.getAttribute('data-print-scale'))||100;
  const scale=percent/100;
  $('printScaleValue').textContent=percent+'%';
  const printOutput=$('previewStage').querySelector('#output');
@@ -1591,7 +1600,16 @@ function applyPrintScale(){
   });
  }
 }
-$('printScale').addEventListener('input',applyPrintScale);
+$('previewOverlay').querySelectorAll('.preview-scale-buttons [data-print-scale]').forEach(button=>{
+ button.addEventListener('click',()=>{
+  $('previewOverlay').querySelectorAll('.preview-scale-buttons [data-print-scale]').forEach(item=>{
+   const active=item===button;
+   item.classList.toggle('active',active);
+   item.setAttribute('aria-pressed',String(active));
+  });
+  applyPrintScale();
+ });
+});
 $('previewPrint').addEventListener('click',()=>{
  applyPrintScale();
  document.body.classList.add('printing-preview');
