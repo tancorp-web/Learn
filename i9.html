@@ -972,7 +972,7 @@ function buildExportDocument(title){
  const styles=Array.from(document.querySelectorAll('style')).map(el=>el.textContent).join('\n');
  const result=$('output').cloneNode(true);result.classList.remove('hidden');
  result.querySelectorAll('.export-actions').forEach(el=>el.remove());
- const previewStyles='<style id="i9-preview-full-width">html,body{width:100%;min-width:0;margin:0;padding:0}body{padding:12px!important}.wrap{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}#output{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important}</style>';
+ const previewStyles='<style id="i9-preview-full-width">*,*::before,*::after{box-sizing:border-box}html,body{width:100%;min-width:0;max-width:100%;margin:0;padding:0;overflow-x:hidden}body{padding:8px!important}.wrap{display:block;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}#output{display:block;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}.table-scroll,.combined-scroll{display:block;width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:visible!important}table.calc,.combined-calc{width:100%!important;max-width:100%!important;min-width:0!important;table-layout:fixed!important}table.calc th,table.calc td,.combined-calc th,.combined-calc td{overflow-wrap:anywhere;word-break:normal}</style>';
  return '<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+styles+'</style>'+previewStyles+'</head><body><main class="wrap">'+result.outerHTML+'</main></body></html>';
 }
 function openPreview(){
