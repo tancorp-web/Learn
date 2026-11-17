@@ -65,6 +65,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
  .combined-calc .transit-value small{font-size:13px}
  .combined-calc tbody th{font-size:16px}
 }
+.code-mode-banner{margin:0 0 12px;padding:11px 14px;border:1px solid #c9d8ca;border-left:4px solid #789878;border-radius:9px;background:#f1f6f0;color:#31543a;font-weight:750;line-height:1.6}
 .code-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:10px 0}.code-grid .field label{display:block!important;font-size:.95rem;font-weight:750;color:#383127;margin-bottom:4px}.code-grid .field input{font-size:1.2rem;font-weight:750;text-align:center;min-height:48px}.code-hint{display:block!important;margin-top:5px;color:#756e63;font-size:.82rem}
 @media(max-width:520px){.code-grid{grid-template-columns:1fr}}
 </style>
@@ -392,10 +393,11 @@ button{padding:10px 15px}
  <div class="print-program-title">โปรแกรม สัตตเลข 7 ตัว 9 ฐาน</div>
  <div class="print-program-credit">อาจารย์ธานินทร์ นันต๊ะ</div>
  <div class="print-program-brand">อสังหาพยากรณ์ โดย โหรธนนทร</div>
- <div class="print-document-title">ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</div>
+ <div class="print-document-title" id="printDocumentTitle">ตารางวิเคราะห์ดวงชะตา · 9 ฐาน</div>
  
 </div>
-<h2>ผลคำนวณดวงชะตา</h2>
+<h2 id="outputTitle">ผลคำนวณดวงชะตา</h2>
+<div id="calculationMode" class="code-mode-banner hidden"></div>
 <div class="summary-pair">
 <div class="panel summary-card birth-card">
 <h2>ดวงกำเนิด</h2>
@@ -408,7 +410,7 @@ button{padding:10px 15px}
 <div id="transitTables"></div>
 </div>
 </div>
-<div class="panel combined-panel"><h2>ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button></div><div id="combinedResults"></div></div>
+<div class="panel combined-panel"><h2 id="combinedTitle">ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button></div><div id="combinedResults"></div></div>
 <div class="panel hidden snake-panel" id="snakePanel" aria-live="polite">
 <h2>ผลกลบทงูกินหาง</h2><div id="snakeSummary" class="snake-summary">กดชื่อหัวข้อในแถวแรกของตารางหลัก เช่น ปิตา เพื่อเริ่มกลบทงูกินหาง</div><div id="snakeResults"></div>
 </div>
@@ -1058,6 +1060,12 @@ function calculate(codeSeeds=null){
   renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)',birthYearBE,'',birth,birthTime,birthLocal.time);
   const transitCountry=$('transitCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
   renderInfo('transit',transitInfo,'',transitCountry+' · '+transitLocal.offsetLabel,'จร (เทียบเวลาไทย)',transitYearBE,'อายุครบ '+toThai(ageComplete)+' ปี · อายุย่าง '+toThai(ageYang)+' ปี',transit,transitTime,transitLocal.time);
+  const codeMode=Array.isArray(codeSeeds)&&codeSeeds.length===3;
+  $('outputTitle').textContent=codeMode?'ผลคำนวณรหัสชะตา':'ผลคำนวณดวงชะตา';
+  $('calculationMode').textContent=codeMode?'การคำนวณรหัสชะตา · สัตตเลข 7 ตัว 9 ฐาน แบบรหัสชะตา':'';
+  $('calculationMode').classList.toggle('hidden',!codeMode);
+  $('combinedTitle').textContent=codeMode?'ตารางคำนวณรหัสชะตา · สัตตเลข 7 ตัว 9 ฐาน แบบรหัสชะตา':'ตารางคำนวณโหราศาสตร์ สัตตเลข 7 ตัว 9 ฐาน';
+  $('printDocumentTitle').textContent=codeMode?'การคำนวณรหัสชะตา · สัตตเลข 7 ตัว 9 ฐาน แบบรหัสชะตา':'ตารางวิเคราะห์ดวงชะตา · 9 ฐาน';
   renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date,ageYang,codeSeeds);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
@@ -1108,6 +1116,7 @@ $('calculateCode').addEventListener('click',()=>{
  input.addEventListener('input',()=>{
   input.value=input.value.replace(/[^1-7]/g,'').slice(0,1);
   if(input.value&&index<2)$(['codeRow1','codeRow2','codeRow3'][index+1]).focus();
+  else if(input.value&&index===2){input.blur();$('calculateCode').focus();}
  });
  input.addEventListener('keydown',event=>{
   if(event.key==='Backspace'&&!input.value&&index>0){
