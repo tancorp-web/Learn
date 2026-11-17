@@ -1565,15 +1565,10 @@ $('previewPrint').addEventListener('click',()=>{
  document.body.classList.add('printing-preview');
  window.print();
 });
-/* i24: ปรับผลพิมพ์ให้พอดีกระดาษ A4 หน้าเดียว โดยไม่เปลี่ยนข้อมูล */
+/* i24: รักษาขนาดตัวอักษรจริงในการพิมพ์ A4 ไม่ย่อทั้งหน้า */
 window.addEventListener('beforeprint',()=>{
  const printOutput=$('previewStage').querySelector('#output');
- if(!printOutput)return;
- printOutput.style.removeProperty('zoom');
- const availableHeight=1060;
- const contentHeight=Math.max(printOutput.offsetHeight,printOutput.scrollHeight);
- const fitScale=contentHeight>availableHeight?availableHeight/contentHeight:1;
- printOutput.style.setProperty('zoom',String(fitScale),'important');
+ if(printOutput)printOutput.style.setProperty('zoom','1','important');
 });
 window.addEventListener('afterprint',()=>{
  const printOutput=$('previewStage').querySelector('#output');
