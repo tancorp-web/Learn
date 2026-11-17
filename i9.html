@@ -973,7 +973,7 @@ $('toggleTransit').addEventListener('click',toggleTransitColumns);
 $('calculate').addEventListener('click',calculate);
 $('print').addEventListener('click',()=>window.print());
 function buildExportDocument(title){
- const styles=Array.from(document.querySelectorAll('style')).map(el=>el.textContent).join('\\n');
+ const styles=Array.from(document.querySelectorAll('style')).map(el=>el.textContent).join('\n');
  const result=$('output').cloneNode(true);result.classList.remove('hidden');
  result.querySelectorAll('.export-actions').forEach(el=>el.remove());
  return '<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>'+styles+'</style></head><body><main class="wrap">'+result.outerHTML+'</main></body></html>';
@@ -985,7 +985,7 @@ function openPreview(){
 }
 function saveWord(){
  const html=buildExportDocument('ผลคำนวณดวงชะตา i9');
- const blob=new Blob(['\\ufeff',html],{type:'application/msword;charset=utf-8'});
+ const blob=new Blob(['\ufeff',html],{type:'application/msword;charset=utf-8'});
  const url=URL.createObjectURL(blob),a=document.createElement('a');
  a.href=url;a.download='HORA-i9-'+new Date().toISOString().slice(0,10)+'.doc';
  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
@@ -993,7 +993,7 @@ function saveWord(){
 async function saveImage(){
  const target=$('output'),width=Math.ceil(target.scrollWidth),height=Math.ceil(target.scrollHeight);
  if(!width||!height){alert('ไม่พบผลคำนวณสำหรับบันทึกเป็นรูป');return;}
- const styles=Array.from(document.querySelectorAll('style')).map(el=>el.textContent).join('\\n');
+ const styles=Array.from(document.querySelectorAll('style')).map(el=>el.textContent).join('\n');
  const clone=target.cloneNode(true);clone.classList.remove('hidden');
  clone.querySelectorAll('.export-actions').forEach(el=>el.remove());
  clone.style.cssText+=';display:block;width:'+width+'px;max-width:none;margin:0;padding:12px;background:#fff;color:#28251f';
