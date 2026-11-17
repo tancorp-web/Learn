@@ -1100,7 +1100,7 @@ $('closeCodeForm').addEventListener('click',()=>{
  $('showCodeForm').setAttribute('aria-expanded','false');
 });
 $('calculateCode').addEventListener('click',()=>{
- $('toggleTransit').classList.add('hidden');
+ $('toggleTransit').classList.remove('hidden');
  calculateCode();
 });
 ['codeRow1','codeRow2','codeRow3'].forEach((id,index)=>{
