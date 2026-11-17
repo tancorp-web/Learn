@@ -862,7 +862,7 @@ function getTransitYama(transitInfo){
  return {planet:nightTable[weekday][index],letter:'N'};
 }
 function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDate,ageYang,codeSeeds=null){
- document.querySelector('.summary-pair').classList.remove('hidden');
+ document.querySelector('.summary-pair').classList.toggle('hidden',!!codeSeeds);
  const birthRows=codeSeeds?calcRowsFromSeeds(sequence(codeSeeds[0]),sequence(codeSeeds[1]),sequence(codeSeeds[2])):calcRows(birthInfo.dayStart,birthInfo.monthStart,birthInfo.yearStart);
  const transitRows=calcRows(transitInfo.dayStart,transitInfo.monthStart,transitInfo.yearStart);
  latestBirthRows=birthRows.map(row=>row.slice());
