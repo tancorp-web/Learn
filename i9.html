@@ -15,6 +15,11 @@ header{background:linear-gradient(135deg,#fff,#f6f0e4)}h1{font-size:1.5rem;margi
 .date-field{grid-column:span 3}.timezone-note{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}.date-selects{display:grid;grid-template-columns:1fr 1.5fr 1.2fr;gap:8px;margin-top:5px}.date-selects select{margin-top:0;min-height:44px}.time-selects{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}.time-selects select{margin-top:0;min-height:44px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:11px 17px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9e3d8;color:#383127}button:focus,input:focus,select:focus{outline:2px solid #9c8a68;outline-offset:1px}
 .note{background:#f8f4eb;border-left:3px solid #b9a47e;padding:10px 12px;border-radius:7px;margin-top:12px;font-size:.85rem;color:#625847}
 .details{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:11px}.details summary{cursor:pointer;font-weight:650}.optional-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.result-head .date-entered,.result-head .date-suriyayatra{font-size:1.04rem;line-height:1.75;color:var(--ink);margin:2px 0}
+.result-head .date-entered strong{font-weight:750}
+.result-head .date-suriyayatra{background:#f0f4ed;border-left:3px solid #6c9274;border-radius:5px;padding:5px 9px;margin:5px 0 9px}
+.result-head .date-suriyayatra strong{color:#285b3b}
+.result-head .date-suriyayatra span{font-size:.88em;color:var(--muted)}
 .result-head{line-height:1.85}.result-head .lead{font-weight:700}.result-head .meta{color:var(--muted);font-size:.9rem}
 .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:11px}table.calc{border-collapse:separate;border-spacing:0;width:100%;min-width:680px;table-layout:fixed}
 table.calc th,table.calc td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 5px;text-align:center;vertical-align:middle}
@@ -71,7 +76,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .combined-calc .base-col{width:70px}
 .combined-calc .main-number{display:inline-block;border:0;background:transparent;color:inherit;font:inherit;font-weight:850;cursor:pointer;border-radius:5px;padding:0 3px;line-height:1.35}
 .combined-calc .main-number:hover{background:#f0eee8}
-.combined-calc .main-number.same-number{background:#e7efe9!important;color:#244f3a!important;box-shadow:inset 0 0 0 1px #b6cbbd}
+.combined-calc .main-number.same-number{background:#ccebd7!important;color:#123d27!important;box-shadow:inset 0 0 0 2px #39845a;font-weight:950;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .combined-calc .main-number:focus-visible{outline:2px solid #91aa9b;outline-offset:2px}
 .combined-calc tbody td.age-active{background:#fff6e4!important;box-shadow:inset 0 0 0 1px #d8c69f;color:#514735}
 .thaksa-section{margin-top:18px}
@@ -610,7 +615,7 @@ function calculateDateInfo(dateText,timeText){
 }
 function dateLabel(p){
  const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
- return p.day+' '+months[p.month-1]+' พ.ศ. '+(p.year+543)+' / ค.ศ. '+p.year;
+ return toThai(p.day)+' '+months[p.month-1]+' พ.ศ. '+toThai(p.year+543)+' / ค.ศ. '+toThai(p.year);
 }
 function lunarMonthLabel(month){
  return month===88?'เดือนแปดหลัง (๘๘)':'เดือน'+lunarMonths[month]+' ('+toThai(month)+')';
@@ -629,10 +634,13 @@ function renderTable(baseNo,values){
  const title='ฐาน '+baseNo;
  return '<div class="base-title"><strong>'+title+'</strong></div><div class="table-scroll"><table class="calc"><thead><tr><th class="row-title">คอลัมน์</th>'+[1,2,3,4,5,6,7].map(x=>'<th>'+toThai(x)+'</th>').join('')+'</tr></thead><tbody><tr><th class="row-title">ผลคำนวณ</th>'+cells+'</tr></tbody></table></div>';
 }
-function renderInfo(prefix,info,name,place,label,yearBE,ageText){
+function renderInfo(prefix,info,name,place,label,yearBE,ageText,enteredDate){
+ const entered=enteredDate?parseDate(enteredDate):info.original;
+ const solarDate=info.local;
+ const dateLines='<div class="date-entered"><strong>วันที่กรอก:</strong> '+dateLabel(entered)+'</div><div class="date-suriyayatra"><strong>วันที่สุริยยาตร์:</strong> '+dateLabel(solarDate)+' <span>(เปลี่ยนวันเวลา ๐๖:๐๐ น.)</span></div>';
  const lunarText=weekdays[info.weekday-1]+' '+info.phase+' '+toThai(info.lunarDay)+' ค่ำ '+lunarMonthLabel(info.lunar.month)+' ปี'+info.animal;
  const eraText='จ.ศ. '+toThai(info.jula)+' · ม.ศ. '+toThai(info.maha)+' · ร.ศ. '+toThai(info.rattan)+' · '+info.solarType+' · '+info.monthType+' · '+info.dayType;
- const lead='<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
+ const lead=dateLines+'<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
  $(prefix+'Summary').innerHTML=lead;
 }
 
@@ -887,9 +895,9 @@ function calculate(){
   const ageYang=thaksaAgeYang(birthLocal.date,transitLocal.date);
   const ageComplete=Math.max(0,ageYang-1);
   const birthCountry=$('birthCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
-  renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)',birthYearBE,'');
+  renderInfo('birth',birthInfo,name,birthCountry+' · '+birthLocal.offsetLabel,'เกิด (เทียบเวลาไทย)',birthYearBE,'',birth);
   const transitCountry=$('transitCountry').selectedOptions[0]?.textContent||'ประเทศไทย';
-  renderInfo('transit',transitInfo,'',transitCountry+' · '+transitLocal.offsetLabel,'จร (เทียบเวลาไทย)',transitYearBE,'อายุครบ '+toThai(ageComplete)+' ปี · อายุย่าง '+toThai(ageYang)+' ปี');
+  renderInfo('transit',transitInfo,'',transitCountry+' · '+transitLocal.offsetLabel,'จร (เทียบเวลาไทย)',transitYearBE,'อายุครบ '+toThai(ageComplete)+' ปี · อายุย่าง '+toThai(ageYang)+' ปี',transit);
   renderCombinedTable(birthInfo,transitInfo,birthLocal.date,birthLocal.time,transitLocal.date,ageYang);
   $('output').classList.remove('hidden');
   $('output').scrollIntoView({behavior:'smooth',block:'start'});
