@@ -44,9 +44,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .export-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0 4px;padding:14px;background:#f8f5ef;border:1px solid var(--line);border-radius:12px}
 .export-actions button{min-width:130px}
 #preview{background:#e8eee9;color:#304b46}
-#saveWord{background:#e8edf7;color:#344c72}
-#saveImage{background:#f5eadf;color:#79502f}
-@media(max-width:520px){.export-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.export-actions button{min-width:0;padding:11px 7px}}
+@media(max-width:520px){.export-actions{gap:8px}.export-actions button{min-width:0;padding:11px 14px}}
 @media(max-width:760px){body{padding:8px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.date-field{grid-column:span 2}.optional-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:1fr}.group-list{grid-template-columns:1fr}header,.panel{padding:13px}h1{font-size:1.25rem}}
 @media(max-width:390px){.form-grid{grid-template-columns:1fr}.date-field{grid-column:span 1}.optional-grid{grid-template-columns:1fr}}
 
@@ -367,8 +365,6 @@ button{padding:10px 15px}
 <div class="export-actions" aria-label="เครื่องมือพิมพ์และบันทึกผล">
  <button type="button" class="secondary" id="preview">พรีวิว</button>
  <button type="button" id="print">พิมพ์ / Save PDF</button>
- <button type="button" class="secondary" id="saveWord">เซฟไฟล์ Word</button>
- <button type="button" class="secondary" id="saveImage">เซฟเป็นรูป</button>
 </div>
 </section>
 
@@ -983,37 +979,7 @@ function openPreview(){
  if(!win){alert('เบราว์เซอร์บล็อกหน้าพรีวิว กรุณาอนุญาตป๊อปอัปแล้วลองอีกครั้ง');return;}
  win.document.open();win.document.write(buildExportDocument('พรีวิวผลคำนวณ i9'));win.document.close();win.focus();
 }
-function saveWord(){
- const html=buildExportDocument('ผลคำนวณดวงชะตา i9');
- const blob=new Blob(['\ufeff',html],{type:'application/msword;charset=utf-8'});
- const url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download='HORA-i9-'+new Date().toISOString().slice(0,10)+'.doc';
- document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
-}
-async function saveImage(){
- const target=$('output'),width=Math.ceil(target.scrollWidth),height=Math.ceil(target.scrollHeight);
- if(!width||!height){alert('ไม่พบผลคำนวณสำหรับบันทึกเป็นรูป');return;}
- const styles=Array.from(document.querySelectorAll('style')).map(el=>el.textContent).join('\n');
- const clone=target.cloneNode(true);clone.classList.remove('hidden');
- clone.querySelectorAll('.export-actions').forEach(el=>el.remove());
- clone.style.cssText+=';display:block;width:'+width+'px;max-width:none;margin:0;padding:12px;background:#fff;color:#28251f';
- const xhtml='<div xmlns="http://www.w3.org/1999/xhtml"><style>'+styles+'</style>'+clone.outerHTML+'</div>';
- const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'" viewBox="0 0 '+width+' '+height+'"><foreignObject width="100%" height="100%">'+xhtml+'</foreignObject></svg>';
- const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob);
- try{
-  const img=new Image();img.src=url;await img.decode();
-  const scale=Math.min(2,Math.max(1,2400/width));
-  const canvas=document.createElement('canvas');canvas.width=Math.round(width*scale);canvas.height=Math.round(height*scale);
-  const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);
-  const png=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
-  if(!png)throw new Error('PNG failed');
-  const pngUrl=URL.createObjectURL(png),a=document.createElement('a');a.href=pngUrl;a.download='HORA-i9-'+new Date().toISOString().slice(0,10)+'.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(pngUrl),2000);
- }catch(err){alert('บันทึกเป็นรูปไม่สำเร็จในเบราว์เซอร์นี้ กรุณาใช้พรีวิวแล้วบันทึกเป็น PDF แทน');}
- finally{URL.revokeObjectURL(url);}
-}
 $('preview').addEventListener('click',openPreview);
-$('saveWord').addEventListener('click',saveWord);
-$('saveImage').addEventListener('click',saveImage);
 $('reset').addEventListener('click',()=>{
  document.querySelectorAll('.form-panel input').forEach(x=>x.value='');
  document.querySelectorAll('.form-panel select').forEach(x=>x.selectedIndex=0);
