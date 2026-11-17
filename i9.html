@@ -69,6 +69,10 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .combined-calc thead th{background:var(--soft);font-weight:700}
 .combined-calc tbody th{white-space:nowrap;background:#faf8f3}
 .combined-calc .base-col{width:70px}
+.combined-calc .main-number{display:inline-block;border:0;background:transparent;color:inherit;font:inherit;font-weight:850;cursor:pointer;border-radius:5px;padding:0 3px;line-height:1.35}
+.combined-calc .main-number:hover{background:#f0eee8}
+.combined-calc .main-number.same-number{background:#e7efe9!important;color:#244f3a!important;box-shadow:inset 0 0 0 1px #b6cbbd}
+.combined-calc .main-number:focus-visible{outline:2px solid #91aa9b;outline-offset:2px}
 .combined-calc tbody td.age-active{background:#fff6e4!important;box-shadow:inset 0 0 0 1px #d8c69f;color:#514735}
 .thaksa-section{margin-top:18px}
 .thaksa-section h3{font-size:1.1rem;margin:0 0 9px}
@@ -744,7 +748,7 @@ function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDa
    const classes=[ageActive?'age-active':'',waiActive?'wai-active':''].filter(Boolean).join(' ');
    const houseLabel=(houseSet?houseSet[j]:'');
    const houseHtml=i===0?'<button type="button" class="snake-pick" data-snake-col="'+j+'" title="กลบทงูกินหางที่ '+houseLabel+'">'+houseLabel+'</button>':houseLabel;
-   return '<td'+(classes?' class="'+classes+'" aria-current="true"':'')+'><span class="house">'+houseHtml+'</span><span class="paired-value"><span class="birth-value">'+toThai(v)+'</span>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
+   return '<td'+(classes?' class="'+classes+'" aria-current="true"':'')+'><span class="house">'+houseHtml+'</span><span class="paired-value"><button type="button" class="birth-value main-number" data-main-number="'+v+'" aria-label="เน้นเลข '+toThai(v)+'">'+toThai(v)+'</button>'+(i===3&&base4Labels[v]?'<span class="base4-strength">'+base4Labels[v]+'</span>':'')+'<span class="transit-value"><small>จร '+toThai(transitRows[i][j])+'</small></span></span></td>';
   }).join('');
   html+='<tr><th class="base-col">ฐาน '+toThai(i+1)+'</th>'+birthCells+'</tr>';
  }
@@ -892,6 +896,14 @@ function calculate(){
  }catch(err){$('formError').textContent=err.message||'เกิดข้อผิดพลาดในการคำนวณ';}
 }
 $('combinedResults').addEventListener('click',event=>{
+ const numberPick=event.target.closest('[data-main-number]');
+ if(numberPick){
+  const selected=numberPick.getAttribute('data-main-number');
+  $('combinedResults').querySelectorAll('[data-main-number]').forEach(el=>{
+   el.classList.toggle('same-number',el.getAttribute('data-main-number')===selected);
+  });
+  return;
+ }
  const pick=event.target.closest('[data-snake-col]');
  if(!pick||!latestBirthRows)return;
  renderSnakeTable(latestBirthRows,Number(pick.getAttribute('data-snake-col')));
