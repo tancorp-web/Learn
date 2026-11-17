@@ -1073,6 +1073,21 @@ function toggleTransitPowerMarks(){
 }
 $('toggleTransitPower').addEventListener('click',toggleTransitPowerMarks);
 
+function resetThaksaMarkVisibility(){
+ thaksaVisible=false;
+ transitPowerVisible=false;
+ document.querySelectorAll('#combinedResults .combined-calc').forEach(el=>{
+  el.classList.remove('show-thaksa','show-transit-power');
+ });
+ const birthBtn=$('toggleThaksa');
+ birthBtn.textContent='เปิดทักษาเดิม';
+ birthBtn.setAttribute('aria-pressed','false');
+ const transitBtn=$('toggleTransitPower');
+ transitBtn.textContent='เปิดกำลังดาวจร';
+ transitBtn.setAttribute('aria-pressed','false');
+}
+window.addEventListener('pageshow',resetThaksaMarkVisibility);
+
 let transitVisible=false;
 function toggleTransitColumns(){
  transitVisible=!transitVisible;
@@ -1129,6 +1144,7 @@ function getTransitYama(transitInfo){
  return {planet:nightTable[weekday][index],letter:'N'};
 }
 function renderCombinedTable(birthInfo,transitInfo,birthDate,birthTime,transitDate,ageYang,codeSeeds=null){
+ resetThaksaMarkVisibility();
  document.querySelector('.summary-pair').classList.toggle('hidden',!!codeSeeds);
  const birthRows=codeSeeds?calcRowsFromSeeds(sequence(codeSeeds[0]),sequence(codeSeeds[1]),sequence(codeSeeds[2])):calcRows(birthInfo.dayStart,birthInfo.monthStart,birthInfo.yearStart);
  const transitRows=calcRows(transitInfo.dayStart,transitInfo.monthStart,transitInfo.yearStart);
