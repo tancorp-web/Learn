@@ -135,6 +135,23 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
  .thaksa-stack span,.thaksa-stack b{font-size:7px}
 }
 </style>
+<style>
+/* Thai result numerals: larger and softer, limited to base 1–9 and Thaksa */
+.combined-calc .birth-value{font-size:32px!important;color:#304b46!important;font-weight:850}
+.combined-calc .transit-value small{font-size:18px!important;color:#39745f!important;font-weight:750}
+.combined-calc tbody td{background:#fbfaf6}
+.combined-calc thead th{background:#e9eee9;color:#465b54}
+.combined-calc tbody th{background:#f0f3ee;color:#465b54}
+.thaksa-cell{background:#f8faf7;border-color:#dce5dc}
+.thaksa-cell .thaksa-number{font-size:32px!important;color:#304b46!important}
+.thaksa-cell span{color:#586b62}
+.thaksa-cell.center{background:#f1f3ed;border-color:#d9dfd3}
+@media(max-width:600px){
+ .combined-calc .birth-value{font-size:30px!important}
+ .combined-calc .transit-value small{font-size:16px!important}
+ .thaksa-cell .thaksa-number{font-size:30px!important}
+}
+</style>
 </head>
 <body>
 <main class="wrap">
