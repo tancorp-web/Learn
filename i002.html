@@ -81,7 +81,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 .thaksa-cell span{font-size:15px;line-height:1.5}
 .thaksa-cell.center b{font-size:15px}
 @media(max-width:680px){
- .summary-pair{grid-template-columns:1fr}
+ .summary-pair{grid-template-columns:repeat(2,minmax(0,1fr))}
  .summary-card{padding:16px}
  .result-head{font-size:1.02rem}
  .result-head>div:first-child{font-size:1.1rem}
@@ -94,6 +94,16 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
  .thaksa-cell b{font-size:15px}
  .thaksa-cell .thaksa-number{font-size:24px}
  .thaksa-cell span{font-size:14px}
+}
+/* Keep birth and transit as left/right columns on all screen sizes */
+.summary-pair{grid-template-columns:repeat(2,minmax(0,1fr))}
+.summary-card{min-width:0}
+@media(max-width:390px){
+ .summary-card{padding:10px}
+ .summary-card h2{font-size:1.08rem}
+ .result-head{font-size:.88rem;line-height:1.65}
+ .result-head>div:first-child{font-size:.94rem}
+ .result-head .meta{font-size:.82rem;line-height:1.6}
 }
 @media print{
  @page{size:A4 landscape;margin:8mm}
@@ -501,7 +511,7 @@ function thaksaRoleMap(start){
 function renderThaksaGrid(birthStart,transitStart,birthLunar,transitLunar){
  const birthMap=thaksaRoleMap(birthStart);
  const transitMap=thaksaRoleMap(transitStart);
- const positions=[thaksaPlanets[0],thaksaPlanets[1],thaksaPlanets[2],thaksaPlanets[3],null,thaksaPlanets[4],thaksaPlanets[5],thaksaPlanets[6],thaksaPlanets[7]];
+ const positions=[thaksaPlanets[0],thaksaPlanets[1],thaksaPlanets[2],thaksaPlanets[7],null,thaksaPlanets[3],thaksaPlanets[6],thaksaPlanets[5],thaksaPlanets[4]];
  const monthStatus=lunar=>lunar&&lunar.isAdhikamas?'อธิกมาส':'ปกติมาส';
  return '<section class="thaksa-section"><h3>ทักษาเดิม / ทักษาจร</h3><div class="thaksa-grid">'+positions.map(planet=>{
   if(!planet)return '<div class="thaksa-cell center"><b>ตรวจอธิกมาส</b><span>เดือนเกิด: '+monthStatus(birthLunar)+'</span><span>เดือนจร: '+monthStatus(transitLunar)+'</span></div>';
