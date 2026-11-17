@@ -1099,8 +1099,25 @@ $('closeCodeForm').addEventListener('click',()=>{
  $('showCodeForm').setAttribute('aria-expanded','false');
 });
 $('calculateCode').addEventListener('click',()=>{
- $('toggleTransit').closest('.actions').classList.add('hidden');
+ $('toggleTransit').classList.add('hidden');
  calculateCode();
+});
+['codeRow1','codeRow2','codeRow3'].forEach((id,index)=>{
+ const input=$(id);
+ input.addEventListener('input',()=>{
+  input.value=input.value.replace(/[^1-7]/g,'').slice(0,1);
+  if(input.value&&index<2)$(['codeRow1','codeRow2','codeRow3'][index+1]).focus();
+ });
+ input.addEventListener('keydown',event=>{
+  if(event.key==='Backspace'&&!input.value&&index>0){
+   const previous=$(['codeRow1','codeRow2','codeRow3'][index-1]);
+   previous.focus();previous.select();
+  }
+  if(event.key==='Enter'){
+   if(index<2)$(['codeRow1','codeRow2','codeRow3'][index+1]).focus();
+   else $('calculateCode').click();
+  }
+ });
 });
 $('print').addEventListener('click',()=>window.print());
 $('reset').addEventListener('click',()=>{
