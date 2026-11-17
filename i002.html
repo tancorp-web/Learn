@@ -114,16 +114,12 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:12px}
 <div class="panel" style="margin:0 0 16px">
 <h2>ดวงกำเนิด</h2>
 <div id="birthSummary" class="result-head"></div>
-<div class="summary-grid" id="birthStartNumbers" style="margin-top:13px"></div>
 <div id="birthTables"></div>
-<details class="details"><summary>รหัสประจำดวง · คลังข้อมูล 12 กลุ่ม</summary><div id="birthGroupMatches" class="muted"></div></details>
 </div>
 <div class="panel" style="margin:0">
 <h2>ดวงจร</h2>
 <div id="transitSummary" class="result-head"></div>
-<div class="summary-grid" id="transitStartNumbers" style="margin-top:13px"></div>
 <div id="transitTables"></div>
-<details class="details"><summary>รหัสประจำดวงจร · คลังข้อมูล 12 กลุ่ม</summary><div id="transitGroupMatches" class="muted"></div></details>
 </div>
 <div class="panel combined-panel"><h2>ผลฐาน ๑–๙ และทักษา</h2><div class="actions"><button type="button" id="toggleTransit" class="secondary" aria-pressed="true">ปิดชุดดาวจร</button></div><div id="combinedResults"></div></div>
 </section>
@@ -429,16 +425,8 @@ function renderTable(baseNo,values){
 function renderInfo(prefix,info,name,place,label){
  const lunarText=weekdays[info.weekday-1]+' '+info.phase+' '+toThai(info.lunarDay)+' ค่ำ '+lunarMonthLabel(info.lunar.month)+' ปี'+info.animal;
  const eraText='จ.ศ. '+toThai(info.jula)+' · ม.ศ. '+toThai(info.maha)+' · ร.ศ. '+toThai(info.rattan)+' · '+info.solarType+' · '+info.monthType+' · '+info.dayType;
- const lead='<div class="lead">'+(name?escapeHtml(name)+' · ':'')+label+'วันที่ '+dateLabel(info.original)+' เวลา '+escapeHtml(info.timeText)+' น.</div><div>'+lunarText+'</div><div class="meta">'+eraText+'</div>'+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
+ const lead='<div>'+lunarText+'</div><div class="meta">'+eraText+'</div>'+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
  $(prefix+'Summary').innerHTML=lead;
- $(prefix+'StartNumbers').innerHTML=
- '<div class="summary-item"><span class="muted">ฐาน 1 · วันตั้งต้น</span><b>'+toThai(info.dayStart)+' · '+stars[info.dayStart]+'</b></div>'+
- '<div class="summary-item"><span class="muted">ฐาน 2 · เดือนตั้งต้น</span><b>'+toThai(info.monthStart)+' · '+lunarMonthLabel(info.lunar.month)+'</b></div>'+
- '<div class="summary-item"><span class="muted">ฐาน 3 · ปีตั้งต้น</span><b>'+toThai(info.yearStart)+' · ปี'+info.animal+'</b></div>';
- $(prefix+'Tables').innerHTML='';
- const code=''+info.dayStart+info.monthStart+info.yearStart;
- const matches=groupData.map((g,i)=>({name:g[0],index:i+1,codes:g[1].split(/\s+/)})).filter(g=>g.codes.includes(code));
- $(prefix+'GroupMatches').innerHTML='รหัสตั้งต้น วัน-เดือน-ปี: <b>'+toThai(info.dayStart)+'-'+toThai(info.monthStart)+'-'+toThai(info.yearStart)+'</b> · รหัสสามหลัก <b>'+code+'</b><br>'+(matches.length?matches.map(g=>'<span class="tag">'+g.index+'. '+escapeHtml(g.name)+'</span>').join(' '):'ไม่พบรหัสนี้ในรายการ 12 กลุ่มที่บันทึกไว้');
 }
 
 const thaksaRoles=['บริวาร','อายุ','เดช','ศรี','มูละ','อุตสาหะ','มนตรี','กาลกิณี'];
@@ -662,7 +650,7 @@ $('sample').addEventListener('click',()=>{
 });
 function getTimeValue(prefix){const h=$(prefix+'Hour').value,m=$(prefix+'Minute').value;return h!==''&&m!==''?h+':'+m:'';}
 function setTimeValue(prefix,value){const parts=value.split(':');$(prefix+'Hour').value=parts[0];$(prefix+'Minute').value=parts[1];}
-function initializeBirthToday(){const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();setDatePicker('birth',String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'));}
+function initializeBirthToday(){setDatePicker('birth','1975-10-14');setTimeValue('time','01:05');$('birthCountry').value='TH';populateZones('birth');$('birthZone').value='Asia/Bangkok';updateZoneLabel('birth');}
 function initializeTransitNow(){const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();setDatePicker('transit',String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'));setTimeValue('transitTime',String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));}
 initDatePickers();
 populateCountries();
