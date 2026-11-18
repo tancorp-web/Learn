@@ -697,6 +697,18 @@ button{padding:10px 15px}
 }
 </style>
 
+
+<style id="i24-summary-more-details">
+/* แสดงเฉพาะวันเกิด/วันจรเป็นค่าเริ่มต้น รายละเอียดอื่นเปิดดูได้ */
+.summary-more{margin:5px 0 0;border-top:1px solid var(--line);padding-top:6px;font-size:.88rem;line-height:1.6}
+.summary-more summary{cursor:pointer;color:#665d50;font-weight:700;list-style-position:inside}
+.summary-more-content{padding-top:7px}
+.summary-more-content .date-entered,.summary-more-content .date-suriyayatra{margin:4px 0}
+@media print{
+ .summary-more:not([open])>.summary-more-content{display:block!important}
+ .summary-more summary{display:none!important}
+}
+</style>
 </head>
 <body>
 <main class="wrap">
@@ -1108,10 +1120,13 @@ function renderInfo(prefix,info,name,place,label,yearBE,ageText,enteredDate,ente
  const solarDate=info.local;
  const thaiTime=(enteredTime||'').replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
  const convertedThaiTime=(thailandTime||'').replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
- const dateLines='<div class="date-entered"><strong>วันที่กรอก:</strong> '+dateLabel(entered)+'</div><div class="date-entered"><strong>เวลาที่กรอก:</strong> '+thaiTime+' น.</div><div class="date-entered"><strong>เวลาเทียบประเทศไทย:</strong> '+convertedThaiTime+' น.</div><div class="date-suriyayatra"><strong>วันที่สุริยยาตร์:</strong> '+dateLabel(solarDate)+' <span>(เปลี่ยนวันเวลา ๐๖:๐๐ น.)</span></div>';
+ const dateTitle=prefix==='birth'?'วันเกิด:':'วันจร:';
+ const visibleDate='<div class="date-entered"><strong>'+dateTitle+'</strong> '+dateLabel(entered)+'</div>';
+ const detailLines='<div class="date-entered"><strong>เวลาที่กรอก:</strong> '+thaiTime+' น.</div><div class="date-entered"><strong>เวลาเทียบประเทศไทย:</strong> '+convertedThaiTime+' น.</div><div class="date-suriyayatra"><strong>วันที่สุริยยาตร์:</strong> '+dateLabel(solarDate)+' <span>(เปลี่ยนวันเวลา ๐๖:๐๐ น.)</span></div>';
  const lunarText=weekdays[info.weekday-1]+' '+info.phase+' '+toThai(info.lunarDay)+' ค่ำ '+lunarMonthLabel(info.lunar.month)+' ปี'+info.animal;
  const eraText='จ.ศ. '+toThai(info.jula)+' · ม.ศ. '+toThai(info.maha)+' · ร.ศ. '+toThai(info.rattan)+' · '+info.solarType+' · '+info.monthType+' · '+info.dayType;
- const lead=dateLines+'<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
+ const hiddenDetails=detailLines+'<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
+ const lead=visibleDate+'<details class="summary-more"><summary>ดูรายละเอียดทั้งหมด</summary><div class="summary-more-content">'+hiddenDetails+'</div></details>';
  $(prefix+'Summary').innerHTML=lead;
 }
 
