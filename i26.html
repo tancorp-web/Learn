@@ -30,13 +30,19 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
 <section class="panel">
 <h2>ตั้งค่าแบนเนอร์ทั้ง 3 ตำแหน่ง</h2>
 <p class="hint">แต่ละตำแหน่งใช้ภาพและลิงก์ของตัวเองได้ ลิงก์เป็นตัวเลือก ไม่จำเป็นต้องใส่</p>
+<div class="field">
+<label for="banner-password">รหัสผ่านผู้ดูแลสำหรับอัปโหลด</label>
+<input id="banner-password" type="password" autocomplete="current-password" placeholder="กรอกรหัสผ่านที่ตั้งไว้ใน Vercel">
+<p class="hint">รหัสผ่านนี้ใช้ยืนยันสิทธิ์อัปโหลดเท่านั้น ไม่ใช่ GitHub Token</p>
+</div>
 <div id="slots">
 
 <div class="slot" data-slot="top">
  <div class="slot-head"><span class="number">1</span><div><h3>ตำแหน่งที่ 1 · ด้านบน</h3><p class="hint">ใต้ชื่อโปรแกรม / เมนู</p></div></div>
- <div class="field"><label for="top-file">เลือกรูปจากอุปกรณ์เพื่อดูตัวอย่าง</label><input id="top-file" type="file" accept="image/*"><p class="hint">รองรับ JPG, PNG, WebP และ GIF · ไฟล์ไม่เกิน 8 MB</p></div>
+ <div class="field"><label for="top-file">เลือกรูปจากอุปกรณ์</label><input id="top-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><p class="hint">รองรับ JPG, JPEG, PNG, WebP, GIF และ AVIF · ไฟล์ไม่เกิน 3 MB</p></div>
  <div class="preview" id="top-local-preview"><div class="empty">ตัวอย่างรูปจากอุปกรณ์จะแสดงที่นี่</div></div>
- <div class="field"><label for="top-image">URL รูปภาพที่เผยแพร่บนเว็บไซต์</label><input id="top-image" type="url" placeholder="https://example.com/top-banner.webp"></div>
+ <div class="actions"><button class="primary upload-one" type="button" data-upload="top">อัปโหลดรูปตำแหน่งนี้ไปยัง /adpic/</button></div>
+ <div class="field"><label for="top-image">URL รูปภาพ (เติมอัตโนมัติหลังอัปโหลด)</label><input id="top-image" type="url" placeholder="https://example.com/top-banner.webp"></div>
  <div class="field"><label for="top-alt">คำอธิบายรูปภาพ</label><input id="top-alt" type="text" value="แบนเนอร์ประชาสัมพันธ์ 1"></div>
  <div class="field"><label for="top-link">ลิงก์ปลายทาง (ไม่บังคับ)</label><input id="top-link" type="url" placeholder="เว้นว่างได้ หากไม่ต้องการให้กดไปเว็บไซต์อื่น"></div>
  <div class="preview" id="top-live-preview"><div class="empty">ใส่ URL รูปภาพที่เผยแพร่แล้ว เพื่อดูตัวอย่างแสดงผล</div></div>
@@ -45,9 +51,10 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
 </div>
 <div class="slot" data-slot="middle">
  <div class="slot-head"><span class="number">2</span><div><h3>ตำแหน่งที่ 2 · ตรงกลาง</h3><p class="hint">ระหว่างฟอร์มกรอกข้อมูลกับผลคำนวณ</p></div></div>
- <div class="field"><label for="middle-file">เลือกรูปจากอุปกรณ์เพื่อดูตัวอย่าง</label><input id="middle-file" type="file" accept="image/*"><p class="hint">รองรับ JPG, PNG, WebP และ GIF · ไฟล์ไม่เกิน 8 MB</p></div>
+ <div class="field"><label for="middle-file">เลือกรูปจากอุปกรณ์</label><input id="middle-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><p class="hint">รองรับ JPG, JPEG, PNG, WebP, GIF และ AVIF · ไฟล์ไม่เกิน 3 MB</p></div>
  <div class="preview" id="middle-local-preview"><div class="empty">ตัวอย่างรูปจากอุปกรณ์จะแสดงที่นี่</div></div>
- <div class="field"><label for="middle-image">URL รูปภาพที่เผยแพร่บนเว็บไซต์</label><input id="middle-image" type="url" placeholder="https://example.com/middle-banner.webp"></div>
+ <div class="actions"><button class="primary upload-one" type="button" data-upload="middle">อัปโหลดรูปตำแหน่งนี้ไปยัง /adpic/</button></div>
+ <div class="field"><label for="middle-image">URL รูปภาพ (เติมอัตโนมัติหลังอัปโหลด)</label><input id="middle-image" type="url" placeholder="https://example.com/middle-banner.webp"></div>
  <div class="field"><label for="middle-alt">คำอธิบายรูปภาพ</label><input id="middle-alt" type="text" value="แบนเนอร์ประชาสัมพันธ์ 2"></div>
  <div class="field"><label for="middle-link">ลิงก์ปลายทาง (ไม่บังคับ)</label><input id="middle-link" type="url" placeholder="เว้นว่างได้ หากไม่ต้องการให้กดไปเว็บไซต์อื่น"></div>
  <div class="preview" id="middle-live-preview"><div class="empty">ใส่ URL รูปภาพที่เผยแพร่แล้ว เพื่อดูตัวอย่างแสดงผล</div></div>
@@ -56,9 +63,10 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
 </div>
 <div class="slot" data-slot="bottom">
  <div class="slot-head"><span class="number">3</span><div><h3>ตำแหน่งที่ 3 · ด้านล่าง</h3><p class="hint">ก่อนส่วนท้ายเว็บไซต์</p></div></div>
- <div class="field"><label for="bottom-file">เลือกรูปจากอุปกรณ์เพื่อดูตัวอย่าง</label><input id="bottom-file" type="file" accept="image/*"><p class="hint">รองรับ JPG, PNG, WebP และ GIF · ไฟล์ไม่เกิน 8 MB</p></div>
+ <div class="field"><label for="bottom-file">เลือกรูปจากอุปกรณ์</label><input id="bottom-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"><p class="hint">รองรับ JPG, JPEG, PNG, WebP, GIF และ AVIF · ไฟล์ไม่เกิน 3 MB</p></div>
  <div class="preview" id="bottom-local-preview"><div class="empty">ตัวอย่างรูปจากอุปกรณ์จะแสดงที่นี่</div></div>
- <div class="field"><label for="bottom-image">URL รูปภาพที่เผยแพร่บนเว็บไซต์</label><input id="bottom-image" type="url" placeholder="https://example.com/bottom-banner.webp"></div>
+ <div class="actions"><button class="primary upload-one" type="button" data-upload="bottom">อัปโหลดรูปตำแหน่งนี้ไปยัง /adpic/</button></div>
+ <div class="field"><label for="bottom-image">URL รูปภาพ (เติมอัตโนมัติหลังอัปโหลด)</label><input id="bottom-image" type="url" placeholder="https://example.com/bottom-banner.webp"></div>
  <div class="field"><label for="bottom-alt">คำอธิบายรูปภาพ</label><input id="bottom-alt" type="text" value="แบนเนอร์ประชาสัมพันธ์ 3"></div>
  <div class="field"><label for="bottom-link">ลิงก์ปลายทาง (ไม่บังคับ)</label><input id="bottom-link" type="url" placeholder="เว้นว่างได้ หากไม่ต้องการให้กดไปเว็บไซต์อื่น"></div>
  <div class="preview" id="bottom-live-preview"><div class="empty">ใส่ URL รูปภาพที่เผยแพร่แล้ว เพื่อดูตัวอย่างแสดงผล</div></div>
@@ -76,7 +84,7 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
 </section>
 <section class="panel">
 <h2>ข้อควรรู้ก่อนนำไปใช้จริง</h2>
-<div class="notice">การเลือกรูปจากอุปกรณ์ใช้สำหรับดูตัวอย่างในเครื่องนี้เท่านั้น ยังไม่ได้อัปโหลดไฟล์ขึ้นเซิร์ฟเวอร์ ผู้เข้าชมคนอื่นจะเห็นรูปได้เมื่อเผยแพร่ไฟล์รูปไว้บนโฮสต์ของเว็บไซต์ แล้วนำ URL รูปภาพมาใส่ในช่องของตำแหน่งนั้น</div>
+<div class="notice">เมื่ออัปโหลดสำเร็จ ระบบจะบันทึกรูปไว้ใน GitHub repository ที่กำหนด ผ่าน API ฝั่งเซิร์ฟเวอร์ และบันทึก URL ลง manifest เพื่อให้ i25 เรียกใช้ทั้ง 3 ตำแหน่งโดยอัตโนมัติ ต้องตั้งค่า Environment Variables ใน Vercel ก่อนใช้งานจริง</div>
 </section>
 </main>
 <footer>HORA · Banner Manager · แยกจากระบบคำนวณและไฟล์ i25</footer>
@@ -97,7 +105,31 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
  function renderAll(){ids.forEach(render);$("all-code").value=ids.map(id=>'<!-- '+id.toUpperCase()+' BANNER -->\n'+makeCode(id)).join("\n\n");}
  ids.forEach(id=>{
   $(id+"-file").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith("image/")){$("status").textContent="กรุณาเลือกไฟล์รูปภาพ";return;}if(f.size>8*1024*1024){$("status").textContent="ไฟล์ใหญ่เกิน 8 MB";return;}const reader=new FileReader();reader.onload=()=>{localUrls[id]=String(reader.result);const box=$(id+"-local-preview");box.replaceChildren();const img=document.createElement("img");img.src=localUrls[id];img.alt="ตัวอย่างรูปจากอุปกรณ์";box.appendChild(img);$("status").textContent="แสดงตัวอย่างรูปตำแหน่ง "+id+" แล้ว";};reader.readAsDataURL(f);});
-  [id+"-image",id+"-link",id+"-alt"].forEach(k=>$(k).addEventListener("input",renderAll));
+  $(id+"-image").addEventListener("input",renderAll);
+  $(id+"-link").addEventListener("input",renderAll);
+  $(id+"-alt").addEventListener("input",renderAll);
+  const uploadButton=document.querySelector('[data-upload="'+id+'"]');
+  uploadButton.addEventListener("click",async()=>{
+    const file=$(id+"-file").files&&$(id+"-file").files[0];
+    const password=$("banner-password").value;
+    if(!file){$("status").textContent="กรุณาเลือกรูปของตำแหน่ง "+id+" ก่อน";return;}
+    if(!password){$("status").textContent="กรุณากรอกรหัสผ่านผู้ดูแล";$("banner-password").focus();return;}
+    if(file.size>3*1024*1024){$("status").textContent="ไฟล์ใหญ่เกิน 3 MB ตามข้อจำกัดการรับข้อมูลของ Vercel";return;}
+    const allowed=["image/jpeg","image/png","image/webp","image/gif","image/avif"];
+    if(!allowed.includes(file.type)){$("status").textContent="ชนิดไฟล์ไม่รองรับ กรุณาใช้ JPG, PNG, WebP, GIF หรือ AVIF";return;}
+    uploadButton.disabled=true;uploadButton.textContent="กำลังอัปโหลด…";$("status").textContent="กำลังส่งรูปไปยังเว็บไซต์";
+    try{
+      const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=()=>reject(new Error("อ่านไฟล์ไม่สำเร็จ"));reader.readAsDataURL(file);});
+      const dataBase64=dataUrl.slice(dataUrl.indexOf(",")+1);
+      const response=await fetch("/api/banner-upload",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+password},body:JSON.stringify({slot:id,contentType:file.type,dataBase64,alt:$(id+"-alt").value,href:$(id+"-link").value})});
+      const result=await response.json().catch(()=>({error:"เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง"}));
+      if(!response.ok)throw new Error(result.error||("อัปโหลดไม่สำเร็จ ("+response.status+")"));
+      $(id+"-image").value=result.imageUrl;
+      renderAll();
+      $("status").textContent="อัปโหลดสำเร็จ: "+result.path+" · i25 จะเรียกภาพจาก manifest";
+    }catch(error){$("status").textContent=error.message||"เกิดข้อผิดพลาดระหว่างอัปโหลด";}
+    finally{uploadButton.disabled=false;uploadButton.textContent="อัปโหลดรูปตำแหน่งนี้ไปยัง /adpic/";}
+  });
  });
  document.querySelectorAll(".copy-one").forEach(b=>b.addEventListener("click",async()=>copyText($(b.dataset.copy+"-code").value)));
  async function copyText(v){if(v.startsWith("<!-- ใส่ URL")){$("status").textContent="กรุณาใส่ URL รูปภาพของตำแหน่งนั้นก่อน";return;}try{await navigator.clipboard.writeText(v);$("status").textContent="คัดลอกโค้ดแล้ว";}catch(_){$("status").textContent="ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาเลือกข้อความแล้วคัดลอก";}}
