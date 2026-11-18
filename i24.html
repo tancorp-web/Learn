@@ -704,6 +704,14 @@ button{padding:10px 15px}
 .summary-more summary{cursor:pointer;color:#665d50;font-weight:700;list-style-position:inside}
 .summary-more-content{padding-top:7px}
 .summary-more-content .date-entered,.summary-more-content .date-suriyayatra{margin:4px 0}
+.summary-card .result-head .date-entered{font-weight:500!important}
+.summary-card .result-head .date-entered strong,.summary-card .result-head .summary-visible-line strong{font-weight:650!important;color:var(--ink)}
+.summary-card .result-head .date-value{font-weight:500!important;color:var(--ink)}
+.summary-card .result-head .era-label{font-weight:400!important;color:var(--muted)}
+.summary-card .result-head .summary-visible-line{font-size:.94rem;line-height:1.65;font-weight:450;color:var(--muted);margin-top:2px}
+.summary-card .result-head .year-line{font-weight:500!important;color:var(--muted)!important}
+.summary-more-content .date-suriyayatra{font-weight:500}
+.summary-more-content .date-suriyayatra strong{font-weight:650}
 @media print{
  .summary-more:not([open])>.summary-more-content{display:block!important}
  .summary-more summary{display:none!important}
@@ -1121,12 +1129,15 @@ function renderInfo(prefix,info,name,place,label,yearBE,ageText,enteredDate,ente
  const thaiTime=(enteredTime||'').replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
  const convertedThaiTime=(thailandTime||'').replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[Number(d)]);
  const dateTitle=prefix==='birth'?'วันเกิด:':'วันจร:';
- const visibleDate='<div class="date-entered"><strong>'+dateTitle+'</strong> '+dateLabel(entered)+'</div>';
- const detailLines='<div class="date-entered"><strong>เวลาที่กรอก:</strong> '+thaiTime+' น.</div><div class="date-entered"><strong>เวลาเทียบประเทศไทย:</strong> '+convertedThaiTime+' น.</div><div class="date-suriyayatra"><strong>วันที่สุริยยาตร์:</strong> '+dateLabel(solarDate)+' <span>(เปลี่ยนวันเวลา ๐๖:๐๐ น.)</span></div>';
+ const summaryDate=dateLabel(entered).replace(/(พ\\.ศ\\.|ค\\.ศ\\.)/g,'<span class="era-label">$1</span>');
+ const visibleDate='<div class="date-entered"><strong>'+dateTitle+'</strong> <span class="date-value">'+summaryDate+'</span></div>';
+ const visibleTime='<div class="summary-visible-line"><strong>เวลาที่กรอก:</strong> '+thaiTime+' น.</div><div class="summary-visible-line"><strong>เวลาเทียบประเทศไทย:</strong> '+convertedThaiTime+' น.</div>';
+ const visiblePlace=place?'<div class="summary-visible-line"><strong>'+(prefix==='birth'?'สถานที่เกิด:':'สถานที่:')+'</strong> '+escapeHtml(place)+'</div>':'';
+ const detailLines='<div class="date-suriyayatra"><strong>วันที่สุริยยาตร์:</strong> '+dateLabel(solarDate)+' <span>(เปลี่ยนวันเวลา ๐๖:๐๐ น.)</span></div>';
  const lunarText=weekdays[info.weekday-1]+' '+info.phase+' '+toThai(info.lunarDay)+' ค่ำ '+lunarMonthLabel(info.lunar.month)+' ปี'+info.animal;
  const eraText='จ.ศ. '+toThai(info.jula)+' · ม.ศ. '+toThai(info.maha)+' · ร.ศ. '+toThai(info.rattan)+' · '+info.solarType+' · '+info.monthType+' · '+info.dayType;
- const hiddenDetails=detailLines+'<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'')+(place?'<div class="meta">สถานที่เกิด '+escapeHtml(place)+'</div>':'');
- const lead=visibleDate+'<details class="summary-more"><summary>ดูรายละเอียดทั้งหมด</summary><div class="summary-more-content">'+hiddenDetails+'</div></details>';
+ const hiddenDetails=detailLines+'<div>'+lunarText+'</div><div class="year-line">พ.ศ. '+toThai(yearBE)+'</div><div class="meta">'+eraText+'</div>'+(ageText?'<div class="meta">'+ageText+'</div>':'');
+ const lead=visibleDate+visibleTime+visiblePlace+'<details class="summary-more"><summary>ดูรายละเอียดทั้งหมด</summary><div class="summary-more-content">'+hiddenDetails+'</div></details>';
  $(prefix+'Summary').innerHTML=lead;
 }
 
