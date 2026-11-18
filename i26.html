@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HORA · จัดการแบนเนอร์รูปภาพ</title>
+<style>
+:root{color-scheme:light;--ink:#26352c;--muted:#68746b;--line:#e3e7df;--paper:#fbfaf6;--green:#536d59;--gold:#a88b55}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:28px 18px 22px;text-align:center;background:#f0eee5;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:clamp(22px,4vw,30px)}header p{margin:5px 0 0;color:var(--muted)}
+main{width:min(900px,calc(100% - 28px));margin:24px auto 48px;display:grid;gap:18px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 18px #2836290a}
+h2{font-size:18px;margin:0 0 14px}.field{display:grid;gap:6px;margin:13px 0}
+label{font-weight:650;font-size:14px}input[type=text],input[type=url]{width:100%;padding:12px 13px;border:1px solid #cfd7cd;border-radius:9px;font:inherit;background:white;color:var(--ink)}
+input[type=file]{width:100%;padding:10px;border:1px dashed #aab8aa;border-radius:9px;background:#fafbf8}
+.hint{font-size:13px;color:var(--muted);margin:0}.preview{min-height:170px;border:1px dashed #c9d1c7;border-radius:12px;background:#f8f9f6;display:grid;place-items:center;padding:12px;overflow:hidden}
+.preview img{display:block;width:100%;max-height:280px;object-fit:contain;border-radius:8px}.empty{color:#849086;text-align:center}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+button{border:0;border-radius:9px;padding:11px 16px;font:650 14px system-ui;cursor:pointer}
+.primary{background:var(--green);color:white}.secondary{background:#ecefe9;color:var(--ink)}
+textarea{width:100%;min-height:170px;resize:vertical;border:1px solid #cfd7cd;border-radius:9px;padding:12px;font:12px/1.5 ui-monospace,monospace;color:#27352b}
+.notice{border-left:4px solid var(--gold);padding:11px 13px;background:#faf7ef;border-radius:7px;font-size:13px;color:#65583f}
+.status{font-size:13px;color:var(--green);min-height:22px;margin-top:8px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:0 15px 28px}
+@media(max-width:600px){.panel{padding:15px}header{padding:23px 14px}}
+</style>
+</head>
+<body>
+<header><h1>HORA · จัดการแบนเนอร์รูปภาพ</h1><p>เลือกภาพตัวอย่าง กำหนดลิงก์ปลายทาง หรือเว้นว่างได้</p></header>
+<main>
+<section class="panel">
+<h2>1. เลือกรูปแบนเนอร์</h2>
+<div class="field"><label for="imageFile">เลือกรูปจากอุปกรณ์</label><input id="imageFile" type="file" accept="image/*"><p class="hint">รองรับ JPG, PNG, WebP และ GIF · แนะนำภาพแนวนอน อัตราส่วนประมาณ 3:1</p></div>
+<div class="preview" id="preview"><div class="empty">ตัวอย่างรูปแบนเนอร์จะแสดงที่นี่</div></div>
+<div class="field"><label for="imageUrl">URL รูปภาพที่เผยแพร่บนเว็บไซต์ (จำเป็นเมื่อนำไปใช้จริง)</label><input id="imageUrl" type="url" placeholder="https://example.com/banner.webp"><p class="hint">หลังเลือกไฟล์ ให้เผยแพร่รูปบนโฮสต์ของเว็บไซต์ก่อน แล้วนำ URL ของรูปมาใส่ช่องนี้</p></div>
+<div class="field"><label for="altText">คำอธิบายรูปภาพ</label><input id="altText" type="text" value="แบนเนอร์ประชาสัมพันธ์"></div>
+</section>
+<section class="panel">
+<h2>2. ตั้งค่าลิงก์ (ไม่บังคับ)</h2>
+<div class="field"><label for="targetUrl">ลิงก์เมื่อผู้เข้าชมกดแบนเนอร์</label><input id="targetUrl" type="url" placeholder="https://เว็บไซต์ผู้ลงโฆษณา.com"><p class="hint">เว้นว่างได้ หากไม่ต้องการให้รูปภาพคลิกไปหน้าอื่น</p></div>
+<div class="notice">การเลือกไฟล์ในหน้านี้ใช้สำหรับดูตัวอย่างในอุปกรณ์นี้เท่านั้น ยังไม่ได้อัปโหลดไฟล์ขึ้นเซิร์ฟเวอร์ และไม่ทำให้ผู้เข้าชมคนอื่นเห็นรูปโดยอัตโนมัติ</div>
+</section>
+<section class="panel">
+<h2>3. ตัวอย่างแบนเนอร์และโค้ด</h2>
+<div class="preview" id="finalPreview"><div class="empty">ใส่ URL รูปภาพที่เผยแพร่แล้ว เพื่อดูตัวอย่างใช้งานจริง</div></div>
+<div class="field"><label for="generated">โค้ดแบนเนอร์สำหรับนำไปวางในหน้าเว็บไซต์</label><textarea id="generated" readonly></textarea></div>
+<div class="actions"><button class="primary" id="copyBtn" type="button">คัดลอกโค้ด</button><button class="secondary" id="clearBtn" type="button">ล้างการตั้งค่า</button></div>
+<div class="status" id="status" role="status" aria-live="polite"></div>
+</section>
+</main>
+<footer>HORA · Banner Manager · เครื่องมือจัดเตรียมแบนเนอร์แบบไม่เชื่อมบริการภายนอก</footer>
+<script>
+(function(){
+ const $=id=>document.getElementById(id);
+ let localPreview="";
+ function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+ function validUrl(value){if(!value.trim())return "";try{const u=new URL(value);return ["http:","https:"].includes(u.protocol)?u.href:"";}catch(_){return "";}}
+ function renderLocal(){const p=$("preview");p.replaceChildren();if(!localPreview){p.innerHTML='<div class="empty">ตัวอย่างรูปแบนเนอร์จะแสดงที่นี่</div>';return;}const img=document.createElement("img");img.src=localPreview;img.alt=$("altText").value||"ตัวอย่างแบนเนอร์";p.appendChild(img);}
+ function render(){
+   const src=validUrl($("imageUrl").value),href=validUrl($("targetUrl").value),alt=esc($("altText").value||"แบนเนอร์ประชาสัมพันธ์");
+   let html="";
+   if(src){const image='<img src="'+esc(src)+'" alt="'+alt+'" style="display:block;width:100%;height:auto;max-height:180px;object-fit:contain;border:0;border-radius:10px">';html=href?'<a href="'+esc(href)+'" target="_blank" rel="noopener sponsored" style="display:block;text-decoration:none">'+image+'</a>':image;}
+   $("generated").value=html||"<!-- ใส่ URL รูปภาพที่เผยแพร่บนเว็บไซต์ก่อน -->";
+   const box=$("finalPreview");box.replaceChildren();
+   if(!src){box.innerHTML='<div class="empty">ใส่ URL รูปภาพที่เผยแพร่แล้ว เพื่อดูตัวอย่างใช้งานจริง</div>';return;}
+   const img=document.createElement("img");img.src=src;img.alt=$("altText").value||"แบนเนอร์ประชาสัมพันธ์";
+   if(href){const a=document.createElement("a");a.href=href;a.target="_blank";a.rel="noopener sponsored";a.appendChild(img);box.appendChild(a);}else{box.appendChild(img);}
+ }
+ $("imageFile").addEventListener("change",e=>{const file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){$("status").textContent="กรุณาเลือกไฟล์รูปภาพ";return;}if(file.size>8*1024*1024){$("status").textContent="ไฟล์ใหญ่เกิน 8 MB กรุณาเลือกรูปที่มีขนาดเล็กลง";return;}const reader=new FileReader();reader.onload=()=>{localPreview=String(reader.result);renderLocal();$("status").textContent="แสดงตัวอย่างรูปจากอุปกรณ์นี้แล้ว";};reader.readAsDataURL(file);});
+ ["imageUrl","targetUrl","altText"].forEach(id=>$(id).addEventListener("input",render));
+ $("copyBtn").addEventListener("click",async()=>{const value=$("generated").value;if(value.startsWith("<!--")){$("status").textContent="กรุณาใส่ URL รูปภาพที่เผยแพร่บนเว็บไซต์ก่อน";return;}try{await navigator.clipboard.writeText(value);$("status").textContent="คัดลอกโค้ดแล้ว";}catch(_){$("generated").select();$("status").textContent="เลือกโค้ดไว้แล้ว กรุณาคัดลอกด้วยตนเอง";}});
+ $("clearBtn").addEventListener("click",()=>{$("imageFile").value="";$("imageUrl").value="";$("targetUrl").value="";$("altText").value="แบนเนอร์ประชาสัมพันธ์";localPreview="";renderLocal();render();$("status").textContent="ล้างการตั้งค่าแล้ว";});
+ renderLocal();render();
+})();
+</script>
+</body>
+</html>
