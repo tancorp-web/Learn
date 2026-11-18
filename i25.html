@@ -728,7 +728,7 @@ button{padding:10px 15px}
 
 </header>
 
-<aside class="hora-ad-slot" data-hora-ad-slot="top" aria-label="พื้นที่โฆษณาด้านบน"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">พื้นที่โฆษณาตัวอย่าง · ประชาสัมพันธ์สินค้าและบริการของคุณ</div></aside>
+<aside class="hora-ad-slot" data-hora-ad-slot="top" aria-label="พื้นที่โฆษณาด้านบน"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">พื้นที่ประชาสัมพันธ์สำหรับผู้สนับสนุน HORA · แนะนำสินค้า บริการ หรือแบรนด์ของคุณ</div></aside>
 
 
 <section class="panel form-panel">
@@ -765,7 +765,7 @@ button{padding:10px 15px}
 <div id="formError" class="error" role="alert"></div>
 </section>
 
-<aside class="hora-ad-slot" data-hora-ad-slot="middle" aria-label="พื้นที่โฆษณาระหว่างเนื้อหา"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">ตัวอย่างแบนเนอร์ประชาสัมพันธ์ · วางข้อความแนะนำสินค้า บริการ หรือโปรโมชั่นได้ที่ตำแหน่งนี้</div></aside>
+<aside class="hora-ad-slot" data-hora-ad-slot="middle" aria-label="พื้นที่โฆษณาระหว่างเนื้อหา"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">นำเสนอสินค้าและบริการ · เพิ่มภาพ โลโก้ และข้อความโปรโมชั่นได้ในตำแหน่งนี้</div></aside>
 
 <section class="panel hidden" id="output" aria-live="polite">
 <div class="print-brand-header">
@@ -808,7 +808,7 @@ button{padding:10px 15px}
 </div>
 </section>
 
-<aside class="hora-ad-slot" data-hora-ad-slot="bottom" aria-label="พื้นที่โฆษณาด้านล่าง"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">สนใจลงโฆษณากับ HORA? · พื้นที่นี้เป็นตัวอย่างสำหรับแสดงรูปแบบแบนเนอร์ด้านล่าง</div></aside>
+<aside class="hora-ad-slot" data-hora-ad-slot="bottom" aria-label="พื้นที่โฆษณาด้านล่าง"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">ร่วมเป็นผู้สนับสนุน HORA · พื้นที่ประชาสัมพันธ์สำหรับแบรนด์และธุรกิจ</div></aside>
 
 <footer>ระบบคำนวณสัตตเลข 7 ตัว 9 ฐาน พัฒนาโดย อาจารย์ธานินทร์ นันต๊ะ 0915544146</footer>
 </main>
@@ -1766,7 +1766,11 @@ initializeTransitNow();
 .hora-ad-slot .hora-ad-label{display:block;margin:0 0 5px;color:#777;font-size:11px;letter-spacing:.02em}
 .hora-ad-slot .hora-ad-link{display:block;max-width:100%;color:inherit;text-decoration:none}
 .hora-ad-slot img{display:block;width:100%;height:auto;max-height:130px;object-fit:contain;margin:0 auto;border:0;border-radius:8px}
-.hora-ad-slot .hora-ad-copy{padding:10px 14px;border:1px solid #e5dfd2;border-radius:8px;background:#fffdf8;font-size:14px}
+.hora-ad-slot .hora-ad-copy{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:88px;padding:16px 20px;border:1px solid #d9d0bf;border-radius:12px;background:linear-gradient(115deg,#f8f2e5 0%,#fffdf8 55%,#edf3ed 100%);box-shadow:0 3px 12px rgba(62,52,35,.07);font-size:15px;font-weight:650;line-height:1.65;color:#3d493f;text-align:left;overflow:hidden}
+.hora-ad-slot .hora-ad-copy:before{content:"HORA PARTNER";display:block;flex:0 0 auto;padding:7px 10px;border-radius:8px;background:#e7ddc9;color:#66543a;font-size:10px;font-weight:800;letter-spacing:.08em}
+.hora-ad-slot .hora-ad-copy:after{content:"ดูรายละเอียด";display:inline-block;flex:0 0 auto;padding:8px 13px;border-radius:7px;background:#536d59;color:#fff;font-size:12px;font-weight:700;white-space:nowrap}
+.hora-ad-slot[data-hora-ad-slot="middle"] .hora-ad-copy{background:linear-gradient(115deg,#edf3ed 0%,#fff 55%,#f7f0e4 100%)}
+.hora-ad-slot[data-hora-ad-slot="bottom"] .hora-ad-copy{background:linear-gradient(115deg,#f1eadc 0%,#fffdf8 55%,#e8eee8 100%)}
 @media(max-width:600px){.hora-ad-slot{margin:12px auto}.hora-ad-slot img{max-height:150px}.hora-ad-slot .hora-ad-copy{font-size:13px}}
 @media print{.hora-ad-slot{display:none!important}}
 </style>
@@ -1777,9 +1781,9 @@ initializeTransitNow();
  * Set href to the destination URL. Leave enabled:false to keep the slot invisible.
  */
 window.HORA_ADS_CONFIG = {
-  top:    { enabled:true, imageUrl:"", alt:"โฆษณาตัวอย่าง", href:"", text:"พื้นที่โฆษณาตัวอย่าง · ประชาสัมพันธ์สินค้าและบริการของคุณ" },
-  middle: { enabled:true, imageUrl:"", alt:"โฆษณาตัวอย่าง", href:"", text:"ตัวอย่างแบนเนอร์ประชาสัมพันธ์ · วางข้อความแนะนำสินค้า บริการ หรือโปรโมชั่นได้ที่ตำแหน่งนี้" },
-  bottom: { enabled:true, imageUrl:"", alt:"โฆษณาตัวอย่าง", href:"", text:"สนใจลงโฆษณากับ HORA? · พื้นที่นี้เป็นตัวอย่างสำหรับแสดงรูปแบบแบนเนอร์ด้านล่าง" }
+  top:    { enabled:true, imageUrl:"", alt:"โฆษณาตัวอย่าง", href:"", text:"พื้นที่ประชาสัมพันธ์สำหรับผู้สนับสนุน HORA · แนะนำสินค้า บริการ หรือแบรนด์ของคุณ" },
+  middle: { enabled:true, imageUrl:"", alt:"โฆษณาตัวอย่าง", href:"", text:"นำเสนอสินค้าและบริการ · เพิ่มภาพ โลโก้ และข้อความโปรโมชั่นได้ในตำแหน่งนี้" },
+  bottom: { enabled:true, imageUrl:"", alt:"โฆษณาตัวอย่าง", href:"", text:"ร่วมเป็นผู้สนับสนุน HORA · พื้นที่ประชาสัมพันธ์สำหรับแบรนด์และธุรกิจ" }
 };
 (function(){
   const config=window.HORA_ADS_CONFIG||{};
