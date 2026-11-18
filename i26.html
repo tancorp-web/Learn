@@ -93,7 +93,7 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
  const ids=["top","middle","bottom"],$=id=>document.getElementById(id),localUrls={top:"",middle:"",bottom:""};
  function safeUrl(v){if(!v.trim())return "";try{const u=new URL(v);return ["http:","https:"].includes(u.protocol)?u.href:"";}catch(_){return "";}}
  function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
- function makeCode(id){const src=safeUrl($(id+"-image").value),href=safeUrl($(id+"-link").value),alt=esc($(id+"-alt").value||"แบนเนอร์ประชาสัมพันธ์");if(!src)return "<!-- ใส่ URL รูปภาพที่เผยแพร่บนเว็บไซต์ -->";const img='<img src="'+esc(src)+'" alt="'+alt+'" style="display:block;width:100%;height:auto;max-height:180px;object-fit:contain;border:0;border-radius:10px">';return href?'<a href="'+esc(href)+'" target="_blank" rel="noopener sponsored" style="display:block;text-decoration:none">'+img+'</a>':img;}
+ function makeCode(id){const src=safeUrl($(id+"-image").value),href=safeUrl($(id+"-link").value),alt=esc($(id+"-alt").value||"แบนเนอร์ประชาสัมพันธ์");if(!src)return "<!-- ใส่ URL รูปภาพ (เติมอัตโนมัติหลังอัปโหลด) -->";const img='<img src="'+esc(src)+'" alt="'+alt+'" style="display:block;width:100%;height:auto;max-height:180px;object-fit:contain;border:0;border-radius:10px">';return href?'<a href="'+esc(href)+'" target="_blank" rel="noopener sponsored" style="display:block;text-decoration:none">'+img+'</a>':img;}
  function render(id){
   const src=safeUrl($(id+"-image").value),href=safeUrl($(id+"-link").value),alt=$(id+"-alt").value||"แบนเนอร์ประชาสัมพันธ์";
   $(id+"-code").value=makeCode(id);
@@ -104,7 +104,7 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
  }
  function renderAll(){ids.forEach(render);$("all-code").value=ids.map(id=>'<!-- '+id.toUpperCase()+' BANNER -->\n'+makeCode(id)).join("\n\n");}
  ids.forEach(id=>{
-  $(id+"-file").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith("image/")){$("status").textContent="กรุณาเลือกไฟล์รูปภาพ";return;}if(f.size>8*1024*1024){$("status").textContent="ไฟล์ใหญ่เกิน 8 MB";return;}const reader=new FileReader();reader.onload=()=>{localUrls[id]=String(reader.result);const box=$(id+"-local-preview");box.replaceChildren();const img=document.createElement("img");img.src=localUrls[id];img.alt="ตัวอย่างรูปจากอุปกรณ์";box.appendChild(img);$("status").textContent="แสดงตัวอย่างรูปตำแหน่ง "+id+" แล้ว";};reader.readAsDataURL(f);});
+  $(id+"-file").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith("image/")){$("status").textContent="กรุณาเลือกไฟล์รูปภาพ";return;}if(f.size>3*1024*1024){$("status").textContent="ไฟล์ใหญ่เกิน 3 MB";return;}const reader=new FileReader();reader.onload=()=>{localUrls[id]=String(reader.result);const box=$(id+"-local-preview");box.replaceChildren();const img=document.createElement("img");img.src=localUrls[id];img.alt="ตัวอย่างรูปจากอุปกรณ์";box.appendChild(img);$("status").textContent="แสดงตัวอย่างรูปตำแหน่ง "+id+" แล้ว";};reader.readAsDataURL(f);});
   $(id+"-image").addEventListener("input",renderAll);
   $(id+"-link").addEventListener("input",renderAll);
   $(id+"-alt").addEventListener("input",renderAll);
@@ -135,6 +135,7 @@ textarea{width:100%;min-height:105px;resize:vertical;border:1px solid #cfd7cd;bo
  async function copyText(v){if(v.startsWith("<!-- ใส่ URL")){$("status").textContent="กรุณาใส่ URL รูปภาพของตำแหน่งนั้นก่อน";return;}try{await navigator.clipboard.writeText(v);$("status").textContent="คัดลอกโค้ดแล้ว";}catch(_){$("status").textContent="ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาเลือกข้อความแล้วคัดลอก";}}
  $("copy-all").addEventListener("click",()=>copyText($("all-code").value));
  $("clear-all").addEventListener("click",()=>{ids.forEach(id=>{[id+"-file",id+"-image",id+"-link"].forEach(k=>$(k).value="");$(id+"-alt").value="แบนเนอร์ประชาสัมพันธ์";localUrls[id]="";const p=$(id+"-local-preview");p.innerHTML='<div class="empty">ตัวอย่างรูปจากอุปกรณ์จะแสดงที่นี่</div>';});renderAll();$("status").textContent="ล้างการตั้งค่าทั้ง 3 ตำแหน่งแล้ว";});
+ fetch("/api/banner-upload").then(r=>r.json()).then(info=>{if(!info.ready)$("status").textContent="ยังไม่พร้อมอัปโหลด: ต้องตั้งค่า GITHUB_TOKEN, GITHUB_BRANCH และ BANNER_UPLOAD_PASSWORD ใน Vercel ก่อน";else $("status").textContent="ระบบอัปโหลดพร้อมใช้งาน · เลือกรูปแล้วอัปโหลดได้"}).catch(()=>{$("status").textContent="ยังตรวจสอบ API ไม่ได้ · ต้องเปิดผ่าน Vercel deployment ที่มี API"});
  renderAll();
 })();
 </script>
