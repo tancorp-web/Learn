@@ -1202,12 +1202,12 @@ function renderSnakeTable(birthRows,startCol){
  const rotatedSeeds=birthRows.slice(0,3).map(row=>row.slice(startCol).concat(row.slice(0,startCol)));
  const rows=calcRowsFromSeeds(rotatedSeeds[0],rotatedSeeds[1],rotatedSeeds[2]);
  const firstHouse=houses[0][startCol],sourceOrder=Array.from({length:7},(_,i)=>(startCol+i)%7);
- $('snakeSummary').innerHTML='<strong>จุดเริ่มต้น: '+escapeHtml(firstHouse)+'</strong> · คอลัมน์เดิมที่ '+toThai(startCol+1)+' มาเป็นคอลัมน์ใหม่ที่ ๑<br>ลำดับใหม่: '+sourceOrder.map(i=>escapeHtml(houses[0][i])).join(' → ')+'<br>ยกตัวเลขครบ ๓ แถวตามลำดับ แล้วคำนวณฐาน ๔–๙ ใหม่ทั้งหมด · ไม่ใช้ดาวจร อายุจร หรือวัยจร';
+ $('snakeSummary').innerHTML='<strong>จุดเริ่มต้น: '+escapeHtml(firstHouse)+'</strong> · คอลัมน์เดิมที่ '+toThai(startCol+1)+' มาเป็นคอลัมน์ใหม่ที่ ๑<br>ภพประจำช่องทั้ง ๓๕ ภพคงตำแหน่งมาตรฐานเดิม ไม่ย้ายตามดาว<br>ยกตัวเลขครบ ๓ แถวตามลำดับ แล้วคำนวณฐาน ๔–๙ ใหม่ทั้งหมด · ไม่ใช้ดาวจร อายุจร หรือวัยจร';
  let html='<div class="table-scroll combined-scroll"><table class="snake-calc"><thead><tr><th class="base-col">ฐาน</th><th colspan="7">ผลกลบทงูกินหาง · เริ่มจาก '+escapeHtml(firstHouse)+'</th></tr></thead><tbody>';
  for(let i=0;i<9;i++){
   const houseSet=houses[i];html+='<tr><th>ฐาน '+toThai(i+1)+'</th>';
   for(let j=0;j<7;j++){
-   const sourceCol=sourceOrder[j],house=houseSet?houseSet[sourceCol]:'',value=rows[i][j];
+   const sourceCol=sourceOrder[j],house=houseSet?houseSet[j]:'',value=rows[i][j];
    html+='<td>'+(house?'<span class="house">'+escapeHtml(house)+'</span>':'')+'<button type="button" class="snake-value" data-snake-number="'+value+'" aria-label="เน้นเลข '+toThai(value)+'">'+toThai(value)+'</button>'+(i===3&&base4Labels[value]?'<span class="snake-strength">'+escapeHtml(base4Labels[value])+'</span>':'')+'</td>';
   }
   html+='</tr>';
