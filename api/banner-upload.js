@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+import crypto from "node:crypto";
 
 const MAX_FILE_BYTES = 3 * 1024 * 1024;
 const SLOT_NAMES = new Set(["top", "middle", "bottom"]);
@@ -46,7 +46,7 @@ async function githubPut(path, content, sha, message, token, branch, repo) {
   if (!response.ok) throw new Error("บันทึก GitHub ไม่สำเร็จ (" + response.status + "): " + (result.message || "unknown error"));
   return result;
 }
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === "GET") {
     const ready = Boolean(process.env.GITHUB_TOKEN && process.env.GITHUB_BRANCH && process.env.BANNER_UPLOAD_PASSWORD);
     return send(res, 200, { ready, maxFileBytes: MAX_FILE_BYTES, allowedTypes: Object.keys(MIME_EXT) });
