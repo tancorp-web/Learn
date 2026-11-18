@@ -728,7 +728,7 @@ button{padding:10px 15px}
 
 </header>
 
-<aside class="hora-ad-slot" data-hora-ad-slot="top" aria-label="พื้นที่โฆษณาด้านบน" hidden></aside>
+<aside class="hora-ad-slot" data-hora-ad-slot="top" aria-label="พื้นที่โฆษณาด้านบน"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">พื้นที่โฆษณาตัวอย่าง · ประชาสัมพันธ์สินค้าและบริการของคุณ</div></aside>
 
 
 <section class="panel form-panel">
@@ -765,7 +765,7 @@ button{padding:10px 15px}
 <div id="formError" class="error" role="alert"></div>
 </section>
 
-<aside class="hora-ad-slot" data-hora-ad-slot="middle" aria-label="พื้นที่โฆษณาระหว่างเนื้อหา" hidden></aside>
+<aside class="hora-ad-slot" data-hora-ad-slot="middle" aria-label="พื้นที่โฆษณาระหว่างเนื้อหา"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">ตัวอย่างแบนเนอร์ประชาสัมพันธ์ · วางข้อความแนะนำสินค้า บริการ หรือโปรโมชั่นได้ที่ตำแหน่งนี้</div></aside>
 
 <section class="panel hidden" id="output" aria-live="polite">
 <div class="print-brand-header">
@@ -808,7 +808,7 @@ button{padding:10px 15px}
 </div>
 </section>
 
-<aside class="hora-ad-slot" data-hora-ad-slot="bottom" aria-label="พื้นที่โฆษณาด้านล่าง" hidden></aside>
+<aside class="hora-ad-slot" data-hora-ad-slot="bottom" aria-label="พื้นที่โฆษณาด้านล่าง"><span class="hora-ad-label">โฆษณา</span><div class="hora-ad-copy">สนใจลงโฆษณากับ HORA? · พื้นที่นี้เป็นตัวอย่างสำหรับแสดงรูปแบบแบนเนอร์ด้านล่าง</div></aside>
 
 <footer>ระบบคำนวณสัตตเลข 7 ตัว 9 ฐาน พัฒนาโดย อาจารย์ธานินทร์ นันต๊ะ 0915544146</footer>
 </main>
@@ -1784,6 +1784,7 @@ window.HORA_ADS_CONFIG = {
 (function(){
   const config=window.HORA_ADS_CONFIG||{};
   document.querySelectorAll("[data-hora-ad-slot]").forEach(slot=>{
+    slot.replaceChildren();
     const key=slot.getAttribute("data-hora-ad-slot");
     const item=config[key];
     if(!item||item.enabled!==true||(!item.imageUrl&&!item.text)) return;
